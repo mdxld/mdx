@@ -1,0 +1,38 @@
+{
+  "name": "mdx.org.ai",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --max-warnings 0",
+    "postbuild": "[ -d \".next/server/app\" ] && [ -n \"$(find .next/server/app -name '*.html' 2>/dev/null)\" ] && pagefind --site .next/server/app --output-path public/_pagefind || echo \"Skipping pagefind: .next/server/app directory doesn't exist or contains no HTML files\"",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ai-functions": "^0.3.0",
+    "ai-workflows": "^1.1.0",
+    "apis.do": "^0.0.1",
+    "business-as-code": "^0.1.0",
+    "functions.do": "^0.0.5",
+    "mdxui": "workspace:*",
+    "next": "^15.3.0",
+    "nextra": "^4.2.17",
+    "nextra-theme-docs": "^4.2.17",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "workflows.do": "^0.0.1"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "eslint": "^9.26.0",
+    "pagefind": "^1.3.0",
+    "typescript": "5.8.2"
+  }
+}
