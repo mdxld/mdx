@@ -475,51 +475,51 @@ By following these patterns, we can use MDX as a unified format to define UIs fo
 * *Ink for interactive CLIs* – Ink’s components and ecosystem (e.g., `ink-form` for forms).
 
 Citations
-Favicon
+
 mdx.org.ai/content/packages/mdxe.mdx at main · ai-primitives/mdx ...
 https://github.com/ai-primitives/mdx.org.ai/blob/main/content/packages/mdxe.mdx
-Favicon
+
 Getting started | MDX
 https://mdxjs.com/docs/getting-started/
-Favicon
+
 Creating a terminal application with ink + React + Typescript — An introduction | by Christian Hansen | Medium
 https://medium.com/@pixelreverb/creating-a-terminal-application-with-ink-react-typescript-an-introduction-da49f3c012a8
-Favicon
+
 GitHub - lukasbach/ink-form: Complex user-friendly form component for React Ink
 https://github.com/lukasbach/ink-form
-Favicon
+
 Creating a terminal application with ink + React + Typescript — An introduction | by Christian Hansen | Medium
 https://medium.com/@pixelreverb/creating-a-terminal-application-with-ink-react-typescript-an-introduction-da49f3c012a8
-Favicon
+
 GitHub - lukasbach/ink-form: Complex user-friendly form component for React Ink
 https://github.com/lukasbach/ink-form
 MDX Processing Features – MDXe
 https://mdxe.js.org/features/mdx-processing
-Favicon
+
 realworldocaml/mdx: Execute code blocks inside your documentation
 https://github.com/realworldocaml/mdx
-Favicon
+
 Introduce evaluated code block for JSX · Issue #17 · mdx-js/specification · GitHub
 https://github.com/mdx-js/specification/issues/17
 MDX Processing Features – MDXe
 https://mdxe.js.org/features/mdx-processing
-Favicon
+
 @mdx-js/mdx | MDX
 https://mdxjs.com/packages/mdx/
 MDX Processing Features – MDXe
 https://mdxe.js.org/features/mdx-processing
-Favicon
+
 vadimdemedes/ink-text-input: Text input component for Ink - GitHub
 https://github.com/vadimdemedes/ink-text-input
-Favicon
+
 Creating a terminal application with ink + React + Typescript — An introduction | by Christian Hansen | Medium
 https://medium.com/@pixelreverb/creating-a-terminal-application-with-ink-react-typescript-an-introduction-da49f3c012a8
-Favicon
+
 Introduction to MDX — How To Create Interactive Documentation.
 https://medium.com/@techwritershub/introduction-to-mdx-how-to-create-interactive-documentation-d3fe5c5b6b23
-Favicon
+
 Creating a terminal application with ink + React + Typescript — An introduction | by Christian Hansen | Medium
 https://medium.com/@pixelreverb/creating-a-terminal-application-with-ink-react-typescript-an-introduction-da49f3c012a8
-Favicon
+
 Creating a terminal application with ink + React + Typescript — An introduction | by Christian Hansen | Medium
 https://medium.com/@pixelreverb/creating-a-terminal-application-with-ink-react-typescript-an-introduction-da49f3c012a8
