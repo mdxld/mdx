@@ -2,6 +2,8 @@
 
 `mdxdb` provides a lightweight persistence layer for the `mdx*` tools. It treats a collection of Markdown or MDX documents as structured data so they can be queried and updated programmatically. Under the hood it uses Velite for content discovery and can watch the file system for changes, keeping an in-memory database in sync with your files.
 
+It leverages [Velite](https://velite.js.org/) for parsing and schema definition, providing a simple API for CRUD (Create, Read, Update, Delete) operations on your content.
+
 ## Features
 
 - List, get and set operations for content entries.
@@ -23,4 +25,3 @@ for (const title of titles) {
   const post = await ai`Write a blog post about ${title}`
   await db.set(`blog/${title.replace(' ', '_')}`, post)
 }
-```

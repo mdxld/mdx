@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Test Post",
+    "slug": "test-post",
+    "date": "2024-01-15T00:00:00.000Z",
+    "description": "This is a test post.",
+    "tags": [
+      "test",
+      "mdx"
+    ],
+    "permalink": "/blog/test-post"
+  }
+]
