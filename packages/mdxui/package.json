@@ -5,7 +5,9 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "*.js",
+    "*.d.ts"
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
