@@ -73,6 +73,34 @@ title: My Post
       title: 'My Post',
     });
   });
+
+  it('should parse frontmatter preceded by whitespace', () => {
+    const mdxContent = `\n  \n  ---\ntitle: Spaced\n---\ncontent`;
+    const result = parseFrontmatter(mdxContent);
+    expect(result.error).toBeUndefined();
+    expect(result.frontmatter).toEqual({ title: 'Spaced' });
+  });
+
+  it('should fail when content appears before frontmatter', () => {
+    const mdxContent = `Text\n---\ntitle: Bad\n---`;
+    const result = parseFrontmatter(mdxContent);
+    expect(result.frontmatter).toBeNull();
+    expect(result.error).toBe('Frontmatter not found');
+  });
+
+  it('should return error when closing delimiter is missing', () => {
+    const mdxContent = `---\ntitle: Oops`;
+    const result = parseFrontmatter(mdxContent);
+    expect(result.frontmatter).toBeNull();
+    expect(result.error).toContain('Frontmatter not found');
+  });
+
+  it('should treat --- inside a scalar block as the end of frontmatter', () => {
+    const mdxContent = `\n---\ndesc: |\n  text\n  ---\n  more\n---`;
+    const result = parseFrontmatter(mdxContent);
+    expect(result.error).toBeUndefined();
+    expect(result.frontmatter).toEqual({ desc: 'text\n' });
+  });
 });
 
 describe('convertToJSONLD', () => {
@@ -366,6 +394,30 @@ describe('convertToJSONLD', () => {
     expect(() => convertToJSONLD(yamlObject)).toThrow(
       new TypeError("MDXLD Invalid $context: '$context' must be a string, object, or array.")
     );
+  });
+
+  it('should throw TypeError if $context is null', () => {
+    const yamlObject = { $context: null } as any;
+    expect(() => convertToJSONLD(yamlObject)).toThrow(
+      new TypeError("MDXLD Invalid $context: '$context' must be a string, object, or array.")
+    );
+  });
+
+  it('should handle $graph array with mixed value types', () => {
+    const yamlObject = {
+      $graph: ["plain", { $id: 'x', $type: 'Thing' }, 42]
+    };
+    const expected = {
+      "@graph": ["plain", { "@id": 'x', "@type": 'Thing' }, 42]
+    };
+    expect(convertToJSONLD(yamlObject)).toEqual(expected);
+  });
+
+  it('should return empty graph for non-object input', () => {
+    expect(convertToJSONLD('bad' as any)).toEqual({
+      "@graph": [{ 0: 'b', 1: 'a', 2: 'd' }]
+    });
+    expect(convertToJSONLD([] as any)).toEqual({ "@graph": [] });
   });
 });
 
