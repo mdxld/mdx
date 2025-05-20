@@ -31,12 +31,12 @@ $type: https://schema.org/WebSite
 title: Example Domain
 description: This domain is for use in illustrative examples in documents
 ---
- 
+
 # Example Domain
- 
+
 This domain is for use in illustrative examples in documents. You may use this
 domain in literature without prior coordination or asking for permission.
- 
+
 [More information...](https://www.iana.org/domains/example)
 ```
 
@@ -115,13 +115,13 @@ And you can develop and deploy entire projects with `mdxe`:
 ```json5
 // package.json
 {
-  "scripts": {
-    "dev": "mdxe dev",
-    "build": "mdxe build",
-    "start": "mdxe start",
-    "test": "mdxe test",
-    "lint": "mdxe lint"
-  }
+  scripts: {
+    dev: 'mdxe dev',
+    build: 'mdxe build',
+    start: 'mdxe start',
+    test: 'mdxe test',
+    lint: 'mdxe lint',
+  },
 }
 ```
 

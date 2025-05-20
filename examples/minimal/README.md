@@ -60,12 +60,12 @@ When deploying to Vercel, you can optionally create a `vercel.json` configuratio
 
 ```json
 {
-  'builds': [
+  "builds": [
     {
-      'src': 'package.json',
-      'use': '@vercel/next',
-      'config': {
-        'distDir': '.next'
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": {
+        "distDir": ".next"
       }
     }
   ]

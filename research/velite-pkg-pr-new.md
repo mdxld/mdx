@@ -4,13 +4,13 @@ This project is a template for creating an **NPM package** that bundles content 
 
 ## Project Structure and Content
 
-The repository organizes source files into a `content/` directory for Markdown/MDX and data files, plus standard directories for code (e.g. `src/` or component folders). Velite supports **structured frontmatter** and various content types out-of-the-box – you can include YAML metadata at the top of Markdown or MDX files, and Velite will parse it according to a schema you define. Unstructured Markdown content is also handled; for example, you might define a schema field like `content: s.markdown()` to transform Markdown body text into HTML. Velite even supports **MDX** (Markdown with JSX) content: *“Velite supports MDX out of the box. You can use MDX to write your content, and Velite will automatically render it for you.”*. In practice, MDX files can be processed with `s.mdx()` in your Velite schema, which compiles the MDX to a **function body string** that can later be executed to render React components at runtime. (Velite’s default MDX output is a string of JavaScript code; you can use a small runtime helper to convert it into a React component when consuming the data in an application.)
+The repository organizes source files into a `content/` directory for Markdown/MDX and data files, plus standard directories for code (e.g. `src/` or component folders). Velite supports **structured frontmatter** and various content types out-of-the-box – you can include YAML metadata at the top of Markdown or MDX files, and Velite will parse it according to a schema you define. Unstructured Markdown content is also handled; for example, you might define a schema field like `content: s.markdown()` to transform Markdown body text into HTML. Velite even supports **MDX** (Markdown with JSX) content: _“Velite supports MDX out of the box. You can use MDX to write your content, and Velite will automatically render it for you.”_. In practice, MDX files can be processed with `s.mdx()` in your Velite schema, which compiles the MDX to a **function body string** that can later be executed to render React components at runtime. (Velite’s default MDX output is a string of JavaScript code; you can use a small runtime helper to convert it into a React component when consuming the data in an application.)
 
 **Velite Configuration:** To make this work, a `velite.config.(js|ts)` defines collections for your content types. For example, you might have a `posts` collection for blog articles in `content/posts/*.mdx`. Each collection has a schema mapping frontmatter fields and content to typed data (Velite uses [Zod](https://zod.dev/) under the hood for schema definitions). Here’s a snippet of what a Velite schema might look like:
 
 ```js
 // velite.config.ts (example)
-import { defineConfig, s } from 'velite';
+import { defineConfig, s } from 'velite'
 
 export default defineConfig({
   collections: {
@@ -21,12 +21,12 @@ export default defineConfig({
         title: s.string(),
         slug: s.slug('posts'),
         date: s.isodate(),
-        content: s.mdx()    // MDX content compiled to function-body string
-      })
-    }
+        content: s.mdx(), // MDX content compiled to function-body string
+      }),
+    },
     // ...other collections or fields as needed
-  }
-});
+  },
+})
 ```
 
 In this schema, Velite will extract **YAML frontmatter** keys like `title`, `slug`, `date` from each MDX file and validate/transform them (e.g. ensure `slug` is unique in posts, parse `date` to ISO string). The MDX content itself is captured as `content` and compiled. You can extend schemas with computed fields or custom processors (Velite provides helpers like `s.image()`, `s.file()`, `s.excerpt()`, etc., to handle images, file links, excerpt generation, reading time, and more). This ensures **structured data** for all content – for instance, frontmatter plus Markdown body can yield a JSON object with title, date, and HTML content.
@@ -39,17 +39,18 @@ Run `npm run build` (or `pnpm/yarn build` depending on your setup) to transform 
 
 1. **Run Velite** to process content files. Velite will scan the `content/` directory according to the patterns in `velite.config.js` and output a **`.velite/` directory** with structured data:
 
-   * JSON files for each collection (e.g. `posts.json`, `others.json`, etc.) containing arrays of content objects.
-   * An `index.js` (ESM) and `index.d.ts` (TypeScript definitions) that aggregate those collections for easy import. For example, `.velite/index.js` will re-export each collection’s data:
+   - JSON files for each collection (e.g. `posts.json`, `others.json`, etc.) containing arrays of content objects.
+   - An `index.js` (ESM) and `index.d.ts` (TypeScript definitions) that aggregate those collections for easy import. For example, `.velite/index.js` will re-export each collection’s data:
 
      ```js
-     export { default as posts } from './posts.json';
-     export { default as others } from './others.json';
+     export { default as posts } from './posts.json'
+     export { default as others } from './others.json'
      ```
 
      This means you can import the compiled data in code, e.g. `import { posts } from './.velite/index.js'`. The TypeScript `index.d.ts` provides typed definitions for the shape of your collections (inferring from your Velite schema).
-   * Any static assets referenced in your content (images, videos, etc.) will be copied to `public/static/` with hashed filenames, and the JSON data will contain links to these files. For example, if a frontmatter field references `cover: cover.jpg`, after build you might get `cover: "/static/cover-2a4138dh.jpg"` (with a hash) in the JSON.
-   * **Note:** The `.velite/` folder and `public/static/` outputs are build artifacts. They should be added to **.gitignore** (Velite’s documentation recommends ignoring them in version control).
+
+   - Any static assets referenced in your content (images, videos, etc.) will be copied to `public/static/` with hashed filenames, and the JSON data will contain links to these files. For example, if a frontmatter field references `cover: cover.jpg`, after build you might get `cover: "/static/cover-2a4138dh.jpg"` (with a hash) in the JSON.
+   - **Note:** The `.velite/` folder and `public/static/` outputs are build artifacts. They should be added to **.gitignore** (Velite’s documentation recommends ignoring them in version control).
 
 2. **Compile Source Code**. After Velite generates the content data, we compile any remaining source files (ES modules, TypeScript, JSX, etc.) into the distributable format. This project is set up for **ESM output** (Node 18+ supports ES modules natively). If using TypeScript or modern JS, configure your bundler or tsc to output ESM (`"module": "ESNext"` in tsconfig, and `"type": "module"` in package.json for Node). We use a simple bundler configuration (for example, using [tsup](https://tsup.dev) or ESBuild) that takes `src/index.ts` (and any other entry points) and produces output in `dist/` or similar. The Velite-generated `.velite/index.js` can be re-exported or included in these outputs so that consumers of the package can access the content. For instance, our `src/index.ts` might do `export * from '../.velite/index.js';` along with any other exports (like custom React components). After this step, the **package bundle** will contain both the processed content JSON and the compiled code.
 
@@ -82,19 +83,19 @@ You can now test the package locally (e.g., `npm pack` to create a tarball, or `
 
 ## Continuous Preview Releases (GitHub Action with pkg.pr.new)
 
-To streamline testing and feedback, this project integrates **pkg.pr.new**, which enables “continuous releases” for every commit and pull request. Once set up, **each commit** pushed to any branch (or any PR) will trigger a workflow that builds the package and publishes a preview release to a temporary registry. This means contributors and users can install a specific commit’s version of the package *without* waiting for an official version bump on NPM. As the StackBlitz team explains, *pkg.pr.new uses a CLI and GitHub Actions to publish unreleased packages to a temporary npm-compatible registry, providing instant access to preview packages with a unique URL structure*. In practice, after each successful build, pkg.pr.new will upload the package to a special URL tied to the commit hash or PR number. For example:
+To streamline testing and feedback, this project integrates **pkg.pr.new**, which enables “continuous releases” for every commit and pull request. Once set up, **each commit** pushed to any branch (or any PR) will trigger a workflow that builds the package and publishes a preview release to a temporary registry. This means contributors and users can install a specific commit’s version of the package _without_ waiting for an official version bump on NPM. As the StackBlitz team explains, _pkg.pr.new uses a CLI and GitHub Actions to publish unreleased packages to a temporary npm-compatible registry, providing instant access to preview packages with a unique URL structure_. In practice, after each successful build, pkg.pr.new will upload the package to a special URL tied to the commit hash or PR number. For example:
 
-* By commit hash: `npm i https://pkg.pr.new/<owner>/<repo>/<package>@<commit-hash>` – e.g. `npm i https://pkg.pr.new/tinylibs/tinybench/tinybench@a832a55`.
-* By PR number: `npm i https://pkg.pr.new/<package>@<PR-number>` – e.g. `npm i https://pkg.pr.new/valtio@906` (installs the preview for PR #906 of the **valtio** project).
+- By commit hash: `npm i https://pkg.pr.new/<owner>/<repo>/<package>@<commit-hash>` – e.g. `npm i https://pkg.pr.new/tinylibs/tinybench/tinybench@a832a55`.
+- By PR number: `npm i https://pkg.pr.new/<package>@<PR-number>` – e.g. `npm i https://pkg.pr.new/valtio@906` (installs the preview for PR #906 of the **valtio** project).
 
 Using these URLs, anyone can try the latest build from any branch or PR. The preview packages are **npm-compatible** (you install them as if they were from a registry) but they don’t clutter the real NPM registry with extra versions. This is extremely useful for testing in downstream projects or providing quick feedback (“does this commit fix my issue?”) without publishing official releases.
 
 **GitHub Action Workflow:** The repository includes a GitHub Actions workflow file (e.g., `.github/workflows/preview.yml`) that runs on every push and pull request. The workflow will:
 
-* **Checkout** the repository code.
-* Set up Node.js (using Node 20 in CI for compatibility with Node 18+ features) and install dependencies (with caching for faster builds).
-* **Build the package**: run our build script (`npm run build` which invokes Velite and the bundler as described above) to produce the latest content and bundle.
-* **Publish preview**: run the pkg.pr.new CLI to publish the built package to the temporary registry.
+- **Checkout** the repository code.
+- Set up Node.js (using Node 20 in CI for compatibility with Node 18+ features) and install dependencies (with caching for faster builds).
+- **Build the package**: run our build script (`npm run build` which invokes Velite and the bundler as described above) to produce the latest content and bundle.
+- **Publish preview**: run the pkg.pr.new CLI to publish the built package to the temporary registry.
 
 For example, the core part of the workflow looks like this:
 
@@ -110,7 +111,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'    # using pnpm for speed (adjust if using npm/yarn)
+          cache: 'pnpm' # using pnpm for speed (adjust if using npm/yarn)
       - name: Install dependencies
         run: pnpm install
       - name: Build package
@@ -131,15 +132,15 @@ This uses the official pkg.pr.new CLI command `pkg-pr-new publish` to handle the
 
 If you are using this package (as a dependency in another project), you have two ways to install it:
 
-* **Official release (from NPM):** Install the latest published version with the normal command, e.g. `npm i <package-name>` or add to your `package.json`. This will fetch the version from the NPM registry (for example, `"<package-name>": "^1.0.0"`). Then, in your code, import what you need from the package. For example, if this package is named `my-content-lib`, you might do:
+- **Official release (from NPM):** Install the latest published version with the normal command, e.g. `npm i <package-name>` or add to your `package.json`. This will fetch the version from the NPM registry (for example, `"<package-name>": "^1.0.0"`). Then, in your code, import what you need from the package. For example, if this package is named `my-content-lib`, you might do:
 
   ```js
-  import { posts } from 'my-content-lib';
+  import { posts } from 'my-content-lib'
   ```
 
   This gives you access to the content data processed by Velite. Each `post` in `posts` will have the fields defined by the schema (like `title`, `date`, etc.), and possibly a `content` field which could be an HTML string or MDX code string depending on configuration. If it’s MDX code, you can use a utility (provided or as in Velite docs) to render it as JSX. Alternatively, if the package exports React components directly (for example, a component that already encapsulates rendering the content), use those as documented.
 
-* **Preview release (from pkg.pr.new):** If you want to test a version of this package from a specific commit or pull request (that hasn’t been officially released), you can install from the pkg.pr.new temporary registry. Use the URL format mentioned earlier. For example, to install the package from a commit with hash `abcdef0` on this repo, run:
+- **Preview release (from pkg.pr.new):** If you want to test a version of this package from a specific commit or pull request (that hasn’t been officially released), you can install from the pkg.pr.new temporary registry. Use the URL format mentioned earlier. For example, to install the package from a commit with hash `abcdef0` on this repo, run:
 
   ```
   npm i https://pkg.pr.new/<your-org>/<repo-name>/<package-name>@abcdef0
@@ -155,15 +156,15 @@ If you are using this package (as a dependency in another project), you have two
 
 **Using the Content Data:** Once installed, the usage of the content depends on how the package is structured:
 
-* If the package exports the data collections (as in the above import example), you can directly use them. For instance, you can map over `posts` to generate blog pages, access `post.content` for the HTML/JSX content, etc. The data is plain JavaScript objects (with some fields possibly being strings of HTML or code).
-* If the content is MDX and you have a code string, you can use a runtime function to render it. A simple approach (if not already provided by the package) is:
+- If the package exports the data collections (as in the above import example), you can directly use them. For instance, you can map over `posts` to generate blog pages, access `post.content` for the HTML/JSX content, etc. The data is plain JavaScript objects (with some fields possibly being strings of HTML or code).
+- If the content is MDX and you have a code string, you can use a runtime function to render it. A simple approach (if not already provided by the package) is:
 
   ```jsx
-  import * as ReactJSXRuntime from 'react/jsx-runtime';
-  const mdxCode = posts[0].content;  // the function body string
-  const mdxModule = new Function(String(mdxCode))({ ...ReactJSXRuntime });
-  const ContentComponent = mdxModule.default;
-  // Now <ContentComponent /> will render the MDX content. 
+  import * as ReactJSXRuntime from 'react/jsx-runtime'
+  const mdxCode = posts[0].content // the function body string
+  const mdxModule = new Function(String(mdxCode))({ ...ReactJSXRuntime })
+  const ContentComponent = mdxModule.default
+  // Now <ContentComponent /> will render the MDX content.
   ```
 
   The above is essentially what Velite suggests for rendering MDX. Our package might include a helper component (`<MDXContent code={...} />`) to abstract this. Check the package documentation (or source) for any utilities included for MDX.
@@ -198,51 +199,52 @@ For more detailed guidance, refer to Velite’s official documentation and examp
 
 **TODO.md**
 
-* **Project Initialization:** Set up a new Node.js project with **ESM** support (Node 18+). Create a `package.json` (use `"type": "module"` for ESM) and install dev dependencies: `velite` (for content processing) and `pkg-pr-new` (for preview releases) along with any build tools (e.g., TypeScript, bundler) and runtime deps (React if MDX content uses React components, etc.).
+- **Project Initialization:** Set up a new Node.js project with **ESM** support (Node 18+). Create a `package.json` (use `"type": "module"` for ESM) and install dev dependencies: `velite` (for content processing) and `pkg-pr-new` (for preview releases) along with any build tools (e.g., TypeScript, bundler) and runtime deps (React if MDX content uses React components, etc.).
 
-* **Velite Config & Schema:** Create `velite.config.ts` (or `.js`) in the project root. Define collections for each content type you plan to include:
+- **Velite Config & Schema:** Create `velite.config.ts` (or `.js`) in the project root. Define collections for each content type you plan to include:
 
-  * e.g. a `posts` collection for markdown/MDX files with YAML frontmatter.
-  * Use Velite’s schema helpers (`s.object({...})`) to define frontmatter fields (strings, dates, slugs, etc.) and content transformations (`s.markdown()` for HTML, `s.mdx()` for MDX code, etc.).
-  * Ensure each collection’s `pattern` matches the file locations (e.g. `'posts/*.mdx'`).
-  * (Optional) Add additional collections for any structured data (YAML/JSON files) or other groupings as needed.
+  - e.g. a `posts` collection for markdown/MDX files with YAML frontmatter.
+  - Use Velite’s schema helpers (`s.object({...})`) to define frontmatter fields (strings, dates, slugs, etc.) and content transformations (`s.markdown()` for HTML, `s.mdx()` for MDX code, etc.).
+  - Ensure each collection’s `pattern` matches the file locations (e.g. `'posts/*.mdx'`).
+  - (Optional) Add additional collections for any structured data (YAML/JSON files) or other groupings as needed.
 
-* **Content Files:** Create a `content/` directory structure that matches the config. Add sample files:
+- **Content Files:** Create a `content/` directory structure that matches the config. Add sample files:
 
-  * Markdown/MDX files with YAML frontmatter (keys like title, date, etc. as per schema) and some body content.
-  * If using MDX, include JSX usage to test (and create the corresponding React components in the src folder).
-  * If you want to include pure data files (YAML/JSON), add them (and include in Velite config as separate collection or load in code).
-  * Add any media assets (images, etc.) referenced in frontmatter or content to verify Velite’s asset handling.
+  - Markdown/MDX files with YAML frontmatter (keys like title, date, etc. as per schema) and some body content.
+  - If using MDX, include JSX usage to test (and create the corresponding React components in the src folder).
+  - If you want to include pure data files (YAML/JSON), add them (and include in Velite config as separate collection or load in code).
+  - Add any media assets (images, etc.) referenced in frontmatter or content to verify Velite’s asset handling.
 
-* **Source Code (ES Modules/Components):** Set up a `src/` folder for any JavaScript/TypeScript source code and React components:
+- **Source Code (ES Modules/Components):** Set up a `src/` folder for any JavaScript/TypeScript source code and React components:
 
-  * Create components for any custom MDX elements (e.g., `Chart.jsx` if referenced in MDX).
-  * Create an entry point (e.g., `src/index.ts`) that will export the content and components. For example, export Velite’s output: `export { posts } from '../.velite/index.js';` and also export any React components or utilities.
-  * Ensure any types are handled (e.g., if using TypeScript, ensure `.d.ts` generation includes your component props and Velite data types).
+  - Create components for any custom MDX elements (e.g., `Chart.jsx` if referenced in MDX).
+  - Create an entry point (e.g., `src/index.ts`) that will export the content and components. For example, export Velite’s output: `export { posts } from '../.velite/index.js';` and also export any React components or utilities.
+  - Ensure any types are handled (e.g., if using TypeScript, ensure `.d.ts` generation includes your component props and Velite data types).
 
-* **Build Scripts:** Configure the build process:
+- **Build Scripts:** Configure the build process:
 
-  * Add a npm script in `package.json` for building, e.g. `"build": "velite && tsc"` or a script that runs Velite then your bundler.
-  * Make sure Velite is invoked (e.g., `npx velite` or via API) **before** bundling so that the `.velite` output exists.
-  * If using a bundler like [tsup](https://tsup.dev) or Rollup, configure it to include the content output. For instance, you might treat `.velite/index.js` as an external or bundle it in.
-  * Test the build locally by running `npm run build`. Verify that:
+  - Add a npm script in `package.json` for building, e.g. `"build": "velite && tsc"` or a script that runs Velite then your bundler.
+  - Make sure Velite is invoked (e.g., `npx velite` or via API) **before** bundling so that the `.velite` output exists.
+  - If using a bundler like [tsup](https://tsup.dev) or Rollup, configure it to include the content output. For instance, you might treat `.velite/index.js` as an external or bundle it in.
+  - Test the build locally by running `npm run build`. Verify that:
 
-    * `.velite/` is created with JSON and `index.js`/`index.d.ts`.
-    * `dist/` (or equivalent) contains the final bundle (check that content data is accessible, and types are included).
-    * Static assets are copied to `public/static` with hashed names (if applicable).
-  * Add `.velite/` and any generated static asset directories to **.gitignore** (they are build artifacts).
+    - `.velite/` is created with JSON and `index.js`/`index.d.ts`.
+    - `dist/` (or equivalent) contains the final bundle (check that content data is accessible, and types are included).
+    - Static assets are copied to `public/static` with hashed names (if applicable).
 
-* **Testing the Package:** Before setting up CI, do a manual test:
+  - Add `.velite/` and any generated static asset directories to **.gitignore** (they are build artifacts).
 
-  * Use `npm pack` to create a `.tgz` of the package, then install that in a dummy project to ensure it works.
-  * Or use `npm link` to link the package into a sample app and try importing the content and components.
-  * If using MDX content, test rendering it with your components (simulate how an end-user would use your package).
-  * Fix any issues (e.g., missing exports, incorrect paths in the bundle, etc.) and repeat until the package can be consumed as expected.
+- **Testing the Package:** Before setting up CI, do a manual test:
 
-* **GitHub Actions – Continuous Preview Workflow:** Create a workflow file (e.g., `/.github/workflows/preview.yml`) to enable pkg.pr.new:
+  - Use `npm pack` to create a `.tgz` of the package, then install that in a dummy project to ensure it works.
+  - Or use `npm link` to link the package into a sample app and try importing the content and components.
+  - If using MDX content, test rendering it with your components (simulate how an end-user would use your package).
+  - Fix any issues (e.g., missing exports, incorrect paths in the bundle, etc.) and repeat until the package can be consumed as expected.
 
-  * Trigger on relevant events (push to any branch, pull requests). For security on open-source, consider restricting to `pull_request` events and/or only after PR approval.
-  * Steps:
+- **GitHub Actions – Continuous Preview Workflow:** Create a workflow file (e.g., `/.github/workflows/preview.yml`) to enable pkg.pr.new:
+
+  - Trigger on relevant events (push to any branch, pull requests). For security on open-source, consider restricting to `pull_request` events and/or only after PR approval.
+  - Steps:
 
     1. **Checkout** the repository (use actions/checkout).
     2. **Setup Node** (use actions/setup-node, specify Node 20 for example, and enable caching for `npm`/`yarn`/`pnpm`).
@@ -250,39 +252,40 @@ For more detailed guidance, refer to Velite’s official documentation and examp
     4. **Build** the project (run the build script to produce content and bundle).
     5. **Publish Preview** using pkg.pr.new CLI:
 
-       * Run `npx pkg-pr-new publish` (or `pnpx pkg-pr-new publish` if using PNPM) with the `GITHUB_TOKEN` environment variable set (so the CLI can authenticate to GitHub).
-       * (If the repository has multiple packages, specify the package directories as arguments, or use `--compact` if you want shorter URLs and have set up the repository field in package.json.)
+       - Run `npx pkg-pr-new publish` (or `pnpx pkg-pr-new publish` if using PNPM) with the `GITHUB_TOKEN` environment variable set (so the CLI can authenticate to GitHub).
+       - (If the repository has multiple packages, specify the package directories as arguments, or use `--compact` if you want shorter URLs and have set up the repository field in package.json.)
+
     6. Optionally, add any notifications or status badges. pkg.pr.new can comment on PRs automatically; you can also add a badge in the README to indicate the project uses pkg.pr.new.
 
-* **pkg.pr.new App Installation:** Go to **pkg.pr.new** GitHub App and install it on your repository (usually found at `github.com/apps/pkg-pr-new`). This is required for the GitHub Action to successfully publish preview packages. Without this, the `pkg-pr-new publish` step will fail (it needs app integration for permissions).
+- **pkg.pr.new App Installation:** Go to **pkg.pr.new** GitHub App and install it on your repository (usually found at `github.com/apps/pkg-pr-new`). This is required for the GitHub Action to successfully publish preview packages. Without this, the `pkg-pr-new publish` step will fail (it needs app integration for permissions).
 
-* **Verify CI Workflow:** Push a commit or open a PR to trigger the workflow. Monitor the Actions log:
+- **Verify CI Workflow:** Push a commit or open a PR to trigger the workflow. Monitor the Actions log:
 
-  * Ensure the build passes (fix any build errors or content schema validation issues).
-  * Check that the pkg.pr.new step outputs a confirmation or a link. For a PR, check that the bot commented with the preview link.
-  * Try installing the preview package using the URL provided (in a test environment) to verify it includes the latest changes.
+  - Ensure the build passes (fix any build errors or content schema validation issues).
+  - Check that the pkg.pr.new step outputs a confirmation or a link. For a PR, check that the bot commented with the preview link.
+  - Try installing the preview package using the URL provided (in a test environment) to verify it includes the latest changes.
 
-* **Versioning and Changelog:** Implement a strategy for versioning official releases and maintaining a changelog:
+- **Versioning and Changelog:** Implement a strategy for versioning official releases and maintaining a changelog:
 
-  * Decide on a versioning scheme (Semantic Versioning is standard).
-  * Optionally use **Conventional Commits** style for commit messages to automatically generate release notes.
-  * Set up a tool like [Changesets](https://github.com/changesets/changesets) or [release-it](https://github.com/release-it/release-it) with a changelog plugin to handle bumping the version and writing a **CHANGELOG.md** when you’re ready to publish.
-  * Document this in the README so contributors know how releases are done (e.g., “run `npm run release` to cut a new version, which will tag and publish the package”).
+  - Decide on a versioning scheme (Semantic Versioning is standard).
+  - Optionally use **Conventional Commits** style for commit messages to automatically generate release notes.
+  - Set up a tool like [Changesets](https://github.com/changesets/changesets) or [release-it](https://github.com/release-it/release-it) with a changelog plugin to handle bumping the version and writing a **CHANGELOG.md** when you’re ready to publish.
+  - Document this in the README so contributors know how releases are done (e.g., “run `npm run release` to cut a new version, which will tag and publish the package”).
 
-* **Official Release Workflow (Optional):** If automating actual NPM releases, create a separate GitHub Action workflow (e.g., `release.yml`) triggered on tags or manual dispatch:
+- **Official Release Workflow (Optional):** If automating actual NPM releases, create a separate GitHub Action workflow (e.g., `release.yml`) triggered on tags or manual dispatch:
 
-  * This workflow might run tests (if any), ensure the version is bumped, then use `npm publish` (with an npm token) or `yarn publish` to push to the NPM registry.
-  * For private packages, you could publish to GitHub Packages or another private registry by configuring the registry in `.npmrc` and using the appropriate publish command.
-  * Make sure to exclude the pkg.pr.new step from this workflow – that is only for previews. The release workflow deals with the real registry.
+  - This workflow might run tests (if any), ensure the version is bumped, then use `npm publish` (with an npm token) or `yarn publish` to push to the NPM registry.
+  - For private packages, you could publish to GitHub Packages or another private registry by configuring the registry in `.npmrc` and using the appropriate publish command.
+  - Make sure to exclude the pkg.pr.new step from this workflow – that is only for previews. The release workflow deals with the real registry.
 
-* **Documentation and Examples:** Write documentation for end-users of the package (most of this is covered in README.md). Provide examples of how to import and use the content or components in a project. If possible, set up a small demo or an example directory (you can even use pkg.pr.new’s **templates** feature to link StackBlitz examples).
+- **Documentation and Examples:** Write documentation for end-users of the package (most of this is covered in README.md). Provide examples of how to import and use the content or components in a project. If possible, set up a small demo or an example directory (you can even use pkg.pr.new’s **templates** feature to link StackBlitz examples).
 
-  * E.g., you might include an `examples/` folder with a minimal project that consumes your package. This can double as a test to ensure everything works.
-  * Update the README with any new features or usage tips as the project evolves.
+  - E.g., you might include an `examples/` folder with a minimal project that consumes your package. This can double as a test to ensure everything works.
+  - Update the README with any new features or usage tips as the project evolves.
 
-* **QA and Iteration:** As you develop, continuously use the preview packages to test integration in real scenarios. Encourage others (or your team) to install specific preview builds when reviewing PRs or trying out new content. This fast feedback loop will help catch issues early.
+- **QA and Iteration:** As you develop, continuously use the preview packages to test integration in real scenarios. Encourage others (or your team) to install specific preview builds when reviewing PRs or trying out new content. This fast feedback loop will help catch issues early.
 
-  * If you encounter issues with pkg.pr.new (e.g., extremely large packages or private repo nuances), consult the [pkg.pr.new documentation](https://github.com/stackblitz-labs/pkg.pr.new) or community forums for troubleshooting.
-  * Keep Velite up to date for improvements or bug fixes in content processing (check Velite’s releases).
+  - If you encounter issues with pkg.pr.new (e.g., extremely large packages or private repo nuances), consult the [pkg.pr.new documentation](https://github.com/stackblitz-labs/pkg.pr.new) or community forums for troubleshooting.
+  - Keep Velite up to date for improvements or bug fixes in content processing (check Velite’s releases).
 
-* **Finalize for Production:** Before publishing a production version, double-check that all content is correctly packaged and that no sensitive or unnecessary files are included. Ensure the license and attribution are correct for any content. Then publish the official version and celebrate 🎉. Users can now benefit from both stable releases and on-demand previews of your package’s latest content and features.
+- **Finalize for Production:** Before publishing a production version, double-check that all content is correctly packaged and that no sensitive or unnecessary files are included. Ensure the license and attribution are correct for any content. Then publish the official version and celebrate 🎉. Users can now benefit from both stable releases and on-demand previews of your package’s latest content and features.

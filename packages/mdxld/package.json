@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "dependencies": {
+    "next-mdx-remote-client": "^2.1.2"
   },
   "devDependencies": {
     "vitest": "^3.1.4"
