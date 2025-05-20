@@ -78,9 +78,6 @@ importers:
 
   apps/mdx.org.ai:
     dependencies:
-      ai-functions:
-        specifier: ^0.3.0
-        version: 0.3.0(react@19.1.0)
       apis.do:
         specifier: ^0.0.1
         version: 0.0.1
@@ -397,17 +394,6 @@ importers:
 
 packages:
 
-  /@ai-sdk/openai-compatible@0.0.9(zod@3.25.7):
-    resolution: {integrity: sha512-CPTUtgbuuyEUE/wtilOLIqu9IiIs/uB35wl46a/acngGsX8v3q80+rnIginIUQe7cYVjpMgXxKZJCgxmwJqEUw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-    dependencies:
-      '@ai-sdk/provider': 1.0.2
-      '@ai-sdk/provider-utils': 2.0.4(zod@3.25.7)
-      zod: 3.25.7
-    dev: false
-
   /@ai-sdk/openai@1.3.22(zod@3.25.7):
     resolution: {integrity: sha512-QwA+2EkG0QyjVR+7h6FE7iOu2ivNqAVMm9UJZkVxxTk5OIq5fFJDTEI/zICEMuHImTTXR2JjsL6EirJ28Jc4cw==}
     engines: {node: '>=18'}
@@ -416,22 +402,6 @@ packages:
     dependencies:
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
-      zod: 3.25.7
-    dev: false
-
-  /@ai-sdk/provider-utils@2.0.4(zod@3.25.7):
-    resolution: {integrity: sha512-GMhcQCZbwM6RoZCri0MWeEWXRt/T+uCxsmHEsTwNvEH3GDjNzchfX25C8ftry2MeEOOn6KfqCLSKomcgK6RoOg==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-    peerDependenciesMeta:
-      zod:
-        optional: true
-    dependencies:
-      '@ai-sdk/provider': 1.0.2
-      eventsource-parser: 3.0.2
-      nanoid: 3.3.11
-      secure-json-parse: 2.7.0
       zod: 3.25.7
     dev: false
 
@@ -445,13 +415,6 @@ packages:
       nanoid: 3.3.11
       secure-json-parse: 2.7.0
       zod: 3.25.7
-    dev: false
-
-  /@ai-sdk/provider@1.0.2:
-    resolution: {integrity: sha512-YYtP6xWQyaAf5LiWLJ+ycGTOeBLWrED7LUrvc+SQIWhGaneylqbaGsyQL7VouQUeQ4JZ1qKYZuhmi3W56HADPA==}
-    engines: {node: '>=18'}
-    dependencies:
-      json-schema: 0.4.0
     dev: false
 
   /@ai-sdk/provider@1.1.3:
@@ -3800,19 +3763,6 @@ packages:
     resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
     dev: false
 
-  /ai-functions@0.3.0(react@19.1.0):
-    resolution: {integrity: sha512-5ThhvnbjTZMCm5JYFa/l98cxzspfqcWWoL+jcFiLEfzRnB1/AHd/wOhx4FczN6iFtjiOWo/RXZUYZ7uLh0hsfA==}
-    hasBin: true
-    dependencies:
-      '@ai-sdk/openai': 1.3.22(zod@3.25.7)
-      '@ai-sdk/openai-compatible': 0.0.9(zod@3.25.7)
-      ai: 4.3.16(react@19.1.0)(zod@3.25.7)
-      p-queue: 8.1.0
-      zod: 3.25.7
-    transitivePeerDependencies:
-      - react
-    dev: false
-
   /ai@4.3.16(react@19.1.0)(zod@3.25.7):
     resolution: {integrity: sha512-KUDwlThJ5tr2Vw0A1ZkbDKNME3wzWhuVfAOwIvFUzl1TPVDFAXDFTXio3p+jaKneB+dKNCvFFlolYmmgHttG1g==}
     engines: {node: '>=18'}
@@ -5452,15 +5402,6 @@ packages:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
     dev: true
-
-  /eventemitter3@5.0.1:
-    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
-    dev: false
-
-  /eventsource-parser@3.0.2:
-    resolution: {integrity: sha512-6RxOBZ/cYgd8usLwsEl+EC09Au/9BcmCKYF2/xbml6DNczf7nv0MQb+7BA2F+li6//I+28VNlQR37XfQtcAJuA==}
-    engines: {node: '>=18.0.0'}
-    dev: false
 
   /execa@8.0.1:
     resolution: {integrity: sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==}
@@ -7795,19 +7736,6 @@ packages:
     resolution: {integrity: sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==}
     engines: {node: '>=6'}
     dev: true
-
-  /p-queue@8.1.0:
-    resolution: {integrity: sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==}
-    engines: {node: '>=18'}
-    dependencies:
-      eventemitter3: 5.0.1
-      p-timeout: 6.1.4
-    dev: false
-
-  /p-timeout@6.1.4:
-    resolution: {integrity: sha512-MyIV3ZA/PmyBN/ud8vV9XzwTrNtR4jFrObymZYnZqMmW0zA8Z17vnT0rBgFE/TlohB+YCHqXMgZzb3Csp49vqg==}
-    engines: {node: '>=14.16'}
-    dev: false
 
   /p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
