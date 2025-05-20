@@ -1,0 +1,18 @@
+{
+  "name": "mdxdb",
+  "type": "module",
+  "version": "0.1.0",
+  "dependencies": {
+    "@payloadcms/db-sqlite": "^3.38.0",
+    "add": "^2.0.6",
+    "libsql": "^0.5.11",
+    "payload": "^3.38.0",
+    "pnpm": "^10.11.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "velite": "^0.2.4",
+    "vitest": "^3.1.4"
+  }
+}

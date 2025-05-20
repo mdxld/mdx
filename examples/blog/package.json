@@ -1,0 +1,15 @@
+{
+  "name": "blog-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:examples": "mdxe dev",
+    "build:examples": "mdxe build",
+    "start:examples": "mdxe start",
+    "lint:examples": "mdxe lint"
+  },
+  "dependencies": {
+    "mdxe": "workspace:*",
+    "nextra": "^4.2.17"
+  }
+}

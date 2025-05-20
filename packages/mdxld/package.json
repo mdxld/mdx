@@ -1,0 +1,10 @@
+{
+  "name": "mdxld",
+  "type": "module",
+  "version": "0.1.0",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "vitest": "^3.1.4"
+  }
+}
