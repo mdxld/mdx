@@ -1,11 +1,11 @@
-import simpleGit from 'simple-git'
+import { simpleGit } from 'simple-git'
 import { relative } from 'path'
 
 const git = simpleGit()
 
 export async function getUpstreamUrl() {
   const remotes = await git.getRemotes(true)
-  const upstream = remotes.find((r) => r.name === 'upstream' || r.name === 'origin')
+  const upstream = remotes.find((r: { name: string }) => r.name === 'upstream' || r.name === 'origin')
   return upstream?.refs.fetch
 }
 
@@ -14,7 +14,7 @@ export async function getGitHubUrl(filePath: string) {
   const relativePath = relative(repoRoot.trim(), filePath)
 
   const remotes = await git.getRemotes(true)
-  const remote = remotes.find((r) => r.name === 'origin' || r.name === 'upstream')
+  const remote = remotes.find((r: { name: string }) => r.name === 'origin' || r.name === 'upstream')
   const remoteUrl = remote?.refs.fetch
 
   if (!remoteUrl) return null
