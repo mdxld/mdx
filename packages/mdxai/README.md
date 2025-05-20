@@ -14,3 +14,18 @@
 ```bash
 mdxai generate 100 blog post titles about the future of work post-AGI
 ```
+
+Use `--json` to receive structured output:
+
+```bash
+mdxai generate "A short poem" --json
+```
+
+Example response:
+
+```json
+{
+  "status": "success",
+  "content": "...generated text..."
+}
+```
