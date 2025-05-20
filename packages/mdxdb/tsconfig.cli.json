@@ -11,8 +11,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "declaration": false, // No .d.ts needed for CLI entry point
-    "include": ["cli.ts", "lib/**/*.ts"], // Include CLI and library files
     "baseUrl": "." // Added to help with path resolution if needed
   },
+  "include": ["cli.ts", "lib/**/*.ts", "run-test.ts"], // Include CLI and library files
   "exclude": ["node_modules", "dist", ".velite", ".db", "**/*.test.ts", "velite.config.ts"]
 }
