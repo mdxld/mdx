@@ -112,7 +112,7 @@ mdxe dev
 
 And you can develop and deploy entire projects with `mdxe`:
 
-```json
+```jsonc
 // package.json
 {
   "scripts": {
