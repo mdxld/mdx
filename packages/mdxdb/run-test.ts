@@ -1,4 +1,4 @@
-import { MdxDb } from './lib/mdxdb'
+import { MdxDb } from './lib/mdxdb.js'
 
 async function main() {
   console.log('Initializing MdxDb...')
@@ -105,7 +105,7 @@ async function main() {
       }
 
     } catch (e) {
-      console.error('Error during set() tests for create/overwrite:', e.message, e.stack)
+      console.error('Error during set() tests for create/overwrite:', (e as Error).message, (e as Error).stack)
     }
     
     // 3. Test set() with a non-existent collection name
@@ -114,17 +114,17 @@ async function main() {
       await db.set('some-id', newPostContent, 'fictionalCollection')
       console.error("set() with non-existent collection: Should have thrown an error but didn't.")
     } catch (e) {
-      console.log(`set() with non-existent collection: Correctly threw an error: "${e.message}"`)
+      console.log(`set() with non-existent collection: Correctly threw an error: "${(e as Error).message}"`)
     }
     
     // 4. Test set() without collectionName
     try {
       console.log(`\nAttempting set() without collectionName...`)
-      // @ts-expect-error Testing invalid call by omitting collectionName
+      // @ts-ignore Testing invalid call by omitting collectionName
       await db.set('another-id', newPostContent, undefined)
       console.error("set() without collectionName: Should have thrown an error but didn't.")
     } catch (e) {
-      console.log(`set() without collectionName: Correctly threw an error: "${e.message}"`)
+      console.log(`set() without collectionName: Correctly threw an error: "${(e as Error).message}"`)
     }
     // --- End of set() method tests ---
 
@@ -166,7 +166,7 @@ async function main() {
         }
       }
     } catch (e) {
-      console.error(`Error during delete() test for existing entry: ${e.message}`, e.stack)
+      console.error(`Error during delete() test for existing entry: ${(e as Error).message}`, (e as Error).stack)
     }
 
     // 3. Test deleting a non-existent entry
@@ -180,7 +180,7 @@ async function main() {
         console.log('delete() of non-existent entry: Correctly returned false.')
       }
     } catch (e) {
-      console.error(`Error during delete() test for non-existent entry: ${e.message}`, e.stack)
+      console.error(`Error during delete() test for non-existent entry: ${(e as Error).message}`, (e as Error).stack)
     }
 
     // 4. Test delete() with a non-existent collection name
@@ -189,17 +189,17 @@ async function main() {
       await db.delete('any-id', 'fictionalCollection')
       console.error("delete() with non-existent collection: Should have thrown an error but didn't.")
     } catch (e) {
-      console.log(`delete() with non-existent collection: Correctly threw an error: "${e.message}"`)
+      console.log(`delete() with non-existent collection: Correctly threw an error: "${(e as Error).message}"`)
     }
     
     // 5. Test delete() without collectionName
     try {
       console.log(`\nAttempting delete() without collectionName...`)
-      // @ts-expect-error Testing invalid call
+      // @ts-ignore Testing invalid call
       await db.delete('another-id-to-delete', undefined)
       console.error("delete() without collectionName: Should have thrown an error but didn't.")
     } catch (e) {
-      console.log(`delete() without collectionName: Correctly threw an error: "${e.message}"`)
+      console.log(`delete() without collectionName: Correctly threw an error: "${(e as Error).message}"`)
     }
     // --- End of delete() method tests ---
 

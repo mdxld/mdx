@@ -119,6 +119,78 @@ export class MdxDb {
     // TODO: Implement watch mode, likely by spawning 'npx velite dev' or 'npx velite build --watch'
     // and then re-running the data loading logic on changes.
   }
+  
+  /**
+   * Stops the watch process if it's running.
+   */
+  stopWatch(): void {
+    if (this.veliteWatchProcess) {
+      console.log('Stopping Velite watch process...');
+      this.veliteWatchProcess.kill();
+      this.veliteWatchProcess = null;
+      console.log('Velite watch process stopped.');
+    } else {
+      console.log('No Velite watch process running.');
+    }
+  }
+  
+  /**
+   * Creates or updates an MDX file for the given ID and collection name.
+   * 
+   * @param {string} id The ID (slug) of the entry to create or update
+   * @param {any} content The content object with frontmatter and body
+   * @param {string} collectionName The name of the collection
+   * @returns {Promise<void>} A promise that resolves when the file is created or updated
+   * @throws {Error} If collectionName is not provided, or if the collection is not found in Velite config
+   */
+  async set(id: string, content: { frontmatter: Record<string, any>; body: string }, collectionName: string): Promise<void> {
+    if (!collectionName) {
+      throw new Error('`collectionName` is required to create or update an entry.');
+    }
+
+    if (!this.config.collections || !this.config.collections[collectionName]) {
+      throw new Error(`Collection '${collectionName}' not found in Velite configuration.`);
+    }
+
+    const collectionConfig = this.config.collections[collectionName] as unknown as Collection;
+
+    if (!collectionConfig.pattern) {
+      throw new Error(`Pattern for collection '${collectionName}' is not defined in Velite configuration.`);
+    }
+
+    const globPattern = collectionConfig.pattern;
+    const basePathParts = typeof globPattern === 'string' ? globPattern.split('/') : globPattern[0].split('/');
+    let contentPath = '';
+    for (const part of basePathParts) {
+      if (part.includes('*') || part.includes('.')) {
+        break;
+      }
+      contentPath = path.join(contentPath, part);
+    }
+
+    if (!contentPath) {
+      throw new Error(`Could not determine base content path from pattern '${globPattern}' for collection '${collectionName}'.`);
+    }
+
+    const filename = `${id}.mdx`; // Assuming .mdx extension
+    const fullFilePath = path.join(this.packageDir, contentPath, filename);
+
+    console.log(`Creating/updating file: ${fullFilePath}`);
+
+    try {
+      // Ensure the directory exists
+      await fs.mkdir(path.dirname(fullFilePath), { recursive: true });
+
+      // Create the MDX content with frontmatter
+      const mdxContent = matter.stringify(content.body, content.frontmatter);
+
+      await fs.writeFile(fullFilePath, mdxContent);
+      console.log(`File '${fullFilePath}' created/updated successfully.`);
+    } catch (error) {
+      console.error(`Error creating/updating file '${fullFilePath}':`, error);
+      throw new Error(`Failed to create/update file for entry '${id}' in collection '${collectionName}': ${(error as Error).message}`);
+    }
+  }
 
   /**
    * Retrieves entries from the in-memory database.
