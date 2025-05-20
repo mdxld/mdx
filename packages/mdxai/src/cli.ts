@@ -11,17 +11,24 @@ const program = new Command();
 
 program
   .version(packageJson.version)
-  .description('A CLI tool for MDX AI');
+  .description('A CLI tool for MDX AI')
+  .option('--json', 'Emit JSON describing actions/results');
 
 program
   .command('generate <prompt>')
   .option('-o, --output <filepath>', 'Specify output file path')
   .option('-t, --type <contenttype>', 'Specify content type (e.g., title, outline, draft)', 'draft')
   .action(async (prompt: string, options: { output?: string; type: string }) => {
+    const { json } = program.opts<{ json: boolean }>()
     try {
       // Ensure OPENAI_API_KEY is set
       if (!process.env.OPENAI_API_KEY) {
-        console.error('OPENAI_API_KEY environment variable is not set.');
+        const msg = 'OPENAI_API_KEY environment variable is not set.'
+        if (json) {
+          console.error(JSON.stringify({ status: 'error', message: msg }))
+        } else {
+          console.error(msg)
+        }
         process.exit(1);
       }
 
@@ -60,25 +67,40 @@ program
       if (options.output) {
         const outputPath = path.resolve(options.output); // Resolve to absolute path
         const writer = fs.createWriteStream(outputPath);
-        
         for await (const delta of result.textStream) {
           writer.write(delta);
         }
         writer.end();
-        writer.on('finish', () => {
+        await new Promise<void>((resolve, reject) => {
+          writer.on('finish', resolve);
+          writer.on('error', reject);
+        });
+        if (json) {
+          console.log(JSON.stringify({ status: 'success', outputFile: outputPath }));
+        } else {
           console.log(`Content successfully written to ${outputPath}`);
-        });
-        writer.on('error', (err) => {
-          console.error(`Error writing to file ${outputPath}:`, err);
-        });
-      } else {
-        for await (const delta of result.textStream) {
-          process.stdout.write(delta);
         }
-        process.stdout.write('\n'); // Add a newline at the end for stdout
+      } else {
+        let buffer = '';
+        for await (const delta of result.textStream) {
+          if (json) {
+            buffer += delta;
+          } else {
+            process.stdout.write(delta);
+          }
+        }
+        if (json) {
+          console.log(JSON.stringify({ status: 'success', content: buffer }));
+        } else {
+          process.stdout.write('\n'); // Add a newline at the end for stdout
+        }
       }
     } catch (error) {
-      console.error('Error during AI generation:', error);
+      if (json) {
+        console.error(JSON.stringify({ status: 'error', message: String(error) }));
+      } else {
+        console.error('Error during AI generation:', error);
+      }
       process.exit(1);
     }
   });
@@ -87,16 +109,27 @@ program
   .command('edit <filepath> <instruction>')
   .option('-o, --output <newfilepath>', 'Specify output file path for the edited content. If not provided, the original file will be modified in-place.')
   .action(async (filepath: string, instruction: string, options: { output?: string }) => {
+    const { json } = program.opts<{ json: boolean }>()
     try {
       // Ensure OPENAI_API_KEY is set
       if (!process.env.OPENAI_API_KEY) {
-        console.error('OPENAI_API_KEY environment variable is not set.');
+        const msg = 'OPENAI_API_KEY environment variable is not set.'
+        if (json) {
+          console.error(JSON.stringify({ status: 'error', message: msg }))
+        } else {
+          console.error(msg)
+        }
         process.exit(1);
       }
 
       // Check if input filepath exists
       if (!fs.existsSync(filepath)) {
-        console.error(`Error: Input file not found at ${filepath}`);
+        const msg = `Error: Input file not found at ${filepath}`
+        if (json) {
+          console.error(JSON.stringify({ status: 'error', message: msg }))
+        } else {
+          console.error(msg)
+        }
         process.exit(1);
       }
 
@@ -121,22 +154,34 @@ program
         writer.end();
 
         // Wait for the writer to finish before renaming
-        await new Promise<void>((resolve, reject) => { // Specify Promise type as void
-          writer.on('finish', () => resolve()); // Explicitly call resolve without arguments
-          writer.on('error', (err) => reject(err)); // Pass error to reject
+        await new Promise<void>((resolve, reject) => {
+          writer.on('finish', () => resolve());
+          writer.on('error', (err) => reject(err));
         });
 
         fs.renameSync(tempFilepath, targetFilepath);
-        console.log(`Content successfully edited and saved to ${targetFilepath}`);
-      } catch (e: any) { // Explicitly type 'e' as 'any' or a more specific error type
-        console.error(`Error editing file ${targetFilepath}:`, e);
-        if (fs.existsSync(tempFilepath)) {
-          fs.unlinkSync(tempFilepath); // Clean up temp file
+        if (json) {
+          console.log(JSON.stringify({ status: 'success', outputFile: targetFilepath }));
+        } else {
+          console.log(`Content successfully edited and saved to ${targetFilepath}`);
         }
-        process.exit(1); // Exit if there was an error during edit
+      } catch (e: any) {
+        if (fs.existsSync(tempFilepath)) {
+          fs.unlinkSync(tempFilepath);
+        }
+        if (json) {
+          console.error(JSON.stringify({ status: 'error', message: String(e) }));
+        } else {
+          console.error(`Error editing file ${targetFilepath}:`, e);
+        }
+        process.exit(1);
       }
     } catch (error) {
-      console.error('Error during AI edit operation:', error);
+      if (json) {
+        console.error(JSON.stringify({ status: 'error', message: String(error) }));
+      } else {
+        console.error('Error during AI edit operation:', error);
+      }
       process.exit(1);
     }
   });
