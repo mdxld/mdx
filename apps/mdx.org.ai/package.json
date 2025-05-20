@@ -12,7 +12,6 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "ai-functions": "^0.3.0",
     "apis.do": "^0.0.1",
     "business-as-code": "^0.1.0",
     "functions.do": "^0.0.5",
