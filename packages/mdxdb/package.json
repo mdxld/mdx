@@ -5,6 +5,7 @@
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.38.0",
     "add": "^2.0.6",
+    "gray-matter": "^4.0.3",
     "libsql": "^0.5.11",
     "payload": "^3.38.0",
     "pnpm": "^10.11.0",
@@ -12,6 +13,7 @@
   },
   "devDependencies": {
     "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
     "velite": "^0.2.4",
     "vitest": "^3.1.4"
   }
