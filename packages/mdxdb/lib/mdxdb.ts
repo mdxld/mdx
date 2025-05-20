@@ -11,11 +11,12 @@ const execFilePromise = util.promisify(execFile)
 
 export class MdxDb {
   private data: VeliteData | null = null
-  private packageDir = '/app/packages/mdxdb'
+  private packageDir: string; // Changed: Made flexible
   private veliteWatchProcess: ChildProcess | null = null
   private config: ReturnType<typeof VeliteDefineConfig> // Store the Velite config
 
-  constructor() {
+  constructor(packageDir: string = '.') { // Changed: Added constructor arg with default
+    this.packageDir = path.resolve(packageDir); // Changed: Resolve to absolute path
     this.config = veliteConfig // Store the imported config
   }
 
@@ -75,24 +76,15 @@ export class MdxDb {
       throw new Error(`Velite CLI execution failed: ${error.message}`)
     }
 
-    // After successful CLI build, read the data from .velite output
-    // For now, assuming only 'posts' collection. This needs to be more dynamic
-    // if multiple collections are defined in velite.config.ts.
+    // After successful CLI build, load the data using the generalized method
     try {
-      const postsPath = path.join(this.packageDir, '.velite', 'posts.json')
-      const postsData = await fs.readFile(postsPath, 'utf-8')
-      const posts = JSON.parse(postsData)
-      
-      // Construct the VeliteData object structure
-      // This is a simplified assumption. A more robust solution would inspect .velite for all JSON files
-      // or have a way to know all collection names from the config.
-      this.data = { posts } as any // Cast to any to bypass strict VeliteData typing for now
-      
-      console.log('Successfully read data from .velite output.')
-      return this.data
+      this.data = await this.loadDataFromVeliteOutput(); // Changed: Use loadDataFromVeliteOutput
+      console.log('Successfully loaded data using loadDataFromVeliteOutput after build.');
+      return this.data;
     } catch (error) {
-      console.error('Error reading Velite output data:', error)
-      throw new Error(`Failed to read or parse Velite output: ${error.message}`)
+      console.error('Error loading Velite output data after build:', error);
+      // this.data will be {} or throw, as handled by loadDataFromVeliteOutput
+      throw error; // Re-throw the error from loadDataFromVeliteOutput
     }
   }
 
@@ -263,6 +255,57 @@ export class MdxDb {
       }
       console.error(`Error deleting file '${fullFilePath}':`, error);
       throw new Error(`Failed to delete file for entry '${id}' in collection '${collectionName}': ${error.message}`);
+    }
+  }
+
+  /**
+   * Exports the contents of the .velite output directory to a specified target directory.
+   *
+   * @param {string} targetDir The path to the target directory where .velite contents should be copied.
+   * @returns {Promise<void>} A promise that resolves when the export is complete.
+   * @throws {Error} If there's an error during the export process.
+   */
+  async exportDb(targetDir: string): Promise<void> {
+    const sourceVeliteDir = path.join(this.packageDir, '.velite');
+    const absoluteTargetDir = path.resolve(targetDir);
+
+    console.log(`Exporting .velite content from '${sourceVeliteDir}' to '${absoluteTargetDir}'...`);
+
+    try {
+      // Ensure source .velite directory exists
+      try {
+        await fs.access(sourceVeliteDir);
+      } catch (error) {
+        throw new Error(`Source .velite directory '${sourceVeliteDir}' does not exist. Run build() first.`);
+      }
+      
+      // Create target directory if it doesn't exist
+      await fs.mkdir(absoluteTargetDir, { recursive: true });
+
+      // Recursive copy function
+      const copyRecursive = async (src: string, dest: string) => {
+        const stats = await fs.stat(src);
+        if (stats.isDirectory()) {
+          await fs.mkdir(dest, { recursive: true });
+          const dirents = await fs.readdir(src, { withFileTypes: true });
+          for (const dirent of dirents) {
+            const srcPath = path.join(src, dirent.name);
+            const destPath = path.join(dest, dirent.name);
+            await copyRecursive(srcPath, destPath);
+          }
+        } else {
+          await fs.copyFile(src, dest);
+          console.log(`Successfully exported to ${dest}`);
+        }
+      };
+
+      // Start the recursive copy
+      await copyRecursive(sourceVeliteDir, absoluteTargetDir);
+
+      console.log(`Successfully exported all .velite contents to '${absoluteTargetDir}'.`);
+    } catch (error) {
+      console.error(`Error exporting .velite directory:`, error);
+      throw new Error(`Failed to export .velite directory: ${error.message}`);
     }
   }
 }
