@@ -92,32 +92,41 @@ export class MdxDb {
   }
 
   async watch(): Promise<void> {
-    // Ensure initial build is done
+    if (this.veliteWatchProcess) {
+      console.log('Velite watch process already running.')
+      return
+    }
+
     if (!this.data) {
       await this.build()
     }
 
-    // Start Velite's watch mode
-    // The `dev` function from Velite handles watching and rebuilding
-    // TODO: Investigate and reimplement watch mode
-    // await dev(
-    //   {
-    //     config: this.config,
-    //     clean: true, // clean output directory before each build in watch mode
-    //     // Optional: Add callbacks for events like `onSuccess` or `onError`
-    //     onSuccess: (data) => {
-    //       this.data = data
-    //       console.log('Velite re-built successfully with new data.')
-    //     },
-    //     onError: (errors) => {
-    //       console.error('Velite watch error:', errors)
-    //     }
-    //   },
-    //   {} // Velite's DevOptions, can be empty if defaults are fine
-    // )
-    console.warn('Watch mode is currently disabled. Needs to be implemented using Velite CLI watch mode.')
-    // TODO: Implement watch mode, likely by spawning 'npx velite dev' or 'npx velite build --watch'
-    // and then re-running the data loading logic on changes.
+    console.log('Starting Velite watch process...')
+    const child = spawn('npx', ['velite', 'dev', '--watch'], {
+      cwd: this.packageDir,
+      stdio: ['ignore', 'pipe', 'pipe']
+    })
+
+    this.veliteWatchProcess = child
+
+    child.stdout.on('data', (chunk) => {
+      const text = chunk.toString()
+      process.stdout.write(text)
+      if (text.includes('build finished')) {
+        this.loadDataFromVeliteOutput().catch((err) => {
+          console.error('Failed to reload data after watch build:', err)
+        })
+      }
+    })
+
+    child.stderr.on('data', (chunk) => {
+      process.stderr.write(chunk.toString())
+    })
+
+    child.on('close', (code) => {
+      console.log(`Velite watch process exited with code ${code}`)
+      this.veliteWatchProcess = null
+    })
   }
   
   /**

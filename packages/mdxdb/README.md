@@ -101,11 +101,13 @@ async function initializeDb() {
 ```
 
 ### `db.watch(): Promise<void>`
-Starts Velite's watch mode. This monitors your content files for changes (additions, updates, deletions) and automatically updates the in-memory database. Velite's output will typically appear in the console.
+Starts Velite's watch mode. Internally this spawns `velite dev --watch` and reloads the database every time Velite finishes a rebuild. The CLI output is piped through so you can see rebuild logs in the console.
 
 ```typescript
 await db.watch();
 console.log('MdxDb is watching for file changes...');
+// ...make edits to your MDX files...
+// call db.stopWatch() when you are done
 ```
 
 ### `db.stopWatch(): void`
