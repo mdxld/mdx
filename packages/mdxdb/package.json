@@ -11,6 +11,21 @@
     "pnpm": "^10.11.0",
     "simple-git": "^3.27.0"
   },
+  "main": "./dist/lib/mdxdb.js",
+  "types": "./.db/index.d.ts",
+  "files": [
+    "dist/lib/",
+    "dist/cli.js",
+    ".db/"
+  ],
+  "bin": {
+    "mdxdb": "./dist/cli.js"
+  },
+  "scripts": {
+    "build:lib": "tsc -p tsconfig.json",
+    "build:cli": "tsc -p tsconfig.cli.json",
+    "build": "pnpm run build:lib && pnpm run build:cli"
+  },
   "devDependencies": {
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",

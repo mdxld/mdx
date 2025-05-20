@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "module": "NodeNext", // Suitable for ESM with "type": "module"
+    "moduleResolution": "NodeNext", // Or "Bundler"
+    "target": "ES2022", // Modern Node versions support ES2022
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": false, // No .d.ts needed for CLI entry point
+    "include": ["cli.ts", "lib/**/*.ts"], // Include CLI and library files
+    "baseUrl": "." // Added to help with path resolution if needed
+  },
+  "exclude": ["node_modules", "dist", ".velite", ".db", "**/*.test.ts", "velite.config.ts"]
+}
