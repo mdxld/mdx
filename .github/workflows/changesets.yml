@@ -72,4 +72,4 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check for Changeset
-        run: npx changeset status --since=origin/main
+        run: npx changeset status --empty
