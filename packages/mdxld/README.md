@@ -1,1 +1,10 @@
-# `mdxai` - Generate & Edit Markdown & MDX
+# `mdxld` - Linked Data for Markdown & MDX
+
+`mdxld` brings JSON‑LD style metadata to MDX documents using a YAML‑LD frontmatter syntax. By annotating content with `$id`, `$type` and related fields you can express rich relationships and schema.org data directly alongside your Markdown. The package will include parsers and tooling to consume this structured information.
+
+## Features
+
+- YAML‑LD frontmatter with support for `$context`, `$id`, `$type` and `$graph`.
+- Schema definitions for common content types.
+- CLI utilities and bundler plugins for processing MDXLD files.
+- Works with `mdxai`, `mdxdb` and `mdxe` to provide a unified content pipeline.
