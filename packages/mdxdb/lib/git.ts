@@ -9,7 +9,7 @@ export async function getUpstreamUrl() {
   return upstream?.refs.fetch
 }
 
-export async function getGitHubUrlForFile(filePath: string) {
+export async function getGitHubUrl(filePath: string) {
   const repoRoot = await git.revparse(['--show-toplevel'])
   const relativePath = relative(repoRoot.trim(), filePath)
 
