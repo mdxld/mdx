@@ -6,6 +6,15 @@ First, run the development server:
 yarn dev
 ```
 
+This example uses **mdxdb** to load MDX content. Build the database once and start the watcher for hot reload:
+
+```bash
+pnpm mdxdb build
+pnpm mdxdb watch
+```
+
+The watcher updates `.db` whenever you edit Markdown files so pages rendered with `next-mdx-remote-client` refresh automatically.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.

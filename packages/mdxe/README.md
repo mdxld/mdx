@@ -8,9 +8,22 @@
 - Built‑in test runner for code snippets using Vitest.
 - Development and production build commands for MDX driven apps.
 - Tight integration with `mdxui` components for rich UIs.
+- Helper functions for [`next-mdx-remote-client`](https://github.com/ipikuka/next-mdx-remote-client)
 
 ## Example
 
 ```bash
 mdxe test
 ```
+
+### next-mdx-remote-client utilities
+
+Two helpers are provided to make working with `next-mdx-remote-client` and `mdxdb` easier:
+
+```ts
+import { compileEntry, listFrontmatter } from 'mdxe'
+
+const mdxSource = await compileEntry(db, 'my-post', 'articles')
+const frontmatterList = listFrontmatter(db, 'articles')
+```
+

@@ -1,6 +1,7 @@
 import { Collection, defineConfig as VeliteDefineConfig } from 'velite' // Import Collection type and defineConfig
 import { execFile, spawn, ChildProcess } from 'child_process'
 import { promises as fs } from 'fs'
+import chokidar, { FSWatcher } from 'chokidar'
 import matter from 'gray-matter' // Import gray-matter
 const veliteConfig = {} as any // Mock veliteConfig for TypeScript compilation
 import util from 'util'
@@ -16,6 +17,7 @@ export class MdxDb {
   private data: VeliteData | null = null
   private packageDir: string; // Changed: Made flexible
   private veliteWatchProcess: ChildProcess | null = null
+  private outputWatcher: FSWatcher | null = null
   private config: ReturnType<typeof VeliteDefineConfig> // Store the Velite config
 
   constructor(packageDir: string = '.') { // Changed: Added constructor arg with default
@@ -92,32 +94,38 @@ export class MdxDb {
   }
 
   async watch(): Promise<void> {
-    // Ensure initial build is done
+    if (this.veliteWatchProcess) {
+      console.log('Velite watch already running.')
+      return
+    }
+
     if (!this.data) {
       await this.build()
     }
 
-    // Start Velite's watch mode
-    // The `dev` function from Velite handles watching and rebuilding
-    // TODO: Investigate and reimplement watch mode
-    // await dev(
-    //   {
-    //     config: this.config,
-    //     clean: true, // clean output directory before each build in watch mode
-    //     // Optional: Add callbacks for events like `onSuccess` or `onError`
-    //     onSuccess: (data) => {
-    //       this.data = data
-    //       console.log('Velite re-built successfully with new data.')
-    //     },
-    //     onError: (errors) => {
-    //       console.error('Velite watch error:', errors)
-    //     }
-    //   },
-    //   {} // Velite's DevOptions, can be empty if defaults are fine
-    // )
-    console.warn('Watch mode is currently disabled. Needs to be implemented using Velite CLI watch mode.')
-    // TODO: Implement watch mode, likely by spawning 'npx velite dev' or 'npx velite build --watch'
-    // and then re-running the data loading logic on changes.
+    const veliteOutputDir = path.join(this.packageDir, '.velite')
+
+    this.veliteWatchProcess = spawn('npx', ['velite', 'build', '--watch'], {
+      cwd: this.packageDir,
+      stdio: 'inherit',
+    })
+
+    this.outputWatcher = chokidar.watch(veliteOutputDir, { ignoreInitial: true })
+
+    const reload = async () => {
+      try {
+        await this.loadDataFromVeliteOutput()
+        console.log('mdxdb: data reloaded after change.')
+      } catch (err) {
+        console.error('mdxdb: failed to reload after change:', err)
+      }
+    }
+
+    this.outputWatcher.on('add', reload).on('change', reload).on('unlink', reload)
+
+    this.veliteWatchProcess.on('close', () => {
+      this.stopWatch()
+    })
   }
   
   /**
@@ -131,6 +139,10 @@ export class MdxDb {
       console.log('Velite watch process stopped.');
     } else {
       console.log('No Velite watch process running.');
+    }
+    if (this.outputWatcher) {
+      this.outputWatcher.close();
+      this.outputWatcher = null;
     }
   }
   
