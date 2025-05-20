@@ -1,58 +1,144 @@
-# Turborepo Tailwind CSS starter
+## [`mdxai`](./packages/mdxai) - Generate & Edit Markdown & MDX
 
-This Turborepo starter is maintained by the Turborepo core team.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest -e with-tailwind
+```bash
+mdxai generate 100 blog post titles about the future of work post-AGI
 ```
 
-## What's inside?
+## [`mdxdb`](./packages/mdxdb) - Markdown/MDX Files as a Database
 
-This Turborepo includes the following packages/apps:
+```ts
+import { ai } from 'mdxai'
+import { db } from 'mdxdb'
 
-### Apps and Packages
+const count = 100
+const topic = 'the future of work post-AGI'
+const titles = await ai.list`${count} blog post titles about ${topic}`
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.ts`. This was chosen for several reasons:
-
-- Make sharing one `tailwind.config.ts` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.ts` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
-
-For example, in [tailwind.config.ts](packages/tailwind-config/tailwind.config.ts):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
+for (const title of titles) {
+  const post = await ai`Write a blog post about ${title}`
+  await db.set(`blog/${title.replace(' ', '_')}`, post)
+}
 ```
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+## [`mdxld`](./packages/mdxld) - Linked Data for Markdown & MDX
 
-### Utilities
+MDXLD builds upon the foundations of Linked Data like (JSON-LD and YAML-LD) with ontologies like [schema.org](https://schema.org), to create a powerful integration between structured data and content.
 
-This Turborepo has some additional tools already setup for you:
+```mdx
+---
+$id: https://example.com
+$type: https://schema.org/WebSite
+title: Example Domain
+description: This domain is for use in illustrative examples in documents
+---
+ 
+# Example Domain
+ 
+This domain is for use in illustrative examples in documents. You may use this
+domain in literature without prior coordination or asking for permission.
+ 
+[More information...](https://www.iana.org/domains/example)
+```
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## [`mdxe`](./packages/mdxe) - Build, Execute, Test, & Deploy Code in Markdown & MDX
+
+MDXE is a zero-config CLI that allows you to build, execute, test, and deploy code in Markdown & MDX files. It uses MDX, ESBuild, ESLint, Next.js, React, Velite, and Vitest under the hood to rapidly develop apps and sites.
+
+````markdown
+# Addition
+
+Sometimes you need to `sum` two numbers:
+
+```typescript
+/**
+ * Returns the sum of two numbers.
+ * @param {number} a - The first number to add
+ * @param {number} b - The second number to add
+ * @returns {number} The sum of a and b
+ * @example
+ * sum(2, 3)
+ * // returns 5
+ */
+export function sum(a: number, b: number): number {
+  return a + b
+}
+```
+
+and make sure it works:
+
+```typescript
+describe('sum', () => {
+  it('returns the sum of two positive numbers', () => {
+    expect(sum(2, 3)).toBe(5)
+  })
+
+  it('returns the sum of two negative numbers', () => {
+    expect(sum(-2, -3)).toBe(-5)
+  })
+
+  it('returns the sum when one number is zero', () => {
+    expect(sum(0, 4)).toBe(4)
+    expect(sum(7, 0)).toBe(7)
+  })
+
+  it('handles mixed positive and negative numbers', () => {
+    expect(sum(-2, 3)).toBe(1)
+    expect(sum(5, -8)).toBe(-3)
+  })
+})
+```
+````
+
+And you can execute the tests:
+
+```bash
+mdxe test
+```
+
+and run the app which uses:
+
+```bash
+mdxe dev
+
+#  next dev --turbopack --port 3000
+
+#    ▲ Next.js 15.3.0 (Turbopack)
+#    - Local:        http://localhost:3000
+#    - Network:      http://192.168.6.6:3000
+
+#  ✓ Starting...
+#  ✓ Ready in 1995ms
+```
+
+And you can develop and deploy entire projects with `mdxe`:
+
+```json
+// package.json
+{
+  "scripts": {
+    "dev": "mdxe dev",
+    "build": "mdxe build",
+    "start": "mdxe start",
+    "test": "mdxe test",
+    "lint": "mdxe lint"
+  }
+}
+```
+
+## [`mdxui`](./packages/mdxui) - UI Component Library for MDX
+
+All of the `mdxui` components are available automatically in `mdxe`
+
+```mdx
+<Hero
+  headline='Bring your ideas to life with MDX'
+  content='MDX combines unstructured content in Markdown, structured data in YAML, executable code, and UI components.'
+/>
+```
+
+The components can also be used in any React/Next.js application:
+
+```tsx
+// mdx-components.tsx
+export { useMDXComponents } from 'mdxui'
+```
