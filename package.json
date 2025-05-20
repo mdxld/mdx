@@ -1,10 +1,11 @@
 {
-  "name": "with-tailwind",
+  "name": "mdx",
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "test": "turbo run test",
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -16,5 +17,12 @@
   "packageManager": "pnpm@8.15.6",
   "engines": {
     "node": ">=18"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "printWidth": 160,
+    "tabWidth": 2,
+    "semi": false
   }
 }

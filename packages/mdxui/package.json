@@ -1,5 +1,5 @@
 {
-  "name": "@repo/ui",
+  "name": "mdxui",
   "version": "0.0.0",
   "sideEffects": [
     "**/*.css"
@@ -13,12 +13,12 @@
   },
   "license": "MIT",
   "scripts": {
-    "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
+    "build:styles": "tailwindcss -i ./components/styles.css -o ./dist/index.css",
     "build:components": "tsc",
     "check-types": "tsc --noEmit",
-    "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
+    "dev:styles": "tailwindcss -i ./components/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
-    "lint": "eslint src --max-warnings 0"
+    "lint": "eslint components --max-warnings 0"
   },
   "peerDependencies": {
     "react": "^19"
