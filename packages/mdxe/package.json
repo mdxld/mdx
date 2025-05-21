@@ -2,6 +2,9 @@
   "name": "mdxe",
   "type": "module",
   "version": "0.1.0",
+  "bin": {
+    "mdxe": "./dist/cli.js"
+  },
   "dependencies": {
     "commander": "^12.0.0",
     "mdxui": "workspace:*",
