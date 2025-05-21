@@ -1,6 +1,7 @@
 export * from './card.js'
 export * from './gradient.js'
 export * from './components/button.js'
+export * from './tremor.js'
 
 import { Button as ShadcnButton, ButtonProps as ShadcnButtonProps, buttonVariants } from './components/ui/button.js'
 import { 

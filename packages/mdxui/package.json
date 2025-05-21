@@ -24,6 +24,9 @@
     "dev:components": "tsc --watch",
     "lint": "eslint components --max-warnings 0"
   },
+  "dependencies": {
+    "@tremor/react": "4.0.0-beta-tremor-v4.4"
+  },
   "peerDependencies": {
     "react": "^19"
   },
