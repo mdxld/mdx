@@ -1,0 +1,42 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.changeset/CHANGELOG.md'
+      - 'packages/*/CHANGELOG.md'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit.message == 'chore(release): version packages' }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.6
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish to NPM
+        run: pnpm run release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
