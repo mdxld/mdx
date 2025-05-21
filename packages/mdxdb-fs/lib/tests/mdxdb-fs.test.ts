@@ -23,9 +23,15 @@ vi.mock('child_process', () => ({
   ChildProcess: class {}
 }))
 
-vi.mock('util', () => ({
-  promisify: vi.fn().mockImplementation((fn) => fn)
-}))
+vi.mock('util', () => {
+  const mockPromisify = vi.fn().mockImplementation((fn) => fn)
+  return {
+    promisify: mockPromisify,
+    default: {
+      promisify: mockPromisify
+    }
+  }
+})
 
 describe('MdxDbFs', () => {
   beforeEach(() => {
