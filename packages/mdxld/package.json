@@ -4,9 +4,16 @@
   "version": "0.1.0",
   "dependencies": {
     "next-mdx-remote-client": "^2.1.2",
-    "schema-dts": "^1.1.2"
+    "schema-dts": "^1.1.2",
+    "yaml": "^2.4.0"
+  },
+  "scripts": {
+    "build": "tsup"
   },
   "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@types/node": "^20.14.10",
+    "tsup": "^8.0.2",
     "vitest": "^3.1.4"
   }
 }

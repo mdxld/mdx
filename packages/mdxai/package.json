@@ -7,7 +7,7 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "start": "ts-node src/cli.ts"
   },
   "dependencies": {
@@ -17,7 +17,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
+    "@repo/tsup-config": "workspace:*",
     "typescript": "^5.5.3",
+    "tsup": "^8.0.2",
     "ts-node": "^10.9.2",
     "vitest": "^3.1.4"
   }
