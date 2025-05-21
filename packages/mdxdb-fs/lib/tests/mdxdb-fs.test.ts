@@ -3,11 +3,7 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import { createTestFixture, mockVeliteBuild, TestFixture } from './test-utils.js'
 import { MdxDb } from '../mdxdb.js'
-
-interface DocumentContent {
-  frontmatter: Record<string, any>
-  body: string
-}
+import { DocumentContent } from '@mdxdb/core'
 
 vi.mock('child_process', () => {
   const actual = vi.importActual('child_process')

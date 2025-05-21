@@ -1,0 +1,19 @@
+{
+  "name": "@mdxdb/core",
+  "type": "module",
+  "version": "0.1.0",
+  "main": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "files": [
+    "dist/lib/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.20",
+    "typescript": "^5.8.3",
+    "velite": "^0.2.4",
+    "vitest": "^3.1.4"
+  }
+}

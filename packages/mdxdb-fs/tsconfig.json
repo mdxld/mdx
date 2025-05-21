@@ -2,22 +2,19 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/lib", // Output JS files to dist/lib
-    "rootDir": "./lib",     // Source files are in lib
-    "module": "NodeNext",   // For ESM library
-    "moduleResolution": "NodeNext",
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
+    "rootDir": "./lib",     // Only include files from lib directory
     "declaration": true,      // Generate .d.ts files
     "declarationDir": "./dist/lib", // Place .d.ts files alongside JS files
+    "composite": true,
     "baseUrl": ".",
     "paths": {
-      // This might be needed if velite.config depends on aliases not directly resolvable
-      // For now, assume direct relative paths or node_modules resolution works.
+      "@mdxdb/core": ["../mdxdb-core/dist/lib"],
+      "@mdxdb/core/*": ["../mdxdb-core/dist/lib/*"]
     }
   },
   "include": ["lib/**/*.ts"], // Only compile library files
-  "exclude": ["node_modules", "dist", ".velite", ".db", "**/*.test.ts", "cli.ts", "velite.config.ts"]
+  "exclude": ["node_modules", "dist", ".velite", ".db", "**/*.test.ts", "cli.ts", "velite.config.ts"],
+  "references": [
+    { "path": "../mdxdb-core" }
+  ]
 }
