@@ -1,5 +1,11 @@
 # mdxld
 
+## 1.1.2
+
+### Patch Changes
+
+- 75e3362: fixing update
+
 ## 1.1.0
 
 ### Minor Changes
