@@ -5,7 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test -- --if-present",
+    "test": "turbo run test",
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "version": "changeset version",
@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
+    "@types/node": "^22.15.21",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "turbo": "^2.5.3"

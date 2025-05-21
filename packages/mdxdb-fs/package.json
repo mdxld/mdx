@@ -25,7 +25,8 @@
   "scripts": {
     "build:lib": "npx tsc -p tsconfig.json",
     "build:cli": "npx tsc -p tsconfig.cli.json",
-    "build": "pnpm run build:lib && pnpm run build:cli"
+    "build": "pnpm run build:lib && pnpm run build:cli",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@types/node": "^22.15.20",
