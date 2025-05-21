@@ -1,0 +1,111 @@
+# FizzBuzz Example with Tests
+
+## What is FizzBuzz?
+
+FizzBuzz is a classic programming problem often used in coding interviews. The task is to print numbers from 1 to n, but with the following rules:
+
+- If the number is divisible by 3, print "Fizz" instead
+- If the number is divisible by 5, print "Buzz" instead
+- If the number is divisible by both 3 and 5, print "FizzBuzz" instead
+- Otherwise, print the number itself
+
+The problem originated from a children's word game where players take turns counting up from 1, but must say "Fizz" for multiples of 3 and "Buzz" for multiples of 5.
+
+## Implementation
+
+Here's a JavaScript implementation of the FizzBuzz function:
+
+```javascript
+/**
+ * Returns the FizzBuzz string for a given number
+ * 
+ * @param {number} num - The number to convert to a FizzBuzz string
+ * @returns {string} "Fizz" if num is divisible by 3, "Buzz" if divisible by 5,
+ *          "FizzBuzz" if divisible by both, or the number as a string otherwise
+ */
+export function fizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return "FizzBuzz";
+  } else if (num % 3 === 0) {
+    return "Fizz";
+  } else if (num % 5 === 0) {
+    return "Buzz";
+  } else {
+    return num.toString();
+  }
+}
+
+/**
+ * Generates an array of FizzBuzz strings for numbers from 1 to n
+ * 
+ * @param {number} n - The upper limit (inclusive)
+ * @returns {string[]} An array of FizzBuzz strings
+ */
+export function generateFizzBuzz(n) {
+  const result = [];
+  
+  for (let i = 1; i <= n; i++) {
+    result.push(fizzBuzz(i));
+  }
+  
+  return result;
+}
+```
+
+## Testing FizzBuzz
+
+To test our FizzBuzz implementation, we'll write tests using Vitest. The tests will verify that our function correctly handles all the different cases:
+
+```javascript test
+import { describe, it, expect } from 'vitest';
+// No need to import fizzBuzz and generateFizzBuzz as they're in the same file
+
+describe('fizzBuzz', () => {
+  it('returns "Fizz" for numbers divisible by 3 but not 5', () => {
+    expect(fizzBuzz(3)).toBe("Fizz");
+    expect(fizzBuzz(6)).toBe("Fizz");
+    expect(fizzBuzz(9)).toBe("Fizz");
+  });
+
+  it('returns "Buzz" for numbers divisible by 5 but not 3', () => {
+    expect(fizzBuzz(5)).toBe("Buzz");
+    expect(fizzBuzz(10)).toBe("Buzz");
+    expect(fizzBuzz(20)).toBe("Buzz");
+  });
+
+  it('returns "FizzBuzz" for numbers divisible by both 3 and 5', () => {
+    expect(fizzBuzz(15)).toBe("FizzBuzz");
+    expect(fizzBuzz(30)).toBe("FizzBuzz");
+    expect(fizzBuzz(45)).toBe("FizzBuzz");
+  });
+
+  it('returns the number as a string for numbers not divisible by 3 or 5', () => {
+    expect(fizzBuzz(1)).toBe("1");
+    expect(fizzBuzz(2)).toBe("2");
+    expect(fizzBuzz(4)).toBe("4");
+    expect(fizzBuzz(7)).toBe("7");
+  });
+});
+
+describe('generateFizzBuzz', () => {
+  it('generates correct FizzBuzz sequence for n=15', () => {
+    const expected = [
+      "1", "2", "Fizz", "4", "Buzz",
+      "Fizz", "7", "8", "Fizz", "Buzz",
+      "11", "Fizz", "13", "14", "FizzBuzz"
+    ];
+    
+    expect(generateFizzBuzz(15)).toEqual(expected);
+  });
+
+  it('returns an empty array for n=0', () => {
+    expect(generateFizzBuzz(0)).toEqual([]);
+  });
+});
+```
+
+This test suite verifies that:
+1. `fizzBuzz` correctly returns "Fizz", "Buzz", "FizzBuzz", or the number as a string
+2. `generateFizzBuzz` correctly generates the sequence for a given range
+
+You can run these tests using the `mdxe test` command, which will extract the test code blocks and execute them with Vitest.

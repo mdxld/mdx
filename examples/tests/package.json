@@ -1,0 +1,14 @@
+{
+  "name": "tests-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "mdxe test"
+  },
+  "dependencies": {
+    "mdxe": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.4"
+  }
+}
