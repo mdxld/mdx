@@ -1,3 +1,3 @@
-export * from './card'
-export * from './gradient'
-export * from './components/button'
+export * from './card.js'
+export * from './gradient.js'
+export * from './components/button.js'
