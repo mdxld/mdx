@@ -199,7 +199,7 @@ function generateMdxContent(thing: any, properties: any[]): string {
  * Writes the generated MDX files to the appropriate location
  */
 async function writeFiles(things: any[], allThings: any[]): Promise<void> {
-  const outputDir = path.join(process.cwd(), 'content', 'schema');
+  const outputDir = path.join(process.cwd(), 'schema');
   
   try {
     await fs.mkdir(outputDir, { recursive: true });
@@ -210,7 +210,7 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
     for (const thing of things) {
       const name = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown';
       
-      const filename = `${name.replace(/[^a-zA-Z0-9]/g, '')}.mdx`;
+      const filename = `${name.replace('schema:', '').replace(/[^a-zA-Z0-9]/g, '')}.mdx`;
       const filePath = path.join(outputDir, filename);
       
       const properties = resolveInheritedProperties(thing, allThings);
