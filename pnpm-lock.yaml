@@ -26,6 +26,9 @@ importers:
       turbo:
         specifier: ^2.5.3
         version: 2.5.3
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
 
   ai:
     dependencies:
@@ -4060,7 +4063,7 @@ packages:
       '@vitest/spy': 3.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
+      vite: 6.3.5(@types/node@22.15.21)(tsx@4.19.4)
     dev: true
 
   /@vitest/pretty-format@3.1.4:
