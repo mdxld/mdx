@@ -1,0 +1,11 @@
+{
+  "name": "mdxdb-build-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "mdxdb build"
+  },
+  "devDependencies": {
+    "mdxdb": "workspace:*"
+  }
+}

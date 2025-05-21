@@ -18,6 +18,7 @@ const posts = {
 }
 
 export default defineConfig({
-  root: '.', // Explicitly set the root for Velite
-  collections: { posts }
+  root: '../..', // Explicitly set the root for Velite
+  collections: { posts },
+  output: { data: './.db' },
 })

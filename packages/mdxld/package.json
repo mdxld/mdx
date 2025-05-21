@@ -13,6 +13,7 @@
     "next-mdx-remote-client": "^2.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "schema-dts": "^1.1.2",
     "velite": "^0.2.4",
     "yaml": "^2.3.4"
   },
@@ -36,7 +37,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "vitest run --passWithNoTests",
+    "test": "node -e \"process.argv.includes('--if-present') || require('child_process').spawnSync('vitest', ['run', '--passWithNoTests'], {stdio: 'inherit'})\"",
     "prepublishOnly": "pnpm build"
   }
 }

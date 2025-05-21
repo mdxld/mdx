@@ -1,5 +1,5 @@
 {
-  "name": "@mdxdb/sqlite",
+  "name": "@mdxdb/fs",
   "type": "module",
   "version": "0.1.0",
   "dependencies": {
