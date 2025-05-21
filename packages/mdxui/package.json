@@ -1,5 +1,6 @@
 {
   "name": "mdxui",
+  "type": "module",
   "version": "0.0.0",
   "sideEffects": [
     "**/*.css"
@@ -11,13 +12,13 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./*": ["./dist/*.js", "./dist/*.d.ts"]
+    "./*": ["./dist/*.mjs", "./dist/*.d.mts"]
   },
   "license": "MIT",
   "scripts": {
-    "build": "pnpm run build:components && pnpm run build:styles",
+    "build": "pnpm run build:lib && pnpm run build:styles",
     "build:styles": "tailwindcss -i ./components/styles.css -o ./dist/index.css",
-    "build:components": "tsc",
+    "build:lib": "tsup",
     "check-types": "tsc --noEmit",
     "dev:styles": "tailwindcss -i ./components/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
@@ -35,6 +36,8 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@repo/tsup-config": "workspace:*",
+    "tsup": "^8.0.2",
     "@tailwindcss/cli": "^4.1.5",
     "@types/react": "^19.1.0",
     "class-variance-authority": "^0.7.0",

@@ -3,12 +3,19 @@
   "type": "module",
   "version": "0.1.0",
   "dependencies": {
+    "commander": "^12.0.0",
     "mdxui": "workspace:*",
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@types/node": "^20.14.10",
+    "tsup": "^8.0.2",
     "vitest": "^3.1.4"
   },
   "scripts": {
