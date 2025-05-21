@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "node -e \"require('child_process').spawnSync('vitest', ['run', '--passWithNoTests'], {stdio: 'inherit'})\"",
+    "test": "vitest run",
     "prepublishOnly": "pnpm build"
   }
 }
