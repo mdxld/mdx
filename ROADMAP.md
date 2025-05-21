@@ -23,6 +23,7 @@ This phase focuses on developing advanced features, improving existing tools, an
 -   **Velite Enhancements:** Enhance the Velite tool for content management with support for mutations (data modifications) and Software Development Kit (SDK) capabilities for programmatic access. (Inspired by `research/velite-mutations.md`)
 -   **Streamlined Next.js Integration:** Improve integration with Next.js, particularly focusing on the `next-mdx-remote-client` for efficient and flexible MDX rendering in Next.js applications. (Inspired by `research/next-mdx-remote-client.md`)
 -   **Comprehensive Packaging and Release Strategy:** Develop a clear and robust packaging and release strategy for the `mdx*` suite of tools, ensuring easy adoption and updates. (Inspired by `research/velite-pkg-pr-new.md`)
+-   **Automated Prerelease Workflow:** Build and publish preview packages for each commit using pkg.pr.new. See `RELEASING.md` for details.
 
 ## Phase 4: Ecosystem Maturation
 
