@@ -1,0 +1,10 @@
+{
+  "name": "@mdxld/ai",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "mdxld build"
+  },
+  "dependencies": {
+    "mdxld": "workspace:*"
+  }
+}
