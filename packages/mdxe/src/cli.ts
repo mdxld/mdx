@@ -42,8 +42,8 @@ program
   .description('Run tests embedded in Markdown/MDX files')
   .option('-w, --watch', 'Watch files for changes')
   .action(async (options) => {
-    const { findMdxFiles, extractMdxCodeBlocks } = await import('./utils/mdx-parser.js');
-    const { createTempTestFile, runTests, cleanupTempFiles } = await import('./utils/test-runner.js');
+    const { findMdxFiles, extractMdxCodeBlocks } = await import('./utils/mdx-parser');
+    const { createTempTestFile, runTests, cleanupTempFiles } = await import('./utils/test-runner');
     const path = await import('node:path');
     
     try {
@@ -106,8 +106,17 @@ program
     console.log('lint command not implemented yet')
   })
 
-program.parse(process.argv)
+/**
+ * Run the CLI
+ */
+export function run() {
+  program.parse(process.argv);
+  
+  if (program.opts().watch) {
+    console.log('Watch mode enabled (not implemented yet)');
+  }
+}
 
-if (program.opts().watch) {
-  console.log('Watch mode enabled (not implemented yet)')
+if (import.meta.url === `file://${process.argv[1]}`) {
+  run();
 }
