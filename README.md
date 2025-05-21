@@ -8,7 +8,7 @@ mdxai generate 100 blog post titles about the future of work post-AGI
 
 ```ts
 import { ai } from 'mdxai'
-import { db } from 'mdxdb'
+import { db } from '@mdxdb/fs'
 
 const count = 100
 const topic = 'the future of work post-AGI'
