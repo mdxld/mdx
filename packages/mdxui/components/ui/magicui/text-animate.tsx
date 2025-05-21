@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "../../../lib/utils.js";
-import { motion, Variants, HTMLMotionProps } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 export interface TextAnimateProps {
   text: string;

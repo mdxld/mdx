@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "../../../lib/utils.js";
-import { motion, HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 
 export interface BoxRevealProps {
   children: React.ReactNode;
