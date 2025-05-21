@@ -12,6 +12,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@vercel/blob": "^0.22.1",
     "mdxui": "workspace:*",
     "next": "^15.3.0",
     "nextra": "^4.2.17",
