@@ -57,7 +57,7 @@ export function sum(a: number, b: number): number {
 
 and make sure it works:
 
-```typescript
+```typescript test
 describe('sum', () => {
   it('returns the sum of two positive numbers', () => {
     expect(sum(2, 3)).toBe(5)
