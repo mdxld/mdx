@@ -22,7 +22,8 @@
     "mdxdb": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@types/node": "^22.15.20",

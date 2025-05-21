@@ -2,20 +2,45 @@
   "name": "mdxld",
   "type": "module",
   "version": "0.1.0",
-  "dependencies": {
-    "@mdxld/schema": "^0.1.0",
-    "next-mdx-remote-client": "^2.1.2",
-    "schema-dts": "^1.1.2",
-    "yaml": "^2.4.0"
+  "bin": {
+    "mdxld": "./bin/mdxld.js"
   },
-  "scripts": {
-    "build": "tsup"
+  "dependencies": {
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@mdx-js/esbuild": "^3.0.0",
+    "@mdxld/schema": "^0.1.0",
+    "commander": "^11.1.0",
+    "esbuild": "^0.20.1",
+    "next-mdx-remote-client": "^2.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "schema-dts": "^1.1.2",
+    "velite": "^0.2.4",
+    "yaml": "^2.4.0"
   },
   "devDependencies": {
     "@repo/tsup-config": "workspace:*",
     "@types/node": "^20.14.10",
+    "@types/react": "^18.2.43",
     "tsup": "^8.0.2",
-    "velite": "^0.2.4",
+    "typescript": "^5.3.3",
     "vitest": "^3.1.4"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build"
   }
 }
