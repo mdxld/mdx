@@ -2,12 +2,13 @@
 
 import { Command } from 'commander';
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageJsonPath = join(__dirname, '../package.json');
 const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
 import { build } from './build.js';
-import { resolve } from 'node:path';
 
 const program = new Command();
 

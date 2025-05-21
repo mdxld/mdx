@@ -23,36 +23,12 @@ export async function build(options: BuildOptions): Promise<void> {
   const { sourceDir, outputDir, configFile, watch = false, bundle = false } = options;
   
   await ensureDir(outputDir);
-  
-  const defaultConfig = {
-    root: process.cwd(),
-    output: {
-      dir: outputDir,
-      mdx: true,
-    },
-    content: {
-      files: {
-        pattern: `${sourceDir}/**/*(md|mdx)`,
-        schema: (s: any) => ({
-          title: s.string(),
-          description: s.string().optional(),
-          raw: s.mdx(),
-          code: s.mdx({
-            mdxOptions: {
-              jsx: true,
-              format: 'mdx',
-            },
-          }),
-        }),
-      },
-    },
-  };
-  
   try {
     let tempConfigFile: string | undefined = configFile;
     if (!configFile) {
       tempConfigFile = join(process.cwd(), '.velite.temp.js');
-      const configContent = `export default ${JSON.stringify(defaultConfig, null, 2)}`;
+      const schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`;
+      const configContent = `export default {\n  root: ${JSON.stringify(process.cwd())},\n  collections: {\n    mdx: {\n      name: 'mdx',\n      pattern: '${sourceDir}/**/*.{md,mdx}',\n      schema: ${schemaFn}\n    }\n  },\n  output: { data: '${outputDir}' }\n}`;
       await fs.writeFile(tempConfigFile, configContent, 'utf-8');
     }
     
