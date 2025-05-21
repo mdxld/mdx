@@ -5,6 +5,7 @@
   "bin": {
     "mdxld": "./bin/mdxld.js"
   },
+  "main": "./dist/index.js",
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@mdx-js/esbuild": "^3.0.0",
@@ -16,11 +17,13 @@
     "react-dom": "^18.2.0",
     "schema-dts": "^1.1.2",
     "velite": "^0.2.4",
-    "yaml": "^2.3.4"
+    "yaml": "^2.4.0"
   },
   "devDependencies": {
-    "@types/node": "^20.10.5",
+    "@repo/tsup-config": "workspace:*",
+    "@types/node": "^20.14.10",
     "@types/react": "^18.2.43",
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3",
     "vitest": "^3.1.4"
   },
@@ -32,12 +35,15 @@
     ".": {
       "import": "./dist/index.js"
     },
+    "./build": {
+      "import": "./dist/build.js"
+    },
     "./components": {
       "import": "./dist/components.js"
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "test": "vitest run",
     "prepublishOnly": "pnpm build"
   }

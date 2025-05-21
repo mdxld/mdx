@@ -23,13 +23,13 @@
     "mdxdb": "./dist/cli.js"
   },
   "scripts": {
-    "build:lib": "tsc -p tsconfig.json",
-    "build:cli": "tsc -p tsconfig.cli.json",
-    "build": "pnpm run build:lib && pnpm run build:cli",
+    "build": "tsup",
     "test": "vitest run"
   },
   "devDependencies": {
     "@types/node": "^22.15.20",
+    "@repo/tsup-config": "workspace:*",
+    "tsup": "^8.0.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "velite": "^0.2.4",
