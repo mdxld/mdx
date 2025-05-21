@@ -377,10 +377,10 @@ importers:
       next-mdx-remote-client:
         specifier: ^2.1.2
         version: 2.1.2(@types/react@19.1.0)(acorn@8.14.1)(react-dom@19.1.0)(react@19.1.0)
-      schema-dts:
-        specifier: ^1.1.2
-        version: 1.1.5
     devDependencies:
+      velite:
+        specifier: ^0.2.4
+        version: 0.2.4(acorn@8.14.1)
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@22.15.21)
@@ -3886,7 +3886,7 @@ packages:
       '@vitest/spy': 3.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.3.5(@types/node@20.17.49)
+      vite: 6.3.5(@types/node@22.15.21)
     dev: true
 
   /@vitest/pretty-format@3.1.4:
@@ -8905,10 +8905,6 @@ packages:
 
   /scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
-    dev: false
-
-  /schema-dts@1.1.5:
-    resolution: {integrity: sha512-RJr9EaCmsLzBX2NDiO5Z3ux2BVosNZN5jo0gWgsyKvxKIUL5R3swNvoorulAeL9kLB0iTSX7V6aokhla2m7xbg==}
     dev: false
 
   /scmp@2.1.0:

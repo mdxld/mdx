@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "dependencies": {
     "@mdxld/schema": "^0.1.0",
-    "next-mdx-remote-client": "^2.1.2",
-    "schema-dts": "^1.1.2"
+    "next-mdx-remote-client": "^2.1.2"
   },
   "devDependencies": {
+    "velite": "^0.2.4",
     "vitest": "^3.1.4"
   }
 }
