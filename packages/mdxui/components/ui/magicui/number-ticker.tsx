@@ -4,12 +4,11 @@ import * as React from "react";
 import { cn } from "../../../lib/utils.js";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-export interface NumberTickerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface NumberTickerProps {
   value: number;
-  direction?: "up" | "down";
-  delay?: number;
   decimalPlaces?: number;
   startValue?: number;
+  className?: string;
 }
 
 export const NumberTicker = React.forwardRef<HTMLDivElement, NumberTickerProps>(
@@ -19,7 +18,6 @@ export const NumberTicker = React.forwardRef<HTMLDivElement, NumberTickerProps>(
       decimalPlaces = 0,
       startValue = 0,
       className,
-      ...props
     },
     ref
   ) => {
@@ -37,7 +35,6 @@ export const NumberTicker = React.forwardRef<HTMLDivElement, NumberTickerProps>(
       <motion.div
         ref={ref}
         className={cn("font-mono", className)}
-        {...props}
       >
         {displayValue}
       </motion.div>
