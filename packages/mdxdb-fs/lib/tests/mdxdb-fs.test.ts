@@ -18,13 +18,22 @@ vi.mock('fs', () => ({
 }))
 
 vi.mock('child_process', () => ({
-  execFile: vi.fn(),
+  execFile: vi.fn().mockImplementation((file, args, options, callback) => {
+    if (callback) {
+      callback(null, { stdout: 'mocked stdout', stderr: '' })
+    }
+    return { stdout: 'mocked stdout', stderr: '' }
+  }),
   spawn: vi.fn(),
   ChildProcess: class {}
 }))
 
 vi.mock('util', () => {
-  const mockPromisify = vi.fn().mockImplementation((fn) => fn)
+  const mockPromisify = vi.fn().mockImplementation((fn) => {
+    return (...args) => {
+      return Promise.resolve({ stdout: 'mocked stdout', stderr: '' })
+    }
+  })
   return {
     promisify: mockPromisify,
     default: {
@@ -37,7 +46,16 @@ describe('MdxDbFs', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     
-    vi.mocked(fs.readdir).mockResolvedValue(['posts.json', 'pages.json'] as any)
+    vi.mocked(fs.readdir).mockImplementation((path: string, options?: any) => {
+      if (options && options.withFileTypes) {
+        return Promise.resolve([
+          { name: 'posts.json', isDirectory: () => false },
+          { name: 'pages.json', isDirectory: () => false },
+          { name: 'test-dir', isDirectory: () => true }
+        ] as any)
+      }
+      return Promise.resolve(['posts.json', 'pages.json'] as any)
+    })
     
     vi.mocked(fs.readFile).mockImplementation((path: any) => {
       if (path.toString().includes('posts.json')) {
@@ -63,7 +81,12 @@ describe('MdxDbFs', () => {
     
     vi.mocked(fs.access).mockResolvedValue(undefined)
     
-    vi.mocked(fs.stat).mockResolvedValue({ isDirectory: () => true } as any)
+    vi.mocked(fs.stat).mockImplementation((path: string) => {
+      const isDir = path.includes('test-dir') || path.endsWith('.velite')
+      return Promise.resolve({ 
+        isDirectory: () => isDir
+      } as any)
+    })
     
     vi.mocked(fs.copyFile).mockResolvedValue(undefined)
   })
