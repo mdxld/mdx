@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "dependencies": {
+    "@mdxdb/core": "^0.1.0",
     "@payloadcms/db-sqlite": "^3.38.0",
     "add": "^2.0.6",
     "gray-matter": "^4.0.3",

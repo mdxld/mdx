@@ -27,5 +27,13 @@
     "printWidth": 160,
     "tabWidth": 2,
     "semi": false
-  }
+  },
+  "dependencies": {
+    "@mdxdb/core": "workspace:^",
+    "@mdxdb/fs": "workspace:^",
+    "@mdxdb/sqlite": "workspace:^"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
