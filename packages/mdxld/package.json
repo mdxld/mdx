@@ -5,6 +5,7 @@
   "bin": {
     "mdxld": "./bin/mdxld.js"
   },
+  "main": "./dist/index.js",
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@mdx-js/esbuild": "^3.0.0",
@@ -33,6 +34,9 @@
   "exports": {
     ".": {
       "import": "./dist/index.js"
+    },
+    "./build": {
+      "import": "./dist/build.js"
     },
     "./components": {
       "import": "./dist/components.js"
