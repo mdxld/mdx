@@ -1,5 +1,5 @@
 import { CoreMessage, StreamTextResult, streamText } from 'ai';
-import { openai } from '@ai-sdk/openai'; // OpenAI type removed
+import { openai, createOpenAI } from '@ai-sdk/openai'; // Added createOpenAI
 
 interface LLMServiceParams {
   modelProvider?: typeof openai; // Changed to typeof openai
@@ -44,4 +44,34 @@ export async function generateListStream(
   ];
 
   return generateContentStream({ messages });
+}
+
+export function createResearchProvider() {
+  if (!process.env.AI_GATEWAY_TOKEN) {
+    throw new Error('AI_GATEWAY_TOKEN environment variable is not set.');
+  }
+
+  return createOpenAI({
+    baseURL: 'https://api.llm.do',
+    apiKey: process.env.AI_GATEWAY_TOKEN,
+  });
+}
+
+export async function generateResearchStream(
+  prompt: string
+): Promise<StreamTextResult<never, string>> {
+  const systemMessage = "Respond with thorough research including citations and references. Be comprehensive and include multiple perspectives when appropriate.";
+  
+  const messages: CoreMessage[] = [
+    { role: 'system', content: systemMessage },
+    { role: 'user', content: prompt }
+  ];
+
+  const researchProvider = createResearchProvider();
+  
+  return generateContentStream({ 
+    modelProvider: researchProvider, 
+    modelId: 'perplexity/sonar-deep-research',
+    messages 
+  });
 }
