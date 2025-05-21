@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "../../../lib/utils.js";
-import { motion, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 
 export interface NumberTickerProps extends React.HTMLAttributes<HTMLDivElement> {
   value: number;
@@ -16,8 +16,6 @@ export const NumberTicker = React.forwardRef<HTMLDivElement, NumberTickerProps>(
   (
     {
       value = 0,
-      direction = "up",
-      delay = 0,
       decimalPlaces = 0,
       startValue = 0,
       className,
@@ -25,18 +23,13 @@ export const NumberTicker = React.forwardRef<HTMLDivElement, NumberTickerProps>(
     },
     ref
   ) => {
-    const spring = useSpring(startValue, {
-      delay: delay,
-      bounce: 0,
-      stiffness: 80,
-      damping: 20,
-    });
+    const motionValue = useMotionValue(startValue);
 
     React.useEffect(() => {
-      spring.set(value);
-    }, [spring, value]);
+      motionValue.set(value);
+    }, [motionValue, value]);
 
-    const displayValue = useTransform(spring, (current) =>
+    const displayValue = useTransform(motionValue, (current) =>
       current.toFixed(decimalPlaces)
     );
 

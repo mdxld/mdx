@@ -24,16 +24,6 @@ export const Confetti = React.forwardRef<HTMLDivElement, ConfettiProps>(
   (
     {
       trigger = "click",
-      particleCount = 50,
-      spread = 70,
-      startVelocity = 30,
-      decay = 0.9,
-      scalar = 1,
-      drift = 0,
-      origin = { x: 0.5, y: 0.5 },
-      colors,
-      shapes,
-      ticks = 60,
       className,
       children,
       ...props
