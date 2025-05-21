@@ -180,7 +180,7 @@ importers:
     dependencies:
       tsup:
         specifier: ^8.0.2
-        version: 8.5.0(typescript@5.8.3)
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)
     devDependencies:
       '@types/node':
         specifier: ^20.14.10
@@ -190,7 +190,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.1.4
-        version: 3.1.4(@types/node@20.17.49)
+        version: 3.1.4(@types/node@20.17.49)(tsx@4.19.4)
 
   config/typescript-config: {}
 
@@ -217,7 +217,7 @@ importers:
         version: 10.9.2(@types/node@20.17.49)(typescript@5.8.3)
       tsup:
         specifier: ^8.0.2
-        version: 8.5.0(typescript@5.8.3)
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)
       typescript:
         specifier: ^5.5.3
         version: 5.8.3
@@ -297,10 +297,10 @@ importers:
         version: 20.17.49
       tsup:
         specifier: ^8.0.2
-        version: 8.5.0(typescript@5.8.2)
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)
       vitest:
         specifier: ^3.1.4
-        version: 3.1.4(@types/node@20.17.49)
+        version: 3.1.4(@types/node@20.17.49)(tsx@4.19.4)
 
   packages/mdxld:
     dependencies:
@@ -349,7 +349,7 @@ importers:
         version: 18.3.22
       tsup:
         specifier: ^8.0.2
-        version: 8.5.0(typescript@5.8.3)(yaml@2.8.0)
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
       typescript:
         specifier: ^5.3.3
         version: 5.8.3
@@ -407,7 +407,7 @@ importers:
         version: 4.1.5
       tsup:
         specifier: ^8.0.2
-        version: 8.5.0(typescript@5.8.2)
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.2)
       tw-animate-css:
         specifier: ^1.3.0
         version: 1.3.0
@@ -4054,7 +4054,7 @@ packages:
       '@vitest/spy': 3.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)
+      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
     dev: true
 
   /@vitest/pretty-format@3.1.4:
@@ -8507,27 +8507,7 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /postcss-load-config@6.0.1:
-    resolution: {integrity: sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g==}
-    engines: {node: '>= 18'}
-    peerDependencies:
-      jiti: '>=1.21.0'
-      postcss: '>=8.0.9'
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      jiti:
-        optional: true
-      postcss:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-    dependencies:
-      lilconfig: 3.1.3
-
-  /postcss-load-config@6.0.1(tsx@4.19.4):
+  /postcss-load-config@6.0.1(tsx@4.19.4)(yaml@2.8.0):
     resolution: {integrity: sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g==}
     engines: {node: '>= 18'}
     peerDependencies:
@@ -8547,29 +8527,7 @@ packages:
     dependencies:
       lilconfig: 3.1.3
       tsx: 4.19.4
-    dev: true
-
-  /postcss-load-config@6.0.1(yaml@2.8.0):
-    resolution: {integrity: sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g==}
-    engines: {node: '>= 18'}
-    peerDependencies:
-      jiti: '>=1.21.0'
-      postcss: '>=8.0.9'
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      jiti:
-        optional: true
-      postcss:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-    dependencies:
-      lilconfig: 3.1.3
       yaml: 2.8.0
-    dev: true
 
   /postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
@@ -9952,6 +9910,50 @@ packages:
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  /tsup@8.5.0(tsx@4.19.4)(typescript@5.8.2):
+    resolution: {integrity: sha512-VmBp77lWNQq6PfuMqCHD3xWl22vEoWsKajkF8t+yMBawlUS8JzEI+vOVMeuNZIuMML8qXRizFKi9oD5glKQVcQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+    peerDependencies:
+      '@microsoft/api-extractor': ^7.36.0
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: '>=4.5.0'
+    peerDependenciesMeta:
+      '@microsoft/api-extractor':
+        optional: true
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      bundle-require: 5.1.0(esbuild@0.25.4)
+      cac: 6.7.14
+      chokidar: 4.0.3
+      consola: 3.4.2
+      debug: 4.4.1
+      esbuild: 0.25.4
+      fix-dts-default-cjs-exports: 1.0.1
+      joycon: 3.1.1
+      picocolors: 1.1.1
+      postcss-load-config: 6.0.1(tsx@4.19.4)(yaml@2.8.0)
+      resolve-from: 5.0.0
+      rollup: 4.41.0
+      source-map: 0.8.0-beta.0
+      sucrase: 3.35.0
+      tinyexec: 0.3.2
+      tinyglobby: 0.2.13
+      tree-kill: 1.2.2
+      typescript: 5.8.2
+    transitivePeerDependencies:
+      - jiti
+      - supports-color
+      - tsx
+      - yaml
+    dev: true
+
   /tsup@8.5.0(tsx@4.19.4)(typescript@5.8.3):
     resolution: {integrity: sha512-VmBp77lWNQq6PfuMqCHD3xWl22vEoWsKajkF8t+yMBawlUS8JzEI+vOVMeuNZIuMML8qXRizFKi9oD5glKQVcQ==}
     engines: {node: '>=18'}
@@ -9980,95 +9982,7 @@ packages:
       fix-dts-default-cjs-exports: 1.0.1
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(tsx@4.19.4)
-      resolve-from: 5.0.0
-      rollup: 4.41.0
-      source-map: 0.8.0-beta.0
-      sucrase: 3.35.0
-      tinyexec: 0.3.2
-      tinyglobby: 0.2.13
-      tree-kill: 1.2.2
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - jiti
-      - supports-color
-      - tsx
-      - yaml
-    dev: true
-
-  /tsup@8.5.0(typescript@5.8.2):
-    resolution: {integrity: sha512-VmBp77lWNQq6PfuMqCHD3xWl22vEoWsKajkF8t+yMBawlUS8JzEI+vOVMeuNZIuMML8qXRizFKi9oD5glKQVcQ==}
-    engines: {node: '>=18'}
-    hasBin: true
-    peerDependencies:
-      '@microsoft/api-extractor': ^7.36.0
-      '@swc/core': ^1
-      postcss: ^8.4.12
-      typescript: '>=4.5.0'
-    peerDependenciesMeta:
-      '@microsoft/api-extractor':
-        optional: true
-      '@swc/core':
-        optional: true
-      postcss:
-        optional: true
-      typescript:
-        optional: true
-    dependencies:
-      bundle-require: 5.1.0(esbuild@0.25.4)
-      cac: 6.7.14
-      chokidar: 4.0.3
-      consola: 3.4.2
-      debug: 4.4.1
-      esbuild: 0.25.4
-      fix-dts-default-cjs-exports: 1.0.1
-      joycon: 3.1.1
-      picocolors: 1.1.1
-      postcss-load-config: 6.0.1
-      resolve-from: 5.0.0
-      rollup: 4.41.0
-      source-map: 0.8.0-beta.0
-      sucrase: 3.35.0
-      tinyexec: 0.3.2
-      tinyglobby: 0.2.13
-      tree-kill: 1.2.2
-      typescript: 5.8.2
-    transitivePeerDependencies:
-      - jiti
-      - supports-color
-      - tsx
-      - yaml
-    dev: true
-
-  /tsup@8.5.0(typescript@5.8.3):
-    resolution: {integrity: sha512-VmBp77lWNQq6PfuMqCHD3xWl22vEoWsKajkF8t+yMBawlUS8JzEI+vOVMeuNZIuMML8qXRizFKi9oD5glKQVcQ==}
-    engines: {node: '>=18'}
-    hasBin: true
-    peerDependencies:
-      '@microsoft/api-extractor': ^7.36.0
-      '@swc/core': ^1
-      postcss: ^8.4.12
-      typescript: '>=4.5.0'
-    peerDependenciesMeta:
-      '@microsoft/api-extractor':
-        optional: true
-      '@swc/core':
-        optional: true
-      postcss:
-        optional: true
-      typescript:
-        optional: true
-    dependencies:
-      bundle-require: 5.1.0(esbuild@0.25.4)
-      cac: 6.7.14
-      chokidar: 4.0.3
-      consola: 3.4.2
-      debug: 4.4.1
-      esbuild: 0.25.4
-      fix-dts-default-cjs-exports: 1.0.1
-      joycon: 3.1.1
-      picocolors: 1.1.1
-      postcss-load-config: 6.0.1
+      postcss-load-config: 6.0.1(tsx@4.19.4)(yaml@2.8.0)
       resolve-from: 5.0.0
       rollup: 4.41.0
       source-map: 0.8.0-beta.0
@@ -10083,7 +9997,7 @@ packages:
       - tsx
       - yaml
 
-  /tsup@8.5.0(typescript@5.8.3)(yaml@2.8.0):
+  /tsup@8.5.0(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0):
     resolution: {integrity: sha512-VmBp77lWNQq6PfuMqCHD3xWl22vEoWsKajkF8t+yMBawlUS8JzEI+vOVMeuNZIuMML8qXRizFKi9oD5glKQVcQ==}
     engines: {node: '>=18'}
     hasBin: true
@@ -10111,7 +10025,7 @@ packages:
       fix-dts-default-cjs-exports: 1.0.1
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(yaml@2.8.0)
+      postcss-load-config: 6.0.1(tsx@4.19.4)(yaml@2.8.0)
       resolve-from: 5.0.0
       rollup: 4.41.0
       source-map: 0.8.0-beta.0
@@ -10147,7 +10061,6 @@ packages:
       get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
 
   /turbo-darwin-64@2.5.3:
     resolution: {integrity: sha512-YSItEVBUIvAGPUDpAB9etEmSqZI3T6BHrkBkeSErvICXn3dfqXUfeLx35LfptLDEbrzFUdwYFNmt8QXOwe9yaw==}
@@ -10546,7 +10459,7 @@ packages:
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)
+      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -10635,58 +10548,6 @@ packages:
       - terser
       - tsx
       - yaml
-    dev: true
-
-  /vite@6.3.5(@types/node@20.17.49)(tsx@4.19.4):
-    resolution: {integrity: sha512-cZn6NDFE7wdTpINgs++ZJ4N49W2vRp8LCKrn3Ob1kYNtOo21vfDoaV5GzBfLU4MovSAB8uNRm4jgzVQZ+mBzPQ==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
-      jiti: '>=1.21.0'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      sass-embedded: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-    dependencies:
-      '@types/node': 20.17.49
-      esbuild: 0.25.4
-      fdir: 6.4.4(picomatch@4.0.2)
-      picomatch: 4.0.2
-      postcss: 8.5.3
-      rollup: 4.41.0
-      tinyglobby: 0.2.13
-      tsx: 4.19.4
-    optionalDependencies:
-      fsevents: 2.3.3
     dev: true
 
   /vite@6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0):
@@ -10893,7 +10754,7 @@ packages:
       tinyglobby: 0.2.13
       tinypool: 1.0.2
       tinyrainbow: 2.0.0
-      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)
+      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
       vite-node: 3.1.4(@types/node@20.17.49)(tsx@4.19.4)
       why-is-node-running: 2.3.0
     transitivePeerDependencies:
