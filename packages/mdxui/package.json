@@ -21,7 +21,8 @@
     "check-types": "tsc --noEmit",
     "dev:styles": "tailwindcss -i ./components/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
-    "lint": "eslint components --max-warnings 0"
+    "lint": "eslint components --max-warnings 0",
+    "test": "vitest run"
   },
   "dependencies": {
     "@tremor/react": "4.0.0-beta-tremor-v4.4"
@@ -43,6 +44,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^4.1.5",
     "tw-animate-css": "^1.3.0",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vitest": "^3.1.4"
   }
 }

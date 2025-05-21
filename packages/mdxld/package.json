@@ -2,12 +2,43 @@
   "name": "mdxld",
   "type": "module",
   "version": "0.1.0",
+  "bin": {
+    "mdxld": "./bin/mdxld.js"
+  },
   "dependencies": {
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@mdx-js/esbuild": "^3.0.0",
     "@mdxld/schema": "^0.1.0",
-    "next-mdx-remote-client": "^2.1.2"
+    "commander": "^11.1.0",
+    "esbuild": "^0.20.1",
+    "next-mdx-remote-client": "^2.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "schema-dts": "^1.1.2",
+    "velite": "^0.2.4",
+    "yaml": "^2.3.4"
   },
   "devDependencies": {
-    "velite": "^0.2.4",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.43",
+    "typescript": "^5.3.3",
     "vitest": "^3.1.4"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build"
   }
 }
