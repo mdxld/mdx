@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "node -e \"process.argv.includes('--if-present') || require('child_process').spawnSync('vitest', ['run', '--passWithNoTests'], {stdio: 'inherit'})\"",
+    "test": "vitest run --passWithNoTests",
     "prepublishOnly": "pnpm build"
   }
 }
