@@ -50,15 +50,6 @@ MDXE is a zero-config CLI that allows you to build, execute, test, and deploy co
 Sometimes you need to `sum` two numbers:
 
 ```typescript
-/**
- * Returns the sum of two numbers.
- * @param {number} a - The first number to add
- * @param {number} b - The second number to add
- * @returns {number} The sum of a and b
- * @example
- * sum(2, 3)
- * // returns 5
- */
 export function sum(a: number, b: number): number {
   return a + b
 }
@@ -70,20 +61,6 @@ and make sure it works:
 describe('sum', () => {
   it('returns the sum of two positive numbers', () => {
     expect(sum(2, 3)).toBe(5)
-  })
-
-  it('returns the sum of two negative numbers', () => {
-    expect(sum(-2, -3)).toBe(-5)
-  })
-
-  it('returns the sum when one number is zero', () => {
-    expect(sum(0, 4)).toBe(4)
-    expect(sum(7, 0)).toBe(7)
-  })
-
-  it('handles mixed positive and negative numbers', () => {
-    expect(sum(-2, 3)).toBe(1)
-    expect(sum(5, -8)).toBe(-3)
   })
 })
 ```
