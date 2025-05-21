@@ -1,108 +1,64 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { MdxDbFs } from '../mdxdb-fs.js'
-import { DocumentContent } from '@mdxdb/core'
-import { promises as fs } from 'fs'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import path from 'path'
+import { promises as fs } from 'fs'
+import { createTestFixture, mockVeliteBuild, TestFixture } from './test-utils.js'
+import { MdxDb } from '../mdxdb.js'
+import { DocumentContent } from '@mdxdb/core'
 
-vi.mock('fs', () => ({
-  promises: {
-    readdir: vi.fn(),
-    readFile: vi.fn(),
-    writeFile: vi.fn(),
-    mkdir: vi.fn(),
-    unlink: vi.fn(),
-    access: vi.fn(),
-    stat: vi.fn(),
-    copyFile: vi.fn()
-  }
-}))
-
-vi.mock('child_process', () => ({
-  execFile: vi.fn().mockImplementation((file, args, options, callback) => {
-    if (callback) {
-      callback(null, { stdout: 'mocked stdout', stderr: '' })
-    }
-    return { stdout: 'mocked stdout', stderr: '' }
-  }),
-  spawn: vi.fn(),
-  ChildProcess: class {}
-}))
-
-vi.mock('util', () => {
-  const mockPromisify = vi.fn().mockImplementation((fn) => {
-    return (...args) => {
-      return Promise.resolve({ stdout: 'mocked stdout', stderr: '' })
-    }
-  })
+vi.mock('child_process', () => {
+  const actual = vi.importActual('child_process')
   return {
-    promisify: mockPromisify,
-    default: {
-      promisify: mockPromisify
-    }
+    ...actual,
+    execFile: vi.fn().mockImplementation((file, args, options, callback) => {
+      if (args && args[0] === 'velite' && args[1] === 'build' && callback) {
+        mockVeliteBuild(options.cwd ? { packageDir: options.cwd } : {})
+          .then(() => callback(null, { stdout: 'Mocked Velite build success', stderr: '' }))
+          .catch(err => callback(err))
+      }
+      return { stdout: 'mocked stdout', stderr: '' }
+    })
   }
 })
 
-describe('MdxDbFs', () => {
-  beforeEach(() => {
-    vi.resetAllMocks()
-    
-    vi.mocked(fs.readdir).mockImplementation((path: string, options?: any) => {
-      if (options && options.withFileTypes) {
-        return Promise.resolve([
-          { name: 'posts.json', isDirectory: () => false },
-          { name: 'pages.json', isDirectory: () => false },
-          { name: 'test-dir', isDirectory: () => true }
-        ] as any)
-      }
-      return Promise.resolve(['posts.json', 'pages.json'] as any)
-    })
-    
-    vi.mocked(fs.readFile).mockImplementation((path: any) => {
-      if (path.toString().includes('posts.json')) {
-        return Promise.resolve(JSON.stringify([
-          { slug: 'post-1', title: 'Post 1', body: 'Content 1' },
-          { slug: 'post-2', title: 'Post 2', body: 'Content 2' }
-        ]))
-      }
-      if (path.toString().includes('pages.json')) {
-        return Promise.resolve(JSON.stringify([
-          { slug: 'page-1', title: 'Page 1', body: 'Content 1' },
-          { slug: 'page-2', title: 'Page 2', body: 'Content 2' }
-        ]))
-      }
-      return Promise.resolve('{}')
-    })
-    
-    vi.mocked(fs.mkdir).mockResolvedValue(undefined)
-    
-    vi.mocked(fs.writeFile).mockResolvedValue(undefined)
-    
-    vi.mocked(fs.unlink).mockResolvedValue(undefined)
-    
-    vi.mocked(fs.access).mockResolvedValue(undefined)
-    
-    vi.mocked(fs.stat).mockImplementation((path: string) => {
-      const isDir = path.includes('test-dir') || path.endsWith('.velite')
-      return Promise.resolve({ 
-        isDirectory: () => isDir
-      } as any)
-    })
-    
-    vi.mocked(fs.copyFile).mockResolvedValue(undefined)
+describe('MdxDb', () => {
+  let fixture: TestFixture
+  
+  beforeEach(async () => {
+    fixture = await createTestFixture()
+  })
+  
+  afterEach(async () => {
+    await fixture.cleanup()
   })
 
   it('should initialize with default config', () => {
-    const db = new MdxDbFs()
+    const db = new MdxDb(fixture.testDir)
+    Object.defineProperty(db, 'config', {
+      value: {
+        collections: {
+          posts: {
+            pattern: 'content/posts/**/*.mdx'
+          },
+          pages: {
+            pattern: 'content/pages/**/*.mdx'
+          }
+        }
+      }
+    })
     expect(db).toBeDefined()
   })
 
   it('should build and load data from Velite output', async () => {
-    const db = new MdxDbFs({
-      packageDir: '/test',
-      collections: {
-        posts: {
-          contentDir: 'content/posts',
-          pattern: 'content/posts/**/*.mdx'
+    const db = new MdxDb(fixture.testDir)
+    Object.defineProperty(db, 'config', {
+      value: {
+        collections: {
+          posts: {
+            pattern: 'content/posts/**/*.mdx'
+          },
+          pages: {
+            pattern: 'content/pages/**/*.mdx'
+          }
         }
       }
     })
@@ -110,58 +66,117 @@ describe('MdxDbFs', () => {
     const data = await db.build()
     
     expect(data).toBeDefined()
-    expect(data.posts).toHaveLength(2)
-    expect(data.pages).toHaveLength(2)
+    expect(data.posts).toBeDefined()
+    expect(data.posts.length).toBeGreaterThan(0)
+    expect(data.posts[0].slug).toBe('post-1')
+    expect(data.posts[1].slug).toBe('post-2')
   })
 
   it('should set a document', async () => {
-    const db = new MdxDbFs({
-      packageDir: '/test',
-      collections: {
-        posts: {
-          contentDir: 'content/posts',
-          pattern: 'content/posts/**/*.mdx'
+    const db = new MdxDb(fixture.testDir)
+    Object.defineProperty(db, 'config', {
+      value: {
+        collections: {
+          posts: {
+            pattern: 'content/posts/**/*.mdx'
+          },
+          pages: {
+            pattern: 'content/pages/**/*.mdx'
+          }
         }
       }
     })
     
     const content: DocumentContent = {
-      frontmatter: { title: 'New Post' },
-      body: 'New content'
+      frontmatter: { title: 'New Post', date: '2023-01-03' },
+      body: '# New Post\nThis is a new post.'
     }
     
     await db.set('new-post', content, 'posts')
     
-    expect(fs.mkdir).toHaveBeenCalled()
-    expect(fs.writeFile).toHaveBeenCalled()
+    const filePath = path.join(fixture.contentDir, 'new-post.mdx')
+    const fileExists = await fs.stat(filePath).then(() => true).catch(() => false)
+    expect(fileExists).toBe(true)
+    
+    const fileContent = await fs.readFile(filePath, 'utf-8')
+    expect(fileContent).toContain('title: New Post')
+    expect(fileContent).toContain('# New Post')
   })
 
   it('should delete a document', async () => {
-    const db = new MdxDbFs({
-      packageDir: '/test',
-      collections: {
-        posts: {
-          contentDir: 'content/posts',
-          pattern: 'content/posts/**/*.mdx'
+    const db = new MdxDb(fixture.testDir)
+    Object.defineProperty(db, 'config', {
+      value: {
+        collections: {
+          posts: {
+            pattern: 'content/posts/**/*.mdx'
+          },
+          pages: {
+            pattern: 'content/pages/**/*.mdx'
+          }
         }
       }
     })
     
+    const filePath = path.join(fixture.contentDir, 'post-1.mdx')
+    let fileExists = await fs.stat(filePath).then(() => true).catch(() => false)
+    expect(fileExists).toBe(true)
+    
     const result = await db.delete('post-1', 'posts')
     
     expect(result).toBe(true)
-    expect(fs.unlink).toHaveBeenCalled()
+    fileExists = await fs.stat(filePath).then(() => true).catch(() => false)
+    expect(fileExists).toBe(false)
   })
 
   it('should export database', async () => {
-    const db = new MdxDbFs({
-      packageDir: '/test'
+    const db = new MdxDb(fixture.testDir)
+    Object.defineProperty(db, 'config', {
+      value: {
+        collections: {
+          posts: {
+            pattern: 'content/posts/**/*.mdx'
+          },
+          pages: {
+            pattern: 'content/pages/**/*.mdx'
+          }
+        }
+      }
     })
     
-    await db.exportDb('/export')
+    await db.exportDb(fixture.exportDir)
     
-    expect(fs.access).toHaveBeenCalled()
-    expect(fs.mkdir).toHaveBeenCalled()
-    expect(fs.stat).toHaveBeenCalled()
+    const postsExportPath = path.join(fixture.exportDir, 'posts.json')
+    const postsExportExists = await fs.stat(postsExportPath).then(() => true).catch(() => false)
+    expect(postsExportExists).toBe(true)
+    
+    const exportContent = await fs.readFile(postsExportPath, 'utf-8')
+    expect(exportContent).toBeDefined()
+    const exportData = JSON.parse(exportContent)
+    expect(Array.isArray(exportData)).toBe(true)
+  })
+  
+  it('should handle errors when file operations fail', async () => {
+    const db = new MdxDb(fixture.testDir)
+    Object.defineProperty(db, 'config', {
+      value: {
+        collections: {
+          posts: {
+            pattern: 'content/posts/**/*.mdx'
+          },
+          pages: {
+            pattern: 'content/pages/**/*.mdx'
+          }
+        }
+      }
+    })
+    
+    const deleteResult = await db.delete('non-existent-post', 'posts')
+    expect(deleteResult).toBe(false)
+    
+    await expect(db.set('new-post', {
+      frontmatter: { title: 'New Post' },
+      body: 'Content'
+    }, 'invalid-collection')).rejects.toThrow()
   })
 })
