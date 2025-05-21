@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { cn } from "../../../lib/utils.js";
-import { motion } from "framer-motion";
+import { motion, HTMLMotionProps } from "framer-motion";
 
-export interface TextRevealProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TextRevealProps {
   text: string;
   revealText?: string;
   revealColor?: string;
@@ -16,6 +16,8 @@ export interface TextRevealProps extends React.HTMLAttributes<HTMLDivElement> {
   duration?: number;
   once?: boolean;
   animateOnView?: boolean;
+  id?: string;
+  style?: React.CSSProperties;
 }
 
 export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
@@ -32,7 +34,8 @@ export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
       duration = 0.5,
       once = true,
       animateOnView = true,
-      ...props
+      id,
+      style,
     },
     ref
   ) => {
@@ -73,7 +76,8 @@ export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
         animate={animateOnView ? undefined : "visible"}
         whileInView={animateOnView ? "visible" : undefined}
         viewport={{ once }}
-        {...props}
+        id={id}
+        style={style}
       >
         <div
           className={cn("relative z-10", textClassName)}

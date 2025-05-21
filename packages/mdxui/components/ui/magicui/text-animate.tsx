@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { cn } from "../../../lib/utils.js";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, HTMLMotionProps } from "framer-motion";
 
-export interface TextAnimateProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TextAnimateProps {
   text: string;
   delay?: number;
   duration?: number;
@@ -13,6 +13,8 @@ export interface TextAnimateProps extends React.HTMLAttributes<HTMLDivElement> {
   staggerChildren?: number;
   once?: boolean;
   animateOnView?: boolean;
+  id?: string;
+  style?: React.CSSProperties;
 }
 
 export const TextAnimate = React.forwardRef<HTMLDivElement, TextAnimateProps>(
@@ -26,7 +28,8 @@ export const TextAnimate = React.forwardRef<HTMLDivElement, TextAnimateProps>(
       staggerChildren = 0.1,
       once = true,
       animateOnView = true,
-      ...props
+      id,
+      style,
     },
     ref
   ) => {
@@ -74,7 +77,8 @@ export const TextAnimate = React.forwardRef<HTMLDivElement, TextAnimateProps>(
         animate={animateOnView ? undefined : "visible"}
         whileInView={animateOnView ? "visible" : undefined}
         viewport={{ once }}
-        {...props}
+        id={id}
+        style={style}
       >
         <span className="sr-only">{text}</span>
         <span aria-hidden className={cn("flex flex-wrap", textClassName)}>

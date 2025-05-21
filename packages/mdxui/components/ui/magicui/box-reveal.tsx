@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { cn } from "../../../lib/utils.js";
-import { motion } from "framer-motion";
+import { motion, HTMLMotionProps } from "framer-motion";
 
-export interface BoxRevealProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BoxRevealProps {
   children: React.ReactNode;
   direction?: "left" | "right" | "up" | "down";
   duration?: number;
@@ -13,6 +13,8 @@ export interface BoxRevealProps extends React.HTMLAttributes<HTMLDivElement> {
   revealClassName?: string;
   once?: boolean;
   animateOnView?: boolean;
+  id?: string;
+  style?: React.CSSProperties;
 }
 
 export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
@@ -26,7 +28,8 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
       revealClassName,
       once = true,
       animateOnView = true,
-      ...props
+      id,
+      style,
     },
     ref
   ) => {
@@ -75,7 +78,8 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
         animate={animateOnView ? undefined : "visible"}
         whileInView={animateOnView ? "visible" : undefined}
         viewport={{ once }}
-        {...props}
+        id={id}
+        style={style}
       >
         {children}
         <motion.div
