@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "vitest/globals"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"]
+  },
+  "exclude": ["node_modules", "dist"]
 }
