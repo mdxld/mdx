@@ -32,3 +32,16 @@ export async function generateContentStream(
     throw error; // Re-throwing to be caught by CLI command handlers
   }
 }
+
+export async function generateListStream(
+  prompt: string
+): Promise<StreamTextResult<never, string>> {
+  const systemMessage = "Respond with a numbered markdown ordered list";
+  
+  const messages: CoreMessage[] = [
+    { role: 'system', content: systemMessage },
+    { role: 'user', content: prompt }
+  ];
+
+  return generateContentStream({ messages });
+}
