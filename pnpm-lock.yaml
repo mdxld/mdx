@@ -466,6 +466,9 @@ importers:
       typescript:
         specifier: 5.8.2
         version: 5.8.2
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4
 
 packages:
 
