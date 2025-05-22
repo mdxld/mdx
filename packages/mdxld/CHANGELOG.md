@@ -1,5 +1,11 @@
 # mdxld
 
+## 1.1.3
+
+### Patch Changes
+
+- 228799e: testing changeset releases
+
 ## 1.1.2
 
 ### Patch Changes
