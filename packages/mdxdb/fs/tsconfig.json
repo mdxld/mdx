@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/lib", // Output JS files to dist/lib
     "rootDir": "./lib",     // Only include files from lib directory
