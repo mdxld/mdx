@@ -66,9 +66,13 @@ const TableRow = React.forwardRef<
 ))
 TableRow.displayName = "TableRow"
 
+interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
+  className?: string
+}
+
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
+  TableHeadProps
 >(({ className, ...props }, ref) => (
   <th
     ref={ref}
@@ -81,9 +85,13 @@ const TableHead = React.forwardRef<
 ))
 TableHead.displayName = "TableHead"
 
+interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
+  className?: string
+}
+
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
+  TableCellProps
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
