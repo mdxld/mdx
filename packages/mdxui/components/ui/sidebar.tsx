@@ -71,7 +71,7 @@ function SidebarProvider({
     try {
       mediaQuery.addEventListener("change", handleChange)
       return () => mediaQuery.removeEventListener("change", handleChange)
-    } catch (_) {
+    } catch {
       // Fallback for older browsers
       mediaQuery.addListener(handleChange)
       return () => mediaQuery.removeListener(handleChange)
