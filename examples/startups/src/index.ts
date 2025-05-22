@@ -1,4 +1,4 @@
-import * as ideas from 'ideas-example/ideas'
+import ideas from 'ideas-example/ideas'
 
 console.log('🚀 AI Agent Ideas for Startups:')
 console.log('==============================\n')
