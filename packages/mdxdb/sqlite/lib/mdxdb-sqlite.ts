@@ -1,4 +1,4 @@
-import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent } from '../../mdxdb-core/lib/index.js'
+import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent } from '../../core/lib/index.js'
 import { createClient } from '@libsql/client'
 import { getPayload } from 'payload'
 import { FilesCollection, EmbeddingsCollection } from './collections.js'
