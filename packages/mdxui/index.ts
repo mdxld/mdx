@@ -552,3 +552,6 @@ export {
 import { Skeleton as ShadcnSkeleton } from './components/ui/skeleton.js'
 
 export { ShadcnSkeleton }
+import { Slider as ShadcnSlider } from './components/ui/slider.js'
+
+export { ShadcnSlider }
