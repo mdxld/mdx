@@ -503,9 +503,21 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
       schema-dts:
         specifier: ^1.1.2
         version: 1.1.5
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
       velite:
         specifier: ^0.2.4
         version: 0.2.4(acorn@8.14.1)
