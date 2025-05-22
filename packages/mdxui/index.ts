@@ -621,29 +621,6 @@ export {
   ToastClose,
   ToastAction,
 }
-import {
-  type ToastProps,
-  type ToastActionElement,
-  ToastProvider,
-  ToastViewport,
-  Toast as ShadcnToast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-} from './components/ui/toast.js'
-
-export {
-  type ToastProps,
-  type ToastActionElement,
-  ToastProvider,
-  ToastViewport,
-  ShadcnToast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-}
 import { Toggle as ShadcnToggle, toggleVariants } from './components/ui/toggle.js'
 
 export { ShadcnToggle, toggleVariants }
