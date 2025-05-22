@@ -43,7 +43,15 @@ export async function findMdxFiles(dir: string): Promise<string[]> {
       cwd: dir,
       absolute: true,
     })
-    return files
+    
+    const filteredFiles = files.filter(file => {
+      return !file.includes('/node_modules/') && 
+             !file.includes('/dist/') && 
+             !file.includes('/build/') && 
+             !file.includes('/.git/');
+    })
+    
+    return filteredFiles
   } catch (error) {
     console.error('Error finding MDX files:', error)
     return []

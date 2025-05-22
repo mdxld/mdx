@@ -55,19 +55,24 @@ program
         return
       }
 
-      console.log(`📝 Found ${files.length} MDX file(s)`)
+      const filteredFiles = files.filter(file => !file.includes('/node_modules/'))
+      console.log(`📝 Found ${filteredFiles.length} MDX file(s) (excluding node_modules)`)
 
       const testFiles: string[] = []
       let hasTests = false
 
-      for (const file of files) {
-        const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(file)
+      for (const file of filteredFiles) {
+        try {
+          const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(file)
 
-        if (testBlocks.length > 0) {
-          hasTests = true
-          console.log(`🧪 Found ${testBlocks.length} test block(s) in ${path.basename(file)}`)
-          const testFile = await createTempTestFile(codeBlocks, testBlocks, file)
-          testFiles.push(testFile)
+          if (testBlocks.length > 0) {
+            hasTests = true
+            console.log(`🧪 Found ${testBlocks.length} test block(s) in ${path.basename(file)}`)
+            const testFile = await createTempTestFile(codeBlocks, testBlocks, file)
+            testFiles.push(testFile)
+          }
+        } catch (error) {
+          console.error(`Error processing file ${file}:`, error)
         }
       }
 
