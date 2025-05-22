@@ -1,0 +1,16 @@
+{
+  "name": "ideas-example",
+  "private": true,
+  "type": "module",
+  "main": ".mdx/index.js",
+  "exports": {
+    ".": "./.mdx/index.js",
+    "./ideas": "./.mdx/mdx.js"
+  },
+  "scripts": {
+    "build": "mdxld build --source-dir src --output-dir .mdx"
+  },
+  "dependencies": {
+    "mdxld": "workspace:*"
+  }
+}
