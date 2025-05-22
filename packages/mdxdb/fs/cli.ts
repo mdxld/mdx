@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { MdxDb } from './lib/mdxdb.js' // Use .js extension for ESM imports
 import path from 'path'
 
