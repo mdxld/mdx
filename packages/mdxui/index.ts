@@ -549,3 +549,6 @@ export {
   SidebarRail,
   SidebarInset
 }
+import { Skeleton as ShadcnSkeleton } from './components/ui/skeleton.js'
+
+export { ShadcnSkeleton }
