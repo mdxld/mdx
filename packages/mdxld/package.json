@@ -1,7 +1,7 @@
 {
   "name": "mdxld",
   "type": "module",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "bin": {
     "mdxld": "./bin/mdxld.js"
   },

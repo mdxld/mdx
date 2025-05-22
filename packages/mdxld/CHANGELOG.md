@@ -1,5 +1,11 @@
 # mdxld
 
+## 1.1.5
+
+### Patch Changes
+
+- 43a1f77: working through changeset release process
+
 ## 1.1.4
 
 ### Patch Changes
