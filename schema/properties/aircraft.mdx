@@ -1,12 +1,15 @@
 ---
-$id: schema:aircraft
-$type: rdf:Property
-label: schema:aircraft
-rdfs:comment: "The kind of aircraft (e.g., \"Boeing 747\")."
+$id: https://schema.org/aircraft
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: aircraft
+comment: |
+  The kind of aircraft (e.g., "Boeing 747").
 rdfs:label: "aircraft"
-schema:domainIncludes: {"@id":"schema:Flight"}
-schema:rangeIncludes: [{"@id":"schema:Vehicle"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/Flight"
+schema:rangeIncludes: ["https://schema.org/Vehicle","https://schema.org/Text"]
 ---
 
-# schema:aircraft
+# aircraft
+
+The kind of aircraft (e.g., "Boeing 747").
 

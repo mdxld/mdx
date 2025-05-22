@@ -1,14 +1,17 @@
 ---
-$id: schema:jobStartDate
-$type: rdf:Property
-label: schema:jobStartDate
-rdfs:comment: "The date on which a successful applicant for this job would be expected to start work. Choose a specific date in the future or use the jobImmediateStart property to indicate the position is to be filled as soon as possible."
+$id: https://schema.org/jobStartDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: jobStartDate
+comment: |
+  The date on which a successful applicant for this job would be expected to start work. Choose a specific date in the future or use the jobImmediateStart property to indicate the position is to be filled as soon as possible.
 rdfs:label: "jobStartDate"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2244"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2244"
 ---
 
-# schema:jobStartDate
+# jobStartDate
+
+The date on which a successful applicant for this job would be expected to start work. Choose a specific date in the future or use the jobImmediateStart property to indicate the position is to be filled as soon as possible.
 

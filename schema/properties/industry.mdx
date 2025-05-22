@@ -1,12 +1,15 @@
 ---
-$id: schema:industry
-$type: rdf:Property
-label: schema:industry
-rdfs:comment: "The industry associated with the job position."
+$id: https://schema.org/industry
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: industry
+comment: |
+  The industry associated with the job position.
 rdfs:label: "industry"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:rangeIncludes: [{"@id":"schema:DefinedTerm"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:rangeIncludes: ["https://schema.org/DefinedTerm","https://schema.org/Text"]
 ---
 
-# schema:industry
+# industry
+
+The industry associated with the job position.
 

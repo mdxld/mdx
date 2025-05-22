@@ -1,13 +1,24 @@
 ---
-$id: schema:PublicationIssue
-$type: rdfs:Class
-label: schema:PublicationIssue
-owl:equivalentClass: {"@id":"http://purl.org/ontology/bibo/Issue"}
-rdfs:comment: "A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.\\n\\nSee also [blog post](https://blog-schema.org/2014/09/02/schema-org-support-for-bibliographic-relationships-and-periodicals/)."
+$id: https://schema.org/PublicationIssue
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PublicationIssue
+comment: |
+  A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.\n\nSee also [blog post](https://blog-schema.org/2014/09/02/schema-org-support-for-bibliographic-relationships-and-periodicals/).
+owl:equivalentClass: "http://purl.org/ontology/bibo/Issue"
 rdfs:label: "PublicationIssue"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/bibex"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:contributor: "https://schema.org/docs/collab/bibex"
 ---
 
-# schema:PublicationIssue
+# PublicationIssue
 
+A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.\n\nSee also [blog post](https://blog-schema.org/2014/09/02/schema-org-support-for-bibliographic-relationships-and-periodicals/).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [issueNumber](https://schema.org/issueNumber) | Text |  |
+| [pageEnd](https://schema.org/pageEnd) | Text |  |
+| [pageStart](https://schema.org/pageStart) | Text |  |
+| [pagination](https://schema.org/pagination) | Text |  |

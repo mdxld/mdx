@@ -1,13 +1,16 @@
 ---
-$id: schema:relatedTherapy
-$type: rdf:Property
-label: schema:relatedTherapy
-rdfs:comment: "A medical therapy related to this anatomy."
+$id: https://schema.org/relatedTherapy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relatedTherapy
+comment: |
+  A medical therapy related to this anatomy.
 rdfs:label: "relatedTherapy"
-schema:domainIncludes: [{"@id":"schema:AnatomicalSystem"},{"@id":"schema:AnatomicalStructure"},{"@id":"schema:SuperficialAnatomy"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalTherapy"}
+schema:domainIncludes: ["https://schema.org/AnatomicalSystem","https://schema.org/AnatomicalStructure","https://schema.org/SuperficialAnatomy"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalTherapy"
 ---
 
-# schema:relatedTherapy
+# relatedTherapy
+
+A medical therapy related to this anatomy.
 

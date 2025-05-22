@@ -1,13 +1,24 @@
 ---
-$id: schema:Taxon
-$type: rdfs:Class
-label: schema:Taxon
-rdfs:comment: "A set of organisms asserted to represent a natural cohesive biological unit."
+$id: https://schema.org/Taxon
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Taxon
+comment: |
+  A set of organisms asserted to represent a natural cohesive biological unit.
 rdfs:label: "Taxon"
-rdfs:subClassOf: {"@id":"schema:Thing"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"http://bioschemas.org"}
+rdfs:subClassOf: "https://schema.org/Thing"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "http://bioschemas.org"
 ---
 
-# schema:Taxon
+# Taxon
 
+A set of organisms asserted to represent a natural cohesive biological unit.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [childTaxon](https://schema.org/childTaxon) | Text |  |
+| [hasDefinedTerm](https://schema.org/hasDefinedTerm) | Text |  |
+| [parentTaxon](https://schema.org/parentTaxon) | Text |  |
+| [taxonRank](https://schema.org/taxonRank) | Text |  |

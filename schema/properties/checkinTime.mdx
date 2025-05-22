@@ -1,12 +1,15 @@
 ---
-$id: schema:checkinTime
-$type: rdf:Property
-label: schema:checkinTime
-rdfs:comment: "The earliest someone may check into a lodging establishment."
+$id: https://schema.org/checkinTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: checkinTime
+comment: |
+  The earliest someone may check into a lodging establishment.
 rdfs:label: "checkinTime"
-schema:domainIncludes: [{"@id":"schema:LodgingReservation"},{"@id":"schema:LodgingBusiness"}]
-schema:rangeIncludes: [{"@id":"schema:DateTime"},{"@id":"schema:Time"}]
+schema:domainIncludes: ["https://schema.org/LodgingReservation","https://schema.org/LodgingBusiness"]
+schema:rangeIncludes: ["https://schema.org/DateTime","https://schema.org/Time"]
 ---
 
-# schema:checkinTime
+# checkinTime
+
+The earliest someone may check into a lodging establishment.
 

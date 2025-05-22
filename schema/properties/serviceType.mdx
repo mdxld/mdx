@@ -1,12 +1,15 @@
 ---
-$id: schema:serviceType
-$type: rdf:Property
-label: schema:serviceType
-rdfs:comment: "The type of service being offered, e.g. veterans' benefits, emergency relief, etc."
+$id: https://schema.org/serviceType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: serviceType
+comment: |
+  The type of service being offered, e.g. veterans' benefits, emergency relief, etc.
 rdfs:label: "serviceType"
-schema:domainIncludes: {"@id":"schema:Service"}
-schema:rangeIncludes: [{"@id":"schema:GovernmentBenefitsType"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/Service"
+schema:rangeIncludes: ["https://schema.org/GovernmentBenefitsType","https://schema.org/Text"]
 ---
 
-# schema:serviceType
+# serviceType
+
+The type of service being offered, e.g. veterans' benefits, emergency relief, etc.
 

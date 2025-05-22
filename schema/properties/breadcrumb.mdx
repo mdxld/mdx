@@ -1,12 +1,15 @@
 ---
-$id: schema:breadcrumb
-$type: rdf:Property
-label: schema:breadcrumb
-rdfs:comment: "A set of links that can help a user understand and navigate a website hierarchy."
+$id: https://schema.org/breadcrumb
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: breadcrumb
+comment: |
+  A set of links that can help a user understand and navigate a website hierarchy.
 rdfs:label: "breadcrumb"
-schema:domainIncludes: {"@id":"schema:WebPage"}
-schema:rangeIncludes: [{"@id":"schema:BreadcrumbList"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/WebPage"
+schema:rangeIncludes: ["https://schema.org/BreadcrumbList","https://schema.org/Text"]
 ---
 
-# schema:breadcrumb
+# breadcrumb
+
+A set of links that can help a user understand and navigate a website hierarchy.
 

@@ -1,12 +1,15 @@
 ---
-$id: schema:position
-$type: rdf:Property
-label: schema:position
-rdfs:comment: "The position of an item in a series or sequence of items."
+$id: https://schema.org/position
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: position
+comment: |
+  The position of an item in a series or sequence of items.
 rdfs:label: "position"
-schema:domainIncludes: [{"@id":"schema:ListItem"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+schema:domainIncludes: ["https://schema.org/ListItem","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:position
+# position
+
+The position of an item in a series or sequence of items.
 

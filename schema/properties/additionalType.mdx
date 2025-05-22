@@ -1,13 +1,18 @@
 ---
-$id: schema:additionalType
-$type: rdf:Property
-label: schema:additionalType
-rdfs:comment: "An additional type for the item, typically used for adding more specific types from external vocabularies in microdata syntax. This is a relationship between something and a class that the thing is in. Typically the value is a URI-identified RDF class, and in this case corresponds to the\n    use of rdf:type in RDF. Text values can be used sparingly, for cases where useful information can be added without their being an appropriate schema to reference. In the case of text values, the class label should follow the schema.org <a href=\"https://schema.org/docs/styleguide.html\">style guide</a>."
+$id: https://schema.org/additionalType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: additionalType
+comment: |
+  An additional type for the item, typically used for adding more specific types from external vocabularies in microdata syntax. This is a relationship between something and a class that the thing is in. Typically the value is a URI-identified RDF class, and in this case corresponds to the
+  use of rdf:type in RDF. Text values can be used sparingly, for cases where useful information can be added without their being an appropriate schema to reference. In the case of text values, the class label should follow the schema.org <a href="https://schema.org/docs/styleguide.html">style guide</a>.
 rdfs:label: "additionalType"
-rdfs:subPropertyOf: {"@id":"rdf:type"}
-schema:domainIncludes: {"@id":"schema:Thing"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+rdfs:subPropertyOf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+schema:domainIncludes: "https://schema.org/Thing"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:additionalType
+# additionalType
+
+An additional type for the item, typically used for adding more specific types from external vocabularies in microdata syntax. This is a relationship between something and a class that the thing is in. Typically the value is a URI-identified RDF class, and in this case corresponds to the
+    use of rdf:type in RDF. Text values can be used sparingly, for cases where useful information can be added without their being an appropriate schema to reference. In the case of text values, the class label should follow the schema.org <a href="https://schema.org/docs/styleguide.html">style guide</a>.
 

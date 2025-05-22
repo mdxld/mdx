@@ -1,11 +1,19 @@
 ---
-$id: schema:OrganizationRole
-$type: rdfs:Class
-label: schema:OrganizationRole
-rdfs:comment: "A subclass of Role used to describe roles within organizations."
+$id: https://schema.org/OrganizationRole
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: OrganizationRole
+comment: |
+  A subclass of Role used to describe roles within organizations.
 rdfs:label: "OrganizationRole"
-rdfs:subClassOf: {"@id":"schema:Role"}
+rdfs:subClassOf: "https://schema.org/Role"
 ---
 
-# schema:OrganizationRole
+# OrganizationRole
 
+A subclass of Role used to describe roles within organizations.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [numberedPosition](https://schema.org/numberedPosition) | Text |  |

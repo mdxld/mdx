@@ -1,14 +1,17 @@
 ---
-$id: schema:typicalCreditsPerTerm
-$type: rdf:Property
-label: schema:typicalCreditsPerTerm
-rdfs:comment: "The number of credits or units a full-time student would be expected to take in 1 term however 'term' is defined by the institution."
+$id: https://schema.org/typicalCreditsPerTerm
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: typicalCreditsPerTerm
+comment: |
+  The number of credits or units a full-time student would be expected to take in 1 term however 'term' is defined by the institution.
 rdfs:label: "typicalCreditsPerTerm"
-schema:domainIncludes: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Integer"},{"@id":"schema:StructuredValue"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2419"}
+schema:domainIncludes: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Integer","https://schema.org/StructuredValue"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2419"
 ---
 
-# schema:typicalCreditsPerTerm
+# typicalCreditsPerTerm
+
+The number of credits or units a full-time student would be expected to take in 1 term however 'term' is defined by the institution.
 

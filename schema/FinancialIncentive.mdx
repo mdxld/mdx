@@ -1,13 +1,42 @@
 ---
-$id: schema:FinancialIncentive
-$type: rdfs:Class
-label: schema:FinancialIncentive
-rdfs:comment: "<p>Represents financial incentives for goods/services offered by an organization (or individual).</p>\n\n<p>Typically contains the [[name]] of the incentive, the [[incentivizedItem]], the [[incentiveAmount]], the [[incentiveStatus]], [[incentiveType]], the [[provider]] of the incentive, and [[eligibleWithSupplier]].</p>\n\n<p>Optionally contains criteria on whether the incentive is limited based on [[purchaseType]], [[purchasePriceLimit]], [[incomeLimit]], and the [[qualifiedExpense]].\n    "
+$id: https://schema.org/FinancialIncentive
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: FinancialIncentive
+comment: |
+  <p>Represents financial incentives for goods/services offered by an organization (or individual).</p>
+  
+  <p>Typically contains the [[name]] of the incentive, the [[incentivizedItem]], the [[incentiveAmount]], the [[incentiveStatus]], [[incentiveType]], the [[provider]] of the incentive, and [[eligibleWithSupplier]].</p>
+  
+  <p>Optionally contains criteria on whether the incentive is limited based on [[purchaseType]], [[purchasePriceLimit]], [[incomeLimit]], and the [[qualifiedExpense]].
 rdfs:label: "FinancialIncentive"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3572"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3572"
 ---
 
-# schema:FinancialIncentive
+# FinancialIncentive
 
+<p>Represents financial incentives for goods/services offered by an organization (or individual).</p>
+
+<p>Typically contains the [[name]] of the incentive, the [[incentivizedItem]], the [[incentiveAmount]], the [[incentiveStatus]], [[incentiveType]], the [[provider]] of the incentive, and [[eligibleWithSupplier]].</p>
+
+<p>Optionally contains criteria on whether the incentive is limited based on [[purchaseType]], [[purchasePriceLimit]], [[incomeLimit]], and the [[qualifiedExpense]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [areaServed](https://schema.org/areaServed) | Text |  |
+| [eligibleWithSupplier](https://schema.org/eligibleWithSupplier) | Text |  |
+| [incentiveAmount](https://schema.org/incentiveAmount) | Text |  |
+| [incentiveStatus](https://schema.org/incentiveStatus) | Text |  |
+| [incentiveType](https://schema.org/incentiveType) | Text |  |
+| [incentivizedItem](https://schema.org/incentivizedItem) | Text |  |
+| [incomeLimit](https://schema.org/incomeLimit) | Text |  |
+| [provider](https://schema.org/provider) | Text |  |
+| [publisher](https://schema.org/publisher) | Text |  |
+| [purchasePriceLimit](https://schema.org/purchasePriceLimit) | Text |  |
+| [purchaseType](https://schema.org/purchaseType) | Text |  |
+| [qualifiedExpense](https://schema.org/qualifiedExpense) | Text |  |
+| [validFrom](https://schema.org/validFrom) | Text |  |
+| [validThrough](https://schema.org/validThrough) | Text |  |

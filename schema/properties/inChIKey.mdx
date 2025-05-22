@@ -1,15 +1,18 @@
 ---
-$id: schema:inChIKey
-$type: rdf:Property
-label: schema:inChIKey
-rdfs:comment: "InChIKey is a hashed version of the full InChI (using the SHA-256 algorithm)."
+$id: https://schema.org/inChIKey
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inChIKey
+comment: |
+  InChIKey is a hashed version of the full InChI (using the SHA-256 algorithm).
 rdfs:label: "inChIKey"
-rdfs:subPropertyOf: {"@id":"schema:hasRepresentation"}
-schema:domainIncludes: {"@id":"schema:MolecularEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"http://www.bioschemas.org/MolecularEntity"}
+rdfs:subPropertyOf: "https://schema.org/hasRepresentation"
+schema:domainIncludes: "https://schema.org/MolecularEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "http://www.bioschemas.org/MolecularEntity"
 ---
 
-# schema:inChIKey
+# inChIKey
+
+InChIKey is a hashed version of the full InChI (using the SHA-256 algorithm).
 

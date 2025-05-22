@@ -1,13 +1,16 @@
 ---
-$id: schema:healthCondition
-$type: rdf:Property
-label: schema:healthCondition
-rdfs:comment: "Specifying the health condition(s) of a patient, medical study, or other target audience."
+$id: https://schema.org/healthCondition
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: healthCondition
+comment: |
+  Specifying the health condition(s) of a patient, medical study, or other target audience.
 rdfs:label: "healthCondition"
-schema:domainIncludes: [{"@id":"schema:PeopleAudience"},{"@id":"schema:Patient"},{"@id":"schema:MedicalStudy"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalCondition"}
+schema:domainIncludes: ["https://schema.org/PeopleAudience","https://schema.org/Patient","https://schema.org/MedicalStudy"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalCondition"
 ---
 
-# schema:healthCondition
+# healthCondition
+
+Specifying the health condition(s) of a patient, medical study, or other target audience.
 

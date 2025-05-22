@@ -1,14 +1,17 @@
 ---
-$id: schema:option
-$type: rdf:Property
-label: schema:option
-rdfs:comment: "A sub property of object. The options subject to this action."
+$id: https://schema.org/option
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: option
+comment: |
+  A sub property of object. The options subject to this action.
 rdfs:label: "option"
-rdfs:subPropertyOf: {"@id":"schema:object"}
-schema:domainIncludes: {"@id":"schema:ChooseAction"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Thing"}]
-schema:supersededBy: {"@id":"schema:actionOption"}
+rdfs:subPropertyOf: "https://schema.org/object"
+schema:domainIncludes: "https://schema.org/ChooseAction"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Thing"]
+schema:supersededBy: "https://schema.org/actionOption"
 ---
 
-# schema:option
+# option
+
+A sub property of object. The options subject to this action.
 

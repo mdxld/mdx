@@ -1,14 +1,17 @@
 ---
-$id: schema:certificationIdentification
-$type: rdf:Property
-label: schema:certificationIdentification
-rdfs:comment: "Identifier of a certification instance (as registered with an independent certification body). Typically this identifier can be used to consult and verify the certification instance. See also [gs1:certificationIdentification](https://www.gs1.org/voc/certificationIdentification)."
+$id: https://schema.org/certificationIdentification
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: certificationIdentification
+comment: |
+  Identifier of a certification instance (as registered with an independent certification body). Typically this identifier can be used to consult and verify the certification instance. See also [gs1:certificationIdentification](https://www.gs1.org/voc/certificationIdentification).
 rdfs:label: "certificationIdentification"
-schema:domainIncludes: {"@id":"schema:Certification"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:DefinedTerm"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3230"}
+schema:domainIncludes: "https://schema.org/Certification"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/DefinedTerm"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3230"
 ---
 
-# schema:certificationIdentification
+# certificationIdentification
+
+Identifier of a certification instance (as registered with an independent certification body). Typically this identifier can be used to consult and verify the certification instance. See also [gs1:certificationIdentification](https://www.gs1.org/voc/certificationIdentification).
 

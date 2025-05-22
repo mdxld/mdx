@@ -1,13 +1,24 @@
 ---
-$id: schema:Property
-$type: rdfs:Class
-label: schema:Property
-owl:equivalentClass: {"@id":"rdf:Property"}
-rdfs:comment: "A property, used to indicate attributes and relationships of some Thing; equivalent to rdf:Property."
+$id: https://schema.org/Property
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Property
+comment: |
+  A property, used to indicate attributes and relationships of some Thing; equivalent to rdf:Property.
+owl:equivalentClass: "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
 rdfs:label: "Property"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://meta.schema.org"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://meta.schema.org"
 ---
 
-# schema:Property
+# Property
 
+A property, used to indicate attributes and relationships of some Thing; equivalent to rdf:Property.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [domainIncludes](https://schema.org/domainIncludes) | Text |  |
+| [inverseOf](https://schema.org/inverseOf) | Text |  |
+| [rangeIncludes](https://schema.org/rangeIncludes) | Text |  |
+| [supersededBy](https://schema.org/supersededBy) | Text |  |

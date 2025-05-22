@@ -1,13 +1,16 @@
 ---
-$id: schema:serviceArea
-$type: rdf:Property
-label: schema:serviceArea
-rdfs:comment: "The geographic area where the service is provided."
+$id: https://schema.org/serviceArea
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: serviceArea
+comment: |
+  The geographic area where the service is provided.
 rdfs:label: "serviceArea"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Service"},{"@id":"schema:ContactPoint"}]
-schema:rangeIncludes: [{"@id":"schema:Place"},{"@id":"schema:AdministrativeArea"},{"@id":"schema:GeoShape"}]
-schema:supersededBy: {"@id":"schema:areaServed"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Service","https://schema.org/ContactPoint"]
+schema:rangeIncludes: ["https://schema.org/Place","https://schema.org/AdministrativeArea","https://schema.org/GeoShape"]
+schema:supersededBy: "https://schema.org/areaServed"
 ---
 
-# schema:serviceArea
+# serviceArea
+
+The geographic area where the service is provided.
 

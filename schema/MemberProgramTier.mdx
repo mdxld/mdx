@@ -1,13 +1,24 @@
 ---
-$id: schema:MemberProgramTier
-$type: rdfs:Class
-label: schema:MemberProgramTier
-rdfs:comment: "A MemberProgramTier specifies a tier under a loyalty (member) program, for example \"gold\"."
+$id: https://schema.org/MemberProgramTier
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MemberProgramTier
+comment: |
+  A MemberProgramTier specifies a tier under a loyalty (member) program, for example "gold".
 rdfs:label: "MemberProgramTier"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3563"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3563"
 ---
 
-# schema:MemberProgramTier
+# MemberProgramTier
 
+A MemberProgramTier specifies a tier under a loyalty (member) program, for example "gold".
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hasTierBenefit](https://schema.org/hasTierBenefit) | Text |  |
+| [hasTierRequirement](https://schema.org/hasTierRequirement) | Text |  |
+| [isTierOf](https://schema.org/isTierOf) | Text |  |
+| [membershipPointsEarned](https://schema.org/membershipPointsEarned) | Text |  |

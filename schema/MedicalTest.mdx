@@ -1,12 +1,24 @@
 ---
-$id: schema:MedicalTest
-$type: rdfs:Class
-label: schema:MedicalTest
-rdfs:comment: "Any medical test, typically performed for diagnostic purposes."
+$id: https://schema.org/MedicalTest
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalTest
+comment: |
+  Any medical test, typically performed for diagnostic purposes.
 rdfs:label: "MedicalTest"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalTest
+# MedicalTest
 
+Any medical test, typically performed for diagnostic purposes.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [affectedBy](https://schema.org/affectedBy) | Text |  |
+| [normalRange](https://schema.org/normalRange) | Text |  |
+| [signDetected](https://schema.org/signDetected) | Text |  |
+| [usedToDiagnose](https://schema.org/usedToDiagnose) | Text |  |
+| [usesDevice](https://schema.org/usesDevice) | Text |  |

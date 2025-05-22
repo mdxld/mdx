@@ -1,13 +1,25 @@
 ---
-$id: schema:HealthPlanCostSharingSpecification
-$type: rdfs:Class
-label: schema:HealthPlanCostSharingSpecification
-rdfs:comment: "A description of costs to the patient under a given network or formulary."
+$id: https://schema.org/HealthPlanCostSharingSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: HealthPlanCostSharingSpecification
+comment: |
+  A description of costs to the patient under a given network or formulary.
 rdfs:label: "HealthPlanCostSharingSpecification"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:HealthPlanCostSharingSpecification
+# HealthPlanCostSharingSpecification
 
+A description of costs to the patient under a given network or formulary.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [healthPlanCoinsuranceOption](https://schema.org/healthPlanCoinsuranceOption) | Text |  |
+| [healthPlanCoinsuranceRate](https://schema.org/healthPlanCoinsuranceRate) | Text |  |
+| [healthPlanCopay](https://schema.org/healthPlanCopay) | Text |  |
+| [healthPlanCopayOption](https://schema.org/healthPlanCopayOption) | Text |  |
+| [healthPlanPharmacyCategory](https://schema.org/healthPlanPharmacyCategory) | Text |  |

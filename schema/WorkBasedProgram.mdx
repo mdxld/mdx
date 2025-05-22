@@ -1,13 +1,22 @@
 ---
-$id: schema:WorkBasedProgram
-$type: rdfs:Class
-label: schema:WorkBasedProgram
-rdfs:comment: "A program with both an educational and employment component. Typically based at a workplace and structured around work-based learning, with the aim of instilling competencies related to an occupation. WorkBasedProgram is used to distinguish programs such as apprenticeships from school, college or other classroom based educational programs."
+$id: https://schema.org/WorkBasedProgram
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: WorkBasedProgram
+comment: |
+  A program with both an educational and employment component. Typically based at a workplace and structured around work-based learning, with the aim of instilling competencies related to an occupation. WorkBasedProgram is used to distinguish programs such as apprenticeships from school, college or other classroom based educational programs.
 rdfs:label: "WorkBasedProgram"
-rdfs:subClassOf: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2289"}
+rdfs:subClassOf: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2289"
 ---
 
-# schema:WorkBasedProgram
+# WorkBasedProgram
 
+A program with both an educational and employment component. Typically based at a workplace and structured around work-based learning, with the aim of instilling competencies related to an occupation. WorkBasedProgram is used to distinguish programs such as apprenticeships from school, college or other classroom based educational programs.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [occupationalCategory](https://schema.org/occupationalCategory) | Text |  |
+| [trainingSalary](https://schema.org/trainingSalary) | Text |  |

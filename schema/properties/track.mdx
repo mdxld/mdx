@@ -1,13 +1,16 @@
 ---
-$id: schema:track
-$type: rdf:Property
-label: schema:track
-rdfs:comment: "A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording."
+$id: https://schema.org/track
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: track
+comment: |
+  A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
 rdfs:label: "track"
-schema:contributor: {"@id":"https://schema.org/docs/collab/MBZ"}
-schema:domainIncludes: [{"@id":"schema:MusicPlaylist"},{"@id":"schema:MusicGroup"}]
-schema:rangeIncludes: [{"@id":"schema:MusicRecording"},{"@id":"schema:ItemList"}]
+schema:contributor: "https://schema.org/docs/collab/MBZ"
+schema:domainIncludes: ["https://schema.org/MusicPlaylist","https://schema.org/MusicGroup"]
+schema:rangeIncludes: ["https://schema.org/MusicRecording","https://schema.org/ItemList"]
 ---
 
-# schema:track
+# track
+
+A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
 

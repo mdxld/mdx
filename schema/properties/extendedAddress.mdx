@@ -1,12 +1,15 @@
 ---
-$id: schema:extendedAddress
-$type: rdf:Property
-label: schema:extendedAddress
-rdfs:comment: "An address extension such as an apartment number, C/O or alternative name."
+$id: https://schema.org/extendedAddress
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: extendedAddress
+comment: |
+  An address extension such as an apartment number, C/O or alternative name.
 rdfs:label: "extendedAddress"
-schema:domainIncludes: {"@id":"schema:PostalAddress"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/PostalAddress"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:extendedAddress
+# extendedAddress
+
+An address extension such as an apartment number, C/O or alternative name.
 

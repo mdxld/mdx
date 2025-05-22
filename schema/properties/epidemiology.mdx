@@ -1,13 +1,16 @@
 ---
-$id: schema:epidemiology
-$type: rdf:Property
-label: schema:epidemiology
-rdfs:comment: "The characteristics of associated patients, such as age, gender, race etc."
+$id: https://schema.org/epidemiology
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: epidemiology
+comment: |
+  The characteristics of associated patients, such as age, gender, race etc.
 rdfs:label: "epidemiology"
-schema:domainIncludes: [{"@id":"schema:PhysicalActivity"},{"@id":"schema:MedicalCondition"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/PhysicalActivity","https://schema.org/MedicalCondition"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:epidemiology
+# epidemiology
+
+The characteristics of associated patients, such as age, gender, race etc.
 

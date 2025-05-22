@@ -1,13 +1,16 @@
 ---
-$id: schema:medicineSystem
-$type: rdf:Property
-label: schema:medicineSystem
-rdfs:comment: "The system of medicine that includes this MedicalEntity, for example 'evidence-based', 'homeopathic', 'chiropractic', etc."
+$id: https://schema.org/medicineSystem
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: medicineSystem
+comment: |
+  The system of medicine that includes this MedicalEntity, for example 'evidence-based', 'homeopathic', 'chiropractic', etc.
 rdfs:label: "medicineSystem"
-schema:domainIncludes: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicineSystem"}
+schema:domainIncludes: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicineSystem"
 ---
 
-# schema:medicineSystem
+# medicineSystem
+
+The system of medicine that includes this MedicalEntity, for example 'evidence-based', 'homeopathic', 'chiropractic', etc.
 

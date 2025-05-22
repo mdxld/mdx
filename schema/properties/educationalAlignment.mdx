@@ -1,12 +1,19 @@
 ---
-$id: schema:educationalAlignment
-$type: rdf:Property
-label: schema:educationalAlignment
-rdfs:comment: "An alignment to an established educational framework.\n\nThis property should not be used where the nature of the alignment can be described using a simple property, for example to express that a resource [[teaches]] or [[assesses]] a competency."
+$id: https://schema.org/educationalAlignment
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: educationalAlignment
+comment: |
+  An alignment to an established educational framework.
+  
+  This property should not be used where the nature of the alignment can be described using a simple property, for example to express that a resource [[teaches]] or [[assesses]] a competency.
 rdfs:label: "educationalAlignment"
-schema:domainIncludes: [{"@id":"schema:LearningResource"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: {"@id":"schema:AlignmentObject"}
+schema:domainIncludes: ["https://schema.org/LearningResource","https://schema.org/CreativeWork"]
+schema:rangeIncludes: "https://schema.org/AlignmentObject"
 ---
 
-# schema:educationalAlignment
+# educationalAlignment
+
+An alignment to an established educational framework.
+
+This property should not be used where the nature of the alignment can be described using a simple property, for example to express that a resource [[teaches]] or [[assesses]] a competency.
 

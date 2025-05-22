@@ -1,11 +1,24 @@
 ---
-$id: schema:MusicGroup
-$type: rdfs:Class
-label: schema:MusicGroup
-rdfs:comment: "A musical group, such as a band, an orchestra, or a choir. Can also be a solo musician."
+$id: https://schema.org/MusicGroup
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MusicGroup
+comment: |
+  A musical group, such as a band, an orchestra, or a choir. Can also be a solo musician.
 rdfs:label: "MusicGroup"
-rdfs:subClassOf: {"@id":"schema:PerformingGroup"}
+rdfs:subClassOf: "https://schema.org/PerformingGroup"
 ---
 
-# schema:MusicGroup
+# MusicGroup
 
+A musical group, such as a band, an orchestra, or a choir. Can also be a solo musician.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [album](https://schema.org/album) | Text |  |
+| [albums](https://schema.org/albums) | Text |  |
+| [genre](https://schema.org/genre) | Text |  |
+| [musicGroupMember](https://schema.org/musicGroupMember) | Text |  |
+| [track](https://schema.org/track) | Text |  |
+| [tracks](https://schema.org/tracks) | Text |  |

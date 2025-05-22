@@ -1,14 +1,17 @@
 ---
-$id: schema:variableMeasured
-$type: rdf:Property
-label: schema:variableMeasured
-rdfs:comment: "The variableMeasured property can indicate (repeated as necessary) the  variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue, or more explicitly as a [[StatisticalVariable]]."
+$id: https://schema.org/variableMeasured
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: variableMeasured
+comment: |
+  The variableMeasured property can indicate (repeated as necessary) the  variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue, or more explicitly as a [[StatisticalVariable]].
 rdfs:label: "variableMeasured"
-schema:domainIncludes: [{"@id":"schema:Observation"},{"@id":"schema:Dataset"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Property"},{"@id":"schema:StatisticalVariable"},{"@id":"schema:PropertyValue"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1083"}
+schema:domainIncludes: ["https://schema.org/Observation","https://schema.org/Dataset"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Property","https://schema.org/StatisticalVariable","https://schema.org/PropertyValue","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1083"
 ---
 
-# schema:variableMeasured
+# variableMeasured
+
+The variableMeasured property can indicate (repeated as necessary) the  variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue, or more explicitly as a [[StatisticalVariable]].
 

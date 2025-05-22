@@ -1,12 +1,15 @@
 ---
-$id: schema:hasMenuSection
-$type: rdf:Property
-label: schema:hasMenuSection
-rdfs:comment: "A subgrouping of the menu (by dishes, course, serving time period, etc.)."
+$id: https://schema.org/hasMenuSection
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasMenuSection
+comment: |
+  A subgrouping of the menu (by dishes, course, serving time period, etc.).
 rdfs:label: "hasMenuSection"
-schema:domainIncludes: [{"@id":"schema:Menu"},{"@id":"schema:MenuSection"}]
-schema:rangeIncludes: {"@id":"schema:MenuSection"}
+schema:domainIncludes: ["https://schema.org/Menu","https://schema.org/MenuSection"]
+schema:rangeIncludes: "https://schema.org/MenuSection"
 ---
 
-# schema:hasMenuSection
+# hasMenuSection
+
+A subgrouping of the menu (by dishes, course, serving time period, etc.).
 

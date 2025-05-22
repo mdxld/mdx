@@ -1,12 +1,15 @@
 ---
-$id: schema:itemReviewed
-$type: rdf:Property
-label: schema:itemReviewed
-rdfs:comment: "The item that is being reviewed/rated."
+$id: https://schema.org/itemReviewed
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: itemReviewed
+comment: |
+  The item that is being reviewed/rated.
 rdfs:label: "itemReviewed"
-schema:domainIncludes: [{"@id":"schema:Review"},{"@id":"schema:AggregateRating"}]
-schema:rangeIncludes: {"@id":"schema:Thing"}
+schema:domainIncludes: ["https://schema.org/Review","https://schema.org/AggregateRating"]
+schema:rangeIncludes: "https://schema.org/Thing"
 ---
 
-# schema:itemReviewed
+# itemReviewed
+
+The item that is being reviewed/rated.
 

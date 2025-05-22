@@ -1,12 +1,20 @@
 ---
-$id: schema:Collection
-$type: rdfs:Class
-label: schema:Collection
-rdfs:comment: "A collection of items, e.g. creative works or products."
+$id: https://schema.org/Collection
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Collection
+comment: |
+  A collection of items, e.g. creative works or products.
 rdfs:label: "Collection"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://bib.schema.org"
 ---
 
-# schema:Collection
+# Collection
 
+A collection of items, e.g. creative works or products.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [collectionSize](https://schema.org/collectionSize) | Text |  |

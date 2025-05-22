@@ -1,12 +1,15 @@
 ---
-$id: schema:expectedArrivalUntil
-$type: rdf:Property
-label: schema:expectedArrivalUntil
-rdfs:comment: "The latest date the package may arrive."
+$id: https://schema.org/expectedArrivalUntil
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: expectedArrivalUntil
+comment: |
+  The latest date the package may arrive.
 rdfs:label: "expectedArrivalUntil"
-schema:domainIncludes: {"@id":"schema:ParcelDelivery"}
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/ParcelDelivery"
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:expectedArrivalUntil
+# expectedArrivalUntil
+
+The latest date the package may arrive.
 

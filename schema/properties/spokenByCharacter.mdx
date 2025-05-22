@@ -1,14 +1,17 @@
 ---
-$id: schema:spokenByCharacter
-$type: rdf:Property
-label: schema:spokenByCharacter
-rdfs:comment: "The (e.g. fictional) character, Person or Organization to whom the quotation is attributed within the containing CreativeWork."
+$id: https://schema.org/spokenByCharacter
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: spokenByCharacter
+comment: |
+  The (e.g. fictional) character, Person or Organization to whom the quotation is attributed within the containing CreativeWork.
 rdfs:label: "spokenByCharacter"
-schema:domainIncludes: {"@id":"schema:Quotation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/271"}
+schema:domainIncludes: "https://schema.org/Quotation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/271"
 ---
 
-# schema:spokenByCharacter
+# spokenByCharacter
+
+The (e.g. fictional) character, Person or Organization to whom the quotation is attributed within the containing CreativeWork.
 

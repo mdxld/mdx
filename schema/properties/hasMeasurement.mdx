@@ -1,14 +1,17 @@
 ---
-$id: schema:hasMeasurement
-$type: rdf:Property
-label: schema:hasMeasurement
-rdfs:comment: "A measurement of an item, For example, the inseam of pants, the wheel size of a bicycle, the gauge of a screw, or the carbon footprint measured for certification by an authority. Usually an exact measurement, but can also be a range of measurements for adjustable products, for example belts and ski bindings."
+$id: https://schema.org/hasMeasurement
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasMeasurement
+comment: |
+  A measurement of an item, For example, the inseam of pants, the wheel size of a bicycle, the gauge of a screw, or the carbon footprint measured for certification by an authority. Usually an exact measurement, but can also be a range of measurements for adjustable products, for example belts and ski bindings.
 rdfs:label: "hasMeasurement"
-schema:domainIncludes: [{"@id":"schema:Certification"},{"@id":"schema:Offer"},{"@id":"schema:SizeSpecification"},{"@id":"schema:Product"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:QuantitativeValue"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2811"}
+schema:domainIncludes: ["https://schema.org/Certification","https://schema.org/Offer","https://schema.org/SizeSpecification","https://schema.org/Product"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/QuantitativeValue"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2811"
 ---
 
-# schema:hasMeasurement
+# hasMeasurement
+
+A measurement of an item, For example, the inseam of pants, the wheel size of a bicycle, the gauge of a screw, or the carbon footprint measured for certification by an authority. Usually an exact measurement, but can also be a range of measurements for adjustable products, for example belts and ski bindings.
 

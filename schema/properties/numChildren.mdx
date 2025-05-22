@@ -1,12 +1,15 @@
 ---
-$id: schema:numChildren
-$type: rdf:Property
-label: schema:numChildren
-rdfs:comment: "The number of children staying in the unit."
+$id: https://schema.org/numChildren
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numChildren
+comment: |
+  The number of children staying in the unit.
 rdfs:label: "numChildren"
-schema:domainIncludes: {"@id":"schema:LodgingReservation"}
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Integer"}]
+schema:domainIncludes: "https://schema.org/LodgingReservation"
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Integer"]
 ---
 
-# schema:numChildren
+# numChildren
+
+The number of children staying in the unit.
 

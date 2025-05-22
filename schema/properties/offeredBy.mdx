@@ -1,13 +1,16 @@
 ---
-$id: schema:offeredBy
-$type: rdf:Property
-label: schema:offeredBy
-rdfs:comment: "A pointer to the organization or person making the offer."
+$id: https://schema.org/offeredBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: offeredBy
+comment: |
+  A pointer to the organization or person making the offer.
 rdfs:label: "offeredBy"
-schema:domainIncludes: {"@id":"schema:Offer"}
-schema:inverseOf: {"@id":"schema:makesOffer"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/Offer"
+schema:inverseOf: "https://schema.org/makesOffer"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:offeredBy
+# offeredBy
+
+A pointer to the organization or person making the offer.
 

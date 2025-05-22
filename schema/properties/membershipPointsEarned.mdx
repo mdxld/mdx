@@ -1,14 +1,17 @@
 ---
-$id: schema:membershipPointsEarned
-$type: rdf:Property
-label: schema:membershipPointsEarned
-rdfs:comment: "The number of membership points earned by the member. If necessary, the unitText can be used to express the units the points are issued in. (E.g. stars, miles, etc.)"
+$id: https://schema.org/membershipPointsEarned
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: membershipPointsEarned
+comment: |
+  The number of membership points earned by the member. If necessary, the unitText can be used to express the units the points are issued in. (E.g. stars, miles, etc.)
 rdfs:label: "membershipPointsEarned"
-schema:domainIncludes: [{"@id":"schema:PriceSpecification"},{"@id":"schema:ProgramMembership"},{"@id":"schema:MemberProgramTier"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:QuantitativeValue"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2085"}
+schema:domainIncludes: ["https://schema.org/PriceSpecification","https://schema.org/ProgramMembership","https://schema.org/MemberProgramTier"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/QuantitativeValue"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2085"
 ---
 
-# schema:membershipPointsEarned
+# membershipPointsEarned
+
+The number of membership points earned by the member. If necessary, the unitText can be used to express the units the points are issued in. (E.g. stars, miles, etc.)
 

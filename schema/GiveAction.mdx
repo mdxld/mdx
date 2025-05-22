@@ -1,11 +1,19 @@
 ---
-$id: schema:GiveAction
-$type: rdfs:Class
-label: schema:GiveAction
-rdfs:comment: "The act of transferring ownership of an object to a destination. Reciprocal of TakeAction.\\n\\nRelated actions:\\n\\n* [[TakeAction]]: Reciprocal of GiveAction.\\n* [[SendAction]]: Unlike SendAction, GiveAction implies that ownership is being transferred (e.g. I may send my laptop to you, but that doesn't mean I'm giving it to you)."
+$id: https://schema.org/GiveAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: GiveAction
+comment: |
+  The act of transferring ownership of an object to a destination. Reciprocal of TakeAction.\n\nRelated actions:\n\n* [[TakeAction]]: Reciprocal of GiveAction.\n* [[SendAction]]: Unlike SendAction, GiveAction implies that ownership is being transferred (e.g. I may send my laptop to you, but that doesn't mean I'm giving it to you).
 rdfs:label: "GiveAction"
-rdfs:subClassOf: {"@id":"schema:TransferAction"}
+rdfs:subClassOf: "https://schema.org/TransferAction"
 ---
 
-# schema:GiveAction
+# GiveAction
 
+The act of transferring ownership of an object to a destination. Reciprocal of TakeAction.\n\nRelated actions:\n\n* [[TakeAction]]: Reciprocal of GiveAction.\n* [[SendAction]]: Unlike SendAction, GiveAction implies that ownership is being transferred (e.g. I may send my laptop to you, but that doesn't mean I'm giving it to you).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [recipient](https://schema.org/recipient) | Text |  |

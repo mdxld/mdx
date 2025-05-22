@@ -1,11 +1,25 @@
 ---
-$id: schema:Permit
-$type: rdfs:Class
-label: schema:Permit
-rdfs:comment: "A permit issued by an organization, e.g. a parking pass."
+$id: https://schema.org/Permit
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Permit
+comment: |
+  A permit issued by an organization, e.g. a parking pass.
 rdfs:label: "Permit"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Permit
+# Permit
 
+A permit issued by an organization, e.g. a parking pass.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [issuedBy](https://schema.org/issuedBy) | Text |  |
+| [issuedThrough](https://schema.org/issuedThrough) | Text |  |
+| [permitAudience](https://schema.org/permitAudience) | Text |  |
+| [validFor](https://schema.org/validFor) | Text |  |
+| [validFrom](https://schema.org/validFrom) | Text |  |
+| [validIn](https://schema.org/validIn) | Text |  |
+| [validUntil](https://schema.org/validUntil) | Text |  |

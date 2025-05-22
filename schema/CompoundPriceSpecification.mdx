@@ -1,12 +1,21 @@
 ---
-$id: schema:CompoundPriceSpecification
-$type: rdfs:Class
-label: schema:CompoundPriceSpecification
-rdfs:comment: "A compound price specification is one that bundles multiple prices that all apply in combination for different dimensions of consumption. Use the name property of the attached unit price specification for indicating the dimension of a price component (e.g. \"electricity\" or \"final cleaning\")."
+$id: https://schema.org/CompoundPriceSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: CompoundPriceSpecification
+comment: |
+  A compound price specification is one that bundles multiple prices that all apply in combination for different dimensions of consumption. Use the name property of the attached unit price specification for indicating the dimension of a price component (e.g. "electricity" or "final cleaning").
 rdfs:label: "CompoundPriceSpecification"
-rdfs:subClassOf: {"@id":"schema:PriceSpecification"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/PriceSpecification"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:CompoundPriceSpecification
+# CompoundPriceSpecification
 
+A compound price specification is one that bundles multiple prices that all apply in combination for different dimensions of consumption. Use the name property of the attached unit price specification for indicating the dimension of a price component (e.g. "electricity" or "final cleaning").
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [priceComponent](https://schema.org/priceComponent) | Text |  |
+| [priceType](https://schema.org/priceType) | Text |  |

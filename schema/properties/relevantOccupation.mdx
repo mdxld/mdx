@@ -1,13 +1,16 @@
 ---
-$id: schema:relevantOccupation
-$type: rdf:Property
-label: schema:relevantOccupation
-rdfs:comment: "The Occupation for the JobPosting."
+$id: https://schema.org/relevantOccupation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relevantOccupation
+comment: |
+  The Occupation for the JobPosting.
 rdfs:label: "relevantOccupation"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:rangeIncludes: {"@id":"schema:Occupation"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1698"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:rangeIncludes: "https://schema.org/Occupation"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1698"
 ---
 
-# schema:relevantOccupation
+# relevantOccupation
+
+The Occupation for the JobPosting.
 

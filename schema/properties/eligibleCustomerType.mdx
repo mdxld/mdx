@@ -1,13 +1,16 @@
 ---
-$id: schema:eligibleCustomerType
-$type: rdf:Property
-label: schema:eligibleCustomerType
-rdfs:comment: "The type(s) of customers for which the given offer is valid."
+$id: https://schema.org/eligibleCustomerType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: eligibleCustomerType
+comment: |
+  The type(s) of customers for which the given offer is valid.
 rdfs:label: "eligibleCustomerType"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:Demand"}]
-schema:rangeIncludes: {"@id":"schema:BusinessEntityType"}
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Offer","https://schema.org/Demand"]
+schema:rangeIncludes: "https://schema.org/BusinessEntityType"
 ---
 
-# schema:eligibleCustomerType
+# eligibleCustomerType
+
+The type(s) of customers for which the given offer is valid.
 

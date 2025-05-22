@@ -1,13 +1,16 @@
 ---
-$id: schema:itemOffered
-$type: rdf:Property
-label: schema:itemOffered
-rdfs:comment: "An item being offered (or demanded). The transactional nature of the offer or demand is documented using [[businessFunction]], e.g. sell, lease etc. While several common expected types are listed explicitly in this definition, others can be used. Using a second type, such as Product or a subtype of Product, can clarify the nature of the offer."
+$id: https://schema.org/itemOffered
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: itemOffered
+comment: |
+  An item being offered (or demanded). The transactional nature of the offer or demand is documented using [[businessFunction]], e.g. sell, lease etc. While several common expected types are listed explicitly in this definition, others can be used. Using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.
 rdfs:label: "itemOffered"
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"}]
-schema:inverseOf: {"@id":"schema:offers"}
-schema:rangeIncludes: [{"@id":"schema:Service"},{"@id":"schema:AggregateOffer"},{"@id":"schema:CreativeWork"},{"@id":"schema:Event"},{"@id":"schema:MenuItem"},{"@id":"schema:Product"},{"@id":"schema:Trip"}]
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer"]
+schema:inverseOf: "https://schema.org/offers"
+schema:rangeIncludes: ["https://schema.org/Service","https://schema.org/AggregateOffer","https://schema.org/CreativeWork","https://schema.org/Event","https://schema.org/MenuItem","https://schema.org/Product","https://schema.org/Trip"]
 ---
 
-# schema:itemOffered
+# itemOffered
+
+An item being offered (or demanded). The transactional nature of the offer or demand is documented using [[businessFunction]], e.g. sell, lease etc. While several common expected types are listed explicitly in this definition, others can be used. Using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.
 

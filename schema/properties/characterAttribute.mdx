@@ -1,12 +1,15 @@
 ---
-$id: schema:characterAttribute
-$type: rdf:Property
-label: schema:characterAttribute
-rdfs:comment: "A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage)."
+$id: https://schema.org/characterAttribute
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: characterAttribute
+comment: |
+  A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage).
 rdfs:label: "characterAttribute"
-schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:Game"}]
-schema:rangeIncludes: {"@id":"schema:Thing"}
+schema:domainIncludes: ["https://schema.org/VideoGameSeries","https://schema.org/Game"]
+schema:rangeIncludes: "https://schema.org/Thing"
 ---
 
-# schema:characterAttribute
+# characterAttribute
+
+A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage).
 

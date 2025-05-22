@@ -1,15 +1,18 @@
 ---
-$id: schema:tocEntry
-$type: rdf:Property
-label: schema:tocEntry
-rdfs:comment: "Indicates a [[HyperTocEntry]] in a [[HyperToc]]."
+$id: https://schema.org/tocEntry
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tocEntry
+comment: |
+  Indicates a [[HyperTocEntry]] in a [[HyperToc]].
 rdfs:label: "tocEntry"
-rdfs:subPropertyOf: {"@id":"schema:hasPart"}
-schema:domainIncludes: {"@id":"schema:HyperToc"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:HyperTocEntry"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2766"}
+rdfs:subPropertyOf: "https://schema.org/hasPart"
+schema:domainIncludes: "https://schema.org/HyperToc"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/HyperTocEntry"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2766"
 ---
 
-# schema:tocEntry
+# tocEntry
+
+Indicates a [[HyperTocEntry]] in a [[HyperToc]].
 

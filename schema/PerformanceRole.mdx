@@ -1,11 +1,19 @@
 ---
-$id: schema:PerformanceRole
-$type: rdfs:Class
-label: schema:PerformanceRole
-rdfs:comment: "A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc."
+$id: https://schema.org/PerformanceRole
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PerformanceRole
+comment: |
+  A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc.
 rdfs:label: "PerformanceRole"
-rdfs:subClassOf: {"@id":"schema:Role"}
+rdfs:subClassOf: "https://schema.org/Role"
 ---
 
-# schema:PerformanceRole
+# PerformanceRole
 
+A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [characterName](https://schema.org/characterName) | Text |  |

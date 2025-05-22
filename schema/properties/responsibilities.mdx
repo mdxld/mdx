@@ -1,13 +1,16 @@
 ---
-$id: schema:responsibilities
-$type: rdf:Property
-label: schema:responsibilities
-rdfs:comment: "Responsibilities associated with this role or Occupation."
+$id: https://schema.org/responsibilities
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: responsibilities
+comment: |
+  Responsibilities associated with this role or Occupation.
 rdfs:label: "responsibilities"
-schema:domainIncludes: [{"@id":"schema:Occupation"},{"@id":"schema:JobPosting"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1698"}
+schema:domainIncludes: ["https://schema.org/Occupation","https://schema.org/JobPosting"]
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1698"
 ---
 
-# schema:responsibilities
+# responsibilities
+
+Responsibilities associated with this role or Occupation.
 

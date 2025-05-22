@@ -1,14 +1,17 @@
 ---
-$id: schema:numberOfBedrooms
-$type: rdf:Property
-label: schema:numberOfBedrooms
-rdfs:comment: "The total integer number of bedrooms in a some [[Accommodation]], [[ApartmentComplex]] or [[FloorPlan]]."
+$id: https://schema.org/numberOfBedrooms
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfBedrooms
+comment: |
+  The total integer number of bedrooms in a some [[Accommodation]], [[ApartmentComplex]] or [[FloorPlan]].
 rdfs:label: "numberOfBedrooms"
-schema:domainIncludes: [{"@id":"schema:FloorPlan"},{"@id":"schema:ApartmentComplex"},{"@id":"schema:Accommodation"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:QuantitativeValue"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: ["https://schema.org/FloorPlan","https://schema.org/ApartmentComplex","https://schema.org/Accommodation"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/QuantitativeValue"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:numberOfBedrooms
+# numberOfBedrooms
+
+The total integer number of bedrooms in a some [[Accommodation]], [[ApartmentComplex]] or [[FloorPlan]].
 

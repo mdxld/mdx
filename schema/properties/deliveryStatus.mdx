@@ -1,12 +1,15 @@
 ---
-$id: schema:deliveryStatus
-$type: rdf:Property
-label: schema:deliveryStatus
-rdfs:comment: "New entry added as the package passes through each leg of its journey (from shipment to final delivery)."
+$id: https://schema.org/deliveryStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: deliveryStatus
+comment: |
+  New entry added as the package passes through each leg of its journey (from shipment to final delivery).
 rdfs:label: "deliveryStatus"
-schema:domainIncludes: {"@id":"schema:ParcelDelivery"}
-schema:rangeIncludes: {"@id":"schema:DeliveryEvent"}
+schema:domainIncludes: "https://schema.org/ParcelDelivery"
+schema:rangeIncludes: "https://schema.org/DeliveryEvent"
 ---
 
-# schema:deliveryStatus
+# deliveryStatus
+
+New entry added as the package passes through each leg of its journey (from shipment to final delivery).
 

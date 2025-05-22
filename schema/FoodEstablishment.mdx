@@ -1,11 +1,23 @@
 ---
-$id: schema:FoodEstablishment
-$type: rdfs:Class
-label: schema:FoodEstablishment
-rdfs:comment: "A food-related business."
+$id: https://schema.org/FoodEstablishment
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: FoodEstablishment
+comment: |
+  A food-related business.
 rdfs:label: "FoodEstablishment"
-rdfs:subClassOf: {"@id":"schema:LocalBusiness"}
+rdfs:subClassOf: "https://schema.org/LocalBusiness"
 ---
 
-# schema:FoodEstablishment
+# FoodEstablishment
 
+A food-related business.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [acceptsReservations](https://schema.org/acceptsReservations) | Text |  |
+| [hasMenu](https://schema.org/hasMenu) | Text |  |
+| [menu](https://schema.org/menu) | Text |  |
+| [servesCuisine](https://schema.org/servesCuisine) | Text |  |
+| [starRating](https://schema.org/starRating) | Text |  |

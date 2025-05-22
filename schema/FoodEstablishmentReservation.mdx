@@ -1,11 +1,21 @@
 ---
-$id: schema:FoodEstablishmentReservation
-$type: rdfs:Class
-label: schema:FoodEstablishmentReservation
-rdfs:comment: "A reservation to dine at a food-related business.\\n\\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations."
+$id: https://schema.org/FoodEstablishmentReservation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: FoodEstablishmentReservation
+comment: |
+  A reservation to dine at a food-related business.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
 rdfs:label: "FoodEstablishmentReservation"
-rdfs:subClassOf: {"@id":"schema:Reservation"}
+rdfs:subClassOf: "https://schema.org/Reservation"
 ---
 
-# schema:FoodEstablishmentReservation
+# FoodEstablishmentReservation
 
+A reservation to dine at a food-related business.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [endTime](https://schema.org/endTime) | Text |  |
+| [partySize](https://schema.org/partySize) | Text |  |
+| [startTime](https://schema.org/startTime) | Text |  |

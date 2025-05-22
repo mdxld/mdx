@@ -1,13 +1,16 @@
 ---
-$id: schema:datasetTimeInterval
-$type: rdf:Property
-label: schema:datasetTimeInterval
-rdfs:comment: "The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format)."
+$id: https://schema.org/datasetTimeInterval
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: datasetTimeInterval
+comment: |
+  The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).
 rdfs:label: "datasetTimeInterval"
-schema:domainIncludes: {"@id":"schema:Dataset"}
-schema:rangeIncludes: {"@id":"schema:DateTime"}
-schema:supersededBy: {"@id":"schema:temporalCoverage"}
+schema:domainIncludes: "https://schema.org/Dataset"
+schema:rangeIncludes: "https://schema.org/DateTime"
+schema:supersededBy: "https://schema.org/temporalCoverage"
 ---
 
-# schema:datasetTimeInterval
+# datasetTimeInterval
+
+The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).
 

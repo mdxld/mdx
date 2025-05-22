@@ -1,15 +1,18 @@
 ---
-$id: schema:associatedMediaReview
-$type: rdf:Property
-label: schema:associatedMediaReview
-rdfs:comment: "An associated [[MediaReview]], related by specific common content, topic or claim. The expectation is that this property would be most typically used in cases where a single activity is conducting both claim reviews and media reviews, in which case [[relatedMediaReview]] would commonly be used on a [[ClaimReview]], while [[relatedClaimReview]] would be used on [[MediaReview]]."
+$id: https://schema.org/associatedMediaReview
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: associatedMediaReview
+comment: |
+  An associated [[MediaReview]], related by specific common content, topic or claim. The expectation is that this property would be most typically used in cases where a single activity is conducting both claim reviews and media reviews, in which case [[relatedMediaReview]] would commonly be used on a [[ClaimReview]], while [[relatedClaimReview]] would be used on [[MediaReview]].
 rdfs:label: "associatedMediaReview"
-rdfs:subPropertyOf: {"@id":"schema:associatedReview"}
-schema:domainIncludes: {"@id":"schema:Review"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Review"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+rdfs:subPropertyOf: "https://schema.org/associatedReview"
+schema:domainIncludes: "https://schema.org/Review"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Review"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:associatedMediaReview
+# associatedMediaReview
+
+An associated [[MediaReview]], related by specific common content, topic or claim. The expectation is that this property would be most typically used in cases where a single activity is conducting both claim reviews and media reviews, in which case [[relatedMediaReview]] would commonly be used on a [[ClaimReview]], while [[relatedClaimReview]] would be used on [[MediaReview]].
 

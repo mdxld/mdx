@@ -1,13 +1,16 @@
 ---
-$id: schema:performers
-$type: rdf:Property
-label: schema:performers
-rdfs:comment: "The main performer or performers of the event&#x2014;for example, a presenter, musician, or actor."
+$id: https://schema.org/performers
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: performers
+comment: |
+  The main performer or performers of the event&#x2014;for example, a presenter, musician, or actor.
 rdfs:label: "performers"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:supersededBy: {"@id":"schema:performer"}
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:supersededBy: "https://schema.org/performer"
 ---
 
-# schema:performers
+# performers
+
+The main performer or performers of the event&#x2014;for example, a presenter, musician, or actor.
 

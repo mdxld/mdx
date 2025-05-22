@@ -1,15 +1,18 @@
 ---
-$id: schema:hasVariant
-$type: rdf:Property
-label: schema:hasVariant
-rdfs:comment: "Indicates a [[Product]] that is a member of this [[ProductGroup]] (or [[ProductModel]])."
+$id: https://schema.org/hasVariant
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasVariant
+comment: |
+  Indicates a [[Product]] that is a member of this [[ProductGroup]] (or [[ProductModel]]).
 rdfs:label: "hasVariant"
-schema:domainIncludes: {"@id":"schema:ProductGroup"}
-schema:inverseOf: {"@id":"schema:isVariantOf"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Product"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1797"}
+schema:domainIncludes: "https://schema.org/ProductGroup"
+schema:inverseOf: "https://schema.org/isVariantOf"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Product"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1797"
 ---
 
-# schema:hasVariant
+# hasVariant
+
+Indicates a [[Product]] that is a member of this [[ProductGroup]] (or [[ProductModel]]).
 

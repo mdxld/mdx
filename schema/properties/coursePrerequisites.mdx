@@ -1,12 +1,15 @@
 ---
-$id: schema:coursePrerequisites
-$type: rdf:Property
-label: schema:coursePrerequisites
-rdfs:comment: "Requirements for taking the Course. May be completion of another [[Course]] or a textual description like \"permission of instructor\". Requirements may be a pre-requisite competency, referenced using [[AlignmentObject]]."
+$id: https://schema.org/coursePrerequisites
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: coursePrerequisites
+comment: |
+  Requirements for taking the Course. May be completion of another [[Course]] or a textual description like "permission of instructor". Requirements may be a pre-requisite competency, referenced using [[AlignmentObject]].
 rdfs:label: "coursePrerequisites"
-schema:domainIncludes: {"@id":"schema:Course"}
-schema:rangeIncludes: [{"@id":"schema:AlignmentObject"},{"@id":"schema:Course"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/Course"
+schema:rangeIncludes: ["https://schema.org/AlignmentObject","https://schema.org/Course","https://schema.org/Text"]
 ---
 
-# schema:coursePrerequisites
+# coursePrerequisites
+
+Requirements for taking the Course. May be completion of another [[Course]] or a textual description like "permission of instructor". Requirements may be a pre-requisite competency, referenced using [[AlignmentObject]].
 

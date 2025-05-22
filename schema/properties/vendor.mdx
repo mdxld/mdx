@@ -1,14 +1,17 @@
 ---
-$id: schema:vendor
-$type: rdf:Property
-label: schema:vendor
-rdfs:comment: "'vendor' is an earlier term for 'seller'."
+$id: https://schema.org/vendor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: vendor
+comment: |
+  'vendor' is an earlier term for 'seller'.
 rdfs:label: "vendor"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:BuyAction"}
-schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:Organization"}]
-schema:supersededBy: {"@id":"schema:seller"}
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/BuyAction"
+schema:rangeIncludes: ["https://schema.org/Person","https://schema.org/Organization"]
+schema:supersededBy: "https://schema.org/seller"
 ---
 
-# schema:vendor
+# vendor
+
+'vendor' is an earlier term for 'seller'.
 

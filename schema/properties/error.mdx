@@ -1,12 +1,15 @@
 ---
-$id: schema:error
-$type: rdf:Property
-label: schema:error
-rdfs:comment: "For failed actions, more information on the cause of the failure."
+$id: https://schema.org/error
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: error
+comment: |
+  For failed actions, more information on the cause of the failure.
 rdfs:label: "error"
-schema:domainIncludes: {"@id":"schema:Action"}
-schema:rangeIncludes: {"@id":"schema:Thing"}
+schema:domainIncludes: "https://schema.org/Action"
+schema:rangeIncludes: "https://schema.org/Thing"
 ---
 
-# schema:error
+# error
+
+For failed actions, more information on the cause of the failure.
 

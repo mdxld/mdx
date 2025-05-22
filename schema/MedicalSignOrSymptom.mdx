@@ -1,12 +1,20 @@
 ---
-$id: schema:MedicalSignOrSymptom
-$type: rdfs:Class
-label: schema:MedicalSignOrSymptom
-rdfs:comment: "Any feature associated or not with a medical condition. In medicine a symptom is generally subjective while a sign is objective."
+$id: https://schema.org/MedicalSignOrSymptom
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalSignOrSymptom
+comment: |
+  Any feature associated or not with a medical condition. In medicine a symptom is generally subjective while a sign is objective.
 rdfs:label: "MedicalSignOrSymptom"
-rdfs:subClassOf: {"@id":"schema:MedicalCondition"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalCondition"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalSignOrSymptom
+# MedicalSignOrSymptom
 
+Any feature associated or not with a medical condition. In medicine a symptom is generally subjective while a sign is objective.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [possibleTreatment](https://schema.org/possibleTreatment) | Text |  |

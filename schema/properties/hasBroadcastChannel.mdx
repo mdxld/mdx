@@ -1,14 +1,17 @@
 ---
-$id: schema:hasBroadcastChannel
-$type: rdf:Property
-label: schema:hasBroadcastChannel
-rdfs:comment: "A broadcast channel of a broadcast service."
+$id: https://schema.org/hasBroadcastChannel
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasBroadcastChannel
+comment: |
+  A broadcast channel of a broadcast service.
 rdfs:label: "hasBroadcastChannel"
-schema:domainIncludes: {"@id":"schema:BroadcastService"}
-schema:inverseOf: {"@id":"schema:providesBroadcastService"}
-schema:rangeIncludes: {"@id":"schema:BroadcastChannel"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1004"}
+schema:domainIncludes: "https://schema.org/BroadcastService"
+schema:inverseOf: "https://schema.org/providesBroadcastService"
+schema:rangeIncludes: "https://schema.org/BroadcastChannel"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1004"
 ---
 
-# schema:hasBroadcastChannel
+# hasBroadcastChannel
+
+A broadcast channel of a broadcast service.
 

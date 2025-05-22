@@ -1,12 +1,28 @@
 ---
-$id: schema:ComicStory
-$type: rdfs:Class
-label: schema:ComicStory
-rdfs:comment: "The term \"story\" is any indivisible, re-printable\n    \tunit of a comic, including the interior stories, covers, and backmatter. Most\n    \tcomics have at least two stories: a cover (ComicCoverArt) and an interior story."
+$id: https://schema.org/ComicStory
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ComicStory
+comment: |
+  The term "story" is any indivisible, re-printable
+  unit of a comic, including the interior stories, covers, and backmatter. Most
+  comics have at least two stories: a cover (ComicCoverArt) and an interior story.
 rdfs:label: "ComicStory"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://bib.schema.org"
 ---
 
-# schema:ComicStory
+# ComicStory
 
+The term "story" is any indivisible, re-printable
+    	unit of a comic, including the interior stories, covers, and backmatter. Most
+    	comics have at least two stories: a cover (ComicCoverArt) and an interior story.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [artist](https://schema.org/artist) | Text |  |
+| [colorist](https://schema.org/colorist) | Text |  |
+| [inker](https://schema.org/inker) | Text |  |
+| [letterer](https://schema.org/letterer) | Text |  |
+| [penciler](https://schema.org/penciler) | Text |  |

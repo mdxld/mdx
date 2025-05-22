@@ -1,13 +1,16 @@
 ---
-$id: schema:parents
-$type: rdf:Property
-label: schema:parents
-rdfs:comment: "A parents of the person."
+$id: https://schema.org/parents
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: parents
+comment: |
+  A parents of the person.
 rdfs:label: "parents"
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Person"}
-schema:supersededBy: {"@id":"schema:parent"}
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Person"
+schema:supersededBy: "https://schema.org/parent"
 ---
 
-# schema:parents
+# parents
+
+A parents of the person.
 

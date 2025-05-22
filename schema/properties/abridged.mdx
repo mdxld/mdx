@@ -1,13 +1,16 @@
 ---
-$id: schema:abridged
-$type: rdf:Property
-label: schema:abridged
-rdfs:comment: "Indicates whether the book is an abridged edition."
+$id: https://schema.org/abridged
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: abridged
+comment: |
+  Indicates whether the book is an abridged edition.
 rdfs:label: "abridged"
-schema:domainIncludes: {"@id":"schema:Book"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: "https://schema.org/Book"
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:abridged
+# abridged
+
+Indicates whether the book is an abridged edition.
 

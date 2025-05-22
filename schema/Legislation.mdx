@@ -1,15 +1,42 @@
 ---
-$id: schema:Legislation
-$type: rdfs:Class
-label: schema:Legislation
-rdfs:comment: "A legal document such as an act, decree, bill, etc. (enforceable or not) or a component of a legal act (like an article)."
+$id: https://schema.org/Legislation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Legislation
+comment: |
+  A legal document such as an act, decree, bill, etc. (enforceable or not) or a component of a legal act (like an article).
 rdfs:label: "Legislation"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
-skos:closeMatch: [{"@id":"http://data.europa.eu/eli/ontology#LegalExpression"},{"@id":"http://data.europa.eu/eli/ontology#LegalRecontributor"}]
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/1156","https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"]
+skos:closeMatch: ["http://data.europa.eu/eli/ontology#LegalExpression","http://data.europa.eu/eli/ontology#LegalRecontributor"]
 ---
 
-# schema:Legislation
+# Legislation
 
+A legal document such as an act, decree, bill, etc. (enforceable or not) or a component of a legal act (like an article).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [jurisdiction](https://schema.org/jurisdiction) | Text |  |
+| [legislationAmends](https://schema.org/legislationAmends) | Text |  |
+| [legislationApplies](https://schema.org/legislationApplies) | Text |  |
+| [legislationChanges](https://schema.org/legislationChanges) | Text |  |
+| [legislationCommences](https://schema.org/legislationCommences) | Text |  |
+| [legislationConsolidates](https://schema.org/legislationConsolidates) | Text |  |
+| [legislationCorrects](https://schema.org/legislationCorrects) | Text |  |
+| [legislationCountersignedBy](https://schema.org/legislationCountersignedBy) | Text |  |
+| [legislationDate](https://schema.org/legislationDate) | Text |  |
+| [legislationDateOfApplicability](https://schema.org/legislationDateOfApplicability) | Text |  |
+| [legislationDateVersion](https://schema.org/legislationDateVersion) | Text |  |
+| [legislationEnsuresImplementationOf](https://schema.org/legislationEnsuresImplementationOf) | Text |  |
+| [legislationIdentifier](https://schema.org/legislationIdentifier) | Text |  |
+| [legislationJurisdiction](https://schema.org/legislationJurisdiction) | Text |  |
+| [legislationLegalForce](https://schema.org/legislationLegalForce) | Text |  |
+| [legislationPassedBy](https://schema.org/legislationPassedBy) | Text |  |
+| [legislationRepeals](https://schema.org/legislationRepeals) | Text |  |
+| [legislationResponsible](https://schema.org/legislationResponsible) | Text |  |
+| [legislationTransposes](https://schema.org/legislationTransposes) | Text |  |
+| [legislationType](https://schema.org/legislationType) | Text |  |

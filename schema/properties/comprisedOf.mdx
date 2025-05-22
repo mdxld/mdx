@@ -1,13 +1,16 @@
 ---
-$id: schema:comprisedOf
-$type: rdf:Property
-label: schema:comprisedOf
-rdfs:comment: "Specifying something physically contained by something else. Typically used here for the underlying anatomical structures, such as organs, that comprise the anatomical system."
+$id: https://schema.org/comprisedOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: comprisedOf
+comment: |
+  Specifying something physically contained by something else. Typically used here for the underlying anatomical structures, such as organs, that comprise the anatomical system.
 rdfs:label: "comprisedOf"
-schema:domainIncludes: {"@id":"schema:AnatomicalSystem"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:AnatomicalStructure"},{"@id":"schema:AnatomicalSystem"}]
+schema:domainIncludes: "https://schema.org/AnatomicalSystem"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/AnatomicalStructure","https://schema.org/AnatomicalSystem"]
 ---
 
-# schema:comprisedOf
+# comprisedOf
+
+Specifying something physically contained by something else. Typically used here for the underlying anatomical structures, such as organs, that comprise the anatomical system.
 

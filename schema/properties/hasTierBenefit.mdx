@@ -1,13 +1,16 @@
 ---
-$id: schema:hasTierBenefit
-$type: rdf:Property
-label: schema:hasTierBenefit
-rdfs:comment: "A member benefit for a particular tier of a loyalty program."
+$id: https://schema.org/hasTierBenefit
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasTierBenefit
+comment: |
+  A member benefit for a particular tier of a loyalty program.
 rdfs:label: "hasTierBenefit"
-schema:domainIncludes: {"@id":"schema:MemberProgramTier"}
-schema:rangeIncludes: {"@id":"schema:TierBenefitEnumeration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3563"}
+schema:domainIncludes: "https://schema.org/MemberProgramTier"
+schema:rangeIncludes: "https://schema.org/TierBenefitEnumeration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3563"
 ---
 
-# schema:hasTierBenefit
+# hasTierBenefit
+
+A member benefit for a particular tier of a loyalty program.
 

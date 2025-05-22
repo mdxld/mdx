@@ -1,11 +1,24 @@
 ---
-$id: schema:MusicRecording
-$type: rdfs:Class
-label: schema:MusicRecording
-rdfs:comment: "A music recording (track), usually a single song."
+$id: https://schema.org/MusicRecording
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MusicRecording
+comment: |
+  A music recording (track), usually a single song.
 rdfs:label: "MusicRecording"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:MusicRecording
+# MusicRecording
 
+A music recording (track), usually a single song.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [byArtist](https://schema.org/byArtist) | Text |  |
+| [duration](https://schema.org/duration) | Text |  |
+| [inAlbum](https://schema.org/inAlbum) | Text |  |
+| [inPlaylist](https://schema.org/inPlaylist) | Text |  |
+| [isrcCode](https://schema.org/isrcCode) | Text |  |
+| [recordingOf](https://schema.org/recordingOf) | Text |  |

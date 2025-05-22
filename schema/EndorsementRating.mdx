@@ -1,12 +1,25 @@
 ---
-$id: schema:EndorsementRating
-$type: rdfs:Class
-label: schema:EndorsementRating
-rdfs:comment: "An EndorsementRating is a rating that expresses some level of endorsement, for example inclusion in a \"critic's pick\" blog, a\n\"Like\" or \"+1\" on a social network. It can be considered the [[result]] of an [[EndorseAction]] in which the [[object]] of the action is rated positively by\nsome [[agent]]. As is common elsewhere in schema.org, it is sometimes more useful to describe the results of such an action without explicitly describing the [[Action]].\n\nAn [[EndorsementRating]] may be part of a numeric scale or organized system, but this is not required: having an explicit type for indicating a positive,\nendorsement rating is particularly useful in the absence of numeric scales as it helps consumers understand that the rating is broadly positive.\n"
+$id: https://schema.org/EndorsementRating
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: EndorsementRating
+comment: |
+  An EndorsementRating is a rating that expresses some level of endorsement, for example inclusion in a "critic's pick" blog, a
+  "Like" or "+1" on a social network. It can be considered the [[result]] of an [[EndorseAction]] in which the [[object]] of the action is rated positively by
+  some [[agent]]. As is common elsewhere in schema.org, it is sometimes more useful to describe the results of such an action without explicitly describing the [[Action]].
+  
+  An [[EndorsementRating]] may be part of a numeric scale or organized system, but this is not required: having an explicit type for indicating a positive,
+  endorsement rating is particularly useful in the absence of numeric scales as it helps consumers understand that the rating is broadly positive.
 rdfs:label: "EndorsementRating"
-rdfs:subClassOf: {"@id":"schema:Rating"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1293"}
+rdfs:subClassOf: "https://schema.org/Rating"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1293"
 ---
 
-# schema:EndorsementRating
+# EndorsementRating
+
+An EndorsementRating is a rating that expresses some level of endorsement, for example inclusion in a "critic's pick" blog, a
+"Like" or "+1" on a social network. It can be considered the [[result]] of an [[EndorseAction]] in which the [[object]] of the action is rated positively by
+some [[agent]]. As is common elsewhere in schema.org, it is sometimes more useful to describe the results of such an action without explicitly describing the [[Action]].
+
+An [[EndorsementRating]] may be part of a numeric scale or organized system, but this is not required: having an explicit type for indicating a positive,
+endorsement rating is particularly useful in the absence of numeric scales as it helps consumers understand that the rating is broadly positive.
 

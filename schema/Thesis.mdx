@@ -1,13 +1,21 @@
 ---
-$id: schema:Thesis
-$type: rdfs:Class
-label: schema:Thesis
-rdfs:comment: "A thesis or dissertation document submitted in support of candidature for an academic degree or professional qualification."
+$id: https://schema.org/Thesis
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Thesis
+comment: |
+  A thesis or dissertation document submitted in support of candidature for an academic degree or professional qualification.
 rdfs:label: "Thesis"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:source: {"@id":"http://www.productontology.org/id/Thesis"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://bib.schema.org"
+schema:source: "http://www.productontology.org/id/Thesis"
 ---
 
-# schema:Thesis
+# Thesis
 
+A thesis or dissertation document submitted in support of candidature for an academic degree or professional qualification.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [inSupportOf](https://schema.org/inSupportOf) | Text |  |

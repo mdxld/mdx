@@ -1,14 +1,17 @@
 ---
-$id: schema:applicationDeadline
-$type: rdf:Property
-label: schema:applicationDeadline
-rdfs:comment: "The date on which the program stops collecting applications for the next enrollment cycle. Flexible application deadlines (for example, a program with rolling admissions) can be described in a textual string, rather than as a DateTime."
+$id: https://schema.org/applicationDeadline
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicationDeadline
+comment: |
+  The date on which the program stops collecting applications for the next enrollment cycle. Flexible application deadlines (for example, a program with rolling admissions) can be described in a textual string, rather than as a DateTime.
 rdfs:label: "applicationDeadline"
-schema:domainIncludes: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2419"}
+schema:domainIncludes: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2419"
 ---
 
-# schema:applicationDeadline
+# applicationDeadline
+
+The date on which the program stops collecting applications for the next enrollment cycle. Flexible application deadlines (for example, a program with rolling admissions) can be described in a textual string, rather than as a DateTime.
 

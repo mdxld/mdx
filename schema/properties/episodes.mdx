@@ -1,13 +1,16 @@
 ---
-$id: schema:episodes
-$type: rdf:Property
-label: schema:episodes
-rdfs:comment: "An episode of a TV/radio series or season."
+$id: https://schema.org/episodes
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: episodes
+comment: |
+  An episode of a TV/radio series or season.
 rdfs:label: "episodes"
-schema:domainIncludes: [{"@id":"schema:TVSeries"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:CreativeWorkSeason"}]
-schema:rangeIncludes: {"@id":"schema:Episode"}
-schema:supersededBy: {"@id":"schema:episode"}
+schema:domainIncludes: ["https://schema.org/TVSeries","https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/CreativeWorkSeason"]
+schema:rangeIncludes: "https://schema.org/Episode"
+schema:supersededBy: "https://schema.org/episode"
 ---
 
-# schema:episodes
+# episodes
+
+An episode of a TV/radio series or season.
 

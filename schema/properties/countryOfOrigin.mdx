@@ -1,12 +1,23 @@
 ---
-$id: schema:countryOfOrigin
-$type: rdf:Property
-label: schema:countryOfOrigin
-rdfs:comment: "The country of origin of something, including products as well as creative  works such as movie and TV content.\n\nIn the case of TV and movie, this would be the country of the principle offices of the production company or individual responsible for the movie. For other kinds of [[CreativeWork]] it is difficult to provide fully general guidance, and properties such as [[contentLocation]] and [[locationCreated]] may be more applicable.\n\nIn the case of products, the country of origin of the product. The exact interpretation of this may vary by context and product type, and cannot be fully enumerated here."
+$id: https://schema.org/countryOfOrigin
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: countryOfOrigin
+comment: |
+  The country of origin of something, including products as well as creative  works such as movie and TV content.
+  
+  In the case of TV and movie, this would be the country of the principle offices of the production company or individual responsible for the movie. For other kinds of [[CreativeWork]] it is difficult to provide fully general guidance, and properties such as [[contentLocation]] and [[locationCreated]] may be more applicable.
+  
+  In the case of products, the country of origin of the product. The exact interpretation of this may vary by context and product type, and cannot be fully enumerated here.
 rdfs:label: "countryOfOrigin"
-schema:domainIncludes: [{"@id":"schema:TVEpisode"},{"@id":"schema:CreativeWork"},{"@id":"schema:TVSeason"},{"@id":"schema:Product"},{"@id":"schema:Movie"},{"@id":"schema:TVSeries"}]
-schema:rangeIncludes: {"@id":"schema:Country"}
+schema:domainIncludes: ["https://schema.org/TVEpisode","https://schema.org/CreativeWork","https://schema.org/TVSeason","https://schema.org/Product","https://schema.org/Movie","https://schema.org/TVSeries"]
+schema:rangeIncludes: "https://schema.org/Country"
 ---
 
-# schema:countryOfOrigin
+# countryOfOrigin
+
+The country of origin of something, including products as well as creative  works such as movie and TV content.
+
+In the case of TV and movie, this would be the country of the principle offices of the production company or individual responsible for the movie. For other kinds of [[CreativeWork]] it is difficult to provide fully general guidance, and properties such as [[contentLocation]] and [[locationCreated]] may be more applicable.
+
+In the case of products, the country of origin of the product. The exact interpretation of this may vary by context and product type, and cannot be fully enumerated here.
 

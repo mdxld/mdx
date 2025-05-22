@@ -1,13 +1,16 @@
 ---
-$id: schema:seasonNumber
-$type: rdf:Property
-label: schema:seasonNumber
-rdfs:comment: "Position of the season within an ordered group of seasons."
+$id: https://schema.org/seasonNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: seasonNumber
+comment: |
+  Position of the season within an ordered group of seasons.
 rdfs:label: "seasonNumber"
-rdfs:subPropertyOf: {"@id":"schema:position"}
-schema:domainIncludes: {"@id":"schema:CreativeWorkSeason"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+rdfs:subPropertyOf: "https://schema.org/position"
+schema:domainIncludes: "https://schema.org/CreativeWorkSeason"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:seasonNumber
+# seasonNumber
+
+Position of the season within an ordered group of seasons.
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:programPrerequisites
-$type: rdf:Property
-label: schema:programPrerequisites
-rdfs:comment: "Prerequisites for enrolling in the program."
+$id: https://schema.org/programPrerequisites
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: programPrerequisites
+comment: |
+  Prerequisites for enrolling in the program.
 rdfs:label: "programPrerequisites"
-schema:domainIncludes: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:EducationalOccupationalCredential"},{"@id":"schema:Text"},{"@id":"schema:AlignmentObject"},{"@id":"schema:Course"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2289"}
+schema:domainIncludes: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/EducationalOccupationalCredential","https://schema.org/Text","https://schema.org/AlignmentObject","https://schema.org/Course"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2289"
 ---
 
-# schema:programPrerequisites
+# programPrerequisites
+
+Prerequisites for enrolling in the program.
 

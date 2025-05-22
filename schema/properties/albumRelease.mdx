@@ -1,13 +1,16 @@
 ---
-$id: schema:albumRelease
-$type: rdf:Property
-label: schema:albumRelease
-rdfs:comment: "A release of this album."
+$id: https://schema.org/albumRelease
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: albumRelease
+comment: |
+  A release of this album.
 rdfs:label: "albumRelease"
-schema:domainIncludes: {"@id":"schema:MusicAlbum"}
-schema:inverseOf: {"@id":"schema:releaseOf"}
-schema:rangeIncludes: {"@id":"schema:MusicRelease"}
+schema:domainIncludes: "https://schema.org/MusicAlbum"
+schema:inverseOf: "https://schema.org/releaseOf"
+schema:rangeIncludes: "https://schema.org/MusicRelease"
 ---
 
-# schema:albumRelease
+# albumRelease
+
+A release of this album.
 

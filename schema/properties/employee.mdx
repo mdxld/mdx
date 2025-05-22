@@ -1,12 +1,15 @@
 ---
-$id: schema:employee
-$type: rdf:Property
-label: schema:employee
-rdfs:comment: "Someone working for this organization."
+$id: https://schema.org/employee
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: employee
+comment: |
+  Someone working for this organization.
 rdfs:label: "employee"
-schema:domainIncludes: {"@id":"schema:Organization"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: "https://schema.org/Organization"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:employee
+# employee
+
+Someone working for this organization.
 

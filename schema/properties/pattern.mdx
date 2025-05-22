@@ -1,14 +1,17 @@
 ---
-$id: schema:pattern
-$type: rdf:Property
-label: schema:pattern
-rdfs:comment: "A pattern that something has, for example 'polka dot', 'striped', 'Canadian flag'. Values are typically expressed as text, although links to controlled value schemes are also supported."
+$id: https://schema.org/pattern
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: pattern
+comment: |
+  A pattern that something has, for example 'polka dot', 'striped', 'Canadian flag'. Values are typically expressed as text, although links to controlled value schemes are also supported.
 rdfs:label: "pattern"
-schema:domainIncludes: [{"@id":"schema:Product"},{"@id":"schema:CreativeWork"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:DefinedTerm"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1797"}
+schema:domainIncludes: ["https://schema.org/Product","https://schema.org/CreativeWork"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/DefinedTerm","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1797"
 ---
 
-# schema:pattern
+# pattern
+
+A pattern that something has, for example 'polka dot', 'striped', 'Canadian flag'. Values are typically expressed as text, although links to controlled value schemes are also supported.
 

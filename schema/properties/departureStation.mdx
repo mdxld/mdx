@@ -1,12 +1,15 @@
 ---
-$id: schema:departureStation
-$type: rdf:Property
-label: schema:departureStation
-rdfs:comment: "The station from which the train departs."
+$id: https://schema.org/departureStation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: departureStation
+comment: |
+  The station from which the train departs.
 rdfs:label: "departureStation"
-schema:domainIncludes: {"@id":"schema:TrainTrip"}
-schema:rangeIncludes: {"@id":"schema:TrainStation"}
+schema:domainIncludes: "https://schema.org/TrainTrip"
+schema:rangeIncludes: "https://schema.org/TrainStation"
 ---
 
-# schema:departureStation
+# departureStation
+
+The station from which the train departs.
 

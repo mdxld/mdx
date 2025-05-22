@@ -1,11 +1,26 @@
 ---
-$id: schema:Ticket
-$type: rdfs:Class
-label: schema:Ticket
-rdfs:comment: "Used to describe a ticket to an event, a flight, a bus ride, etc."
+$id: https://schema.org/Ticket
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Ticket
+comment: |
+  Used to describe a ticket to an event, a flight, a bus ride, etc.
 rdfs:label: "Ticket"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Ticket
+# Ticket
 
+Used to describe a ticket to an event, a flight, a bus ride, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dateIssued](https://schema.org/dateIssued) | Text |  |
+| [issuedBy](https://schema.org/issuedBy) | Text |  |
+| [priceCurrency](https://schema.org/priceCurrency) | Text |  |
+| [ticketedSeat](https://schema.org/ticketedSeat) | Text |  |
+| [ticketNumber](https://schema.org/ticketNumber) | Text |  |
+| [ticketToken](https://schema.org/ticketToken) | Text |  |
+| [totalPrice](https://schema.org/totalPrice) | Text |  |
+| [underName](https://schema.org/underName) | Text |  |

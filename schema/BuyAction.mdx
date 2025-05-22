@@ -1,11 +1,21 @@
 ---
-$id: schema:BuyAction
-$type: rdfs:Class
-label: schema:BuyAction
-rdfs:comment: "The act of giving money to a seller in exchange for goods or services rendered. An agent buys an object, product, or service from a seller for a price. Reciprocal of SellAction."
+$id: https://schema.org/BuyAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BuyAction
+comment: |
+  The act of giving money to a seller in exchange for goods or services rendered. An agent buys an object, product, or service from a seller for a price. Reciprocal of SellAction.
 rdfs:label: "BuyAction"
-rdfs:subClassOf: {"@id":"schema:TradeAction"}
+rdfs:subClassOf: "https://schema.org/TradeAction"
 ---
 
-# schema:BuyAction
+# BuyAction
 
+The act of giving money to a seller in exchange for goods or services rendered. An agent buys an object, product, or service from a seller for a price. Reciprocal of SellAction.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [seller](https://schema.org/seller) | Text |  |
+| [vendor](https://schema.org/vendor) | Text |  |
+| [warrantyPromise](https://schema.org/warrantyPromise) | Text |  |

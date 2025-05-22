@@ -1,11 +1,21 @@
 ---
-$id: schema:MusicPlaylist
-$type: rdfs:Class
-label: schema:MusicPlaylist
-rdfs:comment: "A collection of music tracks in playlist form."
+$id: https://schema.org/MusicPlaylist
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MusicPlaylist
+comment: |
+  A collection of music tracks in playlist form.
 rdfs:label: "MusicPlaylist"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:MusicPlaylist
+# MusicPlaylist
 
+A collection of music tracks in playlist form.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [numTracks](https://schema.org/numTracks) | Text |  |
+| [track](https://schema.org/track) | Text |  |
+| [tracks](https://schema.org/tracks) | Text |  |

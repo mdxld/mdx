@@ -1,13 +1,16 @@
 ---
-$id: schema:realEstateAgent
-$type: rdf:Property
-label: schema:realEstateAgent
-rdfs:comment: "A sub property of participant. The real estate agent involved in the action."
+$id: https://schema.org/realEstateAgent
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: realEstateAgent
+comment: |
+  A sub property of participant. The real estate agent involved in the action.
 rdfs:label: "realEstateAgent"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:RentAction"}
-schema:rangeIncludes: {"@id":"schema:RealEstateAgent"}
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/RentAction"
+schema:rangeIncludes: "https://schema.org/RealEstateAgent"
 ---
 
-# schema:realEstateAgent
+# realEstateAgent
+
+A sub property of participant. The real estate agent involved in the action.
 

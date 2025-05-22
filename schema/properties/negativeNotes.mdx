@@ -1,14 +1,27 @@
 ---
-$id: schema:negativeNotes
-$type: rdf:Property
-label: schema:negativeNotes
-rdfs:comment: "Provides negative considerations regarding something, most typically in pro/con lists for reviews (alongside [[positiveNotes]]). For symmetry \n\nIn the case of a [[Review]], the property describes the [[itemReviewed]] from the perspective of the review; in the case of a [[Product]], the product itself is being described. Since product descriptions \ntend to emphasise positive claims, it may be relatively unusual to find [[negativeNotes]] used in this way. Nevertheless for the sake of symmetry, [[negativeNotes]] can be used on [[Product]].\n\nThe property values can be expressed either as unstructured text (repeated as necessary), or if ordered, as a list (in which case the most negative is at the beginning of the list)."
+$id: https://schema.org/negativeNotes
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: negativeNotes
+comment: |
+  Provides negative considerations regarding something, most typically in pro/con lists for reviews (alongside [[positiveNotes]]). For symmetry
+  
+  In the case of a [[Review]], the property describes the [[itemReviewed]] from the perspective of the review; in the case of a [[Product]], the product itself is being described. Since product descriptions
+  tend to emphasise positive claims, it may be relatively unusual to find [[negativeNotes]] used in this way. Nevertheless for the sake of symmetry, [[negativeNotes]] can be used on [[Product]].
+  
+  The property values can be expressed either as unstructured text (repeated as necessary), or if ordered, as a list (in which case the most negative is at the beginning of the list).
 rdfs:label: "negativeNotes"
-schema:domainIncludes: [{"@id":"schema:Product"},{"@id":"schema:Review"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:ListItem"},{"@id":"schema:WebContent"},{"@id":"schema:ItemList"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2832"}
+schema:domainIncludes: ["https://schema.org/Product","https://schema.org/Review"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/ListItem","https://schema.org/WebContent","https://schema.org/ItemList","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2832"
 ---
 
-# schema:negativeNotes
+# negativeNotes
+
+Provides negative considerations regarding something, most typically in pro/con lists for reviews (alongside [[positiveNotes]]). For symmetry 
+
+In the case of a [[Review]], the property describes the [[itemReviewed]] from the perspective of the review; in the case of a [[Product]], the product itself is being described. Since product descriptions 
+tend to emphasise positive claims, it may be relatively unusual to find [[negativeNotes]] used in this way. Nevertheless for the sake of symmetry, [[negativeNotes]] can be used on [[Product]].
+
+The property values can be expressed either as unstructured text (repeated as necessary), or if ordered, as a list (in which case the most negative is at the beginning of the list).
 

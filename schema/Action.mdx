@@ -1,12 +1,32 @@
 ---
-$id: schema:Action
-$type: rdfs:Class
-label: schema:Action
-rdfs:comment: "An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.\\n\\nSee also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](https://schema.org/docs/actions.html)."
+$id: https://schema.org/Action
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Action
+comment: |
+  An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.\n\nSee also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](https://schema.org/docs/actions.html).
 rdfs:label: "Action"
-rdfs:subClassOf: {"@id":"schema:Thing"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ActionCollabClass"}
+rdfs:subClassOf: "https://schema.org/Thing"
+schema:contributor: "https://schema.org/docs/collab/ActionCollabClass"
 ---
 
-# schema:Action
+# Action
 
+An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.\n\nSee also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](https://schema.org/docs/actions.html).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [actionProcess](https://schema.org/actionProcess) | Text |  |
+| [actionStatus](https://schema.org/actionStatus) | Text |  |
+| [agent](https://schema.org/agent) | Text |  |
+| [endTime](https://schema.org/endTime) | Text |  |
+| [error](https://schema.org/error) | Text |  |
+| [instrument](https://schema.org/instrument) | Text |  |
+| [location](https://schema.org/location) | Text |  |
+| [object](https://schema.org/object) | Text |  |
+| [participant](https://schema.org/participant) | Text |  |
+| [provider](https://schema.org/provider) | Text |  |
+| [result](https://schema.org/result) | Text |  |
+| [startTime](https://schema.org/startTime) | Text |  |
+| [target](https://schema.org/target) | Text |  |

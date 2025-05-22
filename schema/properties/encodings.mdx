@@ -1,13 +1,16 @@
 ---
-$id: schema:encodings
-$type: rdf:Property
-label: schema:encodings
-rdfs:comment: "A media object that encodes this CreativeWork."
+$id: https://schema.org/encodings
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: encodings
+comment: |
+  A media object that encodes this CreativeWork.
 rdfs:label: "encodings"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: {"@id":"schema:MediaObject"}
-schema:supersededBy: {"@id":"schema:encoding"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: "https://schema.org/MediaObject"
+schema:supersededBy: "https://schema.org/encoding"
 ---
 
-# schema:encodings
+# encodings
+
+A media object that encodes this CreativeWork.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:deliveryTime
-$type: rdf:Property
-label: schema:deliveryTime
-rdfs:comment: "The total delay between the receipt of the order and the goods reaching the final customer."
+$id: https://schema.org/deliveryTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: deliveryTime
+comment: |
+  The total delay between the receipt of the order and the goods reaching the final customer.
 rdfs:label: "deliveryTime"
-schema:domainIncludes: [{"@id":"schema:OfferShippingDetails"},{"@id":"schema:DeliveryTimeSettings"}]
-schema:rangeIncludes: {"@id":"schema:ShippingDeliveryTime"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+schema:domainIncludes: ["https://schema.org/OfferShippingDetails","https://schema.org/DeliveryTimeSettings"]
+schema:rangeIncludes: "https://schema.org/ShippingDeliveryTime"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:deliveryTime
+# deliveryTime
+
+The total delay between the receipt of the order and the goods reaching the final customer.
 

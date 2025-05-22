@@ -1,13 +1,23 @@
 ---
-$id: schema:TherapeuticProcedure
-$type: rdfs:Class
-label: schema:TherapeuticProcedure
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/277132007"}
-rdfs:comment: "A medical procedure intended primarily for therapeutic purposes, aimed at improving a health condition."
+$id: https://schema.org/TherapeuticProcedure
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TherapeuticProcedure
+comment: |
+  A medical procedure intended primarily for therapeutic purposes, aimed at improving a health condition.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/277132007"
 rdfs:label: "TherapeuticProcedure"
-rdfs:subClassOf: {"@id":"schema:MedicalProcedure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalProcedure"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:TherapeuticProcedure
+# TherapeuticProcedure
 
+A medical procedure intended primarily for therapeutic purposes, aimed at improving a health condition.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [adverseOutcome](https://schema.org/adverseOutcome) | Text |  |
+| [doseSchedule](https://schema.org/doseSchedule) | Text |  |
+| [drug](https://schema.org/drug) | Text |  |

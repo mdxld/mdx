@@ -1,14 +1,17 @@
 ---
-$id: schema:answerExplanation
-$type: rdf:Property
-label: schema:answerExplanation
-rdfs:comment: "A step-by-step or full explanation about Answer. Can outline how this Answer was achieved or contain more broad clarification or statement about it. "
+$id: https://schema.org/answerExplanation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: answerExplanation
+comment: |
+  A step-by-step or full explanation about Answer. Can outline how this Answer was achieved or contain more broad clarification or statement about it.
 rdfs:label: "answerExplanation"
-schema:domainIncludes: {"@id":"schema:Answer"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:WebContent"},{"@id":"schema:Comment"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2636"}
+schema:domainIncludes: "https://schema.org/Answer"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/WebContent","https://schema.org/Comment"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2636"
 ---
 
-# schema:answerExplanation
+# answerExplanation
+
+A step-by-step or full explanation about Answer. Can outline how this Answer was achieved or contain more broad clarification or statement about it.
 

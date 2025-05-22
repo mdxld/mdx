@@ -1,13 +1,16 @@
 ---
-$id: schema:drug
-$type: rdf:Property
-label: schema:drug
-rdfs:comment: "Specifying a drug or medicine used in a medication procedure."
+$id: https://schema.org/drug
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: drug
+comment: |
+  Specifying a drug or medicine used in a medication procedure.
 rdfs:label: "drug"
-schema:domainIncludes: [{"@id":"schema:DrugClass"},{"@id":"schema:MedicalCondition"},{"@id":"schema:Patient"},{"@id":"schema:TherapeuticProcedure"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Drug"}
+schema:domainIncludes: ["https://schema.org/DrugClass","https://schema.org/MedicalCondition","https://schema.org/Patient","https://schema.org/TherapeuticProcedure"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Drug"
 ---
 
-# schema:drug
+# drug
+
+Specifying a drug or medicine used in a medication procedure.
 

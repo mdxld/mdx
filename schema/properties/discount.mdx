@@ -1,12 +1,15 @@
 ---
-$id: schema:discount
-$type: rdf:Property
-label: schema:discount
-rdfs:comment: "Any discount applied (to an Order)."
+$id: https://schema.org/discount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: discount
+comment: |
+  Any discount applied (to an Order).
 rdfs:label: "discount"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"}]
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number"]
 ---
 
-# schema:discount
+# discount
+
+Any discount applied (to an Order).
 

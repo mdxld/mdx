@@ -1,13 +1,16 @@
 ---
-$id: schema:affiliation
-$type: rdf:Property
-label: schema:affiliation
-rdfs:comment: "An organization that this person is affiliated with. For example, a school/university, a club, or a team."
+$id: https://schema.org/affiliation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: affiliation
+comment: |
+  An organization that this person is affiliated with. For example, a school/university, a club, or a team.
 rdfs:label: "affiliation"
-rdfs:subPropertyOf: {"@id":"schema:memberOf"}
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Organization"}
+rdfs:subPropertyOf: "https://schema.org/memberOf"
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Organization"
 ---
 
-# schema:affiliation
+# affiliation
+
+An organization that this person is affiliated with. For example, a school/university, a club, or a team.
 

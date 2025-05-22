@@ -1,13 +1,16 @@
 ---
-$id: schema:identifyingExam
-$type: rdf:Property
-label: schema:identifyingExam
-rdfs:comment: "A physical examination that can identify this sign."
+$id: https://schema.org/identifyingExam
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: identifyingExam
+comment: |
+  A physical examination that can identify this sign.
 rdfs:label: "identifyingExam"
-schema:domainIncludes: {"@id":"schema:MedicalSign"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:PhysicalExam"}
+schema:domainIncludes: "https://schema.org/MedicalSign"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/PhysicalExam"
 ---
 
-# schema:identifyingExam
+# identifyingExam
+
+A physical examination that can identify this sign.
 

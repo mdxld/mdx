@@ -1,12 +1,15 @@
 ---
-$id: schema:commentTime
-$type: rdf:Property
-label: schema:commentTime
-rdfs:comment: "The time at which the UserComment was made."
+$id: https://schema.org/commentTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: commentTime
+comment: |
+  The time at which the UserComment was made.
 rdfs:label: "commentTime"
-schema:domainIncludes: {"@id":"schema:UserComments"}
-schema:rangeIncludes: [{"@id":"schema:DateTime"},{"@id":"schema:Date"}]
+schema:domainIncludes: "https://schema.org/UserComments"
+schema:rangeIncludes: ["https://schema.org/DateTime","https://schema.org/Date"]
 ---
 
-# schema:commentTime
+# commentTime
+
+The time at which the UserComment was made.
 

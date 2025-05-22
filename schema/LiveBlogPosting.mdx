@@ -1,11 +1,21 @@
 ---
-$id: schema:LiveBlogPosting
-$type: rdfs:Class
-label: schema:LiveBlogPosting
-rdfs:comment: "A [[LiveBlogPosting]] is a [[BlogPosting]] intended to provide a rolling textual coverage of an ongoing event through continuous updates."
+$id: https://schema.org/LiveBlogPosting
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LiveBlogPosting
+comment: |
+  A [[LiveBlogPosting]] is a [[BlogPosting]] intended to provide a rolling textual coverage of an ongoing event through continuous updates.
 rdfs:label: "LiveBlogPosting"
-rdfs:subClassOf: {"@id":"schema:BlogPosting"}
+rdfs:subClassOf: "https://schema.org/BlogPosting"
 ---
 
-# schema:LiveBlogPosting
+# LiveBlogPosting
 
+A [[LiveBlogPosting]] is a [[BlogPosting]] intended to provide a rolling textual coverage of an ongoing event through continuous updates.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [coverageEndTime](https://schema.org/coverageEndTime) | Text |  |
+| [coverageStartTime](https://schema.org/coverageStartTime) | Text |  |
+| [liveBlogUpdate](https://schema.org/liveBlogUpdate) | Text |  |

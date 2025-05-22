@@ -1,13 +1,16 @@
 ---
-$id: schema:toRecipient
-$type: rdf:Property
-label: schema:toRecipient
-rdfs:comment: "A sub property of recipient. The recipient who was directly sent the message."
+$id: https://schema.org/toRecipient
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: toRecipient
+comment: |
+  A sub property of recipient. The recipient who was directly sent the message.
 rdfs:label: "toRecipient"
-rdfs:subPropertyOf: {"@id":"schema:recipient"}
-schema:domainIncludes: {"@id":"schema:Message"}
-schema:rangeIncludes: [{"@id":"schema:Audience"},{"@id":"schema:Organization"},{"@id":"schema:ContactPoint"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/recipient"
+schema:domainIncludes: "https://schema.org/Message"
+schema:rangeIncludes: ["https://schema.org/Audience","https://schema.org/Organization","https://schema.org/ContactPoint","https://schema.org/Person"]
 ---
 
-# schema:toRecipient
+# toRecipient
+
+A sub property of recipient. The recipient who was directly sent the message.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:validFor
-$type: rdf:Property
-label: schema:validFor
-rdfs:comment: "The duration of validity of a permit or similar thing."
+$id: https://schema.org/validFor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: validFor
+comment: |
+  The duration of validity of a permit or similar thing.
 rdfs:label: "validFor"
-schema:domainIncludes: [{"@id":"schema:Permit"},{"@id":"schema:EducationalOccupationalCredential"}]
-schema:rangeIncludes: {"@id":"schema:Duration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1779"}
+schema:domainIncludes: ["https://schema.org/Permit","https://schema.org/EducationalOccupationalCredential"]
+schema:rangeIncludes: "https://schema.org/Duration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1779"
 ---
 
-# schema:validFor
+# validFor
+
+The duration of validity of a permit or similar thing.
 

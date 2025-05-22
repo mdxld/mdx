@@ -1,13 +1,16 @@
 ---
-$id: schema:relatedStructure
-$type: rdf:Property
-label: schema:relatedStructure
-rdfs:comment: "Related anatomical structure(s) that are not part of the system but relate or connect to it, such as vascular bundles associated with an organ system."
+$id: https://schema.org/relatedStructure
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relatedStructure
+comment: |
+  Related anatomical structure(s) that are not part of the system but relate or connect to it, such as vascular bundles associated with an organ system.
 rdfs:label: "relatedStructure"
-schema:domainIncludes: {"@id":"schema:AnatomicalSystem"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AnatomicalStructure"}
+schema:domainIncludes: "https://schema.org/AnatomicalSystem"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/AnatomicalStructure"
 ---
 
-# schema:relatedStructure
+# relatedStructure
+
+Related anatomical structure(s) that are not part of the system but relate or connect to it, such as vascular bundles associated with an organ system.
 

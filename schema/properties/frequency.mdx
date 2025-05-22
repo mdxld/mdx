@@ -1,13 +1,16 @@
 ---
-$id: schema:frequency
-$type: rdf:Property
-label: schema:frequency
-rdfs:comment: "How often the dose is taken, e.g. 'daily'."
+$id: https://schema.org/frequency
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: frequency
+comment: |
+  How often the dose is taken, e.g. 'daily'.
 rdfs:label: "frequency"
-schema:domainIncludes: {"@id":"schema:DoseSchedule"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/DoseSchedule"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:frequency
+# frequency
+
+How often the dose is taken, e.g. 'daily'.
 

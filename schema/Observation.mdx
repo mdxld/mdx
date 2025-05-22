@@ -1,13 +1,38 @@
 ---
-$id: schema:Observation
-$type: rdfs:Class
-label: schema:Observation
-rdfs:comment: "Instances of the class [[Observation]] are used to specify observations about an entity at a particular time. The principal properties of an [[Observation]] are [[observationAbout]], [[measuredProperty]], [[statType]], [[value] and [[observationDate]]  and [[measuredProperty]]. Some but not all Observations represent a [[QuantitativeValue]]. Quantitative observations can be about a [[StatisticalVariable]], which is an abstract specification about which we can make observations that are grounded at a particular location and time.\n\nObservations can also encode a subset of simple RDF-like statements (its observationAbout, a StatisticalVariable, defining the measuredPoperty; its observationAbout property indicating the entity the statement is about, and [[value]] )\n\nIn the context of a quantitative knowledge graph, typical properties could include [[measuredProperty]], [[observationAbout]], [[observationDate]], [[value]], [[unitCode]], [[unitText]], [[measurementMethod]].\n    "
+$id: https://schema.org/Observation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Observation
+comment: |
+  Instances of the class [[Observation]] are used to specify observations about an entity at a particular time. The principal properties of an [[Observation]] are [[observationAbout]], [[measuredProperty]], [[statType]], [[value] and [[observationDate]]  and [[measuredProperty]]. Some but not all Observations represent a [[QuantitativeValue]]. Quantitative observations can be about a [[StatisticalVariable]], which is an abstract specification about which we can make observations that are grounded at a particular location and time.
+  
+  Observations can also encode a subset of simple RDF-like statements (its observationAbout, a StatisticalVariable, defining the measuredPoperty; its observationAbout property indicating the entity the statement is about, and [[value]] )
+  
+  In the context of a quantitative knowledge graph, typical properties could include [[measuredProperty]], [[observationAbout]], [[observationDate]], [[value]], [[unitCode]], [[unitText]], [[measurementMethod]].
 rdfs:label: "Observation"
-rdfs:subClassOf: [{"@id":"schema:Intangible"},{"@id":"schema:QuantitativeValue"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2291"}
+rdfs:subClassOf: ["https://schema.org/Intangible","https://schema.org/QuantitativeValue"]
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2291"
 ---
 
-# schema:Observation
+# Observation
 
+Instances of the class [[Observation]] are used to specify observations about an entity at a particular time. The principal properties of an [[Observation]] are [[observationAbout]], [[measuredProperty]], [[statType]], [[value] and [[observationDate]]  and [[measuredProperty]]. Some but not all Observations represent a [[QuantitativeValue]]. Quantitative observations can be about a [[StatisticalVariable]], which is an abstract specification about which we can make observations that are grounded at a particular location and time.
+
+Observations can also encode a subset of simple RDF-like statements (its observationAbout, a StatisticalVariable, defining the measuredPoperty; its observationAbout property indicating the entity the statement is about, and [[value]] )
+
+In the context of a quantitative knowledge graph, typical properties could include [[measuredProperty]], [[observationAbout]], [[observationDate]], [[value]], [[unitCode]], [[unitText]], [[measurementMethod]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [marginOfError](https://schema.org/marginOfError) | Text |  |
+| [measuredProperty](https://schema.org/measuredProperty) | Text |  |
+| [measurementDenominator](https://schema.org/measurementDenominator) | Text |  |
+| [measurementMethod](https://schema.org/measurementMethod) | Text |  |
+| [measurementQualifier](https://schema.org/measurementQualifier) | Text |  |
+| [measurementTechnique](https://schema.org/measurementTechnique) | Text |  |
+| [observationAbout](https://schema.org/observationAbout) | Text |  |
+| [observationDate](https://schema.org/observationDate) | Text |  |
+| [observationPeriod](https://schema.org/observationPeriod) | Text |  |
+| [variableMeasured](https://schema.org/variableMeasured) | Text |  |

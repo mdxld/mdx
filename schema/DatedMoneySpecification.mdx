@@ -1,12 +1,23 @@
 ---
-$id: schema:DatedMoneySpecification
-$type: rdfs:Class
-label: schema:DatedMoneySpecification
-rdfs:comment: "A DatedMoneySpecification represents monetary values with optional start and end dates. For example, this could represent an employee's salary over a specific period of time. __Note:__ This type has been superseded by [[MonetaryAmount]], use of that type is recommended."
+$id: https://schema.org/DatedMoneySpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DatedMoneySpecification
+comment: |
+  A DatedMoneySpecification represents monetary values with optional start and end dates. For example, this could represent an employee's salary over a specific period of time. __Note:__ This type has been superseded by [[MonetaryAmount]], use of that type is recommended.
 rdfs:label: "DatedMoneySpecification"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:supersededBy: {"@id":"schema:MonetaryAmount"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:supersededBy: "https://schema.org/MonetaryAmount"
 ---
 
-# schema:DatedMoneySpecification
+# DatedMoneySpecification
 
+A DatedMoneySpecification represents monetary values with optional start and end dates. For example, this could represent an employee's salary over a specific period of time. __Note:__ This type has been superseded by [[MonetaryAmount]], use of that type is recommended.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [amount](https://schema.org/amount) | Text |  |
+| [currency](https://schema.org/currency) | Text |  |
+| [endDate](https://schema.org/endDate) | Text |  |
+| [startDate](https://schema.org/startDate) | Text |  |

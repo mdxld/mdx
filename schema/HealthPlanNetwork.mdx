@@ -1,13 +1,23 @@
 ---
-$id: schema:HealthPlanNetwork
-$type: rdfs:Class
-label: schema:HealthPlanNetwork
-rdfs:comment: "A US-style health insurance plan network."
+$id: https://schema.org/HealthPlanNetwork
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: HealthPlanNetwork
+comment: |
+  A US-style health insurance plan network.
 rdfs:label: "HealthPlanNetwork"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:HealthPlanNetwork
+# HealthPlanNetwork
 
+A US-style health insurance plan network.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [healthPlanCostSharing](https://schema.org/healthPlanCostSharing) | Text |  |
+| [healthPlanNetworkId](https://schema.org/healthPlanNetworkId) | Text |  |
+| [healthPlanNetworkTier](https://schema.org/healthPlanNetworkTier) | Text |  |

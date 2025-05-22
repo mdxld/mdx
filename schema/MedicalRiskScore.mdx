@@ -1,12 +1,20 @@
 ---
-$id: schema:MedicalRiskScore
-$type: rdfs:Class
-label: schema:MedicalRiskScore
-rdfs:comment: "A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.g. CHAD score, TIMI risk score."
+$id: https://schema.org/MedicalRiskScore
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalRiskScore
+comment: |
+  A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.g. CHAD score, TIMI risk score.
 rdfs:label: "MedicalRiskScore"
-rdfs:subClassOf: {"@id":"schema:MedicalRiskEstimator"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalRiskEstimator"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalRiskScore
+# MedicalRiskScore
 
+A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.g. CHAD score, TIMI risk score.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [algorithm](https://schema.org/algorithm) | Text |  |

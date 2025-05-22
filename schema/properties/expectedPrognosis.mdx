@@ -1,13 +1,16 @@
 ---
-$id: schema:expectedPrognosis
-$type: rdf:Property
-label: schema:expectedPrognosis
-rdfs:comment: "The likely outcome in either the short term or long term of the medical condition."
+$id: https://schema.org/expectedPrognosis
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: expectedPrognosis
+comment: |
+  The likely outcome in either the short term or long term of the medical condition.
 rdfs:label: "expectedPrognosis"
-schema:domainIncludes: {"@id":"schema:MedicalCondition"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/MedicalCondition"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:expectedPrognosis
+# expectedPrognosis
+
+The likely outcome in either the short term or long term of the medical condition.
 

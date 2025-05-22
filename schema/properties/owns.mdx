@@ -1,13 +1,16 @@
 ---
-$id: schema:owns
-$type: rdf:Property
-label: schema:owns
-rdfs:comment: "Products owned by the organization or person."
+$id: https://schema.org/owns
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: owns
+comment: |
+  Products owned by the organization or person.
 rdfs:label: "owns"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:rangeIncludes: [{"@id":"schema:Product"},{"@id":"schema:OwnershipInfo"}]
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:rangeIncludes: ["https://schema.org/Product","https://schema.org/OwnershipInfo"]
 ---
 
-# schema:owns
+# owns
+
+Products owned by the organization or person.
 

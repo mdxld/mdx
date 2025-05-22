@@ -1,13 +1,16 @@
 ---
-$id: schema:broadcastFrequency
-$type: rdf:Property
-label: schema:broadcastFrequency
-rdfs:comment: "The frequency used for over-the-air broadcasts. Numeric values or simple ranges, e.g. 87-99. In addition a shortcut idiom is supported for frequencies of AM and FM radio channels, e.g. \"87 FM\"."
+$id: https://schema.org/broadcastFrequency
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: broadcastFrequency
+comment: |
+  The frequency used for over-the-air broadcasts. Numeric values or simple ranges, e.g. 87-99. In addition a shortcut idiom is supported for frequencies of AM and FM radio channels, e.g. "87 FM".
 rdfs:label: "broadcastFrequency"
-schema:domainIncludes: [{"@id":"schema:BroadcastService"},{"@id":"schema:BroadcastChannel"}]
-schema:rangeIncludes: [{"@id":"schema:BroadcastFrequencySpecification"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1004"}
+schema:domainIncludes: ["https://schema.org/BroadcastService","https://schema.org/BroadcastChannel"]
+schema:rangeIncludes: ["https://schema.org/BroadcastFrequencySpecification","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1004"
 ---
 
-# schema:broadcastFrequency
+# broadcastFrequency
+
+The frequency used for over-the-air broadcasts. Numeric values or simple ranges, e.g. 87-99. In addition a shortcut idiom is supported for frequencies of AM and FM radio channels, e.g. "87 FM".
 

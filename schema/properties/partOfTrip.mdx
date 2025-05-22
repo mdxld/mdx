@@ -1,16 +1,19 @@
 ---
-$id: schema:partOfTrip
-$type: rdf:Property
-label: schema:partOfTrip
-rdfs:comment: "Identifies that this [[Trip]] is a subTrip of another Trip.  For example Day 1, Day 2, etc. of a multi-day trip."
+$id: https://schema.org/partOfTrip
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: partOfTrip
+comment: |
+  Identifies that this [[Trip]] is a subTrip of another Trip.  For example Day 1, Day 2, etc. of a multi-day trip.
 rdfs:label: "partOfTrip"
-schema:contributor: {"@id":"https://schema.org/docs/collab/Tourism"}
-schema:domainIncludes: {"@id":"schema:Trip"}
-schema:inverseOf: {"@id":"schema:subTrip"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Trip"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1810"}
+schema:contributor: "https://schema.org/docs/collab/Tourism"
+schema:domainIncludes: "https://schema.org/Trip"
+schema:inverseOf: "https://schema.org/subTrip"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Trip"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1810"
 ---
 
-# schema:partOfTrip
+# partOfTrip
+
+Identifies that this [[Trip]] is a subTrip of another Trip.  For example Day 1, Day 2, etc. of a multi-day trip.
 

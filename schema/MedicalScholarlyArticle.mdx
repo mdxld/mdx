@@ -1,12 +1,20 @@
 ---
-$id: schema:MedicalScholarlyArticle
-$type: rdfs:Class
-label: schema:MedicalScholarlyArticle
-rdfs:comment: "A scholarly article in the medical domain."
+$id: https://schema.org/MedicalScholarlyArticle
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalScholarlyArticle
+comment: |
+  A scholarly article in the medical domain.
 rdfs:label: "MedicalScholarlyArticle"
-rdfs:subClassOf: {"@id":"schema:ScholarlyArticle"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/ScholarlyArticle"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalScholarlyArticle
+# MedicalScholarlyArticle
 
+A scholarly article in the medical domain.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [publicationType](https://schema.org/publicationType) | Text |  |

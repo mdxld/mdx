@@ -1,12 +1,15 @@
 ---
-$id: schema:orderedItem
-$type: rdf:Property
-label: schema:orderedItem
-rdfs:comment: "The item ordered."
+$id: https://schema.org/orderedItem
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: orderedItem
+comment: |
+  The item ordered.
 rdfs:label: "orderedItem"
-schema:domainIncludes: [{"@id":"schema:OrderItem"},{"@id":"schema:Order"}]
-schema:rangeIncludes: [{"@id":"schema:Service"},{"@id":"schema:OrderItem"},{"@id":"schema:Product"}]
+schema:domainIncludes: ["https://schema.org/OrderItem","https://schema.org/Order"]
+schema:rangeIncludes: ["https://schema.org/Service","https://schema.org/OrderItem","https://schema.org/Product"]
 ---
 
-# schema:orderedItem
+# orderedItem
+
+The item ordered.
 

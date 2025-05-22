@@ -1,13 +1,37 @@
 ---
-$id: schema:Schedule
-$type: rdfs:Class
-label: schema:Schedule
-rdfs:comment: "A schedule defines a repeating time period used to describe a regularly occurring [[Event]]. At a minimum a schedule will specify [[repeatFrequency]] which describes the interval between occurrences of the event. Additional information can be provided to specify the schedule more precisely.\n      This includes identifying the day(s) of the week or month when the recurring event will take place, in addition to its start and end time. Schedules may also\n      have start and end dates to indicate when they are active, e.g. to define a limited calendar of events."
+$id: https://schema.org/Schedule
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Schedule
+comment: |
+  A schedule defines a repeating time period used to describe a regularly occurring [[Event]]. At a minimum a schedule will specify [[repeatFrequency]] which describes the interval between occurrences of the event. Additional information can be provided to specify the schedule more precisely.
+  This includes identifying the day(s) of the week or month when the recurring event will take place, in addition to its start and end time. Schedules may also
+  have start and end dates to indicate when they are active, e.g. to define a limited calendar of events.
 rdfs:label: "Schedule"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1457"
 ---
 
-# schema:Schedule
+# Schedule
 
+A schedule defines a repeating time period used to describe a regularly occurring [[Event]]. At a minimum a schedule will specify [[repeatFrequency]] which describes the interval between occurrences of the event. Additional information can be provided to specify the schedule more precisely.
+      This includes identifying the day(s) of the week or month when the recurring event will take place, in addition to its start and end time. Schedules may also
+      have start and end dates to indicate when they are active, e.g. to define a limited calendar of events.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [byDay](https://schema.org/byDay) | Text |  |
+| [byMonth](https://schema.org/byMonth) | Text |  |
+| [byMonthDay](https://schema.org/byMonthDay) | Text |  |
+| [byMonthWeek](https://schema.org/byMonthWeek) | Text |  |
+| [duration](https://schema.org/duration) | Text |  |
+| [endDate](https://schema.org/endDate) | Text |  |
+| [endTime](https://schema.org/endTime) | Text |  |
+| [exceptDate](https://schema.org/exceptDate) | Text |  |
+| [repeatCount](https://schema.org/repeatCount) | Text |  |
+| [repeatFrequency](https://schema.org/repeatFrequency) | Text |  |
+| [scheduleTimezone](https://schema.org/scheduleTimezone) | Text |  |
+| [startDate](https://schema.org/startDate) | Text |  |
+| [startTime](https://schema.org/startTime) | Text |  |

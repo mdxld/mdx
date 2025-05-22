@@ -1,12 +1,22 @@
 ---
-$id: schema:AudioObject
-$type: rdfs:Class
-label: schema:AudioObject
-rdfs:comment: "An audio file."
+$id: https://schema.org/AudioObject
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: AudioObject
+comment: |
+  An audio file.
 rdfs:label: "AudioObject"
-rdfs:subClassOf: {"@id":"schema:MediaObject"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/rNews"}
+rdfs:subClassOf: "https://schema.org/MediaObject"
+schema:contributor: "https://schema.org/docs/collab/rNews"
 ---
 
-# schema:AudioObject
+# AudioObject
 
+An audio file.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [caption](https://schema.org/caption) | Text |  |
+| [embeddedTextCaption](https://schema.org/embeddedTextCaption) | Text |  |
+| [transcript](https://schema.org/transcript) | Text |  |

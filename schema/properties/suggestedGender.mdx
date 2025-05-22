@@ -1,12 +1,15 @@
 ---
-$id: schema:suggestedGender
-$type: rdf:Property
-label: schema:suggestedGender
-rdfs:comment: "The suggested gender of the intended person or audience, for example \"male\", \"female\", or \"unisex\"."
+$id: https://schema.org/suggestedGender
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: suggestedGender
+comment: |
+  The suggested gender of the intended person or audience, for example "male", "female", or "unisex".
 rdfs:label: "suggestedGender"
-schema:domainIncludes: [{"@id":"schema:SizeSpecification"},{"@id":"schema:PeopleAudience"}]
-schema:rangeIncludes: [{"@id":"schema:GenderType"},{"@id":"schema:Text"}]
+schema:domainIncludes: ["https://schema.org/SizeSpecification","https://schema.org/PeopleAudience"]
+schema:rangeIncludes: ["https://schema.org/GenderType","https://schema.org/Text"]
 ---
 
-# schema:suggestedGender
+# suggestedGender
+
+The suggested gender of the intended person or audience, for example "male", "female", or "unisex".
 

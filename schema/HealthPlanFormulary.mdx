@@ -1,13 +1,23 @@
 ---
-$id: schema:HealthPlanFormulary
-$type: rdfs:Class
-label: schema:HealthPlanFormulary
-rdfs:comment: "For a given health insurance plan, the specification for costs and coverage of prescription drugs."
+$id: https://schema.org/HealthPlanFormulary
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: HealthPlanFormulary
+comment: |
+  For a given health insurance plan, the specification for costs and coverage of prescription drugs.
 rdfs:label: "HealthPlanFormulary"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:HealthPlanFormulary
+# HealthPlanFormulary
 
+For a given health insurance plan, the specification for costs and coverage of prescription drugs.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [healthPlanCostSharing](https://schema.org/healthPlanCostSharing) | Text |  |
+| [healthPlanDrugTier](https://schema.org/healthPlanDrugTier) | Text |  |
+| [offersPrescriptionByMail](https://schema.org/offersPrescriptionByMail) | Text |  |

@@ -1,12 +1,15 @@
 ---
-$id: schema:nutrition
-$type: rdf:Property
-label: schema:nutrition
-rdfs:comment: "Nutrition information about the recipe or menu item."
+$id: https://schema.org/nutrition
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: nutrition
+comment: |
+  Nutrition information about the recipe or menu item.
 rdfs:label: "nutrition"
-schema:domainIncludes: [{"@id":"schema:MenuItem"},{"@id":"schema:Recipe"}]
-schema:rangeIncludes: {"@id":"schema:NutritionInformation"}
+schema:domainIncludes: ["https://schema.org/MenuItem","https://schema.org/Recipe"]
+schema:rangeIncludes: "https://schema.org/NutritionInformation"
 ---
 
-# schema:nutrition
+# nutrition
+
+Nutrition information about the recipe or menu item.
 

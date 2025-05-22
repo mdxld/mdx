@@ -1,13 +1,16 @@
 ---
-$id: schema:resultReview
-$type: rdf:Property
-label: schema:resultReview
-rdfs:comment: "A sub property of result. The review that resulted in the performing of the action."
+$id: https://schema.org/resultReview
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: resultReview
+comment: |
+  A sub property of result. The review that resulted in the performing of the action.
 rdfs:label: "resultReview"
-rdfs:subPropertyOf: {"@id":"schema:result"}
-schema:domainIncludes: {"@id":"schema:ReviewAction"}
-schema:rangeIncludes: {"@id":"schema:Review"}
+rdfs:subPropertyOf: "https://schema.org/result"
+schema:domainIncludes: "https://schema.org/ReviewAction"
+schema:rangeIncludes: "https://schema.org/Review"
 ---
 
-# schema:resultReview
+# resultReview
+
+A sub property of result. The review that resulted in the performing of the action.
 

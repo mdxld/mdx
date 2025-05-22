@@ -1,15 +1,17 @@
 ---
-$id: schema:holdingArchive
-$type: rdf:Property
-label: schema:holdingArchive
-rdfs:comment: {"@language":"en","@value":"[[ArchiveOrganization]] that holds, keeps or maintains the [[ArchiveComponent]]."}
+$id: https://schema.org/holdingArchive
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: holdingArchive
+comment: {"@language":"en","@value":"[[ArchiveOrganization]] that holds, keeps or maintains the [[ArchiveComponent]]."}
 rdfs:label: {"@language":"en","@value":"holdingArchive"}
-schema:domainIncludes: {"@id":"schema:ArchiveComponent"}
-schema:inverseOf: {"@id":"schema:archiveHeld"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:ArchiveOrganization"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1758"}
+schema:domainIncludes: "https://schema.org/ArchiveComponent"
+schema:inverseOf: "https://schema.org/archiveHeld"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/ArchiveOrganization"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1758"
 ---
 
-# schema:holdingArchive
+# holdingArchive
+
+{"@language":"en","@value":"[[ArchiveOrganization]] that holds, keeps or maintains the [[ArchiveComponent]]."}
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:estimatedSalary
-$type: rdf:Property
-label: schema:estimatedSalary
-rdfs:comment: "An estimated salary for a job posting or occupation, based on a variety of variables including, but not limited to industry, job title, and location. Estimated salaries  are often computed by outside organizations rather than the hiring organization, who may not have committed to the estimated value."
+$id: https://schema.org/estimatedSalary
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: estimatedSalary
+comment: |
+  An estimated salary for a job posting or occupation, based on a variety of variables including, but not limited to industry, job title, and location. Estimated salaries  are often computed by outside organizations rather than the hiring organization, who may not have committed to the estimated value.
 rdfs:label: "estimatedSalary"
-schema:domainIncludes: [{"@id":"schema:Occupation"},{"@id":"schema:JobPosting"}]
-schema:rangeIncludes: [{"@id":"schema:MonetaryAmount"},{"@id":"schema:MonetaryAmountDistribution"},{"@id":"schema:Number"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1698"}
+schema:domainIncludes: ["https://schema.org/Occupation","https://schema.org/JobPosting"]
+schema:rangeIncludes: ["https://schema.org/MonetaryAmount","https://schema.org/MonetaryAmountDistribution","https://schema.org/Number"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1698"
 ---
 
-# schema:estimatedSalary
+# estimatedSalary
+
+An estimated salary for a job posting or occupation, based on a variety of variables including, but not limited to industry, job title, and location. Estimated salaries  are often computed by outside organizations rather than the hiring organization, who may not have committed to the estimated value.
 

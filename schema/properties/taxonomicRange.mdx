@@ -1,14 +1,17 @@
 ---
-$id: schema:taxonomicRange
-$type: rdf:Property
-label: schema:taxonomicRange
-rdfs:comment: "The taxonomic grouping of the organism that expresses, encodes, or in some way related to the BioChemEntity."
+$id: https://schema.org/taxonomicRange
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: taxonomicRange
+comment: |
+  The taxonomic grouping of the organism that expresses, encodes, or in some way related to the BioChemEntity.
 rdfs:label: "taxonomicRange"
-schema:domainIncludes: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Taxon"},{"@id":"schema:Text"},{"@id":"schema:URL"},{"@id":"schema:DefinedTerm"}]
-schema:source: {"@id":"http://www.bioschemas.org"}
+schema:domainIncludes: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Taxon","https://schema.org/Text","https://schema.org/URL","https://schema.org/DefinedTerm"]
+schema:source: "http://www.bioschemas.org"
 ---
 
-# schema:taxonomicRange
+# taxonomicRange
+
+The taxonomic grouping of the organism that expresses, encodes, or in some way related to the BioChemEntity.
 

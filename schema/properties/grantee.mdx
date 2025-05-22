@@ -1,12 +1,15 @@
 ---
-$id: schema:grantee
-$type: rdf:Property
-label: schema:grantee
-rdfs:comment: "The person, organization, contact point, or audience that has been granted this permission."
+$id: https://schema.org/grantee
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: grantee
+comment: |
+  The person, organization, contact point, or audience that has been granted this permission.
 rdfs:label: "grantee"
-schema:domainIncludes: {"@id":"schema:DigitalDocumentPermission"}
-schema:rangeIncludes: [{"@id":"schema:Audience"},{"@id":"schema:Organization"},{"@id":"schema:ContactPoint"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/DigitalDocumentPermission"
+schema:rangeIncludes: ["https://schema.org/Audience","https://schema.org/Organization","https://schema.org/ContactPoint","https://schema.org/Person"]
 ---
 
-# schema:grantee
+# grantee
+
+The person, organization, contact point, or audience that has been granted this permission.
 

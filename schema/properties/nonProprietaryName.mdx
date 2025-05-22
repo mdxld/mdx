@@ -1,13 +1,16 @@
 ---
-$id: schema:nonProprietaryName
-$type: rdf:Property
-label: schema:nonProprietaryName
-rdfs:comment: "The generic name of this drug or supplement."
+$id: https://schema.org/nonProprietaryName
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: nonProprietaryName
+comment: |
+  The generic name of this drug or supplement.
 rdfs:label: "nonProprietaryName"
-schema:domainIncludes: [{"@id":"schema:DietarySupplement"},{"@id":"schema:Drug"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/DietarySupplement","https://schema.org/Drug"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:nonProprietaryName
+# nonProprietaryName
+
+The generic name of this drug or supplement.
 

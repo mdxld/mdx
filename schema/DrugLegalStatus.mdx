@@ -1,12 +1,20 @@
 ---
-$id: schema:DrugLegalStatus
-$type: rdfs:Class
-label: schema:DrugLegalStatus
-rdfs:comment: "The legal availability status of a medical drug."
+$id: https://schema.org/DrugLegalStatus
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DrugLegalStatus
+comment: |
+  The legal availability status of a medical drug.
 rdfs:label: "DrugLegalStatus"
-rdfs:subClassOf: {"@id":"schema:MedicalIntangible"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalIntangible"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:DrugLegalStatus
+# DrugLegalStatus
 
+The legal availability status of a medical drug.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [applicableLocation](https://schema.org/applicableLocation) | Text |  |

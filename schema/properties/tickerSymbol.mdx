@@ -1,12 +1,15 @@
 ---
-$id: schema:tickerSymbol
-$type: rdf:Property
-label: schema:tickerSymbol
-rdfs:comment: "The exchange traded instrument associated with a Corporation object. The tickerSymbol is expressed as an exchange and an instrument name separated by a space character. For the exchange component of the tickerSymbol attribute, we recommend using the controlled vocabulary of Market Identifier Codes (MIC) specified in ISO 15022."
+$id: https://schema.org/tickerSymbol
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tickerSymbol
+comment: |
+  The exchange traded instrument associated with a Corporation object. The tickerSymbol is expressed as an exchange and an instrument name separated by a space character. For the exchange component of the tickerSymbol attribute, we recommend using the controlled vocabulary of Market Identifier Codes (MIC) specified in ISO 15022.
 rdfs:label: "tickerSymbol"
-schema:domainIncludes: {"@id":"schema:Corporation"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/Corporation"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:tickerSymbol
+# tickerSymbol
+
+The exchange traded instrument associated with a Corporation object. The tickerSymbol is expressed as an exchange and an instrument name separated by a space character. For the exchange component of the tickerSymbol attribute, we recommend using the controlled vocabulary of Market Identifier Codes (MIC) specified in ISO 15022.
 

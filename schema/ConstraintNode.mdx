@@ -1,13 +1,24 @@
 ---
-$id: schema:ConstraintNode
-$type: rdfs:Class
-label: schema:ConstraintNode
-rdfs:comment: "The ConstraintNode type is provided to support usecases in which a node in a structured data graph is described with properties which appear to describe a single entity, but are being used in a situation where they serve a more abstract purpose. A [[ConstraintNode]] can be described using [[constraintProperty]] and [[numConstraints]]. These constraint properties can serve a\n    variety of purposes, and their values may sometimes be understood to indicate sets of possible values rather than single, exact and specific values."
+$id: https://schema.org/ConstraintNode
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ConstraintNode
+comment: |
+  The ConstraintNode type is provided to support usecases in which a node in a structured data graph is described with properties which appear to describe a single entity, but are being used in a situation where they serve a more abstract purpose. A [[ConstraintNode]] can be described using [[constraintProperty]] and [[numConstraints]]. These constraint properties can serve a
+  variety of purposes, and their values may sometimes be understood to indicate sets of possible values rather than single, exact and specific values.
 rdfs:label: "ConstraintNode"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2564"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2564"
 ---
 
-# schema:ConstraintNode
+# ConstraintNode
 
+The ConstraintNode type is provided to support usecases in which a node in a structured data graph is described with properties which appear to describe a single entity, but are being used in a situation where they serve a more abstract purpose. A [[ConstraintNode]] can be described using [[constraintProperty]] and [[numConstraints]]. These constraint properties can serve a
+    variety of purposes, and their values may sometimes be understood to indicate sets of possible values rather than single, exact and specific values.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [constraintProperty](https://schema.org/constraintProperty) | Text |  |
+| [numConstraints](https://schema.org/numConstraints) | Text |  |

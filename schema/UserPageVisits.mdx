@@ -1,12 +1,15 @@
 ---
-$id: schema:UserPageVisits
-$type: rdfs:Class
-label: schema:UserPageVisits
-rdfs:comment: "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]]."
+$id: https://schema.org/UserPageVisits
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: UserPageVisits
+comment: |
+  UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
 rdfs:label: "UserPageVisits"
-rdfs:subClassOf: {"@id":"schema:UserInteraction"}
-schema:supersededBy: {"@id":"schema:InteractionCounter"}
+rdfs:subClassOf: "https://schema.org/UserInteraction"
+schema:supersededBy: "https://schema.org/InteractionCounter"
 ---
 
-# schema:UserPageVisits
+# UserPageVisits
+
+UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
 

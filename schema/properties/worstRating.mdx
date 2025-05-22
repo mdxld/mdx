@@ -1,12 +1,15 @@
 ---
-$id: schema:worstRating
-$type: rdf:Property
-label: schema:worstRating
-rdfs:comment: "The lowest value allowed in this rating system."
+$id: https://schema.org/worstRating
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: worstRating
+comment: |
+  The lowest value allowed in this rating system.
 rdfs:label: "worstRating"
-schema:domainIncludes: {"@id":"schema:Rating"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"}]
+schema:domainIncludes: "https://schema.org/Rating"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number"]
 ---
 
-# schema:worstRating
+# worstRating
+
+The lowest value allowed in this rating system.
 

@@ -1,12 +1,22 @@
 ---
-$id: schema:FinancialProduct
-$type: rdfs:Class
-label: schema:FinancialProduct
-rdfs:comment: "A product provided to consumers and businesses by financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies, and investment companies which comprise the financial services industry."
+$id: https://schema.org/FinancialProduct
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: FinancialProduct
+comment: |
+  A product provided to consumers and businesses by financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies, and investment companies which comprise the financial services industry.
 rdfs:label: "FinancialProduct"
-rdfs:subClassOf: {"@id":"schema:Service"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
+rdfs:subClassOf: "https://schema.org/Service"
+schema:contributor: "https://schema.org/docs/collab/FIBO"
 ---
 
-# schema:FinancialProduct
+# FinancialProduct
 
+A product provided to consumers and businesses by financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies, and investment companies which comprise the financial services industry.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [annualPercentageRate](https://schema.org/annualPercentageRate) | Text |  |
+| [feesAndCommissionsSpecification](https://schema.org/feesAndCommissionsSpecification) | Text |  |
+| [interestRate](https://schema.org/interestRate) | Text |  |

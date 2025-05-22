@@ -1,13 +1,16 @@
 ---
-$id: schema:identifier
-$type: rdf:Property
-label: schema:identifier
-owl:equivalentProperty: {"@id":"dcterms:identifier"}
-rdfs:comment: "The identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.\n        "
+$id: https://schema.org/identifier
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: identifier
+comment: |
+  The identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.
+owl:equivalentProperty: "dcterms:identifier"
 rdfs:label: "identifier"
-schema:domainIncludes: {"@id":"schema:Thing"}
-schema:rangeIncludes: [{"@id":"schema:PropertyValue"},{"@id":"schema:URL"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/Thing"
+schema:rangeIncludes: ["https://schema.org/PropertyValue","https://schema.org/URL","https://schema.org/Text"]
 ---
 
-# schema:identifier
+# identifier
+
+The identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.
 

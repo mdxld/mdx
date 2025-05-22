@@ -1,13 +1,16 @@
 ---
-$id: schema:benefits
-$type: rdf:Property
-label: schema:benefits
-rdfs:comment: "Description of benefits associated with the job."
+$id: https://schema.org/benefits
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: benefits
+comment: |
+  Description of benefits associated with the job.
 rdfs:label: "benefits"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:supersededBy: {"@id":"schema:jobBenefits"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:supersededBy: "https://schema.org/jobBenefits"
 ---
 
-# schema:benefits
+# benefits
+
+Description of benefits associated with the job.
 

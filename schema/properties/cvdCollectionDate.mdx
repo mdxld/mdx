@@ -1,14 +1,17 @@
 ---
-$id: schema:cvdCollectionDate
-$type: rdf:Property
-label: schema:cvdCollectionDate
-rdfs:comment: "collectiondate - Date for which patient counts are reported."
+$id: https://schema.org/cvdCollectionDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: cvdCollectionDate
+comment: |
+  collectiondate - Date for which patient counts are reported.
 rdfs:label: "cvdCollectionDate"
-schema:domainIncludes: {"@id":"schema:CDCPMDRecord"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:DateTime"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2521"}
+schema:domainIncludes: "https://schema.org/CDCPMDRecord"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/DateTime"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2521"
 ---
 
-# schema:cvdCollectionDate
+# cvdCollectionDate
+
+collectiondate - Date for which patient counts are reported.
 

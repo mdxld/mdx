@@ -1,14 +1,17 @@
 ---
-$id: schema:weightPercentage
-$type: rdf:Property
-label: schema:weightPercentage
-rdfs:comment: "Fraction of the weight that is used to compute the shipping price."
+$id: https://schema.org/weightPercentage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: weightPercentage
+comment: |
+  Fraction of the weight that is used to compute the shipping price.
 rdfs:label: "weightPercentage"
-schema:domainIncludes: {"@id":"schema:ShippingRateSettings"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Number"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+schema:domainIncludes: "https://schema.org/ShippingRateSettings"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Number"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:weightPercentage
+# weightPercentage
+
+Fraction of the weight that is used to compute the shipping price.
 

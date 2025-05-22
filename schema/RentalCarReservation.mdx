@@ -1,11 +1,22 @@
 ---
-$id: schema:RentalCarReservation
-$type: rdfs:Class
-label: schema:RentalCarReservation
-rdfs:comment: "A reservation for a rental car.\\n\\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations."
+$id: https://schema.org/RentalCarReservation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: RentalCarReservation
+comment: |
+  A reservation for a rental car.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
 rdfs:label: "RentalCarReservation"
-rdfs:subClassOf: {"@id":"schema:Reservation"}
+rdfs:subClassOf: "https://schema.org/Reservation"
 ---
 
-# schema:RentalCarReservation
+# RentalCarReservation
 
+A reservation for a rental car.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dropoffLocation](https://schema.org/dropoffLocation) | Text |  |
+| [dropoffTime](https://schema.org/dropoffTime) | Text |  |
+| [pickupLocation](https://schema.org/pickupLocation) | Text |  |
+| [pickupTime](https://schema.org/pickupTime) | Text |  |

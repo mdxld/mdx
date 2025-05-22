@@ -1,13 +1,16 @@
 ---
-$id: schema:requirements
-$type: rdf:Property
-label: schema:requirements
-rdfs:comment: "Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (examples: DirectX, Java or .NET runtime)."
+$id: https://schema.org/requirements
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: requirements
+comment: |
+  Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (examples: DirectX, Java or .NET runtime).
 rdfs:label: "requirements"
-schema:domainIncludes: {"@id":"schema:SoftwareApplication"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
-schema:supersededBy: {"@id":"schema:softwareRequirements"}
+schema:domainIncludes: "https://schema.org/SoftwareApplication"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
+schema:supersededBy: "https://schema.org/softwareRequirements"
 ---
 
-# schema:requirements
+# requirements
+
+Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (examples: DirectX, Java or .NET runtime).
 

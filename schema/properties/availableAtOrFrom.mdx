@@ -1,14 +1,17 @@
 ---
-$id: schema:availableAtOrFrom
-$type: rdf:Property
-label: schema:availableAtOrFrom
-rdfs:comment: "The place(s) from which the offer can be obtained (e.g. store locations)."
+$id: https://schema.org/availableAtOrFrom
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: availableAtOrFrom
+comment: |
+  The place(s) from which the offer can be obtained (e.g. store locations).
 rdfs:label: "availableAtOrFrom"
-rdfs:subPropertyOf: {"@id":"schema:areaServed"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"}]
-schema:rangeIncludes: {"@id":"schema:Place"}
+rdfs:subPropertyOf: "https://schema.org/areaServed"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer"]
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:availableAtOrFrom
+# availableAtOrFrom
+
+The place(s) from which the offer can be obtained (e.g. store locations).
 

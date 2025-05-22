@@ -1,13 +1,16 @@
 ---
-$id: schema:sender
-$type: rdf:Property
-label: schema:sender
-rdfs:comment: "A sub property of participant. The participant who is at the sending end of the action."
+$id: https://schema.org/sender
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sender
+comment: |
+  A sub property of participant. The participant who is at the sending end of the action.
 rdfs:label: "sender"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: [{"@id":"schema:ReceiveAction"},{"@id":"schema:Message"}]
-schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:Audience"},{"@id":"schema:Organization"}]
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: ["https://schema.org/ReceiveAction","https://schema.org/Message"]
+schema:rangeIncludes: ["https://schema.org/Person","https://schema.org/Audience","https://schema.org/Organization"]
 ---
 
-# schema:sender
+# sender
+
+A sub property of participant. The participant who is at the sending end of the action.
 

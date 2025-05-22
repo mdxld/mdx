@@ -1,13 +1,21 @@
 ---
-$id: schema:Protein
-$type: rdfs:Class
-label: schema:Protein
-rdfs:comment: "Protein is here used in its widest possible definition, as classes of amino acid based molecules. Amyloid-beta Protein in human (UniProt P05067), eukaryota (e.g. an OrthoDB group) or even a single molecule that one can point to are all of type :Protein. A protein can thus be a subclass of another protein, e.g. :Protein as a UniProt record can have multiple isoforms inside it which would also be :Protein. They can be imagined, synthetic, hypothetical or naturally occurring."
+$id: https://schema.org/Protein
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Protein
+comment: |
+  Protein is here used in its widest possible definition, as classes of amino acid based molecules. Amyloid-beta Protein in human (UniProt P05067), eukaryota (e.g. an OrthoDB group) or even a single molecule that one can point to are all of type :Protein. A protein can thus be a subclass of another protein, e.g. :Protein as a UniProt record can have multiple isoforms inside it which would also be :Protein. They can be imagined, synthetic, hypothetical or naturally occurring.
 rdfs:label: "Protein"
-rdfs:subClassOf: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"http://bioschemas.org"}
+rdfs:subClassOf: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "http://bioschemas.org"
 ---
 
-# schema:Protein
+# Protein
 
+Protein is here used in its widest possible definition, as classes of amino acid based molecules. Amyloid-beta Protein in human (UniProt P05067), eukaryota (e.g. an OrthoDB group) or even a single molecule that one can point to are all of type :Protein. A protein can thus be a subclass of another protein, e.g. :Protein as a UniProt record can have multiple isoforms inside it which would also be :Protein. They can be imagined, synthetic, hypothetical or naturally occurring.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hasBioPolymerSequence](https://schema.org/hasBioPolymerSequence) | Text |  |

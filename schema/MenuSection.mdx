@@ -1,11 +1,20 @@
 ---
-$id: schema:MenuSection
-$type: rdfs:Class
-label: schema:MenuSection
-rdfs:comment: "A sub-grouping of food or drink items in a menu. E.g. courses (such as 'Dinner', 'Breakfast', etc.), specific type of dishes (such as 'Meat', 'Vegan', 'Drinks', etc.), or some other classification made by the menu provider."
+$id: https://schema.org/MenuSection
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MenuSection
+comment: |
+  A sub-grouping of food or drink items in a menu. E.g. courses (such as 'Dinner', 'Breakfast', etc.), specific type of dishes (such as 'Meat', 'Vegan', 'Drinks', etc.), or some other classification made by the menu provider.
 rdfs:label: "MenuSection"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:MenuSection
+# MenuSection
 
+A sub-grouping of food or drink items in a menu. E.g. courses (such as 'Dinner', 'Breakfast', etc.), specific type of dishes (such as 'Meat', 'Vegan', 'Drinks', etc.), or some other classification made by the menu provider.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hasMenuItem](https://schema.org/hasMenuItem) | Text |  |
+| [hasMenuSection](https://schema.org/hasMenuSection) | Text |  |

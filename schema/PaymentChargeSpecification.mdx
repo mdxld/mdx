@@ -1,12 +1,21 @@
 ---
-$id: schema:PaymentChargeSpecification
-$type: rdfs:Class
-label: schema:PaymentChargeSpecification
-rdfs:comment: "The costs of settling the payment using a particular payment method."
+$id: https://schema.org/PaymentChargeSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PaymentChargeSpecification
+comment: |
+  The costs of settling the payment using a particular payment method.
 rdfs:label: "PaymentChargeSpecification"
-rdfs:subClassOf: {"@id":"schema:PriceSpecification"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/PriceSpecification"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:PaymentChargeSpecification
+# PaymentChargeSpecification
 
+The costs of settling the payment using a particular payment method.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [appliesToDeliveryMethod](https://schema.org/appliesToDeliveryMethod) | Text |  |
+| [appliesToPaymentMethod](https://schema.org/appliesToPaymentMethod) | Text |  |

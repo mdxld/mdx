@@ -1,12 +1,15 @@
 ---
-$id: schema:acceptedOffer
-$type: rdf:Property
-label: schema:acceptedOffer
-rdfs:comment: "The offer(s) -- e.g., product, quantity and price combinations -- included in the order."
+$id: https://schema.org/acceptedOffer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: acceptedOffer
+comment: |
+  The offer(s) -- e.g., product, quantity and price combinations -- included in the order.
 rdfs:label: "acceptedOffer"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: {"@id":"schema:Offer"}
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: "https://schema.org/Offer"
 ---
 
-# schema:acceptedOffer
+# acceptedOffer
+
+The offer(s) -- e.g., product, quantity and price combinations -- included in the order.
 

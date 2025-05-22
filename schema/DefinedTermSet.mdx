@@ -1,13 +1,21 @@
 ---
-$id: schema:DefinedTermSet
-$type: rdfs:Class
-label: schema:DefinedTermSet
-rdfs:comment: "A set of defined terms, for example a set of categories or a classification scheme, a glossary, dictionary or enumeration."
+$id: https://schema.org/DefinedTermSet
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DefinedTermSet
+comment: |
+  A set of defined terms, for example a set of categories or a classification scheme, a glossary, dictionary or enumeration.
 rdfs:label: "DefinedTermSet"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/894"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/894"
 ---
 
-# schema:DefinedTermSet
+# DefinedTermSet
 
+A set of defined terms, for example a set of categories or a classification scheme, a glossary, dictionary or enumeration.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hasDefinedTerm](https://schema.org/hasDefinedTerm) | Text |  |

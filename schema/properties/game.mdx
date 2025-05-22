@@ -1,13 +1,16 @@
 ---
-$id: schema:game
-$type: rdf:Property
-label: schema:game
-rdfs:comment: "Video game which is played on this server."
+$id: https://schema.org/game
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: game
+comment: |
+  Video game which is played on this server.
 rdfs:label: "game"
-schema:domainIncludes: {"@id":"schema:GameServer"}
-schema:inverseOf: {"@id":"schema:gameServer"}
-schema:rangeIncludes: {"@id":"schema:VideoGame"}
+schema:domainIncludes: "https://schema.org/GameServer"
+schema:inverseOf: "https://schema.org/gameServer"
+schema:rangeIncludes: "https://schema.org/VideoGame"
 ---
 
-# schema:game
+# game
+
+Video game which is played on this server.
 

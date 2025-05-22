@@ -1,14 +1,17 @@
 ---
-$id: schema:eduQuestionType
-$type: rdf:Property
-label: schema:eduQuestionType
-rdfs:comment: "For questions that are part of learning resources (e.g. Quiz), eduQuestionType indicates the format of question being given. Example: \"Multiple choice\", \"Open ended\", \"Flashcard\"."
+$id: https://schema.org/eduQuestionType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: eduQuestionType
+comment: |
+  For questions that are part of learning resources (e.g. Quiz), eduQuestionType indicates the format of question being given. Example: "Multiple choice", "Open ended", "Flashcard".
 rdfs:label: "eduQuestionType"
-schema:domainIncludes: [{"@id":"schema:Question"},{"@id":"schema:SolveMathAction"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2636"}
+schema:domainIncludes: ["https://schema.org/Question","https://schema.org/SolveMathAction"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2636"
 ---
 
-# schema:eduQuestionType
+# eduQuestionType
+
+For questions that are part of learning resources (e.g. Quiz), eduQuestionType indicates the format of question being given. Example: "Multiple choice", "Open ended", "Flashcard".
 

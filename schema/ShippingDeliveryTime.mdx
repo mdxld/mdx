@@ -1,12 +1,23 @@
 ---
-$id: schema:ShippingDeliveryTime
-$type: rdfs:Class
-label: schema:ShippingDeliveryTime
-rdfs:comment: "ShippingDeliveryTime provides various pieces of information about delivery times for shipping."
+$id: https://schema.org/ShippingDeliveryTime
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ShippingDeliveryTime
+comment: |
+  ShippingDeliveryTime provides various pieces of information about delivery times for shipping.
 rdfs:label: "ShippingDeliveryTime"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:ShippingDeliveryTime
+# ShippingDeliveryTime
 
+ShippingDeliveryTime provides various pieces of information about delivery times for shipping.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [businessDays](https://schema.org/businessDays) | Text |  |
+| [cutoffTime](https://schema.org/cutoffTime) | Text |  |
+| [handlingTime](https://schema.org/handlingTime) | Text |  |
+| [transitTime](https://schema.org/transitTime) | Text |  |

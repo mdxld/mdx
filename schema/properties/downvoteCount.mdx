@@ -1,12 +1,15 @@
 ---
-$id: schema:downvoteCount
-$type: rdf:Property
-label: schema:downvoteCount
-rdfs:comment: "The number of downvotes this question, answer or comment has received from the community."
+$id: https://schema.org/downvoteCount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: downvoteCount
+comment: |
+  The number of downvotes this question, answer or comment has received from the community.
 rdfs:label: "downvoteCount"
-schema:domainIncludes: {"@id":"schema:Comment"}
-schema:rangeIncludes: {"@id":"schema:Integer"}
+schema:domainIncludes: "https://schema.org/Comment"
+schema:rangeIncludes: "https://schema.org/Integer"
 ---
 
-# schema:downvoteCount
+# downvoteCount
+
+The number of downvotes this question, answer or comment has received from the community.
 

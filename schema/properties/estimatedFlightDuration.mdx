@@ -1,12 +1,15 @@
 ---
-$id: schema:estimatedFlightDuration
-$type: rdf:Property
-label: schema:estimatedFlightDuration
-rdfs:comment: "The estimated time the flight will take."
+$id: https://schema.org/estimatedFlightDuration
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: estimatedFlightDuration
+comment: |
+  The estimated time the flight will take.
 rdfs:label: "estimatedFlightDuration"
-schema:domainIncludes: {"@id":"schema:Flight"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Duration"}]
+schema:domainIncludes: "https://schema.org/Flight"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Duration"]
 ---
 
-# schema:estimatedFlightDuration
+# estimatedFlightDuration
+
+The estimated time the flight will take.
 

@@ -1,15 +1,18 @@
 ---
-$id: schema:acquireLicensePage
-$type: rdf:Property
-label: schema:acquireLicensePage
-rdfs:comment: "Indicates a page documenting how licenses can be purchased or otherwise acquired, for the current item."
+$id: https://schema.org/acquireLicensePage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: acquireLicensePage
+comment: |
+  Indicates a page documenting how licenses can be purchased or otherwise acquired, for the current item.
 rdfs:label: "acquireLicensePage"
-rdfs:subPropertyOf: {"@id":"schema:usageInfo"}
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:CreativeWork"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2454"}
+rdfs:subPropertyOf: "https://schema.org/usageInfo"
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/CreativeWork"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2454"
 ---
 
-# schema:acquireLicensePage
+# acquireLicensePage
+
+Indicates a page documenting how licenses can be purchased or otherwise acquired, for the current item.
 

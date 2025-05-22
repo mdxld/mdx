@@ -1,13 +1,16 @@
 ---
-$id: schema:applicableLocation
-$type: rdf:Property
-label: schema:applicableLocation
-rdfs:comment: "The location in which the status applies."
+$id: https://schema.org/applicableLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicableLocation
+comment: |
+  The location in which the status applies.
 rdfs:label: "applicableLocation"
-schema:domainIncludes: [{"@id":"schema:DrugCost"},{"@id":"schema:DrugLegalStatus"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AdministrativeArea"}
+schema:domainIncludes: ["https://schema.org/DrugCost","https://schema.org/DrugLegalStatus"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/AdministrativeArea"
 ---
 
-# schema:applicableLocation
+# applicableLocation
+
+The location in which the status applies.
 

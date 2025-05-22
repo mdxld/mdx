@@ -1,14 +1,17 @@
 ---
-$id: schema:constraintProperty
-$type: rdf:Property
-label: schema:constraintProperty
-rdfs:comment: "Indicates a property used as a constraint. For example, in the definition of a [[StatisticalVariable]]. The value is a property, either from within Schema.org or from other compatible (e.g. RDF) systems such as DataCommons.org or Wikidata.org. "
+$id: https://schema.org/constraintProperty
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: constraintProperty
+comment: |
+  Indicates a property used as a constraint. For example, in the definition of a [[StatisticalVariable]]. The value is a property, either from within Schema.org or from other compatible (e.g. RDF) systems such as DataCommons.org or Wikidata.org.
 rdfs:label: "constraintProperty"
-schema:domainIncludes: {"@id":"schema:ConstraintNode"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Property"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2291"}
+schema:domainIncludes: "https://schema.org/ConstraintNode"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Property","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2291"
 ---
 
-# schema:constraintProperty
+# constraintProperty
+
+Indicates a property used as a constraint. For example, in the definition of a [[StatisticalVariable]]. The value is a property, either from within Schema.org or from other compatible (e.g. RDF) systems such as DataCommons.org or Wikidata.org.
 

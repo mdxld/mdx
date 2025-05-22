@@ -1,14 +1,17 @@
 ---
-$id: schema:restockingFee
-$type: rdf:Property
-label: schema:restockingFee
-rdfs:comment: "Use [[MonetaryAmount]] to specify a fixed restocking fee for product returns, or use [[Number]] to specify a percentage of the product price paid by the customer."
+$id: https://schema.org/restockingFee
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: restockingFee
+comment: |
+  Use [[MonetaryAmount]] to specify a fixed restocking fee for product returns, or use [[Number]] to specify a percentage of the product price paid by the customer.
 rdfs:label: "restockingFee"
-schema:domainIncludes: [{"@id":"schema:MerchantReturnPolicySeasonalOverride"},{"@id":"schema:MerchantReturnPolicy"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:MonetaryAmount"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2880"}
+schema:domainIncludes: ["https://schema.org/MerchantReturnPolicySeasonalOverride","https://schema.org/MerchantReturnPolicy"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/MonetaryAmount"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2880"
 ---
 
-# schema:restockingFee
+# restockingFee
+
+Use [[MonetaryAmount]] to specify a fixed restocking fee for product returns, or use [[Number]] to specify a percentage of the product price paid by the customer.
 

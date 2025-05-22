@@ -1,11 +1,24 @@
 ---
-$id: schema:GeoCircle
-$type: rdfs:Class
-label: schema:GeoCircle
-rdfs:comment: "A GeoCircle is a GeoShape representing a circular geographic area. As it is a GeoShape\n          it provides the simple textual property 'circle', but also allows the combination of postalCode alongside geoRadius.\n          The center of the circle can be indicated via the 'geoMidpoint' property, or more approximately using 'address', 'postalCode'.\n       "
+$id: https://schema.org/GeoCircle
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: GeoCircle
+comment: |
+  A GeoCircle is a GeoShape representing a circular geographic area. As it is a GeoShape
+  it provides the simple textual property 'circle', but also allows the combination of postalCode alongside geoRadius.
+  The center of the circle can be indicated via the 'geoMidpoint' property, or more approximately using 'address', 'postalCode'.
 rdfs:label: "GeoCircle"
-rdfs:subClassOf: {"@id":"schema:GeoShape"}
+rdfs:subClassOf: "https://schema.org/GeoShape"
 ---
 
-# schema:GeoCircle
+# GeoCircle
 
+A GeoCircle is a GeoShape representing a circular geographic area. As it is a GeoShape
+          it provides the simple textual property 'circle', but also allows the combination of postalCode alongside geoRadius.
+          The center of the circle can be indicated via the 'geoMidpoint' property, or more approximately using 'address', 'postalCode'.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [geoMidpoint](https://schema.org/geoMidpoint) | Text |  |
+| [geoRadius](https://schema.org/geoRadius) | Text |  |

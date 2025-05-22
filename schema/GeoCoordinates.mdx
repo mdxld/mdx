@@ -1,11 +1,24 @@
 ---
-$id: schema:GeoCoordinates
-$type: rdfs:Class
-label: schema:GeoCoordinates
-rdfs:comment: "The geographic coordinates of a place or event."
+$id: https://schema.org/GeoCoordinates
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: GeoCoordinates
+comment: |
+  The geographic coordinates of a place or event.
 rdfs:label: "GeoCoordinates"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
 ---
 
-# schema:GeoCoordinates
+# GeoCoordinates
 
+The geographic coordinates of a place or event.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [address](https://schema.org/address) | Text |  |
+| [addressCountry](https://schema.org/addressCountry) | Text |  |
+| [elevation](https://schema.org/elevation) | Text |  |
+| [latitude](https://schema.org/latitude) | Text |  |
+| [longitude](https://schema.org/longitude) | Text |  |
+| [postalCode](https://schema.org/postalCode) | Text |  |

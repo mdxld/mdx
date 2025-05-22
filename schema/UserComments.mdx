@@ -1,13 +1,25 @@
 ---
-$id: schema:UserComments
-$type: rdfs:Class
-label: schema:UserComments
-rdfs:comment: "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]]."
+$id: https://schema.org/UserComments
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: UserComments
+comment: |
+  UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
 rdfs:label: "UserComments"
-rdfs:subClassOf: {"@id":"schema:UserInteraction"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/rNews"}
-schema:supersededBy: {"@id":"schema:InteractionCounter"}
+rdfs:subClassOf: "https://schema.org/UserInteraction"
+schema:contributor: "https://schema.org/docs/collab/rNews"
+schema:supersededBy: "https://schema.org/InteractionCounter"
 ---
 
-# schema:UserComments
+# UserComments
 
+UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [commentText](https://schema.org/commentText) | Text |  |
+| [commentTime](https://schema.org/commentTime) | Text |  |
+| [creator](https://schema.org/creator) | Text |  |
+| [discusses](https://schema.org/discusses) | Text |  |
+| [replyToUrl](https://schema.org/replyToUrl) | Text |  |

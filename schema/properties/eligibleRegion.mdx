@@ -1,15 +1,18 @@
 ---
-$id: schema:eligibleRegion
-$type: rdf:Property
-label: schema:eligibleRegion
-rdfs:comment: "The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\\n\\nSee also [[ineligibleRegion]].\n    "
+$id: https://schema.org/eligibleRegion
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: eligibleRegion
+comment: |
+  The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\n\nSee also [[ineligibleRegion]].
 rdfs:label: "eligibleRegion"
-rdfs:subPropertyOf: {"@id":"schema:areaServed"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"},{"@id":"schema:DeliveryChargeSpecification"},{"@id":"schema:ActionAccessSpecification"}]
-schema:rangeIncludes: [{"@id":"schema:Place"},{"@id":"schema:GeoShape"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}
+rdfs:subPropertyOf: "https://schema.org/areaServed"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer","https://schema.org/DeliveryChargeSpecification","https://schema.org/ActionAccessSpecification"]
+schema:rangeIncludes: ["https://schema.org/Place","https://schema.org/GeoShape","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1741"
 ---
 
-# schema:eligibleRegion
+# eligibleRegion
+
+The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\n\nSee also [[ineligibleRegion]].
 

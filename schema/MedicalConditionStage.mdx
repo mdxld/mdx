@@ -1,12 +1,21 @@
 ---
-$id: schema:MedicalConditionStage
-$type: rdfs:Class
-label: schema:MedicalConditionStage
-rdfs:comment: "A stage of a medical condition, such as 'Stage IIIa'."
+$id: https://schema.org/MedicalConditionStage
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalConditionStage
+comment: |
+  A stage of a medical condition, such as 'Stage IIIa'.
 rdfs:label: "MedicalConditionStage"
-rdfs:subClassOf: {"@id":"schema:MedicalIntangible"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalIntangible"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalConditionStage
+# MedicalConditionStage
 
+A stage of a medical condition, such as 'Stage IIIa'.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [stageAsNumber](https://schema.org/stageAsNumber) | Text |  |
+| [subStageSuffix](https://schema.org/subStageSuffix) | Text |  |

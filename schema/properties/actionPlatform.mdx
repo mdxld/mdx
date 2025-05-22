@@ -1,12 +1,15 @@
 ---
-$id: schema:actionPlatform
-$type: rdf:Property
-label: schema:actionPlatform
-rdfs:comment: "The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication."
+$id: https://schema.org/actionPlatform
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: actionPlatform
+comment: |
+  The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication.
 rdfs:label: "actionPlatform"
-schema:domainIncludes: {"@id":"schema:EntryPoint"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"},{"@id":"schema:DigitalPlatformEnumeration"}]
+schema:domainIncludes: "https://schema.org/EntryPoint"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL","https://schema.org/DigitalPlatformEnumeration"]
 ---
 
-# schema:actionPlatform
+# actionPlatform
+
+The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication.
 

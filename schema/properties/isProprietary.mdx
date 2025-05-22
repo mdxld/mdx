@@ -1,13 +1,16 @@
 ---
-$id: schema:isProprietary
-$type: rdf:Property
-label: schema:isProprietary
-rdfs:comment: "True if this item's name is a proprietary/brand name (vs. generic name)."
+$id: https://schema.org/isProprietary
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isProprietary
+comment: |
+  True if this item's name is a proprietary/brand name (vs. generic name).
 rdfs:label: "isProprietary"
-schema:domainIncludes: [{"@id":"schema:Drug"},{"@id":"schema:DietarySupplement"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: ["https://schema.org/Drug","https://schema.org/DietarySupplement"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:isProprietary
+# isProprietary
+
+True if this item's name is a proprietary/brand name (vs. generic name).
 

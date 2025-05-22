@@ -1,13 +1,16 @@
 ---
-$id: schema:guidelineSubject
-$type: rdf:Property
-label: schema:guidelineSubject
-rdfs:comment: "The medical conditions, treatments, etc. that are the subject of the guideline."
+$id: https://schema.org/guidelineSubject
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: guidelineSubject
+comment: |
+  The medical conditions, treatments, etc. that are the subject of the guideline.
 rdfs:label: "guidelineSubject"
-schema:domainIncludes: {"@id":"schema:MedicalGuideline"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalEntity"}
+schema:domainIncludes: "https://schema.org/MedicalGuideline"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalEntity"
 ---
 
-# schema:guidelineSubject
+# guidelineSubject
+
+The medical conditions, treatments, etc. that are the subject of the guideline.
 

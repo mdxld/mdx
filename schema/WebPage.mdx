@@ -1,11 +1,28 @@
 ---
-$id: schema:WebPage
-$type: rdfs:Class
-label: schema:WebPage
-rdfs:comment: "A web page. Every web page is implicitly assumed to be declared to be of type WebPage, so the various properties about that webpage, such as <code>breadcrumb</code> may be used. We recommend explicit declaration if these properties are specified, but if they are found outside of an itemscope, they will be assumed to be about the page."
+$id: https://schema.org/WebPage
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: WebPage
+comment: |
+  A web page. Every web page is implicitly assumed to be declared to be of type WebPage, so the various properties about that webpage, such as <code>breadcrumb</code> may be used. We recommend explicit declaration if these properties are specified, but if they are found outside of an itemscope, they will be assumed to be about the page.
 rdfs:label: "WebPage"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:WebPage
+# WebPage
 
+A web page. Every web page is implicitly assumed to be declared to be of type WebPage, so the various properties about that webpage, such as <code>breadcrumb</code> may be used. We recommend explicit declaration if these properties are specified, but if they are found outside of an itemscope, they will be assumed to be about the page.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [breadcrumb](https://schema.org/breadcrumb) | Text |  |
+| [lastReviewed](https://schema.org/lastReviewed) | Text |  |
+| [mainContentOfPage](https://schema.org/mainContentOfPage) | Text |  |
+| [primaryImageOfPage](https://schema.org/primaryImageOfPage) | Text |  |
+| [relatedLink](https://schema.org/relatedLink) | Text |  |
+| [reviewedBy](https://schema.org/reviewedBy) | Text |  |
+| [significantLink](https://schema.org/significantLink) | Text |  |
+| [significantLinks](https://schema.org/significantLinks) | Text |  |
+| [speakable](https://schema.org/speakable) | Text |  |
+| [specialty](https://schema.org/specialty) | Text |  |

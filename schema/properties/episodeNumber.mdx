@@ -1,13 +1,16 @@
 ---
-$id: schema:episodeNumber
-$type: rdf:Property
-label: schema:episodeNumber
-rdfs:comment: "Position of the episode within an ordered group of episodes."
+$id: https://schema.org/episodeNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: episodeNumber
+comment: |
+  Position of the episode within an ordered group of episodes.
 rdfs:label: "episodeNumber"
-rdfs:subPropertyOf: {"@id":"schema:position"}
-schema:domainIncludes: {"@id":"schema:Episode"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+rdfs:subPropertyOf: "https://schema.org/position"
+schema:domainIncludes: "https://schema.org/Episode"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:episodeNumber
+# episodeNumber
+
+Position of the episode within an ordered group of episodes.
 

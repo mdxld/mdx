@@ -1,12 +1,15 @@
 ---
-$id: schema:originAddress
-$type: rdf:Property
-label: schema:originAddress
-rdfs:comment: "Shipper's address."
+$id: https://schema.org/originAddress
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: originAddress
+comment: |
+  Shipper's address.
 rdfs:label: "originAddress"
-schema:domainIncludes: {"@id":"schema:ParcelDelivery"}
-schema:rangeIncludes: {"@id":"schema:PostalAddress"}
+schema:domainIncludes: "https://schema.org/ParcelDelivery"
+schema:rangeIncludes: "https://schema.org/PostalAddress"
 ---
 
-# schema:originAddress
+# originAddress
+
+Shipper's address.
 

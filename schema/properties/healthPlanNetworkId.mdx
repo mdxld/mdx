@@ -1,14 +1,17 @@
 ---
-$id: schema:healthPlanNetworkId
-$type: rdf:Property
-label: schema:healthPlanNetworkId
-rdfs:comment: "Name or unique ID of network. (Networks are often reused across different insurance plans.)"
+$id: https://schema.org/healthPlanNetworkId
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: healthPlanNetworkId
+comment: |
+  Name or unique ID of network. (Networks are often reused across different insurance plans.)
 rdfs:label: "healthPlanNetworkId"
-schema:domainIncludes: [{"@id":"schema:HealthPlanNetwork"},{"@id":"schema:MedicalOrganization"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+schema:domainIncludes: ["https://schema.org/HealthPlanNetwork","https://schema.org/MedicalOrganization"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:healthPlanNetworkId
+# healthPlanNetworkId
+
+Name or unique ID of network. (Networks are often reused across different insurance plans.)
 

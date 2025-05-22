@@ -1,13 +1,16 @@
 ---
-$id: schema:isAvailableGenerically
-$type: rdf:Property
-label: schema:isAvailableGenerically
-rdfs:comment: "True if the drug is available in a generic form (regardless of name)."
+$id: https://schema.org/isAvailableGenerically
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isAvailableGenerically
+comment: |
+  True if the drug is available in a generic form (regardless of name).
 rdfs:label: "isAvailableGenerically"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:isAvailableGenerically
+# isAvailableGenerically
+
+True if the drug is available in a generic form (regardless of name).
 

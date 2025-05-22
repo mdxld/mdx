@@ -1,12 +1,15 @@
 ---
-$id: schema:workHours
-$type: rdf:Property
-label: schema:workHours
-rdfs:comment: "The typical working hours for this job (e.g. 1st shift, night shift, 8am-5pm)."
+$id: https://schema.org/workHours
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: workHours
+comment: |
+  The typical working hours for this job (e.g. 1st shift, night shift, 8am-5pm).
 rdfs:label: "workHours"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:workHours
+# workHours
+
+The typical working hours for this job (e.g. 1st shift, night shift, 8am-5pm).
 

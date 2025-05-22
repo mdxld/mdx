@@ -1,12 +1,15 @@
 ---
-$id: schema:readonlyValue
-$type: rdf:Property
-label: schema:readonlyValue
-rdfs:comment: "Whether or not a property is mutable.  Default is false. Specifying this for a property that also has a value makes it act similar to a \"hidden\" input in an HTML form."
+$id: https://schema.org/readonlyValue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: readonlyValue
+comment: |
+  Whether or not a property is mutable.  Default is false. Specifying this for a property that also has a value makes it act similar to a "hidden" input in an HTML form.
 rdfs:label: "readonlyValue"
-schema:domainIncludes: {"@id":"schema:PropertyValueSpecification"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: "https://schema.org/PropertyValueSpecification"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:readonlyValue
+# readonlyValue
+
+Whether or not a property is mutable.  Default is false. Specifying this for a property that also has a value makes it act similar to a "hidden" input in an HTML form.
 

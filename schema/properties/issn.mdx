@@ -1,15 +1,18 @@
 ---
-$id: schema:issn
-$type: rdf:Property
-label: schema:issn
-owl:equivalentProperty: {"@id":"http://purl.org/ontology/bibo/issn"}
-rdfs:comment: "The International Standard Serial Number (ISSN) that identifies this serial publication. You can repeat this property to identify different formats of, or the linking ISSN (ISSN-L) for, this serial publication."
+$id: https://schema.org/issn
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: issn
+comment: |
+  The International Standard Serial Number (ISSN) that identifies this serial publication. You can repeat this property to identify different formats of, or the linking ISSN (ISSN-L) for, this serial publication.
+owl:equivalentProperty: "http://purl.org/ontology/bibo/issn"
 rdfs:label: "issn"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/bibex"}
-schema:domainIncludes: [{"@id":"schema:Dataset"},{"@id":"schema:WebSite"},{"@id":"schema:CreativeWorkSeries"},{"@id":"schema:Blog"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:contributor: "https://schema.org/docs/collab/bibex"
+schema:domainIncludes: ["https://schema.org/Dataset","https://schema.org/WebSite","https://schema.org/CreativeWorkSeries","https://schema.org/Blog"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:issn
+# issn
+
+The International Standard Serial Number (ISSN) that identifies this serial publication. You can repeat this property to identify different formats of, or the linking ISSN (ISSN-L) for, this serial publication.
 

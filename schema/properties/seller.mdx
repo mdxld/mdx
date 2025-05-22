@@ -1,13 +1,16 @@
 ---
-$id: schema:seller
-$type: rdf:Property
-label: schema:seller
-rdfs:comment: "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider."
+$id: https://schema.org/seller
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: seller
+comment: |
+  An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 rdfs:label: "seller"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: [{"@id":"schema:Flight"},{"@id":"schema:BuyAction"},{"@id":"schema:Demand"},{"@id":"schema:Offer"},{"@id":"schema:Order"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: ["https://schema.org/Flight","https://schema.org/BuyAction","https://schema.org/Demand","https://schema.org/Offer","https://schema.org/Order"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:seller
+# seller
+
+An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 

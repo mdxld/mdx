@@ -1,12 +1,15 @@
 ---
-$id: schema:specialCommitments
-$type: rdf:Property
-label: schema:specialCommitments
-rdfs:comment: "Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc."
+$id: https://schema.org/specialCommitments
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: specialCommitments
+comment: |
+  Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
 rdfs:label: "specialCommitments"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:specialCommitments
+# specialCommitments
+
+Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
 

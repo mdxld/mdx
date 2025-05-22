@@ -1,13 +1,16 @@
 ---
-$id: schema:recordedIn
-$type: rdf:Property
-label: schema:recordedIn
-rdfs:comment: "The CreativeWork that captured all or part of this Event."
+$id: https://schema.org/recordedIn
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recordedIn
+comment: |
+  The CreativeWork that captured all or part of this Event.
 rdfs:label: "recordedIn"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:inverseOf: {"@id":"schema:recordedAt"}
-schema:rangeIncludes: {"@id":"schema:CreativeWork"}
+schema:domainIncludes: "https://schema.org/Event"
+schema:inverseOf: "https://schema.org/recordedAt"
+schema:rangeIncludes: "https://schema.org/CreativeWork"
 ---
 
-# schema:recordedIn
+# recordedIn
+
+The CreativeWork that captured all or part of this Event.
 

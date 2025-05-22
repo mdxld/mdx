@@ -1,16 +1,19 @@
 ---
-$id: schema:correctionsPolicy
-$type: rdf:Property
-label: schema:correctionsPolicy
-rdfs:comment: "For an [[Organization]] (e.g. [[NewsMediaOrganization]]), a statement describing (in news media, the newsroom’s) disclosure and correction policy for errors."
+$id: https://schema.org/correctionsPolicy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: correctionsPolicy
+comment: |
+  For an [[Organization]] (e.g. [[NewsMediaOrganization]]), a statement describing (in news media, the newsroom’s) disclosure and correction policy for errors.
 rdfs:label: "correctionsPolicy"
-rdfs:subPropertyOf: {"@id":"schema:publishingPrinciples"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/TP"}
-schema:domainIncludes: [{"@id":"schema:NewsMediaOrganization"},{"@id":"schema:Organization"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:CreativeWork"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1525"}
+rdfs:subPropertyOf: "https://schema.org/publishingPrinciples"
+schema:contributor: "https://schema.org/docs/collab/TP"
+schema:domainIncludes: ["https://schema.org/NewsMediaOrganization","https://schema.org/Organization"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/CreativeWork"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1525"
 ---
 
-# schema:correctionsPolicy
+# correctionsPolicy
+
+For an [[Organization]] (e.g. [[NewsMediaOrganization]]), a statement describing (in news media, the newsroom’s) disclosure and correction policy for errors.
 

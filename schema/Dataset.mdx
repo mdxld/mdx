@@ -1,13 +1,29 @@
 ---
-$id: schema:Dataset
-$type: rdfs:Class
-label: schema:Dataset
-owl:equivalentClass: [{"@id":"dcat:Dataset"},{"@id":"void:Dataset"},{"@id":"dcmitype:Dataset"}]
-rdfs:comment: "A body of structured information describing some topic(s) of interest."
+$id: https://schema.org/Dataset
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Dataset
+comment: |
+  A body of structured information describing some topic(s) of interest.
+owl:equivalentClass: ["dcat:Dataset","void:Dataset","dcmitype:Dataset"]
 rdfs:label: "Dataset"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/DatasetClass"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:contributor: "https://schema.org/docs/collab/DatasetClass"
 ---
 
-# schema:Dataset
+# Dataset
 
+A body of structured information describing some topic(s) of interest.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [catalog](https://schema.org/catalog) | Text |  |
+| [datasetTimeInterval](https://schema.org/datasetTimeInterval) | Text |  |
+| [distribution](https://schema.org/distribution) | Text |  |
+| [includedDataCatalog](https://schema.org/includedDataCatalog) | Text |  |
+| [includedInDataCatalog](https://schema.org/includedInDataCatalog) | Text |  |
+| [issn](https://schema.org/issn) | Text |  |
+| [measurementMethod](https://schema.org/measurementMethod) | Text |  |
+| [measurementTechnique](https://schema.org/measurementTechnique) | Text |  |
+| [variableMeasured](https://schema.org/variableMeasured) | Text |  |

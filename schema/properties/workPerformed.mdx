@@ -1,13 +1,16 @@
 ---
-$id: schema:workPerformed
-$type: rdf:Property
-label: schema:workPerformed
-rdfs:comment: "A work performed in some event, for example a play performed in a TheaterEvent."
+$id: https://schema.org/workPerformed
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: workPerformed
+comment: |
+  A work performed in some event, for example a play performed in a TheaterEvent.
 rdfs:label: "workPerformed"
-rdfs:subPropertyOf: {"@id":"schema:workFeatured"}
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: {"@id":"schema:CreativeWork"}
+rdfs:subPropertyOf: "https://schema.org/workFeatured"
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: "https://schema.org/CreativeWork"
 ---
 
-# schema:workPerformed
+# workPerformed
+
+A work performed in some event, for example a play performed in a TheaterEvent.
 

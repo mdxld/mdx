@@ -1,14 +1,17 @@
 ---
-$id: schema:startOffset
-$type: rdf:Property
-label: schema:startOffset
-rdfs:comment: "The start time of the clip expressed as the number of seconds from the beginning of the work."
+$id: https://schema.org/startOffset
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: startOffset
+comment: |
+  The start time of the clip expressed as the number of seconds from the beginning of the work.
 rdfs:label: "startOffset"
-schema:domainIncludes: [{"@id":"schema:SeekToAction"},{"@id":"schema:Clip"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:HyperTocEntry"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2021"}
+schema:domainIncludes: ["https://schema.org/SeekToAction","https://schema.org/Clip"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/HyperTocEntry"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2021"
 ---
 
-# schema:startOffset
+# startOffset
+
+The start time of the clip expressed as the number of seconds from the beginning of the work.
 

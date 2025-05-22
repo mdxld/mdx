@@ -1,13 +1,16 @@
 ---
-$id: schema:requiresSubscription
-$type: rdf:Property
-label: schema:requiresSubscription
-rdfs:comment: "Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no')."
+$id: https://schema.org/requiresSubscription
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: requiresSubscription
+comment: |
+  Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no').
 rdfs:label: "requiresSubscription"
-schema:domainIncludes: [{"@id":"schema:ActionAccessSpecification"},{"@id":"schema:MediaObject"}]
-schema:rangeIncludes: [{"@id":"schema:MediaSubscription"},{"@id":"schema:Boolean"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}
+schema:domainIncludes: ["https://schema.org/ActionAccessSpecification","https://schema.org/MediaObject"]
+schema:rangeIncludes: ["https://schema.org/MediaSubscription","https://schema.org/Boolean"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1741"
 ---
 
-# schema:requiresSubscription
+# requiresSubscription
+
+Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no').
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:surface
-$type: rdf:Property
-label: schema:surface
-rdfs:comment: "A material used as a surface in some artwork, e.g. Canvas, Paper, Wood, Board, etc."
+$id: https://schema.org/surface
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: surface
+comment: |
+  A material used as a surface in some artwork, e.g. Canvas, Paper, Wood, Board, etc.
 rdfs:label: "surface"
-rdfs:subPropertyOf: {"@id":"schema:material"}
-schema:domainIncludes: {"@id":"schema:VisualArtwork"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
-schema:supersededBy: {"@id":"schema:artworkSurface"}
+rdfs:subPropertyOf: "https://schema.org/material"
+schema:domainIncludes: "https://schema.org/VisualArtwork"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
+schema:supersededBy: "https://schema.org/artworkSurface"
 ---
 
-# schema:surface
+# surface
+
+A material used as a surface in some artwork, e.g. Canvas, Paper, Wood, Board, etc.
 

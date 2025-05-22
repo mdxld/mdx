@@ -1,13 +1,16 @@
 ---
-$id: schema:partOfEpisode
-$type: rdf:Property
-label: schema:partOfEpisode
-rdfs:comment: "The episode to which this clip belongs."
+$id: https://schema.org/partOfEpisode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: partOfEpisode
+comment: |
+  The episode to which this clip belongs.
 rdfs:label: "partOfEpisode"
-rdfs:subPropertyOf: {"@id":"schema:isPartOf"}
-schema:domainIncludes: {"@id":"schema:Clip"}
-schema:rangeIncludes: {"@id":"schema:Episode"}
+rdfs:subPropertyOf: "https://schema.org/isPartOf"
+schema:domainIncludes: "https://schema.org/Clip"
+schema:rangeIncludes: "https://schema.org/Episode"
 ---
 
-# schema:partOfEpisode
+# partOfEpisode
+
+The episode to which this clip belongs.
 

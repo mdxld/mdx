@@ -1,14 +1,17 @@
 ---
-$id: schema:readBy
-$type: rdf:Property
-label: schema:readBy
-rdfs:comment: "A person who reads (performs) the audiobook."
+$id: https://schema.org/readBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: readBy
+comment: |
+  A person who reads (performs) the audiobook.
 rdfs:label: "readBy"
-rdfs:subPropertyOf: {"@id":"schema:actor"}
-schema:domainIncludes: {"@id":"schema:Audiobook"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+rdfs:subPropertyOf: "https://schema.org/actor"
+schema:domainIncludes: "https://schema.org/Audiobook"
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:readBy
+# readBy
+
+A person who reads (performs) the audiobook.
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:applicantLocationRequirements
-$type: rdf:Property
-label: schema:applicantLocationRequirements
-rdfs:comment: "The location(s) applicants can apply from. This is usually used for telecommuting jobs where the applicant does not need to be in a physical office. Note: This should not be used for citizenship or work visa requirements."
+$id: https://schema.org/applicantLocationRequirements
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicantLocationRequirements
+comment: |
+  The location(s) applicants can apply from. This is usually used for telecommuting jobs where the applicant does not need to be in a physical office. Note: This should not be used for citizenship or work visa requirements.
 rdfs:label: "applicantLocationRequirements"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AdministrativeArea"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2083"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/AdministrativeArea"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2083"
 ---
 
-# schema:applicantLocationRequirements
+# applicantLocationRequirements
+
+The location(s) applicants can apply from. This is usually used for telecommuting jobs where the applicant does not need to be in a physical office. Note: This should not be used for citizenship or work visa requirements.
 

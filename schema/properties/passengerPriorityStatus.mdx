@@ -1,12 +1,15 @@
 ---
-$id: schema:passengerPriorityStatus
-$type: rdf:Property
-label: schema:passengerPriorityStatus
-rdfs:comment: "The priority status assigned to a passenger for security or boarding (e.g. FastTrack or Priority)."
+$id: https://schema.org/passengerPriorityStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: passengerPriorityStatus
+comment: |
+  The priority status assigned to a passenger for security or boarding (e.g. FastTrack or Priority).
 rdfs:label: "passengerPriorityStatus"
-schema:domainIncludes: {"@id":"schema:FlightReservation"}
-schema:rangeIncludes: [{"@id":"schema:QualitativeValue"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/FlightReservation"
+schema:rangeIncludes: ["https://schema.org/QualitativeValue","https://schema.org/Text"]
 ---
 
-# schema:passengerPriorityStatus
+# passengerPriorityStatus
+
+The priority status assigned to a passenger for security or boarding (e.g. FastTrack or Priority).
 

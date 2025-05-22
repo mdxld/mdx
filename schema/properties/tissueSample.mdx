@@ -1,13 +1,16 @@
 ---
-$id: schema:tissueSample
-$type: rdf:Property
-label: schema:tissueSample
-rdfs:comment: "The type of tissue sample required for the test."
+$id: https://schema.org/tissueSample
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tissueSample
+comment: |
+  The type of tissue sample required for the test.
 rdfs:label: "tissueSample"
-schema:domainIncludes: {"@id":"schema:PathologyTest"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/PathologyTest"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:tissueSample
+# tissueSample
+
+The type of tissue sample required for the test.
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:accommodationFloorPlan
-$type: rdf:Property
-label: schema:accommodationFloorPlan
-rdfs:comment: "A floorplan of some [[Accommodation]]."
+$id: https://schema.org/accommodationFloorPlan
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: accommodationFloorPlan
+comment: |
+  A floorplan of some [[Accommodation]].
 rdfs:label: "accommodationFloorPlan"
-schema:domainIncludes: [{"@id":"schema:Accommodation"},{"@id":"schema:Residence"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:FloorPlan"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: ["https://schema.org/Accommodation","https://schema.org/Residence"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/FloorPlan"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:accommodationFloorPlan
+# accommodationFloorPlan
+
+A floorplan of some [[Accommodation]].
 

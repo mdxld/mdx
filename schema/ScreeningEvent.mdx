@@ -1,11 +1,21 @@
 ---
-$id: schema:ScreeningEvent
-$type: rdfs:Class
-label: schema:ScreeningEvent
-rdfs:comment: "A screening of a movie or other video."
+$id: https://schema.org/ScreeningEvent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ScreeningEvent
+comment: |
+  A screening of a movie or other video.
 rdfs:label: "ScreeningEvent"
-rdfs:subClassOf: {"@id":"schema:Event"}
+rdfs:subClassOf: "https://schema.org/Event"
 ---
 
-# schema:ScreeningEvent
+# ScreeningEvent
 
+A screening of a movie or other video.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [subtitleLanguage](https://schema.org/subtitleLanguage) | Text |  |
+| [videoFormat](https://schema.org/videoFormat) | Text |  |
+| [workPresented](https://schema.org/workPresented) | Text |  |

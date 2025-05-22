@@ -1,14 +1,17 @@
 ---
-$id: schema:rxcui
-$type: rdf:Property
-label: schema:rxcui
-rdfs:comment: "The RxCUI drug identifier from RXNORM."
+$id: https://schema.org/rxcui
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: rxcui
+comment: |
+  The RxCUI drug identifier from RXNORM.
 rdfs:label: "rxcui"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:rxcui
+# rxcui
+
+The RxCUI drug identifier from RXNORM.
 

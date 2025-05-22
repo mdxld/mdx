@@ -1,13 +1,26 @@
 ---
-$id: schema:SizeSpecification
-$type: rdfs:Class
-label: schema:SizeSpecification
-rdfs:comment: "Size related properties of a product, typically a size code ([[name]]) and optionally a [[sizeSystem]], [[sizeGroup]], and product measurements ([[hasMeasurement]]). In addition, the intended audience can be defined through [[suggestedAge]], [[suggestedGender]], and suggested body measurements ([[suggestedMeasurement]])."
+$id: https://schema.org/SizeSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SizeSpecification
+comment: |
+  Size related properties of a product, typically a size code ([[name]]) and optionally a [[sizeSystem]], [[sizeGroup]], and product measurements ([[hasMeasurement]]). In addition, the intended audience can be defined through [[suggestedAge]], [[suggestedGender]], and suggested body measurements ([[suggestedMeasurement]]).
 rdfs:label: "SizeSpecification"
-rdfs:subClassOf: {"@id":"schema:QualitativeValue"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2811"}
+rdfs:subClassOf: "https://schema.org/QualitativeValue"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2811"
 ---
 
-# schema:SizeSpecification
+# SizeSpecification
 
+Size related properties of a product, typically a size code ([[name]]) and optionally a [[sizeSystem]], [[sizeGroup]], and product measurements ([[hasMeasurement]]). In addition, the intended audience can be defined through [[suggestedAge]], [[suggestedGender]], and suggested body measurements ([[suggestedMeasurement]]).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hasMeasurement](https://schema.org/hasMeasurement) | Text |  |
+| [sizeGroup](https://schema.org/sizeGroup) | Text |  |
+| [sizeSystem](https://schema.org/sizeSystem) | Text |  |
+| [suggestedAge](https://schema.org/suggestedAge) | Text |  |
+| [suggestedGender](https://schema.org/suggestedGender) | Text |  |
+| [suggestedMeasurement](https://schema.org/suggestedMeasurement) | Text |  |

@@ -1,17 +1,20 @@
 ---
-$id: schema:legislationLegalValue
-$type: rdf:Property
-label: schema:legislationLegalValue
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#legal_value"}
-rdfs:comment: "The legal value of this legislation file. The same legislation can be written in multiple files with different legal values. Typically a digitally signed PDF have a \"stronger\" legal value than the HTML file of the same act."
+$id: https://schema.org/legislationLegalValue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationLegalValue
+comment: |
+  The legal value of this legislation file. The same legislation can be written in multiple files with different legal values. Typically a digitally signed PDF have a "stronger" legal value than the HTML file of the same act.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#legal_value"
 rdfs:label: "legislationLegalValue"
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:LegislationObject"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:LegalValueLevel"}
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#legal_value"}
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/LegislationObject"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/LegalValueLevel"
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#legal_value"
 ---
 
-# schema:legislationLegalValue
+# legislationLegalValue
+
+The legal value of this legislation file. The same legislation can be written in multiple files with different legal values. Typically a digitally signed PDF have a "stronger" legal value than the HTML file of the same act.
 

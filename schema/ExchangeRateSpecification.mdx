@@ -1,14 +1,24 @@
 ---
-$id: schema:ExchangeRateSpecification
-$type: rdfs:Class
-label: schema:ExchangeRateSpecification
-rdfs:comment: "A structured value representing exchange rate."
+$id: https://schema.org/ExchangeRateSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ExchangeRateSpecification
+comment: |
+  A structured value representing exchange rate.
 rdfs:label: "ExchangeRateSpecification"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1253"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:contributor: "https://schema.org/docs/collab/FIBO"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1253"
 ---
 
-# schema:ExchangeRateSpecification
+# ExchangeRateSpecification
 
+A structured value representing exchange rate.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [currency](https://schema.org/currency) | Text |  |
+| [currentExchangeRate](https://schema.org/currentExchangeRate) | Text |  |
+| [exchangeRateSpread](https://schema.org/exchangeRateSpread) | Text |  |

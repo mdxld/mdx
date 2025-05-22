@@ -1,12 +1,21 @@
 ---
-$id: schema:Answer
-$type: rdfs:Class
-label: schema:Answer
-rdfs:comment: "An answer offered to a question; perhaps correct, perhaps opinionated or wrong."
+$id: https://schema.org/Answer
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Answer
+comment: |
+  An answer offered to a question; perhaps correct, perhaps opinionated or wrong.
 rdfs:label: "Answer"
-rdfs:subClassOf: {"@id":"schema:Comment"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/QAStackExchange"}
+rdfs:subClassOf: "https://schema.org/Comment"
+schema:contributor: "https://schema.org/docs/collab/QAStackExchange"
 ---
 
-# schema:Answer
+# Answer
 
+An answer offered to a question; perhaps correct, perhaps opinionated or wrong.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [answerExplanation](https://schema.org/answerExplanation) | Text |  |
+| [parentItem](https://schema.org/parentItem) | Text |  |

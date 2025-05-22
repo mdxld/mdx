@@ -1,17 +1,20 @@
 ---
-$id: schema:legislationApplies
-$type: rdf:Property
-label: schema:legislationApplies
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#implements"}
-rdfs:comment: "Indicates that this legislation (or part of a legislation) somehow transfers another legislation in a different legislative context. This is an informative link, and it has no legal value. For legally-binding links of transposition, use the <a href=\"/legislationTransposes\">legislationTransposes</a> property. For example an informative consolidated law of a European Union's member state \"applies\" the consolidated version of the European Directive implemented in it."
+$id: https://schema.org/legislationApplies
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationApplies
+comment: |
+  Indicates that this legislation (or part of a legislation) somehow transfers another legislation in a different legislative context. This is an informative link, and it has no legal value. For legally-binding links of transposition, use the <a href="/legislationTransposes">legislationTransposes</a> property. For example an informative consolidated law of a European Union's member state "applies" the consolidated version of the European Directive implemented in it.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#implements"
 rdfs:label: "legislationApplies"
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Legislation"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#implements"}
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Legislation"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/1156","https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#implements"
 ---
 
-# schema:legislationApplies
+# legislationApplies
+
+Indicates that this legislation (or part of a legislation) somehow transfers another legislation in a different legislative context. This is an informative link, and it has no legal value. For legally-binding links of transposition, use the <a href="/legislationTransposes">legislationTransposes</a> property. For example an informative consolidated law of a European Union's member state "applies" the consolidated version of the European Directive implemented in it.
 

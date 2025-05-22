@@ -1,13 +1,16 @@
 ---
-$id: schema:certificationStatus
-$type: rdf:Property
-label: schema:certificationStatus
-rdfs:comment: "Indicates the current status of a certification: active or inactive. See also  [gs1:certificationStatus](https://www.gs1.org/voc/certificationStatus)."
+$id: https://schema.org/certificationStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: certificationStatus
+comment: |
+  Indicates the current status of a certification: active or inactive. See also  [gs1:certificationStatus](https://www.gs1.org/voc/certificationStatus).
 rdfs:label: "certificationStatus"
-schema:domainIncludes: {"@id":"schema:Certification"}
-schema:rangeIncludes: {"@id":"schema:CertificationStatusEnumeration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3230"}
+schema:domainIncludes: "https://schema.org/Certification"
+schema:rangeIncludes: "https://schema.org/CertificationStatusEnumeration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3230"
 ---
 
-# schema:certificationStatus
+# certificationStatus
+
+Indicates the current status of a certification: active or inactive. See also  [gs1:certificationStatus](https://www.gs1.org/voc/certificationStatus).
 

@@ -1,11 +1,38 @@
 ---
-$id: schema:MediaObject
-$type: rdfs:Class
-label: schema:MediaObject
-rdfs:comment: "A media object, such as an image, video, audio, or text object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page. For example, a page about a single song (MusicRecording) may have a music video (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's)."
+$id: https://schema.org/MediaObject
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MediaObject
+comment: |
+  A media object, such as an image, video, audio, or text object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page. For example, a page about a single song (MusicRecording) may have a music video (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's).
 rdfs:label: "MediaObject"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:MediaObject
+# MediaObject
 
+A media object, such as an image, video, audio, or text object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page. For example, a page about a single song (MusicRecording) may have a music video (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [associatedArticle](https://schema.org/associatedArticle) | Text |  |
+| [bitrate](https://schema.org/bitrate) | Text |  |
+| [contentSize](https://schema.org/contentSize) | Text |  |
+| [contentUrl](https://schema.org/contentUrl) | Text |  |
+| [duration](https://schema.org/duration) | Text |  |
+| [embedUrl](https://schema.org/embedUrl) | Text |  |
+| [encodesCreativeWork](https://schema.org/encodesCreativeWork) | Text |  |
+| [encodingFormat](https://schema.org/encodingFormat) | Text |  |
+| [endTime](https://schema.org/endTime) | Text |  |
+| [height](https://schema.org/height) | Text |  |
+| [ineligibleRegion](https://schema.org/ineligibleRegion) | Text |  |
+| [interpretedAsClaim](https://schema.org/interpretedAsClaim) | Text |  |
+| [playerType](https://schema.org/playerType) | Text |  |
+| [productionCompany](https://schema.org/productionCompany) | Text |  |
+| [regionsAllowed](https://schema.org/regionsAllowed) | Text |  |
+| [requiresSubscription](https://schema.org/requiresSubscription) | Text |  |
+| [sha256](https://schema.org/sha256) | Text |  |
+| [startTime](https://schema.org/startTime) | Text |  |
+| [uploadDate](https://schema.org/uploadDate) | Text |  |
+| [width](https://schema.org/width) | Text |  |

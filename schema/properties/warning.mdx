@@ -1,13 +1,16 @@
 ---
-$id: schema:warning
-$type: rdf:Property
-label: schema:warning
-rdfs:comment: "Any FDA or other warnings about the drug (text or URL)."
+$id: https://schema.org/warning
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: warning
+comment: |
+  Any FDA or other warnings about the drug (text or URL).
 rdfs:label: "warning"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:warning
+# warning
+
+Any FDA or other warnings about the drug (text or URL).
 

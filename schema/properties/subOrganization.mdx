@@ -1,13 +1,16 @@
 ---
-$id: schema:subOrganization
-$type: rdf:Property
-label: schema:subOrganization
-rdfs:comment: "A relationship between two organizations where the first includes the second, e.g., as a subsidiary. See also: the more specific 'department' property."
+$id: https://schema.org/subOrganization
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: subOrganization
+comment: |
+  A relationship between two organizations where the first includes the second, e.g., as a subsidiary. See also: the more specific 'department' property.
 rdfs:label: "subOrganization"
-schema:domainIncludes: {"@id":"schema:Organization"}
-schema:inverseOf: {"@id":"schema:parentOrganization"}
-schema:rangeIncludes: {"@id":"schema:Organization"}
+schema:domainIncludes: "https://schema.org/Organization"
+schema:inverseOf: "https://schema.org/parentOrganization"
+schema:rangeIncludes: "https://schema.org/Organization"
 ---
 
-# schema:subOrganization
+# subOrganization
+
+A relationship between two organizations where the first includes the second, e.g., as a subsidiary. See also: the more specific 'department' property.
 

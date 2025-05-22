@@ -1,11 +1,21 @@
 ---
-$id: schema:TaxiReservation
-$type: rdfs:Class
-label: schema:TaxiReservation
-rdfs:comment: "A reservation for a taxi.\\n\\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]]."
+$id: https://schema.org/TaxiReservation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TaxiReservation
+comment: |
+  A reservation for a taxi.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
 rdfs:label: "TaxiReservation"
-rdfs:subClassOf: {"@id":"schema:Reservation"}
+rdfs:subClassOf: "https://schema.org/Reservation"
 ---
 
-# schema:TaxiReservation
+# TaxiReservation
 
+A reservation for a taxi.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [partySize](https://schema.org/partySize) | Text |  |
+| [pickupLocation](https://schema.org/pickupLocation) | Text |  |
+| [pickupTime](https://schema.org/pickupTime) | Text |  |

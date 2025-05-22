@@ -1,12 +1,20 @@
 ---
-$id: schema:MedicalGuidelineRecommendation
-$type: rdfs:Class
-label: schema:MedicalGuidelineRecommendation
-rdfs:comment: "A guideline recommendation that is regarded as efficacious and where quality of the data supporting the recommendation is sound."
+$id: https://schema.org/MedicalGuidelineRecommendation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalGuidelineRecommendation
+comment: |
+  A guideline recommendation that is regarded as efficacious and where quality of the data supporting the recommendation is sound.
 rdfs:label: "MedicalGuidelineRecommendation"
-rdfs:subClassOf: {"@id":"schema:MedicalGuideline"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalGuideline"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalGuidelineRecommendation
+# MedicalGuidelineRecommendation
 
+A guideline recommendation that is regarded as efficacious and where quality of the data supporting the recommendation is sound.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [recommendationStrength](https://schema.org/recommendationStrength) | Text |  |

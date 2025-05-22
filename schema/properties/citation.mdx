@@ -1,12 +1,15 @@
 ---
-$id: schema:citation
-$type: rdf:Property
-label: schema:citation
-rdfs:comment: "A citation or reference to another creative work, such as another publication, web page, scholarly article, etc."
+$id: https://schema.org/citation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: citation
+comment: |
+  A citation or reference to another creative work, such as another publication, web page, scholarly article, etc.
 rdfs:label: "citation"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/CreativeWork","https://schema.org/Text"]
 ---
 
-# schema:citation
+# citation
+
+A citation or reference to another creative work, such as another publication, web page, scholarly article, etc.
 

@@ -1,12 +1,15 @@
 ---
-$id: schema:version
-$type: rdf:Property
-label: schema:version
-rdfs:comment: "The version of the CreativeWork embodied by a specified resource."
+$id: https://schema.org/version
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: version
+comment: |
+  The version of the CreativeWork embodied by a specified resource.
 rdfs:label: "version"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/Text"]
 ---
 
-# schema:version
+# version
+
+The version of the CreativeWork embodied by a specified resource.
 

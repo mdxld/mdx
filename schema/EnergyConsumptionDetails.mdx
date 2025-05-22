@@ -1,13 +1,23 @@
 ---
-$id: schema:EnergyConsumptionDetails
-$type: rdfs:Class
-label: schema:EnergyConsumptionDetails
-rdfs:comment: "EnergyConsumptionDetails represents information related to the energy efficiency of a product that consumes energy. The information that can be provided is based on international regulations such as for example [EU directive 2017/1369](https://eur-lex.europa.eu/eli/reg/2017/1369/oj) for energy labeling and the [Energy labeling rule](https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/energy-water-use-labeling-consumer) under the Energy Policy and Conservation Act (EPCA) in the US."
+$id: https://schema.org/EnergyConsumptionDetails
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: EnergyConsumptionDetails
+comment: |
+  EnergyConsumptionDetails represents information related to the energy efficiency of a product that consumes energy. The information that can be provided is based on international regulations such as for example [EU directive 2017/1369](https://eur-lex.europa.eu/eli/reg/2017/1369/oj) for energy labeling and the [Energy labeling rule](https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/energy-water-use-labeling-consumer) under the Energy Policy and Conservation Act (EPCA) in the US.
 rdfs:label: "EnergyConsumptionDetails"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2670"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2670"
 ---
 
-# schema:EnergyConsumptionDetails
+# EnergyConsumptionDetails
 
+EnergyConsumptionDetails represents information related to the energy efficiency of a product that consumes energy. The information that can be provided is based on international regulations such as for example [EU directive 2017/1369](https://eur-lex.europa.eu/eli/reg/2017/1369/oj) for energy labeling and the [Energy labeling rule](https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/energy-water-use-labeling-consumer) under the Energy Policy and Conservation Act (EPCA) in the US.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [energyEfficiencyScaleMax](https://schema.org/energyEfficiencyScaleMax) | Text |  |
+| [energyEfficiencyScaleMin](https://schema.org/energyEfficiencyScaleMin) | Text |  |
+| [hasEnergyEfficiencyCategory](https://schema.org/hasEnergyEfficiencyCategory) | Text |  |

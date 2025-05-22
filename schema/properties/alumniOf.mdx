@@ -1,13 +1,16 @@
 ---
-$id: schema:alumniOf
-$type: rdf:Property
-label: schema:alumniOf
-rdfs:comment: "An organization that the person is an alumni of."
+$id: https://schema.org/alumniOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: alumniOf
+comment: |
+  An organization that the person is an alumni of.
 rdfs:label: "alumniOf"
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:inverseOf: {"@id":"schema:alumni"}
-schema:rangeIncludes: [{"@id":"schema:EducationalOrganization"},{"@id":"schema:Organization"}]
+schema:domainIncludes: "https://schema.org/Person"
+schema:inverseOf: "https://schema.org/alumni"
+schema:rangeIncludes: ["https://schema.org/EducationalOrganization","https://schema.org/Organization"]
 ---
 
-# schema:alumniOf
+# alumniOf
+
+An organization that the person is an alumni of.
 

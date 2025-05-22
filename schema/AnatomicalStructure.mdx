@@ -1,12 +1,27 @@
 ---
-$id: schema:AnatomicalStructure
-$type: rdfs:Class
-label: schema:AnatomicalStructure
-rdfs:comment: "Any part of the human body, typically a component of an anatomical system. Organs, tissues, and cells are all anatomical structures."
+$id: https://schema.org/AnatomicalStructure
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: AnatomicalStructure
+comment: |
+  Any part of the human body, typically a component of an anatomical system. Organs, tissues, and cells are all anatomical structures.
 rdfs:label: "AnatomicalStructure"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:AnatomicalStructure
+# AnatomicalStructure
 
+Any part of the human body, typically a component of an anatomical system. Organs, tissues, and cells are all anatomical structures.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [associatedPathophysiology](https://schema.org/associatedPathophysiology) | Text |  |
+| [bodyLocation](https://schema.org/bodyLocation) | Text |  |
+| [connectedTo](https://schema.org/connectedTo) | Text |  |
+| [diagram](https://schema.org/diagram) | Text |  |
+| [partOfSystem](https://schema.org/partOfSystem) | Text |  |
+| [relatedCondition](https://schema.org/relatedCondition) | Text |  |
+| [relatedTherapy](https://schema.org/relatedTherapy) | Text |  |
+| [subStructure](https://schema.org/subStructure) | Text |  |

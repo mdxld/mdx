@@ -1,12 +1,15 @@
 ---
-$id: schema:departureBusStop
-$type: rdf:Property
-label: schema:departureBusStop
-rdfs:comment: "The stop or station from which the bus departs."
+$id: https://schema.org/departureBusStop
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: departureBusStop
+comment: |
+  The stop or station from which the bus departs.
 rdfs:label: "departureBusStop"
-schema:domainIncludes: {"@id":"schema:BusTrip"}
-schema:rangeIncludes: [{"@id":"schema:BusStop"},{"@id":"schema:BusStation"}]
+schema:domainIncludes: "https://schema.org/BusTrip"
+schema:rangeIncludes: ["https://schema.org/BusStop","https://schema.org/BusStation"]
 ---
 
-# schema:departureBusStop
+# departureBusStop
+
+The stop or station from which the bus departs.
 

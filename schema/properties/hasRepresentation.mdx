@@ -1,14 +1,17 @@
 ---
-$id: schema:hasRepresentation
-$type: rdf:Property
-label: schema:hasRepresentation
-rdfs:comment: "A common representation such as a protein sequence or chemical structure for this entity. For images use schema.org/image."
+$id: https://schema.org/hasRepresentation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasRepresentation
+comment: |
+  A common representation such as a protein sequence or chemical structure for this entity. For images use schema.org/image.
 rdfs:label: "hasRepresentation"
-schema:domainIncludes: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:PropertyValue"},{"@id":"schema:Text"},{"@id":"schema:URL"}]
-schema:source: {"@id":"http://www.bioschemas.org"}
+schema:domainIncludes: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/PropertyValue","https://schema.org/Text","https://schema.org/URL"]
+schema:source: "http://www.bioschemas.org"
 ---
 
-# schema:hasRepresentation
+# hasRepresentation
+
+A common representation such as a protein sequence or chemical structure for this entity. For images use schema.org/image.
 

@@ -1,12 +1,20 @@
 ---
-$id: schema:IndividualProduct
-$type: rdfs:Class
-label: schema:IndividualProduct
-rdfs:comment: "A single, identifiable product instance (e.g. a laptop with a particular serial number)."
+$id: https://schema.org/IndividualProduct
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: IndividualProduct
+comment: |
+  A single, identifiable product instance (e.g. a laptop with a particular serial number).
 rdfs:label: "IndividualProduct"
-rdfs:subClassOf: {"@id":"schema:Product"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/Product"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:IndividualProduct
+# IndividualProduct
 
+A single, identifiable product instance (e.g. a laptop with a particular serial number).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [serialNumber](https://schema.org/serialNumber) | Text |  |

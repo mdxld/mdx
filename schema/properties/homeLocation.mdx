@@ -1,13 +1,16 @@
 ---
-$id: schema:homeLocation
-$type: rdf:Property
-label: schema:homeLocation
-rdfs:comment: "A contact location for a person's residence."
+$id: https://schema.org/homeLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: homeLocation
+comment: |
+  A contact location for a person's residence.
 rdfs:label: "homeLocation"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: [{"@id":"schema:ContactPoint"},{"@id":"schema:Place"}]
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: ["https://schema.org/ContactPoint","https://schema.org/Place"]
 ---
 
-# schema:homeLocation
+# homeLocation
+
+A contact location for a person's residence.
 

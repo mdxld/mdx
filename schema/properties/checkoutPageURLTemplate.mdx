@@ -1,14 +1,17 @@
 ---
-$id: schema:checkoutPageURLTemplate
-$type: rdf:Property
-label: schema:checkoutPageURLTemplate
-rdfs:comment: "A URL template (RFC 6570) for a checkout page for an offer. This approach allows merchants to specify a URL for online checkout of the offered product, by interpolating parameters such as the logged in user ID, product ID, quantity, discount code etc. Parameter naming and standardization are not specified here."
+$id: https://schema.org/checkoutPageURLTemplate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: checkoutPageURLTemplate
+comment: |
+  A URL template (RFC 6570) for a checkout page for an offer. This approach allows merchants to specify a URL for online checkout of the offered product, by interpolating parameters such as the logged in user ID, product ID, quantity, discount code etc. Parameter naming and standardization are not specified here.
 rdfs:label: "checkoutPageURLTemplate"
-schema:domainIncludes: {"@id":"schema:Offer"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3135"}
+schema:domainIncludes: "https://schema.org/Offer"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3135"
 ---
 
-# schema:checkoutPageURLTemplate
+# checkoutPageURLTemplate
+
+A URL template (RFC 6570) for a checkout page for an offer. This approach allows merchants to specify a URL for online checkout of the offered product, by interpolating parameters such as the logged in user ID, product ID, quantity, discount code etc. Parameter naming and standardization are not specified here.
 

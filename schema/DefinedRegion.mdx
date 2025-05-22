@@ -1,12 +1,48 @@
 ---
-$id: schema:DefinedRegion
-$type: rdfs:Class
-label: schema:DefinedRegion
-rdfs:comment: "A DefinedRegion is a geographic area defined by potentially arbitrary (rather than political, administrative or natural geographical) criteria. Properties are provided for defining a region by reference to sets of postal codes.\n\nExamples: a delivery destination when shopping. Region where regional pricing is configured.\n\nRequirement 1:\nCountry: US\nStates: \"NY\", \"CA\"\n\nRequirement 2:\nCountry: US\nPostalCode Set: { [94000-94585], [97000, 97999], [13000, 13599]}\n{ [12345, 12345], [78945, 78945], }\nRegion = state, canton, prefecture, autonomous community...\n"
+$id: https://schema.org/DefinedRegion
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DefinedRegion
+comment: |
+  A DefinedRegion is a geographic area defined by potentially arbitrary (rather than political, administrative or natural geographical) criteria. Properties are provided for defining a region by reference to sets of postal codes.
+  
+  Examples: a delivery destination when shopping. Region where regional pricing is configured.
+  
+  Requirement 1:
+  Country: US
+  States: "NY", "CA"
+  
+  Requirement 2:
+  Country: US
+  PostalCode Set: { [94000-94585], [97000, 97999], [13000, 13599]}
+  { [12345, 12345], [78945, 78945], }
+  Region = state, canton, prefecture, autonomous community...
 rdfs:label: "DefinedRegion"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:DefinedRegion
+# DefinedRegion
 
+A DefinedRegion is a geographic area defined by potentially arbitrary (rather than political, administrative or natural geographical) criteria. Properties are provided for defining a region by reference to sets of postal codes.
+
+Examples: a delivery destination when shopping. Region where regional pricing is configured.
+
+Requirement 1:
+Country: US
+States: "NY", "CA"
+
+Requirement 2:
+Country: US
+PostalCode Set: { [94000-94585], [97000, 97999], [13000, 13599]}
+{ [12345, 12345], [78945, 78945], }
+Region = state, canton, prefecture, autonomous community...
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [addressCountry](https://schema.org/addressCountry) | Text |  |
+| [addressRegion](https://schema.org/addressRegion) | Text |  |
+| [postalCode](https://schema.org/postalCode) | Text |  |
+| [postalCodePrefix](https://schema.org/postalCodePrefix) | Text |  |
+| [postalCodeRange](https://schema.org/postalCodeRange) | Text |  |

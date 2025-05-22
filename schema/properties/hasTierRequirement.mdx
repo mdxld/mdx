@@ -1,13 +1,16 @@
 ---
-$id: schema:hasTierRequirement
-$type: rdf:Property
-label: schema:hasTierRequirement
-rdfs:comment: "A requirement for a user to join a membership tier, for example: a CreditCard if the tier requires sign up for a credit card, A UnitPriceSpecification if the user is required to pay a (periodic) fee, or a MonetaryAmount if the user needs to spend a minimum amount to join the tier. If a tier is free to join then this property does not need to be specified."
+$id: https://schema.org/hasTierRequirement
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasTierRequirement
+comment: |
+  A requirement for a user to join a membership tier, for example: a CreditCard if the tier requires sign up for a credit card, A UnitPriceSpecification if the user is required to pay a (periodic) fee, or a MonetaryAmount if the user needs to spend a minimum amount to join the tier. If a tier is free to join then this property does not need to be specified.
 rdfs:label: "hasTierRequirement"
-schema:domainIncludes: {"@id":"schema:MemberProgramTier"}
-schema:rangeIncludes: [{"@id":"schema:CreditCard"},{"@id":"schema:MonetaryAmount"},{"@id":"schema:UnitPriceSpecification"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3563"}
+schema:domainIncludes: "https://schema.org/MemberProgramTier"
+schema:rangeIncludes: ["https://schema.org/CreditCard","https://schema.org/MonetaryAmount","https://schema.org/UnitPriceSpecification","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3563"
 ---
 
-# schema:hasTierRequirement
+# hasTierRequirement
+
+A requirement for a user to join a membership tier, for example: a CreditCard if the tier requires sign up for a credit card, A UnitPriceSpecification if the user is required to pay a (periodic) fee, or a MonetaryAmount if the user needs to spend a minimum amount to join the tier. If a tier is free to join then this property does not need to be specified.
 

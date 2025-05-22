@@ -1,13 +1,16 @@
 ---
-$id: schema:seasons
-$type: rdf:Property
-label: schema:seasons
-rdfs:comment: "A season in a media series."
+$id: https://schema.org/seasons
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: seasons
+comment: |
+  A season in a media series.
 rdfs:label: "seasons"
-schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:TVSeries"}]
-schema:rangeIncludes: {"@id":"schema:CreativeWorkSeason"}
-schema:supersededBy: {"@id":"schema:season"}
+schema:domainIncludes: ["https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/TVSeries"]
+schema:rangeIncludes: "https://schema.org/CreativeWorkSeason"
+schema:supersededBy: "https://schema.org/season"
 ---
 
-# schema:seasons
+# seasons
+
+A season in a media series.
 

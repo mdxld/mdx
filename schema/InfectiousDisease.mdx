@@ -1,12 +1,22 @@
 ---
-$id: schema:InfectiousDisease
-$type: rdfs:Class
-label: schema:InfectiousDisease
-rdfs:comment: "An infectious disease is a clinically evident human disease resulting from the presence of pathogenic microbial agents, like pathogenic viruses, pathogenic bacteria, fungi, protozoa, multicellular parasites, and prions. To be considered an infectious disease, such pathogens are known to be able to cause this disease."
+$id: https://schema.org/InfectiousDisease
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: InfectiousDisease
+comment: |
+  An infectious disease is a clinically evident human disease resulting from the presence of pathogenic microbial agents, like pathogenic viruses, pathogenic bacteria, fungi, protozoa, multicellular parasites, and prions. To be considered an infectious disease, such pathogens are known to be able to cause this disease.
 rdfs:label: "InfectiousDisease"
-rdfs:subClassOf: {"@id":"schema:MedicalCondition"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalCondition"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:InfectiousDisease
+# InfectiousDisease
 
+An infectious disease is a clinically evident human disease resulting from the presence of pathogenic microbial agents, like pathogenic viruses, pathogenic bacteria, fungi, protozoa, multicellular parasites, and prions. To be considered an infectious disease, such pathogens are known to be able to cause this disease.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [infectiousAgent](https://schema.org/infectiousAgent) | Text |  |
+| [infectiousAgentClass](https://schema.org/infectiousAgentClass) | Text |  |
+| [transmissionMethod](https://schema.org/transmissionMethod) | Text |  |

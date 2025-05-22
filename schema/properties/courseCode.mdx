@@ -1,12 +1,15 @@
 ---
-$id: schema:courseCode
-$type: rdf:Property
-label: schema:courseCode
-rdfs:comment: "The identifier for the [[Course]] used by the course [[provider]] (e.g. CS101 or 6.001)."
+$id: https://schema.org/courseCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: courseCode
+comment: |
+  The identifier for the [[Course]] used by the course [[provider]] (e.g. CS101 or 6.001).
 rdfs:label: "courseCode"
-schema:domainIncludes: {"@id":"schema:Course"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/Course"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:courseCode
+# courseCode
+
+The identifier for the [[Course]] used by the course [[provider]] (e.g. CS101 or 6.001).
 

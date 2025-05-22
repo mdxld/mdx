@@ -1,16 +1,19 @@
 ---
-$id: schema:fundedItem
-$type: rdf:Property
-label: schema:fundedItem
-rdfs:comment: "Indicates something directly or indirectly funded or sponsored through a [[Grant]]. See also [[ownershipFundingInfo]]."
+$id: https://schema.org/fundedItem
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: fundedItem
+comment: |
+  Indicates something directly or indirectly funded or sponsored through a [[Grant]]. See also [[ownershipFundingInfo]].
 rdfs:label: "fundedItem"
-schema:contributor: {"@id":"https://schema.org/docs/collab/TP"}
-schema:domainIncludes: {"@id":"schema:Grant"}
-schema:inverseOf: {"@id":"schema:funding"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:CreativeWork"},{"@id":"schema:Person"},{"@id":"schema:Product"},{"@id":"schema:BioChemEntity"},{"@id":"schema:MedicalEntity"},{"@id":"schema:Event"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/383"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1950"}]
+schema:contributor: "https://schema.org/docs/collab/TP"
+schema:domainIncludes: "https://schema.org/Grant"
+schema:inverseOf: "https://schema.org/funding"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/CreativeWork","https://schema.org/Person","https://schema.org/Product","https://schema.org/BioChemEntity","https://schema.org/MedicalEntity","https://schema.org/Event"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/383","https://github.com/schemaorg/schemaorg/issues/1950"]
 ---
 
-# schema:fundedItem
+# fundedItem
+
+Indicates something directly or indirectly funded or sponsored through a [[Grant]]. See also [[ownershipFundingInfo]].
 

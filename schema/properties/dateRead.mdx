@@ -1,12 +1,15 @@
 ---
-$id: schema:dateRead
-$type: rdf:Property
-label: schema:dateRead
-rdfs:comment: "The date/time at which the message has been read by the recipient if a single recipient exists."
+$id: https://schema.org/dateRead
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dateRead
+comment: |
+  The date/time at which the message has been read by the recipient if a single recipient exists.
 rdfs:label: "dateRead"
-schema:domainIncludes: {"@id":"schema:Message"}
-schema:rangeIncludes: [{"@id":"schema:DateTime"},{"@id":"schema:Date"}]
+schema:domainIncludes: "https://schema.org/Message"
+schema:rangeIncludes: ["https://schema.org/DateTime","https://schema.org/Date"]
 ---
 
-# schema:dateRead
+# dateRead
+
+The date/time at which the message has been read by the recipient if a single recipient exists.
 

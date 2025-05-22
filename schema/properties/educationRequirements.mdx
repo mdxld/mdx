@@ -1,14 +1,17 @@
 ---
-$id: schema:educationRequirements
-$type: rdf:Property
-label: schema:educationRequirements
-rdfs:comment: "Educational background needed for the position or Occupation."
+$id: https://schema.org/educationRequirements
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: educationRequirements
+comment: |
+  Educational background needed for the position or Occupation.
 rdfs:label: "educationRequirements"
-schema:domainIncludes: [{"@id":"schema:Occupation"},{"@id":"schema:JobPosting"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:EducationalOccupationalCredential"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/1698"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1779"}]
+schema:domainIncludes: ["https://schema.org/Occupation","https://schema.org/JobPosting"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/EducationalOccupationalCredential"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/1698","https://github.com/schemaorg/schemaorg/issues/1779"]
 ---
 
-# schema:educationRequirements
+# educationRequirements
+
+Educational background needed for the position or Occupation.
 

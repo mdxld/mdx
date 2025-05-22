@@ -1,13 +1,16 @@
 ---
-$id: schema:supply
-$type: rdf:Property
-label: schema:supply
-rdfs:comment: "A sub-property of instrument. A supply consumed when performing instructions or a direction."
+$id: https://schema.org/supply
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: supply
+comment: |
+  A sub-property of instrument. A supply consumed when performing instructions or a direction.
 rdfs:label: "supply"
-rdfs:subPropertyOf: {"@id":"schema:instrument"}
-schema:domainIncludes: [{"@id":"schema:HowTo"},{"@id":"schema:HowToDirection"}]
-schema:rangeIncludes: [{"@id":"schema:HowToSupply"},{"@id":"schema:Text"}]
+rdfs:subPropertyOf: "https://schema.org/instrument"
+schema:domainIncludes: ["https://schema.org/HowTo","https://schema.org/HowToDirection"]
+schema:rangeIncludes: ["https://schema.org/HowToSupply","https://schema.org/Text"]
 ---
 
-# schema:supply
+# supply
+
+A sub-property of instrument. A supply consumed when performing instructions or a direction.
 

@@ -1,11 +1,28 @@
 ---
-$id: schema:Recipe
-$type: rdfs:Class
-label: schema:Recipe
-rdfs:comment: "A recipe. For dietary restrictions covered by the recipe, a few common restrictions are enumerated via [[suitableForDiet]]. The [[keywords]] property can also be used to add more detail."
+$id: https://schema.org/Recipe
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Recipe
+comment: |
+  A recipe. For dietary restrictions covered by the recipe, a few common restrictions are enumerated via [[suitableForDiet]]. The [[keywords]] property can also be used to add more detail.
 rdfs:label: "Recipe"
-rdfs:subClassOf: {"@id":"schema:HowTo"}
+rdfs:subClassOf: "https://schema.org/HowTo"
 ---
 
-# schema:Recipe
+# Recipe
 
+A recipe. For dietary restrictions covered by the recipe, a few common restrictions are enumerated via [[suitableForDiet]]. The [[keywords]] property can also be used to add more detail.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [cookingMethod](https://schema.org/cookingMethod) | Text |  |
+| [cookTime](https://schema.org/cookTime) | Text |  |
+| [ingredients](https://schema.org/ingredients) | Text |  |
+| [nutrition](https://schema.org/nutrition) | Text |  |
+| [recipeCategory](https://schema.org/recipeCategory) | Text |  |
+| [recipeCuisine](https://schema.org/recipeCuisine) | Text |  |
+| [recipeIngredient](https://schema.org/recipeIngredient) | Text |  |
+| [recipeInstructions](https://schema.org/recipeInstructions) | Text |  |
+| [recipeYield](https://schema.org/recipeYield) | Text |  |
+| [suitableForDiet](https://schema.org/suitableForDiet) | Text |  |

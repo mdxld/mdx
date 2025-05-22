@@ -1,14 +1,17 @@
 ---
-$id: schema:mediaItemAppearance
-$type: rdf:Property
-label: schema:mediaItemAppearance
-rdfs:comment: "In the context of a [[MediaReview]], indicates specific media item(s) that are grouped using a [[MediaReviewItem]]."
+$id: https://schema.org/mediaItemAppearance
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: mediaItemAppearance
+comment: |
+  In the context of a [[MediaReview]], indicates specific media item(s) that are grouped using a [[MediaReviewItem]].
 rdfs:label: "mediaItemAppearance"
-schema:domainIncludes: {"@id":"schema:MediaReviewItem"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MediaObject"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+schema:domainIncludes: "https://schema.org/MediaReviewItem"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MediaObject"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:mediaItemAppearance
+# mediaItemAppearance
+
+In the context of a [[MediaReview]], indicates specific media item(s) that are grouped using a [[MediaReviewItem]].
 

@@ -1,12 +1,15 @@
 ---
-$id: schema:artform
-$type: rdf:Property
-label: schema:artform
-rdfs:comment: "e.g. Painting, Drawing, Sculpture, Print, Photograph, Assemblage, Collage, etc."
+$id: https://schema.org/artform
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: artform
+comment: |
+  e.g. Painting, Drawing, Sculpture, Print, Photograph, Assemblage, Collage, etc.
 rdfs:label: "artform"
-schema:domainIncludes: {"@id":"schema:VisualArtwork"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/VisualArtwork"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:artform
+# artform
+
+e.g. Painting, Drawing, Sculpture, Print, Photograph, Assemblage, Collage, etc.
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:pageEnd
-$type: rdf:Property
-label: schema:pageEnd
-owl:equivalentProperty: {"@id":"http://purl.org/ontology/bibo/pageEnd"}
-rdfs:comment: "The page on which the work ends; for example \"138\" or \"xvi\"."
+$id: https://schema.org/pageEnd
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: pageEnd
+comment: |
+  The page on which the work ends; for example "138" or "xvi".
+owl:equivalentProperty: "http://purl.org/ontology/bibo/pageEnd"
 rdfs:label: "pageEnd"
-schema:contributor: {"@id":"https://schema.org/docs/collab/bibex"}
-schema:domainIncludes: [{"@id":"schema:Chapter"},{"@id":"schema:Article"},{"@id":"schema:PublicationVolume"},{"@id":"schema:PublicationIssue"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+schema:contributor: "https://schema.org/docs/collab/bibex"
+schema:domainIncludes: ["https://schema.org/Chapter","https://schema.org/Article","https://schema.org/PublicationVolume","https://schema.org/PublicationIssue"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:pageEnd
+# pageEnd
+
+The page on which the work ends; for example "138" or "xvi".
 

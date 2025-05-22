@@ -1,11 +1,19 @@
 ---
-$id: schema:HowToSection
-$type: rdfs:Class
-label: schema:HowToSection
-rdfs:comment: "A sub-grouping of steps in the instructions for how to achieve a result (e.g. steps for making a pie crust within a pie recipe)."
+$id: https://schema.org/HowToSection
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: HowToSection
+comment: |
+  A sub-grouping of steps in the instructions for how to achieve a result (e.g. steps for making a pie crust within a pie recipe).
 rdfs:label: "HowToSection"
-rdfs:subClassOf: [{"@id":"schema:CreativeWork"},{"@id":"schema:ListItem"},{"@id":"schema:ItemList"}]
+rdfs:subClassOf: ["https://schema.org/CreativeWork","https://schema.org/ListItem","https://schema.org/ItemList"]
 ---
 
-# schema:HowToSection
+# HowToSection
 
+A sub-grouping of steps in the instructions for how to achieve a result (e.g. steps for making a pie crust within a pie recipe).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [steps](https://schema.org/steps) | Text |  |

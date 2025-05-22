@@ -1,12 +1,15 @@
 ---
-$id: schema:PhysicalExam
-$type: rdfs:Class
-label: schema:PhysicalExam
-rdfs:comment: "A type of physical examination of a patient performed by a physician. "
+$id: https://schema.org/PhysicalExam
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PhysicalExam
+comment: |
+  A type of physical examination of a patient performed by a physician.
 rdfs:label: "PhysicalExam"
-rdfs:subClassOf: [{"@id":"schema:MedicalEnumeration"},{"@id":"schema:MedicalProcedure"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/MedicalEnumeration","https://schema.org/MedicalProcedure"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:PhysicalExam
+# PhysicalExam
+
+A type of physical examination of a patient performed by a physician.
 

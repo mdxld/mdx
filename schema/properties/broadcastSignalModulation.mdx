@@ -1,14 +1,17 @@
 ---
-$id: schema:broadcastSignalModulation
-$type: rdf:Property
-label: schema:broadcastSignalModulation
-rdfs:comment: "The modulation (e.g. FM, AM, etc) used by a particular broadcast service."
+$id: https://schema.org/broadcastSignalModulation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: broadcastSignalModulation
+comment: |
+  The modulation (e.g. FM, AM, etc) used by a particular broadcast service.
 rdfs:label: "broadcastSignalModulation"
-schema:domainIncludes: {"@id":"schema:BroadcastFrequencySpecification"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:QualitativeValue"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2111"}
+schema:domainIncludes: "https://schema.org/BroadcastFrequencySpecification"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/QualitativeValue","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2111"
 ---
 
-# schema:broadcastSignalModulation
+# broadcastSignalModulation
+
+The modulation (e.g. FM, AM, etc) used by a particular broadcast service.
 

@@ -1,13 +1,23 @@
 ---
-$id: schema:Patient
-$type: rdfs:Class
-label: schema:Patient
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/116154003"}
-rdfs:comment: "A patient is any person recipient of health care services."
+$id: https://schema.org/Patient
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Patient
+comment: |
+  A patient is any person recipient of health care services.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/116154003"
 rdfs:label: "Patient"
-rdfs:subClassOf: [{"@id":"schema:MedicalAudience"},{"@id":"schema:Person"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/MedicalAudience","https://schema.org/Person"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Patient
+# Patient
 
+A patient is any person recipient of health care services.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [diagnosis](https://schema.org/diagnosis) | Text |  |
+| [drug](https://schema.org/drug) | Text |  |
+| [healthCondition](https://schema.org/healthCondition) | Text |  |

@@ -1,13 +1,16 @@
 ---
-$id: schema:transmissionMethod
-$type: rdf:Property
-label: schema:transmissionMethod
-rdfs:comment: "How the disease spreads, either as a route or vector, for example 'direct contact', 'Aedes aegypti', etc."
+$id: https://schema.org/transmissionMethod
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: transmissionMethod
+comment: |
+  How the disease spreads, either as a route or vector, for example 'direct contact', 'Aedes aegypti', etc.
 rdfs:label: "transmissionMethod"
-schema:domainIncludes: {"@id":"schema:InfectiousDisease"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/InfectiousDisease"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:transmissionMethod
+# transmissionMethod
+
+How the disease spreads, either as a route or vector, for example 'direct contact', 'Aedes aegypti', etc.
 

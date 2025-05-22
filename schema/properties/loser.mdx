@@ -1,13 +1,16 @@
 ---
-$id: schema:loser
-$type: rdf:Property
-label: schema:loser
-rdfs:comment: "A sub property of participant. The loser of the action."
+$id: https://schema.org/loser
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: loser
+comment: |
+  A sub property of participant. The loser of the action.
 rdfs:label: "loser"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:WinAction"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/WinAction"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:loser
+# loser
+
+A sub property of participant. The loser of the action.
 

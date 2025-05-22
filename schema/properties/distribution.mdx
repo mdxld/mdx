@@ -1,12 +1,15 @@
 ---
-$id: schema:distribution
-$type: rdf:Property
-label: schema:distribution
-rdfs:comment: "A downloadable form of this dataset, at a specific location, in a specific format. This property can be repeated if different variations are available. There is no expectation that different downloadable distributions must contain exactly equivalent information (see also [DCAT](https://www.w3.org/TR/vocab-dcat-3/#Class:Distribution) on this point). Different distributions might include or exclude different subsets of the entire dataset, for example."
+$id: https://schema.org/distribution
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: distribution
+comment: |
+  A downloadable form of this dataset, at a specific location, in a specific format. This property can be repeated if different variations are available. There is no expectation that different downloadable distributions must contain exactly equivalent information (see also [DCAT](https://www.w3.org/TR/vocab-dcat-3/#Class:Distribution) on this point). Different distributions might include or exclude different subsets of the entire dataset, for example.
 rdfs:label: "distribution"
-schema:domainIncludes: {"@id":"schema:Dataset"}
-schema:rangeIncludes: {"@id":"schema:DataDownload"}
+schema:domainIncludes: "https://schema.org/Dataset"
+schema:rangeIncludes: "https://schema.org/DataDownload"
 ---
 
-# schema:distribution
+# distribution
+
+A downloadable form of this dataset, at a specific location, in a specific format. This property can be repeated if different variations are available. There is no expectation that different downloadable distributions must contain exactly equivalent information (see also [DCAT](https://www.w3.org/TR/vocab-dcat-3/#Class:Distribution) on this point). Different distributions might include or exclude different subsets of the entire dataset, for example.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:repetitions
-$type: rdf:Property
-label: schema:repetitions
-rdfs:comment: "Number of times one should repeat the activity."
+$id: https://schema.org/repetitions
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: repetitions
+comment: |
+  Number of times one should repeat the activity.
 rdfs:label: "repetitions"
-schema:domainIncludes: {"@id":"schema:ExercisePlan"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Number"}]
+schema:domainIncludes: "https://schema.org/ExercisePlan"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Number"]
 ---
 
-# schema:repetitions
+# repetitions
+
+Number of times one should repeat the activity.
 

@@ -1,11 +1,20 @@
 ---
-$id: schema:TechArticle
-$type: rdfs:Class
-label: schema:TechArticle
-rdfs:comment: "A technical article - Example: How-to (task) topics, step-by-step, procedural troubleshooting, specifications, etc."
+$id: https://schema.org/TechArticle
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TechArticle
+comment: |
+  A technical article - Example: How-to (task) topics, step-by-step, procedural troubleshooting, specifications, etc.
 rdfs:label: "TechArticle"
-rdfs:subClassOf: {"@id":"schema:Article"}
+rdfs:subClassOf: "https://schema.org/Article"
 ---
 
-# schema:TechArticle
+# TechArticle
 
+A technical article - Example: How-to (task) topics, step-by-step, procedural troubleshooting, specifications, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dependencies](https://schema.org/dependencies) | Text |  |
+| [proficiencyLevel](https://schema.org/proficiencyLevel) | Text |  |

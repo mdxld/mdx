@@ -1,12 +1,15 @@
 ---
-$id: schema:trainName
-$type: rdf:Property
-label: schema:trainName
-rdfs:comment: "The name of the train (e.g. The Orient Express)."
+$id: https://schema.org/trainName
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: trainName
+comment: |
+  The name of the train (e.g. The Orient Express).
 rdfs:label: "trainName"
-schema:domainIncludes: {"@id":"schema:TrainTrip"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/TrainTrip"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:trainName
+# trainName
+
+The name of the train (e.g. The Orient Express).
 

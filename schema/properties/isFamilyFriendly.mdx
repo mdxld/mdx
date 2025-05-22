@@ -1,12 +1,15 @@
 ---
-$id: schema:isFamilyFriendly
-$type: rdf:Property
-label: schema:isFamilyFriendly
-rdfs:comment: "Indicates whether this content is family friendly."
+$id: https://schema.org/isFamilyFriendly
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isFamilyFriendly
+comment: |
+  Indicates whether this content is family friendly.
 rdfs:label: "isFamilyFriendly"
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:Product"},{"@id":"schema:Offer"}]
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/Product","https://schema.org/Offer"]
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:isFamilyFriendly
+# isFamilyFriendly
+
+Indicates whether this content is family friendly.
 

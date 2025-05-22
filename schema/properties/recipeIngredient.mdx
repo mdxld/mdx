@@ -1,13 +1,16 @@
 ---
-$id: schema:recipeIngredient
-$type: rdf:Property
-label: schema:recipeIngredient
-rdfs:comment: "A single ingredient used in the recipe, e.g. sugar, flour or garlic."
+$id: https://schema.org/recipeIngredient
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recipeIngredient
+comment: |
+  A single ingredient used in the recipe, e.g. sugar, flour or garlic.
 rdfs:label: "recipeIngredient"
-rdfs:subPropertyOf: {"@id":"schema:supply"}
-schema:domainIncludes: {"@id":"schema:Recipe"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/supply"
+schema:domainIncludes: "https://schema.org/Recipe"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:recipeIngredient
+# recipeIngredient
+
+A single ingredient used in the recipe, e.g. sugar, flour or garlic.
 

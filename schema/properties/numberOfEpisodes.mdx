@@ -1,12 +1,15 @@
 ---
-$id: schema:numberOfEpisodes
-$type: rdf:Property
-label: schema:numberOfEpisodes
-rdfs:comment: "The number of episodes in this season or series."
+$id: https://schema.org/numberOfEpisodes
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfEpisodes
+comment: |
+  The number of episodes in this season or series.
 rdfs:label: "numberOfEpisodes"
-schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:CreativeWorkSeason"},{"@id":"schema:TVSeries"}]
-schema:rangeIncludes: {"@id":"schema:Integer"}
+schema:domainIncludes: ["https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/CreativeWorkSeason","https://schema.org/TVSeries"]
+schema:rangeIncludes: "https://schema.org/Integer"
 ---
 
-# schema:numberOfEpisodes
+# numberOfEpisodes
+
+The number of episodes in this season or series.
 

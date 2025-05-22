@@ -1,17 +1,20 @@
 ---
-$id: schema:legislationLegalForce
-$type: rdf:Property
-label: schema:legislationLegalForce
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#in_force"}
-rdfs:comment: "Whether the legislation is currently in force, not in force, or partially in force."
+$id: https://schema.org/legislationLegalForce
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationLegalForce
+comment: |
+  Whether the legislation is currently in force, not in force, or partially in force.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#in_force"
 rdfs:label: "legislationLegalForce"
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:LegalForceStatus"}
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#in_force"}
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/LegalForceStatus"
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#in_force"
 ---
 
-# schema:legislationLegalForce
+# legislationLegalForce
+
+Whether the legislation is currently in force, not in force, or partially in force.
 

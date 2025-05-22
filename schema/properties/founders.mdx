@@ -1,13 +1,16 @@
 ---
-$id: schema:founders
-$type: rdf:Property
-label: schema:founders
-rdfs:comment: "A person who founded this organization."
+$id: https://schema.org/founders
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: founders
+comment: |
+  A person who founded this organization.
 rdfs:label: "founders"
-schema:domainIncludes: {"@id":"schema:Organization"}
-schema:rangeIncludes: {"@id":"schema:Person"}
-schema:supersededBy: {"@id":"schema:founder"}
+schema:domainIncludes: "https://schema.org/Organization"
+schema:rangeIncludes: "https://schema.org/Person"
+schema:supersededBy: "https://schema.org/founder"
 ---
 
-# schema:founders
+# founders
+
+A person who founded this organization.
 

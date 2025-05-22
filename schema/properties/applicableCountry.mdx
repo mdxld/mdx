@@ -1,14 +1,17 @@
 ---
-$id: schema:applicableCountry
-$type: rdf:Property
-label: schema:applicableCountry
-rdfs:comment: "A country where a particular merchant return policy applies to, for example the two-letter ISO 3166-1 alpha-2 country code."
+$id: https://schema.org/applicableCountry
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicableCountry
+comment: |
+  A country where a particular merchant return policy applies to, for example the two-letter ISO 3166-1 alpha-2 country code.
 rdfs:label: "applicableCountry"
-schema:domainIncludes: {"@id":"schema:MerchantReturnPolicy"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Country"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3001"}
+schema:domainIncludes: "https://schema.org/MerchantReturnPolicy"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Country"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3001"
 ---
 
-# schema:applicableCountry
+# applicableCountry
+
+A country where a particular merchant return policy applies to, for example the two-letter ISO 3166-1 alpha-2 country code.
 

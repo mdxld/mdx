@@ -1,15 +1,18 @@
 ---
-$id: schema:announcementLocation
-$type: rdf:Property
-label: schema:announcementLocation
-rdfs:comment: "Indicates a specific [[CivicStructure]] or [[LocalBusiness]] associated with the SpecialAnnouncement. For example, a specific testing facility or business with special opening hours. For a larger geographic region like a quarantine of an entire region, use [[spatialCoverage]]."
+$id: https://schema.org/announcementLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: announcementLocation
+comment: |
+  Indicates a specific [[CivicStructure]] or [[LocalBusiness]] associated with the SpecialAnnouncement. For example, a specific testing facility or business with special opening hours. For a larger geographic region like a quarantine of an entire region, use [[spatialCoverage]].
 rdfs:label: "announcementLocation"
-rdfs:subPropertyOf: {"@id":"schema:spatialCoverage"}
-schema:domainIncludes: {"@id":"schema:SpecialAnnouncement"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:LocalBusiness"},{"@id":"schema:CivicStructure"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2514"}
+rdfs:subPropertyOf: "https://schema.org/spatialCoverage"
+schema:domainIncludes: "https://schema.org/SpecialAnnouncement"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/LocalBusiness","https://schema.org/CivicStructure"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2514"
 ---
 
-# schema:announcementLocation
+# announcementLocation
+
+Indicates a specific [[CivicStructure]] or [[LocalBusiness]] associated with the SpecialAnnouncement. For example, a specific testing facility or business with special opening hours. For a larger geographic region like a quarantine of an entire region, use [[spatialCoverage]].
 

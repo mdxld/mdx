@@ -1,14 +1,17 @@
 ---
-$id: schema:gameAvailabilityType
-$type: rdf:Property
-label: schema:gameAvailabilityType
-rdfs:comment: "Indicates the availability type of the game content associated with this action, such as whether it is a full version or a demo."
+$id: https://schema.org/gameAvailabilityType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gameAvailabilityType
+comment: |
+  Indicates the availability type of the game content associated with this action, such as whether it is a full version or a demo.
 rdfs:label: "gameAvailabilityType"
-schema:domainIncludes: {"@id":"schema:PlayGameAction"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:GameAvailabilityEnumeration"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3058"}
+schema:domainIncludes: "https://schema.org/PlayGameAction"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/GameAvailabilityEnumeration"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3058"
 ---
 
-# schema:gameAvailabilityType
+# gameAvailabilityType
+
+Indicates the availability type of the game content associated with this action, such as whether it is a full version or a demo.
 

@@ -1,13 +1,18 @@
 ---
-$id: schema:spatial
-$type: rdf:Property
-label: schema:spatial
-owl:equivalentProperty: {"@id":"dcterms:spatial"}
-rdfs:comment: "The \"spatial\" property can be used in cases when more specific properties\n(e.g. [[locationCreated]], [[spatialCoverage]], [[contentLocation]]) are not known to be appropriate."
+$id: https://schema.org/spatial
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: spatial
+comment: |
+  The "spatial" property can be used in cases when more specific properties
+  (e.g. [[locationCreated]], [[spatialCoverage]], [[contentLocation]]) are not known to be appropriate.
+owl:equivalentProperty: "dcterms:spatial"
 rdfs:label: "spatial"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: {"@id":"schema:Place"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:spatial
+# spatial
+
+The "spatial" property can be used in cases when more specific properties
+(e.g. [[locationCreated]], [[spatialCoverage]], [[contentLocation]]) are not known to be appropriate.
 

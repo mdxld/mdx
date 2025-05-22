@@ -1,13 +1,16 @@
 ---
-$id: schema:availableService
-$type: rdf:Property
-label: schema:availableService
-rdfs:comment: "A medical service available from this provider."
+$id: https://schema.org/availableService
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: availableService
+comment: |
+  A medical service available from this provider.
 rdfs:label: "availableService"
-schema:domainIncludes: [{"@id":"schema:Physician"},{"@id":"schema:Hospital"},{"@id":"schema:MedicalClinic"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:MedicalProcedure"},{"@id":"schema:MedicalTest"},{"@id":"schema:MedicalTherapy"}]
+schema:domainIncludes: ["https://schema.org/Physician","https://schema.org/Hospital","https://schema.org/MedicalClinic"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/MedicalProcedure","https://schema.org/MedicalTest","https://schema.org/MedicalTherapy"]
 ---
 
-# schema:availableService
+# availableService
+
+A medical service available from this provider.
 

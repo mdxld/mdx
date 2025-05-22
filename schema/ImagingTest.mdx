@@ -1,12 +1,20 @@
 ---
-$id: schema:ImagingTest
-$type: rdfs:Class
-label: schema:ImagingTest
-rdfs:comment: "Any medical imaging modality typically used for diagnostic purposes."
+$id: https://schema.org/ImagingTest
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ImagingTest
+comment: |
+  Any medical imaging modality typically used for diagnostic purposes.
 rdfs:label: "ImagingTest"
-rdfs:subClassOf: {"@id":"schema:MedicalTest"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalTest"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:ImagingTest
+# ImagingTest
 
+Any medical imaging modality typically used for diagnostic purposes.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [imagingTechnique](https://schema.org/imagingTechnique) | Text |  |

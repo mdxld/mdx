@@ -1,14 +1,17 @@
 ---
-$id: schema:measuredProperty
-$type: rdf:Property
-label: schema:measuredProperty
-rdfs:comment: "The measuredProperty of an [[Observation]], typically via its [[StatisticalVariable]]. There are various kinds of applicable [[Property]]: a schema.org property, a property from other RDF-compatible systems, e.g. W3C RDF Data Cube, Data Commons, Wikidata, or schema.org extensions such as [GS1's](https://www.gs1.org/voc/?show=properties)."
+$id: https://schema.org/measuredProperty
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: measuredProperty
+comment: |
+  The measuredProperty of an [[Observation]], typically via its [[StatisticalVariable]]. There are various kinds of applicable [[Property]]: a schema.org property, a property from other RDF-compatible systems, e.g. W3C RDF Data Cube, Data Commons, Wikidata, or schema.org extensions such as [GS1's](https://www.gs1.org/voc/?show=properties).
 rdfs:label: "measuredProperty"
-schema:domainIncludes: [{"@id":"schema:Observation"},{"@id":"schema:StatisticalVariable"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Property"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2291"}
+schema:domainIncludes: ["https://schema.org/Observation","https://schema.org/StatisticalVariable"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Property"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2291"
 ---
 
-# schema:measuredProperty
+# measuredProperty
+
+The measuredProperty of an [[Observation]], typically via its [[StatisticalVariable]]. There are various kinds of applicable [[Property]]: a schema.org property, a property from other RDF-compatible systems, e.g. W3C RDF Data Cube, Data Commons, Wikidata, or schema.org extensions such as [GS1's](https://www.gs1.org/voc/?show=properties).
 

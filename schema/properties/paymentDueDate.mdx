@@ -1,12 +1,15 @@
 ---
-$id: schema:paymentDueDate
-$type: rdf:Property
-label: schema:paymentDueDate
-rdfs:comment: "The date that payment is due."
+$id: https://schema.org/paymentDueDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: paymentDueDate
+comment: |
+  The date that payment is due.
 rdfs:label: "paymentDueDate"
-schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: ["https://schema.org/Invoice","https://schema.org/Order"]
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:paymentDueDate
+# paymentDueDate
+
+The date that payment is due.
 

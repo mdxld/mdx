@@ -1,12 +1,15 @@
 ---
-$id: schema:email
-$type: rdf:Property
-label: schema:email
-rdfs:comment: "Email address."
+$id: https://schema.org/email
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: email
+comment: |
+  Email address.
 rdfs:label: "email"
-schema:domainIncludes: [{"@id":"schema:ContactPoint"},{"@id":"schema:Person"},{"@id":"schema:Organization"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/ContactPoint","https://schema.org/Person","https://schema.org/Organization"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:email
+# email
+
+Email address.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:tool
-$type: rdf:Property
-label: schema:tool
-rdfs:comment: "A sub property of instrument. An object used (but not consumed) when performing instructions or a direction."
+$id: https://schema.org/tool
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tool
+comment: |
+  A sub property of instrument. An object used (but not consumed) when performing instructions or a direction.
 rdfs:label: "tool"
-rdfs:subPropertyOf: {"@id":"schema:instrument"}
-schema:domainIncludes: [{"@id":"schema:HowTo"},{"@id":"schema:HowToDirection"}]
-schema:rangeIncludes: [{"@id":"schema:HowToTool"},{"@id":"schema:Text"}]
+rdfs:subPropertyOf: "https://schema.org/instrument"
+schema:domainIncludes: ["https://schema.org/HowTo","https://schema.org/HowToDirection"]
+schema:rangeIncludes: ["https://schema.org/HowToTool","https://schema.org/Text"]
 ---
 
-# schema:tool
+# tool
+
+A sub property of instrument. An object used (but not consumed) when performing instructions or a direction.
 

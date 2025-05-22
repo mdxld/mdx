@@ -1,13 +1,16 @@
 ---
-$id: schema:drugClass
-$type: rdf:Property
-label: schema:drugClass
-rdfs:comment: "The class of drug this belongs to (e.g., statins)."
+$id: https://schema.org/drugClass
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: drugClass
+comment: |
+  The class of drug this belongs to (e.g., statins).
 rdfs:label: "drugClass"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:DrugClass"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/DrugClass"
 ---
 
-# schema:drugClass
+# drugClass
+
+The class of drug this belongs to (e.g., statins).
 

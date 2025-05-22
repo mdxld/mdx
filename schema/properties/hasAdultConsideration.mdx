@@ -1,14 +1,17 @@
 ---
-$id: schema:hasAdultConsideration
-$type: rdf:Property
-label: schema:hasAdultConsideration
-rdfs:comment: "Used to tag an item to be intended or suitable for consumption or use by adults only."
+$id: https://schema.org/hasAdultConsideration
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasAdultConsideration
+comment: |
+  Used to tag an item to be intended or suitable for consumption or use by adults only.
 rdfs:label: "hasAdultConsideration"
-schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:Product"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AdultOrientedEnumeration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2989"}
+schema:domainIncludes: ["https://schema.org/Offer","https://schema.org/Product"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/AdultOrientedEnumeration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2989"
 ---
 
-# schema:hasAdultConsideration
+# hasAdultConsideration
+
+Used to tag an item to be intended or suitable for consumption or use by adults only.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:flightNumber
-$type: rdf:Property
-label: schema:flightNumber
-rdfs:comment: "The unique identifier for a flight including the airline IATA code. For example, if describing United flight 110, where the IATA code for United is 'UA', the flightNumber is 'UA110'."
+$id: https://schema.org/flightNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: flightNumber
+comment: |
+  The unique identifier for a flight including the airline IATA code. For example, if describing United flight 110, where the IATA code for United is 'UA', the flightNumber is 'UA110'.
 rdfs:label: "flightNumber"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:domainIncludes: {"@id":"schema:Flight"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:domainIncludes: "https://schema.org/Flight"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:flightNumber
+# flightNumber
+
+The unique identifier for a flight including the airline IATA code. For example, if describing United flight 110, where the IATA code for United is 'UA', the flightNumber is 'UA110'.
 

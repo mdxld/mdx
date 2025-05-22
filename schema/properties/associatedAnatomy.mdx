@@ -1,13 +1,16 @@
 ---
-$id: schema:associatedAnatomy
-$type: rdf:Property
-label: schema:associatedAnatomy
-rdfs:comment: "The anatomy of the underlying organ system or structures associated with this entity."
+$id: https://schema.org/associatedAnatomy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: associatedAnatomy
+comment: |
+  The anatomy of the underlying organ system or structures associated with this entity.
 rdfs:label: "associatedAnatomy"
-schema:domainIncludes: [{"@id":"schema:PhysicalActivity"},{"@id":"schema:MedicalCondition"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:AnatomicalStructure"},{"@id":"schema:SuperficialAnatomy"},{"@id":"schema:AnatomicalSystem"}]
+schema:domainIncludes: ["https://schema.org/PhysicalActivity","https://schema.org/MedicalCondition"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/AnatomicalStructure","https://schema.org/SuperficialAnatomy","https://schema.org/AnatomicalSystem"]
 ---
 
-# schema:associatedAnatomy
+# associatedAnatomy
+
+The anatomy of the underlying organ system or structures associated with this entity.
 

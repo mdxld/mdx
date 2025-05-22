@@ -1,13 +1,21 @@
 ---
-$id: schema:ProductCollection
-$type: rdfs:Class
-label: schema:ProductCollection
-rdfs:comment: "A set of products (either [[ProductGroup]]s or specific variants) that are listed together e.g. in an [[Offer]]."
+$id: https://schema.org/ProductCollection
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ProductCollection
+comment: |
+  A set of products (either [[ProductGroup]]s or specific variants) that are listed together e.g. in an [[Offer]].
 rdfs:label: "ProductCollection"
-rdfs:subClassOf: [{"@id":"schema:Product"},{"@id":"schema:Collection"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2597"}
+rdfs:subClassOf: ["https://schema.org/Product","https://schema.org/Collection"]
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2597"
 ---
 
-# schema:ProductCollection
+# ProductCollection
 
+A set of products (either [[ProductGroup]]s or specific variants) that are listed together e.g. in an [[Offer]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [includesObject](https://schema.org/includesObject) | Text |  |

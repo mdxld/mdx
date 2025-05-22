@@ -1,14 +1,17 @@
 ---
-$id: schema:pageStart
-$type: rdf:Property
-label: schema:pageStart
-owl:equivalentProperty: {"@id":"http://purl.org/ontology/bibo/pageStart"}
-rdfs:comment: "The page on which the work starts; for example \"135\" or \"xiii\"."
+$id: https://schema.org/pageStart
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: pageStart
+comment: |
+  The page on which the work starts; for example "135" or "xiii".
+owl:equivalentProperty: "http://purl.org/ontology/bibo/pageStart"
 rdfs:label: "pageStart"
-schema:contributor: {"@id":"https://schema.org/docs/collab/bibex"}
-schema:domainIncludes: [{"@id":"schema:Article"},{"@id":"schema:PublicationVolume"},{"@id":"schema:PublicationIssue"},{"@id":"schema:Chapter"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+schema:contributor: "https://schema.org/docs/collab/bibex"
+schema:domainIncludes: ["https://schema.org/Article","https://schema.org/PublicationVolume","https://schema.org/PublicationIssue","https://schema.org/Chapter"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:pageStart
+# pageStart
+
+The page on which the work starts; for example "135" or "xiii".
 

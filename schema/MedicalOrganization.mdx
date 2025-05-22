@@ -1,11 +1,21 @@
 ---
-$id: schema:MedicalOrganization
-$type: rdfs:Class
-label: schema:MedicalOrganization
-rdfs:comment: "A medical organization (physical or not), such as hospital, institution or clinic."
+$id: https://schema.org/MedicalOrganization
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalOrganization
+comment: |
+  A medical organization (physical or not), such as hospital, institution or clinic.
 rdfs:label: "MedicalOrganization"
-rdfs:subClassOf: {"@id":"schema:Organization"}
+rdfs:subClassOf: "https://schema.org/Organization"
 ---
 
-# schema:MedicalOrganization
+# MedicalOrganization
 
+A medical organization (physical or not), such as hospital, institution or clinic.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [healthPlanNetworkId](https://schema.org/healthPlanNetworkId) | Text |  |
+| [isAcceptingNewPatients](https://schema.org/isAcceptingNewPatients) | Text |  |
+| [medicalSpecialty](https://schema.org/medicalSpecialty) | Text |  |

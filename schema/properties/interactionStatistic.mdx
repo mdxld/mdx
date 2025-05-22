@@ -1,13 +1,16 @@
 ---
-$id: schema:interactionStatistic
-$type: rdf:Property
-label: schema:interactionStatistic
-rdfs:comment: "The number of interactions for the CreativeWork using the WebSite or SoftwareApplication. The most specific child type of InteractionCounter should be used."
+$id: https://schema.org/interactionStatistic
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: interactionStatistic
+comment: |
+  The number of interactions for the CreativeWork using the WebSite or SoftwareApplication. The most specific child type of InteractionCounter should be used.
 rdfs:label: "interactionStatistic"
-schema:domainIncludes: [{"@id":"schema:Person"},{"@id":"schema:Organization"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: {"@id":"schema:InteractionCounter"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2421"}
+schema:domainIncludes: ["https://schema.org/Person","https://schema.org/Organization","https://schema.org/CreativeWork"]
+schema:rangeIncludes: "https://schema.org/InteractionCounter"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2421"
 ---
 
-# schema:interactionStatistic
+# interactionStatistic
+
+The number of interactions for the CreativeWork using the WebSite or SoftwareApplication. The most specific child type of InteractionCounter should be used.
 

@@ -1,12 +1,15 @@
 ---
-$id: schema:distance
-$type: rdf:Property
-label: schema:distance
-rdfs:comment: "The distance travelled, e.g. exercising or travelling."
+$id: https://schema.org/distance
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: distance
+comment: |
+  The distance travelled, e.g. exercising or travelling.
 rdfs:label: "distance"
-schema:domainIncludes: [{"@id":"schema:TravelAction"},{"@id":"schema:ExerciseAction"}]
-schema:rangeIncludes: {"@id":"schema:Distance"}
+schema:domainIncludes: ["https://schema.org/TravelAction","https://schema.org/ExerciseAction"]
+schema:rangeIncludes: "https://schema.org/Distance"
 ---
 
-# schema:distance
+# distance
+
+The distance travelled, e.g. exercising or travelling.
 

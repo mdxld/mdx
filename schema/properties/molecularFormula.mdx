@@ -1,14 +1,17 @@
 ---
-$id: schema:molecularFormula
-$type: rdf:Property
-label: schema:molecularFormula
-rdfs:comment: "The empirical formula is the simplest whole number ratio of all the atoms in a molecule."
+$id: https://schema.org/molecularFormula
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: molecularFormula
+comment: |
+  The empirical formula is the simplest whole number ratio of all the atoms in a molecule.
 rdfs:label: "molecularFormula"
-schema:domainIncludes: {"@id":"schema:MolecularEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"http://www.bioschemas.org/MolecularEntity"}
+schema:domainIncludes: "https://schema.org/MolecularEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "http://www.bioschemas.org/MolecularEntity"
 ---
 
-# schema:molecularFormula
+# molecularFormula
+
+The empirical formula is the simplest whole number ratio of all the atoms in a molecule.
 

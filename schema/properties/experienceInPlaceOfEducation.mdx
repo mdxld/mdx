@@ -1,14 +1,17 @@
 ---
-$id: schema:experienceInPlaceOfEducation
-$type: rdf:Property
-label: schema:experienceInPlaceOfEducation
-rdfs:comment: "Indicates whether a [[JobPosting]] will accept experience (as indicated by [[OccupationalExperienceRequirements]]) in place of its formal educational qualifications (as indicated by [[educationRequirements]]). If true, indicates that satisfying one of these requirements is sufficient."
+$id: https://schema.org/experienceInPlaceOfEducation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: experienceInPlaceOfEducation
+comment: |
+  Indicates whether a [[JobPosting]] will accept experience (as indicated by [[OccupationalExperienceRequirements]]) in place of its formal educational qualifications (as indicated by [[educationRequirements]]). If true, indicates that satisfying one of these requirements is sufficient.
 rdfs:label: "experienceInPlaceOfEducation"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2681"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Boolean"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2681"
 ---
 
-# schema:experienceInPlaceOfEducation
+# experienceInPlaceOfEducation
+
+Indicates whether a [[JobPosting]] will accept experience (as indicated by [[OccupationalExperienceRequirements]]) in place of its formal educational qualifications (as indicated by [[educationRequirements]]). If true, indicates that satisfying one of these requirements is sufficient.
 

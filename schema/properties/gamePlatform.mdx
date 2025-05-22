@@ -1,12 +1,15 @@
 ---
-$id: schema:gamePlatform
-$type: rdf:Property
-label: schema:gamePlatform
-rdfs:comment: "The electronic systems used to play <a href=\"http://en.wikipedia.org/wiki/Category:Video_game_platforms\">video games</a>."
+$id: https://schema.org/gamePlatform
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gamePlatform
+comment: |
+  The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
 rdfs:label: "gamePlatform"
-schema:domainIncludes: [{"@id":"schema:VideoGame"},{"@id":"schema:VideoGameSeries"}]
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Thing"},{"@id":"schema:Text"}]
+schema:domainIncludes: ["https://schema.org/VideoGame","https://schema.org/VideoGameSeries"]
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Thing","https://schema.org/Text"]
 ---
 
-# schema:gamePlatform
+# gamePlatform
+
+The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
 

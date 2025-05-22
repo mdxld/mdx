@@ -1,12 +1,21 @@
 ---
-$id: schema:MediaSubscription
-$type: rdfs:Class
-label: schema:MediaSubscription
-rdfs:comment: "A subscription which allows a user to access media including audio, video, books, etc."
+$id: https://schema.org/MediaSubscription
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MediaSubscription
+comment: |
+  A subscription which allows a user to access media including audio, video, books, etc.
 rdfs:label: "MediaSubscription"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1741"
 ---
 
-# schema:MediaSubscription
+# MediaSubscription
 
+A subscription which allows a user to access media including audio, video, books, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [authenticator](https://schema.org/authenticator) | Text |  |
+| [expectsAcceptanceOf](https://schema.org/expectsAcceptanceOf) | Text |  |

@@ -1,13 +1,16 @@
 ---
-$id: schema:usesDevice
-$type: rdf:Property
-label: schema:usesDevice
-rdfs:comment: "Device used to perform the test."
+$id: https://schema.org/usesDevice
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: usesDevice
+comment: |
+  Device used to perform the test.
 rdfs:label: "usesDevice"
-schema:domainIncludes: {"@id":"schema:MedicalTest"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalDevice"}
+schema:domainIncludes: "https://schema.org/MedicalTest"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalDevice"
 ---
 
-# schema:usesDevice
+# usesDevice
+
+Device used to perform the test.
 

@@ -1,18 +1,21 @@
 ---
-$id: schema:legislationType
-$type: rdf:Property
-label: schema:legislationType
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#type_document"}
-rdfs:comment: "The type of the legislation. Examples of values are \"law\", \"act\", \"directive\", \"decree\", \"regulation\", \"statutory instrument\", \"loi organique\", \"règlement grand-ducal\", etc., depending on the country."
+$id: https://schema.org/legislationType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationType
+comment: |
+  The type of the legislation. Examples of values are "law", "act", "directive", "decree", "regulation", "statutory instrument", "loi organique", "règlement grand-ducal", etc., depending on the country.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#type_document"
 rdfs:label: "legislationType"
-rdfs:subPropertyOf: {"@id":"schema:genre"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:CategoryCode"},{"@id":"schema:Text"}]
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#type_document"}
+rdfs:subPropertyOf: "https://schema.org/genre"
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/CategoryCode","https://schema.org/Text"]
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#type_document"
 ---
 
-# schema:legislationType
+# legislationType
+
+The type of the legislation. Examples of values are "law", "act", "directive", "decree", "regulation", "statutory instrument", "loi organique", "règlement grand-ducal", etc., depending on the country.
 

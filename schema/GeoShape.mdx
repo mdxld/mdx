@@ -1,12 +1,27 @@
 ---
-$id: schema:GeoShape
-$type: rdfs:Class
-label: schema:GeoShape
-rdfs:comment: "The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points."
+$id: https://schema.org/GeoShape
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: GeoShape
+comment: |
+  The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.
 rdfs:label: "GeoShape"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/rNews"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:contributor: "https://schema.org/docs/collab/rNews"
 ---
 
-# schema:GeoShape
+# GeoShape
 
+The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [address](https://schema.org/address) | Text |  |
+| [addressCountry](https://schema.org/addressCountry) | Text |  |
+| [box](https://schema.org/box) | Text |  |
+| [circle](https://schema.org/circle) | Text |  |
+| [elevation](https://schema.org/elevation) | Text |  |
+| [line](https://schema.org/line) | Text |  |
+| [polygon](https://schema.org/polygon) | Text |  |
+| [postalCode](https://schema.org/postalCode) | Text |  |

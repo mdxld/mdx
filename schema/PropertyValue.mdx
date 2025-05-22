@@ -1,12 +1,28 @@
 ---
-$id: schema:PropertyValue
-$type: rdfs:Class
-label: schema:PropertyValue
-rdfs:comment: "A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.\\n\\n Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.\n    "
+$id: https://schema.org/PropertyValue
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PropertyValue
+comment: |
+  A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.\n\n Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.
 rdfs:label: "PropertyValue"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:PropertyValue
+# PropertyValue
 
+A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.\n\n Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [maxValue](https://schema.org/maxValue) | Text |  |
+| [measurementMethod](https://schema.org/measurementMethod) | Text |  |
+| [measurementTechnique](https://schema.org/measurementTechnique) | Text |  |
+| [minValue](https://schema.org/minValue) | Text |  |
+| [propertyID](https://schema.org/propertyID) | Text |  |
+| [unitCode](https://schema.org/unitCode) | Text |  |
+| [unitText](https://schema.org/unitText) | Text |  |
+| [value](https://schema.org/value) | Text |  |
+| [valueReference](https://schema.org/valueReference) | Text |  |

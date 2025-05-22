@@ -1,13 +1,16 @@
 ---
-$id: schema:exerciseCourse
-$type: rdf:Property
-label: schema:exerciseCourse
-rdfs:comment: "A sub property of location. The course where this action was taken."
+$id: https://schema.org/exerciseCourse
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: exerciseCourse
+comment: |
+  A sub property of location. The course where this action was taken.
 rdfs:label: "exerciseCourse"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: {"@id":"schema:ExerciseAction"}
-schema:rangeIncludes: {"@id":"schema:Place"}
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: "https://schema.org/ExerciseAction"
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:exerciseCourse
+# exerciseCourse
+
+A sub property of location. The course where this action was taken.
 

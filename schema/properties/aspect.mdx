@@ -1,14 +1,17 @@
 ---
-$id: schema:aspect
-$type: rdf:Property
-label: schema:aspect
-rdfs:comment: "An aspect of medical practice that is considered on the page, such as 'diagnosis', 'treatment', 'causes', 'prognosis', 'etiology', 'epidemiology', etc."
+$id: https://schema.org/aspect
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: aspect
+comment: |
+  An aspect of medical practice that is considered on the page, such as 'diagnosis', 'treatment', 'causes', 'prognosis', 'etiology', 'epidemiology', etc.
 rdfs:label: "aspect"
-schema:domainIncludes: {"@id":"schema:MedicalWebPage"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:supersededBy: {"@id":"schema:mainContentOfPage"}
+schema:domainIncludes: "https://schema.org/MedicalWebPage"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:supersededBy: "https://schema.org/mainContentOfPage"
 ---
 
-# schema:aspect
+# aspect
+
+An aspect of medical practice that is considered on the page, such as 'diagnosis', 'treatment', 'causes', 'prognosis', 'etiology', 'epidemiology', etc.
 

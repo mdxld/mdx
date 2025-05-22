@@ -1,14 +1,17 @@
 ---
-$id: schema:numberOfBathroomsTotal
-$type: rdf:Property
-label: schema:numberOfBathroomsTotal
-rdfs:comment: "The total integer number of bathrooms in some [[Accommodation]], following real estate conventions as [documented in RESO](https://ddwiki.reso.org/display/DDW17/BathroomsTotalInteger+Field): \"The simple sum of the number of bathrooms. For example for a property with two Full Bathrooms and one Half Bathroom, the Bathrooms Total Integer will be 3.\". See also [[numberOfRooms]]."
+$id: https://schema.org/numberOfBathroomsTotal
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfBathroomsTotal
+comment: |
+  The total integer number of bathrooms in some [[Accommodation]], following real estate conventions as [documented in RESO](https://ddwiki.reso.org/display/DDW17/BathroomsTotalInteger+Field): "The simple sum of the number of bathrooms. For example for a property with two Full Bathrooms and one Half Bathroom, the Bathrooms Total Integer will be 3.". See also [[numberOfRooms]].
 rdfs:label: "numberOfBathroomsTotal"
-schema:domainIncludes: [{"@id":"schema:Accommodation"},{"@id":"schema:FloorPlan"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Integer"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: ["https://schema.org/Accommodation","https://schema.org/FloorPlan"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Integer"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:numberOfBathroomsTotal
+# numberOfBathroomsTotal
+
+The total integer number of bathrooms in some [[Accommodation]], following real estate conventions as [documented in RESO](https://ddwiki.reso.org/display/DDW17/BathroomsTotalInteger+Field): "The simple sum of the number of bathrooms. For example for a property with two Full Bathrooms and one Half Bathroom, the Bathrooms Total Integer will be 3.". See also [[numberOfRooms]].
 

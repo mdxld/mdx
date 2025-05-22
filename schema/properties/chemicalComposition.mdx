@@ -1,14 +1,17 @@
 ---
-$id: schema:chemicalComposition
-$type: rdf:Property
-label: schema:chemicalComposition
-rdfs:comment: "The chemical composition describes the identity and relative ratio of the chemical elements that make up the substance."
+$id: https://schema.org/chemicalComposition
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: chemicalComposition
+comment: |
+  The chemical composition describes the identity and relative ratio of the chemical elements that make up the substance.
 rdfs:label: "chemicalComposition"
-schema:domainIncludes: {"@id":"schema:ChemicalSubstance"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"http://www.bioschemas.org/ChemicalSubstance"}
+schema:domainIncludes: "https://schema.org/ChemicalSubstance"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "http://www.bioschemas.org/ChemicalSubstance"
 ---
 
-# schema:chemicalComposition
+# chemicalComposition
+
+The chemical composition describes the identity and relative ratio of the chemical elements that make up the substance.
 

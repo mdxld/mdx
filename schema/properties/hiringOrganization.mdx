@@ -1,12 +1,15 @@
 ---
-$id: schema:hiringOrganization
-$type: rdf:Property
-label: schema:hiringOrganization
-rdfs:comment: "Organization or Person offering the job position."
+$id: https://schema.org/hiringOrganization
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hiringOrganization
+comment: |
+  Organization or Person offering the job position.
 rdfs:label: "hiringOrganization"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:hiringOrganization
+# hiringOrganization
+
+Organization or Person offering the job position.
 

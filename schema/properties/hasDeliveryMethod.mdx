@@ -1,12 +1,15 @@
 ---
-$id: schema:hasDeliveryMethod
-$type: rdf:Property
-label: schema:hasDeliveryMethod
-rdfs:comment: "Method used for delivery or shipping."
+$id: https://schema.org/hasDeliveryMethod
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasDeliveryMethod
+comment: |
+  Method used for delivery or shipping.
 rdfs:label: "hasDeliveryMethod"
-schema:domainIncludes: [{"@id":"schema:DeliveryEvent"},{"@id":"schema:ParcelDelivery"}]
-schema:rangeIncludes: {"@id":"schema:DeliveryMethod"}
+schema:domainIncludes: ["https://schema.org/DeliveryEvent","https://schema.org/ParcelDelivery"]
+schema:rangeIncludes: "https://schema.org/DeliveryMethod"
 ---
 
-# schema:hasDeliveryMethod
+# hasDeliveryMethod
+
+Method used for delivery or shipping.
 

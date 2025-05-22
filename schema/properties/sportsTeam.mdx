@@ -1,13 +1,16 @@
 ---
-$id: schema:sportsTeam
-$type: rdf:Property
-label: schema:sportsTeam
-rdfs:comment: "A sub property of participant. The sports team that participated on this action."
+$id: https://schema.org/sportsTeam
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sportsTeam
+comment: |
+  A sub property of participant. The sports team that participated on this action.
 rdfs:label: "sportsTeam"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:ExerciseAction"}
-schema:rangeIncludes: {"@id":"schema:SportsTeam"}
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/ExerciseAction"
+schema:rangeIncludes: "https://schema.org/SportsTeam"
 ---
 
-# schema:sportsTeam
+# sportsTeam
+
+A sub property of participant. The sports team that participated on this action.
 

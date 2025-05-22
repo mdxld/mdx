@@ -1,13 +1,16 @@
 ---
-$id: schema:gtin12
-$type: rdf:Property
-label: schema:gtin12
-rdfs:comment: "The GTIN-12 code of the product, or the product to which the offer refers. The GTIN-12 is the 12-digit GS1 Identification Key composed of a U.P.C. Company Prefix, Item Reference, and Check Digit used to identify trade items. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details."
+$id: https://schema.org/gtin12
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gtin12
+comment: |
+  The GTIN-12 code of the product, or the product to which the offer refers. The GTIN-12 is the 12-digit GS1 Identification Key composed of a U.P.C. Company Prefix, Item Reference, and Check Digit used to identify trade items. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
 rdfs:label: "gtin12"
-rdfs:subPropertyOf: [{"@id":"schema:identifier"},{"@id":"schema:gtin"}]
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"},{"@id":"schema:Product"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: ["https://schema.org/identifier","https://schema.org/gtin"]
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer","https://schema.org/Product"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:gtin12
+# gtin12
+
+The GTIN-12 code of the product, or the product to which the offer refers. The GTIN-12 is the 12-digit GS1 Identification Key composed of a U.P.C. Company Prefix, Item Reference, and Check Digit used to identify trade items. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
 

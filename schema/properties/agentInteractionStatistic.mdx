@@ -1,14 +1,17 @@
 ---
-$id: schema:agentInteractionStatistic
-$type: rdf:Property
-label: schema:agentInteractionStatistic
-rdfs:comment: "The number of completed interactions for this entity, in a particular role (the 'agent'), in a particular action (indicated in the statistic), and in a particular context (i.e. interactionService)."
+$id: https://schema.org/agentInteractionStatistic
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: agentInteractionStatistic
+comment: |
+  The number of completed interactions for this entity, in a particular role (the 'agent'), in a particular action (indicated in the statistic), and in a particular context (i.e. interactionService).
 rdfs:label: "agentInteractionStatistic"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:InteractionCounter"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2858"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/InteractionCounter"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2858"
 ---
 
-# schema:agentInteractionStatistic
+# agentInteractionStatistic
+
+The number of completed interactions for this entity, in a particular role (the 'agent'), in a particular action (indicated in the statistic), and in a particular context (i.e. interactionService).
 

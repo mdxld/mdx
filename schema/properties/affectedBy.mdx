@@ -1,13 +1,16 @@
 ---
-$id: schema:affectedBy
-$type: rdf:Property
-label: schema:affectedBy
-rdfs:comment: "Drugs that affect the test's results."
+$id: https://schema.org/affectedBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: affectedBy
+comment: |
+  Drugs that affect the test's results.
 rdfs:label: "affectedBy"
-schema:domainIncludes: {"@id":"schema:MedicalTest"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Drug"}
+schema:domainIncludes: "https://schema.org/MedicalTest"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Drug"
 ---
 
-# schema:affectedBy
+# affectedBy
+
+Drugs that affect the test's results.
 

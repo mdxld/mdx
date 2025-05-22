@@ -1,12 +1,24 @@
 ---
-$id: schema:Question
-$type: rdfs:Class
-label: schema:Question
-rdfs:comment: "A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document."
+$id: https://schema.org/Question
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Question
+comment: |
+  A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document.
 rdfs:label: "Question"
-rdfs:subClassOf: {"@id":"schema:Comment"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/QAStackExchange"}
+rdfs:subClassOf: "https://schema.org/Comment"
+schema:contributor: "https://schema.org/docs/collab/QAStackExchange"
 ---
 
-# schema:Question
+# Question
 
+A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [acceptedAnswer](https://schema.org/acceptedAnswer) | Text |  |
+| [answerCount](https://schema.org/answerCount) | Text |  |
+| [eduQuestionType](https://schema.org/eduQuestionType) | Text |  |
+| [parentItem](https://schema.org/parentItem) | Text |  |
+| [suggestedAnswer](https://schema.org/suggestedAnswer) | Text |  |

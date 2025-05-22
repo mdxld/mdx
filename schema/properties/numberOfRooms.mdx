@@ -1,13 +1,18 @@
 ---
-$id: schema:numberOfRooms
-$type: rdf:Property
-label: schema:numberOfRooms
-rdfs:comment: "The number of rooms (excluding bathrooms and closets) of the accommodation or lodging business.\nTypical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue."
+$id: https://schema.org/numberOfRooms
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfRooms
+comment: |
+  The number of rooms (excluding bathrooms and closets) of the accommodation or lodging business.
+  Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
 rdfs:label: "numberOfRooms"
-schema:contributor: {"@id":"https://schema.org/docs/collab/STI_Accommodation_Ontology"}
-schema:domainIncludes: [{"@id":"schema:LodgingBusiness"},{"@id":"schema:Suite"},{"@id":"schema:House"},{"@id":"schema:Accommodation"},{"@id":"schema:FloorPlan"},{"@id":"schema:SingleFamilyResidence"},{"@id":"schema:Apartment"}]
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Number"}]
+schema:contributor: "https://schema.org/docs/collab/STI_Accommodation_Ontology"
+schema:domainIncludes: ["https://schema.org/LodgingBusiness","https://schema.org/Suite","https://schema.org/House","https://schema.org/Accommodation","https://schema.org/FloorPlan","https://schema.org/SingleFamilyResidence","https://schema.org/Apartment"]
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Number"]
 ---
 
-# schema:numberOfRooms
+# numberOfRooms
+
+The number of rooms (excluding bathrooms and closets) of the accommodation or lodging business.
+Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
 

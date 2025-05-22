@@ -1,12 +1,22 @@
 ---
-$id: schema:Joint
-$type: rdfs:Class
-label: schema:Joint
-rdfs:comment: "The anatomical location at which two or more bones make contact."
+$id: https://schema.org/Joint
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Joint
+comment: |
+  The anatomical location at which two or more bones make contact.
 rdfs:label: "Joint"
-rdfs:subClassOf: {"@id":"schema:AnatomicalStructure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/AnatomicalStructure"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Joint
+# Joint
 
+The anatomical location at which two or more bones make contact.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [biomechnicalClass](https://schema.org/biomechnicalClass) | Text |  |
+| [functionalClass](https://schema.org/functionalClass) | Text |  |
+| [structuralClass](https://schema.org/structuralClass) | Text |  |

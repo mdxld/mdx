@@ -1,12 +1,15 @@
 ---
-$id: schema:datePublished
-$type: rdf:Property
-label: schema:datePublished
-rdfs:comment: "Date of first publication or broadcast. For example the date a [[CreativeWork]] was broadcast or a [[Certification]] was issued."
+$id: https://schema.org/datePublished
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: datePublished
+comment: |
+  Date of first publication or broadcast. For example the date a [[CreativeWork]] was broadcast or a [[Certification]] was issued.
 rdfs:label: "datePublished"
-schema:domainIncludes: [{"@id":"schema:Certification"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: ["https://schema.org/Certification","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:datePublished
+# datePublished
+
+Date of first publication or broadcast. For example the date a [[CreativeWork]] was broadcast or a [[Certification]] was issued.
 

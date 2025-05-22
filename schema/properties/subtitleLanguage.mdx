@@ -1,14 +1,17 @@
 ---
-$id: schema:subtitleLanguage
-$type: rdf:Property
-label: schema:subtitleLanguage
-rdfs:comment: "Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47)."
+$id: https://schema.org/subtitleLanguage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: subtitleLanguage
+comment: |
+  Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47).
 rdfs:label: "subtitleLanguage"
-schema:domainIncludes: [{"@id":"schema:Movie"},{"@id":"schema:BroadcastEvent"},{"@id":"schema:TVEpisode"},{"@id":"schema:ScreeningEvent"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Language"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2110"}
+schema:domainIncludes: ["https://schema.org/Movie","https://schema.org/BroadcastEvent","https://schema.org/TVEpisode","https://schema.org/ScreeningEvent"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Language","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2110"
 ---
 
-# schema:subtitleLanguage
+# subtitleLanguage
+
+Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47).
 

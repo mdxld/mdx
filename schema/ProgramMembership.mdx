@@ -1,11 +1,25 @@
 ---
-$id: schema:ProgramMembership
-$type: rdfs:Class
-label: schema:ProgramMembership
-rdfs:comment: "Used to describe membership in a loyalty programs (e.g. \"StarAliance\"), traveler clubs (e.g. \"AAA\"), purchase clubs (\"Safeway Club\"), etc."
+$id: https://schema.org/ProgramMembership
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ProgramMembership
+comment: |
+  Used to describe membership in a loyalty programs (e.g. "StarAliance"), traveler clubs (e.g. "AAA"), purchase clubs ("Safeway Club"), etc.
 rdfs:label: "ProgramMembership"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:ProgramMembership
+# ProgramMembership
 
+Used to describe membership in a loyalty programs (e.g. "StarAliance"), traveler clubs (e.g. "AAA"), purchase clubs ("Safeway Club"), etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hostingOrganization](https://schema.org/hostingOrganization) | Text |  |
+| [member](https://schema.org/member) | Text |  |
+| [members](https://schema.org/members) | Text |  |
+| [membershipNumber](https://schema.org/membershipNumber) | Text |  |
+| [membershipPointsEarned](https://schema.org/membershipPointsEarned) | Text |  |
+| [program](https://schema.org/program) | Text |  |
+| [programName](https://schema.org/programName) | Text |  |

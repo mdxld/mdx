@@ -1,13 +1,33 @@
 ---
-$id: schema:BioChemEntity
-$type: rdfs:Class
-label: schema:BioChemEntity
-rdfs:comment: "Any biological, chemical, or biochemical thing. For example: a protein; a gene; a chemical; a synthetic chemical."
+$id: https://schema.org/BioChemEntity
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BioChemEntity
+comment: |
+  Any biological, chemical, or biochemical thing. For example: a protein; a gene; a chemical; a synthetic chemical.
 rdfs:label: "BioChemEntity"
-rdfs:subClassOf: {"@id":"schema:Thing"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"http://bioschemas.org"}
+rdfs:subClassOf: "https://schema.org/Thing"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "http://bioschemas.org"
 ---
 
-# schema:BioChemEntity
+# BioChemEntity
 
+Any biological, chemical, or biochemical thing. For example: a protein; a gene; a chemical; a synthetic chemical.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [associatedDisease](https://schema.org/associatedDisease) | Text |  |
+| [bioChemInteraction](https://schema.org/bioChemInteraction) | Text |  |
+| [bioChemSimilarity](https://schema.org/bioChemSimilarity) | Text |  |
+| [biologicalRole](https://schema.org/biologicalRole) | Text |  |
+| [funding](https://schema.org/funding) | Text |  |
+| [hasBioChemEntityPart](https://schema.org/hasBioChemEntityPart) | Text |  |
+| [hasMolecularFunction](https://schema.org/hasMolecularFunction) | Text |  |
+| [hasRepresentation](https://schema.org/hasRepresentation) | Text |  |
+| [isEncodedByBioChemEntity](https://schema.org/isEncodedByBioChemEntity) | Text |  |
+| [isInvolvedInBiologicalProcess](https://schema.org/isInvolvedInBiologicalProcess) | Text |  |
+| [isLocatedInSubcellularLocation](https://schema.org/isLocatedInSubcellularLocation) | Text |  |
+| [isPartOfBioChemEntity](https://schema.org/isPartOfBioChemEntity) | Text |  |
+| [taxonomicRange](https://schema.org/taxonomicRange) | Text |  |

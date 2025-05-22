@@ -1,12 +1,15 @@
 ---
-$id: schema:playMode
-$type: rdf:Property
-label: schema:playMode
-rdfs:comment: "Indicates whether this game is multi-player, co-op or single-player.  The game can be marked as multi-player, co-op and single-player at the same time."
+$id: https://schema.org/playMode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: playMode
+comment: |
+  Indicates whether this game is multi-player, co-op or single-player.  The game can be marked as multi-player, co-op and single-player at the same time.
 rdfs:label: "playMode"
-schema:domainIncludes: [{"@id":"schema:VideoGame"},{"@id":"schema:VideoGameSeries"}]
-schema:rangeIncludes: {"@id":"schema:GamePlayMode"}
+schema:domainIncludes: ["https://schema.org/VideoGame","https://schema.org/VideoGameSeries"]
+schema:rangeIncludes: "https://schema.org/GamePlayMode"
 ---
 
-# schema:playMode
+# playMode
+
+Indicates whether this game is multi-player, co-op or single-player.  The game can be marked as multi-player, co-op and single-player at the same time.
 

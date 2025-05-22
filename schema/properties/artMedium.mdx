@@ -1,13 +1,16 @@
 ---
-$id: schema:artMedium
-$type: rdf:Property
-label: schema:artMedium
-rdfs:comment: "The material used. (E.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.)"
+$id: https://schema.org/artMedium
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: artMedium
+comment: |
+  The material used. (E.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.)
 rdfs:label: "artMedium"
-rdfs:subPropertyOf: {"@id":"schema:material"}
-schema:domainIncludes: {"@id":"schema:VisualArtwork"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+rdfs:subPropertyOf: "https://schema.org/material"
+schema:domainIncludes: "https://schema.org/VisualArtwork"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:artMedium
+# artMedium
+
+The material used. (E.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.)
 

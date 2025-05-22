@@ -1,13 +1,16 @@
 ---
-$id: schema:relevantSpecialty
-$type: rdf:Property
-label: schema:relevantSpecialty
-rdfs:comment: "If applicable, a medical specialty in which this entity is relevant."
+$id: https://schema.org/relevantSpecialty
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relevantSpecialty
+comment: |
+  If applicable, a medical specialty in which this entity is relevant.
 rdfs:label: "relevantSpecialty"
-schema:domainIncludes: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalSpecialty"}
+schema:domainIncludes: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalSpecialty"
 ---
 
-# schema:relevantSpecialty
+# relevantSpecialty
+
+If applicable, a medical specialty in which this entity is relevant.
 

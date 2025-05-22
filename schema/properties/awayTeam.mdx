@@ -1,13 +1,16 @@
 ---
-$id: schema:awayTeam
-$type: rdf:Property
-label: schema:awayTeam
-rdfs:comment: "The away team in a sports event."
+$id: https://schema.org/awayTeam
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: awayTeam
+comment: |
+  The away team in a sports event.
 rdfs:label: "awayTeam"
-rdfs:subPropertyOf: {"@id":"schema:competitor"}
-schema:domainIncludes: {"@id":"schema:SportsEvent"}
-schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:SportsTeam"}]
+rdfs:subPropertyOf: "https://schema.org/competitor"
+schema:domainIncludes: "https://schema.org/SportsEvent"
+schema:rangeIncludes: ["https://schema.org/Person","https://schema.org/SportsTeam"]
 ---
 
-# schema:awayTeam
+# awayTeam
+
+The away team in a sports event.
 

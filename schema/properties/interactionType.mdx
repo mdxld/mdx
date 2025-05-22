@@ -1,12 +1,15 @@
 ---
-$id: schema:interactionType
-$type: rdf:Property
-label: schema:interactionType
-rdfs:comment: "The Action representing the type of interaction. For up votes, +1s, etc. use [[LikeAction]]. For down votes use [[DislikeAction]]. Otherwise, use the most specific Action."
+$id: https://schema.org/interactionType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: interactionType
+comment: |
+  The Action representing the type of interaction. For up votes, +1s, etc. use [[LikeAction]]. For down votes use [[DislikeAction]]. Otherwise, use the most specific Action.
 rdfs:label: "interactionType"
-schema:domainIncludes: {"@id":"schema:InteractionCounter"}
-schema:rangeIncludes: {"@id":"schema:Action"}
+schema:domainIncludes: "https://schema.org/InteractionCounter"
+schema:rangeIncludes: "https://schema.org/Action"
 ---
 
-# schema:interactionType
+# interactionType
+
+The Action representing the type of interaction. For up votes, +1s, etc. use [[LikeAction]]. For down votes use [[DislikeAction]]. Otherwise, use the most specific Action.
 

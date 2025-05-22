@@ -1,14 +1,17 @@
 ---
-$id: schema:leiCode
-$type: rdf:Property
-label: schema:leiCode
-rdfs:comment: "An organization identifier that uniquely identifies a legal entity as defined in ISO 17442."
+$id: https://schema.org/leiCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: leiCode
+comment: |
+  An organization identifier that uniquely identifies a legal entity as defined in ISO 17442.
 rdfs:label: "leiCode"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:contributor: [{"@id":"https://schema.org/docs/collab/GLEIF"},{"@id":"https://schema.org/docs/collab/FIBO"}]
-schema:domainIncludes: {"@id":"schema:Organization"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:contributor: ["https://schema.org/docs/collab/GLEIF","https://schema.org/docs/collab/FIBO"]
+schema:domainIncludes: "https://schema.org/Organization"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:leiCode
+# leiCode
+
+An organization identifier that uniquely identifies a legal entity as defined in ISO 17442.
 

@@ -1,11 +1,25 @@
 ---
-$id: schema:PostalAddress
-$type: rdfs:Class
-label: schema:PostalAddress
-rdfs:comment: "The mailing address."
+$id: https://schema.org/PostalAddress
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PostalAddress
+comment: |
+  The mailing address.
 rdfs:label: "PostalAddress"
-rdfs:subClassOf: {"@id":"schema:ContactPoint"}
+rdfs:subClassOf: "https://schema.org/ContactPoint"
 ---
 
-# schema:PostalAddress
+# PostalAddress
 
+The mailing address.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [addressCountry](https://schema.org/addressCountry) | Text |  |
+| [addressLocality](https://schema.org/addressLocality) | Text |  |
+| [addressRegion](https://schema.org/addressRegion) | Text |  |
+| [extendedAddress](https://schema.org/extendedAddress) | Text |  |
+| [postalCode](https://schema.org/postalCode) | Text |  |
+| [postOfficeBoxNumber](https://schema.org/postOfficeBoxNumber) | Text |  |
+| [streetAddress](https://schema.org/streetAddress) | Text |  |

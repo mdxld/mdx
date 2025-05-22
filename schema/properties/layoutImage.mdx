@@ -1,15 +1,18 @@
 ---
-$id: schema:layoutImage
-$type: rdf:Property
-label: schema:layoutImage
-rdfs:comment: "A schematic image showing the floorplan layout."
+$id: https://schema.org/layoutImage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: layoutImage
+comment: |
+  A schematic image showing the floorplan layout.
 rdfs:label: "layoutImage"
-rdfs:subPropertyOf: {"@id":"schema:image"}
-schema:domainIncludes: {"@id":"schema:FloorPlan"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:ImageObject"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2690"}
+rdfs:subPropertyOf: "https://schema.org/image"
+schema:domainIncludes: "https://schema.org/FloorPlan"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/ImageObject"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2690"
 ---
 
-# schema:layoutImage
+# layoutImage
+
+A schematic image showing the floorplan layout.
 

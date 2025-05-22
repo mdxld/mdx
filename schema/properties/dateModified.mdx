@@ -1,12 +1,15 @@
 ---
-$id: schema:dateModified
-$type: rdf:Property
-label: schema:dateModified
-rdfs:comment: "The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed."
+$id: https://schema.org/dateModified
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dateModified
+comment: |
+  The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed.
 rdfs:label: "dateModified"
-schema:domainIncludes: [{"@id":"schema:DataFeedItem"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: ["https://schema.org/DataFeedItem","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:dateModified
+# dateModified
+
+The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed.
 

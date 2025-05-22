@@ -1,12 +1,15 @@
 ---
-$id: schema:processingTime
-$type: rdf:Property
-label: schema:processingTime
-rdfs:comment: "Estimated processing time for the service using this channel."
+$id: https://schema.org/processingTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: processingTime
+comment: |
+  Estimated processing time for the service using this channel.
 rdfs:label: "processingTime"
-schema:domainIncludes: {"@id":"schema:ServiceChannel"}
-schema:rangeIncludes: {"@id":"schema:Duration"}
+schema:domainIncludes: "https://schema.org/ServiceChannel"
+schema:rangeIncludes: "https://schema.org/Duration"
 ---
 
-# schema:processingTime
+# processingTime
+
+Estimated processing time for the service using this channel.
 

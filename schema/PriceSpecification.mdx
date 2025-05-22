@@ -1,12 +1,30 @@
 ---
-$id: schema:PriceSpecification
-$type: rdfs:Class
-label: schema:PriceSpecification
-rdfs:comment: "A structured value representing a price or price range. Typically, only the subclasses of this type are used for markup. It is recommended to use [[MonetaryAmount]] to describe independent amounts of money such as a salary, credit card limits, etc."
+$id: https://schema.org/PriceSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PriceSpecification
+comment: |
+  A structured value representing a price or price range. Typically, only the subclasses of this type are used for markup. It is recommended to use [[MonetaryAmount]] to describe independent amounts of money such as a salary, credit card limits, etc.
 rdfs:label: "PriceSpecification"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:PriceSpecification
+# PriceSpecification
 
+A structured value representing a price or price range. Typically, only the subclasses of this type are used for markup. It is recommended to use [[MonetaryAmount]] to describe independent amounts of money such as a salary, credit card limits, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [eligibleQuantity](https://schema.org/eligibleQuantity) | Text |  |
+| [eligibleTransactionVolume](https://schema.org/eligibleTransactionVolume) | Text |  |
+| [maxPrice](https://schema.org/maxPrice) | Text |  |
+| [membershipPointsEarned](https://schema.org/membershipPointsEarned) | Text |  |
+| [minPrice](https://schema.org/minPrice) | Text |  |
+| [price](https://schema.org/price) | Text |  |
+| [priceCurrency](https://schema.org/priceCurrency) | Text |  |
+| [validForMemberTier](https://schema.org/validForMemberTier) | Text |  |
+| [validFrom](https://schema.org/validFrom) | Text |  |
+| [validThrough](https://schema.org/validThrough) | Text |  |
+| [valueAddedTaxIncluded](https://schema.org/valueAddedTaxIncluded) | Text |  |

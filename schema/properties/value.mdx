@@ -1,13 +1,16 @@
 ---
-$id: schema:value
-$type: rdf:Property
-label: schema:value
-rdfs:comment: "The value of a [[QuantitativeValue]] (including [[Observation]]) or property value node.\\n\\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\\n* For [[PropertyValue]], it can be 'Text', 'Number', 'Boolean', or 'StructuredValue'.\\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator."
+$id: https://schema.org/value
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: value
+comment: |
+  The value of a [[QuantitativeValue]] (including [[Observation]]) or property value node.\n\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\n* For [[PropertyValue]], it can be 'Text', 'Number', 'Boolean', or 'StructuredValue'.\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
 rdfs:label: "value"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:MonetaryAmount"},{"@id":"schema:PropertyValue"},{"@id":"schema:QuantitativeValue"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"},{"@id":"schema:Boolean"},{"@id":"schema:StructuredValue"}]
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/MonetaryAmount","https://schema.org/PropertyValue","https://schema.org/QuantitativeValue"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number","https://schema.org/Boolean","https://schema.org/StructuredValue"]
 ---
 
-# schema:value
+# value
+
+The value of a [[QuantitativeValue]] (including [[Observation]]) or property value node.\n\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\n* For [[PropertyValue]], it can be 'Text', 'Number', 'Boolean', or 'StructuredValue'.\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
 

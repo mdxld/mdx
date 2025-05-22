@@ -1,11 +1,27 @@
 ---
-$id: schema:Message
-$type: rdfs:Class
-label: schema:Message
-rdfs:comment: "A single message from a sender to one or more organizations or people."
+$id: https://schema.org/Message
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Message
+comment: |
+  A single message from a sender to one or more organizations or people.
 rdfs:label: "Message"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:Message
+# Message
 
+A single message from a sender to one or more organizations or people.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [bccRecipient](https://schema.org/bccRecipient) | Text |  |
+| [ccRecipient](https://schema.org/ccRecipient) | Text |  |
+| [dateRead](https://schema.org/dateRead) | Text |  |
+| [dateReceived](https://schema.org/dateReceived) | Text |  |
+| [dateSent](https://schema.org/dateSent) | Text |  |
+| [messageAttachment](https://schema.org/messageAttachment) | Text |  |
+| [recipient](https://schema.org/recipient) | Text |  |
+| [sender](https://schema.org/sender) | Text |  |
+| [toRecipient](https://schema.org/toRecipient) | Text |  |

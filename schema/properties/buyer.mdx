@@ -1,13 +1,16 @@
 ---
-$id: schema:buyer
-$type: rdf:Property
-label: schema:buyer
-rdfs:comment: "A sub property of participant. The participant/person/organization that bought the object."
+$id: https://schema.org/buyer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: buyer
+comment: |
+  A sub property of participant. The participant/person/organization that bought the object.
 rdfs:label: "buyer"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:SellAction"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/SellAction"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:buyer
+# buyer
+
+A sub property of participant. The participant/person/organization that bought the object.
 

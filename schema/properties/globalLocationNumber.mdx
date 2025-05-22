@@ -1,14 +1,17 @@
 ---
-$id: schema:globalLocationNumber
-$type: rdf:Property
-label: schema:globalLocationNumber
-rdfs:comment: "The [Global Location Number](http://www.gs1.org/gln) (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations."
+$id: https://schema.org/globalLocationNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: globalLocationNumber
+comment: |
+  The [Global Location Number](http://www.gs1.org/gln) (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.
 rdfs:label: "globalLocationNumber"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Place"},{"@id":"schema:Person"},{"@id":"schema:Organization"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Place","https://schema.org/Person","https://schema.org/Organization"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:globalLocationNumber
+# globalLocationNumber
+
+The [Global Location Number](http://www.gs1.org/gln) (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.
 

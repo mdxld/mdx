@@ -1,13 +1,18 @@
 ---
-$id: schema:floorSize
-$type: rdf:Property
-label: schema:floorSize
-rdfs:comment: "The size of the accommodation, e.g. in square meter or squarefoot.\nTypical unit code(s): MTK for square meter, FTK for square foot, or YDK for square yard."
+$id: https://schema.org/floorSize
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: floorSize
+comment: |
+  The size of the accommodation, e.g. in square meter or squarefoot.
+  Typical unit code(s): MTK for square meter, FTK for square foot, or YDK for square yard.
 rdfs:label: "floorSize"
-schema:contributor: {"@id":"https://schema.org/docs/collab/STI_Accommodation_Ontology"}
-schema:domainIncludes: [{"@id":"schema:Accommodation"},{"@id":"schema:FloorPlan"}]
-schema:rangeIncludes: {"@id":"schema:QuantitativeValue"}
+schema:contributor: "https://schema.org/docs/collab/STI_Accommodation_Ontology"
+schema:domainIncludes: ["https://schema.org/Accommodation","https://schema.org/FloorPlan"]
+schema:rangeIncludes: "https://schema.org/QuantitativeValue"
 ---
 
-# schema:floorSize
+# floorSize
+
+The size of the accommodation, e.g. in square meter or squarefoot.
+Typical unit code(s): MTK for square meter, FTK for square foot, or YDK for square yard.
 

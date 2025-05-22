@@ -1,12 +1,15 @@
 ---
-$id: schema:educationalUse
-$type: rdf:Property
-label: schema:educationalUse
-rdfs:comment: "The purpose of a work in the context of education; for example, 'assignment', 'group work'."
+$id: https://schema.org/educationalUse
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: educationalUse
+comment: |
+  The purpose of a work in the context of education; for example, 'assignment', 'group work'.
 rdfs:label: "educationalUse"
-schema:domainIncludes: [{"@id":"schema:LearningResource"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:DefinedTerm"}]
+schema:domainIncludes: ["https://schema.org/LearningResource","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/DefinedTerm"]
 ---
 
-# schema:educationalUse
+# educationalUse
+
+The purpose of a work in the context of education; for example, 'assignment', 'group work'.
 

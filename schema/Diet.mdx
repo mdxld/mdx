@@ -1,12 +1,24 @@
 ---
-$id: schema:Diet
-$type: rdfs:Class
-label: schema:Diet
-rdfs:comment: "A strategy of regulating the intake of food to achieve or maintain a specific health-related goal."
+$id: https://schema.org/Diet
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Diet
+comment: |
+  A strategy of regulating the intake of food to achieve or maintain a specific health-related goal.
 rdfs:label: "Diet"
-rdfs:subClassOf: [{"@id":"schema:CreativeWork"},{"@id":"schema:LifestyleModification"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/CreativeWork","https://schema.org/LifestyleModification"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Diet
+# Diet
 
+A strategy of regulating the intake of food to achieve or maintain a specific health-related goal.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dietFeatures](https://schema.org/dietFeatures) | Text |  |
+| [endorsers](https://schema.org/endorsers) | Text |  |
+| [expertConsiderations](https://schema.org/expertConsiderations) | Text |  |
+| [physiologicalBenefits](https://schema.org/physiologicalBenefits) | Text |  |
+| [risks](https://schema.org/risks) | Text |  |

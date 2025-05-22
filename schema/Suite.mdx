@@ -1,12 +1,26 @@
 ---
-$id: schema:Suite
-$type: rdfs:Class
-label: schema:Suite
-rdfs:comment: "A suite in a hotel or other public accommodation, denotes a class of luxury accommodations, the key feature of which is multiple rooms (source: Wikipedia, the free encyclopedia, see <a href=\"http://en.wikipedia.org/wiki/Suite_(hotel)\">http://en.wikipedia.org/wiki/Suite_(hotel)</a>).\n<br /><br />\nSee also the <a href=\"/docs/hotels.html\">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.\n"
+$id: https://schema.org/Suite
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Suite
+comment: |
+  A suite in a hotel or other public accommodation, denotes a class of luxury accommodations, the key feature of which is multiple rooms (source: Wikipedia, the free encyclopedia, see <a href="http://en.wikipedia.org/wiki/Suite_(hotel)">http://en.wikipedia.org/wiki/Suite_(hotel)</a>).
+  <br /><br />
+  See also the <a href="/docs/hotels.html">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.
 rdfs:label: "Suite"
-rdfs:subClassOf: {"@id":"schema:Accommodation"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/STI_Accommodation_Ontology"}
+rdfs:subClassOf: "https://schema.org/Accommodation"
+schema:contributor: "https://schema.org/docs/collab/STI_Accommodation_Ontology"
 ---
 
-# schema:Suite
+# Suite
 
+A suite in a hotel or other public accommodation, denotes a class of luxury accommodations, the key feature of which is multiple rooms (source: Wikipedia, the free encyclopedia, see <a href="http://en.wikipedia.org/wiki/Suite_(hotel)">http://en.wikipedia.org/wiki/Suite_(hotel)</a>).
+<br /><br />
+See also the <a href="/docs/hotels.html">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [bed](https://schema.org/bed) | Text |  |
+| [numberOfRooms](https://schema.org/numberOfRooms) | Text |  |
+| [occupancy](https://schema.org/occupancy) | Text |  |

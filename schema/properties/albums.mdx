@@ -1,13 +1,16 @@
 ---
-$id: schema:albums
-$type: rdf:Property
-label: schema:albums
-rdfs:comment: "A collection of music albums."
+$id: https://schema.org/albums
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: albums
+comment: |
+  A collection of music albums.
 rdfs:label: "albums"
-schema:domainIncludes: {"@id":"schema:MusicGroup"}
-schema:rangeIncludes: {"@id":"schema:MusicAlbum"}
-schema:supersededBy: {"@id":"schema:album"}
+schema:domainIncludes: "https://schema.org/MusicGroup"
+schema:rangeIncludes: "https://schema.org/MusicAlbum"
+schema:supersededBy: "https://schema.org/album"
 ---
 
-# schema:albums
+# albums
+
+A collection of music albums.
 

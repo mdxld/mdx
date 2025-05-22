@@ -1,12 +1,15 @@
 ---
-$id: schema:webCheckinTime
-$type: rdf:Property
-label: schema:webCheckinTime
-rdfs:comment: "The time when a passenger can check into the flight online."
+$id: https://schema.org/webCheckinTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: webCheckinTime
+comment: |
+  The time when a passenger can check into the flight online.
 rdfs:label: "webCheckinTime"
-schema:domainIncludes: {"@id":"schema:Flight"}
-schema:rangeIncludes: {"@id":"schema:DateTime"}
+schema:domainIncludes: "https://schema.org/Flight"
+schema:rangeIncludes: "https://schema.org/DateTime"
 ---
 
-# schema:webCheckinTime
+# webCheckinTime
+
+The time when a passenger can check into the flight online.
 

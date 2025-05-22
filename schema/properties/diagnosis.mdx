@@ -1,13 +1,16 @@
 ---
-$id: schema:diagnosis
-$type: rdf:Property
-label: schema:diagnosis
-rdfs:comment: "One or more alternative conditions considered in the differential diagnosis process as output of a diagnosis process."
+$id: https://schema.org/diagnosis
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: diagnosis
+comment: |
+  One or more alternative conditions considered in the differential diagnosis process as output of a diagnosis process.
 rdfs:label: "diagnosis"
-schema:domainIncludes: [{"@id":"schema:Patient"},{"@id":"schema:DDxElement"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalCondition"}
+schema:domainIncludes: ["https://schema.org/Patient","https://schema.org/DDxElement"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalCondition"
 ---
 
-# schema:diagnosis
+# diagnosis
+
+One or more alternative conditions considered in the differential diagnosis process as output of a diagnosis process.
 

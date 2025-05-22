@@ -1,11 +1,28 @@
 ---
-$id: schema:Course
-$type: rdfs:Class
-label: schema:Course
-rdfs:comment: "A description of an educational course which may be offered as distinct instances which take place at different times or take place at different locations, or be offered through different media or modes of study. An educational course is a sequence of one or more educational events and/or creative works which aims to build knowledge, competence or ability of learners."
+$id: https://schema.org/Course
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Course
+comment: |
+  A description of an educational course which may be offered as distinct instances which take place at different times or take place at different locations, or be offered through different media or modes of study. An educational course is a sequence of one or more educational events and/or creative works which aims to build knowledge, competence or ability of learners.
 rdfs:label: "Course"
-rdfs:subClassOf: [{"@id":"schema:LearningResource"},{"@id":"schema:CreativeWork"}]
+rdfs:subClassOf: ["https://schema.org/LearningResource","https://schema.org/CreativeWork"]
 ---
 
-# schema:Course
+# Course
 
+A description of an educational course which may be offered as distinct instances which take place at different times or take place at different locations, or be offered through different media or modes of study. An educational course is a sequence of one or more educational events and/or creative works which aims to build knowledge, competence or ability of learners.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [availableLanguage](https://schema.org/availableLanguage) | Text |  |
+| [courseCode](https://schema.org/courseCode) | Text |  |
+| [coursePrerequisites](https://schema.org/coursePrerequisites) | Text |  |
+| [educationalCredentialAwarded](https://schema.org/educationalCredentialAwarded) | Text |  |
+| [financialAidEligible](https://schema.org/financialAidEligible) | Text |  |
+| [hasCourseInstance](https://schema.org/hasCourseInstance) | Text |  |
+| [numberOfCredits](https://schema.org/numberOfCredits) | Text |  |
+| [occupationalCredentialAwarded](https://schema.org/occupationalCredentialAwarded) | Text |  |
+| [syllabusSections](https://schema.org/syllabusSections) | Text |  |
+| [totalHistoricalEnrollment](https://schema.org/totalHistoricalEnrollment) | Text |  |

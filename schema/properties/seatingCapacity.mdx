@@ -1,14 +1,17 @@
 ---
-$id: schema:seatingCapacity
-$type: rdf:Property
-label: schema:seatingCapacity
-rdfs:comment: "The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.\\n\\nTypical unit code(s): C62 for persons."
+$id: https://schema.org/seatingCapacity
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: seatingCapacity
+comment: |
+  The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.\n\nTypical unit code(s): C62 for persons.
 rdfs:label: "seatingCapacity"
-schema:contributor: {"@id":"https://schema.org/docs/collab/Automotive_Ontology_Working_Group"}
-schema:domainIncludes: {"@id":"schema:Vehicle"}
-schema:isPartOf: {"@id":"https://auto.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Number"}]
+schema:contributor: "https://schema.org/docs/collab/Automotive_Ontology_Working_Group"
+schema:domainIncludes: "https://schema.org/Vehicle"
+schema:isPartOf: "https://auto.schema.org"
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Number"]
 ---
 
-# schema:seatingCapacity
+# seatingCapacity
+
+The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.\n\nTypical unit code(s): C62 for persons.
 

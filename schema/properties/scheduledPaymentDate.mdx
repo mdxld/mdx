@@ -1,12 +1,15 @@
 ---
-$id: schema:scheduledPaymentDate
-$type: rdf:Property
-label: schema:scheduledPaymentDate
-rdfs:comment: "The date the invoice is scheduled to be paid."
+$id: https://schema.org/scheduledPaymentDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: scheduledPaymentDate
+comment: |
+  The date the invoice is scheduled to be paid.
 rdfs:label: "scheduledPaymentDate"
-schema:domainIncludes: {"@id":"schema:Invoice"}
-schema:rangeIncludes: {"@id":"schema:Date"}
+schema:domainIncludes: "https://schema.org/Invoice"
+schema:rangeIncludes: "https://schema.org/Date"
 ---
 
-# schema:scheduledPaymentDate
+# scheduledPaymentDate
+
+The date the invoice is scheduled to be paid.
 

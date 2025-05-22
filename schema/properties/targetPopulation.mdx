@@ -1,13 +1,16 @@
 ---
-$id: schema:targetPopulation
-$type: rdf:Property
-label: schema:targetPopulation
-rdfs:comment: "Characteristics of the population for which this is intended, or which typically uses it, e.g. 'adults'."
+$id: https://schema.org/targetPopulation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: targetPopulation
+comment: |
+  Characteristics of the population for which this is intended, or which typically uses it, e.g. 'adults'.
 rdfs:label: "targetPopulation"
-schema:domainIncludes: [{"@id":"schema:DoseSchedule"},{"@id":"schema:DietarySupplement"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/DoseSchedule","https://schema.org/DietarySupplement"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:targetPopulation
+# targetPopulation
+
+Characteristics of the population for which this is intended, or which typically uses it, e.g. 'adults'.
 

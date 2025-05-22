@@ -1,13 +1,16 @@
 ---
-$id: schema:landlord
-$type: rdf:Property
-label: schema:landlord
-rdfs:comment: "A sub property of participant. The owner of the real estate property."
+$id: https://schema.org/landlord
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: landlord
+comment: |
+  A sub property of participant. The owner of the real estate property.
 rdfs:label: "landlord"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:RentAction"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/RentAction"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:landlord
+# landlord
+
+A sub property of participant. The owner of the real estate property.
 

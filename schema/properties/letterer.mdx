@@ -1,13 +1,16 @@
 ---
-$id: schema:letterer
-$type: rdf:Property
-label: schema:letterer
-rdfs:comment: "The individual who adds lettering, including speech balloons and sound effects, to artwork."
+$id: https://schema.org/letterer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: letterer
+comment: |
+  The individual who adds lettering, including speech balloons and sound effects, to artwork.
 rdfs:label: "letterer"
-schema:domainIncludes: [{"@id":"schema:VisualArtwork"},{"@id":"schema:ComicStory"},{"@id":"schema:ComicIssue"}]
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: ["https://schema.org/VisualArtwork","https://schema.org/ComicStory","https://schema.org/ComicIssue"]
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:letterer
+# letterer
+
+The individual who adds lettering, including speech balloons and sound effects, to artwork.
 

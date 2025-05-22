@@ -1,12 +1,15 @@
 ---
-$id: schema:target
-$type: rdf:Property
-label: schema:target
-rdfs:comment: "Indicates a target EntryPoint, or url, for an Action."
+$id: https://schema.org/target
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: target
+comment: |
+  Indicates a target EntryPoint, or url, for an Action.
 rdfs:label: "target"
-schema:domainIncludes: {"@id":"schema:Action"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:EntryPoint"}]
+schema:domainIncludes: "https://schema.org/Action"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/EntryPoint"]
 ---
 
-# schema:target
+# target
+
+Indicates a target EntryPoint, or url, for an Action.
 

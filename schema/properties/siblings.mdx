@@ -1,13 +1,16 @@
 ---
-$id: schema:siblings
-$type: rdf:Property
-label: schema:siblings
-rdfs:comment: "A sibling of the person."
+$id: https://schema.org/siblings
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: siblings
+comment: |
+  A sibling of the person.
 rdfs:label: "siblings"
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Person"}
-schema:supersededBy: {"@id":"schema:sibling"}
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Person"
+schema:supersededBy: "https://schema.org/sibling"
 ---
 
-# schema:siblings
+# siblings
+
+A sibling of the person.
 

@@ -1,11 +1,20 @@
 ---
-$id: schema:SendAction
-$type: rdfs:Class
-label: schema:SendAction
-rdfs:comment: "The act of physically/electronically dispatching an object for transfer from an origin to a destination. Related actions:\\n\\n* [[ReceiveAction]]: The reciprocal of SendAction.\\n* [[GiveAction]]: Unlike GiveAction, SendAction does not imply the transfer of ownership (e.g. I can send you my laptop, but I'm not necessarily giving it to you)."
+$id: https://schema.org/SendAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SendAction
+comment: |
+  The act of physically/electronically dispatching an object for transfer from an origin to a destination. Related actions:\n\n* [[ReceiveAction]]: The reciprocal of SendAction.\n* [[GiveAction]]: Unlike GiveAction, SendAction does not imply the transfer of ownership (e.g. I can send you my laptop, but I'm not necessarily giving it to you).
 rdfs:label: "SendAction"
-rdfs:subClassOf: {"@id":"schema:TransferAction"}
+rdfs:subClassOf: "https://schema.org/TransferAction"
 ---
 
-# schema:SendAction
+# SendAction
 
+The act of physically/electronically dispatching an object for transfer from an origin to a destination. Related actions:\n\n* [[ReceiveAction]]: The reciprocal of SendAction.\n* [[GiveAction]]: Unlike GiveAction, SendAction does not imply the transfer of ownership (e.g. I can send you my laptop, but I'm not necessarily giving it to you).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [deliveryMethod](https://schema.org/deliveryMethod) | Text |  |
+| [recipient](https://schema.org/recipient) | Text |  |

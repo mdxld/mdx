@@ -1,12 +1,25 @@
 ---
-$id: schema:MusicRelease
-$type: rdfs:Class
-label: schema:MusicRelease
-rdfs:comment: "A MusicRelease is a specific release of a music album."
+$id: https://schema.org/MusicRelease
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MusicRelease
+comment: |
+  A MusicRelease is a specific release of a music album.
 rdfs:label: "MusicRelease"
-rdfs:subClassOf: {"@id":"schema:MusicPlaylist"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/MBZ"}
+rdfs:subClassOf: "https://schema.org/MusicPlaylist"
+schema:contributor: "https://schema.org/docs/collab/MBZ"
 ---
 
-# schema:MusicRelease
+# MusicRelease
 
+A MusicRelease is a specific release of a music album.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [catalogNumber](https://schema.org/catalogNumber) | Text |  |
+| [creditedTo](https://schema.org/creditedTo) | Text |  |
+| [duration](https://schema.org/duration) | Text |  |
+| [musicReleaseFormat](https://schema.org/musicReleaseFormat) | Text |  |
+| [recordLabel](https://schema.org/recordLabel) | Text |  |
+| [releaseOf](https://schema.org/releaseOf) | Text |  |

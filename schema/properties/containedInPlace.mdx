@@ -1,13 +1,16 @@
 ---
-$id: schema:containedInPlace
-$type: rdf:Property
-label: schema:containedInPlace
-rdfs:comment: "The basic containment relation between a place and one that contains it."
+$id: https://schema.org/containedInPlace
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: containedInPlace
+comment: |
+  The basic containment relation between a place and one that contains it.
 rdfs:label: "containedInPlace"
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:inverseOf: {"@id":"schema:containsPlace"}
-schema:rangeIncludes: {"@id":"schema:Place"}
+schema:domainIncludes: "https://schema.org/Place"
+schema:inverseOf: "https://schema.org/containsPlace"
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:containedInPlace
+# containedInPlace
+
+The basic containment relation between a place and one that contains it.
 

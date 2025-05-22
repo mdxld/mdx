@@ -1,12 +1,15 @@
 ---
-$id: schema:reservationStatus
-$type: rdf:Property
-label: schema:reservationStatus
-rdfs:comment: "The current status of the reservation."
+$id: https://schema.org/reservationStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: reservationStatus
+comment: |
+  The current status of the reservation.
 rdfs:label: "reservationStatus"
-schema:domainIncludes: {"@id":"schema:Reservation"}
-schema:rangeIncludes: {"@id":"schema:ReservationStatusType"}
+schema:domainIncludes: "https://schema.org/Reservation"
+schema:rangeIncludes: "https://schema.org/ReservationStatusType"
 ---
 
-# schema:reservationStatus
+# reservationStatus
+
+The current status of the reservation.
 

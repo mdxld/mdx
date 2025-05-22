@@ -1,11 +1,19 @@
 ---
-$id: schema:EducationalOrganization
-$type: rdfs:Class
-label: schema:EducationalOrganization
-rdfs:comment: "An educational organization."
+$id: https://schema.org/EducationalOrganization
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: EducationalOrganization
+comment: |
+  An educational organization.
 rdfs:label: "EducationalOrganization"
-rdfs:subClassOf: [{"@id":"schema:CivicStructure"},{"@id":"schema:Organization"}]
+rdfs:subClassOf: ["https://schema.org/CivicStructure","https://schema.org/Organization"]
 ---
 
-# schema:EducationalOrganization
+# EducationalOrganization
 
+An educational organization.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [alumni](https://schema.org/alumni) | Text |  |

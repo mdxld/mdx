@@ -1,13 +1,16 @@
 ---
-$id: schema:branchOf
-$type: rdf:Property
-label: schema:branchOf
-rdfs:comment: "The larger organization that this local business is a branch of, if any. Not to be confused with (anatomical) [[branch]]."
+$id: https://schema.org/branchOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: branchOf
+comment: |
+  The larger organization that this local business is a branch of, if any. Not to be confused with (anatomical) [[branch]].
 rdfs:label: "branchOf"
-schema:domainIncludes: {"@id":"schema:LocalBusiness"}
-schema:rangeIncludes: {"@id":"schema:Organization"}
-schema:supersededBy: {"@id":"schema:parentOrganization"}
+schema:domainIncludes: "https://schema.org/LocalBusiness"
+schema:rangeIncludes: "https://schema.org/Organization"
+schema:supersededBy: "https://schema.org/parentOrganization"
 ---
 
-# schema:branchOf
+# branchOf
+
+The larger organization that this local business is a branch of, if any. Not to be confused with (anatomical) [[branch]].
 

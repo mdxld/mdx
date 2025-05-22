@@ -1,13 +1,16 @@
 ---
-$id: schema:parentOrganization
-$type: rdf:Property
-label: schema:parentOrganization
-rdfs:comment: "The larger organization that this organization is a [[subOrganization]] of, if any."
+$id: https://schema.org/parentOrganization
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: parentOrganization
+comment: |
+  The larger organization that this organization is a [[subOrganization]] of, if any.
 rdfs:label: "parentOrganization"
-schema:domainIncludes: {"@id":"schema:Organization"}
-schema:inverseOf: {"@id":"schema:subOrganization"}
-schema:rangeIncludes: {"@id":"schema:Organization"}
+schema:domainIncludes: "https://schema.org/Organization"
+schema:inverseOf: "https://schema.org/subOrganization"
+schema:rangeIncludes: "https://schema.org/Organization"
 ---
 
-# schema:parentOrganization
+# parentOrganization
+
+The larger organization that this organization is a [[subOrganization]] of, if any.
 

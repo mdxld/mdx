@@ -1,12 +1,15 @@
 ---
-$id: schema:contactPoint
-$type: rdf:Property
-label: schema:contactPoint
-rdfs:comment: "A contact point for a person or organization."
+$id: https://schema.org/contactPoint
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: contactPoint
+comment: |
+  A contact point for a person or organization.
 rdfs:label: "contactPoint"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"},{"@id":"schema:HealthInsurancePlan"}]
-schema:rangeIncludes: {"@id":"schema:ContactPoint"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Person","https://schema.org/HealthInsurancePlan"]
+schema:rangeIncludes: "https://schema.org/ContactPoint"
 ---
 
-# schema:contactPoint
+# contactPoint
+
+A contact point for a person or organization.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:amount
-$type: rdf:Property
-label: schema:amount
-rdfs:comment: "The amount of money."
+$id: https://schema.org/amount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: amount
+comment: |
+  The amount of money.
 rdfs:label: "amount"
-schema:domainIncludes: [{"@id":"schema:LoanOrCredit"},{"@id":"schema:InvestmentOrDeposit"},{"@id":"schema:DatedMoneySpecification"},{"@id":"schema:MoneyTransfer"},{"@id":"schema:MonetaryGrant"}]
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:MonetaryAmount"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/1253"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1698"}]
+schema:domainIncludes: ["https://schema.org/LoanOrCredit","https://schema.org/InvestmentOrDeposit","https://schema.org/DatedMoneySpecification","https://schema.org/MoneyTransfer","https://schema.org/MonetaryGrant"]
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/MonetaryAmount"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/1253","https://github.com/schemaorg/schemaorg/issues/1698"]
 ---
 
-# schema:amount
+# amount
+
+The amount of money.
 

@@ -1,13 +1,16 @@
 ---
-$id: schema:relatedCondition
-$type: rdf:Property
-label: schema:relatedCondition
-rdfs:comment: "A medical condition associated with this anatomy."
+$id: https://schema.org/relatedCondition
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relatedCondition
+comment: |
+  A medical condition associated with this anatomy.
 rdfs:label: "relatedCondition"
-schema:domainIncludes: [{"@id":"schema:AnatomicalStructure"},{"@id":"schema:SuperficialAnatomy"},{"@id":"schema:AnatomicalSystem"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalCondition"}
+schema:domainIncludes: ["https://schema.org/AnatomicalStructure","https://schema.org/SuperficialAnatomy","https://schema.org/AnatomicalSystem"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalCondition"
 ---
 
-# schema:relatedCondition
+# relatedCondition
+
+A medical condition associated with this anatomy.
 

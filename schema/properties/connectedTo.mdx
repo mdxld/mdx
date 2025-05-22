@@ -1,13 +1,16 @@
 ---
-$id: schema:connectedTo
-$type: rdf:Property
-label: schema:connectedTo
-rdfs:comment: "Other anatomical structures to which this structure is connected."
+$id: https://schema.org/connectedTo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: connectedTo
+comment: |
+  Other anatomical structures to which this structure is connected.
 rdfs:label: "connectedTo"
-schema:domainIncludes: {"@id":"schema:AnatomicalStructure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AnatomicalStructure"}
+schema:domainIncludes: "https://schema.org/AnatomicalStructure"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/AnatomicalStructure"
 ---
 
-# schema:connectedTo
+# connectedTo
+
+Other anatomical structures to which this structure is connected.
 

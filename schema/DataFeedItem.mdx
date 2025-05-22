@@ -1,11 +1,22 @@
 ---
-$id: schema:DataFeedItem
-$type: rdfs:Class
-label: schema:DataFeedItem
-rdfs:comment: "A single item within a larger data feed."
+$id: https://schema.org/DataFeedItem
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DataFeedItem
+comment: |
+  A single item within a larger data feed.
 rdfs:label: "DataFeedItem"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:DataFeedItem
+# DataFeedItem
 
+A single item within a larger data feed.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dateCreated](https://schema.org/dateCreated) | Text |  |
+| [dateDeleted](https://schema.org/dateDeleted) | Text |  |
+| [dateModified](https://schema.org/dateModified) | Text |  |
+| [item](https://schema.org/item) | Text |  |

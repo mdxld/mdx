@@ -1,12 +1,27 @@
 ---
-$id: schema:Trip
-$type: rdfs:Class
-label: schema:Trip
-rdfs:comment: "A trip or journey. An itinerary of visits to one or more places."
+$id: https://schema.org/Trip
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Trip
+comment: |
+  A trip or journey. An itinerary of visits to one or more places.
 rdfs:label: "Trip"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/Tourism"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:contributor: "https://schema.org/docs/collab/Tourism"
 ---
 
-# schema:Trip
+# Trip
 
+A trip or journey. An itinerary of visits to one or more places.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [arrivalTime](https://schema.org/arrivalTime) | Text |  |
+| [departureTime](https://schema.org/departureTime) | Text |  |
+| [itinerary](https://schema.org/itinerary) | Text |  |
+| [offers](https://schema.org/offers) | Text |  |
+| [partOfTrip](https://schema.org/partOfTrip) | Text |  |
+| [provider](https://schema.org/provider) | Text |  |
+| [subTrip](https://schema.org/subTrip) | Text |  |
+| [tripOrigin](https://schema.org/tripOrigin) | Text |  |

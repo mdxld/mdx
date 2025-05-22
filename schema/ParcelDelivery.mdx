@@ -1,11 +1,30 @@
 ---
-$id: schema:ParcelDelivery
-$type: rdfs:Class
-label: schema:ParcelDelivery
-rdfs:comment: "The delivery of a parcel either via the postal service or a commercial service."
+$id: https://schema.org/ParcelDelivery
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ParcelDelivery
+comment: |
+  The delivery of a parcel either via the postal service or a commercial service.
 rdfs:label: "ParcelDelivery"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:ParcelDelivery
+# ParcelDelivery
 
+The delivery of a parcel either via the postal service or a commercial service.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [carrier](https://schema.org/carrier) | Text |  |
+| [deliveryAddress](https://schema.org/deliveryAddress) | Text |  |
+| [deliveryStatus](https://schema.org/deliveryStatus) | Text |  |
+| [expectedArrivalFrom](https://schema.org/expectedArrivalFrom) | Text |  |
+| [expectedArrivalUntil](https://schema.org/expectedArrivalUntil) | Text |  |
+| [hasDeliveryMethod](https://schema.org/hasDeliveryMethod) | Text |  |
+| [itemShipped](https://schema.org/itemShipped) | Text |  |
+| [originAddress](https://schema.org/originAddress) | Text |  |
+| [partOfOrder](https://schema.org/partOfOrder) | Text |  |
+| [provider](https://schema.org/provider) | Text |  |
+| [trackingNumber](https://schema.org/trackingNumber) | Text |  |
+| [trackingUrl](https://schema.org/trackingUrl) | Text |  |

@@ -1,11 +1,21 @@
 ---
-$id: schema:EducationEvent
-$type: rdfs:Class
-label: schema:EducationEvent
-rdfs:comment: "Event type: Education event."
+$id: https://schema.org/EducationEvent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: EducationEvent
+comment: |
+  Event type: Education event.
 rdfs:label: "EducationEvent"
-rdfs:subClassOf: {"@id":"schema:Event"}
+rdfs:subClassOf: "https://schema.org/Event"
 ---
 
-# schema:EducationEvent
+# EducationEvent
 
+Event type: Education event.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [assesses](https://schema.org/assesses) | Text |  |
+| [educationalLevel](https://schema.org/educationalLevel) | Text |  |
+| [teaches](https://schema.org/teaches) | Text |  |

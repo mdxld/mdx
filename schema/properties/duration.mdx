@@ -1,13 +1,16 @@
 ---
-$id: schema:duration
-$type: rdf:Property
-label: schema:duration
-rdfs:comment: "The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601)."
+$id: https://schema.org/duration
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: duration
+comment: |
+  The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601).
 rdfs:label: "duration"
-schema:domainIncludes: [{"@id":"schema:Schedule"},{"@id":"schema:MusicRelease"},{"@id":"schema:Event"},{"@id":"schema:Episode"},{"@id":"schema:MediaObject"},{"@id":"schema:QuantitativeValueDistribution"},{"@id":"schema:MusicRecording"},{"@id":"schema:Movie"},{"@id":"schema:ServicePeriod"},{"@id":"schema:Audiobook"}]
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Duration"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1698"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}]
+schema:domainIncludes: ["https://schema.org/Schedule","https://schema.org/MusicRelease","https://schema.org/Event","https://schema.org/Episode","https://schema.org/MediaObject","https://schema.org/QuantitativeValueDistribution","https://schema.org/MusicRecording","https://schema.org/Movie","https://schema.org/ServicePeriod","https://schema.org/Audiobook"]
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Duration"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/3617","https://github.com/schemaorg/schemaorg/issues/1698","https://github.com/schemaorg/schemaorg/issues/1457"]
 ---
 
-# schema:duration
+# duration
+
+The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601).
 

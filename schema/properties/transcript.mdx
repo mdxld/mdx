@@ -1,12 +1,15 @@
 ---
-$id: schema:transcript
-$type: rdf:Property
-label: schema:transcript
-rdfs:comment: "If this MediaObject is an AudioObject or VideoObject, the transcript of that object."
+$id: https://schema.org/transcript
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: transcript
+comment: |
+  If this MediaObject is an AudioObject or VideoObject, the transcript of that object.
 rdfs:label: "transcript"
-schema:domainIncludes: [{"@id":"schema:AudioObject"},{"@id":"schema:VideoObject"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/AudioObject","https://schema.org/VideoObject"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:transcript
+# transcript
+
+If this MediaObject is an AudioObject or VideoObject, the transcript of that object.
 

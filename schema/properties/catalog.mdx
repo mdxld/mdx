@@ -1,13 +1,16 @@
 ---
-$id: schema:catalog
-$type: rdf:Property
-label: schema:catalog
-rdfs:comment: "A data catalog which contains this dataset."
+$id: https://schema.org/catalog
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: catalog
+comment: |
+  A data catalog which contains this dataset.
 rdfs:label: "catalog"
-schema:domainIncludes: {"@id":"schema:Dataset"}
-schema:rangeIncludes: {"@id":"schema:DataCatalog"}
-schema:supersededBy: {"@id":"schema:includedInDataCatalog"}
+schema:domainIncludes: "https://schema.org/Dataset"
+schema:rangeIncludes: "https://schema.org/DataCatalog"
+schema:supersededBy: "https://schema.org/includedInDataCatalog"
 ---
 
-# schema:catalog
+# catalog
+
+A data catalog which contains this dataset.
 

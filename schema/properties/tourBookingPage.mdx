@@ -1,14 +1,17 @@
 ---
-$id: schema:tourBookingPage
-$type: rdf:Property
-label: schema:tourBookingPage
-rdfs:comment: "A page providing information on how to book a tour of some [[Place]], such as an [[Accommodation]] or [[ApartmentComplex]] in a real estate setting, as well as other kinds of tours as appropriate."
+$id: https://schema.org/tourBookingPage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tourBookingPage
+comment: |
+  A page providing information on how to book a tour of some [[Place]], such as an [[Accommodation]] or [[ApartmentComplex]] in a real estate setting, as well as other kinds of tours as appropriate.
 rdfs:label: "tourBookingPage"
-schema:domainIncludes: [{"@id":"schema:Accommodation"},{"@id":"schema:Place"},{"@id":"schema:ApartmentComplex"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:URL"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: ["https://schema.org/Accommodation","https://schema.org/Place","https://schema.org/ApartmentComplex"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/URL"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:tourBookingPage
+# tourBookingPage
+
+A page providing information on how to book a tour of some [[Place]], such as an [[Accommodation]] or [[ApartmentComplex]] in a real estate setting, as well as other kinds of tours as appropriate.
 

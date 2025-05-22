@@ -1,12 +1,15 @@
 ---
-$id: schema:regionsAllowed
-$type: rdf:Property
-label: schema:regionsAllowed
-rdfs:comment: "The regions where the media is allowed. If not specified, then it's assumed to be allowed everywhere. Specify the countries in [ISO 3166 format](http://en.wikipedia.org/wiki/ISO_3166)."
+$id: https://schema.org/regionsAllowed
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: regionsAllowed
+comment: |
+  The regions where the media is allowed. If not specified, then it's assumed to be allowed everywhere. Specify the countries in [ISO 3166 format](http://en.wikipedia.org/wiki/ISO_3166).
 rdfs:label: "regionsAllowed"
-schema:domainIncludes: {"@id":"schema:MediaObject"}
-schema:rangeIncludes: {"@id":"schema:Place"}
+schema:domainIncludes: "https://schema.org/MediaObject"
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:regionsAllowed
+# regionsAllowed
+
+The regions where the media is allowed. If not specified, then it's assumed to be allowed everywhere. Specify the countries in [ISO 3166 format](http://en.wikipedia.org/wiki/ISO_3166).
 

@@ -1,12 +1,17 @@
 ---
-$id: schema:workFeatured
-$type: rdf:Property
-label: schema:workFeatured
-rdfs:comment: "A work featured in some event, e.g. exhibited in an ExhibitionEvent.\n       Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent)."
+$id: https://schema.org/workFeatured
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: workFeatured
+comment: |
+  A work featured in some event, e.g. exhibited in an ExhibitionEvent.
+  Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent).
 rdfs:label: "workFeatured"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: {"@id":"schema:CreativeWork"}
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: "https://schema.org/CreativeWork"
 ---
 
-# schema:workFeatured
+# workFeatured
+
+A work featured in some event, e.g. exhibited in an ExhibitionEvent.
+       Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent).
 

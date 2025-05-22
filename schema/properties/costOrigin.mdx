@@ -1,13 +1,16 @@
 ---
-$id: schema:costOrigin
-$type: rdf:Property
-label: schema:costOrigin
-rdfs:comment: "Additional details to capture the origin of the cost data. For example, 'Medicare Part B'."
+$id: https://schema.org/costOrigin
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: costOrigin
+comment: |
+  Additional details to capture the origin of the cost data. For example, 'Medicare Part B'.
 rdfs:label: "costOrigin"
-schema:domainIncludes: {"@id":"schema:DrugCost"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/DrugCost"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:costOrigin
+# costOrigin
+
+Additional details to capture the origin of the cost data. For example, 'Medicare Part B'.
 

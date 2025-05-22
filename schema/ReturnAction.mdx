@@ -1,11 +1,19 @@
 ---
-$id: schema:ReturnAction
-$type: rdfs:Class
-label: schema:ReturnAction
-rdfs:comment: "The act of returning to the origin that which was previously received (concrete objects) or taken (ownership)."
+$id: https://schema.org/ReturnAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ReturnAction
+comment: |
+  The act of returning to the origin that which was previously received (concrete objects) or taken (ownership).
 rdfs:label: "ReturnAction"
-rdfs:subClassOf: {"@id":"schema:TransferAction"}
+rdfs:subClassOf: "https://schema.org/TransferAction"
 ---
 
-# schema:ReturnAction
+# ReturnAction
 
+The act of returning to the origin that which was previously received (concrete objects) or taken (ownership).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [recipient](https://schema.org/recipient) | Text |  |

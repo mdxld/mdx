@@ -1,15 +1,18 @@
 ---
-$id: schema:measurementMethod
-$type: rdf:Property
-label: schema:measurementMethod
-rdfs:comment: "A subproperty of [[measurementTechnique]] that can be used for specifying specific methods, in particular via [[MeasurementMethodEnum]]."
+$id: https://schema.org/measurementMethod
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: measurementMethod
+comment: |
+  A subproperty of [[measurementTechnique]] that can be used for specifying specific methods, in particular via [[MeasurementMethodEnum]].
 rdfs:label: "measurementMethod"
-rdfs:subPropertyOf: {"@id":"schema:measurementTechnique"}
-schema:domainIncludes: [{"@id":"schema:DataDownload"},{"@id":"schema:PropertyValue"},{"@id":"schema:DataCatalog"},{"@id":"schema:Observation"},{"@id":"schema:StatisticalVariable"},{"@id":"schema:Dataset"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:DefinedTerm"},{"@id":"schema:URL"},{"@id":"schema:MeasurementMethodEnum"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1425"}
+rdfs:subPropertyOf: "https://schema.org/measurementTechnique"
+schema:domainIncludes: ["https://schema.org/DataDownload","https://schema.org/PropertyValue","https://schema.org/DataCatalog","https://schema.org/Observation","https://schema.org/StatisticalVariable","https://schema.org/Dataset"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/DefinedTerm","https://schema.org/URL","https://schema.org/MeasurementMethodEnum","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1425"
 ---
 
-# schema:measurementMethod
+# measurementMethod
+
+A subproperty of [[measurementTechnique]] that can be used for specifying specific methods, in particular via [[MeasurementMethodEnum]].
 

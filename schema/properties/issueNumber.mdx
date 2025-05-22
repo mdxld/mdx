@@ -1,15 +1,18 @@
 ---
-$id: schema:issueNumber
-$type: rdf:Property
-label: schema:issueNumber
-owl:equivalentProperty: {"@id":"http://purl.org/ontology/bibo/issue"}
-rdfs:comment: "Identifies the issue of publication; for example, \"iii\" or \"2\"."
+$id: https://schema.org/issueNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: issueNumber
+comment: |
+  Identifies the issue of publication; for example, "iii" or "2".
+owl:equivalentProperty: "http://purl.org/ontology/bibo/issue"
 rdfs:label: "issueNumber"
-rdfs:subPropertyOf: {"@id":"schema:position"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/bibex"}
-schema:domainIncludes: {"@id":"schema:PublicationIssue"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+rdfs:subPropertyOf: "https://schema.org/position"
+schema:contributor: "https://schema.org/docs/collab/bibex"
+schema:domainIncludes: "https://schema.org/PublicationIssue"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:issueNumber
+# issueNumber
+
+Identifies the issue of publication; for example, "iii" or "2".
 

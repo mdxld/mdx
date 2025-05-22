@@ -1,12 +1,15 @@
 ---
-$id: schema:award
-$type: rdf:Property
-label: schema:award
-rdfs:comment: "An award won by or for this item."
+$id: https://schema.org/award
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: award
+comment: |
+  An award won by or for this item.
 rdfs:label: "award"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:CreativeWork"},{"@id":"schema:Person"},{"@id":"schema:Product"},{"@id":"schema:Service"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/CreativeWork","https://schema.org/Person","https://schema.org/Product","https://schema.org/Service"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:award
+# award
+
+An award won by or for this item.
 

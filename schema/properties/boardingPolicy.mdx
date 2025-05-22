@@ -1,12 +1,15 @@
 ---
-$id: schema:boardingPolicy
-$type: rdf:Property
-label: schema:boardingPolicy
-rdfs:comment: "The type of boarding policy used by the airline (e.g. zone-based or group-based)."
+$id: https://schema.org/boardingPolicy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: boardingPolicy
+comment: |
+  The type of boarding policy used by the airline (e.g. zone-based or group-based).
 rdfs:label: "boardingPolicy"
-schema:domainIncludes: [{"@id":"schema:Airline"},{"@id":"schema:Flight"}]
-schema:rangeIncludes: {"@id":"schema:BoardingPolicyType"}
+schema:domainIncludes: ["https://schema.org/Airline","https://schema.org/Flight"]
+schema:rangeIncludes: "https://schema.org/BoardingPolicyType"
 ---
 
-# schema:boardingPolicy
+# boardingPolicy
+
+The type of boarding policy used by the airline (e.g. zone-based or group-based).
 

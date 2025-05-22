@@ -1,12 +1,15 @@
 ---
-$id: schema:creator
-$type: rdf:Property
-label: schema:creator
-rdfs:comment: "The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork."
+$id: https://schema.org/creator
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: creator
+comment: |
+  The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.
 rdfs:label: "creator"
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:UserComments"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/UserComments"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:creator
+# creator
+
+The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.
 

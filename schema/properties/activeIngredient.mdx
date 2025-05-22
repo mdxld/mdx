@@ -1,13 +1,16 @@
 ---
-$id: schema:activeIngredient
-$type: rdf:Property
-label: schema:activeIngredient
-rdfs:comment: "An active ingredient, typically chemical compounds and/or biologic substances."
+$id: https://schema.org/activeIngredient
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: activeIngredient
+comment: |
+  An active ingredient, typically chemical compounds and/or biologic substances.
 rdfs:label: "activeIngredient"
-schema:domainIncludes: [{"@id":"schema:DietarySupplement"},{"@id":"schema:DrugStrength"},{"@id":"schema:Drug"},{"@id":"schema:Substance"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/DietarySupplement","https://schema.org/DrugStrength","https://schema.org/Drug","https://schema.org/Substance"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:activeIngredient
+# activeIngredient
+
+An active ingredient, typically chemical compounds and/or biologic substances.
 

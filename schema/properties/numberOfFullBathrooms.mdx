@@ -1,14 +1,17 @@
 ---
-$id: schema:numberOfFullBathrooms
-$type: rdf:Property
-label: schema:numberOfFullBathrooms
-rdfs:comment: "Number of full bathrooms - The total number of full and ¾ bathrooms in an [[Accommodation]]. This corresponds to the [BathroomsFull field in RESO](https://ddwiki.reso.org/display/DDW17/BathroomsFull+Field)."
+$id: https://schema.org/numberOfFullBathrooms
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfFullBathrooms
+comment: |
+  Number of full bathrooms - The total number of full and ¾ bathrooms in an [[Accommodation]]. This corresponds to the [BathroomsFull field in RESO](https://ddwiki.reso.org/display/DDW17/BathroomsFull+Field).
 rdfs:label: "numberOfFullBathrooms"
-schema:domainIncludes: [{"@id":"schema:FloorPlan"},{"@id":"schema:Accommodation"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Number"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: ["https://schema.org/FloorPlan","https://schema.org/Accommodation"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Number"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:numberOfFullBathrooms
+# numberOfFullBathrooms
+
+Number of full bathrooms - The total number of full and ¾ bathrooms in an [[Accommodation]]. This corresponds to the [BathroomsFull field in RESO](https://ddwiki.reso.org/display/DDW17/BathroomsFull+Field).
 

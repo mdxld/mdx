@@ -1,13 +1,23 @@
 ---
-$id: schema:ChemicalSubstance
-$type: rdfs:Class
-label: schema:ChemicalSubstance
-rdfs:comment: "A chemical substance is 'a portion of matter of constant composition, composed of molecular entities of the same type or of different types' (source: [ChEBI:59999](https://www.ebi.ac.uk/chebi/searchId.do?chebiId=59999))."
+$id: https://schema.org/ChemicalSubstance
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ChemicalSubstance
+comment: |
+  A chemical substance is 'a portion of matter of constant composition, composed of molecular entities of the same type or of different types' (source: [ChEBI:59999](https://www.ebi.ac.uk/chebi/searchId.do?chebiId=59999)).
 rdfs:label: "ChemicalSubstance"
-rdfs:subClassOf: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: [{"@id":"http://bioschemas.org"},{"@id":"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=59999"}]
+rdfs:subClassOf: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: ["http://bioschemas.org","https://www.ebi.ac.uk/chebi/searchId.do?chebiId=59999"]
 ---
 
-# schema:ChemicalSubstance
+# ChemicalSubstance
 
+A chemical substance is 'a portion of matter of constant composition, composed of molecular entities of the same type or of different types' (source: [ChEBI:59999](https://www.ebi.ac.uk/chebi/searchId.do?chebiId=59999)).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [chemicalComposition](https://schema.org/chemicalComposition) | Text |  |
+| [chemicalRole](https://schema.org/chemicalRole) | Text |  |
+| [potentialUse](https://schema.org/potentialUse) | Text |  |

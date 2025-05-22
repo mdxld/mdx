@@ -1,15 +1,18 @@
 ---
-$id: schema:originalMediaContextDescription
-$type: rdf:Property
-label: schema:originalMediaContextDescription
-rdfs:comment: "Describes, in a [[MediaReview]] when dealing with [[DecontextualizedContent]], background information that can contribute to better interpretation of the [[MediaObject]]."
+$id: https://schema.org/originalMediaContextDescription
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: originalMediaContextDescription
+comment: |
+  Describes, in a [[MediaReview]] when dealing with [[DecontextualizedContent]], background information that can contribute to better interpretation of the [[MediaObject]].
 rdfs:label: "originalMediaContextDescription"
-rdfs:subPropertyOf: {"@id":"schema:description"}
-schema:domainIncludes: {"@id":"schema:MediaReview"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+rdfs:subPropertyOf: "https://schema.org/description"
+schema:domainIncludes: "https://schema.org/MediaReview"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:originalMediaContextDescription
+# originalMediaContextDescription
+
+Describes, in a [[MediaReview]] when dealing with [[DecontextualizedContent]], background information that can contribute to better interpretation of the [[MediaObject]].
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:hasHealthAspect
-$type: rdf:Property
-label: schema:hasHealthAspect
-rdfs:comment: "Indicates the aspect or aspects specifically addressed in some [[HealthTopicContent]]. For example, that the content is an overview, or that it talks about treatment, self-care, treatments or their side-effects."
+$id: https://schema.org/hasHealthAspect
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasHealthAspect
+comment: |
+  Indicates the aspect or aspects specifically addressed in some [[HealthTopicContent]]. For example, that the content is an overview, or that it talks about treatment, self-care, treatments or their side-effects.
 rdfs:label: "hasHealthAspect"
-schema:domainIncludes: {"@id":"schema:HealthTopicContent"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:HealthAspectEnumeration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: "https://schema.org/HealthTopicContent"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/HealthAspectEnumeration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:hasHealthAspect
+# hasHealthAspect
+
+Indicates the aspect or aspects specifically addressed in some [[HealthTopicContent]]. For example, that the content is an overview, or that it talks about treatment, self-care, treatments or their side-effects.
 

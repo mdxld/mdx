@@ -1,14 +1,17 @@
 ---
-$id: schema:phoneticText
-$type: rdf:Property
-label: schema:phoneticText
-rdfs:comment: "Representation of a text [[textValue]] using the specified [[speechToTextMarkup]]. For example the city name of Houston in IPA: /ˈhjuːstən/."
+$id: https://schema.org/phoneticText
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: phoneticText
+comment: |
+  Representation of a text [[textValue]] using the specified [[speechToTextMarkup]]. For example the city name of Houston in IPA: /ˈhjuːstən/.
 rdfs:label: "phoneticText"
-schema:domainIncludes: {"@id":"schema:PronounceableText"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2108"}
+schema:domainIncludes: "https://schema.org/PronounceableText"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2108"
 ---
 
-# schema:phoneticText
+# phoneticText
+
+Representation of a text [[textValue]] using the specified [[speechToTextMarkup]]. For example the city name of Houston in IPA: /ˈhjuːstən/.
 

@@ -1,14 +1,17 @@
 ---
-$id: schema:roofLoad
-$type: rdf:Property
-label: schema:roofLoad
-rdfs:comment: "The permitted total weight of cargo and installations (e.g. a roof rack) on top of the vehicle.\\n\\nTypical unit code(s): KGM for kilogram, LBR for pound\\n\\n* Note 1: You can indicate additional information in the [[name]] of the [[QuantitativeValue]] node.\\n* Note 2: You may also link to a [[QualitativeValue]] node that provides additional information using [[valueReference]]\\n* Note 3: Note that you can use [[minValue]] and [[maxValue]] to indicate ranges."
+$id: https://schema.org/roofLoad
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: roofLoad
+comment: |
+  The permitted total weight of cargo and installations (e.g. a roof rack) on top of the vehicle.\n\nTypical unit code(s): KGM for kilogram, LBR for pound\n\n* Note 1: You can indicate additional information in the [[name]] of the [[QuantitativeValue]] node.\n* Note 2: You may also link to a [[QualitativeValue]] node that provides additional information using [[valueReference]]\n* Note 3: Note that you can use [[minValue]] and [[maxValue]] to indicate ranges.
 rdfs:label: "roofLoad"
-schema:contributor: {"@id":"https://schema.org/docs/collab/Automotive_Ontology_Working_Group"}
-schema:domainIncludes: [{"@id":"schema:BusOrCoach"},{"@id":"schema:Car"}]
-schema:isPartOf: {"@id":"https://auto.schema.org"}
-schema:rangeIncludes: {"@id":"schema:QuantitativeValue"}
+schema:contributor: "https://schema.org/docs/collab/Automotive_Ontology_Working_Group"
+schema:domainIncludes: ["https://schema.org/BusOrCoach","https://schema.org/Car"]
+schema:isPartOf: "https://auto.schema.org"
+schema:rangeIncludes: "https://schema.org/QuantitativeValue"
 ---
 
-# schema:roofLoad
+# roofLoad
+
+The permitted total weight of cargo and installations (e.g. a roof rack) on top of the vehicle.\n\nTypical unit code(s): KGM for kilogram, LBR for pound\n\n* Note 1: You can indicate additional information in the [[name]] of the [[QuantitativeValue]] node.\n* Note 2: You may also link to a [[QualitativeValue]] node that provides additional information using [[valueReference]]\n* Note 3: Note that you can use [[minValue]] and [[maxValue]] to indicate ranges.
 

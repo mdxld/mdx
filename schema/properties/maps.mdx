@@ -1,13 +1,16 @@
 ---
-$id: schema:maps
-$type: rdf:Property
-label: schema:maps
-rdfs:comment: "A URL to a map of the place."
+$id: https://schema.org/maps
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: maps
+comment: |
+  A URL to a map of the place.
 rdfs:label: "maps"
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:rangeIncludes: {"@id":"schema:URL"}
-schema:supersededBy: {"@id":"schema:hasMap"}
+schema:domainIncludes: "https://schema.org/Place"
+schema:rangeIncludes: "https://schema.org/URL"
+schema:supersededBy: "https://schema.org/hasMap"
 ---
 
-# schema:maps
+# maps
+
+A URL to a map of the place.
 

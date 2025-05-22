@@ -1,14 +1,17 @@
 ---
-$id: schema:inProductGroupWithID
-$type: rdf:Property
-label: schema:inProductGroupWithID
-rdfs:comment: "Indicates the [[productGroupID]] for a [[ProductGroup]] that this product [[isVariantOf]]. "
+$id: https://schema.org/inProductGroupWithID
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inProductGroupWithID
+comment: |
+  Indicates the [[productGroupID]] for a [[ProductGroup]] that this product [[isVariantOf]].
 rdfs:label: "inProductGroupWithID"
-schema:domainIncludes: {"@id":"schema:Product"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1797"}
+schema:domainIncludes: "https://schema.org/Product"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1797"
 ---
 
-# schema:inProductGroupWithID
+# inProductGroupWithID
+
+Indicates the [[productGroupID]] for a [[ProductGroup]] that this product [[isVariantOf]].
 

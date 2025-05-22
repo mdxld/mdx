@@ -1,11 +1,23 @@
 ---
-$id: schema:SportsEvent
-$type: rdfs:Class
-label: schema:SportsEvent
-rdfs:comment: "Event type: Sports event."
+$id: https://schema.org/SportsEvent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SportsEvent
+comment: |
+  Event type: Sports event.
 rdfs:label: "SportsEvent"
-rdfs:subClassOf: {"@id":"schema:Event"}
+rdfs:subClassOf: "https://schema.org/Event"
 ---
 
-# schema:SportsEvent
+# SportsEvent
 
+Event type: Sports event.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [awayTeam](https://schema.org/awayTeam) | Text |  |
+| [competitor](https://schema.org/competitor) | Text |  |
+| [homeTeam](https://schema.org/homeTeam) | Text |  |
+| [referee](https://schema.org/referee) | Text |  |
+| [sport](https://schema.org/sport) | Text |  |

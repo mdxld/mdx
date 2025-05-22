@@ -1,12 +1,22 @@
 ---
-$id: schema:MedicalTherapy
-$type: rdfs:Class
-label: schema:MedicalTherapy
-rdfs:comment: "Any medical intervention designed to prevent, treat, and cure human diseases and medical conditions, including both curative and palliative therapies. Medical therapies are typically processes of care relying upon pharmacotherapy, behavioral therapy, supportive therapy (with fluid or nutrition for example), or detoxification (e.g. hemodialysis) aimed at improving or preventing a health condition."
+$id: https://schema.org/MedicalTherapy
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalTherapy
+comment: |
+  Any medical intervention designed to prevent, treat, and cure human diseases and medical conditions, including both curative and palliative therapies. Medical therapies are typically processes of care relying upon pharmacotherapy, behavioral therapy, supportive therapy (with fluid or nutrition for example), or detoxification (e.g. hemodialysis) aimed at improving or preventing a health condition.
 rdfs:label: "MedicalTherapy"
-rdfs:subClassOf: {"@id":"schema:TherapeuticProcedure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/TherapeuticProcedure"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalTherapy
+# MedicalTherapy
 
+Any medical intervention designed to prevent, treat, and cure human diseases and medical conditions, including both curative and palliative therapies. Medical therapies are typically processes of care relying upon pharmacotherapy, behavioral therapy, supportive therapy (with fluid or nutrition for example), or detoxification (e.g. hemodialysis) aimed at improving or preventing a health condition.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [contraindication](https://schema.org/contraindication) | Text |  |
+| [duplicateTherapy](https://schema.org/duplicateTherapy) | Text |  |
+| [seriousAdverseOutcome](https://schema.org/seriousAdverseOutcome) | Text |  |

@@ -1,12 +1,15 @@
 ---
-$id: schema:productionCompany
-$type: rdf:Property
-label: schema:productionCompany
-rdfs:comment: "The production company or studio responsible for the item, e.g. series, video game, episode etc."
+$id: https://schema.org/productionCompany
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: productionCompany
+comment: |
+  The production company or studio responsible for the item, e.g. series, video game, episode etc.
 rdfs:label: "productionCompany"
-schema:domainIncludes: [{"@id":"schema:MovieSeries"},{"@id":"schema:Movie"},{"@id":"schema:TVSeries"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:Episode"},{"@id":"schema:MediaObject"},{"@id":"schema:CreativeWorkSeason"}]
-schema:rangeIncludes: {"@id":"schema:Organization"}
+schema:domainIncludes: ["https://schema.org/MovieSeries","https://schema.org/Movie","https://schema.org/TVSeries","https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/Episode","https://schema.org/MediaObject","https://schema.org/CreativeWorkSeason"]
+schema:rangeIncludes: "https://schema.org/Organization"
 ---
 
-# schema:productionCompany
+# productionCompany
+
+The production company or studio responsible for the item, e.g. series, video game, episode etc.
 

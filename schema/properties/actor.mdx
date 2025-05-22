@@ -1,12 +1,15 @@
 ---
-$id: schema:actor
-$type: rdf:Property
-label: schema:actor
-rdfs:comment: "An actor (individual or a group), e.g. in TV, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip."
+$id: https://schema.org/actor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: actor
+comment: |
+  An actor (individual or a group), e.g. in TV, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 rdfs:label: "actor"
-schema:domainIncludes: [{"@id":"schema:Event"},{"@id":"schema:Clip"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:Episode"},{"@id":"schema:VideoObject"},{"@id":"schema:CreativeWorkSeason"},{"@id":"schema:MovieSeries"},{"@id":"schema:Movie"},{"@id":"schema:TVSeries"},{"@id":"schema:VideoGame"},{"@id":"schema:PodcastSeries"}]
-schema:rangeIncludes: [{"@id":"schema:PerformingGroup"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/Event","https://schema.org/Clip","https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/Episode","https://schema.org/VideoObject","https://schema.org/CreativeWorkSeason","https://schema.org/MovieSeries","https://schema.org/Movie","https://schema.org/TVSeries","https://schema.org/VideoGame","https://schema.org/PodcastSeries"]
+schema:rangeIncludes: ["https://schema.org/PerformingGroup","https://schema.org/Person"]
 ---
 
-# schema:actor
+# actor
+
+An actor (individual or a group), e.g. in TV, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 

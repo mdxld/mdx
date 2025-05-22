@@ -1,13 +1,16 @@
 ---
-$id: schema:reviewAspect
-$type: rdf:Property
-label: schema:reviewAspect
-rdfs:comment: "This Review or Rating is relevant to this part or facet of the itemReviewed."
+$id: https://schema.org/reviewAspect
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: reviewAspect
+comment: |
+  This Review or Rating is relevant to this part or facet of the itemReviewed.
 rdfs:label: "reviewAspect"
-schema:domainIncludes: [{"@id":"schema:Rating"},{"@id":"schema:Guide"},{"@id":"schema:Review"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1689"}
+schema:domainIncludes: ["https://schema.org/Rating","https://schema.org/Guide","https://schema.org/Review"]
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1689"
 ---
 
-# schema:reviewAspect
+# reviewAspect
+
+This Review or Rating is relevant to this part or facet of the itemReviewed.
 

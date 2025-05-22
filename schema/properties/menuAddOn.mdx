@@ -1,13 +1,16 @@
 ---
-$id: schema:menuAddOn
-$type: rdf:Property
-label: schema:menuAddOn
-rdfs:comment: "Additional menu item(s) such as a side dish of salad or side order of fries that can be added to this menu item. Additionally it can be a menu section containing allowed add-on menu items for this menu item."
+$id: https://schema.org/menuAddOn
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: menuAddOn
+comment: |
+  Additional menu item(s) such as a side dish of salad or side order of fries that can be added to this menu item. Additionally it can be a menu section containing allowed add-on menu items for this menu item.
 rdfs:label: "menuAddOn"
-schema:domainIncludes: {"@id":"schema:MenuItem"}
-schema:rangeIncludes: [{"@id":"schema:MenuItem"},{"@id":"schema:MenuSection"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1541"}
+schema:domainIncludes: "https://schema.org/MenuItem"
+schema:rangeIncludes: ["https://schema.org/MenuItem","https://schema.org/MenuSection"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1541"
 ---
 
-# schema:menuAddOn
+# menuAddOn
+
+Additional menu item(s) such as a side dish of salad or side order of fries that can be added to this menu item. Additionally it can be a menu section containing allowed add-on menu items for this menu item.
 

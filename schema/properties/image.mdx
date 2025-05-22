@@ -1,12 +1,15 @@
 ---
-$id: schema:image
-$type: rdf:Property
-label: schema:image
-rdfs:comment: "An image of the item. This can be a [[URL]] or a fully described [[ImageObject]]."
+$id: https://schema.org/image
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: image
+comment: |
+  An image of the item. This can be a [[URL]] or a fully described [[ImageObject]].
 rdfs:label: "image"
-schema:domainIncludes: {"@id":"schema:Thing"}
-schema:rangeIncludes: [{"@id":"schema:ImageObject"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/Thing"
+schema:rangeIncludes: ["https://schema.org/ImageObject","https://schema.org/URL"]
 ---
 
-# schema:image
+# image
+
+An image of the item. This can be a [[URL]] or a fully described [[ImageObject]].
 

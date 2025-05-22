@@ -1,14 +1,17 @@
 ---
-$id: schema:creativeWorkStatus
-$type: rdf:Property
-label: schema:creativeWorkStatus
-rdfs:comment: "The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle."
+$id: https://schema.org/creativeWorkStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: creativeWorkStatus
+comment: |
+  The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle.
 rdfs:label: "creativeWorkStatus"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:DefinedTerm"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/987"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/DefinedTerm"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/987"
 ---
 
-# schema:creativeWorkStatus
+# creativeWorkStatus
+
+The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle.
 

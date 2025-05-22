@@ -1,13 +1,16 @@
 ---
-$id: schema:recordedAt
-$type: rdf:Property
-label: schema:recordedAt
-rdfs:comment: "The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event."
+$id: https://schema.org/recordedAt
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recordedAt
+comment: |
+  The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
 rdfs:label: "recordedAt"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:inverseOf: {"@id":"schema:recordedIn"}
-schema:rangeIncludes: {"@id":"schema:Event"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:inverseOf: "https://schema.org/recordedIn"
+schema:rangeIncludes: "https://schema.org/Event"
 ---
 
-# schema:recordedAt
+# recordedAt
+
+The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
 

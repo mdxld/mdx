@@ -1,16 +1,19 @@
 ---
-$id: schema:actionableFeedbackPolicy
-$type: rdf:Property
-label: schema:actionableFeedbackPolicy
-rdfs:comment: "For a [[NewsMediaOrganization]] or other news-related [[Organization]], a statement about public engagement activities (for news media, the newsroom’s), including involving the public - digitally or otherwise -- in coverage decisions, reporting and activities after publication."
+$id: https://schema.org/actionableFeedbackPolicy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: actionableFeedbackPolicy
+comment: |
+  For a [[NewsMediaOrganization]] or other news-related [[Organization]], a statement about public engagement activities (for news media, the newsroom’s), including involving the public - digitally or otherwise -- in coverage decisions, reporting and activities after publication.
 rdfs:label: "actionableFeedbackPolicy"
-rdfs:subPropertyOf: {"@id":"schema:publishingPrinciples"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/TP"}
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:NewsMediaOrganization"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1525"}
+rdfs:subPropertyOf: "https://schema.org/publishingPrinciples"
+schema:contributor: "https://schema.org/docs/collab/TP"
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/NewsMediaOrganization"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/CreativeWork","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1525"
 ---
 
-# schema:actionableFeedbackPolicy
+# actionableFeedbackPolicy
+
+For a [[NewsMediaOrganization]] or other news-related [[Organization]], a statement about public engagement activities (for news media, the newsroom’s), including involving the public - digitally or otherwise -- in coverage decisions, reporting and activities after publication.
 

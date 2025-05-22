@@ -1,14 +1,17 @@
 ---
-$id: schema:expressedIn
-$type: rdf:Property
-label: schema:expressedIn
-rdfs:comment: "Tissue, organ, biological sample, etc in which activity of this gene has been observed experimentally. For example brain, digestive system."
+$id: https://schema.org/expressedIn
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: expressedIn
+comment: |
+  Tissue, organ, biological sample, etc in which activity of this gene has been observed experimentally. For example brain, digestive system.
 rdfs:label: "expressedIn"
-schema:domainIncludes: {"@id":"schema:Gene"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:AnatomicalStructure"},{"@id":"schema:DefinedTerm"},{"@id":"schema:BioChemEntity"},{"@id":"schema:AnatomicalSystem"}]
-schema:source: {"@id":"http://www.bioschemas.org/Gene"}
+schema:domainIncludes: "https://schema.org/Gene"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/AnatomicalStructure","https://schema.org/DefinedTerm","https://schema.org/BioChemEntity","https://schema.org/AnatomicalSystem"]
+schema:source: "http://www.bioschemas.org/Gene"
 ---
 
-# schema:expressedIn
+# expressedIn
+
+Tissue, organ, biological sample, etc in which activity of this gene has been observed experimentally. For example brain, digestive system.
 

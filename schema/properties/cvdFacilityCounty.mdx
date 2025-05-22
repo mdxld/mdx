@@ -1,14 +1,17 @@
 ---
-$id: schema:cvdFacilityCounty
-$type: rdf:Property
-label: schema:cvdFacilityCounty
-rdfs:comment: "Name of the County of the NHSN facility that this data record applies to. Use [[cvdFacilityId]] to identify the facility. To provide other details, [[healthcareReportingData]] can be used on a [[Hospital]] entry."
+$id: https://schema.org/cvdFacilityCounty
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: cvdFacilityCounty
+comment: |
+  Name of the County of the NHSN facility that this data record applies to. Use [[cvdFacilityId]] to identify the facility. To provide other details, [[healthcareReportingData]] can be used on a [[Hospital]] entry.
 rdfs:label: "cvdFacilityCounty"
-schema:domainIncludes: {"@id":"schema:CDCPMDRecord"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2521"}
+schema:domainIncludes: "https://schema.org/CDCPMDRecord"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2521"
 ---
 
-# schema:cvdFacilityCounty
+# cvdFacilityCounty
+
+Name of the County of the NHSN facility that this data record applies to. Use [[cvdFacilityId]] to identify the facility. To provide other details, [[healthcareReportingData]] can be used on a [[Hospital]] entry.
 

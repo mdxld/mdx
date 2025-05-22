@@ -1,14 +1,23 @@
 ---
-$id: schema:exceptDate
-$type: rdf:Property
-label: schema:exceptDate
-rdfs:comment: "Defines a [[Date]] or [[DateTime]] during which a scheduled [[Event]] will not take place. The property allows exceptions to\n      a [[Schedule]] to be specified. If an exception is specified as a [[DateTime]] then only the event that would have started at that specific date and time\n      should be excluded from the schedule. If an exception is specified as a [[Date]] then any event that is scheduled for that 24 hour period should be\n      excluded from the schedule. This allows a whole day to be excluded from the schedule without having to itemise every scheduled event."
+$id: https://schema.org/exceptDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: exceptDate
+comment: |
+  Defines a [[Date]] or [[DateTime]] during which a scheduled [[Event]] will not take place. The property allows exceptions to
+  a [[Schedule]] to be specified. If an exception is specified as a [[DateTime]] then only the event that would have started at that specific date and time
+  should be excluded from the schedule. If an exception is specified as a [[Date]] then any event that is scheduled for that 24 hour period should be
+  excluded from the schedule. This allows a whole day to be excluded from the schedule without having to itemise every scheduled event.
 rdfs:label: "exceptDate"
-schema:domainIncludes: {"@id":"schema:Schedule"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}
+schema:domainIncludes: "https://schema.org/Schedule"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1457"
 ---
 
-# schema:exceptDate
+# exceptDate
+
+Defines a [[Date]] or [[DateTime]] during which a scheduled [[Event]] will not take place. The property allows exceptions to
+      a [[Schedule]] to be specified. If an exception is specified as a [[DateTime]] then only the event that would have started at that specific date and time
+      should be excluded from the schedule. If an exception is specified as a [[Date]] then any event that is scheduled for that 24 hour period should be
+      excluded from the schedule. This allows a whole day to be excluded from the schedule without having to itemise every scheduled event.
 

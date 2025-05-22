@@ -1,13 +1,16 @@
 ---
-$id: schema:identifyingTest
-$type: rdf:Property
-label: schema:identifyingTest
-rdfs:comment: "A diagnostic test that can identify this sign."
+$id: https://schema.org/identifyingTest
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: identifyingTest
+comment: |
+  A diagnostic test that can identify this sign.
 rdfs:label: "identifyingTest"
-schema:domainIncludes: {"@id":"schema:MedicalSign"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalTest"}
+schema:domainIncludes: "https://schema.org/MedicalSign"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalTest"
 ---
 
-# schema:identifyingTest
+# identifyingTest
+
+A diagnostic test that can identify this sign.
 

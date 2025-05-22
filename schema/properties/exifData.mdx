@@ -1,12 +1,15 @@
 ---
-$id: schema:exifData
-$type: rdf:Property
-label: schema:exifData
-rdfs:comment: "exif data for this object."
+$id: https://schema.org/exifData
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: exifData
+comment: |
+  exif data for this object.
 rdfs:label: "exifData"
-schema:domainIncludes: {"@id":"schema:ImageObject"}
-schema:rangeIncludes: [{"@id":"schema:PropertyValue"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/ImageObject"
+schema:rangeIncludes: ["https://schema.org/PropertyValue","https://schema.org/Text"]
 ---
 
-# schema:exifData
+# exifData
+
+exif data for this object.
 

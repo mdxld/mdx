@@ -1,12 +1,15 @@
 ---
-$id: schema:audience
-$type: rdf:Property
-label: schema:audience
-rdfs:comment: "An intended audience, i.e. a group for whom something was created."
+$id: https://schema.org/audience
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: audience
+comment: |
+  An intended audience, i.e. a group for whom something was created.
 rdfs:label: "audience"
-schema:domainIncludes: [{"@id":"schema:LodgingBusiness"},{"@id":"schema:Service"},{"@id":"schema:PlayAction"},{"@id":"schema:Event"},{"@id":"schema:CreativeWork"},{"@id":"schema:Product"}]
-schema:rangeIncludes: {"@id":"schema:Audience"}
+schema:domainIncludes: ["https://schema.org/LodgingBusiness","https://schema.org/Service","https://schema.org/PlayAction","https://schema.org/Event","https://schema.org/CreativeWork","https://schema.org/Product"]
+schema:rangeIncludes: "https://schema.org/Audience"
 ---
 
-# schema:audience
+# audience
+
+An intended audience, i.e. a group for whom something was created.
 

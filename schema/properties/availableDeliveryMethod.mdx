@@ -1,13 +1,16 @@
 ---
-$id: schema:availableDeliveryMethod
-$type: rdf:Property
-label: schema:availableDeliveryMethod
-rdfs:comment: "The delivery method(s) available for this offer."
+$id: https://schema.org/availableDeliveryMethod
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: availableDeliveryMethod
+comment: |
+  The delivery method(s) available for this offer.
 rdfs:label: "availableDeliveryMethod"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"}]
-schema:rangeIncludes: {"@id":"schema:DeliveryMethod"}
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer"]
+schema:rangeIncludes: "https://schema.org/DeliveryMethod"
 ---
 
-# schema:availableDeliveryMethod
+# availableDeliveryMethod
+
+The delivery method(s) available for this offer.
 

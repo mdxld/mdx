@@ -1,13 +1,21 @@
 ---
-$id: schema:ArchiveComponent
-$type: rdfs:Class
-label: schema:ArchiveComponent
-rdfs:comment: {"@language":"en","@value":"An intangible type to be applied to any archive content, carrying with it a set of properties required to describe archival items and collections."}
+$id: https://schema.org/ArchiveComponent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ArchiveComponent
+comment: {"@language":"en","@value":"An intangible type to be applied to any archive content, carrying with it a set of properties required to describe archival items and collections."}
 rdfs:label: {"@language":"en","@value":"ArchiveComponent"}
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1758"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1758"
 ---
 
-# schema:ArchiveComponent
+# ArchiveComponent
 
+{"@language":"en","@value":"An intangible type to be applied to any archive content, carrying with it a set of properties required to describe archival items and collections."}
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [holdingArchive](https://schema.org/holdingArchive) | Text |  |
+| [itemLocation](https://schema.org/itemLocation) | Text |  |

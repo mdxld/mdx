@@ -1,14 +1,17 @@
 ---
-$id: schema:orderValue
-$type: rdf:Property
-label: schema:orderValue
-rdfs:comment: "Minimum and maximum order value for which these shipping conditions are valid."
+$id: https://schema.org/orderValue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: orderValue
+comment: |
+  Minimum and maximum order value for which these shipping conditions are valid.
 rdfs:label: "orderValue"
-schema:domainIncludes: {"@id":"schema:ShippingConditions"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MonetaryAmount"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+schema:domainIncludes: "https://schema.org/ShippingConditions"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MonetaryAmount"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:orderValue
+# orderValue
+
+Minimum and maximum order value for which these shipping conditions are valid.
 

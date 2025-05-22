@@ -1,14 +1,17 @@
 ---
-$id: schema:gtin13
-$type: rdf:Property
-label: schema:gtin13
-rdfs:comment: "The GTIN-13 code of the product, or the product to which the offer refers. This is equivalent to 13-digit ISBN codes and EAN UCC-13. Former 12-digit UPC codes can be converted into a GTIN-13 code by simply adding a preceding zero. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details."
+$id: https://schema.org/gtin13
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gtin13
+comment: |
+  The GTIN-13 code of the product, or the product to which the offer refers. This is equivalent to 13-digit ISBN codes and EAN UCC-13. Former 12-digit UPC codes can be converted into a GTIN-13 code by simply adding a preceding zero. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
 rdfs:label: "gtin13"
-rdfs:subPropertyOf: [{"@id":"schema:identifier"},{"@id":"schema:gtin"}]
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Product"},{"@id":"schema:Demand"},{"@id":"schema:Offer"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: ["https://schema.org/identifier","https://schema.org/gtin"]
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Product","https://schema.org/Demand","https://schema.org/Offer"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:gtin13
+# gtin13
+
+The GTIN-13 code of the product, or the product to which the offer refers. This is equivalent to 13-digit ISBN codes and EAN UCC-13. Former 12-digit UPC codes can be converted into a GTIN-13 code by simply adding a preceding zero. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
 

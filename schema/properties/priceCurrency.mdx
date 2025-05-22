@@ -1,12 +1,15 @@
 ---
-$id: schema:priceCurrency
-$type: rdf:Property
-label: schema:priceCurrency
-rdfs:comment: "The currency of the price, or a price component when attached to [[PriceSpecification]] and its subtypes.\\n\\nUse standard formats: [ISO 4217 currency format](http://en.wikipedia.org/wiki/ISO_4217), e.g. \"USD\"; [Ticker symbol](https://en.wikipedia.org/wiki/List_of_cryptocurrencies) for cryptocurrencies, e.g. \"BTC\"; well known names for [Local Exchange Trading Systems](https://en.wikipedia.org/wiki/Local_exchange_trading_system) (LETS) and other currency types, e.g. \"Ithaca HOUR\"."
+$id: https://schema.org/priceCurrency
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: priceCurrency
+comment: |
+  The currency of the price, or a price component when attached to [[PriceSpecification]] and its subtypes.\n\nUse standard formats: [ISO 4217 currency format](http://en.wikipedia.org/wiki/ISO_4217), e.g. "USD"; [Ticker symbol](https://en.wikipedia.org/wiki/List_of_cryptocurrencies) for cryptocurrencies, e.g. "BTC"; well known names for [Local Exchange Trading Systems](https://en.wikipedia.org/wiki/Local_exchange_trading_system) (LETS) and other currency types, e.g. "Ithaca HOUR".
 rdfs:label: "priceCurrency"
-schema:domainIncludes: [{"@id":"schema:TradeAction"},{"@id":"schema:PriceSpecification"},{"@id":"schema:DonateAction"},{"@id":"schema:Reservation"},{"@id":"schema:Ticket"},{"@id":"schema:Offer"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/TradeAction","https://schema.org/PriceSpecification","https://schema.org/DonateAction","https://schema.org/Reservation","https://schema.org/Ticket","https://schema.org/Offer"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:priceCurrency
+# priceCurrency
+
+The currency of the price, or a price component when attached to [[PriceSpecification]] and its subtypes.\n\nUse standard formats: [ISO 4217 currency format](http://en.wikipedia.org/wiki/ISO_4217), e.g. "USD"; [Ticker symbol](https://en.wikipedia.org/wiki/List_of_cryptocurrencies) for cryptocurrencies, e.g. "BTC"; well known names for [Local Exchange Trading Systems](https://en.wikipedia.org/wiki/Local_exchange_trading_system) (LETS) and other currency types, e.g. "Ithaca HOUR".
 

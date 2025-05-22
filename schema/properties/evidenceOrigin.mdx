@@ -1,13 +1,16 @@
 ---
-$id: schema:evidenceOrigin
-$type: rdf:Property
-label: schema:evidenceOrigin
-rdfs:comment: "Source of the data used to formulate the guidance, e.g. RCT, consensus opinion, etc."
+$id: https://schema.org/evidenceOrigin
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: evidenceOrigin
+comment: |
+  Source of the data used to formulate the guidance, e.g. RCT, consensus opinion, etc.
 rdfs:label: "evidenceOrigin"
-schema:domainIncludes: {"@id":"schema:MedicalGuideline"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/MedicalGuideline"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:evidenceOrigin
+# evidenceOrigin
+
+Source of the data used to formulate the guidance, e.g. RCT, consensus opinion, etc.
 

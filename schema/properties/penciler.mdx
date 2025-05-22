@@ -1,13 +1,16 @@
 ---
-$id: schema:penciler
-$type: rdf:Property
-label: schema:penciler
-rdfs:comment: "The individual who draws the primary narrative artwork."
+$id: https://schema.org/penciler
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: penciler
+comment: |
+  The individual who draws the primary narrative artwork.
 rdfs:label: "penciler"
-schema:domainIncludes: [{"@id":"schema:VisualArtwork"},{"@id":"schema:ComicStory"},{"@id":"schema:ComicIssue"}]
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: ["https://schema.org/VisualArtwork","https://schema.org/ComicStory","https://schema.org/ComicIssue"]
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:penciler
+# penciler
+
+The individual who draws the primary narrative artwork.
 

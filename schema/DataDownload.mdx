@@ -1,13 +1,22 @@
 ---
-$id: schema:DataDownload
-$type: rdfs:Class
-label: schema:DataDownload
-owl:equivalentClass: {"@id":"dcat:Distribution"}
-rdfs:comment: "All or part of a [[Dataset]] in downloadable form. "
+$id: https://schema.org/DataDownload
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DataDownload
+comment: |
+  All or part of a [[Dataset]] in downloadable form.
+owl:equivalentClass: "dcat:Distribution"
 rdfs:label: "DataDownload"
-rdfs:subClassOf: {"@id":"schema:MediaObject"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/DatasetClass"}
+rdfs:subClassOf: "https://schema.org/MediaObject"
+schema:contributor: "https://schema.org/docs/collab/DatasetClass"
 ---
 
-# schema:DataDownload
+# DataDownload
 
+All or part of a [[Dataset]] in downloadable form.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [measurementMethod](https://schema.org/measurementMethod) | Text |  |
+| [measurementTechnique](https://schema.org/measurementTechnique) | Text |  |
