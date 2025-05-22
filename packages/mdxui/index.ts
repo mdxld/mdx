@@ -498,3 +498,54 @@ export {
   SheetDescription
 }
 export type { ShadcnButtonProps, buttonVariants, badgeVariants, CarouselApi }
+import {
+  Sidebar as ShadcnSidebar,
+  SidebarProvider,
+  useSidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarGroupAction,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuAction,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
+  SidebarMenuSkeleton,
+  SidebarMenuBadge,
+  SidebarSeparator,
+  SidebarTrigger,
+  SidebarRail,
+  SidebarInset
+} from './components/ui/sidebar.js'
+
+export {
+  ShadcnSidebar,
+  SidebarProvider,
+  useSidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarGroupAction,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuAction,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
+  SidebarMenuSkeleton,
+  SidebarMenuBadge,
+  SidebarSeparator,
+  SidebarTrigger,
+  SidebarRail,
+  SidebarInset
+}
