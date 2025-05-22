@@ -555,3 +555,6 @@ export { ShadcnSkeleton }
 import { Slider as ShadcnSlider } from './components/ui/slider.js'
 
 export { ShadcnSlider }
+import { Toaster as ShadcnSonner } from './components/ui/sonner.js'
+
+export { ShadcnSonner }
