@@ -2,6 +2,6 @@ packages:
   - "apps/*"
   - "config/*"
   - "packages/**"
-  - "examples/tests"
+  - "examples/*"
   - "ai"
   - "schema"

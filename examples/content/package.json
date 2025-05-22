@@ -6,6 +6,7 @@
     "build": "mdxdb build"
   },
   "devDependencies": {
-    "mdxdb": "workspace:*"
+    "@mdxdb/fs": "workspace:*",
+    "velite": "^0.2.4"
   }
 }
