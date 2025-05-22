@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - '.changeset/**/*.md'
-      - 'packages/*/CHANGELOG.md'
+      - 'packages/**/CHANGELOG.md'
 
 permissions:
   contents: write
