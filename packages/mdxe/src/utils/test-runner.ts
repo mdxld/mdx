@@ -42,6 +42,7 @@ export async function runTests(
 }> {
   try {
     const watchFlag = watch ? '--watch' : ''
+    
     const command = `npx vitest run --globals ${watchFlag} ${testFiles.join(' ')}`
 
     const { stdout, stderr } = await execAsync(command)
