@@ -8,7 +8,7 @@
     "./ideas": "./.mdx/mdx.js"
   },
   "scripts": {
-    "build": "mdxld build --source-dir src --output-dir .mdx"
+    "build": "mdxld build -s src -o .mdx"
   },
   "dependencies": {
     "mdxld": "workspace:*"
