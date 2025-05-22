@@ -17,7 +17,7 @@ program.version(packageJson.version).description('CLI for working with MDXLD fil
 program
   .command('build')
   .description('Build MDX files using Velite')
-  .option('-s, --source <directory>', 'Source directory containing MDX files', 'content')
+  .option('-s, --source <directory>', 'Source directory containing MDX files', '.')
   .option('-o, --output <directory>', 'Output directory for processed files', '.mdx')
   .option('-c, --config <file>', 'Path to config file')
   .option('-w, --watch', 'Watch for file changes')
