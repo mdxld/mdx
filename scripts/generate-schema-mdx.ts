@@ -143,7 +143,9 @@ function formatReference(uri: string): string {
   }
   
   const expandedUri = expandUriPrefix(uri)
-  const label = expandedUri.split('/').pop() || expandedUri
+  let label = expandedUri.split('/').pop() || expandedUri
+  
+  label = label.replace(/^(rdfs:|schema:)/, '')
   
   return `[${label}](${expandedUri})`
 }
