@@ -1,18 +1,15 @@
-import { Options } from 'tsup';
-import { createTsupConfig } from '../index';
+import { Options } from 'tsup'
+import { createTsupConfig } from '../index'
 
 /**
  * Preset configuration for CLI packages
  */
-export function createCliConfig(
-  entry: string[] | Record<string, string> = ['src/cli.ts'],
-  additionalOptions: Partial<Options> = {}
-): Options {
+export function createCliConfig(entry: string[] | Record<string, string> = ['src/cli.ts'], additionalOptions: Partial<Options> = {}): Options {
   return createTsupConfig({
     packageType: 'cli',
     entry,
     tsupOptions: additionalOptions,
-  });
+  })
 }
 
 /**
@@ -20,11 +17,11 @@ export function createCliConfig(
  */
 export function createMixedConfig(
   entry: Record<string, string> = { index: 'src/index.ts', cli: 'src/cli.ts' },
-  additionalOptions: Partial<Options> = {}
+  additionalOptions: Partial<Options> = {},
 ): Options {
   return createTsupConfig({
     packageType: 'mixed',
     entry,
     tsupOptions: additionalOptions,
-  });
+  })
 }

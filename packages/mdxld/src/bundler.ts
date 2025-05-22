@@ -8,14 +8,14 @@ import type { Plugin } from 'esbuild'
 export const compileMdx = async (source: string): Promise<string> => {
   const virtualSourse: Plugin = {
     name: 'virtual-source',
-    setup: build => {
-      build.onResolve({ filter: /^__faker_entry/ }, args => {
+    setup: (build) => {
+      build.onResolve({ filter: /^__faker_entry/ }, (args) => {
         return {
           path: join(args.resolveDir, args.path),
-          pluginData: { contents: source } // for mdxPlugin
+          pluginData: { contents: source }, // for mdxPlugin
         }
       })
-    }
+    },
   }
 
   const bundled = await build({
@@ -35,18 +35,18 @@ export const compileMdx = async (source: string): Promise<string> => {
       globalExternals({
         react: {
           varName: 'React',
-          type: 'cjs'
+          type: 'cjs',
         },
         'react-dom': {
           varName: 'ReactDOM',
-          type: 'cjs'
+          type: 'cjs',
         },
         'react/jsx-runtime': {
           varName: '_jsx_runtime',
-          type: 'cjs'
-        }
-      })
-    ]
+          type: 'cjs',
+        },
+      }),
+    ],
   })
 
   return bundled.outputFiles[0].text.replace('var VELITE_MDX_COMPONENT=', 'return ')

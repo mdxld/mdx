@@ -1,44 +1,30 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "../../../lib/utils.js";
-import { motion } from "framer-motion";
+import * as React from 'react'
+import { cn } from '../../../lib/utils.js'
+import { motion } from 'framer-motion'
 
 export interface BoxRevealProps {
-  children: React.ReactNode;
-  direction?: "left" | "right" | "up" | "down";
-  duration?: number;
-  delay?: number;
-  className?: string;
-  revealClassName?: string;
-  once?: boolean;
-  animateOnView?: boolean;
-  id?: string;
-  style?: React.CSSProperties;
+  children: React.ReactNode
+  direction?: 'left' | 'right' | 'up' | 'down'
+  duration?: number
+  delay?: number
+  className?: string
+  revealClassName?: string
+  once?: boolean
+  animateOnView?: boolean
+  id?: string
+  style?: React.CSSProperties
 }
 
 export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
-  (
-    {
-      children,
-      direction = "left",
-      duration = 0.5,
-      delay = 0,
-      className,
-      revealClassName,
-      once = true,
-      animateOnView = true,
-      id,
-      style,
-    },
-    ref
-  ) => {
+  ({ children, direction = 'left', duration = 0.5, delay = 0, className, revealClassName, once = true, animateOnView = true, id, style }, ref) => {
     const directionMap = {
-      left: { x: "-100%", y: 0 },
-      right: { x: "100%", y: 0 },
-      up: { x: 0, y: "-100%" },
-      down: { x: 0, y: "100%" },
-    };
+      left: { x: '-100%', y: 0 },
+      right: { x: '100%', y: 0 },
+      up: { x: 0, y: '-100%' },
+      down: { x: 0, y: '100%' },
+    }
 
     const variants = {
       hidden: {
@@ -51,7 +37,7 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
           duration,
         },
       },
-    };
+    }
 
     const revealVariants = {
       hidden: {
@@ -64,38 +50,35 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
         transition: {
           delay,
           duration,
-          ease: "easeInOut",
+          ease: 'easeInOut',
         },
       },
-    };
+    }
 
     return (
       <motion.div
         ref={ref}
-        className={cn("relative overflow-hidden", className)}
+        className={cn('relative overflow-hidden', className)}
         variants={variants}
-        initial="hidden"
-        animate={animateOnView ? undefined : "visible"}
-        whileInView={animateOnView ? "visible" : undefined}
+        initial='hidden'
+        animate={animateOnView ? undefined : 'visible'}
+        whileInView={animateOnView ? 'visible' : undefined}
         viewport={{ once }}
         id={id}
         style={style}
       >
         {children}
         <motion.div
-          className={cn(
-            "absolute inset-0 z-10 bg-background",
-            revealClassName
-          )}
+          className={cn('absolute inset-0 z-10 bg-background', revealClassName)}
           variants={revealVariants}
-          initial="hidden"
-          animate={animateOnView ? undefined : "visible"}
-          whileInView={animateOnView ? "visible" : undefined}
+          initial='hidden'
+          animate={animateOnView ? undefined : 'visible'}
+          whileInView={animateOnView ? 'visible' : undefined}
           viewport={{ once }}
         />
       </motion.div>
-    );
-  }
-);
+    )
+  },
+)
 
-BoxReveal.displayName = "BoxReveal";
+BoxReveal.displayName = 'BoxReveal'

@@ -3,13 +3,7 @@ import { promises as fs } from 'fs'
 import matter from 'gray-matter'
 import util from 'util'
 import path from 'path'
-import { 
-  MdxDbBase, 
-  MdxDbConfig, 
-  VeliteData, 
-  DocumentContent,
-  extractContentPath
-} from '@mdxdb/core'
+import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent, extractContentPath } from '@mdxdb/core'
 
 const execFilePromise = util.promisify(execFile)
 
@@ -17,7 +11,7 @@ export class MdxDbFs extends MdxDbBase {
   private packageDir: string
   private veliteWatchProcess: ChildProcess | null = null
   protected data: VeliteData | null = null
-  protected declare config: MdxDbConfig
+  declare protected config: MdxDbConfig
 
   constructor(config: MdxDbConfig = {}) {
     super(config)
@@ -38,7 +32,7 @@ export class MdxDbFs extends MdxDbBase {
           if (collectionName === 'index' || collectionName === 'schemas') {
             continue
           }
-          
+
           const filePath = path.join(veliteOutputDir, file)
           const fileData = await fs.readFile(filePath, 'utf-8')
           loadedData[collectionName] = JSON.parse(fileData)
@@ -67,7 +61,7 @@ export class MdxDbFs extends MdxDbBase {
       if (stderr) {
         console.error('Velite CLI stderr:', stderr)
         if (stderr.toLowerCase().includes('error')) {
-            throw new Error(`Velite CLI build failed: ${stderr}`)
+          throw new Error(`Velite CLI build failed: ${stderr}`)
         }
       }
       console.log('Velite CLI build command executed successfully.')
@@ -93,7 +87,7 @@ export class MdxDbFs extends MdxDbBase {
 
     console.warn('Watch mode is currently disabled. Needs to be implemented using Velite CLI watch mode.')
   }
-  
+
   stopWatch(): void {
     if (this.veliteWatchProcess) {
       console.log('Stopping Velite watch process...')
@@ -104,7 +98,7 @@ export class MdxDbFs extends MdxDbBase {
       console.log('No Velite watch process running.')
     }
   }
-  
+
   async set(id: string, content: DocumentContent, collectionName: string): Promise<void> {
     if (!collectionName) {
       throw new Error('`collectionName` is required to create or update an entry.')
@@ -178,7 +172,7 @@ export class MdxDbFs extends MdxDbBase {
       } catch (error) {
         throw new Error(`Source .velite directory '${sourceVeliteDir}' does not exist. Run build() first.`)
       }
-      
+
       await fs.mkdir(absoluteTargetDir, { recursive: true })
 
       const copyRecursive = async (src: string, dest: string) => {

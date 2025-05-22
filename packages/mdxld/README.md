@@ -29,21 +29,21 @@ properties alongside the MDXLD vocabulary.
 
 ## Schema.org Types with $-prefix
 
-`mdxld` provides TypeScript types for Schema.org entities with $-prefixed keys (especially `$type` instead of `@type`) for compatibility with YAML and ease of use in JS/TS. These types are generated from the `schema-dts` package.
+`mdxld` provides TypeScript types for Schema.org entities with $-prefixed keys (especially `$type`instead of`@type`) for compatibility with YAML and ease of use in JS/TS. These types are generated from the `schema-dts` package.
 
 ### Usage
 
 You can import the types directly:
 
 ```typescript
-import { Person, Article, $, SchemaOrg } from 'mdxld';
+import { Person, Article, $, SchemaOrg } from 'mdxld'
 
 // Use individual types
 const person: Person = {
   $type: 'Person',
   name: 'John Doe',
-  jobTitle: 'Software Engineer'
-};
+  jobTitle: 'Software Engineer',
+}
 
 // Or use the namespace
 const article: $.Article = {
@@ -51,15 +51,15 @@ const article: $.Article = {
   headline: 'How to use MDXLD',
   author: {
     $type: 'Person',
-    name: 'Jane Smith'
-  }
-};
+    name: 'Jane Smith',
+  },
+}
 
 // Access original schema-dts types if needed
 const originalType: SchemaOrg.Person = {
   '@type': 'Person',
-  name: 'Original Format'
-};
+  name: 'Original Format',
+}
 ```
 
 ### YAML-LD Frontmatter Examples
@@ -82,7 +82,6 @@ image:
   width: 1200
   height: 630
 ---
-
 # Getting Started with MDXLD
 
 This article explains how to use MDXLD...

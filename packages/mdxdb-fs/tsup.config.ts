@@ -1,4 +1,4 @@
-import { createMixedConfig } from '@repo/tsup-config';
+import { createMixedConfig } from '@repo/tsup-config'
 
 export default createMixedConfig(
   {
@@ -8,6 +8,6 @@ export default createMixedConfig(
   {
     noExternal: [],
     external: ['fs', 'path', 'os', 'crypto'],
-    dts: false // Disable TypeScript declaration files to avoid rootDir error
-  }
-);
+    dts: false, // Disable TypeScript declaration files to avoid rootDir error
+  },
+)

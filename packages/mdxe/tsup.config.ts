@@ -1,4 +1,4 @@
-import { createCliConfig } from '@repo/tsup-config';
+import { createCliConfig } from '@repo/tsup-config'
 
 export default createCliConfig(['src/cli.ts'], {
   external: ['react', 'react-dom', 'next', 'commander'],
@@ -7,5 +7,5 @@ export default createCliConfig(['src/cli.ts'], {
   format: ['esm'], // Use ESM format only
   treeshake: false, // Disable tree shaking to preserve dynamic imports
   platform: 'node', // Specify node platform to handle built-in modules correctly
-  clean: true // Clean output directory before building
-});
+  clean: true, // Clean output directory before building
+})

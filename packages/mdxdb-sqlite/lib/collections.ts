@@ -5,7 +5,7 @@ interface CollectionConfig {
     type: string
     required?: boolean
     unique?: boolean
-    options?: Array<{ label: string, value: string }>
+    options?: Array<{ label: string; value: string }>
   }>
 }
 
@@ -50,8 +50,8 @@ export const FilesCollection: CollectionConfig = {
       name: 'collection',
       type: 'text',
       required: true,
-    }
-  ]
+    },
+  ],
 }
 
 /**
@@ -89,6 +89,6 @@ export const EmbeddingsCollection: CollectionConfig = {
       name: 'collection',
       type: 'text',
       required: true,
-    }
-  ]
+    },
+  ],
 }

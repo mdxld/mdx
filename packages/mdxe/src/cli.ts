@@ -42,60 +42,60 @@ program
   .description('Run tests embedded in Markdown/MDX files')
   .option('-w, --watch', 'Watch files for changes')
   .action(async (options) => {
-    const { findMdxFiles, extractMdxCodeBlocks } = await import('./utils/mdx-parser');
-    const { createTempTestFile, runTests, cleanupTempFiles } = await import('./utils/test-runner');
-    const path = await import('node:path');
-    
+    const { findMdxFiles, extractMdxCodeBlocks } = await import('./utils/mdx-parser')
+    const { createTempTestFile, runTests, cleanupTempFiles } = await import('./utils/test-runner')
+    const path = await import('node:path')
+
     try {
-      console.log('🔍 Finding MDX files...');
-      const files = await findMdxFiles(process.cwd());
-      
+      console.log('🔍 Finding MDX files...')
+      const files = await findMdxFiles(process.cwd())
+
       if (files.length === 0) {
-        console.log('❌ No MDX files found in the current directory.');
-        return;
+        console.log('❌ No MDX files found in the current directory.')
+        return
       }
-      
-      console.log(`📝 Found ${files.length} MDX file(s)`);
-      
-      const testFiles: string[] = [];
-      let hasTests = false;
-      
+
+      console.log(`📝 Found ${files.length} MDX file(s)`)
+
+      const testFiles: string[] = []
+      let hasTests = false
+
       for (const file of files) {
-        const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(file);
-        
+        const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(file)
+
         if (testBlocks.length > 0) {
-          hasTests = true;
-          console.log(`🧪 Found ${testBlocks.length} test block(s) in ${path.basename(file)}`);
-          const testFile = await createTempTestFile(codeBlocks, testBlocks, file);
-          testFiles.push(testFile);
+          hasTests = true
+          console.log(`🧪 Found ${testBlocks.length} test block(s) in ${path.basename(file)}`)
+          const testFile = await createTempTestFile(codeBlocks, testBlocks, file)
+          testFiles.push(testFile)
         }
       }
-      
+
       if (!hasTests) {
-        console.log('❌ No test blocks found in MDX files.');
-        await cleanupTempFiles();
-        return;
+        console.log('❌ No test blocks found in MDX files.')
+        await cleanupTempFiles()
+        return
       }
-      
-      console.log('🚀 Running tests...');
-      const { success, output } = await runTests(testFiles, options.watch || program.opts().watch);
-      
-      console.log(output);
-      
+
+      console.log('🚀 Running tests...')
+      const { success, output } = await runTests(testFiles, options.watch || program.opts().watch)
+
+      console.log(output)
+
       if (success) {
-        console.log('✅ All tests passed!');
+        console.log('✅ All tests passed!')
       } else {
-        console.log('❌ Some tests failed.');
-        process.exitCode = 1;
+        console.log('❌ Some tests failed.')
+        process.exitCode = 1
       }
-      
+
       if (!options.watch && !program.opts().watch) {
-        await cleanupTempFiles();
+        await cleanupTempFiles()
       }
     } catch (error) {
-      console.error('Error running tests:', error);
-      process.exitCode = 1;
-      await cleanupTempFiles();
+      console.error('Error running tests:', error)
+      process.exitCode = 1
+      await cleanupTempFiles()
     }
   })
 
@@ -110,13 +110,13 @@ program
  * Run the CLI
  */
 export function run() {
-  program.parse(process.argv);
-  
+  program.parse(process.argv)
+
   if (program.opts().watch) {
-    console.log('Watch mode enabled (not implemented yet)');
+    console.log('Watch mode enabled (not implemented yet)')
   }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  run();
+  run()
 }

@@ -30,7 +30,6 @@ async function main() {
     const nonExistentCollectionEntries = db.list('pages')
     console.log(`list('pages') (non-existent): Found ${nonExistentCollectionEntries.length} entries.`)
 
-
     console.log('\n--- Testing get() method ---')
     // 1. Get an existing entry by slug from 'posts' collection
     const postBySlugSpecific = db.get('test-post', 'posts')
@@ -67,7 +66,7 @@ async function main() {
     const newPostId = 'new-test-post-from-set'
     const newPostContent = {
       frontmatter: { title: 'New Post via Set', date: '2024-07-30', author: 'MdxDb Setter', slug: newPostId },
-      body: 'This is the body of a new post created by MdxDb.set().'
+      body: 'This is the body of a new post created by MdxDb.set().',
     }
 
     try {
@@ -77,7 +76,7 @@ async function main() {
       console.log(`set('${newPostId}') successful.`)
       // Verify creation - requires Velite to rebuild. We'll do a manual build for this test.
       console.log('Rebuilding database to pick up new file for "set" test...')
-      await db.build() 
+      await db.build()
       let createdPost = db.get(newPostId, 'posts')
       if (createdPost) {
         console.log(`get('${newPostId}') after set: Found "${createdPost.title}"`)
@@ -89,7 +88,7 @@ async function main() {
       console.log(`\nAttempting to overwrite '${newPostId}'...`)
       const updatedPostContent = {
         frontmatter: { ...newPostContent.frontmatter, title: 'Updated Post via Set' },
-        body: 'This is the updated body of the post modified by MdxDb.set().'
+        body: 'This is the updated body of the post modified by MdxDb.set().',
       }
       await db.set(newPostId, updatedPostContent, 'posts')
       console.log(`set('${newPostId}' for overwrite) successful.`)
@@ -103,11 +102,10 @@ async function main() {
       } else {
         console.error(`get('${newPostId}') after overwrite: NOT FOUND.`)
       }
-
     } catch (e) {
       console.error('Error during set() tests for create/overwrite:', (e as Error).message, (e as Error).stack)
     }
-    
+
     // 3. Test set() with a non-existent collection name
     try {
       console.log(`\nAttempting set() with non-existent collection 'fictionalCollection'...`)
@@ -116,7 +114,7 @@ async function main() {
     } catch (e) {
       console.log(`set() with non-existent collection: Correctly threw an error: "${(e as Error).message}"`)
     }
-    
+
     // 4. Test set() without collectionName
     try {
       console.log(`\nAttempting set() without collectionName...`)
@@ -128,13 +126,12 @@ async function main() {
     }
     // --- End of set() method tests ---
 
-
     // --- Testing delete() method ---
     console.log('\n--- Testing delete() method ---')
     const postToDeleteId = 'post-to-be-deleted'
     const postToDeleteContent = {
       frontmatter: { title: 'Post To Delete', date: '2024-07-30', author: 'MdxDb Deleter', slug: postToDeleteId },
-      body: 'This post is created specifically for testing the delete() method.'
+      body: 'This post is created specifically for testing the delete() method.',
     }
 
     try {
@@ -153,9 +150,9 @@ async function main() {
         const deleteResult = await db.delete(postToDeleteId, 'posts')
         console.log(`db.delete('${postToDeleteId}', 'posts') result: ${deleteResult}`)
         if (!deleteResult) {
-             console.error(`db.delete('${postToDeleteId}', 'posts') returned false, expected true.`)
+          console.error(`db.delete('${postToDeleteId}', 'posts') returned false, expected true.`)
         }
-        
+
         console.log('Rebuilding database after delete operation...')
         await db.build()
         entryToDelete = db.get(postToDeleteId, 'posts')
@@ -191,7 +188,7 @@ async function main() {
     } catch (e) {
       console.log(`delete() with non-existent collection: Correctly threw an error: "${(e as Error).message}"`)
     }
-    
+
     // 5. Test delete() without collectionName
     try {
       console.log(`\nAttempting delete() without collectionName...`)
@@ -203,21 +200,19 @@ async function main() {
     }
     // --- End of delete() method tests ---
 
-
     console.log('\n--- Starting Watch Mode ---')
-    db.watch() 
+    db.watch()
 
     console.log('\nWatch mode started. Velite is now monitoring for changes.')
     console.log('To test: Modify content in "packages/mdxdb/content/posts/test-post.mdx" (e.g., change the description).')
     console.log('Then, observe the console output for "Velite rebuild detected" and "Successfully re-loaded data".')
     console.log('After Velite rebuilds, the updated data will be reflected in subsequent calls to db.getData() or db.getCollection().')
-    
+
     console.log('\nScript will keep running. Press Ctrl+C to stop the watch mode and exit.')
-    
+
     const intervalId = setInterval(() => {
       // Keep alive
-    }, 10000); 
-
+    }, 10000)
 
     process.on('SIGINT', () => {
       console.log('\nSIGINT received. Stopping watch mode...')
@@ -226,15 +221,14 @@ async function main() {
       console.log('Watch mode stopped. Exiting.')
       process.exit(0)
     })
-
   } catch (error) {
     console.error('Error during MdxDb operations:', error)
-    db.stopWatch() 
+    db.stopWatch()
     process.exit(1)
   }
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('Unhandled error in main:', error)
   process.exit(1)
 })
