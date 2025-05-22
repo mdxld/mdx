@@ -221,18 +221,19 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
  */
 function generateMdxContent(thing: any, properties: any[], isProperty: boolean = false): string {
   const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
-  const comment = thing['rdfs:comment'] || thing.comment || thing.description || ''
+  const comment = (thing['rdfs:comment'] || thing.comment || thing.description || '')
+  const trimmedComment = typeof comment === 'string' ? comment.trim() : comment
 
   let frontmatter = '---\n'
   frontmatter += `$id: ${expandUriPrefix(thing['$id'] as string)}\n`
   frontmatter += `$type: ${expandUriPrefix(thing['$type'] as string)}\n`
   frontmatter += `label: ${label}\n`
 
-  if (comment) {
-    if (typeof comment === 'string') {
-      frontmatter += `comment: |\n${comment.split('\n').map((line: string) => `  ${line}`).join('\n')}\n`
+  if (trimmedComment) {
+    if (typeof trimmedComment === 'string') {
+      frontmatter += `comment: |\n${trimmedComment.split('\n').map((line: string) => `  ${line.trim()}`).join('\n')}\n`
     } else {
-      frontmatter += `comment: ${JSON.stringify(comment)}\n`
+      frontmatter += `comment: ${JSON.stringify(trimmedComment)}\n`
     }
   }
 
@@ -262,7 +263,7 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
   }
 
   const metadataKeys = Object.keys(thing).filter(
-    (key) => !['$id', '$type', 'label', 'comment', 'description', 'subClassOf', 'domainIncludes', 'rangeIncludes'].includes(key),
+    (key) => !['$id', '$type', 'label', 'comment', 'rdfs:comment', 'description', 'subClassOf', 'domainIncludes', 'rangeIncludes'].includes(key),
   )
 
   for (const key of metadataKeys) {
@@ -276,9 +277,9 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
         }
       } else {
         if (typeof value === 'string' && value.includes('\n')) {
-          frontmatter += `${key}: |\n${(value as string).split('\n').map((line: string) => `  ${line}`).join('\n')}\n`
+          frontmatter += `${key}: |\n${(value as string).trim().split('\n').map((line: string) => `  ${line.trim()}`).join('\n')}\n`
         } else {
-          frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(value as string))}\n`
+          frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(typeof value === 'string' ? value.trim() : value))}\n`
         }
       }
     }
@@ -288,8 +289,12 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
 
   let markdown = `# ${label}\n\n`
 
-  if (comment) {
-    markdown += `${comment}\n\n`
+  if (trimmedComment) {
+    if (typeof trimmedComment === 'string') {
+      markdown += `${trimmedComment}\n\n`
+    } else {
+      markdown += `${JSON.stringify(trimmedComment)}\n\n`
+    }
   }
 
   if (!isProperty && properties.length > 0) {

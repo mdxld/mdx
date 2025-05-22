@@ -4,24 +4,13 @@ $type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
 label: incomeLimit
 comment: |
   Optional. Income limit for which the incentive is applicable for.
-      
-  <p>If MonetaryAmount is specified, this should be based on annualized income (e.g. if an incentive is limited to those making <$114,000 annually):</p>
-      {
-          "@type": "MonetaryAmount",
-          "maxValue": 114000,
-          "currency": "USD",
-      }
   
-  Use Text for incentives that are limited based on other criteria, for example if an incentive is only available to recipients making 120% of the median poverty income in their area.
-rdfs:comment: |
-  Optional. Income limit for which the incentive is applicable for.
-      
   <p>If MonetaryAmount is specified, this should be based on annualized income (e.g. if an incentive is limited to those making <$114,000 annually):</p>
-      {
-          "@type": "MonetaryAmount",
-          "maxValue": 114000,
-          "currency": "USD",
-      }
+  {
+  "@type": "MonetaryAmount",
+  "maxValue": 114000,
+  "currency": "USD",
+  }
   
   Use Text for incentives that are limited based on other criteria, for example if an incentive is only available to recipients making 120% of the median poverty income in their area.
 rdfs:label: "incomeLimit"

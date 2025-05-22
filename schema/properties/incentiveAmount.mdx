@@ -4,129 +4,64 @@ $type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
 label: incentiveAmount
 comment: |
   Describes the amount that can be redeemed from this incentive.
-      
-  <p>[[QuantitativeValue]]: Use this for incentives based on price (either raw amount or percentage-based). For a raw amount example, "You can claim $2,500 - $7,500 from the total cost of installation" would be represented as the following:</p>
-      {
-          "@type": "QuantitativeValue",
-          “minValue”: 2500,
-          “maxValue”: 7500,
-          "unitCode": "USD"
-      }
-  <p>[[QuantitivateValue]] can also be used for percentage amounts. In such cases, value is used to represent the incentive’s percentage, while maxValue represents a limit (if one exists) to that incentive. The unitCode should be 'P1' and the unitText should be '%', while valueReference should be used for holding the currency type. For example, "You can claim up to 30% of the total cost of installation, up to a maximum of $7,500" would be:</p>
-      {
-          "@type": "QuantitativeValue",
-          "value": 30,
-          "unitCode": "P1",
-          "unitText": "%",
-          “maxValue”: 7500,
-          “valueReference”: “USD”
-      }
-  <p>[[UnitPriceSpecification]]: Use this for incentives that are based on amounts rather than price. For example, a net metering rebate that pays $10/kWh, up to $1,000:</p>
-      {
-          "@type": "UnitPriceSpecification",
-          "price": 10,
-          "priceCurrency": "USD",
-          "referenceQuantity": 1,
-          "unitCode": "DO3",
-          "unitText": "kw/h",
-          "maxPrice": 1000,
-          "description": "$10 / kwh up to $1000"
-      }
-  <p>[[LoanOrCredit]]: Use for incentives that are loan based. For example, a loan of $4,000 - $50,000 with a repayment term of 10 years, interest free would look like:</p>
-      {
-          "@type": "LoanOrCredit",
-          "loanTerm": {
-                  "@type":"QuantitativeValue",
-                  "value":"10",
-                  "unitCode": "ANN"
-              },
-          "amount":[
-              {
-                  "@type": "QuantitativeValue",
-                  "Name":"fixed interest rate",
-                  "value":"0",
-              },
-          ],
-          "amount":[
-              {
-                  "@type": "MonetaryAmount",
-                  "Name":"min loan amount",
-                  "value":"4000",
-                  "currency":"CAD"
-              },
-              {
-                  "@type": "MonetaryAmount",
-                  "Name":"max loan amount",
-                  "value":"50000",
-                  "currency":"CAD"
-              }
-          ],
-      }
   
-  In summary: <ul><li>Use [[QuantitativeValue]] for absolute/percentage-based incentives applied on the price of a good/service.</li>
-  <li>Use [[UnitPriceSpecification]] for incentives based on a per-unit basis (e.g. net metering).</li>
-  <li>Use [[LoanOrCredit]] for loans/credits.</li>
-  </ul>.
-rdfs:comment: |
-  Describes the amount that can be redeemed from this incentive.
-      
   <p>[[QuantitativeValue]]: Use this for incentives based on price (either raw amount or percentage-based). For a raw amount example, "You can claim $2,500 - $7,500 from the total cost of installation" would be represented as the following:</p>
-      {
-          "@type": "QuantitativeValue",
-          “minValue”: 2500,
-          “maxValue”: 7500,
-          "unitCode": "USD"
-      }
+  {
+  "@type": "QuantitativeValue",
+  “minValue”: 2500,
+  “maxValue”: 7500,
+  "unitCode": "USD"
+  }
   <p>[[QuantitivateValue]] can also be used for percentage amounts. In such cases, value is used to represent the incentive’s percentage, while maxValue represents a limit (if one exists) to that incentive. The unitCode should be 'P1' and the unitText should be '%', while valueReference should be used for holding the currency type. For example, "You can claim up to 30% of the total cost of installation, up to a maximum of $7,500" would be:</p>
-      {
-          "@type": "QuantitativeValue",
-          "value": 30,
-          "unitCode": "P1",
-          "unitText": "%",
-          “maxValue”: 7500,
-          “valueReference”: “USD”
-      }
+  {
+  "@type": "QuantitativeValue",
+  "value": 30,
+  "unitCode": "P1",
+  "unitText": "%",
+  “maxValue”: 7500,
+  “valueReference”: “USD”
+  }
   <p>[[UnitPriceSpecification]]: Use this for incentives that are based on amounts rather than price. For example, a net metering rebate that pays $10/kWh, up to $1,000:</p>
-      {
-          "@type": "UnitPriceSpecification",
-          "price": 10,
-          "priceCurrency": "USD",
-          "referenceQuantity": 1,
-          "unitCode": "DO3",
-          "unitText": "kw/h",
-          "maxPrice": 1000,
-          "description": "$10 / kwh up to $1000"
-      }
+  {
+  "@type": "UnitPriceSpecification",
+  "price": 10,
+  "priceCurrency": "USD",
+  "referenceQuantity": 1,
+  "unitCode": "DO3",
+  "unitText": "kw/h",
+  "maxPrice": 1000,
+  "description": "$10 / kwh up to $1000"
+  }
   <p>[[LoanOrCredit]]: Use for incentives that are loan based. For example, a loan of $4,000 - $50,000 with a repayment term of 10 years, interest free would look like:</p>
-      {
-          "@type": "LoanOrCredit",
-          "loanTerm": {
-                  "@type":"QuantitativeValue",
-                  "value":"10",
-                  "unitCode": "ANN"
-              },
-          "amount":[
-              {
-                  "@type": "QuantitativeValue",
-                  "Name":"fixed interest rate",
-                  "value":"0",
-              },
-          ],
-          "amount":[
-              {
-                  "@type": "MonetaryAmount",
-                  "Name":"min loan amount",
-                  "value":"4000",
-                  "currency":"CAD"
-              },
-              {
-                  "@type": "MonetaryAmount",
-                  "Name":"max loan amount",
-                  "value":"50000",
-                  "currency":"CAD"
-              }
-          ],
-      }
+  {
+  "@type": "LoanOrCredit",
+  "loanTerm": {
+  "@type":"QuantitativeValue",
+  "value":"10",
+  "unitCode": "ANN"
+  },
+  "amount":[
+  {
+  "@type": "QuantitativeValue",
+  "Name":"fixed interest rate",
+  "value":"0",
+  },
+  ],
+  "amount":[
+  {
+  "@type": "MonetaryAmount",
+  "Name":"min loan amount",
+  "value":"4000",
+  "currency":"CAD"
+  },
+  {
+  "@type": "MonetaryAmount",
+  "Name":"max loan amount",
+  "value":"50000",
+  "currency":"CAD"
+  }
+  ],
+  }
   
   In summary: <ul><li>Use [[QuantitativeValue]] for absolute/percentage-based incentives applied on the price of a good/service.</li>
   <li>Use [[UnitPriceSpecification]] for incentives based on a per-unit basis (e.g. net metering).</li>
