@@ -1,5 +1,6 @@
 import { Collection } from 'velite'
-import { MdxDbInterface, MdxDbConfig, VeliteData } from './types.js'
+import { MdxDbInterface, MdxDbConfig, VeliteData, DocumentContent } from './types.js'
+import { defaultWorkflowRegistry, WorkflowEvent, WorkflowContext } from './workflow.js'
 
 /**
  * Abstract base class for MdxDb implementations
@@ -7,6 +8,7 @@ import { MdxDbInterface, MdxDbConfig, VeliteData } from './types.js'
 export abstract class MdxDbBase implements MdxDbInterface {
   protected data: VeliteData | null = null
   protected config: MdxDbConfig
+  protected workflowRegistry = defaultWorkflowRegistry
 
   constructor(config: MdxDbConfig = {}) {
     this.config = config.veliteConfig || ({} as any)
@@ -15,8 +17,45 @@ export abstract class MdxDbBase implements MdxDbInterface {
   abstract build(): Promise<VeliteData>
   abstract watch(): Promise<void>
   abstract stopWatch(): void
-  abstract set(id: string, content: any, collectionName: string): Promise<void>
-  abstract delete(id: string, collectionName: string): Promise<boolean>
+  abstract setImplementation(id: string, content: DocumentContent, collectionName: string): Promise<void>
+  abstract deleteImplementation(id: string, collectionName: string): Promise<boolean>
+
+  /**
+   * Creates or updates a document with workflow execution
+   */
+  async set(id: string, content: DocumentContent, collectionName: string): Promise<void> {
+    // Determine if this is a create or update
+    const existing = this.get(id, collectionName)
+    const event = existing ? WorkflowEvent.Update : WorkflowEvent.Create
+
+    // Execute workflows before the actual set
+    const context: WorkflowContext = {
+      event,
+      documentId: id,
+      collection: collectionName,
+      content,
+    }
+    await this.workflowRegistry.execute(context)
+
+    // Perform the actual set operation
+    await this.setImplementation(id, content, collectionName)
+  }
+
+  /**
+   * Deletes a document with workflow execution
+   */
+  async delete(id: string, collectionName: string): Promise<boolean> {
+    // Execute delete workflow
+    const context: WorkflowContext = {
+      event: WorkflowEvent.Delete,
+      documentId: id,
+      collection: collectionName,
+    }
+    await this.workflowRegistry.execute(context)
+
+    // Perform the actual delete operation
+    return this.deleteImplementation(id, collectionName)
+  }
 
   /**
    * Lists documents from a collection or all collections
