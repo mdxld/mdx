@@ -1,0 +1,13 @@
+---
+$id: schema:shippingRate
+$type: rdf:Property
+label: schema:shippingRate
+rdfs:comment: "The shipping rate is the cost of shipping to the specified destination. Typically, the maxValue and currency values (of the [[MonetaryAmount]]) are most appropriate."
+rdfs:label: "shippingRate"
+schema:domainIncludes: [{"@id":"schema:OfferShippingDetails"},{"@id":"schema:ShippingConditions"},{"@id":"schema:ShippingRateSettings"}]
+schema:rangeIncludes: [{"@id":"schema:ShippingRateSettings"},{"@id":"schema:MonetaryAmount"}]
+schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"},{"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}]
+---
+
+# schema:shippingRate
+

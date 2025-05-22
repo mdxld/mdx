@@ -1,0 +1,12 @@
+---
+$id: schema:orderQuantity
+$type: rdf:Property
+label: schema:orderQuantity
+rdfs:comment: "The number of the item ordered. If the property is not set, assume the quantity is one."
+rdfs:label: "orderQuantity"
+schema:domainIncludes: {"@id":"schema:OrderItem"}
+schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:QuantitativeValue"}]
+---
+
+# schema:orderQuantity
+

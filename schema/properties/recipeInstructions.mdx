@@ -1,0 +1,13 @@
+---
+$id: schema:recipeInstructions
+$type: rdf:Property
+label: schema:recipeInstructions
+rdfs:comment: "A step in making the recipe, in the form of a single item (document, video, etc.) or an ordered list with HowToStep and/or HowToSection items."
+rdfs:label: "recipeInstructions"
+rdfs:subPropertyOf: {"@id":"schema:step"}
+schema:domainIncludes: {"@id":"schema:Recipe"}
+schema:rangeIncludes: [{"@id":"schema:ItemList"},{"@id":"schema:CreativeWork"},{"@id":"schema:Text"}]
+---
+
+# schema:recipeInstructions
+

@@ -2,6 +2,10 @@
 $id: schema:LocalBusiness
 $type: rdfs:Class
 label: schema:LocalBusiness
+rdfs:comment: "A particular physical business or branch of an organization. Examples of LocalBusiness include a restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a club, a bowling alley, etc."
+rdfs:label: "LocalBusiness"
+rdfs:subClassOf: [{"@id":"schema:Organization"},{"@id":"schema:Place"}]
+skos:closeMatch: {"@id":"http://www.w3.org/ns/regorg#RegisteredOrganization"}
 ---
 
 # schema:LocalBusiness

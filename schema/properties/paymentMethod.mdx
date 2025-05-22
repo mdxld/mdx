@@ -1,0 +1,13 @@
+---
+$id: schema:paymentMethod
+$type: rdf:Property
+label: schema:paymentMethod
+rdfs:comment: "The name of the credit card or other method of payment for the order."
+rdfs:label: "paymentMethod"
+schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
+schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:PaymentMethod"}]
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3537"}
+---
+
+# schema:paymentMethod
+

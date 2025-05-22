@@ -2,6 +2,11 @@
 $id: schema:Project
 $type: rdfs:Class
 label: schema:Project
+rdfs:comment: "An enterprise (potentially individual but typically collaborative), planned to achieve a particular aim.\nUse properties from [[Organization]], [[subOrganization]]/[[parentOrganization]] to indicate project sub-structures. \n   "
+rdfs:label: "Project"
+rdfs:subClassOf: {"@id":"schema:Organization"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/383"},{"@id":"https://schema.org/docs/collab/FundInfoCollab"}]
 ---
 
 # schema:Project

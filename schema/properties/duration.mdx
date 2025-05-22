@@ -1,0 +1,13 @@
+---
+$id: schema:duration
+$type: rdf:Property
+label: schema:duration
+rdfs:comment: "The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601)."
+rdfs:label: "duration"
+schema:domainIncludes: [{"@id":"schema:Schedule"},{"@id":"schema:MusicRelease"},{"@id":"schema:Event"},{"@id":"schema:Episode"},{"@id":"schema:MediaObject"},{"@id":"schema:QuantitativeValueDistribution"},{"@id":"schema:MusicRecording"},{"@id":"schema:Movie"},{"@id":"schema:ServicePeriod"},{"@id":"schema:Audiobook"}]
+schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Duration"}]
+schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1698"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}]
+---
+
+# schema:duration
+

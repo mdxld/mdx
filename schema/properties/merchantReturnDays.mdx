@@ -1,0 +1,14 @@
+---
+$id: schema:merchantReturnDays
+$type: rdf:Property
+label: schema:merchantReturnDays
+rdfs:comment: "Specifies either a fixed return date or the number of days (from the delivery date) that a product can be returned. Used when the [[returnPolicyCategory]] property is specified as [[MerchantReturnFiniteReturnWindow]]."
+rdfs:label: "merchantReturnDays"
+schema:domainIncludes: [{"@id":"schema:MerchantReturnPolicy"},{"@id":"schema:MerchantReturnPolicySeasonalOverride"}]
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:Integer"},{"@id":"schema:DateTime"}]
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2288"}
+---
+
+# schema:merchantReturnDays
+

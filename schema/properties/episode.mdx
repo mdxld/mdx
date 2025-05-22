@@ -1,0 +1,13 @@
+---
+$id: schema:episode
+$type: rdf:Property
+label: schema:episode
+rdfs:comment: "An episode of a TV, radio or game media within a series or season."
+rdfs:label: "episode"
+rdfs:subPropertyOf: {"@id":"schema:hasPart"}
+schema:domainIncludes: [{"@id":"schema:TVSeries"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:CreativeWorkSeason"}]
+schema:rangeIncludes: {"@id":"schema:Episode"}
+---
+
+# schema:episode
+

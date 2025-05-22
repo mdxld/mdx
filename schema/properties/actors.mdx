@@ -1,0 +1,13 @@
+---
+$id: schema:actors
+$type: rdf:Property
+label: schema:actors
+rdfs:comment: "An actor, e.g. in TV, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip."
+rdfs:label: "actors"
+schema:domainIncludes: [{"@id":"schema:Clip"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:Episode"},{"@id":"schema:VideoObject"},{"@id":"schema:MovieSeries"},{"@id":"schema:TVSeries"},{"@id":"schema:VideoGame"},{"@id":"schema:Movie"}]
+schema:rangeIncludes: {"@id":"schema:Person"}
+schema:supersededBy: {"@id":"schema:actor"}
+---
+
+# schema:actors
+

@@ -1,0 +1,13 @@
+---
+$id: schema:lender
+$type: rdf:Property
+label: schema:lender
+rdfs:comment: "A sub property of participant. The person that lends the object being borrowed."
+rdfs:label: "lender"
+rdfs:subPropertyOf: {"@id":"schema:participant"}
+schema:domainIncludes: {"@id":"schema:BorrowAction"}
+schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+---
+
+# schema:lender
+

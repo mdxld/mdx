@@ -1,0 +1,13 @@
+---
+$id: schema:sender
+$type: rdf:Property
+label: schema:sender
+rdfs:comment: "A sub property of participant. The participant who is at the sending end of the action."
+rdfs:label: "sender"
+rdfs:subPropertyOf: {"@id":"schema:participant"}
+schema:domainIncludes: [{"@id":"schema:ReceiveAction"},{"@id":"schema:Message"}]
+schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:Audience"},{"@id":"schema:Organization"}]
+---
+
+# schema:sender
+

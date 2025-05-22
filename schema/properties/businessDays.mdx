@@ -1,0 +1,13 @@
+---
+$id: schema:businessDays
+$type: rdf:Property
+label: schema:businessDays
+rdfs:comment: "Days of the week when the merchant typically operates, indicated via opening hours markup."
+rdfs:label: "businessDays"
+schema:domainIncludes: [{"@id":"schema:ServicePeriod"},{"@id":"schema:ShippingDeliveryTime"}]
+schema:rangeIncludes: [{"@id":"schema:DayOfWeek"},{"@id":"schema:OpeningHoursSpecification"}]
+schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"},{"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}]
+---
+
+# schema:businessDays
+

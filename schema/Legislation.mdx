@@ -2,6 +2,13 @@
 $id: schema:Legislation
 $type: rdfs:Class
 label: schema:Legislation
+rdfs:comment: "A legal document such as an act, decree, bill, etc. (enforceable or not) or a component of a legal act (like an article)."
+rdfs:label: "Legislation"
+rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
+skos:closeMatch: [{"@id":"http://data.europa.eu/eli/ontology#LegalExpression"},{"@id":"http://data.europa.eu/eli/ontology#LegalRecontributor"}]
 ---
 
 # schema:Legislation

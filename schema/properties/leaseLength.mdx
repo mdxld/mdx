@@ -1,0 +1,14 @@
+---
+$id: schema:leaseLength
+$type: rdf:Property
+label: schema:leaseLength
+rdfs:comment: "Length of the lease for some [[Accommodation]], either particular to some [[Offer]] or in some cases intrinsic to the property."
+rdfs:label: "leaseLength"
+schema:domainIncludes: [{"@id":"schema:RealEstateListing"},{"@id":"schema:Offer"},{"@id":"schema:Accommodation"}]
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: [{"@id":"schema:Duration"},{"@id":"schema:QuantitativeValue"}]
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+---
+
+# schema:leaseLength
+

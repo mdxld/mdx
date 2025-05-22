@@ -1,0 +1,12 @@
+---
+$id: schema:previousStartDate
+$type: rdf:Property
+label: schema:previousStartDate
+rdfs:comment: "Used in conjunction with eventStatus for rescheduled or cancelled events. This property contains the previously scheduled start date. For rescheduled events, the startDate property should be used for the newly scheduled start date. In the (rare) case of an event that has been postponed and rescheduled multiple times, this field may be repeated."
+rdfs:label: "previousStartDate"
+schema:domainIncludes: {"@id":"schema:Event"}
+schema:rangeIncludes: {"@id":"schema:Date"}
+---
+
+# schema:previousStartDate
+

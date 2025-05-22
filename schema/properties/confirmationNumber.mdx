@@ -1,0 +1,13 @@
+---
+$id: schema:confirmationNumber
+$type: rdf:Property
+label: schema:confirmationNumber
+rdfs:comment: "A number that confirms the given order or payment has been received."
+rdfs:label: "confirmationNumber"
+rdfs:subPropertyOf: {"@id":"schema:identifier"}
+schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
+schema:rangeIncludes: {"@id":"schema:Text"}
+---
+
+# schema:confirmationNumber
+

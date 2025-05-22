@@ -1,0 +1,13 @@
+---
+$id: schema:foodEstablishment
+$type: rdf:Property
+label: schema:foodEstablishment
+rdfs:comment: "A sub property of location. The specific food establishment where the action occurred."
+rdfs:label: "foodEstablishment"
+rdfs:subPropertyOf: {"@id":"schema:location"}
+schema:domainIncludes: {"@id":"schema:CookAction"}
+schema:rangeIncludes: [{"@id":"schema:Place"},{"@id":"schema:FoodEstablishment"}]
+---
+
+# schema:foodEstablishment
+

@@ -1,0 +1,13 @@
+---
+$id: schema:bccRecipient
+$type: rdf:Property
+label: schema:bccRecipient
+rdfs:comment: "A sub property of recipient. The recipient blind copied on a message."
+rdfs:label: "bccRecipient"
+rdfs:subPropertyOf: {"@id":"schema:recipient"}
+schema:domainIncludes: {"@id":"schema:Message"}
+schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:ContactPoint"},{"@id":"schema:Person"}]
+---
+
+# schema:bccRecipient
+

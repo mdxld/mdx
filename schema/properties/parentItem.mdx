@@ -1,0 +1,12 @@
+---
+$id: schema:parentItem
+$type: rdf:Property
+label: schema:parentItem
+rdfs:comment: "The parent of a question, answer or item in general. Typically used for Q/A discussion threads e.g. a chain of comments with the first comment being an [[Article]] or other [[CreativeWork]]. See also [[comment]] which points from something to a comment about it."
+rdfs:label: "parentItem"
+schema:domainIncludes: [{"@id":"schema:Answer"},{"@id":"schema:Question"},{"@id":"schema:Comment"}]
+schema:rangeIncludes: [{"@id":"schema:Comment"},{"@id":"schema:CreativeWork"}]
+---
+
+# schema:parentItem
+

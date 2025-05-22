@@ -1,0 +1,12 @@
+---
+$id: schema:customer
+$type: rdf:Property
+label: schema:customer
+rdfs:comment: "Party placing the order or paying the invoice."
+rdfs:label: "customer"
+schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
+schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+---
+
+# schema:customer
+

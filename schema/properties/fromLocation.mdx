@@ -1,0 +1,13 @@
+---
+$id: schema:fromLocation
+$type: rdf:Property
+label: schema:fromLocation
+rdfs:comment: "A sub property of location. The original location of the object or the agent before the action."
+rdfs:label: "fromLocation"
+rdfs:subPropertyOf: {"@id":"schema:location"}
+schema:domainIncludes: [{"@id":"schema:MoveAction"},{"@id":"schema:TransferAction"},{"@id":"schema:ExerciseAction"}]
+schema:rangeIncludes: {"@id":"schema:Place"}
+---
+
+# schema:fromLocation
+

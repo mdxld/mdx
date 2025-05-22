@@ -1,0 +1,14 @@
+---
+$id: schema:validForMemberTier
+$type: rdf:Property
+label: schema:validForMemberTier
+rdfs:comment: "The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for."
+rdfs:label: "validForMemberTier"
+schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:MerchantReturnPolicy"},{"@id":"schema:PriceSpecification"},{"@id":"schema:OfferShippingDetails"},{"@id":"schema:ShippingService"}]
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: {"@id":"schema:MemberProgramTier"}
+schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3563"},{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}]
+---
+
+# schema:validForMemberTier
+

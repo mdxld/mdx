@@ -2,6 +2,11 @@
 $id: schema:PaymentMethodType
 $type: rdfs:Class
 label: schema:PaymentMethodType
+rdfs:comment: "The type of payment method, only for generic payment types, specific forms of payments, like card payment should be expressed using subclasses of PaymentMethod."
+rdfs:label: "PaymentMethodType"
+rdfs:subClassOf: {"@id":"schema:Enumeration"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3537"}
 ---
 
 # schema:PaymentMethodType

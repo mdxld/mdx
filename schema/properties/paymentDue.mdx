@@ -1,0 +1,13 @@
+---
+$id: schema:paymentDue
+$type: rdf:Property
+label: schema:paymentDue
+rdfs:comment: "The date that payment is due."
+rdfs:label: "paymentDue"
+schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
+schema:rangeIncludes: {"@id":"schema:DateTime"}
+schema:supersededBy: {"@id":"schema:paymentDueDate"}
+---
+
+# schema:paymentDue
+

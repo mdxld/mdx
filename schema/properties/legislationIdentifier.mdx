@@ -1,0 +1,17 @@
+---
+$id: schema:legislationIdentifier
+$type: rdf:Property
+label: schema:legislationIdentifier
+rdfs:comment: "An identifier for the legislation. This can be either a string-based identifier, like the CELEX at EU level or the NOR in France, or a web-based, URL/URI identifier, like an ELI (European Legislation Identifier) or an URN-Lex."
+rdfs:label: "legislationIdentifier"
+rdfs:subPropertyOf: {"@id":"schema:identifier"}
+schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
+schema:domainIncludes: {"@id":"schema:Legislation"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
+schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
+skos:closeMatch: {"@id":"http://data.europa.eu/eli/ontology#id_local"}
+---
+
+# schema:legislationIdentifier
+

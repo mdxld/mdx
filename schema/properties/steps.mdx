@@ -1,0 +1,13 @@
+---
+$id: schema:steps
+$type: rdf:Property
+label: schema:steps
+rdfs:comment: "A single step item (as HowToStep, text, document, video, etc.) or a HowToSection (originally misnamed 'steps'; 'step' is preferred)."
+rdfs:label: "steps"
+schema:domainIncludes: [{"@id":"schema:HowToSection"},{"@id":"schema:HowTo"}]
+schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:ItemList"},{"@id":"schema:CreativeWork"}]
+schema:supersededBy: {"@id":"schema:step"}
+---
+
+# schema:steps
+

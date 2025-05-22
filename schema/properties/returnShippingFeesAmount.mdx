@@ -1,0 +1,14 @@
+---
+$id: schema:returnShippingFeesAmount
+$type: rdf:Property
+label: schema:returnShippingFeesAmount
+rdfs:comment: "Amount of shipping costs for product returns (for any reason). Applicable when property [[returnFees]] equals [[ReturnShippingFees]]."
+rdfs:label: "returnShippingFeesAmount"
+schema:domainIncludes: [{"@id":"schema:MerchantReturnPolicySeasonalOverride"},{"@id":"schema:MerchantReturnPolicy"}]
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: {"@id":"schema:MonetaryAmount"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2880"}
+---
+
+# schema:returnShippingFeesAmount
+

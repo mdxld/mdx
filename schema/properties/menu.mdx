@@ -1,0 +1,13 @@
+---
+$id: schema:menu
+$type: rdf:Property
+label: schema:menu
+rdfs:comment: "Either the actual menu as a structured representation, as text, or a URL of the menu."
+rdfs:label: "menu"
+schema:domainIncludes: {"@id":"schema:FoodEstablishment"}
+schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"},{"@id":"schema:Menu"}]
+schema:supersededBy: {"@id":"schema:hasMenu"}
+---
+
+# schema:menu
+

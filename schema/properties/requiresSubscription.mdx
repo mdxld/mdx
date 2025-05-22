@@ -1,0 +1,13 @@
+---
+$id: schema:requiresSubscription
+$type: rdf:Property
+label: schema:requiresSubscription
+rdfs:comment: "Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no')."
+rdfs:label: "requiresSubscription"
+schema:domainIncludes: [{"@id":"schema:ActionAccessSpecification"},{"@id":"schema:MediaObject"}]
+schema:rangeIncludes: [{"@id":"schema:MediaSubscription"},{"@id":"schema:Boolean"}]
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}
+---
+
+# schema:requiresSubscription
+

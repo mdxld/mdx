@@ -2,6 +2,10 @@
 $id: schema:PriceSpecification
 $type: rdfs:Class
 label: schema:PriceSpecification
+rdfs:comment: "A structured value representing a price or price range. Typically, only the subclasses of this type are used for markup. It is recommended to use [[MonetaryAmount]] to describe independent amounts of money such as a salary, credit card limits, etc."
+rdfs:label: "PriceSpecification"
+rdfs:subClassOf: {"@id":"schema:StructuredValue"}
+schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
 ---
 
 # schema:PriceSpecification

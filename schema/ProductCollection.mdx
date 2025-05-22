@@ -2,6 +2,11 @@
 $id: schema:ProductCollection
 $type: rdfs:Class
 label: schema:ProductCollection
+rdfs:comment: "A set of products (either [[ProductGroup]]s or specific variants) that are listed together e.g. in an [[Offer]]."
+rdfs:label: "ProductCollection"
+rdfs:subClassOf: [{"@id":"schema:Product"},{"@id":"schema:Collection"}]
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2597"}
 ---
 
 # schema:ProductCollection

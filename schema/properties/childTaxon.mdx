@@ -1,0 +1,15 @@
+---
+$id: schema:childTaxon
+$type: rdf:Property
+label: schema:childTaxon
+rdfs:comment: "Closest child taxa of the taxon in question."
+rdfs:label: "childTaxon"
+schema:domainIncludes: {"@id":"schema:Taxon"}
+schema:inverseOf: {"@id":"schema:parentTaxon"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: [{"@id":"schema:Taxon"},{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:source: {"@id":"http://www.bioschemas.org/Taxon"}
+---
+
+# schema:childTaxon
+

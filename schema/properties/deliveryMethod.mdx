@@ -1,0 +1,13 @@
+---
+$id: schema:deliveryMethod
+$type: rdf:Property
+label: schema:deliveryMethod
+rdfs:comment: "A sub property of instrument. The method of delivery."
+rdfs:label: "deliveryMethod"
+rdfs:subPropertyOf: {"@id":"schema:instrument"}
+schema:domainIncludes: [{"@id":"schema:OrderAction"},{"@id":"schema:TrackAction"},{"@id":"schema:ReceiveAction"},{"@id":"schema:SendAction"}]
+schema:rangeIncludes: {"@id":"schema:DeliveryMethod"}
+---
+
+# schema:deliveryMethod
+

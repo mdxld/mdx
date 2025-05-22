@@ -2,6 +2,11 @@
 $id: schema:PodcastSeason
 $type: rdfs:Class
 label: schema:PodcastSeason
+rdfs:comment: "A single season of a podcast. Many podcasts do not break down into separate seasons. In that case, PodcastSeries should be used."
+rdfs:label: "PodcastSeason"
+rdfs:subClassOf: {"@id":"schema:CreativeWorkSeason"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/373"}
 ---
 
 # schema:PodcastSeason

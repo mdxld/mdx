@@ -1,0 +1,15 @@
+---
+$id: schema:measurementMethod
+$type: rdf:Property
+label: schema:measurementMethod
+rdfs:comment: "A subproperty of [[measurementTechnique]] that can be used for specifying specific methods, in particular via [[MeasurementMethodEnum]]."
+rdfs:label: "measurementMethod"
+rdfs:subPropertyOf: {"@id":"schema:measurementTechnique"}
+schema:domainIncludes: [{"@id":"schema:DataDownload"},{"@id":"schema:PropertyValue"},{"@id":"schema:DataCatalog"},{"@id":"schema:Observation"},{"@id":"schema:StatisticalVariable"},{"@id":"schema:Dataset"}]
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: [{"@id":"schema:DefinedTerm"},{"@id":"schema:URL"},{"@id":"schema:MeasurementMethodEnum"},{"@id":"schema:Text"}]
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1425"}
+---
+
+# schema:measurementMethod
+

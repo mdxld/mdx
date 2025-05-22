@@ -2,6 +2,10 @@
 $id: schema:UserLikes
 $type: rdfs:Class
 label: schema:UserLikes
+rdfs:comment: "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]]."
+rdfs:label: "UserLikes"
+rdfs:subClassOf: {"@id":"schema:UserInteraction"}
+schema:supersededBy: {"@id":"schema:InteractionCounter"}
 ---
 
 # schema:UserLikes

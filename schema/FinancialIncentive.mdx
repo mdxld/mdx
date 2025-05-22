@@ -2,6 +2,11 @@
 $id: schema:FinancialIncentive
 $type: rdfs:Class
 label: schema:FinancialIncentive
+rdfs:comment: "<p>Represents financial incentives for goods/services offered by an organization (or individual).</p>\n\n<p>Typically contains the [[name]] of the incentive, the [[incentivizedItem]], the [[incentiveAmount]], the [[incentiveStatus]], [[incentiveType]], the [[provider]] of the incentive, and [[eligibleWithSupplier]].</p>\n\n<p>Optionally contains criteria on whether the incentive is limited based on [[purchaseType]], [[purchasePriceLimit]], [[incomeLimit]], and the [[qualifiedExpense]].\n    "
+rdfs:label: "FinancialIncentive"
+rdfs:subClassOf: {"@id":"schema:Intangible"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3572"}
 ---
 
 # schema:FinancialIncentive

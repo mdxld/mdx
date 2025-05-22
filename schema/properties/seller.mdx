@@ -1,0 +1,13 @@
+---
+$id: schema:seller
+$type: rdf:Property
+label: schema:seller
+rdfs:comment: "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider."
+rdfs:label: "seller"
+rdfs:subPropertyOf: {"@id":"schema:participant"}
+schema:domainIncludes: [{"@id":"schema:Flight"},{"@id":"schema:BuyAction"},{"@id":"schema:Demand"},{"@id":"schema:Offer"},{"@id":"schema:Order"}]
+schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+---
+
+# schema:seller
+

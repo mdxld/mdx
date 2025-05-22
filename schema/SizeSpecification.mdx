@@ -2,6 +2,11 @@
 $id: schema:SizeSpecification
 $type: rdfs:Class
 label: schema:SizeSpecification
+rdfs:comment: "Size related properties of a product, typically a size code ([[name]]) and optionally a [[sizeSystem]], [[sizeGroup]], and product measurements ([[hasMeasurement]]). In addition, the intended audience can be defined through [[suggestedAge]], [[suggestedGender]], and suggested body measurements ([[suggestedMeasurement]])."
+rdfs:label: "SizeSpecification"
+rdfs:subClassOf: {"@id":"schema:QualitativeValue"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2811"}
 ---
 
 # schema:SizeSpecification

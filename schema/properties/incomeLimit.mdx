@@ -1,0 +1,14 @@
+---
+$id: schema:incomeLimit
+$type: rdf:Property
+label: schema:incomeLimit
+rdfs:comment: "Optional. Income limit for which the incentive is applicable for.\n    \n<p>If MonetaryAmount is specified, this should be based on annualized income (e.g. if an incentive is limited to those making <$114,000 annually):</p>\n    {\n        \"@type\": \"MonetaryAmount\",\n        \"maxValue\": 114000,\n        \"currency\": \"USD\",\n    }\n\nUse Text for incentives that are limited based on other criteria, for example if an incentive is only available to recipients making 120% of the median poverty income in their area."
+rdfs:label: "incomeLimit"
+schema:domainIncludes: {"@id":"schema:FinancialIncentive"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:rangeIncludes: [{"@id":"schema:MonetaryAmount"},{"@id":"schema:Text"}]
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3572"}
+---
+
+# schema:incomeLimit
+

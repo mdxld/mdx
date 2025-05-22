@@ -1,0 +1,14 @@
+---
+$id: schema:season
+$type: rdf:Property
+label: schema:season
+rdfs:comment: "A season in a media series."
+rdfs:label: "season"
+rdfs:subPropertyOf: {"@id":"schema:hasPart"}
+schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:TVSeries"}]
+schema:rangeIncludes: [{"@id":"schema:CreativeWorkSeason"},{"@id":"schema:URL"}]
+schema:supersededBy: {"@id":"schema:containsSeason"}
+---
+
+# schema:season
+

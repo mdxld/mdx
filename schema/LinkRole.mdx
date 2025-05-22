@@ -2,6 +2,11 @@
 $id: schema:LinkRole
 $type: rdfs:Class
 label: schema:LinkRole
+rdfs:comment: "A Role that represents a Web link, e.g. as expressed via the 'url' property. Its linkRelationship property can indicate URL-based and plain textual link types, e.g. those in IANA link registry or others such as 'amphtml'. This structure provides a placeholder where details from HTML's link element can be represented outside of HTML, e.g. in JSON-LD feeds."
+rdfs:label: "LinkRole"
+rdfs:subClassOf: {"@id":"schema:Role"}
+schema:isPartOf: {"@id":"https://pending.schema.org"}
+schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1045"}
 ---
 
 # schema:LinkRole

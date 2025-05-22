@@ -1,0 +1,13 @@
+---
+$id: schema:memberOf
+$type: rdf:Property
+label: schema:memberOf
+rdfs:comment: "An Organization (or ProgramMembership) to which this Person or Organization belongs."
+rdfs:label: "memberOf"
+schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:inverseOf: {"@id":"schema:member"}
+schema:rangeIncludes: [{"@id":"schema:ProgramMembership"},{"@id":"schema:MemberProgramTier"},{"@id":"schema:Organization"}]
+---
+
+# schema:memberOf
+

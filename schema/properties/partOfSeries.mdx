@@ -1,0 +1,13 @@
+---
+$id: schema:partOfSeries
+$type: rdf:Property
+label: schema:partOfSeries
+rdfs:comment: "The series to which this episode or season belongs."
+rdfs:label: "partOfSeries"
+rdfs:subPropertyOf: {"@id":"schema:isPartOf"}
+schema:domainIncludes: [{"@id":"schema:CreativeWorkSeason"},{"@id":"schema:Clip"},{"@id":"schema:Episode"}]
+schema:rangeIncludes: {"@id":"schema:CreativeWorkSeries"}
+---
+
+# schema:partOfSeries
+

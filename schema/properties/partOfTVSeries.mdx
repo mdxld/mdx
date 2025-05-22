@@ -1,0 +1,14 @@
+---
+$id: schema:partOfTVSeries
+$type: rdf:Property
+label: schema:partOfTVSeries
+rdfs:comment: "The TV series to which this episode or season belongs."
+rdfs:label: "partOfTVSeries"
+rdfs:subPropertyOf: {"@id":"schema:isPartOf"}
+schema:domainIncludes: [{"@id":"schema:TVClip"},{"@id":"schema:TVSeason"},{"@id":"schema:TVEpisode"}]
+schema:rangeIncludes: {"@id":"schema:TVSeries"}
+schema:supersededBy: {"@id":"schema:partOfSeries"}
+---
+
+# schema:partOfTVSeries
+
