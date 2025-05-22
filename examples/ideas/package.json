@@ -5,7 +5,7 @@
   "main": ".mdx/index.js",
   "exports": {
     ".": "./.mdx/index.js",
-    "./ideas": "./.mdx/mdx.js"
+    "./ideas": "./.mdx/index.js"
   },
   "scripts": {
     "build": "mdxld build"
