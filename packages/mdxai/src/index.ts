@@ -3,6 +3,7 @@
 import { CoreMessage, StreamTextResult } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream } from './llmService.js'
+import { commands } from './commands/index.js'
 
 export interface GenerateOptions {
   type?: 'title' | 'outline' | 'draft'
@@ -10,7 +11,7 @@ export interface GenerateOptions {
   modelId?: string
 }
 
-export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream }
+export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, commands }
 
 /**
  * Generate markdown/MDX content based on a prompt.
