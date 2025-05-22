@@ -582,3 +582,16 @@ export {
   TableCell,
   TableCaption
 }
+import {
+  Tabs as ShadcnTabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent
+} from './components/ui/tabs.js'
+
+export {
+  ShadcnTabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent
+}
