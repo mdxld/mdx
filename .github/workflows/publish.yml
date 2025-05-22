@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - '.changeset/CHANGELOG.md'
-      - 'packages/*/CHANGELOG.md'
+      - '.changeset/**/*.md'
+      - 'packages/**/CHANGELOG.md'
 
 permissions:
   contents: write
