@@ -1,14 +1,18 @@
 ---
-$id: schema:employerOverview
-$type: rdf:Property
-label: schema:employerOverview
+$id: https://schema.org/employerOverview
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: employerOverview
+comment: |
+  A description of the employer, career opportunities and work environment for this position.
 rdfs:comment: "A description of the employer, career opportunities and work environment for this position."
 rdfs:label: "employerOverview"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2396"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2396"
 ---
 
-# schema:employerOverview
+# employerOverview
+
+A description of the employer, career opportunities and work environment for this position.
 

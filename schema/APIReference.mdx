@@ -1,11 +1,24 @@
 ---
-$id: schema:APIReference
-$type: rdfs:Class
-label: schema:APIReference
+$id: https://schema.org/APIReference
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: APIReference
+comment: |
+  Reference documentation for application programming interfaces (APIs).
 rdfs:comment: "Reference documentation for application programming interfaces (APIs)."
 rdfs:label: "APIReference"
-rdfs:subClassOf: {"@id":"schema:TechArticle"}
+rdfs:subClassOf: "https://schema.org/TechArticle"
 ---
 
-# schema:APIReference
+# APIReference
 
+Reference documentation for application programming interfaces (APIs).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [assembly](https://schema.org/assembly) | Text |  |
+| [assemblyVersion](https://schema.org/assemblyVersion) | Text |  |
+| [executableLibraryName](https://schema.org/executableLibraryName) | Text |  |
+| [programmingModel](https://schema.org/programmingModel) | Text |  |
+| [targetPlatform](https://schema.org/targetPlatform) | Text |  |

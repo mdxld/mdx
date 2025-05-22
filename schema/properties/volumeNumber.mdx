@@ -1,15 +1,19 @@
 ---
-$id: schema:volumeNumber
-$type: rdf:Property
-label: schema:volumeNumber
-owl:equivalentProperty: {"@id":"http://purl.org/ontology/bibo/volume"}
+$id: https://schema.org/volumeNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: volumeNumber
+comment: |
+  Identifies the volume of publication or multi-part work; for example, "iii" or "2".
+owl:equivalentProperty: "http://purl.org/ontology/bibo/volume"
 rdfs:comment: "Identifies the volume of publication or multi-part work; for example, \"iii\" or \"2\"."
 rdfs:label: "volumeNumber"
-rdfs:subPropertyOf: {"@id":"schema:position"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/bibex"}
-schema:domainIncludes: {"@id":"schema:PublicationVolume"}
-schema:rangeIncludes: [{"@id":"schema:Integer"},{"@id":"schema:Text"}]
+rdfs:subPropertyOf: "https://schema.org/position"
+schema:contributor: "https://schema.org/docs/collab/bibex"
+schema:domainIncludes: "https://schema.org/PublicationVolume"
+schema:rangeIncludes: ["https://schema.org/Integer","https://schema.org/Text"]
 ---
 
-# schema:volumeNumber
+# volumeNumber
+
+Identifies the volume of publication or multi-part work; for example, "iii" or "2".
 

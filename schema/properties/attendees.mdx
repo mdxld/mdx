@@ -1,13 +1,17 @@
 ---
-$id: schema:attendees
-$type: rdf:Property
-label: schema:attendees
+$id: https://schema.org/attendees
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: attendees
+comment: |
+  A person attending the event.
 rdfs:comment: "A person attending the event."
 rdfs:label: "attendees"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:supersededBy: {"@id":"schema:attendee"}
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:supersededBy: "https://schema.org/attendee"
 ---
 
-# schema:attendees
+# attendees
+
+A person attending the event.
 

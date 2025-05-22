@@ -1,14 +1,18 @@
 ---
-$id: schema:observationAbout
-$type: rdf:Property
-label: schema:observationAbout
+$id: https://schema.org/observationAbout
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: observationAbout
+comment: |
+  The [[observationAbout]] property identifies an entity, often a [[Place]], associated with an [[Observation]].
 rdfs:comment: "The [[observationAbout]] property identifies an entity, often a [[Place]], associated with an [[Observation]]."
 rdfs:label: "observationAbout"
-schema:domainIncludes: {"@id":"schema:Observation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Place"},{"@id":"schema:Thing"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2291"}
+schema:domainIncludes: "https://schema.org/Observation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Place","https://schema.org/Thing"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2291"
 ---
 
-# schema:observationAbout
+# observationAbout
+
+The [[observationAbout]] property identifies an entity, often a [[Place]], associated with an [[Observation]].
 

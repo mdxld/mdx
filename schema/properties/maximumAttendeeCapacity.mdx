@@ -1,12 +1,16 @@
 ---
-$id: schema:maximumAttendeeCapacity
-$type: rdf:Property
-label: schema:maximumAttendeeCapacity
+$id: https://schema.org/maximumAttendeeCapacity
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: maximumAttendeeCapacity
+comment: |
+  The total number of individuals that may attend an event or venue.
 rdfs:comment: "The total number of individuals that may attend an event or venue."
 rdfs:label: "maximumAttendeeCapacity"
-schema:domainIncludes: [{"@id":"schema:Place"},{"@id":"schema:Event"}]
-schema:rangeIncludes: {"@id":"schema:Integer"}
+schema:domainIncludes: ["https://schema.org/Place","https://schema.org/Event"]
+schema:rangeIncludes: "https://schema.org/Integer"
 ---
 
-# schema:maximumAttendeeCapacity
+# maximumAttendeeCapacity
+
+The total number of individuals that may attend an event or venue.
 

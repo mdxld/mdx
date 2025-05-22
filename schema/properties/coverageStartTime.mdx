@@ -1,12 +1,16 @@
 ---
-$id: schema:coverageStartTime
-$type: rdf:Property
-label: schema:coverageStartTime
+$id: https://schema.org/coverageStartTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: coverageStartTime
+comment: |
+  The time when the live blog will begin covering the Event. Note that coverage may begin before the Event's start time. The LiveBlogPosting may also be created before coverage begins.
 rdfs:comment: "The time when the live blog will begin covering the Event. Note that coverage may begin before the Event's start time. The LiveBlogPosting may also be created before coverage begins."
 rdfs:label: "coverageStartTime"
-schema:domainIncludes: {"@id":"schema:LiveBlogPosting"}
-schema:rangeIncludes: {"@id":"schema:DateTime"}
+schema:domainIncludes: "https://schema.org/LiveBlogPosting"
+schema:rangeIncludes: "https://schema.org/DateTime"
 ---
 
-# schema:coverageStartTime
+# coverageStartTime
+
+The time when the live blog will begin covering the Event. Note that coverage may begin before the Event's start time. The LiveBlogPosting may also be created before coverage begins.
 

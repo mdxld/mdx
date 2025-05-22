@@ -1,12 +1,16 @@
 ---
-$id: schema:director
-$type: rdf:Property
-label: schema:director
+$id: https://schema.org/director
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: director
+comment: |
+  A director of e.g. TV, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
 rdfs:comment: "A director of e.g. TV, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip."
 rdfs:label: "director"
-schema:domainIncludes: [{"@id":"schema:Event"},{"@id":"schema:Clip"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:Episode"},{"@id":"schema:VideoObject"},{"@id":"schema:CreativeWorkSeason"},{"@id":"schema:MovieSeries"},{"@id":"schema:Movie"},{"@id":"schema:TVSeries"},{"@id":"schema:VideoGame"}]
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: ["https://schema.org/Event","https://schema.org/Clip","https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/Episode","https://schema.org/VideoObject","https://schema.org/CreativeWorkSeason","https://schema.org/MovieSeries","https://schema.org/Movie","https://schema.org/TVSeries","https://schema.org/VideoGame"]
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:director
+# director
+
+A director of e.g. TV, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
 

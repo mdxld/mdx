@@ -1,13 +1,17 @@
 ---
-$id: schema:confirmationNumber
-$type: rdf:Property
-label: schema:confirmationNumber
+$id: https://schema.org/confirmationNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: confirmationNumber
+comment: |
+  A number that confirms the given order or payment has been received.
 rdfs:comment: "A number that confirms the given order or payment has been received."
 rdfs:label: "confirmationNumber"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:domainIncludes: ["https://schema.org/Invoice","https://schema.org/Order"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:confirmationNumber
+# confirmationNumber
+
+A number that confirms the given order or payment has been received.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:lowPrice
-$type: rdf:Property
-label: schema:lowPrice
+$id: https://schema.org/lowPrice
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: lowPrice
+comment: |
+  The lowest price of all offers available.\n\nUsage guidelines:\n\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
 rdfs:comment: "The lowest price of all offers available.\\n\\nUsage guidelines:\\n\\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator."
 rdfs:label: "lowPrice"
-schema:domainIncludes: {"@id":"schema:AggregateOffer"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"}]
+schema:domainIncludes: "https://schema.org/AggregateOffer"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number"]
 ---
 
-# schema:lowPrice
+# lowPrice
+
+The lowest price of all offers available.\n\nUsage guidelines:\n\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
 

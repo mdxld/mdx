@@ -1,12 +1,16 @@
 ---
-$id: schema:legalRepresentative
-$type: rdf:Property
-label: schema:legalRepresentative
+$id: https://schema.org/legalRepresentative
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legalRepresentative
+comment: |
+  One or multiple persons who represent this organization legally such as CEO or sole administrator.
 rdfs:comment: "One or multiple persons who represent this organization legally such as CEO or sole administrator."
 rdfs:label: "legalRepresentative"
-schema:domainIncludes: {"@id":"schema:Organization"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: "https://schema.org/Organization"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:legalRepresentative
+# legalRepresentative
+
+One or multiple persons who represent this organization legally such as CEO or sole administrator.
 

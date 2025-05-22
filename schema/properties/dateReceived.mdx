@@ -1,12 +1,16 @@
 ---
-$id: schema:dateReceived
-$type: rdf:Property
-label: schema:dateReceived
+$id: https://schema.org/dateReceived
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dateReceived
+comment: |
+  The date/time the message was received if a single recipient exists.
 rdfs:comment: "The date/time the message was received if a single recipient exists."
 rdfs:label: "dateReceived"
-schema:domainIncludes: {"@id":"schema:Message"}
-schema:rangeIncludes: {"@id":"schema:DateTime"}
+schema:domainIncludes: "https://schema.org/Message"
+schema:rangeIncludes: "https://schema.org/DateTime"
 ---
 
-# schema:dateReceived
+# dateReceived
+
+The date/time the message was received if a single recipient exists.
 

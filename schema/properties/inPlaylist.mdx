@@ -1,12 +1,16 @@
 ---
-$id: schema:inPlaylist
-$type: rdf:Property
-label: schema:inPlaylist
+$id: https://schema.org/inPlaylist
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inPlaylist
+comment: |
+  The playlist to which this recording belongs.
 rdfs:comment: "The playlist to which this recording belongs."
 rdfs:label: "inPlaylist"
-schema:domainIncludes: {"@id":"schema:MusicRecording"}
-schema:rangeIncludes: {"@id":"schema:MusicPlaylist"}
+schema:domainIncludes: "https://schema.org/MusicRecording"
+schema:rangeIncludes: "https://schema.org/MusicPlaylist"
 ---
 
-# schema:inPlaylist
+# inPlaylist
+
+The playlist to which this recording belongs.
 

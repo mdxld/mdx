@@ -1,11 +1,21 @@
 ---
-$id: schema:Airline
-$type: rdfs:Class
-label: schema:Airline
+$id: https://schema.org/Airline
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Airline
+comment: |
+  An organization that provides flights for passengers.
 rdfs:comment: "An organization that provides flights for passengers."
 rdfs:label: "Airline"
-rdfs:subClassOf: {"@id":"schema:Organization"}
+rdfs:subClassOf: "https://schema.org/Organization"
 ---
 
-# schema:Airline
+# Airline
 
+An organization that provides flights for passengers.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [boardingPolicy](https://schema.org/boardingPolicy) | Text |  |
+| [iataCode](https://schema.org/iataCode) | Text |  |

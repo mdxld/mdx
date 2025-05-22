@@ -1,13 +1,17 @@
 ---
-$id: schema:expectsAcceptanceOf
-$type: rdf:Property
-label: schema:expectsAcceptanceOf
+$id: https://schema.org/expectsAcceptanceOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: expectsAcceptanceOf
+comment: |
+  An Offer which must be accepted before the user can perform the Action. For example, the user may need to buy a movie before being able to watch it.
 rdfs:comment: "An Offer which must be accepted before the user can perform the Action. For example, the user may need to buy a movie before being able to watch it."
 rdfs:label: "expectsAcceptanceOf"
-schema:domainIncludes: [{"@id":"schema:MediaSubscription"},{"@id":"schema:ConsumeAction"},{"@id":"schema:ActionAccessSpecification"}]
-schema:rangeIncludes: {"@id":"schema:Offer"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}
+schema:domainIncludes: ["https://schema.org/MediaSubscription","https://schema.org/ConsumeAction","https://schema.org/ActionAccessSpecification"]
+schema:rangeIncludes: "https://schema.org/Offer"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1741"
 ---
 
-# schema:expectsAcceptanceOf
+# expectsAcceptanceOf
+
+An Offer which must be accepted before the user can perform the Action. For example, the user may need to buy a movie before being able to watch it.
 

@@ -1,18 +1,22 @@
 ---
-$id: schema:legislationTransposes
-$type: rdf:Property
-label: schema:legislationTransposes
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#transposes"}
+$id: https://schema.org/legislationTransposes
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationTransposes
+comment: |
+  Indicates that this legislation (or part of legislation) fulfills the objectives set by another legislation, by passing appropriate implementation measures. Typically, some legislations of European Union's member states or regions transpose European Directives. This indicates a legally binding link between the 2 legislations.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#transposes"
 rdfs:comment: "Indicates that this legislation (or part of legislation) fulfills the objectives set by another legislation, by passing appropriate implementation measures. Typically, some legislations of European Union's member states or regions transpose European Directives. This indicates a legally binding link between the 2 legislations."
 rdfs:label: "legislationTransposes"
-rdfs:subPropertyOf: {"@id":"schema:legislationApplies"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Legislation"}
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#transposes"}
+rdfs:subPropertyOf: "https://schema.org/legislationApplies"
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Legislation"
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#transposes"
 ---
 
-# schema:legislationTransposes
+# legislationTransposes
+
+Indicates that this legislation (or part of legislation) fulfills the objectives set by another legislation, by passing appropriate implementation measures. Typically, some legislations of European Union's member states or regions transpose European Directives. This indicates a legally binding link between the 2 legislations.
 

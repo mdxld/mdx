@@ -1,13 +1,17 @@
 ---
-$id: schema:costPerUnit
-$type: rdf:Property
-label: schema:costPerUnit
+$id: https://schema.org/costPerUnit
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: costPerUnit
+comment: |
+  The cost per unit of the drug.
 rdfs:comment: "The cost per unit of the drug."
 rdfs:label: "costPerUnit"
-schema:domainIncludes: {"@id":"schema:DrugCost"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:QualitativeValue"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/DrugCost"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/QualitativeValue","https://schema.org/Text"]
 ---
 
-# schema:costPerUnit
+# costPerUnit
+
+The cost per unit of the drug.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:itemCondition
-$type: rdf:Property
-label: schema:itemCondition
+$id: https://schema.org/itemCondition
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: itemCondition
+comment: |
+  A predefined value from OfferItemCondition specifying the condition of the product or service, or the products or services included in the offer. Also used for product return policies to specify the condition of products accepted for returns.
 rdfs:comment: "A predefined value from OfferItemCondition specifying the condition of the product or service, or the products or services included in the offer. Also used for product return policies to specify the condition of products accepted for returns."
 rdfs:label: "itemCondition"
-schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:MerchantReturnPolicy"},{"@id":"schema:Product"},{"@id":"schema:Demand"}]
-schema:rangeIncludes: {"@id":"schema:OfferItemCondition"}
+schema:domainIncludes: ["https://schema.org/Offer","https://schema.org/MerchantReturnPolicy","https://schema.org/Product","https://schema.org/Demand"]
+schema:rangeIncludes: "https://schema.org/OfferItemCondition"
 ---
 
-# schema:itemCondition
+# itemCondition
+
+A predefined value from OfferItemCondition specifying the condition of the product or service, or the products or services included in the offer. Also used for product return policies to specify the condition of products accepted for returns.
 

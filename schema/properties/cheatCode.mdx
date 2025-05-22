@@ -1,12 +1,16 @@
 ---
-$id: schema:cheatCode
-$type: rdf:Property
-label: schema:cheatCode
+$id: https://schema.org/cheatCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: cheatCode
+comment: |
+  Cheat codes to the game.
 rdfs:comment: "Cheat codes to the game."
 rdfs:label: "cheatCode"
-schema:domainIncludes: [{"@id":"schema:VideoGame"},{"@id":"schema:VideoGameSeries"}]
-schema:rangeIncludes: {"@id":"schema:CreativeWork"}
+schema:domainIncludes: ["https://schema.org/VideoGame","https://schema.org/VideoGameSeries"]
+schema:rangeIncludes: "https://schema.org/CreativeWork"
 ---
 
-# schema:cheatCode
+# cheatCode
+
+Cheat codes to the game.
 

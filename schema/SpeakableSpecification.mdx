@@ -1,12 +1,22 @@
 ---
-$id: schema:SpeakableSpecification
-$type: rdfs:Class
-label: schema:SpeakableSpecification
+$id: https://schema.org/SpeakableSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SpeakableSpecification
+comment: |
+  A SpeakableSpecification indicates (typically via [[xpath]] or [[cssSelector]]) sections of a document that are highlighted as particularly [[speakable]]. Instances of this type are expected to be used primarily as values of the [[speakable]] property.
 rdfs:comment: "A SpeakableSpecification indicates (typically via [[xpath]] or [[cssSelector]]) sections of a document that are highlighted as particularly [[speakable]]. Instances of this type are expected to be used primarily as values of the [[speakable]] property."
 rdfs:label: "SpeakableSpecification"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1389"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1389"
 ---
 
-# schema:SpeakableSpecification
+# SpeakableSpecification
 
+A SpeakableSpecification indicates (typically via [[xpath]] or [[cssSelector]]) sections of a document that are highlighted as particularly [[speakable]]. Instances of this type are expected to be used primarily as values of the [[speakable]] property.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [cssSelector](https://schema.org/cssSelector) | Text |  |
+| [xpath](https://schema.org/xpath) | Text |  |

@@ -1,12 +1,16 @@
 ---
-$id: schema:publisher
-$type: rdf:Property
-label: schema:publisher
+$id: https://schema.org/publisher
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: publisher
+comment: |
+  The publisher of the article in question.
 rdfs:comment: "The publisher of the article in question."
 rdfs:label: "publisher"
-schema:domainIncludes: [{"@id":"schema:FinancialIncentive"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/FinancialIncentive","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:publisher
+# publisher
+
+The publisher of the article in question.
 

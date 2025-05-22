@@ -1,12 +1,16 @@
 ---
-$id: schema:editor
-$type: rdf:Property
-label: schema:editor
+$id: https://schema.org/editor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: editor
+comment: |
+  Specifies the Person who edited the CreativeWork.
 rdfs:comment: "Specifies the Person who edited the CreativeWork."
 rdfs:label: "editor"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:editor
+# editor
+
+Specifies the Person who edited the CreativeWork.
 

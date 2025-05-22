@@ -1,15 +1,19 @@
 ---
-$id: schema:childTaxon
-$type: rdf:Property
-label: schema:childTaxon
+$id: https://schema.org/childTaxon
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: childTaxon
+comment: |
+  Closest child taxa of the taxon in question.
 rdfs:comment: "Closest child taxa of the taxon in question."
 rdfs:label: "childTaxon"
-schema:domainIncludes: {"@id":"schema:Taxon"}
-schema:inverseOf: {"@id":"schema:parentTaxon"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Taxon"},{"@id":"schema:Text"},{"@id":"schema:URL"}]
-schema:source: {"@id":"http://www.bioschemas.org/Taxon"}
+schema:domainIncludes: "https://schema.org/Taxon"
+schema:inverseOf: "https://schema.org/parentTaxon"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Taxon","https://schema.org/Text","https://schema.org/URL"]
+schema:source: "http://www.bioschemas.org/Taxon"
 ---
 
-# schema:childTaxon
+# childTaxon
+
+Closest child taxa of the taxon in question.
 

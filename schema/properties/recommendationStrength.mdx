@@ -1,13 +1,17 @@
 ---
-$id: schema:recommendationStrength
-$type: rdf:Property
-label: schema:recommendationStrength
+$id: https://schema.org/recommendationStrength
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recommendationStrength
+comment: |
+  Strength of the guideline's recommendation (e.g. 'class I').
 rdfs:comment: "Strength of the guideline's recommendation (e.g. 'class I')."
 rdfs:label: "recommendationStrength"
-schema:domainIncludes: {"@id":"schema:MedicalGuidelineRecommendation"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/MedicalGuidelineRecommendation"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:recommendationStrength
+# recommendationStrength
+
+Strength of the guideline's recommendation (e.g. 'class I').
 

@@ -1,12 +1,25 @@
 ---
-$id: schema:AnatomicalSystem
-$type: rdfs:Class
-label: schema:AnatomicalSystem
+$id: https://schema.org/AnatomicalSystem
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: AnatomicalSystem
+comment: |
+  An anatomical system is a group of anatomical structures that work together to perform a certain task. Anatomical systems, such as organ systems, are one organizing principle of anatomy, and can include circulatory, digestive, endocrine, integumentary, immune, lymphatic, muscular, nervous, reproductive, respiratory, skeletal, urinary, vestibular, and other systems.
 rdfs:comment: "An anatomical system is a group of anatomical structures that work together to perform a certain task. Anatomical systems, such as organ systems, are one organizing principle of anatomy, and can include circulatory, digestive, endocrine, integumentary, immune, lymphatic, muscular, nervous, reproductive, respiratory, skeletal, urinary, vestibular, and other systems."
 rdfs:label: "AnatomicalSystem"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:AnatomicalSystem
+# AnatomicalSystem
 
+An anatomical system is a group of anatomical structures that work together to perform a certain task. Anatomical systems, such as organ systems, are one organizing principle of anatomy, and can include circulatory, digestive, endocrine, integumentary, immune, lymphatic, muscular, nervous, reproductive, respiratory, skeletal, urinary, vestibular, and other systems.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [associatedPathophysiology](https://schema.org/associatedPathophysiology) | Text |  |
+| [comprisedOf](https://schema.org/comprisedOf) | Text |  |
+| [relatedCondition](https://schema.org/relatedCondition) | Text |  |
+| [relatedStructure](https://schema.org/relatedStructure) | Text |  |
+| [relatedTherapy](https://schema.org/relatedTherapy) | Text |  |

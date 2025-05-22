@@ -1,13 +1,17 @@
 ---
-$id: schema:infectiousAgentClass
-$type: rdf:Property
-label: schema:infectiousAgentClass
+$id: https://schema.org/infectiousAgentClass
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: infectiousAgentClass
+comment: |
+  The class of infectious agent (bacteria, prion, etc.) that causes the disease.
 rdfs:comment: "The class of infectious agent (bacteria, prion, etc.) that causes the disease."
 rdfs:label: "infectiousAgentClass"
-schema:domainIncludes: {"@id":"schema:InfectiousDisease"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:InfectiousAgentClass"}
+schema:domainIncludes: "https://schema.org/InfectiousDisease"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/InfectiousAgentClass"
 ---
 
-# schema:infectiousAgentClass
+# infectiousAgentClass
+
+The class of infectious agent (bacteria, prion, etc.) that causes the disease.
 

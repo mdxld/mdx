@@ -1,12 +1,24 @@
 ---
-$id: schema:DoseSchedule
-$type: rdfs:Class
-label: schema:DoseSchedule
+$id: https://schema.org/DoseSchedule
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DoseSchedule
+comment: |
+  A specific dosing schedule for a drug or supplement.
 rdfs:comment: "A specific dosing schedule for a drug or supplement."
 rdfs:label: "DoseSchedule"
-rdfs:subClassOf: {"@id":"schema:MedicalIntangible"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalIntangible"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:DoseSchedule
+# DoseSchedule
 
+A specific dosing schedule for a drug or supplement.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [doseUnit](https://schema.org/doseUnit) | Text |  |
+| [doseValue](https://schema.org/doseValue) | Text |  |
+| [frequency](https://schema.org/frequency) | Text |  |
+| [targetPopulation](https://schema.org/targetPopulation) | Text |  |

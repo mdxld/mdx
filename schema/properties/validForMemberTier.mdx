@@ -1,14 +1,18 @@
 ---
-$id: schema:validForMemberTier
-$type: rdf:Property
-label: schema:validForMemberTier
+$id: https://schema.org/validForMemberTier
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: validForMemberTier
+comment: |
+  The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.
 rdfs:comment: "The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for."
 rdfs:label: "validForMemberTier"
-schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:MerchantReturnPolicy"},{"@id":"schema:PriceSpecification"},{"@id":"schema:OfferShippingDetails"},{"@id":"schema:ShippingService"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MemberProgramTier"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3563"},{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}]
+schema:domainIncludes: ["https://schema.org/Offer","https://schema.org/MerchantReturnPolicy","https://schema.org/PriceSpecification","https://schema.org/OfferShippingDetails","https://schema.org/ShippingService"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MemberProgramTier"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/3563","https://github.com/schemaorg/schemaorg/issues/3617"]
 ---
 
-# schema:validForMemberTier
+# validForMemberTier
+
+The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.
 

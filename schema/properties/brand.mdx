@@ -1,12 +1,16 @@
 ---
-$id: schema:brand
-$type: rdf:Property
-label: schema:brand
+$id: https://schema.org/brand
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: brand
+comment: |
+  The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 rdfs:comment: "The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person."
 rdfs:label: "brand"
-schema:domainIncludes: [{"@id":"schema:Service"},{"@id":"schema:Product"},{"@id":"schema:Person"},{"@id":"schema:Organization"}]
-schema:rangeIncludes: [{"@id":"schema:Brand"},{"@id":"schema:Organization"}]
+schema:domainIncludes: ["https://schema.org/Service","https://schema.org/Product","https://schema.org/Person","https://schema.org/Organization"]
+schema:rangeIncludes: ["https://schema.org/Brand","https://schema.org/Organization"]
 ---
 
-# schema:brand
+# brand
+
+The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 

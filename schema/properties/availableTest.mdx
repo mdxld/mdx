@@ -1,13 +1,17 @@
 ---
-$id: schema:availableTest
-$type: rdf:Property
-label: schema:availableTest
+$id: https://schema.org/availableTest
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: availableTest
+comment: |
+  A diagnostic test or procedure offered by this lab.
 rdfs:comment: "A diagnostic test or procedure offered by this lab."
 rdfs:label: "availableTest"
-schema:domainIncludes: {"@id":"schema:DiagnosticLab"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalTest"}
+schema:domainIncludes: "https://schema.org/DiagnosticLab"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalTest"
 ---
 
-# schema:availableTest
+# availableTest
+
+A diagnostic test or procedure offered by this lab.
 

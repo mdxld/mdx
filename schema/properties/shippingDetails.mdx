@@ -1,13 +1,17 @@
 ---
-$id: schema:shippingDetails
-$type: rdf:Property
-label: schema:shippingDetails
+$id: https://schema.org/shippingDetails
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: shippingDetails
+comment: |
+  Indicates information about the shipping policies and options associated with an [[Offer]].
 rdfs:comment: "Indicates information about the shipping policies and options associated with an [[Offer]]."
 rdfs:label: "shippingDetails"
-schema:domainIncludes: {"@id":"schema:Offer"}
-schema:rangeIncludes: {"@id":"schema:OfferShippingDetails"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+schema:domainIncludes: "https://schema.org/Offer"
+schema:rangeIncludes: "https://schema.org/OfferShippingDetails"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:shippingDetails
+# shippingDetails
+
+Indicates information about the shipping policies and options associated with an [[Offer]].
 

@@ -1,18 +1,22 @@
 ---
-$id: schema:legislationCommences
-$type: rdf:Property
-label: schema:legislationCommences
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#commences"}
+$id: https://schema.org/legislationCommences
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationCommences
+comment: |
+  Another legislation that this one sets into force.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#commences"
 rdfs:comment: "Another legislation that this one sets into force."
 rdfs:label: "legislationCommences"
-rdfs:subPropertyOf: {"@id":"schema:legislationChanges"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Legislation"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/2698"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#commences"}
+rdfs:subPropertyOf: "https://schema.org/legislationChanges"
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Legislation"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/2698","https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#commences"
 ---
 
-# schema:legislationCommences
+# legislationCommences
+
+Another legislation that this one sets into force.
 

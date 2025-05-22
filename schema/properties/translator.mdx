@@ -1,12 +1,16 @@
 ---
-$id: schema:translator
-$type: rdf:Property
-label: schema:translator
+$id: https://schema.org/translator
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: translator
+comment: |
+  Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event.
 rdfs:comment: "Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event."
 rdfs:label: "translator"
-schema:domainIncludes: [{"@id":"schema:Event"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/Event","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:translator
+# translator
+
+Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event.
 

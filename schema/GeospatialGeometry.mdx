@@ -1,13 +1,31 @@
 ---
-$id: schema:GeospatialGeometry
-$type: rdfs:Class
-label: schema:GeospatialGeometry
+$id: https://schema.org/GeospatialGeometry
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: GeospatialGeometry
+comment: |
+  (Eventually to be defined as) a supertype of GeoShape designed to accommodate definitions from Geo-Spatial best practices.
 rdfs:comment: "(Eventually to be defined as) a supertype of GeoShape designed to accommodate definitions from Geo-Spatial best practices."
 rdfs:label: "GeospatialGeometry"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1375"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1375"
 ---
 
-# schema:GeospatialGeometry
+# GeospatialGeometry
 
+(Eventually to be defined as) a supertype of GeoShape designed to accommodate definitions from Geo-Spatial best practices.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [geoContains](https://schema.org/geoContains) | Text |  |
+| [geoCoveredBy](https://schema.org/geoCoveredBy) | Text |  |
+| [geoCovers](https://schema.org/geoCovers) | Text |  |
+| [geoCrosses](https://schema.org/geoCrosses) | Text |  |
+| [geoDisjoint](https://schema.org/geoDisjoint) | Text |  |
+| [geoEquals](https://schema.org/geoEquals) | Text |  |
+| [geoIntersects](https://schema.org/geoIntersects) | Text |  |
+| [geoOverlaps](https://schema.org/geoOverlaps) | Text |  |
+| [geoTouches](https://schema.org/geoTouches) | Text |  |
+| [geoWithin](https://schema.org/geoWithin) | Text |  |

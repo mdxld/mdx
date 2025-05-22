@@ -1,11 +1,20 @@
 ---
-$id: schema:OrderAction
-$type: rdfs:Class
-label: schema:OrderAction
+$id: https://schema.org/OrderAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: OrderAction
+comment: |
+  An agent orders an object/product/service to be delivered/sent.
 rdfs:comment: "An agent orders an object/product/service to be delivered/sent."
 rdfs:label: "OrderAction"
-rdfs:subClassOf: {"@id":"schema:TradeAction"}
+rdfs:subClassOf: "https://schema.org/TradeAction"
 ---
 
-# schema:OrderAction
+# OrderAction
 
+An agent orders an object/product/service to be delivered/sent.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [deliveryMethod](https://schema.org/deliveryMethod) | Text |  |

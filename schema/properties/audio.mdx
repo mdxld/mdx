@@ -1,13 +1,17 @@
 ---
-$id: schema:audio
-$type: rdf:Property
-label: schema:audio
+$id: https://schema.org/audio
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: audio
+comment: |
+  An embedded audio object.
 rdfs:comment: "An embedded audio object."
 rdfs:label: "audio"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:MusicRecording"},{"@id":"schema:AudioObject"},{"@id":"schema:Clip"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2420"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/MusicRecording","https://schema.org/AudioObject","https://schema.org/Clip"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2420"
 ---
 
-# schema:audio
+# audio
+
+An embedded audio object.
 

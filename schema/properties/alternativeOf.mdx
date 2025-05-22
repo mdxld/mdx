@@ -1,14 +1,18 @@
 ---
-$id: schema:alternativeOf
-$type: rdf:Property
-label: schema:alternativeOf
+$id: https://schema.org/alternativeOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: alternativeOf
+comment: |
+  Another gene which is a variation of this one.
 rdfs:comment: "Another gene which is a variation of this one."
 rdfs:label: "alternativeOf"
-schema:domainIncludes: {"@id":"schema:Gene"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Gene"}
-schema:source: {"@id":"http://www.bioschemas.org/Gene"}
+schema:domainIncludes: "https://schema.org/Gene"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Gene"
+schema:source: "http://www.bioschemas.org/Gene"
 ---
 
-# schema:alternativeOf
+# alternativeOf
+
+Another gene which is a variation of this one.
 

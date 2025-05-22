@@ -1,12 +1,16 @@
 ---
-$id: schema:hostingOrganization
-$type: rdf:Property
-label: schema:hostingOrganization
+$id: https://schema.org/hostingOrganization
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hostingOrganization
+comment: |
+  The Organization (airline, travelers' club, retailer, etc.) the membership is made with or which offers the  MemberProgram.
 rdfs:comment: "The Organization (airline, travelers' club, retailer, etc.) the membership is made with or which offers the  MemberProgram."
 rdfs:label: "hostingOrganization"
-schema:domainIncludes: [{"@id":"schema:MemberProgram"},{"@id":"schema:ProgramMembership"}]
-schema:rangeIncludes: {"@id":"schema:Organization"}
+schema:domainIncludes: ["https://schema.org/MemberProgram","https://schema.org/ProgramMembership"]
+schema:rangeIncludes: "https://schema.org/Organization"
 ---
 
-# schema:hostingOrganization
+# hostingOrganization
+
+The Organization (airline, travelers' club, retailer, etc.) the membership is made with or which offers the  MemberProgram.
 

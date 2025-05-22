@@ -1,13 +1,17 @@
 ---
-$id: schema:foodEstablishment
-$type: rdf:Property
-label: schema:foodEstablishment
+$id: https://schema.org/foodEstablishment
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: foodEstablishment
+comment: |
+  A sub property of location. The specific food establishment where the action occurred.
 rdfs:comment: "A sub property of location. The specific food establishment where the action occurred."
 rdfs:label: "foodEstablishment"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: {"@id":"schema:CookAction"}
-schema:rangeIncludes: [{"@id":"schema:Place"},{"@id":"schema:FoodEstablishment"}]
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: "https://schema.org/CookAction"
+schema:rangeIncludes: ["https://schema.org/Place","https://schema.org/FoodEstablishment"]
 ---
 
-# schema:foodEstablishment
+# foodEstablishment
+
+A sub property of location. The specific food establishment where the action occurred.
 

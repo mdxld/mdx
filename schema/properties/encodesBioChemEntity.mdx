@@ -1,15 +1,19 @@
 ---
-$id: schema:encodesBioChemEntity
-$type: rdf:Property
-label: schema:encodesBioChemEntity
+$id: https://schema.org/encodesBioChemEntity
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: encodesBioChemEntity
+comment: |
+  Another BioChemEntity encoded by this one. 
 rdfs:comment: "Another BioChemEntity encoded by this one. "
 rdfs:label: "encodesBioChemEntity"
-schema:domainIncludes: {"@id":"schema:Gene"}
-schema:inverseOf: {"@id":"schema:isEncodedByBioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:BioChemEntity"}
-schema:source: {"@id":"http://www.bioschemas.org/Gene"}
+schema:domainIncludes: "https://schema.org/Gene"
+schema:inverseOf: "https://schema.org/isEncodedByBioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/BioChemEntity"
+schema:source: "http://www.bioschemas.org/Gene"
 ---
 
-# schema:encodesBioChemEntity
+# encodesBioChemEntity
+
+Another BioChemEntity encoded by this one. 
 

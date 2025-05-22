@@ -1,14 +1,18 @@
 ---
-$id: schema:financialAidEligible
-$type: rdf:Property
-label: schema:financialAidEligible
+$id: https://schema.org/financialAidEligible
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: financialAidEligible
+comment: |
+  A financial aid type or program which students may use to pay for tuition or fees associated with the program.
 rdfs:comment: "A financial aid type or program which students may use to pay for tuition or fees associated with the program."
 rdfs:label: "financialAidEligible"
-schema:domainIncludes: [{"@id":"schema:EducationalOccupationalProgram"},{"@id":"schema:Course"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:DefinedTerm"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2418"}
+schema:domainIncludes: ["https://schema.org/EducationalOccupationalProgram","https://schema.org/Course"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/DefinedTerm"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2418"
 ---
 
-# schema:financialAidEligible
+# financialAidEligible
+
+A financial aid type or program which students may use to pay for tuition or fees associated with the program.
 

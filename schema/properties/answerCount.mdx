@@ -1,12 +1,16 @@
 ---
-$id: schema:answerCount
-$type: rdf:Property
-label: schema:answerCount
+$id: https://schema.org/answerCount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: answerCount
+comment: |
+  The number of answers this question has received.
 rdfs:comment: "The number of answers this question has received."
 rdfs:label: "answerCount"
-schema:domainIncludes: {"@id":"schema:Question"}
-schema:rangeIncludes: {"@id":"schema:Integer"}
+schema:domainIncludes: "https://schema.org/Question"
+schema:rangeIncludes: "https://schema.org/Integer"
 ---
 
-# schema:answerCount
+# answerCount
+
+The number of answers this question has received.
 

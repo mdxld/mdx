@@ -1,13 +1,17 @@
 ---
-$id: schema:musicGroupMember
-$type: rdf:Property
-label: schema:musicGroupMember
+$id: https://schema.org/musicGroupMember
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: musicGroupMember
+comment: |
+  A member of a music group&#x2014;for example, John, Paul, George, or Ringo.
 rdfs:comment: "A member of a music group&#x2014;for example, John, Paul, George, or Ringo."
 rdfs:label: "musicGroupMember"
-schema:domainIncludes: {"@id":"schema:MusicGroup"}
-schema:rangeIncludes: {"@id":"schema:Person"}
-schema:supersededBy: {"@id":"schema:member"}
+schema:domainIncludes: "https://schema.org/MusicGroup"
+schema:rangeIncludes: "https://schema.org/Person"
+schema:supersededBy: "https://schema.org/member"
 ---
 
-# schema:musicGroupMember
+# musicGroupMember
+
+A member of a music group&#x2014;for example, John, Paul, George, or Ringo.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:blogPosts
-$type: rdf:Property
-label: schema:blogPosts
+$id: https://schema.org/blogPosts
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: blogPosts
+comment: |
+  Indicates a post that is part of a [[Blog]]. Note that historically, what we term a "Blog" was once known as a "weblog", and that what we term a "BlogPosting" is now often colloquially referred to as a "blog".
 rdfs:comment: "Indicates a post that is part of a [[Blog]]. Note that historically, what we term a \"Blog\" was once known as a \"weblog\", and that what we term a \"BlogPosting\" is now often colloquially referred to as a \"blog\"."
 rdfs:label: "blogPosts"
-schema:domainIncludes: {"@id":"schema:Blog"}
-schema:rangeIncludes: {"@id":"schema:BlogPosting"}
-schema:supersededBy: {"@id":"schema:blogPost"}
+schema:domainIncludes: "https://schema.org/Blog"
+schema:rangeIncludes: "https://schema.org/BlogPosting"
+schema:supersededBy: "https://schema.org/blogPost"
 ---
 
-# schema:blogPosts
+# blogPosts
+
+Indicates a post that is part of a [[Blog]]. Note that historically, what we term a "Blog" was once known as a "weblog", and that what we term a "BlogPosting" is now often colloquially referred to as a "blog".
 

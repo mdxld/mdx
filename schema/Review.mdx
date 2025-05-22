@@ -1,11 +1,28 @@
 ---
-$id: schema:Review
-$type: rdfs:Class
-label: schema:Review
+$id: https://schema.org/Review
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Review
+comment: |
+  A review of an item - for example, of a restaurant, movie, or store.
 rdfs:comment: "A review of an item - for example, of a restaurant, movie, or store."
 rdfs:label: "Review"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:Review
+# Review
 
+A review of an item - for example, of a restaurant, movie, or store.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [associatedClaimReview](https://schema.org/associatedClaimReview) | Text |  |
+| [associatedMediaReview](https://schema.org/associatedMediaReview) | Text |  |
+| [associatedReview](https://schema.org/associatedReview) | Text |  |
+| [itemReviewed](https://schema.org/itemReviewed) | Text |  |
+| [negativeNotes](https://schema.org/negativeNotes) | Text |  |
+| [positiveNotes](https://schema.org/positiveNotes) | Text |  |
+| [reviewAspect](https://schema.org/reviewAspect) | Text |  |
+| [reviewBody](https://schema.org/reviewBody) | Text |  |
+| [reviewRating](https://schema.org/reviewRating) | Text |  |

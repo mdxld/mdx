@@ -1,14 +1,18 @@
 ---
-$id: schema:abstract
-$type: rdf:Property
-label: schema:abstract
+$id: https://schema.org/abstract
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: abstract
+comment: |
+  An abstract is a short description that summarizes a [[CreativeWork]].
 rdfs:comment: "An abstract is a short description that summarizes a [[CreativeWork]]."
 rdfs:label: "abstract"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/276"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/276"
 ---
 
-# schema:abstract
+# abstract
+
+An abstract is a short description that summarizes a [[CreativeWork]].
 

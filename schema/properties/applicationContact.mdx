@@ -1,14 +1,18 @@
 ---
-$id: schema:applicationContact
-$type: rdf:Property
-label: schema:applicationContact
+$id: https://schema.org/applicationContact
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicationContact
+comment: |
+  Contact details for further information relevant to this job posting.
 rdfs:comment: "Contact details for further information relevant to this job posting."
 rdfs:label: "applicationContact"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:ContactPoint"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2396"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/ContactPoint"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2396"
 ---
 
-# schema:applicationContact
+# applicationContact
+
+Contact details for further information relevant to this job posting.
 

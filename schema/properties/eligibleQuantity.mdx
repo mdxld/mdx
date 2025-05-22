@@ -1,13 +1,17 @@
 ---
-$id: schema:eligibleQuantity
-$type: rdf:Property
-label: schema:eligibleQuantity
+$id: https://schema.org/eligibleQuantity
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: eligibleQuantity
+comment: |
+  The interval and unit of measurement of ordering quantities for which the offer or price specification is valid. This allows e.g. specifying that a certain freight charge is valid only for a certain quantity.
 rdfs:comment: "The interval and unit of measurement of ordering quantities for which the offer or price specification is valid. This allows e.g. specifying that a certain freight charge is valid only for a certain quantity."
 rdfs:label: "eligibleQuantity"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:PriceSpecification"},{"@id":"schema:Demand"}]
-schema:rangeIncludes: {"@id":"schema:QuantitativeValue"}
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Offer","https://schema.org/PriceSpecification","https://schema.org/Demand"]
+schema:rangeIncludes: "https://schema.org/QuantitativeValue"
 ---
 
-# schema:eligibleQuantity
+# eligibleQuantity
+
+The interval and unit of measurement of ordering quantities for which the offer or price specification is valid. This allows e.g. specifying that a certain freight charge is valid only for a certain quantity.
 

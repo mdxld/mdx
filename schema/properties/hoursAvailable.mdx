@@ -1,12 +1,16 @@
 ---
-$id: schema:hoursAvailable
-$type: rdf:Property
-label: schema:hoursAvailable
+$id: https://schema.org/hoursAvailable
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hoursAvailable
+comment: |
+  The hours during which this service or contact is available.
 rdfs:comment: "The hours during which this service or contact is available."
 rdfs:label: "hoursAvailable"
-schema:domainIncludes: [{"@id":"schema:LocationFeatureSpecification"},{"@id":"schema:Service"},{"@id":"schema:ContactPoint"}]
-schema:rangeIncludes: {"@id":"schema:OpeningHoursSpecification"}
+schema:domainIncludes: ["https://schema.org/LocationFeatureSpecification","https://schema.org/Service","https://schema.org/ContactPoint"]
+schema:rangeIncludes: "https://schema.org/OpeningHoursSpecification"
 ---
 
-# schema:hoursAvailable
+# hoursAvailable
+
+The hours during which this service or contact is available.
 

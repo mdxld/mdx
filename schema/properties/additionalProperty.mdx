@@ -1,12 +1,20 @@
 ---
-$id: schema:additionalProperty
-$type: rdf:Property
-label: schema:additionalProperty
-rdfs:comment: "A property-value pair representing an additional characteristic of the entity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\\n\\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. https://schema.org/width, https://schema.org/color, https://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.\n"
+$id: https://schema.org/additionalProperty
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: additionalProperty
+comment: |
+  A property-value pair representing an additional characteristic of the entity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. https://schema.org/width, https://schema.org/color, https://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
+  
+rdfs:comment: |
+  A property-value pair representing an additional characteristic of the entity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. https://schema.org/width, https://schema.org/color, https://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
+  
 rdfs:label: "additionalProperty"
-schema:domainIncludes: [{"@id":"schema:Offer"},{"@id":"schema:Place"},{"@id":"schema:Product"},{"@id":"schema:QuantitativeValue"},{"@id":"schema:MerchantReturnPolicy"},{"@id":"schema:QualitativeValue"}]
-schema:rangeIncludes: {"@id":"schema:PropertyValue"}
+schema:domainIncludes: ["https://schema.org/Offer","https://schema.org/Place","https://schema.org/Product","https://schema.org/QuantitativeValue","https://schema.org/MerchantReturnPolicy","https://schema.org/QualitativeValue"]
+schema:rangeIncludes: "https://schema.org/PropertyValue"
 ---
 
-# schema:additionalProperty
+# additionalProperty
+
+A property-value pair representing an additional characteristic of the entity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. https://schema.org/width, https://schema.org/color, https://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
+
 

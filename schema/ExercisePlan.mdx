@@ -1,12 +1,28 @@
 ---
-$id: schema:ExercisePlan
-$type: rdfs:Class
-label: schema:ExercisePlan
+$id: https://schema.org/ExercisePlan
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ExercisePlan
+comment: |
+  Fitness-related activity designed for a specific health-related purpose, including defined exercise routines as well as activity prescribed by a clinician.
 rdfs:comment: "Fitness-related activity designed for a specific health-related purpose, including defined exercise routines as well as activity prescribed by a clinician."
 rdfs:label: "ExercisePlan"
-rdfs:subClassOf: [{"@id":"schema:PhysicalActivity"},{"@id":"schema:CreativeWork"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/PhysicalActivity","https://schema.org/CreativeWork"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:ExercisePlan
+# ExercisePlan
 
+Fitness-related activity designed for a specific health-related purpose, including defined exercise routines as well as activity prescribed by a clinician.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [activityDuration](https://schema.org/activityDuration) | Text |  |
+| [activityFrequency](https://schema.org/activityFrequency) | Text |  |
+| [additionalVariable](https://schema.org/additionalVariable) | Text |  |
+| [exerciseType](https://schema.org/exerciseType) | Text |  |
+| [intensity](https://schema.org/intensity) | Text |  |
+| [repetitions](https://schema.org/repetitions) | Text |  |
+| [restPeriods](https://schema.org/restPeriods) | Text |  |
+| [workload](https://schema.org/workload) | Text |  |

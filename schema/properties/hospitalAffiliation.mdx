@@ -1,13 +1,17 @@
 ---
-$id: schema:hospitalAffiliation
-$type: rdf:Property
-label: schema:hospitalAffiliation
+$id: https://schema.org/hospitalAffiliation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hospitalAffiliation
+comment: |
+  A hospital with which the physician or office is affiliated.
 rdfs:comment: "A hospital with which the physician or office is affiliated."
 rdfs:label: "hospitalAffiliation"
-schema:domainIncludes: {"@id":"schema:Physician"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Hospital"}
+schema:domainIncludes: "https://schema.org/Physician"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Hospital"
 ---
 
-# schema:hospitalAffiliation
+# hospitalAffiliation
+
+A hospital with which the physician or office is affiliated.
 

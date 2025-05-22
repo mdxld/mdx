@@ -1,12 +1,16 @@
 ---
-$id: schema:estimatedCost
-$type: rdf:Property
-label: schema:estimatedCost
+$id: https://schema.org/estimatedCost
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: estimatedCost
+comment: |
+  The estimated cost of the supply or supplies consumed when performing instructions.
 rdfs:comment: "The estimated cost of the supply or supplies consumed when performing instructions."
 rdfs:label: "estimatedCost"
-schema:domainIncludes: [{"@id":"schema:HowToSupply"},{"@id":"schema:HowTo"}]
-schema:rangeIncludes: [{"@id":"schema:MonetaryAmount"},{"@id":"schema:Text"}]
+schema:domainIncludes: ["https://schema.org/HowToSupply","https://schema.org/HowTo"]
+schema:rangeIncludes: ["https://schema.org/MonetaryAmount","https://schema.org/Text"]
 ---
 
-# schema:estimatedCost
+# estimatedCost
+
+The estimated cost of the supply or supplies consumed when performing instructions.
 

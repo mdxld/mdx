@@ -1,11 +1,21 @@
 ---
-$id: schema:ReceiveAction
-$type: rdfs:Class
-label: schema:ReceiveAction
+$id: https://schema.org/ReceiveAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ReceiveAction
+comment: |
+  The act of physically/electronically taking delivery of an object that has been transferred from an origin to a destination. Reciprocal of SendAction.\n\nRelated actions:\n\n* [[SendAction]]: The reciprocal of ReceiveAction.\n* [[TakeAction]]: Unlike TakeAction, ReceiveAction does not imply that the ownership has been transferred (e.g. I can receive a package, but it does not mean the package is now mine).
 rdfs:comment: "The act of physically/electronically taking delivery of an object that has been transferred from an origin to a destination. Reciprocal of SendAction.\\n\\nRelated actions:\\n\\n* [[SendAction]]: The reciprocal of ReceiveAction.\\n* [[TakeAction]]: Unlike TakeAction, ReceiveAction does not imply that the ownership has been transferred (e.g. I can receive a package, but it does not mean the package is now mine)."
 rdfs:label: "ReceiveAction"
-rdfs:subClassOf: {"@id":"schema:TransferAction"}
+rdfs:subClassOf: "https://schema.org/TransferAction"
 ---
 
-# schema:ReceiveAction
+# ReceiveAction
 
+The act of physically/electronically taking delivery of an object that has been transferred from an origin to a destination. Reciprocal of SendAction.\n\nRelated actions:\n\n* [[SendAction]]: The reciprocal of ReceiveAction.\n* [[TakeAction]]: Unlike TakeAction, ReceiveAction does not imply that the ownership has been transferred (e.g. I can receive a package, but it does not mean the package is now mine).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [deliveryMethod](https://schema.org/deliveryMethod) | Text |  |
+| [sender](https://schema.org/sender) | Text |  |

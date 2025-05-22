@@ -1,15 +1,19 @@
 ---
-$id: schema:interpretedAsClaim
-$type: rdf:Property
-label: schema:interpretedAsClaim
+$id: https://schema.org/interpretedAsClaim
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: interpretedAsClaim
+comment: |
+  Used to indicate a specific claim contained, implied, translated or refined from the content of a [[MediaObject]] or other [[CreativeWork]]. The interpreting party can be indicated using [[claimInterpreter]].
 rdfs:comment: "Used to indicate a specific claim contained, implied, translated or refined from the content of a [[MediaObject]] or other [[CreativeWork]]. The interpreting party can be indicated using [[claimInterpreter]]."
 rdfs:label: "interpretedAsClaim"
-rdfs:subPropertyOf: {"@id":"schema:description"}
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:MediaObject"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Claim"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+rdfs:subPropertyOf: "https://schema.org/description"
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/MediaObject"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Claim"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:interpretedAsClaim
+# interpretedAsClaim
+
+Used to indicate a specific claim contained, implied, translated or refined from the content of a [[MediaObject]] or other [[CreativeWork]]. The interpreting party can be indicated using [[claimInterpreter]].
 

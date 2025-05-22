@@ -1,13 +1,17 @@
 ---
-$id: schema:bookingAgent
-$type: rdf:Property
-label: schema:bookingAgent
+$id: https://schema.org/bookingAgent
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: bookingAgent
+comment: |
+  'bookingAgent' is an out-dated term indicating a 'broker' that serves as a booking agent.
 rdfs:comment: "'bookingAgent' is an out-dated term indicating a 'broker' that serves as a booking agent."
 rdfs:label: "bookingAgent"
-schema:domainIncludes: {"@id":"schema:Reservation"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:supersededBy: {"@id":"schema:broker"}
+schema:domainIncludes: "https://schema.org/Reservation"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:supersededBy: "https://schema.org/broker"
 ---
 
-# schema:bookingAgent
+# bookingAgent
+
+'bookingAgent' is an out-dated term indicating a 'broker' that serves as a booking agent.
 

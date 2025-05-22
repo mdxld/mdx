@@ -1,13 +1,17 @@
 ---
-$id: schema:device
-$type: rdf:Property
-label: schema:device
+$id: https://schema.org/device
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: device
+comment: |
+  Device required to run the application. Used in cases where a specific make/model is required to run the application.
 rdfs:comment: "Device required to run the application. Used in cases where a specific make/model is required to run the application."
 rdfs:label: "device"
-schema:domainIncludes: {"@id":"schema:SoftwareApplication"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:supersededBy: {"@id":"schema:availableOnDevice"}
+schema:domainIncludes: "https://schema.org/SoftwareApplication"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:supersededBy: "https://schema.org/availableOnDevice"
 ---
 
-# schema:device
+# device
+
+Device required to run the application. Used in cases where a specific make/model is required to run the application.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:hasMenu
-$type: rdf:Property
-label: schema:hasMenu
+$id: https://schema.org/hasMenu
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasMenu
+comment: |
+  Either the actual menu as a structured representation, as text, or a URL of the menu.
 rdfs:comment: "Either the actual menu as a structured representation, as text, or a URL of the menu."
 rdfs:label: "hasMenu"
-schema:domainIncludes: {"@id":"schema:FoodEstablishment"}
-schema:rangeIncludes: [{"@id":"schema:Menu"},{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/FoodEstablishment"
+schema:rangeIncludes: ["https://schema.org/Menu","https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:hasMenu
+# hasMenu
+
+Either the actual menu as a structured representation, as text, or a URL of the menu.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:departureTime
-$type: rdf:Property
-label: schema:departureTime
+$id: https://schema.org/departureTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: departureTime
+comment: |
+  The expected departure time.
 rdfs:comment: "The expected departure time."
 rdfs:label: "departureTime"
-schema:domainIncludes: {"@id":"schema:Trip"}
-schema:rangeIncludes: [{"@id":"schema:Time"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/Trip"
+schema:rangeIncludes: ["https://schema.org/Time","https://schema.org/DateTime"]
 ---
 
-# schema:departureTime
+# departureTime
+
+The expected departure time.
 

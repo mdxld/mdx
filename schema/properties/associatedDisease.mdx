@@ -1,14 +1,18 @@
 ---
-$id: schema:associatedDisease
-$type: rdf:Property
-label: schema:associatedDisease
+$id: https://schema.org/associatedDisease
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: associatedDisease
+comment: |
+  Disease associated to this BioChemEntity. Such disease can be a MedicalCondition or a URL. If you want to add an evidence supporting the association, please use PropertyValue.
 rdfs:comment: "Disease associated to this BioChemEntity. Such disease can be a MedicalCondition or a URL. If you want to add an evidence supporting the association, please use PropertyValue."
 rdfs:label: "associatedDisease"
-schema:domainIncludes: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:PropertyValue"},{"@id":"schema:MedicalCondition"}]
-schema:source: {"@id":"http://www.bioschemas.org/BioChemEntity"}
+schema:domainIncludes: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/PropertyValue","https://schema.org/MedicalCondition"]
+schema:source: "http://www.bioschemas.org/BioChemEntity"
 ---
 
-# schema:associatedDisease
+# associatedDisease
+
+Disease associated to this BioChemEntity. Such disease can be a MedicalCondition or a URL. If you want to add an evidence supporting the association, please use PropertyValue.
 

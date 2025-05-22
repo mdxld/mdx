@@ -1,12 +1,16 @@
 ---
-$id: schema:contentRating
-$type: rdf:Property
-label: schema:contentRating
+$id: https://schema.org/contentRating
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: contentRating
+comment: |
+  Official rating of a piece of content&#x2014;for example, 'MPAA PG-13'.
 rdfs:comment: "Official rating of a piece of content&#x2014;for example, 'MPAA PG-13'."
 rdfs:label: "contentRating"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Rating"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Rating","https://schema.org/Text"]
 ---
 
-# schema:contentRating
+# contentRating
+
+Official rating of a piece of content&#x2014;for example, 'MPAA PG-13'.
 

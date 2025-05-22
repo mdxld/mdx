@@ -1,13 +1,17 @@
 ---
-$id: schema:purchaseDate
-$type: rdf:Property
-label: schema:purchaseDate
+$id: https://schema.org/purchaseDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: purchaseDate
+comment: |
+  The date the item, e.g. vehicle, was purchased by the current owner.
 rdfs:comment: "The date the item, e.g. vehicle, was purchased by the current owner."
 rdfs:label: "purchaseDate"
-schema:contributor: {"@id":"https://schema.org/docs/collab/Automotive_Ontology_Working_Group"}
-schema:domainIncludes: [{"@id":"schema:Product"},{"@id":"schema:Vehicle"}]
-schema:rangeIncludes: {"@id":"schema:Date"}
+schema:contributor: "https://schema.org/docs/collab/Automotive_Ontology_Working_Group"
+schema:domainIncludes: ["https://schema.org/Product","https://schema.org/Vehicle"]
+schema:rangeIncludes: "https://schema.org/Date"
 ---
 
-# schema:purchaseDate
+# purchaseDate
+
+The date the item, e.g. vehicle, was purchased by the current owner.
 

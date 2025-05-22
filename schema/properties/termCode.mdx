@@ -1,14 +1,18 @@
 ---
-$id: schema:termCode
-$type: rdf:Property
-label: schema:termCode
+$id: https://schema.org/termCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: termCode
+comment: |
+  A code that identifies this [[DefinedTerm]] within a [[DefinedTermSet]].
 rdfs:comment: "A code that identifies this [[DefinedTerm]] within a [[DefinedTermSet]]."
 rdfs:label: "termCode"
-schema:domainIncludes: {"@id":"schema:DefinedTerm"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/894"}
+schema:domainIncludes: "https://schema.org/DefinedTerm"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/894"
 ---
 
-# schema:termCode
+# termCode
+
+A code that identifies this [[DefinedTerm]] within a [[DefinedTermSet]].
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:sampleType
-$type: rdf:Property
-label: schema:sampleType
+$id: https://schema.org/sampleType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sampleType
+comment: |
+  What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template.
 rdfs:comment: "What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template."
 rdfs:label: "sampleType"
-schema:domainIncludes: {"@id":"schema:SoftwareSourceCode"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:supersededBy: {"@id":"schema:codeSampleType"}
+schema:domainIncludes: "https://schema.org/SoftwareSourceCode"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:supersededBy: "https://schema.org/codeSampleType"
 ---
 
-# schema:sampleType
+# sampleType
+
+What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template.
 

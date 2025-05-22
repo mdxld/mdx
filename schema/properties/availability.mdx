@@ -1,12 +1,16 @@
 ---
-$id: schema:availability
-$type: rdf:Property
-label: schema:availability
+$id: https://schema.org/availability
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: availability
+comment: |
+  The availability of this item&#x2014;for example In stock, Out of stock, Pre-order, etc.
 rdfs:comment: "The availability of this item&#x2014;for example In stock, Out of stock, Pre-order, etc."
 rdfs:label: "availability"
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"}]
-schema:rangeIncludes: {"@id":"schema:ItemAvailability"}
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer"]
+schema:rangeIncludes: "https://schema.org/ItemAvailability"
 ---
 
-# schema:availability
+# availability
+
+The availability of this item&#x2014;for example In stock, Out of stock, Pre-order, etc.
 

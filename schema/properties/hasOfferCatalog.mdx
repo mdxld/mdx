@@ -1,12 +1,16 @@
 ---
-$id: schema:hasOfferCatalog
-$type: rdf:Property
-label: schema:hasOfferCatalog
+$id: https://schema.org/hasOfferCatalog
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasOfferCatalog
+comment: |
+  Indicates an OfferCatalog listing for this Organization, Person, or Service.
 rdfs:comment: "Indicates an OfferCatalog listing for this Organization, Person, or Service."
 rdfs:label: "hasOfferCatalog"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Service"},{"@id":"schema:Person"}]
-schema:rangeIncludes: {"@id":"schema:OfferCatalog"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Service","https://schema.org/Person"]
+schema:rangeIncludes: "https://schema.org/OfferCatalog"
 ---
 
-# schema:hasOfferCatalog
+# hasOfferCatalog
+
+Indicates an OfferCatalog listing for this Organization, Person, or Service.
 

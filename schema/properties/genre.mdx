@@ -1,12 +1,16 @@
 ---
-$id: schema:genre
-$type: rdf:Property
-label: schema:genre
+$id: https://schema.org/genre
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: genre
+comment: |
+  Genre of the creative work, broadcast channel or group.
 rdfs:comment: "Genre of the creative work, broadcast channel or group."
 rdfs:label: "genre"
-schema:domainIncludes: [{"@id":"schema:MusicGroup"},{"@id":"schema:BroadcastChannel"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: ["https://schema.org/MusicGroup","https://schema.org/BroadcastChannel","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:genre
+# genre
+
+Genre of the creative work, broadcast channel or group.
 

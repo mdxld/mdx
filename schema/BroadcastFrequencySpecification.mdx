@@ -1,12 +1,23 @@
 ---
-$id: schema:BroadcastFrequencySpecification
-$type: rdfs:Class
-label: schema:BroadcastFrequencySpecification
+$id: https://schema.org/BroadcastFrequencySpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BroadcastFrequencySpecification
+comment: |
+  The frequency in MHz and the modulation used for a particular BroadcastService.
 rdfs:comment: "The frequency in MHz and the modulation used for a particular BroadcastService."
 rdfs:label: "BroadcastFrequencySpecification"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1004"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1004"
 ---
 
-# schema:BroadcastFrequencySpecification
+# BroadcastFrequencySpecification
 
+The frequency in MHz and the modulation used for a particular BroadcastService.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [broadcastFrequencyValue](https://schema.org/broadcastFrequencyValue) | Text |  |
+| [broadcastSignalModulation](https://schema.org/broadcastSignalModulation) | Text |  |
+| [broadcastSubChannel](https://schema.org/broadcastSubChannel) | Text |  |

@@ -1,13 +1,17 @@
 ---
-$id: schema:mechanismOfAction
-$type: rdf:Property
-label: schema:mechanismOfAction
+$id: https://schema.org/mechanismOfAction
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: mechanismOfAction
+comment: |
+  The specific biochemical interaction through which this drug or supplement produces its pharmacological effect.
 rdfs:comment: "The specific biochemical interaction through which this drug or supplement produces its pharmacological effect."
 rdfs:label: "mechanismOfAction"
-schema:domainIncludes: [{"@id":"schema:Drug"},{"@id":"schema:DietarySupplement"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/Drug","https://schema.org/DietarySupplement"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:mechanismOfAction
+# mechanismOfAction
+
+The specific biochemical interaction through which this drug or supplement produces its pharmacological effect.
 

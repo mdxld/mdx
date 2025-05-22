@@ -1,12 +1,16 @@
 ---
-$id: schema:isAccessibleForFree
-$type: rdf:Property
-label: schema:isAccessibleForFree
+$id: https://schema.org/isAccessibleForFree
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isAccessibleForFree
+comment: |
+  A flag to signal that the item, event, or place is accessible for free.
 rdfs:comment: "A flag to signal that the item, event, or place is accessible for free."
 rdfs:label: "isAccessibleForFree"
-schema:domainIncludes: [{"@id":"schema:Event"},{"@id":"schema:CreativeWork"},{"@id":"schema:Place"}]
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: ["https://schema.org/Event","https://schema.org/CreativeWork","https://schema.org/Place"]
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:isAccessibleForFree
+# isAccessibleForFree
+
+A flag to signal that the item, event, or place is accessible for free.
 

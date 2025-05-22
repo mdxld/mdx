@@ -1,13 +1,17 @@
 ---
-$id: schema:pathophysiology
-$type: rdf:Property
-label: schema:pathophysiology
+$id: https://schema.org/pathophysiology
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: pathophysiology
+comment: |
+  Changes in the normal mechanical, physical, and biochemical functions that are associated with this activity or condition.
 rdfs:comment: "Changes in the normal mechanical, physical, and biochemical functions that are associated with this activity or condition."
 rdfs:label: "pathophysiology"
-schema:domainIncludes: [{"@id":"schema:MedicalCondition"},{"@id":"schema:PhysicalActivity"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/MedicalCondition","https://schema.org/PhysicalActivity"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:pathophysiology
+# pathophysiology
+
+Changes in the normal mechanical, physical, and biochemical functions that are associated with this activity or condition.
 

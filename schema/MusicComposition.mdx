@@ -1,12 +1,30 @@
 ---
-$id: schema:MusicComposition
-$type: rdfs:Class
-label: schema:MusicComposition
+$id: https://schema.org/MusicComposition
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MusicComposition
+comment: |
+  A musical composition.
 rdfs:comment: "A musical composition."
 rdfs:label: "MusicComposition"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/MBZ"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:contributor: "https://schema.org/docs/collab/MBZ"
 ---
 
-# schema:MusicComposition
+# MusicComposition
 
+A musical composition.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [composer](https://schema.org/composer) | Text |  |
+| [firstPerformance](https://schema.org/firstPerformance) | Text |  |
+| [includedComposition](https://schema.org/includedComposition) | Text |  |
+| [iswcCode](https://schema.org/iswcCode) | Text |  |
+| [lyricist](https://schema.org/lyricist) | Text |  |
+| [lyrics](https://schema.org/lyrics) | Text |  |
+| [musicalKey](https://schema.org/musicalKey) | Text |  |
+| [musicArrangement](https://schema.org/musicArrangement) | Text |  |
+| [musicCompositionForm](https://schema.org/musicCompositionForm) | Text |  |
+| [recordedAs](https://schema.org/recordedAs) | Text |  |

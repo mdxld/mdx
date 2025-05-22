@@ -1,15 +1,19 @@
 ---
-$id: schema:embeddedTextCaption
-$type: rdf:Property
-label: schema:embeddedTextCaption
+$id: https://schema.org/embeddedTextCaption
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: embeddedTextCaption
+comment: |
+  Represents textual captioning from a [[MediaObject]], e.g. text of a 'meme'.
 rdfs:comment: "Represents textual captioning from a [[MediaObject]], e.g. text of a 'meme'."
 rdfs:label: "embeddedTextCaption"
-rdfs:subPropertyOf: {"@id":"schema:caption"}
-schema:domainIncludes: [{"@id":"schema:AudioObject"},{"@id":"schema:ImageObject"},{"@id":"schema:VideoObject"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+rdfs:subPropertyOf: "https://schema.org/caption"
+schema:domainIncludes: ["https://schema.org/AudioObject","https://schema.org/ImageObject","https://schema.org/VideoObject"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:embeddedTextCaption
+# embeddedTextCaption
+
+Represents textual captioning from a [[MediaObject]], e.g. text of a 'meme'.
 

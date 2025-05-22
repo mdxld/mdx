@@ -1,12 +1,16 @@
 ---
-$id: schema:customer
-$type: rdf:Property
-label: schema:customer
+$id: https://schema.org/customer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: customer
+comment: |
+  Party placing the order or paying the invoice.
 rdfs:comment: "Party placing the order or paying the invoice."
 rdfs:label: "customer"
-schema:domainIncludes: [{"@id":"schema:Invoice"},{"@id":"schema:Order"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/Invoice","https://schema.org/Order"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:customer
+# customer
+
+Party placing the order or paying the invoice.
 

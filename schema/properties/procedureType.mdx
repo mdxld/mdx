@@ -1,13 +1,17 @@
 ---
-$id: schema:procedureType
-$type: rdf:Property
-label: schema:procedureType
+$id: https://schema.org/procedureType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: procedureType
+comment: |
+  The type of procedure, for example Surgical, Noninvasive, or Percutaneous.
 rdfs:comment: "The type of procedure, for example Surgical, Noninvasive, or Percutaneous."
 rdfs:label: "procedureType"
-schema:domainIncludes: {"@id":"schema:MedicalProcedure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalProcedureType"}
+schema:domainIncludes: "https://schema.org/MedicalProcedure"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalProcedureType"
 ---
 
-# schema:procedureType
+# procedureType
+
+The type of procedure, for example Surgical, Noninvasive, or Percutaneous.
 

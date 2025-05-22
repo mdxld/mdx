@@ -1,13 +1,17 @@
 ---
-$id: schema:studySubject
-$type: rdf:Property
-label: schema:studySubject
+$id: https://schema.org/studySubject
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: studySubject
+comment: |
+  A subject of the study, i.e. one of the medical conditions, therapies, devices, drugs, etc. investigated by the study.
 rdfs:comment: "A subject of the study, i.e. one of the medical conditions, therapies, devices, drugs, etc. investigated by the study."
 rdfs:label: "studySubject"
-schema:domainIncludes: {"@id":"schema:MedicalStudy"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalEntity"}
+schema:domainIncludes: "https://schema.org/MedicalStudy"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalEntity"
 ---
 
-# schema:studySubject
+# studySubject
+
+A subject of the study, i.e. one of the medical conditions, therapies, devices, drugs, etc. investigated by the study.
 

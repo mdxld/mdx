@@ -1,11 +1,22 @@
 ---
-$id: schema:GameServer
-$type: rdfs:Class
-label: schema:GameServer
+$id: https://schema.org/GameServer
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: GameServer
+comment: |
+  Server that provides game interaction in a multiplayer game.
 rdfs:comment: "Server that provides game interaction in a multiplayer game."
 rdfs:label: "GameServer"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:GameServer
+# GameServer
 
+Server that provides game interaction in a multiplayer game.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [game](https://schema.org/game) | Text |  |
+| [playersOnline](https://schema.org/playersOnline) | Text |  |
+| [serverStatus](https://schema.org/serverStatus) | Text |  |

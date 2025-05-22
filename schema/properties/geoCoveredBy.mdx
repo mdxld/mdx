@@ -1,12 +1,16 @@
 ---
-$id: schema:geoCoveredBy
-$type: rdf:Property
-label: schema:geoCoveredBy
+$id: https://schema.org/geoCoveredBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: geoCoveredBy
+comment: |
+  Represents a relationship between two geometries (or the places they represent), relating a geometry to another that covers it. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM).
 rdfs:comment: "Represents a relationship between two geometries (or the places they represent), relating a geometry to another that covers it. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM)."
 rdfs:label: "geoCoveredBy"
-schema:domainIncludes: [{"@id":"schema:GeospatialGeometry"},{"@id":"schema:Place"}]
-schema:rangeIncludes: [{"@id":"schema:GeospatialGeometry"},{"@id":"schema:Place"}]
+schema:domainIncludes: ["https://schema.org/GeospatialGeometry","https://schema.org/Place"]
+schema:rangeIncludes: ["https://schema.org/GeospatialGeometry","https://schema.org/Place"]
 ---
 
-# schema:geoCoveredBy
+# geoCoveredBy
+
+Represents a relationship between two geometries (or the places they represent), relating a geometry to another that covers it. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM).
 

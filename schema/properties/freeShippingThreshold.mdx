@@ -1,13 +1,17 @@
 ---
-$id: schema:freeShippingThreshold
-$type: rdf:Property
-label: schema:freeShippingThreshold
+$id: https://schema.org/freeShippingThreshold
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: freeShippingThreshold
+comment: |
+  A monetary value above (or at) which the shipping rate becomes free. Intended to be used via an [[OfferShippingDetails]] with [[shippingSettingsLink]] matching this [[ShippingRateSettings]].
 rdfs:comment: "A monetary value above (or at) which the shipping rate becomes free. Intended to be used via an [[OfferShippingDetails]] with [[shippingSettingsLink]] matching this [[ShippingRateSettings]]."
 rdfs:label: "freeShippingThreshold"
-schema:domainIncludes: {"@id":"schema:ShippingRateSettings"}
-schema:rangeIncludes: [{"@id":"schema:DeliveryChargeSpecification"},{"@id":"schema:MonetaryAmount"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+schema:domainIncludes: "https://schema.org/ShippingRateSettings"
+schema:rangeIncludes: ["https://schema.org/DeliveryChargeSpecification","https://schema.org/MonetaryAmount"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:freeShippingThreshold
+# freeShippingThreshold
+
+A monetary value above (or at) which the shipping rate becomes free. Intended to be used via an [[OfferShippingDetails]] with [[shippingSettingsLink]] matching this [[ShippingRateSettings]].
 

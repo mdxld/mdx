@@ -1,13 +1,33 @@
 ---
-$id: schema:ShippingConditions
-$type: rdfs:Class
-label: schema:ShippingConditions
+$id: https://schema.org/ShippingConditions
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ShippingConditions
+comment: |
+  ShippingConditions represent a set of constraints and information about the conditions of shipping a product. Such conditions may apply to only a subset of the products being shipped, depending on aspects of the product like weight, size, price, destination, and others. All the specified conditions must be met for this ShippingConditions to apply.
 rdfs:comment: "ShippingConditions represent a set of constraints and information about the conditions of shipping a product. Such conditions may apply to only a subset of the products being shipped, depending on aspects of the product like weight, size, price, destination, and others. All the specified conditions must be met for this ShippingConditions to apply."
 rdfs:label: "ShippingConditions"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:ShippingConditions
+# ShippingConditions
 
+ShippingConditions represent a set of constraints and information about the conditions of shipping a product. Such conditions may apply to only a subset of the products being shipped, depending on aspects of the product like weight, size, price, destination, and others. All the specified conditions must be met for this ShippingConditions to apply.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [depth](https://schema.org/depth) | Text |  |
+| [doesNotShip](https://schema.org/doesNotShip) | Text |  |
+| [height](https://schema.org/height) | Text |  |
+| [numItems](https://schema.org/numItems) | Text |  |
+| [orderValue](https://schema.org/orderValue) | Text |  |
+| [seasonalOverride](https://schema.org/seasonalOverride) | Text |  |
+| [shippingDestination](https://schema.org/shippingDestination) | Text |  |
+| [shippingOrigin](https://schema.org/shippingOrigin) | Text |  |
+| [shippingRate](https://schema.org/shippingRate) | Text |  |
+| [transitTime](https://schema.org/transitTime) | Text |  |
+| [weight](https://schema.org/weight) | Text |  |
+| [width](https://schema.org/width) | Text |  |

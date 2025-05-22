@@ -1,13 +1,17 @@
 ---
-$id: schema:dosageForm
-$type: rdf:Property
-label: schema:dosageForm
+$id: https://schema.org/dosageForm
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dosageForm
+comment: |
+  A dosage form in which this drug/supplement is available, e.g. 'tablet', 'suspension', 'injection'.
 rdfs:comment: "A dosage form in which this drug/supplement is available, e.g. 'tablet', 'suspension', 'injection'."
 rdfs:label: "dosageForm"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:dosageForm
+# dosageForm
+
+A dosage form in which this drug/supplement is available, e.g. 'tablet', 'suspension', 'injection'.
 

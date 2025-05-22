@@ -1,13 +1,17 @@
 ---
-$id: schema:actionAccessibilityRequirement
-$type: rdf:Property
-label: schema:actionAccessibilityRequirement
+$id: https://schema.org/actionAccessibilityRequirement
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: actionAccessibilityRequirement
+comment: |
+  A set of requirements that must be fulfilled in order to perform an Action. If more than one value is specified, fulfilling one set of requirements will allow the Action to be performed.
 rdfs:comment: "A set of requirements that must be fulfilled in order to perform an Action. If more than one value is specified, fulfilling one set of requirements will allow the Action to be performed."
 rdfs:label: "actionAccessibilityRequirement"
-schema:domainIncludes: {"@id":"schema:ConsumeAction"}
-schema:rangeIncludes: {"@id":"schema:ActionAccessSpecification"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}
+schema:domainIncludes: "https://schema.org/ConsumeAction"
+schema:rangeIncludes: "https://schema.org/ActionAccessSpecification"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1741"
 ---
 
-# schema:actionAccessibilityRequirement
+# actionAccessibilityRequirement
+
+A set of requirements that must be fulfilled in order to perform an Action. If more than one value is specified, fulfilling one set of requirements will allow the Action to be performed.
 

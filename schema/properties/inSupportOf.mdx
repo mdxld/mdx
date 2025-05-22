@@ -1,13 +1,17 @@
 ---
-$id: schema:inSupportOf
-$type: rdf:Property
-label: schema:inSupportOf
+$id: https://schema.org/inSupportOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inSupportOf
+comment: |
+  Qualification, candidature, degree, application that Thesis supports.
 rdfs:comment: "Qualification, candidature, degree, application that Thesis supports."
 rdfs:label: "inSupportOf"
-schema:domainIncludes: {"@id":"schema:Thesis"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/Thesis"
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:inSupportOf
+# inSupportOf
+
+Qualification, candidature, degree, application that Thesis supports.
 

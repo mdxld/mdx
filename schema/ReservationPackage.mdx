@@ -1,11 +1,20 @@
 ---
-$id: schema:ReservationPackage
-$type: rdfs:Class
-label: schema:ReservationPackage
+$id: https://schema.org/ReservationPackage
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ReservationPackage
+comment: |
+  A group of multiple reservations with common values for all sub-reservations.
 rdfs:comment: "A group of multiple reservations with common values for all sub-reservations."
 rdfs:label: "ReservationPackage"
-rdfs:subClassOf: {"@id":"schema:Reservation"}
+rdfs:subClassOf: "https://schema.org/Reservation"
 ---
 
-# schema:ReservationPackage
+# ReservationPackage
 
+A group of multiple reservations with common values for all sub-reservations.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [subReservation](https://schema.org/subReservation) | Text |  |

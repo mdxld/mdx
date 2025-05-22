@@ -1,12 +1,16 @@
 ---
-$id: schema:billingAddress
-$type: rdf:Property
-label: schema:billingAddress
+$id: https://schema.org/billingAddress
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: billingAddress
+comment: |
+  The billing address for the order.
 rdfs:comment: "The billing address for the order."
 rdfs:label: "billingAddress"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: {"@id":"schema:PostalAddress"}
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: "https://schema.org/PostalAddress"
 ---
 
-# schema:billingAddress
+# billingAddress
+
+The billing address for the order.
 

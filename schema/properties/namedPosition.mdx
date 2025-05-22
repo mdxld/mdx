@@ -1,13 +1,17 @@
 ---
-$id: schema:namedPosition
-$type: rdf:Property
-label: schema:namedPosition
+$id: https://schema.org/namedPosition
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: namedPosition
+comment: |
+  A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.
 rdfs:comment: "A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'."
 rdfs:label: "namedPosition"
-schema:domainIncludes: {"@id":"schema:Role"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
-schema:supersededBy: {"@id":"schema:roleName"}
+schema:domainIncludes: "https://schema.org/Role"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
+schema:supersededBy: "https://schema.org/roleName"
 ---
 
-# schema:namedPosition
+# namedPosition
+
+A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.
 

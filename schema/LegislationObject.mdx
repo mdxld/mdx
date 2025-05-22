@@ -1,15 +1,24 @@
 ---
-$id: schema:LegislationObject
-$type: rdfs:Class
-label: schema:LegislationObject
+$id: https://schema.org/LegislationObject
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LegislationObject
+comment: |
+  A specific object or file containing a Legislation. Note that the same Legislation can be published in multiple files. For example, a digitally signed PDF, a plain PDF and an HTML version.
 rdfs:comment: "A specific object or file containing a Legislation. Note that the same Legislation can be published in multiple files. For example, a digitally signed PDF, a plain PDF and an HTML version."
 rdfs:label: "LegislationObject"
-rdfs:subClassOf: [{"@id":"schema:Legislation"},{"@id":"schema:MediaObject"}]
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:closeMatch: {"@id":"http://data.europa.eu/eli/ontology#Format"}
+rdfs:subClassOf: ["https://schema.org/Legislation","https://schema.org/MediaObject"]
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:closeMatch: "http://data.europa.eu/eli/ontology#Format"
 ---
 
-# schema:LegislationObject
+# LegislationObject
 
+A specific object or file containing a Legislation. Note that the same Legislation can be published in multiple files. For example, a digitally signed PDF, a plain PDF and an HTML version.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [legislationLegalValue](https://schema.org/legislationLegalValue) | Text |  |

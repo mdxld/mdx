@@ -1,14 +1,18 @@
 ---
-$id: schema:qualifiedExpense
-$type: rdf:Property
-label: schema:qualifiedExpense
+$id: https://schema.org/qualifiedExpense
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: qualifiedExpense
+comment: |
+  Optional. The types of expenses that are covered by the incentive. For example some incentives are only for the goods (tangible items) but the services (labor) are excluded.
 rdfs:comment: "Optional. The types of expenses that are covered by the incentive. For example some incentives are only for the goods (tangible items) but the services (labor) are excluded."
 rdfs:label: "qualifiedExpense"
-schema:domainIncludes: {"@id":"schema:FinancialIncentive"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:IncentiveQualifiedExpenseType"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3572"}
+schema:domainIncludes: "https://schema.org/FinancialIncentive"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/IncentiveQualifiedExpenseType"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3572"
 ---
 
-# schema:qualifiedExpense
+# qualifiedExpense
+
+Optional. The types of expenses that are covered by the incentive. For example some incentives are only for the goods (tangible items) but the services (labor) are excluded.
 

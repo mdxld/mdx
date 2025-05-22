@@ -1,14 +1,18 @@
 ---
-$id: schema:subjectOf
-$type: rdf:Property
-label: schema:subjectOf
+$id: https://schema.org/subjectOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: subjectOf
+comment: |
+  A CreativeWork or Event about this Thing.
 rdfs:comment: "A CreativeWork or Event about this Thing."
 rdfs:label: "subjectOf"
-schema:domainIncludes: {"@id":"schema:Thing"}
-schema:inverseOf: {"@id":"schema:about"}
-schema:rangeIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:Event"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1670"}
+schema:domainIncludes: "https://schema.org/Thing"
+schema:inverseOf: "https://schema.org/about"
+schema:rangeIncludes: ["https://schema.org/CreativeWork","https://schema.org/Event"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1670"
 ---
 
-# schema:subjectOf
+# subjectOf
+
+A CreativeWork or Event about this Thing.
 

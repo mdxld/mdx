@@ -1,12 +1,16 @@
 ---
-$id: schema:programmingLanguage
-$type: rdf:Property
-label: schema:programmingLanguage
+$id: https://schema.org/programmingLanguage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: programmingLanguage
+comment: |
+  The computer programming language.
 rdfs:comment: "The computer programming language."
 rdfs:label: "programmingLanguage"
-schema:domainIncludes: {"@id":"schema:SoftwareSourceCode"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:ComputerLanguage"}]
+schema:domainIncludes: "https://schema.org/SoftwareSourceCode"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/ComputerLanguage"]
 ---
 
-# schema:programmingLanguage
+# programmingLanguage
+
+The computer programming language.
 

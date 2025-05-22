@@ -1,12 +1,16 @@
 ---
-$id: schema:publicAccess
-$type: rdf:Property
-label: schema:publicAccess
+$id: https://schema.org/publicAccess
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: publicAccess
+comment: |
+  A flag to signal that the [[Place]] is open to public visitors.  If this property is omitted there is no assumed default boolean value.
 rdfs:comment: "A flag to signal that the [[Place]] is open to public visitors.  If this property is omitted there is no assumed default boolean value."
 rdfs:label: "publicAccess"
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: "https://schema.org/Place"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:publicAccess
+# publicAccess
+
+A flag to signal that the [[Place]] is open to public visitors.  If this property is omitted there is no assumed default boolean value.
 

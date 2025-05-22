@@ -1,13 +1,30 @@
 ---
-$id: schema:MolecularEntity
-$type: rdfs:Class
-label: schema:MolecularEntity
+$id: https://schema.org/MolecularEntity
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MolecularEntity
+comment: |
+  Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.
 rdfs:comment: "Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity."
 rdfs:label: "MolecularEntity"
-rdfs:subClassOf: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"http://bioschemas.org"}
+rdfs:subClassOf: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "http://bioschemas.org"
 ---
 
-# schema:MolecularEntity
+# MolecularEntity
 
+Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [chemicalRole](https://schema.org/chemicalRole) | Text |  |
+| [inChI](https://schema.org/inChI) | Text |  |
+| [inChIKey](https://schema.org/inChIKey) | Text |  |
+| [iupacName](https://schema.org/iupacName) | Text |  |
+| [molecularFormula](https://schema.org/molecularFormula) | Text |  |
+| [molecularWeight](https://schema.org/molecularWeight) | Text |  |
+| [monoisotopicMolecularWeight](https://schema.org/monoisotopicMolecularWeight) | Text |  |
+| [potentialUse](https://schema.org/potentialUse) | Text |  |
+| [smiles](https://schema.org/smiles) | Text |  |

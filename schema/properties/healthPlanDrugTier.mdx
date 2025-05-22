@@ -1,14 +1,18 @@
 ---
-$id: schema:healthPlanDrugTier
-$type: rdf:Property
-label: schema:healthPlanDrugTier
+$id: https://schema.org/healthPlanDrugTier
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: healthPlanDrugTier
+comment: |
+  The tier(s) of drugs offered by this formulary or insurance plan.
 rdfs:comment: "The tier(s) of drugs offered by this formulary or insurance plan."
 rdfs:label: "healthPlanDrugTier"
-schema:domainIncludes: [{"@id":"schema:HealthInsurancePlan"},{"@id":"schema:HealthPlanFormulary"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+schema:domainIncludes: ["https://schema.org/HealthInsurancePlan","https://schema.org/HealthPlanFormulary"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:healthPlanDrugTier
+# healthPlanDrugTier
+
+The tier(s) of drugs offered by this formulary or insurance plan.
 

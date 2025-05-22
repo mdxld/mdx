@@ -1,13 +1,24 @@
 ---
-$id: schema:ServicePeriod
-$type: rdfs:Class
-label: schema:ServicePeriod
+$id: https://schema.org/ServicePeriod
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ServicePeriod
+comment: |
+  ServicePeriod represents a duration with some constraints about cutoff time and business days. This is used e.g. in shipping for handling times or transit time.
 rdfs:comment: "ServicePeriod represents a duration with some constraints about cutoff time and business days. This is used e.g. in shipping for handling times or transit time."
 rdfs:label: "ServicePeriod"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:ServicePeriod
+# ServicePeriod
 
+ServicePeriod represents a duration with some constraints about cutoff time and business days. This is used e.g. in shipping for handling times or transit time.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [businessDays](https://schema.org/businessDays) | Text |  |
+| [cutoffTime](https://schema.org/cutoffTime) | Text |  |
+| [duration](https://schema.org/duration) | Text |  |

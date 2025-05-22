@@ -1,17 +1,21 @@
 ---
-$id: schema:legislationDateOfApplicability
-$type: rdf:Property
-label: schema:legislationDateOfApplicability
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#date_applicability"}
+$id: https://schema.org/legislationDateOfApplicability
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationDateOfApplicability
+comment: |
+  The date at which the Legislation becomes applicable. This can sometimes be distinct from the date of entry into force : a text may come in force today, and state it will become applicable in 3 months.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#date_applicability"
 rdfs:comment: "The date at which the Legislation becomes applicable. This can sometimes be distinct from the date of entry into force : a text may come in force today, and state it will become applicable in 3 months."
 rdfs:label: "legislationDateOfApplicability"
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Date"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/2698"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#date_applicability"}
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Date"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/2698","https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#date_applicability"
 ---
 
-# schema:legislationDateOfApplicability
+# legislationDateOfApplicability
+
+The date at which the Legislation becomes applicable. This can sometimes be distinct from the date of entry into force : a text may come in force today, and state it will become applicable in 3 months.
 

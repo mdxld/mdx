@@ -1,13 +1,17 @@
 ---
-$id: schema:recipeYield
-$type: rdf:Property
-label: schema:recipeYield
+$id: https://schema.org/recipeYield
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recipeYield
+comment: |
+  The quantity produced by the recipe (for example, number of people served, number of servings, etc).
 rdfs:comment: "The quantity produced by the recipe (for example, number of people served, number of servings, etc)."
 rdfs:label: "recipeYield"
-rdfs:subPropertyOf: {"@id":"schema:yield"}
-schema:domainIncludes: {"@id":"schema:Recipe"}
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Text"}]
+rdfs:subPropertyOf: "https://schema.org/yield"
+schema:domainIncludes: "https://schema.org/Recipe"
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Text"]
 ---
 
-# schema:recipeYield
+# recipeYield
+
+The quantity produced by the recipe (for example, number of people served, number of servings, etc).
 

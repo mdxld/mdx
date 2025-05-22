@@ -1,13 +1,51 @@
 ---
-$id: schema:Drug
-$type: rdfs:Class
-label: schema:Drug
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/410942007"}
+$id: https://schema.org/Drug
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Drug
+comment: |
+  A chemical or biologic substance, used as a medical therapy, that has a physiological effect on an organism. Here the term drug is used interchangeably with the term medicine although clinical knowledge makes a clear difference between them.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/410942007"
 rdfs:comment: "A chemical or biologic substance, used as a medical therapy, that has a physiological effect on an organism. Here the term drug is used interchangeably with the term medicine although clinical knowledge makes a clear difference between them."
 rdfs:label: "Drug"
-rdfs:subClassOf: [{"@id":"schema:Product"},{"@id":"schema:Substance"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/Product","https://schema.org/Substance"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Drug
+# Drug
 
+A chemical or biologic substance, used as a medical therapy, that has a physiological effect on an organism. Here the term drug is used interchangeably with the term medicine although clinical knowledge makes a clear difference between them.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [activeIngredient](https://schema.org/activeIngredient) | Text |  |
+| [administrationRoute](https://schema.org/administrationRoute) | Text |  |
+| [alcoholWarning](https://schema.org/alcoholWarning) | Text |  |
+| [availableStrength](https://schema.org/availableStrength) | Text |  |
+| [breastfeedingWarning](https://schema.org/breastfeedingWarning) | Text |  |
+| [clincalPharmacology](https://schema.org/clincalPharmacology) | Text |  |
+| [clinicalPharmacology](https://schema.org/clinicalPharmacology) | Text |  |
+| [dosageForm](https://schema.org/dosageForm) | Text |  |
+| [doseSchedule](https://schema.org/doseSchedule) | Text |  |
+| [drugClass](https://schema.org/drugClass) | Text |  |
+| [drugUnit](https://schema.org/drugUnit) | Text |  |
+| [foodWarning](https://schema.org/foodWarning) | Text |  |
+| [includedInHealthInsurancePlan](https://schema.org/includedInHealthInsurancePlan) | Text |  |
+| [interactingDrug](https://schema.org/interactingDrug) | Text |  |
+| [isAvailableGenerically](https://schema.org/isAvailableGenerically) | Text |  |
+| [isProprietary](https://schema.org/isProprietary) | Text |  |
+| [labelDetails](https://schema.org/labelDetails) | Text |  |
+| [legalStatus](https://schema.org/legalStatus) | Text |  |
+| [maximumIntake](https://schema.org/maximumIntake) | Text |  |
+| [mechanismOfAction](https://schema.org/mechanismOfAction) | Text |  |
+| [nonProprietaryName](https://schema.org/nonProprietaryName) | Text |  |
+| [overdosage](https://schema.org/overdosage) | Text |  |
+| [pregnancyCategory](https://schema.org/pregnancyCategory) | Text |  |
+| [pregnancyWarning](https://schema.org/pregnancyWarning) | Text |  |
+| [prescribingInfo](https://schema.org/prescribingInfo) | Text |  |
+| [prescriptionStatus](https://schema.org/prescriptionStatus) | Text |  |
+| [proprietaryName](https://schema.org/proprietaryName) | Text |  |
+| [relatedDrug](https://schema.org/relatedDrug) | Text |  |
+| [rxcui](https://schema.org/rxcui) | Text |  |
+| [warning](https://schema.org/warning) | Text |  |

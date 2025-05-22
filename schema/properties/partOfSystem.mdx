@@ -1,13 +1,17 @@
 ---
-$id: schema:partOfSystem
-$type: rdf:Property
-label: schema:partOfSystem
+$id: https://schema.org/partOfSystem
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: partOfSystem
+comment: |
+  The anatomical or organ system that this structure is part of.
 rdfs:comment: "The anatomical or organ system that this structure is part of."
 rdfs:label: "partOfSystem"
-schema:domainIncludes: {"@id":"schema:AnatomicalStructure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AnatomicalSystem"}
+schema:domainIncludes: "https://schema.org/AnatomicalStructure"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/AnatomicalSystem"
 ---
 
-# schema:partOfSystem
+# partOfSystem
+
+The anatomical or organ system that this structure is part of.
 

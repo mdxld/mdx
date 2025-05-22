@@ -1,13 +1,17 @@
 ---
-$id: schema:medicalSpecialty
-$type: rdf:Property
-label: schema:medicalSpecialty
+$id: https://schema.org/medicalSpecialty
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: medicalSpecialty
+comment: |
+  A medical specialty of the provider.
 rdfs:comment: "A medical specialty of the provider."
 rdfs:label: "medicalSpecialty"
-schema:domainIncludes: [{"@id":"schema:MedicalClinic"},{"@id":"schema:Physician"},{"@id":"schema:Hospital"},{"@id":"schema:MedicalOrganization"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalSpecialty"}
+schema:domainIncludes: ["https://schema.org/MedicalClinic","https://schema.org/Physician","https://schema.org/Hospital","https://schema.org/MedicalOrganization"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalSpecialty"
 ---
 
-# schema:medicalSpecialty
+# medicalSpecialty
+
+A medical specialty of the provider.
 

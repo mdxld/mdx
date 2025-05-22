@@ -1,11 +1,23 @@
 ---
-$id: schema:MusicAlbum
-$type: rdfs:Class
-label: schema:MusicAlbum
+$id: https://schema.org/MusicAlbum
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MusicAlbum
+comment: |
+  A collection of music tracks.
 rdfs:comment: "A collection of music tracks."
 rdfs:label: "MusicAlbum"
-rdfs:subClassOf: {"@id":"schema:MusicPlaylist"}
+rdfs:subClassOf: "https://schema.org/MusicPlaylist"
 ---
 
-# schema:MusicAlbum
+# MusicAlbum
 
+A collection of music tracks.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [albumProductionType](https://schema.org/albumProductionType) | Text |  |
+| [albumRelease](https://schema.org/albumRelease) | Text |  |
+| [albumReleaseType](https://schema.org/albumReleaseType) | Text |  |
+| [byArtist](https://schema.org/byArtist) | Text |  |

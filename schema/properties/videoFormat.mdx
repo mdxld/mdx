@@ -1,12 +1,16 @@
 ---
-$id: schema:videoFormat
-$type: rdf:Property
-label: schema:videoFormat
+$id: https://schema.org/videoFormat
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: videoFormat
+comment: |
+  The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.).
 rdfs:comment: "The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.)."
 rdfs:label: "videoFormat"
-schema:domainIncludes: [{"@id":"schema:BroadcastService"},{"@id":"schema:BroadcastEvent"},{"@id":"schema:ScreeningEvent"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/BroadcastService","https://schema.org/BroadcastEvent","https://schema.org/ScreeningEvent"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:videoFormat
+# videoFormat
+
+The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.).
 

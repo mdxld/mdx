@@ -1,14 +1,18 @@
 ---
-$id: schema:hasMerchantReturnPolicy
-$type: rdf:Property
-label: schema:hasMerchantReturnPolicy
+$id: https://schema.org/hasMerchantReturnPolicy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasMerchantReturnPolicy
+comment: |
+  Specifies a MerchantReturnPolicy that may be applicable.
 rdfs:comment: "Specifies a MerchantReturnPolicy that may be applicable."
 rdfs:label: "hasMerchantReturnPolicy"
-schema:domainIncludes: [{"@id":"schema:Product"},{"@id":"schema:Offer"},{"@id":"schema:Organization"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MerchantReturnPolicy"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2288"}
+schema:domainIncludes: ["https://schema.org/Product","https://schema.org/Offer","https://schema.org/Organization"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MerchantReturnPolicy"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2288"
 ---
 
-# schema:hasMerchantReturnPolicy
+# hasMerchantReturnPolicy
+
+Specifies a MerchantReturnPolicy that may be applicable.
 

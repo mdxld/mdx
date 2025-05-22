@@ -1,12 +1,16 @@
 ---
-$id: schema:producer
-$type: rdf:Property
-label: schema:producer
+$id: https://schema.org/producer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: producer
+comment: |
+  The person or organization who produced the work (e.g. music album, movie, TV/radio series etc.).
 rdfs:comment: "The person or organization who produced the work (e.g. music album, movie, TV/radio series etc.)."
 rdfs:label: "producer"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:producer
+# producer
+
+The person or organization who produced the work (e.g. music album, movie, TV/radio series etc.).
 

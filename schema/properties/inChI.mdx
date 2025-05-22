@@ -1,15 +1,19 @@
 ---
-$id: schema:inChI
-$type: rdf:Property
-label: schema:inChI
+$id: https://schema.org/inChI
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inChI
+comment: |
+  Non-proprietary identifier for molecular entity that can be used in printed and electronic data sources thus enabling easier linking of diverse data compilations.
 rdfs:comment: "Non-proprietary identifier for molecular entity that can be used in printed and electronic data sources thus enabling easier linking of diverse data compilations."
 rdfs:label: "inChI"
-rdfs:subPropertyOf: {"@id":"schema:hasRepresentation"}
-schema:domainIncludes: {"@id":"schema:MolecularEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"http://www.bioschemas.org/MolecularEntity"}
+rdfs:subPropertyOf: "https://schema.org/hasRepresentation"
+schema:domainIncludes: "https://schema.org/MolecularEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "http://www.bioschemas.org/MolecularEntity"
 ---
 
-# schema:inChI
+# inChI
+
+Non-proprietary identifier for molecular entity that can be used in printed and electronic data sources thus enabling easier linking of diverse data compilations.
 

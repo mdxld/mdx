@@ -1,12 +1,16 @@
 ---
-$id: schema:ticketToken
-$type: rdf:Property
-label: schema:ticketToken
+$id: https://schema.org/ticketToken
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: ticketToken
+comment: |
+  Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance.
 rdfs:comment: "Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance."
 rdfs:label: "ticketToken"
-schema:domainIncludes: {"@id":"schema:Ticket"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/Ticket"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:ticketToken
+# ticketToken
+
+Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance.
 

@@ -1,14 +1,18 @@
 ---
-$id: schema:healthcareReportingData
-$type: rdf:Property
-label: schema:healthcareReportingData
+$id: https://schema.org/healthcareReportingData
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: healthcareReportingData
+comment: |
+  Indicates data describing a hospital, e.g. a CDC [[CDCPMDRecord]] or as some kind of [[Dataset]].
 rdfs:comment: "Indicates data describing a hospital, e.g. a CDC [[CDCPMDRecord]] or as some kind of [[Dataset]]."
 rdfs:label: "healthcareReportingData"
-schema:domainIncludes: {"@id":"schema:Hospital"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:CDCPMDRecord"},{"@id":"schema:Dataset"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2521"}
+schema:domainIncludes: "https://schema.org/Hospital"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/CDCPMDRecord","https://schema.org/Dataset"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2521"
 ---
 
-# schema:healthcareReportingData
+# healthcareReportingData
+
+Indicates data describing a hospital, e.g. a CDC [[CDCPMDRecord]] or as some kind of [[Dataset]].
 

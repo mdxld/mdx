@@ -1,13 +1,17 @@
 ---
-$id: schema:labelDetails
-$type: rdf:Property
-label: schema:labelDetails
+$id: https://schema.org/labelDetails
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: labelDetails
+comment: |
+  Link to the drug's label details.
 rdfs:comment: "Link to the drug's label details."
 rdfs:label: "labelDetails"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:URL"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/URL"
 ---
 
-# schema:labelDetails
+# labelDetails
+
+Link to the drug's label details.
 

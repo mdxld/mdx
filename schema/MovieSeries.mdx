@@ -1,11 +1,26 @@
 ---
-$id: schema:MovieSeries
-$type: rdfs:Class
-label: schema:MovieSeries
+$id: https://schema.org/MovieSeries
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MovieSeries
+comment: |
+  A series of movies. Included movies can be indicated with the hasPart property.
 rdfs:comment: "A series of movies. Included movies can be indicated with the hasPart property."
 rdfs:label: "MovieSeries"
-rdfs:subClassOf: {"@id":"schema:CreativeWorkSeries"}
+rdfs:subClassOf: "https://schema.org/CreativeWorkSeries"
 ---
 
-# schema:MovieSeries
+# MovieSeries
 
+A series of movies. Included movies can be indicated with the hasPart property.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [actor](https://schema.org/actor) | Text |  |
+| [actors](https://schema.org/actors) | Text |  |
+| [director](https://schema.org/director) | Text |  |
+| [directors](https://schema.org/directors) | Text |  |
+| [musicBy](https://schema.org/musicBy) | Text |  |
+| [productionCompany](https://schema.org/productionCompany) | Text |  |
+| [trailer](https://schema.org/trailer) | Text |  |

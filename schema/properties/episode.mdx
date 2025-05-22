@@ -1,13 +1,17 @@
 ---
-$id: schema:episode
-$type: rdf:Property
-label: schema:episode
+$id: https://schema.org/episode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: episode
+comment: |
+  An episode of a TV, radio or game media within a series or season.
 rdfs:comment: "An episode of a TV, radio or game media within a series or season."
 rdfs:label: "episode"
-rdfs:subPropertyOf: {"@id":"schema:hasPart"}
-schema:domainIncludes: [{"@id":"schema:TVSeries"},{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:CreativeWorkSeason"}]
-schema:rangeIncludes: {"@id":"schema:Episode"}
+rdfs:subPropertyOf: "https://schema.org/hasPart"
+schema:domainIncludes: ["https://schema.org/TVSeries","https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/CreativeWorkSeason"]
+schema:rangeIncludes: "https://schema.org/Episode"
 ---
 
-# schema:episode
+# episode
+
+An episode of a TV, radio or game media within a series or season.
 

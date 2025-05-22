@@ -1,12 +1,16 @@
 ---
-$id: schema:paymentUrl
-$type: rdf:Property
-label: schema:paymentUrl
+$id: https://schema.org/paymentUrl
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: paymentUrl
+comment: |
+  The URL for sending a payment.
 rdfs:comment: "The URL for sending a payment."
 rdfs:label: "paymentUrl"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: {"@id":"schema:URL"}
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: "https://schema.org/URL"
 ---
 
-# schema:paymentUrl
+# paymentUrl
+
+The URL for sending a payment.
 

@@ -1,13 +1,22 @@
 ---
-$id: schema:Recommendation
-$type: rdfs:Class
-label: schema:Recommendation
+$id: https://schema.org/Recommendation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Recommendation
+comment: |
+  [[Recommendation]] is a type of [[Review]] that suggests or proposes something as the best option or best course of action. Recommendations may be for products or services, or other concrete things, as in the case of a ranked list or product guide. A [[Guide]] may list multiple recommendations for different categories. For example, in a [[Guide]] about which TVs to buy, the author may have several [[Recommendation]]s.
 rdfs:comment: "[[Recommendation]] is a type of [[Review]] that suggests or proposes something as the best option or best course of action. Recommendations may be for products or services, or other concrete things, as in the case of a ranked list or product guide. A [[Guide]] may list multiple recommendations for different categories. For example, in a [[Guide]] about which TVs to buy, the author may have several [[Recommendation]]s."
 rdfs:label: "Recommendation"
-rdfs:subClassOf: {"@id":"schema:Review"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2405"}
+rdfs:subClassOf: "https://schema.org/Review"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2405"
 ---
 
-# schema:Recommendation
+# Recommendation
 
+[[Recommendation]] is a type of [[Review]] that suggests or proposes something as the best option or best course of action. Recommendations may be for products or services, or other concrete things, as in the case of a ranked list or product guide. A [[Guide]] may list multiple recommendations for different categories. For example, in a [[Guide]] about which TVs to buy, the author may have several [[Recommendation]]s.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [category](https://schema.org/category) | Text |  |

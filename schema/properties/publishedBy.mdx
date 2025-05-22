@@ -1,13 +1,17 @@
 ---
-$id: schema:publishedBy
-$type: rdf:Property
-label: schema:publishedBy
+$id: https://schema.org/publishedBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: publishedBy
+comment: |
+  An agent associated with the publication event.
 rdfs:comment: "An agent associated with the publication event."
 rdfs:label: "publishedBy"
-schema:domainIncludes: {"@id":"schema:PublicationEvent"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:Organization"}]
+schema:domainIncludes: "https://schema.org/PublicationEvent"
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: ["https://schema.org/Person","https://schema.org/Organization"]
 ---
 
-# schema:publishedBy
+# publishedBy
+
+An agent associated with the publication event.
 

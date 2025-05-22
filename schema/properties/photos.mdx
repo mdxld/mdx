@@ -1,13 +1,17 @@
 ---
-$id: schema:photos
-$type: rdf:Property
-label: schema:photos
+$id: https://schema.org/photos
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: photos
+comment: |
+  Photographs of this place.
 rdfs:comment: "Photographs of this place."
 rdfs:label: "photos"
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:rangeIncludes: [{"@id":"schema:ImageObject"},{"@id":"schema:Photograph"}]
-schema:supersededBy: {"@id":"schema:photo"}
+schema:domainIncludes: "https://schema.org/Place"
+schema:rangeIncludes: ["https://schema.org/ImageObject","https://schema.org/Photograph"]
+schema:supersededBy: "https://schema.org/photo"
 ---
 
-# schema:photos
+# photos
+
+Photographs of this place.
 

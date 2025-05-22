@@ -1,14 +1,18 @@
 ---
-$id: schema:hasDefinedTerm
-$type: rdf:Property
-label: schema:hasDefinedTerm
+$id: https://schema.org/hasDefinedTerm
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasDefinedTerm
+comment: |
+  A Defined Term contained in this term set.
 rdfs:comment: "A Defined Term contained in this term set."
 rdfs:label: "hasDefinedTerm"
-schema:domainIncludes: [{"@id":"schema:Taxon"},{"@id":"schema:DefinedTermSet"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:DefinedTerm"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/894"}
+schema:domainIncludes: ["https://schema.org/Taxon","https://schema.org/DefinedTermSet"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/DefinedTerm"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/894"
 ---
 
-# schema:hasDefinedTerm
+# hasDefinedTerm
+
+A Defined Term contained in this term set.
 

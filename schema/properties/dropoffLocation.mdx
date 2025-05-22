@@ -1,12 +1,16 @@
 ---
-$id: schema:dropoffLocation
-$type: rdf:Property
-label: schema:dropoffLocation
+$id: https://schema.org/dropoffLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dropoffLocation
+comment: |
+  Where a rental car can be dropped off.
 rdfs:comment: "Where a rental car can be dropped off."
 rdfs:label: "dropoffLocation"
-schema:domainIncludes: {"@id":"schema:RentalCarReservation"}
-schema:rangeIncludes: {"@id":"schema:Place"}
+schema:domainIncludes: "https://schema.org/RentalCarReservation"
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:dropoffLocation
+# dropoffLocation
+
+Where a rental car can be dropped off.
 

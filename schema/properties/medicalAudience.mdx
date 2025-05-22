@@ -1,13 +1,17 @@
 ---
-$id: schema:medicalAudience
-$type: rdf:Property
-label: schema:medicalAudience
+$id: https://schema.org/medicalAudience
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: medicalAudience
+comment: |
+  Medical audience for page.
 rdfs:comment: "Medical audience for page."
 rdfs:label: "medicalAudience"
-schema:domainIncludes: {"@id":"schema:MedicalWebPage"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:MedicalAudienceType"},{"@id":"schema:MedicalAudience"}]
+schema:domainIncludes: "https://schema.org/MedicalWebPage"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/MedicalAudienceType","https://schema.org/MedicalAudience"]
 ---
 
-# schema:medicalAudience
+# medicalAudience
+
+Medical audience for page.
 

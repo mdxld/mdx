@@ -1,13 +1,17 @@
 ---
-$id: schema:providesBroadcastService
-$type: rdf:Property
-label: schema:providesBroadcastService
+$id: https://schema.org/providesBroadcastService
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: providesBroadcastService
+comment: |
+  The BroadcastService offered on this channel.
 rdfs:comment: "The BroadcastService offered on this channel."
 rdfs:label: "providesBroadcastService"
-schema:domainIncludes: {"@id":"schema:BroadcastChannel"}
-schema:inverseOf: {"@id":"schema:hasBroadcastChannel"}
-schema:rangeIncludes: {"@id":"schema:BroadcastService"}
+schema:domainIncludes: "https://schema.org/BroadcastChannel"
+schema:inverseOf: "https://schema.org/hasBroadcastChannel"
+schema:rangeIncludes: "https://schema.org/BroadcastService"
 ---
 
-# schema:providesBroadcastService
+# providesBroadcastService
+
+The BroadcastService offered on this channel.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:partOfInvoice
-$type: rdf:Property
-label: schema:partOfInvoice
+$id: https://schema.org/partOfInvoice
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: partOfInvoice
+comment: |
+  The order is being paid as part of the referenced Invoice.
 rdfs:comment: "The order is being paid as part of the referenced Invoice."
 rdfs:label: "partOfInvoice"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: {"@id":"schema:Invoice"}
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: "https://schema.org/Invoice"
 ---
 
-# schema:partOfInvoice
+# partOfInvoice
+
+The order is being paid as part of the referenced Invoice.
 

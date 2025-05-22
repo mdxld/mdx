@@ -1,12 +1,23 @@
 ---
-$id: schema:Chapter
-$type: rdfs:Class
-label: schema:Chapter
+$id: https://schema.org/Chapter
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Chapter
+comment: |
+  One of the sections into which a book is divided. A chapter usually has a section number or a name.
 rdfs:comment: "One of the sections into which a book is divided. A chapter usually has a section number or a name."
 rdfs:label: "Chapter"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://bib.schema.org"
 ---
 
-# schema:Chapter
+# Chapter
 
+One of the sections into which a book is divided. A chapter usually has a section number or a name.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [pageEnd](https://schema.org/pageEnd) | Text |  |
+| [pageStart](https://schema.org/pageStart) | Text |  |
+| [pagination](https://schema.org/pagination) | Text |  |

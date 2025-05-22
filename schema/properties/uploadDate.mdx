@@ -1,12 +1,16 @@
 ---
-$id: schema:uploadDate
-$type: rdf:Property
-label: schema:uploadDate
+$id: https://schema.org/uploadDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: uploadDate
+comment: |
+  Date (including time if available) when this media object was uploaded to this site.
 rdfs:comment: "Date (including time if available) when this media object was uploaded to this site."
 rdfs:label: "uploadDate"
-schema:domainIncludes: {"@id":"schema:MediaObject"}
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/MediaObject"
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:uploadDate
+# uploadDate
+
+Date (including time if available) when this media object was uploaded to this site.
 

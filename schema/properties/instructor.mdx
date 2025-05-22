@@ -1,12 +1,16 @@
 ---
-$id: schema:instructor
-$type: rdf:Property
-label: schema:instructor
+$id: https://schema.org/instructor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: instructor
+comment: |
+  A person assigned to instruct or provide instructional assistance for the [[CourseInstance]].
 rdfs:comment: "A person assigned to instruct or provide instructional assistance for the [[CourseInstance]]."
 rdfs:label: "instructor"
-schema:domainIncludes: {"@id":"schema:CourseInstance"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: "https://schema.org/CourseInstance"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:instructor
+# instructor
+
+A person assigned to instruct or provide instructional assistance for the [[CourseInstance]].
 

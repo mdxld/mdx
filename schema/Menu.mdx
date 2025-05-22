@@ -1,11 +1,21 @@
 ---
-$id: schema:Menu
-$type: rdfs:Class
-label: schema:Menu
+$id: https://schema.org/Menu
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Menu
+comment: |
+  A structured representation of food or drink items available from a FoodEstablishment.
 rdfs:comment: "A structured representation of food or drink items available from a FoodEstablishment."
 rdfs:label: "Menu"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:Menu
+# Menu
 
+A structured representation of food or drink items available from a FoodEstablishment.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [hasMenuItem](https://schema.org/hasMenuItem) | Text |  |
+| [hasMenuSection](https://schema.org/hasMenuSection) | Text |  |

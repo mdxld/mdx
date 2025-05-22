@@ -1,18 +1,22 @@
 ---
-$id: schema:legislationAmends
-$type: rdf:Property
-label: schema:legislationAmends
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#amends"}
+$id: https://schema.org/legislationAmends
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationAmends
+comment: |
+  Another legislation that this legislation amends, introducing legal changes.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#amends"
 rdfs:comment: "Another legislation that this legislation amends, introducing legal changes."
 rdfs:label: "legislationAmends"
-rdfs:subPropertyOf: {"@id":"schema:legislationChanges"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Legislation"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/2698"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#amends"}
+rdfs:subPropertyOf: "https://schema.org/legislationChanges"
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Legislation"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/2698","https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#amends"
 ---
 
-# schema:legislationAmends
+# legislationAmends
+
+Another legislation that this legislation amends, introducing legal changes.
 

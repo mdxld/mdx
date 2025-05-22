@@ -1,11 +1,20 @@
 ---
-$id: schema:DataFeed
-$type: rdfs:Class
-label: schema:DataFeed
+$id: https://schema.org/DataFeed
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DataFeed
+comment: |
+  A single feed providing structured information about one or more entities or topics.
 rdfs:comment: "A single feed providing structured information about one or more entities or topics."
 rdfs:label: "DataFeed"
-rdfs:subClassOf: {"@id":"schema:Dataset"}
+rdfs:subClassOf: "https://schema.org/Dataset"
 ---
 
-# schema:DataFeed
+# DataFeed
 
+A single feed providing structured information about one or more entities or topics.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dataFeedElement](https://schema.org/dataFeedElement) | Text |  |

@@ -1,11 +1,25 @@
 ---
-$id: schema:Book
-$type: rdfs:Class
-label: schema:Book
+$id: https://schema.org/Book
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Book
+comment: |
+  A book.
 rdfs:comment: "A book."
 rdfs:label: "Book"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:Book
+# Book
 
+A book.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [abridged](https://schema.org/abridged) | Text |  |
+| [bookEdition](https://schema.org/bookEdition) | Text |  |
+| [bookFormat](https://schema.org/bookFormat) | Text |  |
+| [illustrator](https://schema.org/illustrator) | Text |  |
+| [isbn](https://schema.org/isbn) | Text |  |
+| [numberOfPages](https://schema.org/numberOfPages) | Text |  |

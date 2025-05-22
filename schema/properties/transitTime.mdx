@@ -1,13 +1,33 @@
 ---
-$id: schema:transitTime
-$type: rdf:Property
-label: schema:transitTime
-rdfs:comment: "The typical delay the order has been sent for delivery and the goods reach the final customer.\n\n  In the context of [[ShippingDeliveryTime]], use the [[QuantitativeValue]]. Typical properties: minValue, maxValue, unitCode (d for DAY).\n\n  In the context of [[ShippingConditions]], use the [[ServicePeriod]]. It has a duration (as a [[QuantitativeValue]]) and also business days and a cut-off time.\n"
+$id: https://schema.org/transitTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: transitTime
+comment: |
+  The typical delay the order has been sent for delivery and the goods reach the final customer.
+  
+    In the context of [[ShippingDeliveryTime]], use the [[QuantitativeValue]]. Typical properties: minValue, maxValue, unitCode (d for DAY).
+  
+    In the context of [[ShippingConditions]], use the [[ServicePeriod]]. It has a duration (as a [[QuantitativeValue]]) and also business days and a cut-off time.
+  
+rdfs:comment: |
+  The typical delay the order has been sent for delivery and the goods reach the final customer.
+  
+    In the context of [[ShippingDeliveryTime]], use the [[QuantitativeValue]]. Typical properties: minValue, maxValue, unitCode (d for DAY).
+  
+    In the context of [[ShippingConditions]], use the [[ServicePeriod]]. It has a duration (as a [[QuantitativeValue]]) and also business days and a cut-off time.
+  
 rdfs:label: "transitTime"
-schema:domainIncludes: [{"@id":"schema:ShippingConditions"},{"@id":"schema:ShippingDeliveryTime"}]
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:ServicePeriod"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"},{"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}]
+schema:domainIncludes: ["https://schema.org/ShippingConditions","https://schema.org/ShippingDeliveryTime"]
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/ServicePeriod"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/3617","https://github.com/schemaorg/schemaorg/issues/2506"]
 ---
 
-# schema:transitTime
+# transitTime
+
+The typical delay the order has been sent for delivery and the goods reach the final customer.
+
+  In the context of [[ShippingDeliveryTime]], use the [[QuantitativeValue]]. Typical properties: minValue, maxValue, unitCode (d for DAY).
+
+  In the context of [[ShippingConditions]], use the [[ServicePeriod]]. It has a duration (as a [[QuantitativeValue]]) and also business days and a cut-off time.
+
 

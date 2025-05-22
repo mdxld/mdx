@@ -1,14 +1,18 @@
 ---
-$id: schema:collection
-$type: rdf:Property
-label: schema:collection
+$id: https://schema.org/collection
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: collection
+comment: |
+  A sub property of object. The collection target of the action.
 rdfs:comment: "A sub property of object. The collection target of the action."
 rdfs:label: "collection"
-rdfs:subPropertyOf: {"@id":"schema:object"}
-schema:domainIncludes: {"@id":"schema:UpdateAction"}
-schema:rangeIncludes: {"@id":"schema:Thing"}
-schema:supersededBy: {"@id":"schema:targetCollection"}
+rdfs:subPropertyOf: "https://schema.org/object"
+schema:domainIncludes: "https://schema.org/UpdateAction"
+schema:rangeIncludes: "https://schema.org/Thing"
+schema:supersededBy: "https://schema.org/targetCollection"
 ---
 
-# schema:collection
+# collection
+
+A sub property of object. The collection target of the action.
 

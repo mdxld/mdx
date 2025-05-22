@@ -1,14 +1,18 @@
 ---
-$id: schema:gtin8
-$type: rdf:Property
-label: schema:gtin8
+$id: https://schema.org/gtin8
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gtin8
+comment: |
+  The GTIN-8 code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
 rdfs:comment: "The GTIN-8 code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details."
 rdfs:label: "gtin8"
-rdfs:subPropertyOf: [{"@id":"schema:identifier"},{"@id":"schema:gtin"}]
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"},{"@id":"schema:Product"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: ["https://schema.org/identifier","https://schema.org/gtin"]
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer","https://schema.org/Product"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:gtin8
+# gtin8
+
+The GTIN-8 code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
 

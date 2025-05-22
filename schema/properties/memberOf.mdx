@@ -1,13 +1,17 @@
 ---
-$id: schema:memberOf
-$type: rdf:Property
-label: schema:memberOf
+$id: https://schema.org/memberOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: memberOf
+comment: |
+  An Organization (or ProgramMembership) to which this Person or Organization belongs.
 rdfs:comment: "An Organization (or ProgramMembership) to which this Person or Organization belongs."
 rdfs:label: "memberOf"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:inverseOf: {"@id":"schema:member"}
-schema:rangeIncludes: [{"@id":"schema:ProgramMembership"},{"@id":"schema:MemberProgramTier"},{"@id":"schema:Organization"}]
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:inverseOf: "https://schema.org/member"
+schema:rangeIncludes: ["https://schema.org/ProgramMembership","https://schema.org/MemberProgramTier","https://schema.org/Organization"]
 ---
 
-# schema:memberOf
+# memberOf
+
+An Organization (or ProgramMembership) to which this Person or Organization belongs.
 

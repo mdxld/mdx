@@ -1,11 +1,20 @@
 ---
-$id: schema:CivicStructure
-$type: rdfs:Class
-label: schema:CivicStructure
+$id: https://schema.org/CivicStructure
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: CivicStructure
+comment: |
+  A public structure, such as a town hall or concert hall.
 rdfs:comment: "A public structure, such as a town hall or concert hall."
 rdfs:label: "CivicStructure"
-rdfs:subClassOf: {"@id":"schema:Place"}
+rdfs:subClassOf: "https://schema.org/Place"
 ---
 
-# schema:CivicStructure
+# CivicStructure
 
+A public structure, such as a town hall or concert hall.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [openingHours](https://schema.org/openingHours) | Text |  |

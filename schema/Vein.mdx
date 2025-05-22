@@ -1,12 +1,23 @@
 ---
-$id: schema:Vein
-$type: rdfs:Class
-label: schema:Vein
+$id: https://schema.org/Vein
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Vein
+comment: |
+  A type of blood vessel that specifically carries blood to the heart.
 rdfs:comment: "A type of blood vessel that specifically carries blood to the heart."
 rdfs:label: "Vein"
-rdfs:subClassOf: {"@id":"schema:Vessel"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/Vessel"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Vein
+# Vein
 
+A type of blood vessel that specifically carries blood to the heart.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [drainsTo](https://schema.org/drainsTo) | Text |  |
+| [regionDrained](https://schema.org/regionDrained) | Text |  |
+| [tributary](https://schema.org/tributary) | Text |  |

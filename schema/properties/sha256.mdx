@@ -1,15 +1,19 @@
 ---
-$id: schema:sha256
-$type: rdf:Property
-label: schema:sha256
+$id: https://schema.org/sha256
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sha256
+comment: |
+  The [SHA-2](https://en.wikipedia.org/wiki/SHA-2) SHA256 hash of the content of the item. For example, a zero-length input has value 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'.
 rdfs:comment: "The [SHA-2](https://en.wikipedia.org/wiki/SHA-2) SHA256 hash of the content of the item. For example, a zero-length input has value 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'."
 rdfs:label: "sha256"
-rdfs:subPropertyOf: {"@id":"schema:description"}
-schema:domainIncludes: {"@id":"schema:MediaObject"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+rdfs:subPropertyOf: "https://schema.org/description"
+schema:domainIncludes: "https://schema.org/MediaObject"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:sha256
+# sha256
+
+The [SHA-2](https://en.wikipedia.org/wiki/SHA-2) SHA256 hash of the content of the item. For example, a zero-length input has value 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'.
 

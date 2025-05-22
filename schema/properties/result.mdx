@@ -1,12 +1,16 @@
 ---
-$id: schema:result
-$type: rdf:Property
-label: schema:result
+$id: https://schema.org/result
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: result
+comment: |
+  The result produced in the action. E.g. John wrote *a book*.
 rdfs:comment: "The result produced in the action. E.g. John wrote *a book*."
 rdfs:label: "result"
-schema:domainIncludes: {"@id":"schema:Action"}
-schema:rangeIncludes: {"@id":"schema:Thing"}
+schema:domainIncludes: "https://schema.org/Action"
+schema:rangeIncludes: "https://schema.org/Thing"
 ---
 
-# schema:result
+# result
+
+The result produced in the action. E.g. John wrote *a book*.
 

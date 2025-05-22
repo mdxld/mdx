@@ -1,11 +1,20 @@
 ---
-$id: schema:SocialMediaPosting
-$type: rdfs:Class
-label: schema:SocialMediaPosting
+$id: https://schema.org/SocialMediaPosting
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SocialMediaPosting
+comment: |
+  A post to a social media platform, including blog posts, tweets, Facebook posts, etc.
 rdfs:comment: "A post to a social media platform, including blog posts, tweets, Facebook posts, etc."
 rdfs:label: "SocialMediaPosting"
-rdfs:subClassOf: {"@id":"schema:Article"}
+rdfs:subClassOf: "https://schema.org/Article"
 ---
 
-# schema:SocialMediaPosting
+# SocialMediaPosting
 
+A post to a social media platform, including blog posts, tweets, Facebook posts, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [sharedContent](https://schema.org/sharedContent) | Text |  |

@@ -1,11 +1,23 @@
 ---
-$id: schema:Seat
-$type: rdfs:Class
-label: schema:Seat
+$id: https://schema.org/Seat
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Seat
+comment: |
+  Used to describe a seat, such as a reserved seat in an event reservation.
 rdfs:comment: "Used to describe a seat, such as a reserved seat in an event reservation."
 rdfs:label: "Seat"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Seat
+# Seat
 
+Used to describe a seat, such as a reserved seat in an event reservation.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [seatingType](https://schema.org/seatingType) | Text |  |
+| [seatNumber](https://schema.org/seatNumber) | Text |  |
+| [seatRow](https://schema.org/seatRow) | Text |  |
+| [seatSection](https://schema.org/seatSection) | Text |  |

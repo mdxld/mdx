@@ -1,15 +1,19 @@
 ---
-$id: schema:knowsAbout
-$type: rdf:Property
-label: schema:knowsAbout
+$id: https://schema.org/knowsAbout
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: knowsAbout
+comment: |
+  Of a [[Person]], and less typically of an [[Organization]], to indicate a topic that is known about - suggesting possible expertise but not implying it. We do not distinguish skill levels here, or relate this to educational content, events, objectives or [[JobPosting]] descriptions.
 rdfs:comment: "Of a [[Person]], and less typically of an [[Organization]], to indicate a topic that is known about - suggesting possible expertise but not implying it. We do not distinguish skill levels here, or relate this to educational content, events, objectives or [[JobPosting]] descriptions."
 rdfs:label: "knowsAbout"
-schema:contributor: {"@id":"https://schema.org/docs/collab/TP"}
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"},{"@id":"schema:Thing"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1688"}
+schema:contributor: "https://schema.org/docs/collab/TP"
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text","https://schema.org/Thing"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1688"
 ---
 
-# schema:knowsAbout
+# knowsAbout
+
+Of a [[Person]], and less typically of an [[Organization]], to indicate a topic that is known about - suggesting possible expertise but not implying it. We do not distinguish skill levels here, or relate this to educational content, events, objectives or [[JobPosting]] descriptions.
 

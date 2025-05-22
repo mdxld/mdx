@@ -1,13 +1,17 @@
 ---
-$id: schema:shippingDestination
-$type: rdf:Property
-label: schema:shippingDestination
+$id: https://schema.org/shippingDestination
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: shippingDestination
+comment: |
+  indicates (possibly multiple) shipping destinations. These can be defined in several ways, e.g. postalCode ranges.
 rdfs:comment: "indicates (possibly multiple) shipping destinations. These can be defined in several ways, e.g. postalCode ranges."
 rdfs:label: "shippingDestination"
-schema:domainIncludes: [{"@id":"schema:OfferShippingDetails"},{"@id":"schema:DeliveryTimeSettings"},{"@id":"schema:ShippingRateSettings"},{"@id":"schema:ShippingConditions"}]
-schema:rangeIncludes: {"@id":"schema:DefinedRegion"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/3617"},{"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}]
+schema:domainIncludes: ["https://schema.org/OfferShippingDetails","https://schema.org/DeliveryTimeSettings","https://schema.org/ShippingRateSettings","https://schema.org/ShippingConditions"]
+schema:rangeIncludes: "https://schema.org/DefinedRegion"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/3617","https://github.com/schemaorg/schemaorg/issues/2506"]
 ---
 
-# schema:shippingDestination
+# shippingDestination
+
+indicates (possibly multiple) shipping destinations. These can be defined in several ways, e.g. postalCode ranges.
 

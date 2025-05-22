@@ -1,12 +1,16 @@
 ---
-$id: schema:quest
-$type: rdf:Property
-label: schema:quest
+$id: https://schema.org/quest
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: quest
+comment: |
+  The task that a player-controlled character, or group of characters may complete in order to gain a reward.
 rdfs:comment: "The task that a player-controlled character, or group of characters may complete in order to gain a reward."
 rdfs:label: "quest"
-schema:domainIncludes: [{"@id":"schema:Game"},{"@id":"schema:VideoGameSeries"}]
-schema:rangeIncludes: {"@id":"schema:Thing"}
+schema:domainIncludes: ["https://schema.org/Game","https://schema.org/VideoGameSeries"]
+schema:rangeIncludes: "https://schema.org/Thing"
 ---
 
-# schema:quest
+# quest
+
+The task that a player-controlled character, or group of characters may complete in order to gain a reward.
 

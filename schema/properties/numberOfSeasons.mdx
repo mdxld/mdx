@@ -1,12 +1,16 @@
 ---
-$id: schema:numberOfSeasons
-$type: rdf:Property
-label: schema:numberOfSeasons
+$id: https://schema.org/numberOfSeasons
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfSeasons
+comment: |
+  The number of seasons in this series.
 rdfs:comment: "The number of seasons in this series."
 rdfs:label: "numberOfSeasons"
-schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:TVSeries"}]
-schema:rangeIncludes: {"@id":"schema:Integer"}
+schema:domainIncludes: ["https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/TVSeries"]
+schema:rangeIncludes: "https://schema.org/Integer"
 ---
 
-# schema:numberOfSeasons
+# numberOfSeasons
+
+The number of seasons in this series.
 

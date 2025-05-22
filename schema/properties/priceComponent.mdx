@@ -1,13 +1,17 @@
 ---
-$id: schema:priceComponent
-$type: rdf:Property
-label: schema:priceComponent
+$id: https://schema.org/priceComponent
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: priceComponent
+comment: |
+  This property links to all [[UnitPriceSpecification]] nodes that apply in parallel for the [[CompoundPriceSpecification]] node.
 rdfs:comment: "This property links to all [[UnitPriceSpecification]] nodes that apply in parallel for the [[CompoundPriceSpecification]] node."
 rdfs:label: "priceComponent"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: {"@id":"schema:CompoundPriceSpecification"}
-schema:rangeIncludes: {"@id":"schema:UnitPriceSpecification"}
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: "https://schema.org/CompoundPriceSpecification"
+schema:rangeIncludes: "https://schema.org/UnitPriceSpecification"
 ---
 
-# schema:priceComponent
+# priceComponent
+
+This property links to all [[UnitPriceSpecification]] nodes that apply in parallel for the [[CompoundPriceSpecification]] node.
 

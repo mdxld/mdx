@@ -1,12 +1,16 @@
 ---
-$id: schema:memoryRequirements
-$type: rdf:Property
-label: schema:memoryRequirements
+$id: https://schema.org/memoryRequirements
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: memoryRequirements
+comment: |
+  Minimum memory requirements.
 rdfs:comment: "Minimum memory requirements."
 rdfs:label: "memoryRequirements"
-schema:domainIncludes: {"@id":"schema:SoftwareApplication"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/SoftwareApplication"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
 ---
 
-# schema:memoryRequirements
+# memoryRequirements
+
+Minimum memory requirements.
 

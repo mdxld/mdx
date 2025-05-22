@@ -1,14 +1,18 @@
 ---
-$id: schema:newsUpdatesAndGuidelines
-$type: rdf:Property
-label: schema:newsUpdatesAndGuidelines
+$id: https://schema.org/newsUpdatesAndGuidelines
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: newsUpdatesAndGuidelines
+comment: |
+  Indicates a page with news updates and guidelines. This could often be (but is not required to be) the main page containing [[SpecialAnnouncement]] markup on a site.
 rdfs:comment: "Indicates a page with news updates and guidelines. This could often be (but is not required to be) the main page containing [[SpecialAnnouncement]] markup on a site."
 rdfs:label: "newsUpdatesAndGuidelines"
-schema:domainIncludes: {"@id":"schema:SpecialAnnouncement"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:WebContent"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2490"}
+schema:domainIncludes: "https://schema.org/SpecialAnnouncement"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/WebContent","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2490"
 ---
 
-# schema:newsUpdatesAndGuidelines
+# newsUpdatesAndGuidelines
+
+Indicates a page with news updates and guidelines. This could often be (but is not required to be) the main page containing [[SpecialAnnouncement]] markup on a site.
 

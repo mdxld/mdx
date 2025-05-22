@@ -1,13 +1,17 @@
 ---
-$id: schema:additionalName
-$type: rdf:Property
-label: schema:additionalName
+$id: https://schema.org/additionalName
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: additionalName
+comment: |
+  An additional name for a Person, can be used for a middle name.
 rdfs:comment: "An additional name for a Person, can be used for a middle name."
 rdfs:label: "additionalName"
-rdfs:subPropertyOf: {"@id":"schema:alternateName"}
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/alternateName"
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:additionalName
+# additionalName
+
+An additional name for a Person, can be used for a middle name.
 

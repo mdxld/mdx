@@ -1,13 +1,17 @@
 ---
-$id: schema:ccRecipient
-$type: rdf:Property
-label: schema:ccRecipient
+$id: https://schema.org/ccRecipient
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: ccRecipient
+comment: |
+  A sub property of recipient. The recipient copied on a message.
 rdfs:comment: "A sub property of recipient. The recipient copied on a message."
 rdfs:label: "ccRecipient"
-rdfs:subPropertyOf: {"@id":"schema:recipient"}
-schema:domainIncludes: {"@id":"schema:Message"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:ContactPoint"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/recipient"
+schema:domainIncludes: "https://schema.org/Message"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/ContactPoint","https://schema.org/Person"]
 ---
 
-# schema:ccRecipient
+# ccRecipient
+
+A sub property of recipient. The recipient copied on a message.
 

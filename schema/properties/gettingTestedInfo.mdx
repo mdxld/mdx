@@ -1,14 +1,18 @@
 ---
-$id: schema:gettingTestedInfo
-$type: rdf:Property
-label: schema:gettingTestedInfo
+$id: https://schema.org/gettingTestedInfo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gettingTestedInfo
+comment: |
+  Information about getting tested (for a [[MedicalCondition]]), e.g. in the context of a pandemic.
 rdfs:comment: "Information about getting tested (for a [[MedicalCondition]]), e.g. in the context of a pandemic."
 rdfs:label: "gettingTestedInfo"
-schema:domainIncludes: {"@id":"schema:SpecialAnnouncement"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:WebContent"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2490"}
+schema:domainIncludes: "https://schema.org/SpecialAnnouncement"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/WebContent"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2490"
 ---
 
-# schema:gettingTestedInfo
+# gettingTestedInfo
+
+Information about getting tested (for a [[MedicalCondition]]), e.g. in the context of a pandemic.
 

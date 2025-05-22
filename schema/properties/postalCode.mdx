@@ -1,13 +1,17 @@
 ---
-$id: schema:postalCode
-$type: rdf:Property
-label: schema:postalCode
+$id: https://schema.org/postalCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: postalCode
+comment: |
+  The postal code. For example, 94043.
 rdfs:comment: "The postal code. For example, 94043."
 rdfs:label: "postalCode"
-schema:domainIncludes: [{"@id":"schema:GeoCoordinates"},{"@id":"schema:PostalAddress"},{"@id":"schema:DefinedRegion"},{"@id":"schema:GeoShape"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+schema:domainIncludes: ["https://schema.org/GeoCoordinates","https://schema.org/PostalAddress","https://schema.org/DefinedRegion","https://schema.org/GeoShape"]
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:postalCode
+# postalCode
+
+The postal code. For example, 94043.
 

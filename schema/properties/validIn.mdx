@@ -1,13 +1,17 @@
 ---
-$id: schema:validIn
-$type: rdf:Property
-label: schema:validIn
+$id: https://schema.org/validIn
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: validIn
+comment: |
+  The geographic area where the item is valid. Applies for example to a [[Permit]], a [[Certification]], or an [[EducationalOccupationalCredential]]. 
 rdfs:comment: "The geographic area where the item is valid. Applies for example to a [[Permit]], a [[Certification]], or an [[EducationalOccupationalCredential]]. "
 rdfs:label: "validIn"
-schema:domainIncludes: [{"@id":"schema:EducationalOccupationalCredential"},{"@id":"schema:Permit"},{"@id":"schema:Certification"}]
-schema:rangeIncludes: {"@id":"schema:AdministrativeArea"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1779"}
+schema:domainIncludes: ["https://schema.org/EducationalOccupationalCredential","https://schema.org/Permit","https://schema.org/Certification"]
+schema:rangeIncludes: "https://schema.org/AdministrativeArea"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1779"
 ---
 
-# schema:validIn
+# validIn
+
+The geographic area where the item is valid. Applies for example to a [[Permit]], a [[Certification]], or an [[EducationalOccupationalCredential]]. 
 

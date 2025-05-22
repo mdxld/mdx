@@ -1,12 +1,16 @@
 ---
-$id: schema:video
-$type: rdf:Property
-label: schema:video
+$id: https://schema.org/video
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: video
+comment: |
+  An embedded video object.
 rdfs:comment: "An embedded video object."
 rdfs:label: "video"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Clip"},{"@id":"schema:VideoObject"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Clip","https://schema.org/VideoObject"]
 ---
 
-# schema:video
+# video
+
+An embedded video object.
 

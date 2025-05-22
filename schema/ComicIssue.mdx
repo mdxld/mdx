@@ -1,12 +1,42 @@
 ---
-$id: schema:ComicIssue
-$type: rdfs:Class
-label: schema:ComicIssue
-rdfs:comment: "Individual comic issues are serially published as\n    \tpart of a larger series. For the sake of consistency, even one-shot issues\n    \tbelong to a series comprised of a single issue. All comic issues can be\n    \tuniquely identified by: the combination of the name and volume number of the\n    \tseries to which the issue belongs; the issue number; and the variant\n    \tdescription of the issue (if any)."
+$id: https://schema.org/ComicIssue
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ComicIssue
+comment: |
+  Individual comic issues are serially published as
+      	part of a larger series. For the sake of consistency, even one-shot issues
+      	belong to a series comprised of a single issue. All comic issues can be
+      	uniquely identified by: the combination of the name and volume number of the
+      	series to which the issue belongs; the issue number; and the variant
+      	description of the issue (if any).
+rdfs:comment: |
+  Individual comic issues are serially published as
+      	part of a larger series. For the sake of consistency, even one-shot issues
+      	belong to a series comprised of a single issue. All comic issues can be
+      	uniquely identified by: the combination of the name and volume number of the
+      	series to which the issue belongs; the issue number; and the variant
+      	description of the issue (if any).
 rdfs:label: "ComicIssue"
-rdfs:subClassOf: {"@id":"schema:PublicationIssue"}
-schema:isPartOf: {"@id":"https://bib.schema.org"}
+rdfs:subClassOf: "https://schema.org/PublicationIssue"
+schema:isPartOf: "https://bib.schema.org"
 ---
 
-# schema:ComicIssue
+# ComicIssue
 
+Individual comic issues are serially published as
+    	part of a larger series. For the sake of consistency, even one-shot issues
+    	belong to a series comprised of a single issue. All comic issues can be
+    	uniquely identified by: the combination of the name and volume number of the
+    	series to which the issue belongs; the issue number; and the variant
+    	description of the issue (if any).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [artist](https://schema.org/artist) | Text |  |
+| [colorist](https://schema.org/colorist) | Text |  |
+| [inker](https://schema.org/inker) | Text |  |
+| [letterer](https://schema.org/letterer) | Text |  |
+| [penciler](https://schema.org/penciler) | Text |  |
+| [variantCover](https://schema.org/variantCover) | Text |  |

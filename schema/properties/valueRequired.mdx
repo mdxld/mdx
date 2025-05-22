@@ -1,12 +1,16 @@
 ---
-$id: schema:valueRequired
-$type: rdf:Property
-label: schema:valueRequired
+$id: https://schema.org/valueRequired
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: valueRequired
+comment: |
+  Whether the property must be filled in to complete the action.  Default is false.
 rdfs:comment: "Whether the property must be filled in to complete the action.  Default is false."
 rdfs:label: "valueRequired"
-schema:domainIncludes: {"@id":"schema:PropertyValueSpecification"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: "https://schema.org/PropertyValueSpecification"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:valueRequired
+# valueRequired
+
+Whether the property must be filled in to complete the action.  Default is false.
 

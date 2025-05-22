@@ -1,12 +1,16 @@
 ---
-$id: schema:pickupLocation
-$type: rdf:Property
-label: schema:pickupLocation
+$id: https://schema.org/pickupLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: pickupLocation
+comment: |
+  Where a taxi will pick up a passenger or a rental car can be picked up.
 rdfs:comment: "Where a taxi will pick up a passenger or a rental car can be picked up."
 rdfs:label: "pickupLocation"
-schema:domainIncludes: [{"@id":"schema:RentalCarReservation"},{"@id":"schema:TaxiReservation"}]
-schema:rangeIncludes: {"@id":"schema:Place"}
+schema:domainIncludes: ["https://schema.org/RentalCarReservation","https://schema.org/TaxiReservation"]
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:pickupLocation
+# pickupLocation
+
+Where a taxi will pick up a passenger or a rental car can be picked up.
 

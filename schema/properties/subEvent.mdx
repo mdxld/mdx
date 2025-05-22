@@ -1,13 +1,17 @@
 ---
-$id: schema:subEvent
-$type: rdf:Property
-label: schema:subEvent
+$id: https://schema.org/subEvent
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: subEvent
+comment: |
+  An Event that is part of this event. For example, a conference event includes many presentations, each of which is a subEvent of the conference.
 rdfs:comment: "An Event that is part of this event. For example, a conference event includes many presentations, each of which is a subEvent of the conference."
 rdfs:label: "subEvent"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:inverseOf: {"@id":"schema:superEvent"}
-schema:rangeIncludes: {"@id":"schema:Event"}
+schema:domainIncludes: "https://schema.org/Event"
+schema:inverseOf: "https://schema.org/superEvent"
+schema:rangeIncludes: "https://schema.org/Event"
 ---
 
-# schema:subEvent
+# subEvent
+
+An Event that is part of this event. For example, a conference event includes many presentations, each of which is a subEvent of the conference.
 

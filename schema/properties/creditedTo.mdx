@@ -1,13 +1,17 @@
 ---
-$id: schema:creditedTo
-$type: rdf:Property
-label: schema:creditedTo
+$id: https://schema.org/creditedTo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: creditedTo
+comment: |
+  The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to "Stefani Germanotta Band", but by Lady Gaga.
 rdfs:comment: "The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to \"Stefani Germanotta Band\", but by Lady Gaga."
 rdfs:label: "creditedTo"
-schema:contributor: {"@id":"https://schema.org/docs/collab/MBZ"}
-schema:domainIncludes: {"@id":"schema:MusicRelease"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:contributor: "https://schema.org/docs/collab/MBZ"
+schema:domainIncludes: "https://schema.org/MusicRelease"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:creditedTo
+# creditedTo
+
+The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to "Stefani Germanotta Band", but by Lady Gaga.
 

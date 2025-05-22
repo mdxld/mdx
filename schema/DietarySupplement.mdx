@@ -1,12 +1,30 @@
 ---
-$id: schema:DietarySupplement
-$type: rdfs:Class
-label: schema:DietarySupplement
+$id: https://schema.org/DietarySupplement
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DietarySupplement
+comment: |
+  A product taken by mouth that contains a dietary ingredient intended to supplement the diet. Dietary ingredients may include vitamins, minerals, herbs or other botanicals, amino acids, and substances such as enzymes, organ tissues, glandulars and metabolites.
 rdfs:comment: "A product taken by mouth that contains a dietary ingredient intended to supplement the diet. Dietary ingredients may include vitamins, minerals, herbs or other botanicals, amino acids, and substances such as enzymes, organ tissues, glandulars and metabolites."
 rdfs:label: "DietarySupplement"
-rdfs:subClassOf: [{"@id":"schema:Substance"},{"@id":"schema:Product"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/Substance","https://schema.org/Product"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:DietarySupplement
+# DietarySupplement
 
+A product taken by mouth that contains a dietary ingredient intended to supplement the diet. Dietary ingredients may include vitamins, minerals, herbs or other botanicals, amino acids, and substances such as enzymes, organ tissues, glandulars and metabolites.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [activeIngredient](https://schema.org/activeIngredient) | Text |  |
+| [isProprietary](https://schema.org/isProprietary) | Text |  |
+| [legalStatus](https://schema.org/legalStatus) | Text |  |
+| [maximumIntake](https://schema.org/maximumIntake) | Text |  |
+| [mechanismOfAction](https://schema.org/mechanismOfAction) | Text |  |
+| [nonProprietaryName](https://schema.org/nonProprietaryName) | Text |  |
+| [proprietaryName](https://schema.org/proprietaryName) | Text |  |
+| [recommendedIntake](https://schema.org/recommendedIntake) | Text |  |
+| [safetyConsideration](https://schema.org/safetyConsideration) | Text |  |
+| [targetPopulation](https://schema.org/targetPopulation) | Text |  |

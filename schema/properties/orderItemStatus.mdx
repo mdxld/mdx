@@ -1,12 +1,16 @@
 ---
-$id: schema:orderItemStatus
-$type: rdf:Property
-label: schema:orderItemStatus
+$id: https://schema.org/orderItemStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: orderItemStatus
+comment: |
+  The current status of the order item.
 rdfs:comment: "The current status of the order item."
 rdfs:label: "orderItemStatus"
-schema:domainIncludes: {"@id":"schema:OrderItem"}
-schema:rangeIncludes: {"@id":"schema:OrderStatus"}
+schema:domainIncludes: "https://schema.org/OrderItem"
+schema:rangeIncludes: "https://schema.org/OrderStatus"
 ---
 
-# schema:orderItemStatus
+# orderItemStatus
+
+The current status of the order item.
 

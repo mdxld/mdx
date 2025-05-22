@@ -1,14 +1,18 @@
 ---
-$id: schema:byMonthDay
-$type: rdf:Property
-label: schema:byMonthDay
+$id: https://schema.org/byMonthDay
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: byMonthDay
+comment: |
+  Defines the day(s) of the month on which a recurring [[Event]] takes place. Specified as an [[Integer]] between 1-31.
 rdfs:comment: "Defines the day(s) of the month on which a recurring [[Event]] takes place. Specified as an [[Integer]] between 1-31."
 rdfs:label: "byMonthDay"
-schema:domainIncludes: {"@id":"schema:Schedule"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Integer"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}
+schema:domainIncludes: "https://schema.org/Schedule"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Integer"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1457"
 ---
 
-# schema:byMonthDay
+# byMonthDay
+
+Defines the day(s) of the month on which a recurring [[Event]] takes place. Specified as an [[Integer]] between 1-31.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:relatedDrug
-$type: rdf:Property
-label: schema:relatedDrug
+$id: https://schema.org/relatedDrug
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relatedDrug
+comment: |
+  Any other drug related to this one, for example commonly-prescribed alternatives.
 rdfs:comment: "Any other drug related to this one, for example commonly-prescribed alternatives."
 rdfs:label: "relatedDrug"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Drug"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Drug"
 ---
 
-# schema:relatedDrug
+# relatedDrug
+
+Any other drug related to this one, for example commonly-prescribed alternatives.
 

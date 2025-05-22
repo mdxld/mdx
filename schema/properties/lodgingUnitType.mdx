@@ -1,12 +1,16 @@
 ---
-$id: schema:lodgingUnitType
-$type: rdf:Property
-label: schema:lodgingUnitType
+$id: https://schema.org/lodgingUnitType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: lodgingUnitType
+comment: |
+  Textual description of the unit type (including suite vs. room, size of bed, etc.).
 rdfs:comment: "Textual description of the unit type (including suite vs. room, size of bed, etc.)."
 rdfs:label: "lodgingUnitType"
-schema:domainIncludes: {"@id":"schema:LodgingReservation"}
-schema:rangeIncludes: [{"@id":"schema:QualitativeValue"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/LodgingReservation"
+schema:rangeIncludes: ["https://schema.org/QualitativeValue","https://schema.org/Text"]
 ---
 
-# schema:lodgingUnitType
+# lodgingUnitType
+
+Textual description of the unit type (including suite vs. room, size of bed, etc.).
 

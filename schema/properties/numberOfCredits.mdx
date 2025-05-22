@@ -1,14 +1,18 @@
 ---
-$id: schema:numberOfCredits
-$type: rdf:Property
-label: schema:numberOfCredits
+$id: https://schema.org/numberOfCredits
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfCredits
+comment: |
+  The number of credits or units awarded by a Course or required to complete an EducationalOccupationalProgram.
 rdfs:comment: "The number of credits or units awarded by a Course or required to complete an EducationalOccupationalProgram."
 rdfs:label: "numberOfCredits"
-schema:domainIncludes: [{"@id":"schema:Course"},{"@id":"schema:EducationalOccupationalProgram"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:StructuredValue"},{"@id":"schema:Integer"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2419"}
+schema:domainIncludes: ["https://schema.org/Course","https://schema.org/EducationalOccupationalProgram"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/StructuredValue","https://schema.org/Integer"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2419"
 ---
 
-# schema:numberOfCredits
+# numberOfCredits
+
+The number of credits or units awarded by a Course or required to complete an EducationalOccupationalProgram.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:candidate
-$type: rdf:Property
-label: schema:candidate
+$id: https://schema.org/candidate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: candidate
+comment: |
+  A sub property of object. The candidate subject of this action.
 rdfs:comment: "A sub property of object. The candidate subject of this action."
 rdfs:label: "candidate"
-rdfs:subPropertyOf: {"@id":"schema:object"}
-schema:domainIncludes: {"@id":"schema:VoteAction"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+rdfs:subPropertyOf: "https://schema.org/object"
+schema:domainIncludes: "https://schema.org/VoteAction"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:candidate
+# candidate
+
+A sub property of object. The candidate subject of this action.
 

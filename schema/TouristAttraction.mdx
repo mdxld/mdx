@@ -1,12 +1,22 @@
 ---
-$id: schema:TouristAttraction
-$type: rdfs:Class
-label: schema:TouristAttraction
+$id: https://schema.org/TouristAttraction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TouristAttraction
+comment: |
+  A tourist attraction.  In principle any Thing can be a [[TouristAttraction]], from a [[Mountain]] and [[LandmarksOrHistoricalBuildings]] to a [[LocalBusiness]].  This Type can be used on its own to describe a general [[TouristAttraction]], or be used as an [[additionalType]] to add tourist attraction properties to any other type.  (See examples below)
 rdfs:comment: "A tourist attraction.  In principle any Thing can be a [[TouristAttraction]], from a [[Mountain]] and [[LandmarksOrHistoricalBuildings]] to a [[LocalBusiness]].  This Type can be used on its own to describe a general [[TouristAttraction]], or be used as an [[additionalType]] to add tourist attraction properties to any other type.  (See examples below)"
 rdfs:label: "TouristAttraction"
-rdfs:subClassOf: {"@id":"schema:Place"}
-schema:contributor: [{"@id":"https://schema.org/docs/collab/Tourism"},{"@id":"https://schema.org/docs/collab/IIT-CNR.it"}]
+rdfs:subClassOf: "https://schema.org/Place"
+schema:contributor: ["https://schema.org/docs/collab/Tourism","https://schema.org/docs/collab/IIT-CNR.it"]
 ---
 
-# schema:TouristAttraction
+# TouristAttraction
 
+A tourist attraction.  In principle any Thing can be a [[TouristAttraction]], from a [[Mountain]] and [[LandmarksOrHistoricalBuildings]] to a [[LocalBusiness]].  This Type can be used on its own to describe a general [[TouristAttraction]], or be used as an [[additionalType]] to add tourist attraction properties to any other type.  (See examples below)
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [availableLanguage](https://schema.org/availableLanguage) | Text |  |
+| [touristType](https://schema.org/touristType) | Text |  |

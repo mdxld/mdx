@@ -1,14 +1,61 @@
 ---
-$id: schema:incentivizedItem
-$type: rdf:Property
-label: schema:incentivizedItem
-rdfs:comment: "The type or specific product(s) and/or service(s) being incentivized.\n<p>DefinedTermSets are used for product and service categories such as the United Nations Standard Products and Services Code:</p>\n    {\n        \"@type\": \"DefinedTerm\",\n        \"inDefinedTermSet\": \"https://www.unspsc.org/\",\n        \"termCode\": \"261315XX\",\n        \"name\": \"Photovoltaic module\"\n    }\n\n<p>For a specific product or service, use the Product type:</p>\n    {\n        \"@type\": \"Product\",\n        \"name\": \"Kenmore White 17\" Microwave\",\n    }\nFor multiple different incentivized items, use multiple [[DefinedTerm]] or [[Product]]."
+$id: https://schema.org/incentivizedItem
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: incentivizedItem
+comment: |
+  The type or specific product(s) and/or service(s) being incentivized.
+  <p>DefinedTermSets are used for product and service categories such as the United Nations Standard Products and Services Code:</p>
+      {
+          "@type": "DefinedTerm",
+          "inDefinedTermSet": "https://www.unspsc.org/",
+          "termCode": "261315XX",
+          "name": "Photovoltaic module"
+      }
+  
+  <p>For a specific product or service, use the Product type:</p>
+      {
+          "@type": "Product",
+          "name": "Kenmore White 17" Microwave",
+      }
+  For multiple different incentivized items, use multiple [[DefinedTerm]] or [[Product]].
+rdfs:comment: |
+  The type or specific product(s) and/or service(s) being incentivized.
+  <p>DefinedTermSets are used for product and service categories such as the United Nations Standard Products and Services Code:</p>
+      {
+          "@type": "DefinedTerm",
+          "inDefinedTermSet": "https://www.unspsc.org/",
+          "termCode": "261315XX",
+          "name": "Photovoltaic module"
+      }
+  
+  <p>For a specific product or service, use the Product type:</p>
+      {
+          "@type": "Product",
+          "name": "Kenmore White 17" Microwave",
+      }
+  For multiple different incentivized items, use multiple [[DefinedTerm]] or [[Product]].
 rdfs:label: "incentivizedItem"
-schema:domainIncludes: {"@id":"schema:FinancialIncentive"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Product"},{"@id":"schema:DefinedTerm"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3572"}
+schema:domainIncludes: "https://schema.org/FinancialIncentive"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Product","https://schema.org/DefinedTerm"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3572"
 ---
 
-# schema:incentivizedItem
+# incentivizedItem
+
+The type or specific product(s) and/or service(s) being incentivized.
+<p>DefinedTermSets are used for product and service categories such as the United Nations Standard Products and Services Code:</p>
+    {
+        "@type": "DefinedTerm",
+        "inDefinedTermSet": "https://www.unspsc.org/",
+        "termCode": "261315XX",
+        "name": "Photovoltaic module"
+    }
+
+<p>For a specific product or service, use the Product type:</p>
+    {
+        "@type": "Product",
+        "name": "Kenmore White 17" Microwave",
+    }
+For multiple different incentivized items, use multiple [[DefinedTerm]] or [[Product]].
 

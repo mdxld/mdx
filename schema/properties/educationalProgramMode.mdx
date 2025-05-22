@@ -1,14 +1,18 @@
 ---
-$id: schema:educationalProgramMode
-$type: rdf:Property
-label: schema:educationalProgramMode
+$id: https://schema.org/educationalProgramMode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: educationalProgramMode
+comment: |
+  Similar to courseMode, the medium or means of delivery of the program as a whole. The value may either be a text label (e.g. "online", "onsite" or "blended"; "synchronous" or "asynchronous"; "full-time" or "part-time") or a URL reference to a term from a controlled vocabulary (e.g. https://ceds.ed.gov/element/001311#Asynchronous ).
 rdfs:comment: "Similar to courseMode, the medium or means of delivery of the program as a whole. The value may either be a text label (e.g. \"online\", \"onsite\" or \"blended\"; \"synchronous\" or \"asynchronous\"; \"full-time\" or \"part-time\") or a URL reference to a term from a controlled vocabulary (e.g. https://ceds.ed.gov/element/001311#Asynchronous )."
 rdfs:label: "educationalProgramMode"
-schema:domainIncludes: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2419"}
+schema:domainIncludes: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2419"
 ---
 
-# schema:educationalProgramMode
+# educationalProgramMode
+
+Similar to courseMode, the medium or means of delivery of the program as a whole. The value may either be a text label (e.g. "online", "onsite" or "blended"; "synchronous" or "asynchronous"; "full-time" or "part-time") or a URL reference to a term from a controlled vocabulary (e.g. https://ceds.ed.gov/element/001311#Asynchronous ).
 

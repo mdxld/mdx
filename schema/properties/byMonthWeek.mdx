@@ -1,14 +1,18 @@
 ---
-$id: schema:byMonthWeek
-$type: rdf:Property
-label: schema:byMonthWeek
+$id: https://schema.org/byMonthWeek
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: byMonthWeek
+comment: |
+  Defines the week(s) of the month on which a recurring Event takes place. Specified as an Integer between 1-5. For clarity, byMonthWeek is best used in conjunction with byDay to indicate concepts like the first and third Mondays of a month.
 rdfs:comment: "Defines the week(s) of the month on which a recurring Event takes place. Specified as an Integer between 1-5. For clarity, byMonthWeek is best used in conjunction with byDay to indicate concepts like the first and third Mondays of a month."
 rdfs:label: "byMonthWeek"
-schema:domainIncludes: {"@id":"schema:Schedule"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Integer"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2599"}
+schema:domainIncludes: "https://schema.org/Schedule"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Integer"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2599"
 ---
 
-# schema:byMonthWeek
+# byMonthWeek
+
+Defines the week(s) of the month on which a recurring Event takes place. Specified as an Integer between 1-5. For clarity, byMonthWeek is best used in conjunction with byDay to indicate concepts like the first and third Mondays of a month.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:longitude
-$type: rdf:Property
-label: schema:longitude
+$id: https://schema.org/longitude
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: longitude
+comment: |
+  The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 rdfs:comment: "The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System))."
 rdfs:label: "longitude"
-schema:domainIncludes: [{"@id":"schema:GeoCoordinates"},{"@id":"schema:Place"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"}]
+schema:domainIncludes: ["https://schema.org/GeoCoordinates","https://schema.org/Place"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number"]
 ---
 
-# schema:longitude
+# longitude
+
+The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 

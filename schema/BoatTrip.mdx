@@ -1,13 +1,23 @@
 ---
-$id: schema:BoatTrip
-$type: rdfs:Class
-label: schema:BoatTrip
+$id: https://schema.org/BoatTrip
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BoatTrip
+comment: |
+  A trip on a commercial ferry line.
 rdfs:comment: "A trip on a commercial ferry line."
 rdfs:label: "BoatTrip"
-rdfs:subClassOf: {"@id":"schema:Trip"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1755"}
+rdfs:subClassOf: "https://schema.org/Trip"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1755"
 ---
 
-# schema:BoatTrip
+# BoatTrip
 
+A trip on a commercial ferry line.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [arrivalBoatTerminal](https://schema.org/arrivalBoatTerminal) | Text |  |
+| [departureBoatTerminal](https://schema.org/departureBoatTerminal) | Text |  |

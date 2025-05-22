@@ -1,12 +1,16 @@
 ---
-$id: schema:gameLocation
-$type: rdf:Property
-label: schema:gameLocation
+$id: https://schema.org/gameLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: gameLocation
+comment: |
+  Real or fictional location of the game (or part of game).
 rdfs:comment: "Real or fictional location of the game (or part of game)."
 rdfs:label: "gameLocation"
-schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:Game"}]
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Place"},{"@id":"schema:PostalAddress"}]
+schema:domainIncludes: ["https://schema.org/VideoGameSeries","https://schema.org/Game"]
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Place","https://schema.org/PostalAddress"]
 ---
 
-# schema:gameLocation
+# gameLocation
+
+Real or fictional location of the game (or part of game).
 

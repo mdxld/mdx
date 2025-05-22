@@ -1,11 +1,21 @@
 ---
-$id: schema:DigitalDocumentPermission
-$type: rdfs:Class
-label: schema:DigitalDocumentPermission
+$id: https://schema.org/DigitalDocumentPermission
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DigitalDocumentPermission
+comment: |
+  A permission for a particular person or group to access a particular file.
 rdfs:comment: "A permission for a particular person or group to access a particular file."
 rdfs:label: "DigitalDocumentPermission"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:DigitalDocumentPermission
+# DigitalDocumentPermission
 
+A permission for a particular person or group to access a particular file.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [grantee](https://schema.org/grantee) | Text |  |
+| [permissionType](https://schema.org/permissionType) | Text |  |

@@ -1,14 +1,18 @@
 ---
-$id: schema:isPlanForApartment
-$type: rdf:Property
-label: schema:isPlanForApartment
+$id: https://schema.org/isPlanForApartment
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isPlanForApartment
+comment: |
+  Indicates some accommodation that this floor plan describes.
 rdfs:comment: "Indicates some accommodation that this floor plan describes."
 rdfs:label: "isPlanForApartment"
-schema:domainIncludes: {"@id":"schema:FloorPlan"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Accommodation"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: "https://schema.org/FloorPlan"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Accommodation"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:isPlanForApartment
+# isPlanForApartment
+
+Indicates some accommodation that this floor plan describes.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:hasCertification
-$type: rdf:Property
-label: schema:hasCertification
+$id: https://schema.org/hasCertification
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasCertification
+comment: |
+  Certification information about a product, organization, service, place, or person.
 rdfs:comment: "Certification information about a product, organization, service, place, or person."
 rdfs:label: "hasCertification"
-schema:domainIncludes: [{"@id":"schema:Service"},{"@id":"schema:Person"},{"@id":"schema:Place"},{"@id":"schema:Product"},{"@id":"schema:Organization"}]
-schema:rangeIncludes: {"@id":"schema:Certification"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3230"}
+schema:domainIncludes: ["https://schema.org/Service","https://schema.org/Person","https://schema.org/Place","https://schema.org/Product","https://schema.org/Organization"]
+schema:rangeIncludes: "https://schema.org/Certification"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3230"
 ---
 
-# schema:hasCertification
+# hasCertification
+
+Certification information about a product, organization, service, place, or person.
 

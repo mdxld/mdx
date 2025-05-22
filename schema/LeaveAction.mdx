@@ -1,11 +1,20 @@
 ---
-$id: schema:LeaveAction
-$type: rdfs:Class
-label: schema:LeaveAction
+$id: https://schema.org/LeaveAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LeaveAction
+comment: |
+  An agent leaves an event / group with participants/friends at a location.\n\nRelated actions:\n\n* [[JoinAction]]: The antonym of LeaveAction.\n* [[UnRegisterAction]]: Unlike UnRegisterAction, LeaveAction implies leaving a group/team of people rather than a service.
 rdfs:comment: "An agent leaves an event / group with participants/friends at a location.\\n\\nRelated actions:\\n\\n* [[JoinAction]]: The antonym of LeaveAction.\\n* [[UnRegisterAction]]: Unlike UnRegisterAction, LeaveAction implies leaving a group/team of people rather than a service."
 rdfs:label: "LeaveAction"
-rdfs:subClassOf: {"@id":"schema:InteractAction"}
+rdfs:subClassOf: "https://schema.org/InteractAction"
 ---
 
-# schema:LeaveAction
+# LeaveAction
 
+An agent leaves an event / group with participants/friends at a location.\n\nRelated actions:\n\n* [[JoinAction]]: The antonym of LeaveAction.\n* [[UnRegisterAction]]: Unlike UnRegisterAction, LeaveAction implies leaving a group/team of people rather than a service.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [event](https://schema.org/event) | Text |  |

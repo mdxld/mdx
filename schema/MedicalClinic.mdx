@@ -1,12 +1,22 @@
 ---
-$id: schema:MedicalClinic
-$type: rdfs:Class
-label: schema:MedicalClinic
+$id: https://schema.org/MedicalClinic
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalClinic
+comment: |
+  A facility, often associated with a hospital or medical school, that is devoted to the specific diagnosis and/or healthcare. Previously limited to outpatients but with evolution it may be open to inpatients as well.
 rdfs:comment: "A facility, often associated with a hospital or medical school, that is devoted to the specific diagnosis and/or healthcare. Previously limited to outpatients but with evolution it may be open to inpatients as well."
 rdfs:label: "MedicalClinic"
-rdfs:subClassOf: [{"@id":"schema:MedicalOrganization"},{"@id":"schema:MedicalBusiness"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: ["https://schema.org/MedicalOrganization","https://schema.org/MedicalBusiness"]
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalClinic
+# MedicalClinic
 
+A facility, often associated with a hospital or medical school, that is devoted to the specific diagnosis and/or healthcare. Previously limited to outpatients but with evolution it may be open to inpatients as well.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [availableService](https://schema.org/availableService) | Text |  |
+| [medicalSpecialty](https://schema.org/medicalSpecialty) | Text |  |

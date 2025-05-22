@@ -1,14 +1,18 @@
 ---
-$id: schema:tocContinuation
-$type: rdf:Property
-label: schema:tocContinuation
+$id: https://schema.org/tocContinuation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tocContinuation
+comment: |
+  A [[HyperTocEntry]] can have a [[tocContinuation]] indicated, which is another [[HyperTocEntry]] that would be the default next item to play or render.
 rdfs:comment: "A [[HyperTocEntry]] can have a [[tocContinuation]] indicated, which is another [[HyperTocEntry]] that would be the default next item to play or render."
 rdfs:label: "tocContinuation"
-schema:domainIncludes: {"@id":"schema:HyperTocEntry"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:HyperTocEntry"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2766"}
+schema:domainIncludes: "https://schema.org/HyperTocEntry"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/HyperTocEntry"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2766"
 ---
 
-# schema:tocContinuation
+# tocContinuation
+
+A [[HyperTocEntry]] can have a [[tocContinuation]] indicated, which is another [[HyperTocEntry]] that would be the default next item to play or render.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:postalCodeEnd
-$type: rdf:Property
-label: schema:postalCodeEnd
+$id: https://schema.org/postalCodeEnd
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: postalCodeEnd
+comment: |
+  Last postal code in the range (included). Needs to be after [[postalCodeBegin]].
 rdfs:comment: "Last postal code in the range (included). Needs to be after [[postalCodeBegin]]."
 rdfs:label: "postalCodeEnd"
-schema:domainIncludes: {"@id":"schema:PostalCodeRangeSpecification"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+schema:domainIncludes: "https://schema.org/PostalCodeRangeSpecification"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:postalCodeEnd
+# postalCodeEnd
+
+Last postal code in the range (included). Needs to be after [[postalCodeBegin]].
 

@@ -1,14 +1,18 @@
 ---
-$id: schema:travelBans
-$type: rdf:Property
-label: schema:travelBans
+$id: https://schema.org/travelBans
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: travelBans
+comment: |
+  Information about travel bans, e.g. in the context of a pandemic.
 rdfs:comment: "Information about travel bans, e.g. in the context of a pandemic."
 rdfs:label: "travelBans"
-schema:domainIncludes: {"@id":"schema:SpecialAnnouncement"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:WebContent"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2490"}
+schema:domainIncludes: "https://schema.org/SpecialAnnouncement"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/WebContent","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2490"
 ---
 
-# schema:travelBans
+# travelBans
+
+Information about travel bans, e.g. in the context of a pandemic.
 

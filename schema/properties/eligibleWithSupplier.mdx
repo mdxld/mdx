@@ -1,14 +1,18 @@
 ---
-$id: schema:eligibleWithSupplier
-$type: rdf:Property
-label: schema:eligibleWithSupplier
+$id: https://schema.org/eligibleWithSupplier
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: eligibleWithSupplier
+comment: |
+  The supplier of the incentivized item/service for which the incentive is valid for such as a utility company, merchant, or contractor.
 rdfs:comment: "The supplier of the incentivized item/service for which the incentive is valid for such as a utility company, merchant, or contractor."
 rdfs:label: "eligibleWithSupplier"
-schema:domainIncludes: {"@id":"schema:FinancialIncentive"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Organization"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3572"}
+schema:domainIncludes: "https://schema.org/FinancialIncentive"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Organization"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3572"
 ---
 
-# schema:eligibleWithSupplier
+# eligibleWithSupplier
+
+The supplier of the incentivized item/service for which the incentive is valid for such as a utility company, merchant, or contractor.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:inLanguage
-$type: rdf:Property
-label: schema:inLanguage
+$id: https://schema.org/inLanguage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inLanguage
+comment: |
+  The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 rdfs:comment: "The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]]."
 rdfs:label: "inLanguage"
-schema:domainIncludes: [{"@id":"schema:PronounceableText"},{"@id":"schema:BroadcastService"},{"@id":"schema:LinkRole"},{"@id":"schema:WriteAction"},{"@id":"schema:CommunicateAction"},{"@id":"schema:Event"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Language"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2382"}
+schema:domainIncludes: ["https://schema.org/PronounceableText","https://schema.org/BroadcastService","https://schema.org/LinkRole","https://schema.org/WriteAction","https://schema.org/CommunicateAction","https://schema.org/Event","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Language"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2382"
 ---
 
-# schema:inLanguage
+# inLanguage
+
+The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 

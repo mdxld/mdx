@@ -1,12 +1,16 @@
 ---
-$id: schema:providesService
-$type: rdf:Property
-label: schema:providesService
+$id: https://schema.org/providesService
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: providesService
+comment: |
+  The service provided by this channel.
 rdfs:comment: "The service provided by this channel."
 rdfs:label: "providesService"
-schema:domainIncludes: {"@id":"schema:ServiceChannel"}
-schema:rangeIncludes: {"@id":"schema:Service"}
+schema:domainIncludes: "https://schema.org/ServiceChannel"
+schema:rangeIncludes: "https://schema.org/Service"
 ---
 
-# schema:providesService
+# providesService
+
+The service provided by this channel.
 

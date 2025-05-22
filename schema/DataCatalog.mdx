@@ -1,13 +1,24 @@
 ---
-$id: schema:DataCatalog
-$type: rdfs:Class
-label: schema:DataCatalog
-owl:equivalentClass: {"@id":"dcat:Catalog"}
+$id: https://schema.org/DataCatalog
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DataCatalog
+comment: |
+  A collection of datasets.
+owl:equivalentClass: "dcat:Catalog"
 rdfs:comment: "A collection of datasets."
 rdfs:label: "DataCatalog"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/DatasetClass"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:contributor: "https://schema.org/docs/collab/DatasetClass"
 ---
 
-# schema:DataCatalog
+# DataCatalog
 
+A collection of datasets.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [dataset](https://schema.org/dataset) | Text |  |
+| [measurementMethod](https://schema.org/measurementMethod) | Text |  |
+| [measurementTechnique](https://schema.org/measurementTechnique) | Text |  |

@@ -1,13 +1,48 @@
 ---
-$id: schema:CDCPMDRecord
-$type: rdfs:Class
-label: schema:CDCPMDRecord
-rdfs:comment: "A CDCPMDRecord is a data structure representing a record in a CDC tabular data format\n      used for hospital data reporting. See [documentation](/docs/cdc-covid.html) for details, and the linked CDC materials for authoritative\n      definitions used as the source here.\n      "
+$id: https://schema.org/CDCPMDRecord
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: CDCPMDRecord
+comment: |
+  A CDCPMDRecord is a data structure representing a record in a CDC tabular data format
+        used for hospital data reporting. See [documentation](/docs/cdc-covid.html) for details, and the linked CDC materials for authoritative
+        definitions used as the source here.
+        
+rdfs:comment: |
+  A CDCPMDRecord is a data structure representing a record in a CDC tabular data format
+        used for hospital data reporting. See [documentation](/docs/cdc-covid.html) for details, and the linked CDC materials for authoritative
+        definitions used as the source here.
+        
 rdfs:label: "CDCPMDRecord"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2521"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2521"
 ---
 
-# schema:CDCPMDRecord
+# CDCPMDRecord
 
+A CDCPMDRecord is a data structure representing a record in a CDC tabular data format
+      used for hospital data reporting. See [documentation](/docs/cdc-covid.html) for details, and the linked CDC materials for authoritative
+      definitions used as the source here.
+      
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [cvdCollectionDate](https://schema.org/cvdCollectionDate) | Text |  |
+| [cvdFacilityCounty](https://schema.org/cvdFacilityCounty) | Text |  |
+| [cvdFacilityId](https://schema.org/cvdFacilityId) | Text |  |
+| [cvdNumBeds](https://schema.org/cvdNumBeds) | Text |  |
+| [cvdNumBedsOcc](https://schema.org/cvdNumBedsOcc) | Text |  |
+| [cvdNumC19Died](https://schema.org/cvdNumC19Died) | Text |  |
+| [cvdNumC19HOPats](https://schema.org/cvdNumC19HOPats) | Text |  |
+| [cvdNumC19HospPats](https://schema.org/cvdNumC19HospPats) | Text |  |
+| [cvdNumC19MechVentPats](https://schema.org/cvdNumC19MechVentPats) | Text |  |
+| [cvdNumC19OFMechVentPats](https://schema.org/cvdNumC19OFMechVentPats) | Text |  |
+| [cvdNumC19OverflowPats](https://schema.org/cvdNumC19OverflowPats) | Text |  |
+| [cvdNumICUBeds](https://schema.org/cvdNumICUBeds) | Text |  |
+| [cvdNumICUBedsOcc](https://schema.org/cvdNumICUBedsOcc) | Text |  |
+| [cvdNumTotBeds](https://schema.org/cvdNumTotBeds) | Text |  |
+| [cvdNumVent](https://schema.org/cvdNumVent) | Text |  |
+| [cvdNumVentUse](https://schema.org/cvdNumVentUse) | Text |  |
+| [datePosted](https://schema.org/datePosted) | Text |  |

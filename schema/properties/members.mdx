@@ -1,13 +1,17 @@
 ---
-$id: schema:members
-$type: rdf:Property
-label: schema:members
+$id: https://schema.org/members
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: members
+comment: |
+  A member of this organization.
 rdfs:comment: "A member of this organization."
 rdfs:label: "members"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:ProgramMembership"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:supersededBy: {"@id":"schema:member"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/ProgramMembership"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:supersededBy: "https://schema.org/member"
 ---
 
-# schema:members
+# members
+
+A member of this organization.
 

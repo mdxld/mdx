@@ -1,15 +1,19 @@
 ---
-$id: schema:appearance
-$type: rdf:Property
-label: schema:appearance
+$id: https://schema.org/appearance
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: appearance
+comment: |
+  Indicates an occurrence of a [[Claim]] in some [[CreativeWork]].
 rdfs:comment: "Indicates an occurrence of a [[Claim]] in some [[CreativeWork]]."
 rdfs:label: "appearance"
-rdfs:subPropertyOf: {"@id":"schema:workExample"}
-schema:domainIncludes: {"@id":"schema:Claim"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:CreativeWork"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1828"}
+rdfs:subPropertyOf: "https://schema.org/workExample"
+schema:domainIncludes: "https://schema.org/Claim"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/CreativeWork"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1828"
 ---
 
-# schema:appearance
+# appearance
+
+Indicates an occurrence of a [[Claim]] in some [[CreativeWork]].
 

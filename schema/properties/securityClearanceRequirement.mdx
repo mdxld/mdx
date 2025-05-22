@@ -1,14 +1,18 @@
 ---
-$id: schema:securityClearanceRequirement
-$type: rdf:Property
-label: schema:securityClearanceRequirement
+$id: https://schema.org/securityClearanceRequirement
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: securityClearanceRequirement
+comment: |
+  A description of any security clearance requirements of the job.
 rdfs:comment: "A description of any security clearance requirements of the job."
 rdfs:label: "securityClearanceRequirement"
-schema:domainIncludes: {"@id":"schema:JobPosting"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2384"}
+schema:domainIncludes: "https://schema.org/JobPosting"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2384"
 ---
 
-# schema:securityClearanceRequirement
+# securityClearanceRequirement
+
+A description of any security clearance requirements of the job.
 

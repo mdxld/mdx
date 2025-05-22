@@ -1,12 +1,16 @@
 ---
-$id: schema:broker
-$type: rdf:Property
-label: schema:broker
+$id: https://schema.org/broker
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: broker
+comment: |
+  An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
 rdfs:comment: "An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred."
 rdfs:label: "broker"
-schema:domainIncludes: [{"@id":"schema:Order"},{"@id":"schema:Reservation"},{"@id":"schema:Invoice"},{"@id":"schema:Service"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/Order","https://schema.org/Reservation","https://schema.org/Invoice","https://schema.org/Service"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:broker
+# broker
+
+An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
 

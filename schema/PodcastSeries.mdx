@@ -1,13 +1,23 @@
 ---
-$id: schema:PodcastSeries
-$type: rdfs:Class
-label: schema:PodcastSeries
+$id: https://schema.org/PodcastSeries
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PodcastSeries
+comment: |
+  A podcast is an episodic series of digital audio or video files which a user can download and listen to.
 rdfs:comment: "A podcast is an episodic series of digital audio or video files which a user can download and listen to."
 rdfs:label: "PodcastSeries"
-rdfs:subClassOf: {"@id":"schema:CreativeWorkSeries"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/373"}
+rdfs:subClassOf: "https://schema.org/CreativeWorkSeries"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/373"
 ---
 
-# schema:PodcastSeries
+# PodcastSeries
 
+A podcast is an episodic series of digital audio or video files which a user can download and listen to.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [actor](https://schema.org/actor) | Text |  |
+| [webFeed](https://schema.org/webFeed) | Text |  |

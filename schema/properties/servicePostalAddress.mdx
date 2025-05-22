@@ -1,12 +1,16 @@
 ---
-$id: schema:servicePostalAddress
-$type: rdf:Property
-label: schema:servicePostalAddress
+$id: https://schema.org/servicePostalAddress
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: servicePostalAddress
+comment: |
+  The address for accessing the service by mail.
 rdfs:comment: "The address for accessing the service by mail."
 rdfs:label: "servicePostalAddress"
-schema:domainIncludes: {"@id":"schema:ServiceChannel"}
-schema:rangeIncludes: {"@id":"schema:PostalAddress"}
+schema:domainIncludes: "https://schema.org/ServiceChannel"
+schema:rangeIncludes: "https://schema.org/PostalAddress"
 ---
 
-# schema:servicePostalAddress
+# servicePostalAddress
+
+The address for accessing the service by mail.
 

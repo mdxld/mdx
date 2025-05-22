@@ -1,13 +1,17 @@
 ---
-$id: schema:colleagues
-$type: rdf:Property
-label: schema:colleagues
+$id: https://schema.org/colleagues
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: colleagues
+comment: |
+  A colleague of the person.
 rdfs:comment: "A colleague of the person."
 rdfs:label: "colleagues"
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Person"}
-schema:supersededBy: {"@id":"schema:colleague"}
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Person"
+schema:supersededBy: "https://schema.org/colleague"
 ---
 
-# schema:colleagues
+# colleagues
+
+A colleague of the person.
 

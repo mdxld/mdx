@@ -1,12 +1,16 @@
 ---
-$id: schema:seatingType
-$type: rdf:Property
-label: schema:seatingType
+$id: https://schema.org/seatingType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: seatingType
+comment: |
+  The type/class of the seat.
 rdfs:comment: "The type/class of the seat."
 rdfs:label: "seatingType"
-schema:domainIncludes: {"@id":"schema:Seat"}
-schema:rangeIncludes: [{"@id":"schema:QualitativeValue"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/Seat"
+schema:rangeIncludes: ["https://schema.org/QualitativeValue","https://schema.org/Text"]
 ---
 
-# schema:seatingType
+# seatingType
+
+The type/class of the seat.
 

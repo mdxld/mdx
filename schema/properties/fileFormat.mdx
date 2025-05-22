@@ -1,13 +1,17 @@
 ---
-$id: schema:fileFormat
-$type: rdf:Property
-label: schema:fileFormat
+$id: https://schema.org/fileFormat
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: fileFormat
+comment: |
+  Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content, e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.
 rdfs:comment: "Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content, e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry."
 rdfs:label: "fileFormat"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
-schema:supersededBy: {"@id":"schema:encodingFormat"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
+schema:supersededBy: "https://schema.org/encodingFormat"
 ---
 
-# schema:fileFormat
+# fileFormat
+
+Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content, e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.
 

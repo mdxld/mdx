@@ -1,12 +1,22 @@
 ---
-$id: schema:Audiobook
-$type: rdfs:Class
-label: schema:Audiobook
+$id: https://schema.org/Audiobook
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Audiobook
+comment: |
+  An audiobook.
 rdfs:comment: "An audiobook."
 rdfs:label: "Audiobook"
-rdfs:subClassOf: [{"@id":"schema:Book"},{"@id":"schema:AudioObject"}]
-schema:isPartOf: {"@id":"https://bib.schema.org"}
+rdfs:subClassOf: ["https://schema.org/Book","https://schema.org/AudioObject"]
+schema:isPartOf: "https://bib.schema.org"
 ---
 
-# schema:Audiobook
+# Audiobook
 
+An audiobook.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [duration](https://schema.org/duration) | Text |  |
+| [readBy](https://schema.org/readBy) | Text |  |

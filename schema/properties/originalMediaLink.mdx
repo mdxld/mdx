@@ -1,14 +1,18 @@
 ---
-$id: schema:originalMediaLink
-$type: rdf:Property
-label: schema:originalMediaLink
+$id: https://schema.org/originalMediaLink
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: originalMediaLink
+comment: |
+  Link to the page containing an original version of the content, or directly to an online copy of the original [[MediaObject]] content, e.g. video file.
 rdfs:comment: "Link to the page containing an original version of the content, or directly to an online copy of the original [[MediaObject]] content, e.g. video file."
 rdfs:label: "originalMediaLink"
-schema:domainIncludes: {"@id":"schema:MediaReview"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:MediaObject"},{"@id":"schema:WebPage"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2450"}
+schema:domainIncludes: "https://schema.org/MediaReview"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/MediaObject","https://schema.org/WebPage","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2450"
 ---
 
-# schema:originalMediaLink
+# originalMediaLink
+
+Link to the page containing an original version of the content, or directly to an online copy of the original [[MediaObject]] content, e.g. video file.
 

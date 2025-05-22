@@ -1,11 +1,21 @@
 ---
-$id: schema:ReplaceAction
-$type: rdfs:Class
-label: schema:ReplaceAction
+$id: https://schema.org/ReplaceAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ReplaceAction
+comment: |
+  The act of editing a recipient by replacing an old object with a new object.
 rdfs:comment: "The act of editing a recipient by replacing an old object with a new object."
 rdfs:label: "ReplaceAction"
-rdfs:subClassOf: {"@id":"schema:UpdateAction"}
+rdfs:subClassOf: "https://schema.org/UpdateAction"
 ---
 
-# schema:ReplaceAction
+# ReplaceAction
 
+The act of editing a recipient by replacing an old object with a new object.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [replacee](https://schema.org/replacee) | Text |  |
+| [replacer](https://schema.org/replacer) | Text |  |

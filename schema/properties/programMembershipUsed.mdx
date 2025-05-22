@@ -1,12 +1,16 @@
 ---
-$id: schema:programMembershipUsed
-$type: rdf:Property
-label: schema:programMembershipUsed
+$id: https://schema.org/programMembershipUsed
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: programMembershipUsed
+comment: |
+  Any membership in a frequent flyer, hotel loyalty program, etc. being applied to the reservation.
 rdfs:comment: "Any membership in a frequent flyer, hotel loyalty program, etc. being applied to the reservation."
 rdfs:label: "programMembershipUsed"
-schema:domainIncludes: {"@id":"schema:Reservation"}
-schema:rangeIncludes: {"@id":"schema:ProgramMembership"}
+schema:domainIncludes: "https://schema.org/Reservation"
+schema:rangeIncludes: "https://schema.org/ProgramMembership"
 ---
 
-# schema:programMembershipUsed
+# programMembershipUsed
+
+Any membership in a frequent flyer, hotel loyalty program, etc. being applied to the reservation.
 

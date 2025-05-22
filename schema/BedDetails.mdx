@@ -1,12 +1,22 @@
 ---
-$id: schema:BedDetails
-$type: rdfs:Class
-label: schema:BedDetails
+$id: https://schema.org/BedDetails
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BedDetails
+comment: |
+  An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room. For the single case of just one bed of a certain type, you can use bed directly with a text. See also [[BedType]] (under development).
 rdfs:comment: "An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room. For the single case of just one bed of a certain type, you can use bed directly with a text. See also [[BedType]] (under development)."
 rdfs:label: "BedDetails"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/STI_Accommodation_Ontology"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:contributor: "https://schema.org/docs/collab/STI_Accommodation_Ontology"
 ---
 
-# schema:BedDetails
+# BedDetails
 
+An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room. For the single case of just one bed of a certain type, you can use bed directly with a text. See also [[BedType]] (under development).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [numberOfBeds](https://schema.org/numberOfBeds) | Text |  |
+| [typeOfBed](https://schema.org/typeOfBed) | Text |  |

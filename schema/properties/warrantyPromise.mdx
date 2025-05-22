@@ -1,13 +1,17 @@
 ---
-$id: schema:warrantyPromise
-$type: rdf:Property
-label: schema:warrantyPromise
+$id: https://schema.org/warrantyPromise
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: warrantyPromise
+comment: |
+  The warranty promise(s) included in the offer.
 rdfs:comment: "The warranty promise(s) included in the offer."
 rdfs:label: "warrantyPromise"
-schema:domainIncludes: [{"@id":"schema:BuyAction"},{"@id":"schema:SellAction"}]
-schema:rangeIncludes: {"@id":"schema:WarrantyPromise"}
-schema:supersededBy: {"@id":"schema:warranty"}
+schema:domainIncludes: ["https://schema.org/BuyAction","https://schema.org/SellAction"]
+schema:rangeIncludes: "https://schema.org/WarrantyPromise"
+schema:supersededBy: "https://schema.org/warranty"
 ---
 
-# schema:warrantyPromise
+# warrantyPromise
+
+The warranty promise(s) included in the offer.
 

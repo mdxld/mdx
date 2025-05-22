@@ -1,13 +1,30 @@
 ---
-$id: schema:HealthInsurancePlan
-$type: rdfs:Class
-label: schema:HealthInsurancePlan
+$id: https://schema.org/HealthInsurancePlan
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: HealthInsurancePlan
+comment: |
+  A US-style health insurance plan, including PPOs, EPOs, and HMOs.
 rdfs:comment: "A US-style health insurance plan, including PPOs, EPOs, and HMOs."
 rdfs:label: "HealthInsurancePlan"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:HealthInsurancePlan
+# HealthInsurancePlan
 
+A US-style health insurance plan, including PPOs, EPOs, and HMOs.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [benefitsSummaryUrl](https://schema.org/benefitsSummaryUrl) | Text |  |
+| [contactPoint](https://schema.org/contactPoint) | Text |  |
+| [healthPlanDrugOption](https://schema.org/healthPlanDrugOption) | Text |  |
+| [healthPlanDrugTier](https://schema.org/healthPlanDrugTier) | Text |  |
+| [healthPlanId](https://schema.org/healthPlanId) | Text |  |
+| [healthPlanMarketingUrl](https://schema.org/healthPlanMarketingUrl) | Text |  |
+| [includesHealthPlanFormulary](https://schema.org/includesHealthPlanFormulary) | Text |  |
+| [includesHealthPlanNetwork](https://schema.org/includesHealthPlanNetwork) | Text |  |
+| [usesHealthPlanIdStandard](https://schema.org/usesHealthPlanIdStandard) | Text |  |

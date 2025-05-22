@@ -1,12 +1,32 @@
 ---
-$id: schema:OpeningHoursSpecification
-$type: rdfs:Class
-label: schema:OpeningHoursSpecification
-rdfs:comment: "A structured value providing information about the opening hours of a place or a certain service inside a place.\\n\\n\nThe place is __open__ if the [[opens]] property is specified, and __closed__ otherwise.\\n\\nIf the value for the [[closes]] property is less than the value for the [[opens]] property then the hour range is assumed to span over the next day.\n      "
+$id: https://schema.org/OpeningHoursSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: OpeningHoursSpecification
+comment: |
+  A structured value providing information about the opening hours of a place or a certain service inside a place.\n\n
+  The place is __open__ if the [[opens]] property is specified, and __closed__ otherwise.\n\nIf the value for the [[closes]] property is less than the value for the [[opens]] property then the hour range is assumed to span over the next day.
+        
+rdfs:comment: |
+  A structured value providing information about the opening hours of a place or a certain service inside a place.\n\n
+  The place is __open__ if the [[opens]] property is specified, and __closed__ otherwise.\n\nIf the value for the [[closes]] property is less than the value for the [[opens]] property then the hour range is assumed to span over the next day.
+        
 rdfs:label: "OpeningHoursSpecification"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:OpeningHoursSpecification
+# OpeningHoursSpecification
 
+A structured value providing information about the opening hours of a place or a certain service inside a place.\n\n
+The place is __open__ if the [[opens]] property is specified, and __closed__ otherwise.\n\nIf the value for the [[closes]] property is less than the value for the [[opens]] property then the hour range is assumed to span over the next day.
+      
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [closes](https://schema.org/closes) | Text |  |
+| [dayOfWeek](https://schema.org/dayOfWeek) | Text |  |
+| [opens](https://schema.org/opens) | Text |  |
+| [validFrom](https://schema.org/validFrom) | Text |  |
+| [validThrough](https://schema.org/validThrough) | Text |  |

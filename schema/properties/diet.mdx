@@ -1,14 +1,18 @@
 ---
-$id: schema:diet
-$type: rdf:Property
-label: schema:diet
+$id: https://schema.org/diet
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: diet
+comment: |
+  A sub property of instrument. The diet used in this action.
 rdfs:comment: "A sub property of instrument. The diet used in this action."
 rdfs:label: "diet"
-rdfs:subPropertyOf: {"@id":"schema:instrument"}
-schema:domainIncludes: {"@id":"schema:ExerciseAction"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Diet"}
+rdfs:subPropertyOf: "https://schema.org/instrument"
+schema:domainIncludes: "https://schema.org/ExerciseAction"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Diet"
 ---
 
-# schema:diet
+# diet
+
+A sub property of instrument. The diet used in this action.
 

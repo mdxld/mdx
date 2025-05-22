@@ -1,12 +1,16 @@
 ---
-$id: schema:interactionService
-$type: rdf:Property
-label: schema:interactionService
+$id: https://schema.org/interactionService
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: interactionService
+comment: |
+  The WebSite or SoftwareApplication where the interactions took place.
 rdfs:comment: "The WebSite or SoftwareApplication where the interactions took place."
 rdfs:label: "interactionService"
-schema:domainIncludes: {"@id":"schema:InteractionCounter"}
-schema:rangeIncludes: [{"@id":"schema:WebSite"},{"@id":"schema:SoftwareApplication"}]
+schema:domainIncludes: "https://schema.org/InteractionCounter"
+schema:rangeIncludes: ["https://schema.org/WebSite","https://schema.org/SoftwareApplication"]
 ---
 
-# schema:interactionService
+# interactionService
+
+The WebSite or SoftwareApplication where the interactions took place.
 

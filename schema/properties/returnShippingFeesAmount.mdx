@@ -1,14 +1,18 @@
 ---
-$id: schema:returnShippingFeesAmount
-$type: rdf:Property
-label: schema:returnShippingFeesAmount
+$id: https://schema.org/returnShippingFeesAmount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: returnShippingFeesAmount
+comment: |
+  Amount of shipping costs for product returns (for any reason). Applicable when property [[returnFees]] equals [[ReturnShippingFees]].
 rdfs:comment: "Amount of shipping costs for product returns (for any reason). Applicable when property [[returnFees]] equals [[ReturnShippingFees]]."
 rdfs:label: "returnShippingFeesAmount"
-schema:domainIncludes: [{"@id":"schema:MerchantReturnPolicySeasonalOverride"},{"@id":"schema:MerchantReturnPolicy"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MonetaryAmount"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2880"}
+schema:domainIncludes: ["https://schema.org/MerchantReturnPolicySeasonalOverride","https://schema.org/MerchantReturnPolicy"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MonetaryAmount"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2880"
 ---
 
-# schema:returnShippingFeesAmount
+# returnShippingFeesAmount
+
+Amount of shipping costs for product returns (for any reason). Applicable when property [[returnFees]] equals [[ReturnShippingFees]].
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:typicalAgeRange
-$type: rdf:Property
-label: schema:typicalAgeRange
+$id: https://schema.org/typicalAgeRange
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: typicalAgeRange
+comment: |
+  The typical expected age range, e.g. '7-9', '11-'.
 rdfs:comment: "The typical expected age range, e.g. '7-9', '11-'."
 rdfs:label: "typicalAgeRange"
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:Event"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/Event"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:typicalAgeRange
+# typicalAgeRange
+
+The typical expected age range, e.g. '7-9', '11-'.
 

@@ -1,14 +1,18 @@
 ---
-$id: schema:itemDefectReturnShippingFeesAmount
-$type: rdf:Property
-label: schema:itemDefectReturnShippingFeesAmount
+$id: https://schema.org/itemDefectReturnShippingFeesAmount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: itemDefectReturnShippingFeesAmount
+comment: |
+  Amount of shipping costs for defect product returns. Applicable when property [[itemDefectReturnFees]] equals [[ReturnShippingFees]].
 rdfs:comment: "Amount of shipping costs for defect product returns. Applicable when property [[itemDefectReturnFees]] equals [[ReturnShippingFees]]."
 rdfs:label: "itemDefectReturnShippingFeesAmount"
-schema:domainIncludes: {"@id":"schema:MerchantReturnPolicy"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MonetaryAmount"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2880"}
+schema:domainIncludes: "https://schema.org/MerchantReturnPolicy"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MonetaryAmount"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2880"
 ---
 
-# schema:itemDefectReturnShippingFeesAmount
+# itemDefectReturnShippingFeesAmount
+
+Amount of shipping costs for defect product returns. Applicable when property [[itemDefectReturnFees]] equals [[ReturnShippingFees]].
 

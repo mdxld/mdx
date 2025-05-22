@@ -1,11 +1,24 @@
 ---
-$id: schema:Physician
-$type: rdfs:Class
-label: schema:Physician
+$id: https://schema.org/Physician
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Physician
+comment: |
+  An individual physician or a physician's office considered as a [[MedicalOrganization]].
 rdfs:comment: "An individual physician or a physician's office considered as a [[MedicalOrganization]]."
 rdfs:label: "Physician"
-rdfs:subClassOf: [{"@id":"schema:MedicalBusiness"},{"@id":"schema:MedicalOrganization"}]
+rdfs:subClassOf: ["https://schema.org/MedicalBusiness","https://schema.org/MedicalOrganization"]
 ---
 
-# schema:Physician
+# Physician
 
+An individual physician or a physician's office considered as a [[MedicalOrganization]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [availableService](https://schema.org/availableService) | Text |  |
+| [hospitalAffiliation](https://schema.org/hospitalAffiliation) | Text |  |
+| [medicalSpecialty](https://schema.org/medicalSpecialty) | Text |  |
+| [occupationalCategory](https://schema.org/occupationalCategory) | Text |  |
+| [usNPI](https://schema.org/usNPI) | Text |  |

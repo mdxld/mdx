@@ -1,12 +1,16 @@
 ---
-$id: schema:applicationSuite
-$type: rdf:Property
-label: schema:applicationSuite
+$id: https://schema.org/applicationSuite
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicationSuite
+comment: |
+  The name of the application suite to which the application belongs (e.g. Excel belongs to Office).
 rdfs:comment: "The name of the application suite to which the application belongs (e.g. Excel belongs to Office)."
 rdfs:label: "applicationSuite"
-schema:domainIncludes: {"@id":"schema:SoftwareApplication"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/SoftwareApplication"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:applicationSuite
+# applicationSuite
+
+The name of the application suite to which the application belongs (e.g. Excel belongs to Office).
 

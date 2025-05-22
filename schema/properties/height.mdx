@@ -1,13 +1,17 @@
 ---
-$id: schema:height
-$type: rdf:Property
-label: schema:height
+$id: https://schema.org/height
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: height
+comment: |
+  The height of the item.
 rdfs:comment: "The height of the item."
 rdfs:label: "height"
-schema:domainIncludes: [{"@id":"schema:MediaObject"},{"@id":"schema:Product"},{"@id":"schema:OfferShippingDetails"},{"@id":"schema:ShippingConditions"},{"@id":"schema:VisualArtwork"},{"@id":"schema:Person"}]
-schema:rangeIncludes: [{"@id":"schema:Distance"},{"@id":"schema:QuantitativeValue"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+schema:domainIncludes: ["https://schema.org/MediaObject","https://schema.org/Product","https://schema.org/OfferShippingDetails","https://schema.org/ShippingConditions","https://schema.org/VisualArtwork","https://schema.org/Person"]
+schema:rangeIncludes: ["https://schema.org/Distance","https://schema.org/QuantitativeValue"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:height
+# height
+
+The height of the item.
 

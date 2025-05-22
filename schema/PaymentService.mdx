@@ -1,12 +1,16 @@
 ---
-$id: schema:PaymentService
-$type: rdfs:Class
-label: schema:PaymentService
+$id: https://schema.org/PaymentService
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PaymentService
+comment: |
+  A Service to transfer funds from a person or organization to a beneficiary person or organization.
 rdfs:comment: "A Service to transfer funds from a person or organization to a beneficiary person or organization."
 rdfs:label: "PaymentService"
-rdfs:subClassOf: [{"@id":"schema:PaymentMethod"},{"@id":"schema:FinancialProduct"}]
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
+rdfs:subClassOf: ["https://schema.org/PaymentMethod","https://schema.org/FinancialProduct"]
+schema:contributor: "https://schema.org/docs/collab/FIBO"
 ---
 
-# schema:PaymentService
+# PaymentService
+
+A Service to transfer funds from a person or organization to a beneficiary person or organization.
 

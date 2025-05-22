@@ -1,14 +1,18 @@
 ---
-$id: schema:potentialUse
-$type: rdf:Property
-label: schema:potentialUse
+$id: https://schema.org/potentialUse
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: potentialUse
+comment: |
+  Intended use of the BioChemEntity by humans.
 rdfs:comment: "Intended use of the BioChemEntity by humans."
 rdfs:label: "potentialUse"
-schema:domainIncludes: [{"@id":"schema:ChemicalSubstance"},{"@id":"schema:MolecularEntity"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:DefinedTerm"}
-schema:source: {"@id":"http://www.bioschemas.org/ChemicalSubstance"}
+schema:domainIncludes: ["https://schema.org/ChemicalSubstance","https://schema.org/MolecularEntity"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/DefinedTerm"
+schema:source: "http://www.bioschemas.org/ChemicalSubstance"
 ---
 
-# schema:potentialUse
+# potentialUse
+
+Intended use of the BioChemEntity by humans.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:icaoCode
-$type: rdf:Property
-label: schema:icaoCode
+$id: https://schema.org/icaoCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: icaoCode
+comment: |
+  ICAO identifier for an airport.
 rdfs:comment: "ICAO identifier for an airport."
 rdfs:label: "icaoCode"
-schema:domainIncludes: {"@id":"schema:Airport"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/Airport"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:icaoCode
+# icaoCode
+
+ICAO identifier for an airport.
 

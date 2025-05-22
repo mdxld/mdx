@@ -1,14 +1,18 @@
 ---
-$id: schema:practicesAt
-$type: rdf:Property
-label: schema:practicesAt
+$id: https://schema.org/practicesAt
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: practicesAt
+comment: |
+  A [[MedicalOrganization]] where the [[IndividualPhysician]] practices.
 rdfs:comment: "A [[MedicalOrganization]] where the [[IndividualPhysician]] practices."
 rdfs:label: "practicesAt"
-schema:domainIncludes: {"@id":"schema:IndividualPhysician"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalOrganization"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3420"}
+schema:domainIncludes: "https://schema.org/IndividualPhysician"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalOrganization"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3420"
 ---
 
-# schema:practicesAt
+# practicesAt
+
+A [[MedicalOrganization]] where the [[IndividualPhysician]] practices.
 

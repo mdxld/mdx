@@ -1,14 +1,18 @@
 ---
-$id: schema:shippingConditions
-$type: rdf:Property
-label: schema:shippingConditions
+$id: https://schema.org/shippingConditions
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: shippingConditions
+comment: |
+  The conditions (constraints, price) applicable to the [[ShippingService]].
 rdfs:comment: "The conditions (constraints, price) applicable to the [[ShippingService]]."
 rdfs:label: "shippingConditions"
-schema:domainIncludes: {"@id":"schema:ShippingService"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:ShippingConditions"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+schema:domainIncludes: "https://schema.org/ShippingService"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/ShippingConditions"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:shippingConditions
+# shippingConditions
+
+The conditions (constraints, price) applicable to the [[ShippingService]].
 

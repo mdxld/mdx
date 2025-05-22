@@ -1,14 +1,22 @@
 ---
-$id: schema:sdPublisher
-$type: rdf:Property
-label: schema:sdPublisher
-rdfs:comment: "Indicates the party responsible for generating and publishing the current structured data markup, typically in cases where the structured data is derived automatically from existing published content but published on a different site. For example, student projects and open data initiatives often re-publish existing content with more explicitly structured metadata. The\n[[sdPublisher]] property helps make such practices more explicit."
+$id: https://schema.org/sdPublisher
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sdPublisher
+comment: |
+  Indicates the party responsible for generating and publishing the current structured data markup, typically in cases where the structured data is derived automatically from existing published content but published on a different site. For example, student projects and open data initiatives often re-publish existing content with more explicitly structured metadata. The
+  [[sdPublisher]] property helps make such practices more explicit.
+rdfs:comment: |
+  Indicates the party responsible for generating and publishing the current structured data markup, typically in cases where the structured data is derived automatically from existing published content but published on a different site. For example, student projects and open data initiatives often re-publish existing content with more explicitly structured metadata. The
+  [[sdPublisher]] property helps make such practices more explicit.
 rdfs:label: "sdPublisher"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1886"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1886"
 ---
 
-# schema:sdPublisher
+# sdPublisher
+
+Indicates the party responsible for generating and publishing the current structured data markup, typically in cases where the structured data is derived automatically from existing published content but published on a different site. For example, student projects and open data initiatives often re-publish existing content with more explicitly structured metadata. The
+[[sdPublisher]] property helps make such practices more explicit.
 

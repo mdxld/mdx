@@ -1,13 +1,17 @@
 ---
-$id: schema:area
-$type: rdf:Property
-label: schema:area
+$id: https://schema.org/area
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: area
+comment: |
+  The area within which users can expect to reach the broadcast service.
 rdfs:comment: "The area within which users can expect to reach the broadcast service."
 rdfs:label: "area"
-schema:domainIncludes: {"@id":"schema:BroadcastService"}
-schema:rangeIncludes: {"@id":"schema:Place"}
-schema:supersededBy: {"@id":"schema:serviceArea"}
+schema:domainIncludes: "https://schema.org/BroadcastService"
+schema:rangeIncludes: "https://schema.org/Place"
+schema:supersededBy: "https://schema.org/serviceArea"
 ---
 
-# schema:area
+# area
+
+The area within which users can expect to reach the broadcast service.
 

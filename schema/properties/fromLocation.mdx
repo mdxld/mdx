@@ -1,13 +1,17 @@
 ---
-$id: schema:fromLocation
-$type: rdf:Property
-label: schema:fromLocation
+$id: https://schema.org/fromLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: fromLocation
+comment: |
+  A sub property of location. The original location of the object or the agent before the action.
 rdfs:comment: "A sub property of location. The original location of the object or the agent before the action."
 rdfs:label: "fromLocation"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: [{"@id":"schema:MoveAction"},{"@id":"schema:TransferAction"},{"@id":"schema:ExerciseAction"}]
-schema:rangeIncludes: {"@id":"schema:Place"}
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: ["https://schema.org/MoveAction","https://schema.org/TransferAction","https://schema.org/ExerciseAction"]
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:fromLocation
+# fromLocation
+
+A sub property of location. The original location of the object or the agent before the action.
 

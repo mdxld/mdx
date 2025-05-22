@@ -1,13 +1,17 @@
 ---
-$id: schema:postalCodeRange
-$type: rdf:Property
-label: schema:postalCodeRange
+$id: https://schema.org/postalCodeRange
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: postalCodeRange
+comment: |
+  A defined range of postal codes.
 rdfs:comment: "A defined range of postal codes."
 rdfs:label: "postalCodeRange"
-schema:domainIncludes: {"@id":"schema:DefinedRegion"}
-schema:rangeIncludes: {"@id":"schema:PostalCodeRangeSpecification"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+schema:domainIncludes: "https://schema.org/DefinedRegion"
+schema:rangeIncludes: "https://schema.org/PostalCodeRangeSpecification"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:postalCodeRange
+# postalCodeRange
+
+A defined range of postal codes.
 

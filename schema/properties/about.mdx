@@ -1,14 +1,18 @@
 ---
-$id: schema:about
-$type: rdf:Property
-label: schema:about
+$id: https://schema.org/about
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: about
+comment: |
+  The subject matter of the content.
 rdfs:comment: "The subject matter of the content."
 rdfs:label: "about"
-schema:domainIncludes: [{"@id":"schema:CommunicateAction"},{"@id":"schema:Event"},{"@id":"schema:CreativeWork"},{"@id":"schema:Certification"}]
-schema:inverseOf: {"@id":"schema:subjectOf"}
-schema:rangeIncludes: {"@id":"schema:Thing"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1670"}
+schema:domainIncludes: ["https://schema.org/CommunicateAction","https://schema.org/Event","https://schema.org/CreativeWork","https://schema.org/Certification"]
+schema:inverseOf: "https://schema.org/subjectOf"
+schema:rangeIncludes: "https://schema.org/Thing"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1670"
 ---
 
-# schema:about
+# about
+
+The subject matter of the content.
 

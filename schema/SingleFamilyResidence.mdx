@@ -1,11 +1,21 @@
 ---
-$id: schema:SingleFamilyResidence
-$type: rdfs:Class
-label: schema:SingleFamilyResidence
+$id: https://schema.org/SingleFamilyResidence
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SingleFamilyResidence
+comment: |
+  Residence type: Single-family home.
 rdfs:comment: "Residence type: Single-family home."
 rdfs:label: "SingleFamilyResidence"
-rdfs:subClassOf: {"@id":"schema:House"}
+rdfs:subClassOf: "https://schema.org/House"
 ---
 
-# schema:SingleFamilyResidence
+# SingleFamilyResidence
 
+Residence type: Single-family home.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [numberOfRooms](https://schema.org/numberOfRooms) | Text |  |
+| [occupancy](https://schema.org/occupancy) | Text |  |

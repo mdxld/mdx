@@ -1,12 +1,16 @@
 ---
-$id: schema:geoEquals
-$type: rdf:Property
-label: schema:geoEquals
+$id: https://schema.org/geoEquals
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: geoEquals
+comment: |
+  Represents spatial relations in which two geometries (or the places they represent) are topologically equal, as defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM). "Two geometries are topologically equal if their interiors intersect and no part of the interior or boundary of one geometry intersects the exterior of the other" (a symmetric relationship).
 rdfs:comment: "Represents spatial relations in which two geometries (or the places they represent) are topologically equal, as defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM). \"Two geometries are topologically equal if their interiors intersect and no part of the interior or boundary of one geometry intersects the exterior of the other\" (a symmetric relationship)."
 rdfs:label: "geoEquals"
-schema:domainIncludes: [{"@id":"schema:GeospatialGeometry"},{"@id":"schema:Place"}]
-schema:rangeIncludes: [{"@id":"schema:Place"},{"@id":"schema:GeospatialGeometry"}]
+schema:domainIncludes: ["https://schema.org/GeospatialGeometry","https://schema.org/Place"]
+schema:rangeIncludes: ["https://schema.org/Place","https://schema.org/GeospatialGeometry"]
 ---
 
-# schema:geoEquals
+# geoEquals
+
+Represents spatial relations in which two geometries (or the places they represent) are topologically equal, as defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM). "Two geometries are topologically equal if their interiors intersect and no part of the interior or boundary of one geometry intersects the exterior of the other" (a symmetric relationship).
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:toLocation
-$type: rdf:Property
-label: schema:toLocation
+$id: https://schema.org/toLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: toLocation
+comment: |
+  A sub property of location. The final location of the object or the agent after the action.
 rdfs:comment: "A sub property of location. The final location of the object or the agent after the action."
 rdfs:label: "toLocation"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: [{"@id":"schema:InsertAction"},{"@id":"schema:TransferAction"},{"@id":"schema:ExerciseAction"},{"@id":"schema:MoveAction"}]
-schema:rangeIncludes: {"@id":"schema:Place"}
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: ["https://schema.org/InsertAction","https://schema.org/TransferAction","https://schema.org/ExerciseAction","https://schema.org/MoveAction"]
+schema:rangeIncludes: "https://schema.org/Place"
 ---
 
-# schema:toLocation
+# toLocation
+
+A sub property of location. The final location of the object or the agent after the action.
 

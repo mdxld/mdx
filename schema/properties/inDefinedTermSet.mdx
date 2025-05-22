@@ -1,15 +1,19 @@
 ---
-$id: schema:inDefinedTermSet
-$type: rdf:Property
-label: schema:inDefinedTermSet
+$id: https://schema.org/inDefinedTermSet
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inDefinedTermSet
+comment: |
+  A [[DefinedTermSet]] that contains this term.
 rdfs:comment: "A [[DefinedTermSet]] that contains this term."
 rdfs:label: "inDefinedTermSet"
-rdfs:subPropertyOf: {"@id":"schema:isPartOf"}
-schema:domainIncludes: {"@id":"schema:DefinedTerm"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:DefinedTermSet"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/894"}
+rdfs:subPropertyOf: "https://schema.org/isPartOf"
+schema:domainIncludes: "https://schema.org/DefinedTerm"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/DefinedTermSet","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/894"
 ---
 
-# schema:inDefinedTermSet
+# inDefinedTermSet
+
+A [[DefinedTermSet]] that contains this term.
 

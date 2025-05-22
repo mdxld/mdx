@@ -1,12 +1,25 @@
 ---
-$id: schema:DrugStrength
-$type: rdfs:Class
-label: schema:DrugStrength
+$id: https://schema.org/DrugStrength
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DrugStrength
+comment: |
+  A specific strength in which a medical drug is available in a specific country.
 rdfs:comment: "A specific strength in which a medical drug is available in a specific country."
 rdfs:label: "DrugStrength"
-rdfs:subClassOf: {"@id":"schema:MedicalIntangible"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalIntangible"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:DrugStrength
+# DrugStrength
 
+A specific strength in which a medical drug is available in a specific country.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [activeIngredient](https://schema.org/activeIngredient) | Text |  |
+| [availableIn](https://schema.org/availableIn) | Text |  |
+| [maximumIntake](https://schema.org/maximumIntake) | Text |  |
+| [strengthUnit](https://schema.org/strengthUnit) | Text |  |
+| [strengthValue](https://schema.org/strengthValue) | Text |  |

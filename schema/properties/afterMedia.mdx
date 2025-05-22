@@ -1,12 +1,16 @@
 ---
-$id: schema:afterMedia
-$type: rdf:Property
-label: schema:afterMedia
+$id: https://schema.org/afterMedia
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: afterMedia
+comment: |
+  A media object representing the circumstances after performing this direction.
 rdfs:comment: "A media object representing the circumstances after performing this direction."
 rdfs:label: "afterMedia"
-schema:domainIncludes: {"@id":"schema:HowToDirection"}
-schema:rangeIncludes: [{"@id":"schema:MediaObject"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/HowToDirection"
+schema:rangeIncludes: ["https://schema.org/MediaObject","https://schema.org/URL"]
 ---
 
-# schema:afterMedia
+# afterMedia
+
+A media object representing the circumstances after performing this direction.
 

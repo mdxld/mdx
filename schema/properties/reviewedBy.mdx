@@ -1,12 +1,16 @@
 ---
-$id: schema:reviewedBy
-$type: rdf:Property
-label: schema:reviewedBy
+$id: https://schema.org/reviewedBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: reviewedBy
+comment: |
+  People or organizations that have reviewed the content on this web page for accuracy and/or completeness.
 rdfs:comment: "People or organizations that have reviewed the content on this web page for accuracy and/or completeness."
 rdfs:label: "reviewedBy"
-schema:domainIncludes: {"@id":"schema:WebPage"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/WebPage"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:reviewedBy
+# reviewedBy
+
+People or organizations that have reviewed the content on this web page for accuracy and/or completeness.
 

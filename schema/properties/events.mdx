@@ -1,13 +1,17 @@
 ---
-$id: schema:events
-$type: rdf:Property
-label: schema:events
+$id: https://schema.org/events
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: events
+comment: |
+  Upcoming or past events associated with this place or organization.
 rdfs:comment: "Upcoming or past events associated with this place or organization."
 rdfs:label: "events"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Place"}]
-schema:rangeIncludes: {"@id":"schema:Event"}
-schema:supersededBy: {"@id":"schema:event"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Place"]
+schema:rangeIncludes: "https://schema.org/Event"
+schema:supersededBy: "https://schema.org/event"
 ---
 
-# schema:events
+# events
+
+Upcoming or past events associated with this place or organization.
 

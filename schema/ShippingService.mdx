@@ -1,13 +1,25 @@
 ---
-$id: schema:ShippingService
-$type: rdfs:Class
-label: schema:ShippingService
+$id: https://schema.org/ShippingService
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ShippingService
+comment: |
+  ShippingService represents the criteria used to determine if and how an offer could be shipped to a customer.
 rdfs:comment: "ShippingService represents the criteria used to determine if and how an offer could be shipped to a customer."
 rdfs:label: "ShippingService"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:ShippingService
+# ShippingService
 
+ShippingService represents the criteria used to determine if and how an offer could be shipped to a customer.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [fulfillmentType](https://schema.org/fulfillmentType) | Text |  |
+| [handlingTime](https://schema.org/handlingTime) | Text |  |
+| [shippingConditions](https://schema.org/shippingConditions) | Text |  |
+| [validForMemberTier](https://schema.org/validForMemberTier) | Text |  |

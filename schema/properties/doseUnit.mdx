@@ -1,13 +1,17 @@
 ---
-$id: schema:doseUnit
-$type: rdf:Property
-label: schema:doseUnit
+$id: https://schema.org/doseUnit
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: doseUnit
+comment: |
+  The unit of the dose, e.g. 'mg'.
 rdfs:comment: "The unit of the dose, e.g. 'mg'."
 rdfs:label: "doseUnit"
-schema:domainIncludes: {"@id":"schema:DoseSchedule"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/DoseSchedule"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:doseUnit
+# doseUnit
+
+The unit of the dose, e.g. 'mg'.
 

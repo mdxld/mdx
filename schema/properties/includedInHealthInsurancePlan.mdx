@@ -1,14 +1,18 @@
 ---
-$id: schema:includedInHealthInsurancePlan
-$type: rdf:Property
-label: schema:includedInHealthInsurancePlan
+$id: https://schema.org/includedInHealthInsurancePlan
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: includedInHealthInsurancePlan
+comment: |
+  The insurance plans that cover this drug.
 rdfs:comment: "The insurance plans that cover this drug."
 rdfs:label: "includedInHealthInsurancePlan"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:HealthInsurancePlan"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/HealthInsurancePlan"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:includedInHealthInsurancePlan
+# includedInHealthInsurancePlan
+
+The insurance plans that cover this drug.
 

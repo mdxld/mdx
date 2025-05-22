@@ -1,12 +1,16 @@
 ---
-$id: schema:areaServed
-$type: rdf:Property
-label: schema:areaServed
+$id: https://schema.org/areaServed
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: areaServed
+comment: |
+  The geographic area where a service or offered item is provided.
 rdfs:comment: "The geographic area where a service or offered item is provided."
 rdfs:label: "areaServed"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Offer"},{"@id":"schema:Service"},{"@id":"schema:FinancialIncentive"},{"@id":"schema:ContactPoint"},{"@id":"schema:DeliveryChargeSpecification"},{"@id":"schema:Demand"}]
-schema:rangeIncludes: [{"@id":"schema:AdministrativeArea"},{"@id":"schema:Place"},{"@id":"schema:GeoShape"},{"@id":"schema:Text"}]
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Offer","https://schema.org/Service","https://schema.org/FinancialIncentive","https://schema.org/ContactPoint","https://schema.org/DeliveryChargeSpecification","https://schema.org/Demand"]
+schema:rangeIncludes: ["https://schema.org/AdministrativeArea","https://schema.org/Place","https://schema.org/GeoShape","https://schema.org/Text"]
 ---
 
-# schema:areaServed
+# areaServed
+
+The geographic area where a service or offered item is provided.
 

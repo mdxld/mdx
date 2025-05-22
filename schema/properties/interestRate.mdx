@@ -1,13 +1,17 @@
 ---
-$id: schema:interestRate
-$type: rdf:Property
-label: schema:interestRate
+$id: https://schema.org/interestRate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: interestRate
+comment: |
+  The interest rate, charged or paid, applicable to the financial product. Note: This is different from the calculated annualPercentageRate.
 rdfs:comment: "The interest rate, charged or paid, applicable to the financial product. Note: This is different from the calculated annualPercentageRate."
 rdfs:label: "interestRate"
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
-schema:domainIncludes: {"@id":"schema:FinancialProduct"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:QuantitativeValue"}]
+schema:contributor: "https://schema.org/docs/collab/FIBO"
+schema:domainIncludes: "https://schema.org/FinancialProduct"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/QuantitativeValue"]
 ---
 
-# schema:interestRate
+# interestRate
+
+The interest rate, charged or paid, applicable to the financial product. Note: This is different from the calculated annualPercentageRate.
 

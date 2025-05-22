@@ -1,14 +1,18 @@
 ---
-$id: schema:programType
-$type: rdf:Property
-label: schema:programType
+$id: https://schema.org/programType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: programType
+comment: |
+  The type of educational or occupational program. For example, classroom, internship, alternance, etc.
 rdfs:comment: "The type of educational or occupational program. For example, classroom, internship, alternance, etc."
 rdfs:label: "programType"
-schema:domainIncludes: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:DefinedTerm"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2460"}
+schema:domainIncludes: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/DefinedTerm","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2460"
 ---
 
-# schema:programType
+# programType
+
+The type of educational or occupational program. For example, classroom, internship, alternance, etc.
 

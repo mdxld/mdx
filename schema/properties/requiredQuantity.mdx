@@ -1,12 +1,16 @@
 ---
-$id: schema:requiredQuantity
-$type: rdf:Property
-label: schema:requiredQuantity
+$id: https://schema.org/requiredQuantity
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: requiredQuantity
+comment: |
+  The required quantity of the item(s).
 rdfs:comment: "The required quantity of the item(s)."
 rdfs:label: "requiredQuantity"
-schema:domainIncludes: {"@id":"schema:HowToItem"}
-schema:rangeIncludes: [{"@id":"schema:Number"},{"@id":"schema:QuantitativeValue"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/HowToItem"
+schema:rangeIncludes: ["https://schema.org/Number","https://schema.org/QuantitativeValue","https://schema.org/Text"]
 ---
 
-# schema:requiredQuantity
+# requiredQuantity
+
+The required quantity of the item(s).
 

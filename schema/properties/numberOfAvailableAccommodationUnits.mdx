@@ -1,14 +1,18 @@
 ---
-$id: schema:numberOfAvailableAccommodationUnits
-$type: rdf:Property
-label: schema:numberOfAvailableAccommodationUnits
+$id: https://schema.org/numberOfAvailableAccommodationUnits
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: numberOfAvailableAccommodationUnits
+comment: |
+  Indicates the number of available accommodation units in an [[ApartmentComplex]], or the number of accommodation units for a specific [[FloorPlan]] (within its specific [[ApartmentComplex]]). See also [[numberOfAccommodationUnits]].
 rdfs:comment: "Indicates the number of available accommodation units in an [[ApartmentComplex]], or the number of accommodation units for a specific [[FloorPlan]] (within its specific [[ApartmentComplex]]). See also [[numberOfAccommodationUnits]]."
 rdfs:label: "numberOfAvailableAccommodationUnits"
-schema:domainIncludes: [{"@id":"schema:ApartmentComplex"},{"@id":"schema:FloorPlan"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:QuantitativeValue"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2373"}
+schema:domainIncludes: ["https://schema.org/ApartmentComplex","https://schema.org/FloorPlan"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/QuantitativeValue"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2373"
 ---
 
-# schema:numberOfAvailableAccommodationUnits
+# numberOfAvailableAccommodationUnits
+
+Indicates the number of available accommodation units in an [[ApartmentComplex]], or the number of accommodation units for a specific [[FloorPlan]] (within its specific [[ApartmentComplex]]). See also [[numberOfAccommodationUnits]].
 

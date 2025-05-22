@@ -1,14 +1,18 @@
 ---
-$id: schema:sport
-$type: rdf:Property
-label: schema:sport
+$id: https://schema.org/sport
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sport
+comment: |
+  A type of sport (e.g. Baseball).
 rdfs:comment: "A type of sport (e.g. Baseball)."
 rdfs:label: "sport"
-schema:domainIncludes: [{"@id":"schema:SportsEvent"},{"@id":"schema:SportsOrganization"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1951"}
+schema:domainIncludes: ["https://schema.org/SportsEvent","https://schema.org/SportsOrganization"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1951"
 ---
 
-# schema:sport
+# sport
+
+A type of sport (e.g. Baseball).
 

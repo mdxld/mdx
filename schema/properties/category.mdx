@@ -1,13 +1,17 @@
 ---
-$id: schema:category
-$type: rdf:Property
-label: schema:category
+$id: https://schema.org/category
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: category
+comment: |
+  A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 rdfs:comment: "A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy."
 rdfs:label: "category"
-schema:domainIncludes: [{"@id":"schema:SpecialAnnouncement"},{"@id":"schema:PhysicalActivity"},{"@id":"schema:Offer"},{"@id":"schema:Invoice"},{"@id":"schema:Service"},{"@id":"schema:Recommendation"},{"@id":"schema:Product"},{"@id":"schema:ActionAccessSpecification"}]
-schema:rangeIncludes: [{"@id":"schema:Thing"},{"@id":"schema:PhysicalActivityCategory"},{"@id":"schema:Text"},{"@id":"schema:URL"},{"@id":"schema:CategoryCode"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/2490"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1741"}]
+schema:domainIncludes: ["https://schema.org/SpecialAnnouncement","https://schema.org/PhysicalActivity","https://schema.org/Offer","https://schema.org/Invoice","https://schema.org/Service","https://schema.org/Recommendation","https://schema.org/Product","https://schema.org/ActionAccessSpecification"]
+schema:rangeIncludes: ["https://schema.org/Thing","https://schema.org/PhysicalActivityCategory","https://schema.org/Text","https://schema.org/URL","https://schema.org/CategoryCode"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/2490","https://github.com/schemaorg/schemaorg/issues/1741"]
 ---
 
-# schema:category
+# category
+
+A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 

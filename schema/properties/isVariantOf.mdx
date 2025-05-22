@@ -1,14 +1,18 @@
 ---
-$id: schema:isVariantOf
-$type: rdf:Property
-label: schema:isVariantOf
+$id: https://schema.org/isVariantOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isVariantOf
+comment: |
+  Indicates the kind of product that this is a variant of. In the case of [[ProductModel]], this is a pointer (from a ProductModel) to a base product from which this product is a variant. It is safe to infer that the variant inherits all product features from the base model, unless defined locally. This is not transitive. In the case of a [[ProductGroup]], the group description also serves as a template, representing a set of Products that vary on explicitly defined, specific dimensions only (so it defines both a set of variants, as well as which values distinguish amongst those variants). When used with [[ProductGroup]], this property can apply to any [[Product]] included in the group.
 rdfs:comment: "Indicates the kind of product that this is a variant of. In the case of [[ProductModel]], this is a pointer (from a ProductModel) to a base product from which this product is a variant. It is safe to infer that the variant inherits all product features from the base model, unless defined locally. This is not transitive. In the case of a [[ProductGroup]], the group description also serves as a template, representing a set of Products that vary on explicitly defined, specific dimensions only (so it defines both a set of variants, as well as which values distinguish amongst those variants). When used with [[ProductGroup]], this property can apply to any [[Product]] included in the group."
 rdfs:label: "isVariantOf"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:ProductModel"},{"@id":"schema:Product"}]
-schema:inverseOf: {"@id":"schema:hasVariant"}
-schema:rangeIncludes: [{"@id":"schema:ProductModel"},{"@id":"schema:ProductGroup"}]
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/ProductModel","https://schema.org/Product"]
+schema:inverseOf: "https://schema.org/hasVariant"
+schema:rangeIncludes: ["https://schema.org/ProductModel","https://schema.org/ProductGroup"]
 ---
 
-# schema:isVariantOf
+# isVariantOf
+
+Indicates the kind of product that this is a variant of. In the case of [[ProductModel]], this is a pointer (from a ProductModel) to a base product from which this product is a variant. It is safe to infer that the variant inherits all product features from the base model, unless defined locally. This is not transitive. In the case of a [[ProductGroup]], the group description also serves as a template, representing a set of Products that vary on explicitly defined, specific dimensions only (so it defines both a set of variants, as well as which values distinguish amongst those variants). When used with [[ProductGroup]], this property can apply to any [[Product]] included in the group.
 

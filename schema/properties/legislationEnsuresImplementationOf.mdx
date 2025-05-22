@@ -1,18 +1,22 @@
 ---
-$id: schema:legislationEnsuresImplementationOf
-$type: rdf:Property
-label: schema:legislationEnsuresImplementationOf
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#ensures_implementation_of"}
+$id: https://schema.org/legislationEnsuresImplementationOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationEnsuresImplementationOf
+comment: |
+  Indicates that this Legislation ensures the implementation of another Legislation, for example by modifying national legislations so that they do not contradict to an EU regulation or decision. This implies a legal meaning. Transpositions of EU Directive should be captured with <a href="/legislationTransposes">legislationTransposes</a>.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#ensures_implementation_of"
 rdfs:comment: "Indicates that this Legislation ensures the implementation of another Legislation, for example by modifying national legislations so that they do not contradict to an EU regulation or decision. This implies a legal meaning. Transpositions of EU Directive should be captured with <a href=\"/legislationTransposes\">legislationTransposes</a>."
 rdfs:label: "legislationEnsuresImplementationOf"
-rdfs:subPropertyOf: {"@id":"schema:legislationApplies"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Legislation"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/2698"},{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#ensures_implementation_of"}
+rdfs:subPropertyOf: "https://schema.org/legislationApplies"
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Legislation"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/2698","https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#ensures_implementation_of"
 ---
 
-# schema:legislationEnsuresImplementationOf
+# legislationEnsuresImplementationOf
+
+Indicates that this Legislation ensures the implementation of another Legislation, for example by modifying national legislations so that they do not contradict to an EU regulation or decision. This implies a legal meaning. Transpositions of EU Directive should be captured with <a href="/legislationTransposes">legislationTransposes</a>.
 

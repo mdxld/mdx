@@ -1,12 +1,20 @@
 ---
-$id: schema:temporal
-$type: rdf:Property
-label: schema:temporal
-rdfs:comment: "The \"temporal\" property can be used in cases where more specific properties\n(e.g. [[temporalCoverage]], [[dateCreated]], [[dateModified]], [[datePublished]]) are not known to be appropriate."
+$id: https://schema.org/temporal
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: temporal
+comment: |
+  The "temporal" property can be used in cases where more specific properties
+  (e.g. [[temporalCoverage]], [[dateCreated]], [[dateModified]], [[datePublished]]) are not known to be appropriate.
+rdfs:comment: |
+  The "temporal" property can be used in cases where more specific properties
+  (e.g. [[temporalCoverage]], [[dateCreated]], [[dateModified]], [[datePublished]]) are not known to be appropriate.
 rdfs:label: "temporal"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/DateTime"]
 ---
 
-# schema:temporal
+# temporal
+
+The "temporal" property can be used in cases where more specific properties
+(e.g. [[temporalCoverage]], [[dateCreated]], [[dateModified]], [[datePublished]]) are not known to be appropriate.
 

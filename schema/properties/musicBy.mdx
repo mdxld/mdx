@@ -1,12 +1,16 @@
 ---
-$id: schema:musicBy
-$type: rdf:Property
-label: schema:musicBy
+$id: https://schema.org/musicBy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: musicBy
+comment: |
+  The composer of the soundtrack.
 rdfs:comment: "The composer of the soundtrack."
 rdfs:label: "musicBy"
-schema:domainIncludes: [{"@id":"schema:VideoGameSeries"},{"@id":"schema:RadioSeries"},{"@id":"schema:Episode"},{"@id":"schema:VideoObject"},{"@id":"schema:MovieSeries"},{"@id":"schema:Movie"},{"@id":"schema:TVSeries"},{"@id":"schema:VideoGame"},{"@id":"schema:Clip"}]
-schema:rangeIncludes: [{"@id":"schema:MusicGroup"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/VideoGameSeries","https://schema.org/RadioSeries","https://schema.org/Episode","https://schema.org/VideoObject","https://schema.org/MovieSeries","https://schema.org/Movie","https://schema.org/TVSeries","https://schema.org/VideoGame","https://schema.org/Clip"]
+schema:rangeIncludes: ["https://schema.org/MusicGroup","https://schema.org/Person"]
 ---
 
-# schema:musicBy
+# musicBy
+
+The composer of the soundtrack.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:proficiencyLevel
-$type: rdf:Property
-label: schema:proficiencyLevel
+$id: https://schema.org/proficiencyLevel
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: proficiencyLevel
+comment: |
+  Proficiency needed for this content; expected values: 'Beginner', 'Expert'.
 rdfs:comment: "Proficiency needed for this content; expected values: 'Beginner', 'Expert'."
 rdfs:label: "proficiencyLevel"
-schema:domainIncludes: {"@id":"schema:TechArticle"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/TechArticle"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:proficiencyLevel
+# proficiencyLevel
+
+Proficiency needed for this content; expected values: 'Beginner', 'Expert'.
 

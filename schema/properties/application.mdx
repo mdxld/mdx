@@ -1,13 +1,17 @@
 ---
-$id: schema:application
-$type: rdf:Property
-label: schema:application
+$id: https://schema.org/application
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: application
+comment: |
+  An application that can complete the request.
 rdfs:comment: "An application that can complete the request."
 rdfs:label: "application"
-schema:domainIncludes: {"@id":"schema:EntryPoint"}
-schema:rangeIncludes: {"@id":"schema:SoftwareApplication"}
-schema:supersededBy: {"@id":"schema:actionApplication"}
+schema:domainIncludes: "https://schema.org/EntryPoint"
+schema:rangeIncludes: "https://schema.org/SoftwareApplication"
+schema:supersededBy: "https://schema.org/actionApplication"
 ---
 
-# schema:application
+# application
+
+An application that can complete the request.
 

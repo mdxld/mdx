@@ -1,12 +1,16 @@
 ---
-$id: schema:geoOverlaps
-$type: rdf:Property
-label: schema:geoOverlaps
+$id: https://schema.org/geoOverlaps
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: geoOverlaps
+comment: |
+  Represents a relationship between two geometries (or the places they represent), relating a geometry to another that geospatially overlaps it, i.e. they have some but not all points in common. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM).
 rdfs:comment: "Represents a relationship between two geometries (or the places they represent), relating a geometry to another that geospatially overlaps it, i.e. they have some but not all points in common. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM)."
 rdfs:label: "geoOverlaps"
-schema:domainIncludes: [{"@id":"schema:GeospatialGeometry"},{"@id":"schema:Place"}]
-schema:rangeIncludes: [{"@id":"schema:GeospatialGeometry"},{"@id":"schema:Place"}]
+schema:domainIncludes: ["https://schema.org/GeospatialGeometry","https://schema.org/Place"]
+schema:rangeIncludes: ["https://schema.org/GeospatialGeometry","https://schema.org/Place"]
 ---
 
-# schema:geoOverlaps
+# geoOverlaps
+
+Represents a relationship between two geometries (or the places they represent), relating a geometry to another that geospatially overlaps it, i.e. they have some but not all points in common. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM).
 

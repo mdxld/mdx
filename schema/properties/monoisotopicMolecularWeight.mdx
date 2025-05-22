@@ -1,14 +1,18 @@
 ---
-$id: schema:monoisotopicMolecularWeight
-$type: rdf:Property
-label: schema:monoisotopicMolecularWeight
+$id: https://schema.org/monoisotopicMolecularWeight
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: monoisotopicMolecularWeight
+comment: |
+  The monoisotopic mass is the sum of the masses of the atoms in a molecule using the unbound, ground-state, rest mass of the principal (most abundant) isotope for each element instead of the isotopic average mass. Please include the units in the form '&lt;Number&gt; &lt;unit&gt;', for example '770.230488 g/mol' or as '&lt;QuantitativeValue&gt;.
 rdfs:comment: "The monoisotopic mass is the sum of the masses of the atoms in a molecule using the unbound, ground-state, rest mass of the principal (most abundant) isotope for each element instead of the isotopic average mass. Please include the units in the form '&lt;Number&gt; &lt;unit&gt;', for example '770.230488 g/mol' or as '&lt;QuantitativeValue&gt;."
 rdfs:label: "monoisotopicMolecularWeight"
-schema:domainIncludes: {"@id":"schema:MolecularEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:QuantitativeValue"},{"@id":"schema:Text"}]
-schema:source: {"@id":"http://www.bioschemas.org/MolecularEntity"}
+schema:domainIncludes: "https://schema.org/MolecularEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/QuantitativeValue","https://schema.org/Text"]
+schema:source: "http://www.bioschemas.org/MolecularEntity"
 ---
 
-# schema:monoisotopicMolecularWeight
+# monoisotopicMolecularWeight
+
+The monoisotopic mass is the sum of the masses of the atoms in a molecule using the unbound, ground-state, rest mass of the principal (most abundant) isotope for each element instead of the isotopic average mass. Please include the units in the form '&lt;Number&gt; &lt;unit&gt;', for example '770.230488 g/mol' or as '&lt;QuantitativeValue&gt;.
 

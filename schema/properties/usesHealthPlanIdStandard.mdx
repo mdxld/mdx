@@ -1,14 +1,18 @@
 ---
-$id: schema:usesHealthPlanIdStandard
-$type: rdf:Property
-label: schema:usesHealthPlanIdStandard
+$id: https://schema.org/usesHealthPlanIdStandard
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: usesHealthPlanIdStandard
+comment: |
+  The standard for interpreting the Plan ID. The preferred is "HIOS". See the Centers for Medicare & Medicaid Services for more details.
 rdfs:comment: "The standard for interpreting the Plan ID. The preferred is \"HIOS\". See the Centers for Medicare & Medicaid Services for more details."
 rdfs:label: "usesHealthPlanIdStandard"
-schema:domainIncludes: {"@id":"schema:HealthInsurancePlan"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+schema:domainIncludes: "https://schema.org/HealthInsurancePlan"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:usesHealthPlanIdStandard
+# usesHealthPlanIdStandard
+
+The standard for interpreting the Plan ID. The preferred is "HIOS". See the Centers for Medicare & Medicaid Services for more details.
 

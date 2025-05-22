@@ -1,11 +1,20 @@
 ---
-$id: schema:TipAction
-$type: rdfs:Class
-label: schema:TipAction
+$id: https://schema.org/TipAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TipAction
+comment: |
+  The act of giving money voluntarily to a beneficiary in recognition of services rendered.
 rdfs:comment: "The act of giving money voluntarily to a beneficiary in recognition of services rendered."
 rdfs:label: "TipAction"
-rdfs:subClassOf: {"@id":"schema:TradeAction"}
+rdfs:subClassOf: "https://schema.org/TradeAction"
 ---
 
-# schema:TipAction
+# TipAction
 
+The act of giving money voluntarily to a beneficiary in recognition of services rendered.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [recipient](https://schema.org/recipient) | Text |  |

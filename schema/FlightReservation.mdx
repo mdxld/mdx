@@ -1,11 +1,23 @@
 ---
-$id: schema:FlightReservation
-$type: rdfs:Class
-label: schema:FlightReservation
+$id: https://schema.org/FlightReservation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: FlightReservation
+comment: |
+  A reservation for air travel.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
 rdfs:comment: "A reservation for air travel.\\n\\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]]."
 rdfs:label: "FlightReservation"
-rdfs:subClassOf: {"@id":"schema:Reservation"}
+rdfs:subClassOf: "https://schema.org/Reservation"
 ---
 
-# schema:FlightReservation
+# FlightReservation
 
+A reservation for air travel.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [boardingGroup](https://schema.org/boardingGroup) | Text |  |
+| [passengerPriorityStatus](https://schema.org/passengerPriorityStatus) | Text |  |
+| [passengerSequenceNumber](https://schema.org/passengerSequenceNumber) | Text |  |
+| [securityScreening](https://schema.org/securityScreening) | Text |  |

@@ -1,12 +1,16 @@
 ---
-$id: schema:address
-$type: rdf:Property
-label: schema:address
+$id: https://schema.org/address
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: address
+comment: |
+  Physical address of the item.
 rdfs:comment: "Physical address of the item."
 rdfs:label: "address"
-schema:domainIncludes: [{"@id":"schema:GeoCoordinates"},{"@id":"schema:Place"},{"@id":"schema:Person"},{"@id":"schema:GeoShape"},{"@id":"schema:Organization"}]
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:PostalAddress"}]
+schema:domainIncludes: ["https://schema.org/GeoCoordinates","https://schema.org/Place","https://schema.org/Person","https://schema.org/GeoShape","https://schema.org/Organization"]
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/PostalAddress"]
 ---
 
-# schema:address
+# address
+
+Physical address of the item.
 

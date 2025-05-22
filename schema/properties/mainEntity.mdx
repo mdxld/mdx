@@ -1,14 +1,18 @@
 ---
-$id: schema:mainEntity
-$type: rdf:Property
-label: schema:mainEntity
+$id: https://schema.org/mainEntity
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: mainEntity
+comment: |
+  Indicates the primary entity described in some page or other CreativeWork.
 rdfs:comment: "Indicates the primary entity described in some page or other CreativeWork."
 rdfs:label: "mainEntity"
-rdfs:subPropertyOf: {"@id":"schema:about"}
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:inverseOf: {"@id":"schema:mainEntityOfPage"}
-schema:rangeIncludes: {"@id":"schema:Thing"}
+rdfs:subPropertyOf: "https://schema.org/about"
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:inverseOf: "https://schema.org/mainEntityOfPage"
+schema:rangeIncludes: "https://schema.org/Thing"
 ---
 
-# schema:mainEntity
+# mainEntity
+
+Indicates the primary entity described in some page or other CreativeWork.
 

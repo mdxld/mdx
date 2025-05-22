@@ -1,13 +1,17 @@
 ---
-$id: schema:typicalTest
-$type: rdf:Property
-label: schema:typicalTest
+$id: https://schema.org/typicalTest
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: typicalTest
+comment: |
+  A medical test typically performed given this condition.
 rdfs:comment: "A medical test typically performed given this condition."
 rdfs:label: "typicalTest"
-schema:domainIncludes: {"@id":"schema:MedicalCondition"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalTest"}
+schema:domainIncludes: "https://schema.org/MedicalCondition"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalTest"
 ---
 
-# schema:typicalTest
+# typicalTest
+
+A medical test typically performed given this condition.
 

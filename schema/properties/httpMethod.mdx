@@ -1,12 +1,16 @@
 ---
-$id: schema:httpMethod
-$type: rdf:Property
-label: schema:httpMethod
+$id: https://schema.org/httpMethod
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: httpMethod
+comment: |
+  An HTTP method that specifies the appropriate HTTP method for a request to an HTTP EntryPoint. Values are capitalized strings as used in HTTP.
 rdfs:comment: "An HTTP method that specifies the appropriate HTTP method for a request to an HTTP EntryPoint. Values are capitalized strings as used in HTTP."
 rdfs:label: "httpMethod"
-schema:domainIncludes: {"@id":"schema:EntryPoint"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/EntryPoint"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:httpMethod
+# httpMethod
+
+An HTTP method that specifies the appropriate HTTP method for a request to an HTTP EntryPoint. Values are capitalized strings as used in HTTP.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:includedDataCatalog
-$type: rdf:Property
-label: schema:includedDataCatalog
+$id: https://schema.org/includedDataCatalog
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: includedDataCatalog
+comment: |
+  A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog').
 rdfs:comment: "A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog')."
 rdfs:label: "includedDataCatalog"
-schema:domainIncludes: {"@id":"schema:Dataset"}
-schema:rangeIncludes: {"@id":"schema:DataCatalog"}
-schema:supersededBy: {"@id":"schema:includedInDataCatalog"}
+schema:domainIncludes: "https://schema.org/Dataset"
+schema:rangeIncludes: "https://schema.org/DataCatalog"
+schema:supersededBy: "https://schema.org/includedInDataCatalog"
 ---
 
-# schema:includedDataCatalog
+# includedDataCatalog
+
+A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog').
 

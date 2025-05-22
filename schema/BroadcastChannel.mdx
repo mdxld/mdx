@@ -1,11 +1,25 @@
 ---
-$id: schema:BroadcastChannel
-$type: rdfs:Class
-label: schema:BroadcastChannel
+$id: https://schema.org/BroadcastChannel
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BroadcastChannel
+comment: |
+  A unique instance of a BroadcastService on a CableOrSatelliteService lineup.
 rdfs:comment: "A unique instance of a BroadcastService on a CableOrSatelliteService lineup."
 rdfs:label: "BroadcastChannel"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:BroadcastChannel
+# BroadcastChannel
 
+A unique instance of a BroadcastService on a CableOrSatelliteService lineup.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [broadcastChannelId](https://schema.org/broadcastChannelId) | Text |  |
+| [broadcastFrequency](https://schema.org/broadcastFrequency) | Text |  |
+| [broadcastServiceTier](https://schema.org/broadcastServiceTier) | Text |  |
+| [genre](https://schema.org/genre) | Text |  |
+| [inBroadcastLineup](https://schema.org/inBroadcastLineup) | Text |  |
+| [providesBroadcastService](https://schema.org/providesBroadcastService) | Text |  |

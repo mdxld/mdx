@@ -1,11 +1,25 @@
 ---
-$id: schema:Rating
-$type: rdfs:Class
-label: schema:Rating
+$id: https://schema.org/Rating
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Rating
+comment: |
+  A rating is an evaluation on a numeric scale, such as 1 to 5 stars.
 rdfs:comment: "A rating is an evaluation on a numeric scale, such as 1 to 5 stars."
 rdfs:label: "Rating"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Rating
+# Rating
 
+A rating is an evaluation on a numeric scale, such as 1 to 5 stars.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [author](https://schema.org/author) | Text |  |
+| [bestRating](https://schema.org/bestRating) | Text |  |
+| [ratingExplanation](https://schema.org/ratingExplanation) | Text |  |
+| [ratingValue](https://schema.org/ratingValue) | Text |  |
+| [reviewAspect](https://schema.org/reviewAspect) | Text |  |
+| [worstRating](https://schema.org/worstRating) | Text |  |

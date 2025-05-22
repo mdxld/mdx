@@ -1,13 +1,17 @@
 ---
-$id: schema:runtime
-$type: rdf:Property
-label: schema:runtime
+$id: https://schema.org/runtime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: runtime
+comment: |
+  Runtime platform or script interpreter dependencies (example: Java v1, Python 2.3, .NET Framework 3.0).
 rdfs:comment: "Runtime platform or script interpreter dependencies (example: Java v1, Python 2.3, .NET Framework 3.0)."
 rdfs:label: "runtime"
-schema:domainIncludes: {"@id":"schema:SoftwareSourceCode"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:supersededBy: {"@id":"schema:runtimePlatform"}
+schema:domainIncludes: "https://schema.org/SoftwareSourceCode"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:supersededBy: "https://schema.org/runtimePlatform"
 ---
 
-# schema:runtime
+# runtime
+
+Runtime platform or script interpreter dependencies (example: Java v1, Python 2.3, .NET Framework 3.0).
 

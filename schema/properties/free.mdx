@@ -1,13 +1,17 @@
 ---
-$id: schema:free
-$type: rdf:Property
-label: schema:free
+$id: https://schema.org/free
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: free
+comment: |
+  A flag to signal that the item, event, or place is accessible for free.
 rdfs:comment: "A flag to signal that the item, event, or place is accessible for free."
 rdfs:label: "free"
-schema:domainIncludes: {"@id":"schema:PublicationEvent"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
-schema:supersededBy: {"@id":"schema:isAccessibleForFree"}
+schema:domainIncludes: "https://schema.org/PublicationEvent"
+schema:rangeIncludes: "https://schema.org/Boolean"
+schema:supersededBy: "https://schema.org/isAccessibleForFree"
 ---
 
-# schema:free
+# free
+
+A flag to signal that the item, event, or place is accessible for free.
 

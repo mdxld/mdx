@@ -1,13 +1,17 @@
 ---
-$id: schema:endorsee
-$type: rdf:Property
-label: schema:endorsee
+$id: https://schema.org/endorsee
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: endorsee
+comment: |
+  A sub property of participant. The person/organization being supported.
 rdfs:comment: "A sub property of participant. The person/organization being supported."
 rdfs:label: "endorsee"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:EndorseAction"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/EndorseAction"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:endorsee
+# endorsee
+
+A sub property of participant. The person/organization being supported.
 

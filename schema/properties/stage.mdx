@@ -1,13 +1,17 @@
 ---
-$id: schema:stage
-$type: rdf:Property
-label: schema:stage
+$id: https://schema.org/stage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: stage
+comment: |
+  The stage of the condition, if applicable.
 rdfs:comment: "The stage of the condition, if applicable."
 rdfs:label: "stage"
-schema:domainIncludes: {"@id":"schema:MedicalCondition"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalConditionStage"}
+schema:domainIncludes: "https://schema.org/MedicalCondition"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalConditionStage"
 ---
 
-# schema:stage
+# stage
+
+The stage of the condition, if applicable.
 

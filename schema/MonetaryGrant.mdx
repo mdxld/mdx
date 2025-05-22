@@ -1,13 +1,23 @@
 ---
-$id: schema:MonetaryGrant
-$type: rdfs:Class
-label: schema:MonetaryGrant
+$id: https://schema.org/MonetaryGrant
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MonetaryGrant
+comment: |
+  A monetary grant.
 rdfs:comment: "A monetary grant."
 rdfs:label: "MonetaryGrant"
-rdfs:subClassOf: {"@id":"schema:Grant"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: [{"@id":"https://schema.org/docs/collab/FundInfoCollab"},{"@id":"https://github.com/schemaorg/schemaorg/issues/383"}]
+rdfs:subClassOf: "https://schema.org/Grant"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: ["https://schema.org/docs/collab/FundInfoCollab","https://github.com/schemaorg/schemaorg/issues/383"]
 ---
 
-# schema:MonetaryGrant
+# MonetaryGrant
 
+A monetary grant.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [amount](https://schema.org/amount) | Text |  |
+| [funder](https://schema.org/funder) | Text |  |

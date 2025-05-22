@@ -1,11 +1,21 @@
 ---
-$id: schema:Airport
-$type: rdfs:Class
-label: schema:Airport
+$id: https://schema.org/Airport
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Airport
+comment: |
+  An airport.
 rdfs:comment: "An airport."
 rdfs:label: "Airport"
-rdfs:subClassOf: {"@id":"schema:CivicStructure"}
+rdfs:subClassOf: "https://schema.org/CivicStructure"
 ---
 
-# schema:Airport
+# Airport
 
+An airport.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [iataCode](https://schema.org/iataCode) | Text |  |
+| [icaoCode](https://schema.org/icaoCode) | Text |  |

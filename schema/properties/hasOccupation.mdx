@@ -1,13 +1,17 @@
 ---
-$id: schema:hasOccupation
-$type: rdf:Property
-label: schema:hasOccupation
+$id: https://schema.org/hasOccupation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasOccupation
+comment: |
+  The Person's occupation. For past professions, use Role for expressing dates.
 rdfs:comment: "The Person's occupation. For past professions, use Role for expressing dates."
 rdfs:label: "hasOccupation"
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Occupation"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1698"}
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Occupation"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1698"
 ---
 
-# schema:hasOccupation
+# hasOccupation
+
+The Person's occupation. For past professions, use Role for expressing dates.
 

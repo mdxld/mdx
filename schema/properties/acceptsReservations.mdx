@@ -1,12 +1,16 @@
 ---
-$id: schema:acceptsReservations
-$type: rdf:Property
-label: schema:acceptsReservations
+$id: https://schema.org/acceptsReservations
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: acceptsReservations
+comment: |
+  Indicates whether a FoodEstablishment accepts reservations. Values can be Boolean, an URL at which reservations can be made or (for backwards compatibility) the strings ```Yes``` or ```No```.
 rdfs:comment: "Indicates whether a FoodEstablishment accepts reservations. Values can be Boolean, an URL at which reservations can be made or (for backwards compatibility) the strings ```Yes``` or ```No```."
 rdfs:label: "acceptsReservations"
-schema:domainIncludes: {"@id":"schema:FoodEstablishment"}
-schema:rangeIncludes: [{"@id":"schema:Boolean"},{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/FoodEstablishment"
+schema:rangeIncludes: ["https://schema.org/Boolean","https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:acceptsReservations
+# acceptsReservations
+
+Indicates whether a FoodEstablishment accepts reservations. Values can be Boolean, an URL at which reservations can be made or (for backwards compatibility) the strings ```Yes``` or ```No```.
 

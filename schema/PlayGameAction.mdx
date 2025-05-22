@@ -1,13 +1,22 @@
 ---
-$id: schema:PlayGameAction
-$type: rdfs:Class
-label: schema:PlayGameAction
+$id: https://schema.org/PlayGameAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PlayGameAction
+comment: |
+  The act of playing a video game.
 rdfs:comment: "The act of playing a video game."
 rdfs:label: "PlayGameAction"
-rdfs:subClassOf: {"@id":"schema:ConsumeAction"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3058"}
+rdfs:subClassOf: "https://schema.org/ConsumeAction"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3058"
 ---
 
-# schema:PlayGameAction
+# PlayGameAction
 
+The act of playing a video game.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [gameAvailabilityType](https://schema.org/gameAvailabilityType) | Text |  |

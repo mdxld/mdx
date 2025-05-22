@@ -1,13 +1,17 @@
 ---
-$id: schema:recommendedIntake
-$type: rdf:Property
-label: schema:recommendedIntake
+$id: https://schema.org/recommendedIntake
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recommendedIntake
+comment: |
+  Recommended intake of this supplement for a given population as defined by a specific recommending authority.
 rdfs:comment: "Recommended intake of this supplement for a given population as defined by a specific recommending authority."
 rdfs:label: "recommendedIntake"
-schema:domainIncludes: {"@id":"schema:DietarySupplement"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:RecommendedDoseSchedule"}
+schema:domainIncludes: "https://schema.org/DietarySupplement"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/RecommendedDoseSchedule"
 ---
 
-# schema:recommendedIntake
+# recommendedIntake
+
+Recommended intake of this supplement for a given population as defined by a specific recommending authority.
 

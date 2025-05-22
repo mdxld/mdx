@@ -1,12 +1,22 @@
 ---
-$id: schema:MedicalRiskEstimator
-$type: rdfs:Class
-label: schema:MedicalRiskEstimator
+$id: https://schema.org/MedicalRiskEstimator
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalRiskEstimator
+comment: |
+  Any rule set or interactive tool for estimating the risk of developing a complication or condition.
 rdfs:comment: "Any rule set or interactive tool for estimating the risk of developing a complication or condition."
 rdfs:label: "MedicalRiskEstimator"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalRiskEstimator
+# MedicalRiskEstimator
 
+Any rule set or interactive tool for estimating the risk of developing a complication or condition.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [estimatesRiskOf](https://schema.org/estimatesRiskOf) | Text |  |
+| [includedRiskFactor](https://schema.org/includedRiskFactor) | Text |  |

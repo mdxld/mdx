@@ -1,12 +1,16 @@
 ---
-$id: schema:productSupported
-$type: rdf:Property
-label: schema:productSupported
+$id: https://schema.org/productSupported
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: productSupported
+comment: |
+  The product or service this support contact point is related to (such as product support for a particular product line). This can be a specific product or product line (e.g. "iPhone") or a general category of products or services (e.g. "smartphones").
 rdfs:comment: "The product or service this support contact point is related to (such as product support for a particular product line). This can be a specific product or product line (e.g. \"iPhone\") or a general category of products or services (e.g. \"smartphones\")."
 rdfs:label: "productSupported"
-schema:domainIncludes: {"@id":"schema:ContactPoint"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Product"}]
+schema:domainIncludes: "https://schema.org/ContactPoint"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Product"]
 ---
 
-# schema:productSupported
+# productSupported
+
+The product or service this support contact point is related to (such as product support for a particular product line). This can be a specific product or product line (e.g. "iPhone") or a general category of products or services (e.g. "smartphones").
 

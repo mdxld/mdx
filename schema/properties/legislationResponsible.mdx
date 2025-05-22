@@ -1,17 +1,21 @@
 ---
-$id: schema:legislationResponsible
-$type: rdf:Property
-label: schema:legislationResponsible
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#responsibility_of"}
+$id: https://schema.org/legislationResponsible
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationResponsible
+comment: |
+  An individual or organization that has some kind of responsibility for the legislation. Typically the ministry who is/was in charge of elaborating the legislation, or the adressee for potential questions about the legislation once it is published.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#responsibility_of"
 rdfs:comment: "An individual or organization that has some kind of responsibility for the legislation. Typically the ministry who is/was in charge of elaborating the legislation, or the adressee for potential questions about the legislation once it is published."
 rdfs:label: "legislationResponsible"
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#responsibility_of"}
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#responsibility_of"
 ---
 
-# schema:legislationResponsible
+# legislationResponsible
+
+An individual or organization that has some kind of responsibility for the legislation. Typically the ministry who is/was in charge of elaborating the legislation, or the adressee for potential questions about the legislation once it is published.
 

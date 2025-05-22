@@ -1,13 +1,27 @@
 ---
-$id: schema:MedicalDevice
-$type: rdfs:Class
-label: schema:MedicalDevice
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/63653004"}
+$id: https://schema.org/MedicalDevice
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalDevice
+comment: |
+  Any object used in a medical capacity, such as to diagnose or treat a patient.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/63653004"
 rdfs:comment: "Any object used in a medical capacity, such as to diagnose or treat a patient."
 rdfs:label: "MedicalDevice"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalDevice
+# MedicalDevice
 
+Any object used in a medical capacity, such as to diagnose or treat a patient.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [adverseOutcome](https://schema.org/adverseOutcome) | Text |  |
+| [contraindication](https://schema.org/contraindication) | Text |  |
+| [postOp](https://schema.org/postOp) | Text |  |
+| [preOp](https://schema.org/preOp) | Text |  |
+| [procedure](https://schema.org/procedure) | Text |  |
+| [seriousAdverseOutcome](https://schema.org/seriousAdverseOutcome) | Text |  |

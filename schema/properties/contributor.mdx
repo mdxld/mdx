@@ -1,12 +1,16 @@
 ---
-$id: schema:contributor
-$type: rdf:Property
-label: schema:contributor
+$id: https://schema.org/contributor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: contributor
+comment: |
+  A secondary contributor to the CreativeWork or Event.
 rdfs:comment: "A secondary contributor to the CreativeWork or Event."
 rdfs:label: "contributor"
-schema:domainIncludes: [{"@id":"schema:Event"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/Event","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:contributor
+# contributor
+
+A secondary contributor to the CreativeWork or Event.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:scheduledTime
-$type: rdf:Property
-label: schema:scheduledTime
+$id: https://schema.org/scheduledTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: scheduledTime
+comment: |
+  The time the object is scheduled to.
 rdfs:comment: "The time the object is scheduled to."
 rdfs:label: "scheduledTime"
-schema:domainIncludes: {"@id":"schema:PlanAction"}
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/PlanAction"
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:scheduledTime
+# scheduledTime
+
+The time the object is scheduled to.
 

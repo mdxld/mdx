@@ -1,15 +1,19 @@
 ---
-$id: schema:hasBioChemEntityPart
-$type: rdf:Property
-label: schema:hasBioChemEntityPart
+$id: https://schema.org/hasBioChemEntityPart
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasBioChemEntityPart
+comment: |
+  Indicates a BioChemEntity that (in some sense) has this BioChemEntity as a part. 
 rdfs:comment: "Indicates a BioChemEntity that (in some sense) has this BioChemEntity as a part. "
 rdfs:label: "hasBioChemEntityPart"
-schema:domainIncludes: {"@id":"schema:BioChemEntity"}
-schema:inverseOf: {"@id":"schema:isPartOfBioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:BioChemEntity"}
-schema:source: {"@id":"http://www.bioschemas.org"}
+schema:domainIncludes: "https://schema.org/BioChemEntity"
+schema:inverseOf: "https://schema.org/isPartOfBioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/BioChemEntity"
+schema:source: "http://www.bioschemas.org"
 ---
 
-# schema:hasBioChemEntityPart
+# hasBioChemEntityPart
+
+Indicates a BioChemEntity that (in some sense) has this BioChemEntity as a part. 
 

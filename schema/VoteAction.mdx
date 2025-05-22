@@ -1,11 +1,20 @@
 ---
-$id: schema:VoteAction
-$type: rdfs:Class
-label: schema:VoteAction
+$id: https://schema.org/VoteAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: VoteAction
+comment: |
+  The act of expressing a preference from a fixed/finite/structured set of choices/options.
 rdfs:comment: "The act of expressing a preference from a fixed/finite/structured set of choices/options."
 rdfs:label: "VoteAction"
-rdfs:subClassOf: {"@id":"schema:ChooseAction"}
+rdfs:subClassOf: "https://schema.org/ChooseAction"
 ---
 
-# schema:VoteAction
+# VoteAction
 
+The act of expressing a preference from a fixed/finite/structured set of choices/options.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [candidate](https://schema.org/candidate) | Text |  |

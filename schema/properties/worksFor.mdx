@@ -1,12 +1,16 @@
 ---
-$id: schema:worksFor
-$type: rdf:Property
-label: schema:worksFor
+$id: https://schema.org/worksFor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: worksFor
+comment: |
+  Organizations that the person works for.
 rdfs:comment: "Organizations that the person works for."
 rdfs:label: "worksFor"
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: {"@id":"schema:Organization"}
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: "https://schema.org/Organization"
 ---
 
-# schema:worksFor
+# worksFor
+
+Organizations that the person works for.
 

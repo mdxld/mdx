@@ -1,12 +1,16 @@
 ---
-$id: schema:itemListOrder
-$type: rdf:Property
-label: schema:itemListOrder
+$id: https://schema.org/itemListOrder
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: itemListOrder
+comment: |
+  Type of ordering (e.g. Ascending, Descending, Unordered).
 rdfs:comment: "Type of ordering (e.g. Ascending, Descending, Unordered)."
 rdfs:label: "itemListOrder"
-schema:domainIncludes: {"@id":"schema:ItemList"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:ItemListOrderType"}]
+schema:domainIncludes: "https://schema.org/ItemList"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/ItemListOrderType"]
 ---
 
-# schema:itemListOrder
+# itemListOrder
+
+Type of ordering (e.g. Ascending, Descending, Unordered).
 

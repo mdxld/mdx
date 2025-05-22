@@ -1,11 +1,23 @@
 ---
-$id: schema:CourseInstance
-$type: rdfs:Class
-label: schema:CourseInstance
+$id: https://schema.org/CourseInstance
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: CourseInstance
+comment: |
+  An instance of a [[Course]] which is distinct from other instances because it is offered at a different time or location or through different media or modes of study or to a specific section of students.
 rdfs:comment: "An instance of a [[Course]] which is distinct from other instances because it is offered at a different time or location or through different media or modes of study or to a specific section of students."
 rdfs:label: "CourseInstance"
-rdfs:subClassOf: {"@id":"schema:Event"}
+rdfs:subClassOf: "https://schema.org/Event"
 ---
 
-# schema:CourseInstance
+# CourseInstance
 
+An instance of a [[Course]] which is distinct from other instances because it is offered at a different time or location or through different media or modes of study or to a specific section of students.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [courseMode](https://schema.org/courseMode) | Text |  |
+| [courseSchedule](https://schema.org/courseSchedule) | Text |  |
+| [courseWorkload](https://schema.org/courseWorkload) | Text |  |
+| [instructor](https://schema.org/instructor) | Text |  |

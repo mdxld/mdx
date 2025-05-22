@@ -1,12 +1,16 @@
 ---
-$id: schema:material
-$type: rdf:Property
-label: schema:material
+$id: https://schema.org/material
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: material
+comment: |
+  A material that something is made from, e.g. leather, wool, cotton, paper.
 rdfs:comment: "A material that something is made from, e.g. leather, wool, cotton, paper."
 rdfs:label: "material"
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:Product"}]
-schema:rangeIncludes: [{"@id":"schema:Product"},{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/Product"]
+schema:rangeIncludes: ["https://schema.org/Product","https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:material
+# material
+
+A material that something is made from, e.g. leather, wool, cotton, paper.
 

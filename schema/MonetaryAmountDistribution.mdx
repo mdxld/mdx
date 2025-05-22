@@ -1,12 +1,21 @@
 ---
-$id: schema:MonetaryAmountDistribution
-$type: rdfs:Class
-label: schema:MonetaryAmountDistribution
+$id: https://schema.org/MonetaryAmountDistribution
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MonetaryAmountDistribution
+comment: |
+  A statistical distribution of monetary amounts.
 rdfs:comment: "A statistical distribution of monetary amounts."
 rdfs:label: "MonetaryAmountDistribution"
-rdfs:subClassOf: {"@id":"schema:QuantitativeValueDistribution"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1698"}
+rdfs:subClassOf: "https://schema.org/QuantitativeValueDistribution"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1698"
 ---
 
-# schema:MonetaryAmountDistribution
+# MonetaryAmountDistribution
 
+A statistical distribution of monetary amounts.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [currency](https://schema.org/currency) | Text |  |

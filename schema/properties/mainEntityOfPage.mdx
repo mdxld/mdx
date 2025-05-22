@@ -1,13 +1,17 @@
 ---
-$id: schema:mainEntityOfPage
-$type: rdf:Property
-label: schema:mainEntityOfPage
+$id: https://schema.org/mainEntityOfPage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: mainEntityOfPage
+comment: |
+  Indicates a page (or other CreativeWork) for which this thing is the main entity being described. See [background notes](/docs/datamodel.html#mainEntityBackground) for details.
 rdfs:comment: "Indicates a page (or other CreativeWork) for which this thing is the main entity being described. See [background notes](/docs/datamodel.html#mainEntityBackground) for details."
 rdfs:label: "mainEntityOfPage"
-schema:domainIncludes: {"@id":"schema:Thing"}
-schema:inverseOf: {"@id":"schema:mainEntity"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:CreativeWork"}]
+schema:domainIncludes: "https://schema.org/Thing"
+schema:inverseOf: "https://schema.org/mainEntity"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/CreativeWork"]
 ---
 
-# schema:mainEntityOfPage
+# mainEntityOfPage
+
+Indicates a page (or other CreativeWork) for which this thing is the main entity being described. See [background notes](/docs/datamodel.html#mainEntityBackground) for details.
 

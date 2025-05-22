@@ -1,13 +1,17 @@
 ---
-$id: schema:workPresented
-$type: rdf:Property
-label: schema:workPresented
+$id: https://schema.org/workPresented
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: workPresented
+comment: |
+  The movie presented during this event.
 rdfs:comment: "The movie presented during this event."
 rdfs:label: "workPresented"
-rdfs:subPropertyOf: {"@id":"schema:workFeatured"}
-schema:domainIncludes: {"@id":"schema:ScreeningEvent"}
-schema:rangeIncludes: {"@id":"schema:Movie"}
+rdfs:subPropertyOf: "https://schema.org/workFeatured"
+schema:domainIncludes: "https://schema.org/ScreeningEvent"
+schema:rangeIncludes: "https://schema.org/Movie"
 ---
 
-# schema:workPresented
+# workPresented
+
+The movie presented during this event.
 

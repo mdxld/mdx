@@ -1,12 +1,16 @@
 ---
-$id: schema:copyrightHolder
-$type: rdf:Property
-label: schema:copyrightHolder
+$id: https://schema.org/copyrightHolder
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: copyrightHolder
+comment: |
+  The party holding the legal copyright to the CreativeWork.
 rdfs:comment: "The party holding the legal copyright to the CreativeWork."
 rdfs:label: "copyrightHolder"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:copyrightHolder
+# copyrightHolder
+
+The party holding the legal copyright to the CreativeWork.
 

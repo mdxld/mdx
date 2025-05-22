@@ -1,13 +1,17 @@
 ---
-$id: schema:followee
-$type: rdf:Property
-label: schema:followee
+$id: https://schema.org/followee
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: followee
+comment: |
+  A sub property of object. The person or organization being followed.
 rdfs:comment: "A sub property of object. The person or organization being followed."
 rdfs:label: "followee"
-rdfs:subPropertyOf: {"@id":"schema:object"}
-schema:domainIncludes: {"@id":"schema:FollowAction"}
-schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:Organization"}]
+rdfs:subPropertyOf: "https://schema.org/object"
+schema:domainIncludes: "https://schema.org/FollowAction"
+schema:rangeIncludes: ["https://schema.org/Person","https://schema.org/Organization"]
 ---
 
-# schema:followee
+# followee
+
+A sub property of object. The person or organization being followed.
 

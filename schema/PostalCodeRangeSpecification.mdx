@@ -1,12 +1,22 @@
 ---
-$id: schema:PostalCodeRangeSpecification
-$type: rdfs:Class
-label: schema:PostalCodeRangeSpecification
+$id: https://schema.org/PostalCodeRangeSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PostalCodeRangeSpecification
+comment: |
+  Indicates a range of postal codes, usually defined as the set of valid codes between [[postalCodeBegin]] and [[postalCodeEnd]], inclusively.
 rdfs:comment: "Indicates a range of postal codes, usually defined as the set of valid codes between [[postalCodeBegin]] and [[postalCodeEnd]], inclusively."
 rdfs:label: "PostalCodeRangeSpecification"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:PostalCodeRangeSpecification
+# PostalCodeRangeSpecification
 
+Indicates a range of postal codes, usually defined as the set of valid codes between [[postalCodeBegin]] and [[postalCodeEnd]], inclusively.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [postalCodeBegin](https://schema.org/postalCodeBegin) | Text |  |
+| [postalCodeEnd](https://schema.org/postalCodeEnd) | Text |  |

@@ -1,11 +1,23 @@
 ---
-$id: schema:Comment
-$type: rdfs:Class
-label: schema:Comment
+$id: https://schema.org/Comment
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Comment
+comment: |
+  A comment on an item - for example, a comment on a blog post. The comment's content is expressed via the [[text]] property, and its topic via [[about]], properties shared with all CreativeWorks.
 rdfs:comment: "A comment on an item - for example, a comment on a blog post. The comment's content is expressed via the [[text]] property, and its topic via [[about]], properties shared with all CreativeWorks."
 rdfs:label: "Comment"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
 ---
 
-# schema:Comment
+# Comment
 
+A comment on an item - for example, a comment on a blog post. The comment's content is expressed via the [[text]] property, and its topic via [[about]], properties shared with all CreativeWorks.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [downvoteCount](https://schema.org/downvoteCount) | Text |  |
+| [parentItem](https://schema.org/parentItem) | Text |  |
+| [sharedContent](https://schema.org/sharedContent) | Text |  |
+| [upvoteCount](https://schema.org/upvoteCount) | Text |  |

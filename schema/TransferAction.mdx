@@ -1,11 +1,21 @@
 ---
-$id: schema:TransferAction
-$type: rdfs:Class
-label: schema:TransferAction
+$id: https://schema.org/TransferAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TransferAction
+comment: |
+  The act of transferring/moving (abstract or concrete) animate or inanimate objects from one place to another.
 rdfs:comment: "The act of transferring/moving (abstract or concrete) animate or inanimate objects from one place to another."
 rdfs:label: "TransferAction"
-rdfs:subClassOf: {"@id":"schema:Action"}
+rdfs:subClassOf: "https://schema.org/Action"
 ---
 
-# schema:TransferAction
+# TransferAction
 
+The act of transferring/moving (abstract or concrete) animate or inanimate objects from one place to another.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [fromLocation](https://schema.org/fromLocation) | Text |  |
+| [toLocation](https://schema.org/toLocation) | Text |  |

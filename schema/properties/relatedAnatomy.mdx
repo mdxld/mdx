@@ -1,13 +1,17 @@
 ---
-$id: schema:relatedAnatomy
-$type: rdf:Property
-label: schema:relatedAnatomy
+$id: https://schema.org/relatedAnatomy
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: relatedAnatomy
+comment: |
+  Anatomical systems or structures that relate to the superficial anatomy.
 rdfs:comment: "Anatomical systems or structures that relate to the superficial anatomy."
 rdfs:label: "relatedAnatomy"
-schema:domainIncludes: {"@id":"schema:SuperficialAnatomy"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:AnatomicalStructure"},{"@id":"schema:AnatomicalSystem"}]
+schema:domainIncludes: "https://schema.org/SuperficialAnatomy"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/AnatomicalStructure","https://schema.org/AnatomicalSystem"]
 ---
 
-# schema:relatedAnatomy
+# relatedAnatomy
+
+Anatomical systems or structures that relate to the superficial anatomy.
 

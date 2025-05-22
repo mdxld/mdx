@@ -1,14 +1,18 @@
 ---
-$id: schema:billingDuration
-$type: rdf:Property
-label: schema:billingDuration
+$id: https://schema.org/billingDuration
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: billingDuration
+comment: |
+  Specifies for how long this price (or price component) will be billed. Can be used, for example, to model the contractual duration of a subscription or payment plan. Type can be either a Duration or a Number (in which case the unit of measurement, for example month, is specified by the unitCode property).
 rdfs:comment: "Specifies for how long this price (or price component) will be billed. Can be used, for example, to model the contractual duration of a subscription or payment plan. Type can be either a Duration or a Number (in which case the unit of measurement, for example month, is specified by the unitCode property)."
 rdfs:label: "billingDuration"
-schema:domainIncludes: {"@id":"schema:UnitPriceSpecification"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Duration"},{"@id":"schema:Number"},{"@id":"schema:QuantitativeValue"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2689"}
+schema:domainIncludes: "https://schema.org/UnitPriceSpecification"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Duration","https://schema.org/Number","https://schema.org/QuantitativeValue"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2689"
 ---
 
-# schema:billingDuration
+# billingDuration
+
+Specifies for how long this price (or price component) will be billed. Can be used, for example, to model the contractual duration of a subscription or payment plan. Type can be either a Duration or a Number (in which case the unit of measurement, for example month, is specified by the unitCode property).
 

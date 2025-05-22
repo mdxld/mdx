@@ -1,12 +1,16 @@
 ---
-$id: schema:orderDate
-$type: rdf:Property
-label: schema:orderDate
+$id: https://schema.org/orderDate
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: orderDate
+comment: |
+  Date order was placed.
 rdfs:comment: "Date order was placed."
 rdfs:label: "orderDate"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: [{"@id":"schema:DateTime"},{"@id":"schema:Date"}]
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: ["https://schema.org/DateTime","https://schema.org/Date"]
 ---
 
-# schema:orderDate
+# orderDate
+
+Date order was placed.
 

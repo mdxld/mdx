@@ -1,12 +1,16 @@
 ---
-$id: schema:multipleValues
-$type: rdf:Property
-label: schema:multipleValues
+$id: https://schema.org/multipleValues
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: multipleValues
+comment: |
+  Whether multiple values are allowed for the property.  Default is false.
 rdfs:comment: "Whether multiple values are allowed for the property.  Default is false."
 rdfs:label: "multipleValues"
-schema:domainIncludes: {"@id":"schema:PropertyValueSpecification"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
+schema:domainIncludes: "https://schema.org/PropertyValueSpecification"
+schema:rangeIncludes: "https://schema.org/Boolean"
 ---
 
-# schema:multipleValues
+# multipleValues
+
+Whether multiple values are allowed for the property.  Default is false.
 

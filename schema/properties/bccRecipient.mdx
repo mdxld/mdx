@@ -1,13 +1,17 @@
 ---
-$id: schema:bccRecipient
-$type: rdf:Property
-label: schema:bccRecipient
+$id: https://schema.org/bccRecipient
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: bccRecipient
+comment: |
+  A sub property of recipient. The recipient blind copied on a message.
 rdfs:comment: "A sub property of recipient. The recipient blind copied on a message."
 rdfs:label: "bccRecipient"
-rdfs:subPropertyOf: {"@id":"schema:recipient"}
-schema:domainIncludes: {"@id":"schema:Message"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:ContactPoint"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/recipient"
+schema:domainIncludes: "https://schema.org/Message"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/ContactPoint","https://schema.org/Person"]
 ---
 
-# schema:bccRecipient
+# bccRecipient
+
+A sub property of recipient. The recipient blind copied on a message.
 

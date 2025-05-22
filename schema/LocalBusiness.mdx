@@ -1,12 +1,25 @@
 ---
-$id: schema:LocalBusiness
-$type: rdfs:Class
-label: schema:LocalBusiness
+$id: https://schema.org/LocalBusiness
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LocalBusiness
+comment: |
+  A particular physical business or branch of an organization. Examples of LocalBusiness include a restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a club, a bowling alley, etc.
 rdfs:comment: "A particular physical business or branch of an organization. Examples of LocalBusiness include a restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a club, a bowling alley, etc."
 rdfs:label: "LocalBusiness"
-rdfs:subClassOf: [{"@id":"schema:Organization"},{"@id":"schema:Place"}]
-skos:closeMatch: {"@id":"http://www.w3.org/ns/regorg#RegisteredOrganization"}
+rdfs:subClassOf: ["https://schema.org/Organization","https://schema.org/Place"]
+skos:closeMatch: "http://www.w3.org/ns/regorg#RegisteredOrganization"
 ---
 
-# schema:LocalBusiness
+# LocalBusiness
 
+A particular physical business or branch of an organization. Examples of LocalBusiness include a restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a club, a bowling alley, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [branchOf](https://schema.org/branchOf) | Text |  |
+| [currenciesAccepted](https://schema.org/currenciesAccepted) | Text |  |
+| [openingHours](https://schema.org/openingHours) | Text |  |
+| [paymentAccepted](https://schema.org/paymentAccepted) | Text |  |
+| [priceRange](https://schema.org/priceRange) | Text |  |

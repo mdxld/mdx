@@ -1,14 +1,18 @@
 ---
-$id: schema:termsPerYear
-$type: rdf:Property
-label: schema:termsPerYear
+$id: https://schema.org/termsPerYear
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: termsPerYear
+comment: |
+  The number of times terms of study are offered per year. Semesters and quarters are common units for term. For example, if the student can only take 2 semesters for the program in one year, then termsPerYear should be 2.
 rdfs:comment: "The number of times terms of study are offered per year. Semesters and quarters are common units for term. For example, if the student can only take 2 semesters for the program in one year, then termsPerYear should be 2."
 rdfs:label: "termsPerYear"
-schema:domainIncludes: {"@id":"schema:EducationalOccupationalProgram"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Number"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2419"}
+schema:domainIncludes: "https://schema.org/EducationalOccupationalProgram"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Number"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2419"
 ---
 
-# schema:termsPerYear
+# termsPerYear
+
+The number of times terms of study are offered per year. Semesters and quarters are common units for term. For example, if the student can only take 2 semesters for the program in one year, then termsPerYear should be 2.
 

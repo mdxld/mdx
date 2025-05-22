@@ -1,14 +1,18 @@
 ---
-$id: schema:isAcceptingNewPatients
-$type: rdf:Property
-label: schema:isAcceptingNewPatients
+$id: https://schema.org/isAcceptingNewPatients
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isAcceptingNewPatients
+comment: |
+  Whether the provider is accepting new patients.
 rdfs:comment: "Whether the provider is accepting new patients."
 rdfs:label: "isAcceptingNewPatients"
-schema:domainIncludes: {"@id":"schema:MedicalOrganization"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1062"}
+schema:domainIncludes: "https://schema.org/MedicalOrganization"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Boolean"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1062"
 ---
 
-# schema:isAcceptingNewPatients
+# isAcceptingNewPatients
+
+Whether the provider is accepting new patients.
 

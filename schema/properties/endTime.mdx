@@ -1,13 +1,17 @@
 ---
-$id: schema:endTime
-$type: rdf:Property
-label: schema:endTime
+$id: https://schema.org/endTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: endTime
+comment: |
+  The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. E.g. John wrote a book from January to *December*. For media, including audio and video, it's the time offset of the end of a clip within a larger file.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
 rdfs:comment: "The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. E.g. John wrote a book from January to *December*. For media, including audio and video, it's the time offset of the end of a clip within a larger file.\\n\\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions."
 rdfs:label: "endTime"
-schema:domainIncludes: [{"@id":"schema:FoodEstablishmentReservation"},{"@id":"schema:Schedule"},{"@id":"schema:InteractionCounter"},{"@id":"schema:Action"},{"@id":"schema:MediaObject"}]
-schema:rangeIncludes: [{"@id":"schema:Time"},{"@id":"schema:DateTime"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2493"}
+schema:domainIncludes: ["https://schema.org/FoodEstablishmentReservation","https://schema.org/Schedule","https://schema.org/InteractionCounter","https://schema.org/Action","https://schema.org/MediaObject"]
+schema:rangeIncludes: ["https://schema.org/Time","https://schema.org/DateTime"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2493"
 ---
 
-# schema:endTime
+# endTime
+
+The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. E.g. John wrote a book from January to *December*. For media, including audio and video, it's the time offset of the end of a clip within a larger file.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
 

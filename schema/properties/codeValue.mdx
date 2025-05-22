@@ -1,15 +1,19 @@
 ---
-$id: schema:codeValue
-$type: rdf:Property
-label: schema:codeValue
+$id: https://schema.org/codeValue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: codeValue
+comment: |
+  A short textual code that uniquely identifies the value.
 rdfs:comment: "A short textual code that uniquely identifies the value."
 rdfs:label: "codeValue"
-rdfs:subPropertyOf: {"@id":"schema:termCode"}
-schema:domainIncludes: [{"@id":"schema:MedicalCode"},{"@id":"schema:CategoryCode"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/894"}
+rdfs:subPropertyOf: "https://schema.org/termCode"
+schema:domainIncludes: ["https://schema.org/MedicalCode","https://schema.org/CategoryCode"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/894"
 ---
 
-# schema:codeValue
+# codeValue
+
+A short textual code that uniquely identifies the value.
 

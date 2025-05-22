@@ -1,12 +1,16 @@
 ---
-$id: schema:iataCode
-$type: rdf:Property
-label: schema:iataCode
+$id: https://schema.org/iataCode
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: iataCode
+comment: |
+  IATA identifier for an airline or airport.
 rdfs:comment: "IATA identifier for an airline or airport."
 rdfs:label: "iataCode"
-schema:domainIncludes: [{"@id":"schema:Airline"},{"@id":"schema:Airport"}]
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/Airline","https://schema.org/Airport"]
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:iataCode
+# iataCode
+
+IATA identifier for an airline or airport.
 

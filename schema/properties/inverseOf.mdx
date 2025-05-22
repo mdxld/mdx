@@ -1,13 +1,17 @@
 ---
-$id: schema:inverseOf
-$type: rdf:Property
-label: schema:inverseOf
+$id: https://schema.org/inverseOf
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inverseOf
+comment: |
+  Relates a property to a property that is its inverse. Inverse properties relate the same pairs of items to each other, but in reversed direction. For example, the 'alumni' and 'alumniOf' properties are inverseOf each other. Some properties don't have explicit inverses; in these situations RDFa and JSON-LD syntax for reverse properties can be used.
 rdfs:comment: "Relates a property to a property that is its inverse. Inverse properties relate the same pairs of items to each other, but in reversed direction. For example, the 'alumni' and 'alumniOf' properties are inverseOf each other. Some properties don't have explicit inverses; in these situations RDFa and JSON-LD syntax for reverse properties can be used."
 rdfs:label: "inverseOf"
-schema:domainIncludes: {"@id":"schema:Property"}
-schema:isPartOf: {"@id":"https://meta.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Property"}
+schema:domainIncludes: "https://schema.org/Property"
+schema:isPartOf: "https://meta.schema.org"
+schema:rangeIncludes: "https://schema.org/Property"
 ---
 
-# schema:inverseOf
+# inverseOf
+
+Relates a property to a property that is its inverse. Inverse properties relate the same pairs of items to each other, but in reversed direction. For example, the 'alumni' and 'alumniOf' properties are inverseOf each other. Some properties don't have explicit inverses; in these situations RDFa and JSON-LD syntax for reverse properties can be used.
 

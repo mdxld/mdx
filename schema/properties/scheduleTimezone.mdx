@@ -1,14 +1,18 @@
 ---
-$id: schema:scheduleTimezone
-$type: rdf:Property
-label: schema:scheduleTimezone
+$id: https://schema.org/scheduleTimezone
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: scheduleTimezone
+comment: |
+  Indicates the timezone for which the time(s) indicated in the [[Schedule]] are given. The value provided should be among those listed in the IANA Time Zone Database.
 rdfs:comment: "Indicates the timezone for which the time(s) indicated in the [[Schedule]] are given. The value provided should be among those listed in the IANA Time Zone Database."
 rdfs:label: "scheduleTimezone"
-schema:domainIncludes: {"@id":"schema:Schedule"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}
+schema:domainIncludes: "https://schema.org/Schedule"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1457"
 ---
 
-# schema:scheduleTimezone
+# scheduleTimezone
+
+Indicates the timezone for which the time(s) indicated in the [[Schedule]] are given. The value provided should be among those listed in the IANA Time Zone Database.
 

@@ -1,11 +1,21 @@
 ---
-$id: schema:RentAction
-$type: rdfs:Class
-label: schema:RentAction
+$id: https://schema.org/RentAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: RentAction
+comment: |
+  The act of giving money in return for temporary use, but not ownership, of an object such as a vehicle or property. For example, an agent rents a property from a landlord in exchange for a periodic payment.
 rdfs:comment: "The act of giving money in return for temporary use, but not ownership, of an object such as a vehicle or property. For example, an agent rents a property from a landlord in exchange for a periodic payment."
 rdfs:label: "RentAction"
-rdfs:subClassOf: {"@id":"schema:TradeAction"}
+rdfs:subClassOf: "https://schema.org/TradeAction"
 ---
 
-# schema:RentAction
+# RentAction
 
+The act of giving money in return for temporary use, but not ownership, of an object such as a vehicle or property. For example, an agent rents a property from a landlord in exchange for a periodic payment.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [landlord](https://schema.org/landlord) | Text |  |
+| [realEstateAgent](https://schema.org/realEstateAgent) | Text |  |

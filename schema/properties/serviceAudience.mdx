@@ -1,13 +1,17 @@
 ---
-$id: schema:serviceAudience
-$type: rdf:Property
-label: schema:serviceAudience
+$id: https://schema.org/serviceAudience
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: serviceAudience
+comment: |
+  The audience eligible for this service.
 rdfs:comment: "The audience eligible for this service."
 rdfs:label: "serviceAudience"
-schema:domainIncludes: {"@id":"schema:Service"}
-schema:rangeIncludes: {"@id":"schema:Audience"}
-schema:supersededBy: {"@id":"schema:audience"}
+schema:domainIncludes: "https://schema.org/Service"
+schema:rangeIncludes: "https://schema.org/Audience"
+schema:supersededBy: "https://schema.org/audience"
 ---
 
-# schema:serviceAudience
+# serviceAudience
+
+The audience eligible for this service.
 

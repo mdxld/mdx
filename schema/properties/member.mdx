@@ -1,13 +1,17 @@
 ---
-$id: schema:member
-$type: rdf:Property
-label: schema:member
+$id: https://schema.org/member
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: member
+comment: |
+  A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals.
 rdfs:comment: "A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals."
 rdfs:label: "member"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:ProgramMembership"}]
-schema:inverseOf: {"@id":"schema:memberOf"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/ProgramMembership"]
+schema:inverseOf: "https://schema.org/memberOf"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:member
+# member
+
+A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals.
 

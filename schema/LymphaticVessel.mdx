@@ -1,12 +1,23 @@
 ---
-$id: schema:LymphaticVessel
-$type: rdfs:Class
-label: schema:LymphaticVessel
+$id: https://schema.org/LymphaticVessel
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LymphaticVessel
+comment: |
+  A type of blood vessel that specifically carries lymph fluid unidirectionally toward the heart.
 rdfs:comment: "A type of blood vessel that specifically carries lymph fluid unidirectionally toward the heart."
 rdfs:label: "LymphaticVessel"
-rdfs:subClassOf: {"@id":"schema:Vessel"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/Vessel"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:LymphaticVessel
+# LymphaticVessel
 
+A type of blood vessel that specifically carries lymph fluid unidirectionally toward the heart.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [originatesFrom](https://schema.org/originatesFrom) | Text |  |
+| [regionDrained](https://schema.org/regionDrained) | Text |  |
+| [runsTo](https://schema.org/runsTo) | Text |  |

@@ -1,14 +1,18 @@
 ---
-$id: schema:hasDriveThroughService
-$type: rdf:Property
-label: schema:hasDriveThroughService
+$id: https://schema.org/hasDriveThroughService
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasDriveThroughService
+comment: |
+  Indicates whether some facility (e.g. [[FoodEstablishment]], [[CovidTestingFacility]]) offers a service that can be used by driving through in a car. In the case of [[CovidTestingFacility]] such facilities could potentially help with social distancing from other potentially-infected users.
 rdfs:comment: "Indicates whether some facility (e.g. [[FoodEstablishment]], [[CovidTestingFacility]]) offers a service that can be used by driving through in a car. In the case of [[CovidTestingFacility]] such facilities could potentially help with social distancing from other potentially-infected users."
 rdfs:label: "hasDriveThroughService"
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Boolean"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2490"}
+schema:domainIncludes: "https://schema.org/Place"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Boolean"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2490"
 ---
 
-# schema:hasDriveThroughService
+# hasDriveThroughService
+
+Indicates whether some facility (e.g. [[FoodEstablishment]], [[CovidTestingFacility]]) offers a service that can be used by driving through in a car. In the case of [[CovidTestingFacility]] such facilities could potentially help with social distancing from other potentially-infected users.
 

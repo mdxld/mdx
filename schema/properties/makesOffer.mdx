@@ -1,14 +1,18 @@
 ---
-$id: schema:makesOffer
-$type: rdf:Property
-label: schema:makesOffer
+$id: https://schema.org/makesOffer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: makesOffer
+comment: |
+  A pointer to products or services offered by the organization or person.
 rdfs:comment: "A pointer to products or services offered by the organization or person."
 rdfs:label: "makesOffer"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:inverseOf: {"@id":"schema:offeredBy"}
-schema:rangeIncludes: {"@id":"schema:Offer"}
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:inverseOf: "https://schema.org/offeredBy"
+schema:rangeIncludes: "https://schema.org/Offer"
 ---
 
-# schema:makesOffer
+# makesOffer
+
+A pointer to products or services offered by the organization or person.
 

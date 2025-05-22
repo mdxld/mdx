@@ -1,12 +1,16 @@
 ---
-$id: schema:totalTime
-$type: rdf:Property
-label: schema:totalTime
+$id: https://schema.org/totalTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: totalTime
+comment: |
+  The total time required to perform instructions or a direction (including time to prepare the supplies), in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601).
 rdfs:comment: "The total time required to perform instructions or a direction (including time to prepare the supplies), in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601)."
 rdfs:label: "totalTime"
-schema:domainIncludes: [{"@id":"schema:HowToDirection"},{"@id":"schema:HowTo"}]
-schema:rangeIncludes: {"@id":"schema:Duration"}
+schema:domainIncludes: ["https://schema.org/HowToDirection","https://schema.org/HowTo"]
+schema:rangeIncludes: "https://schema.org/Duration"
 ---
 
-# schema:totalTime
+# totalTime
+
+The total time required to perform instructions or a direction (including time to prepare the supplies), in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601).
 

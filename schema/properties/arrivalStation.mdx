@@ -1,12 +1,16 @@
 ---
-$id: schema:arrivalStation
-$type: rdf:Property
-label: schema:arrivalStation
+$id: https://schema.org/arrivalStation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: arrivalStation
+comment: |
+  The station where the train trip ends.
 rdfs:comment: "The station where the train trip ends."
 rdfs:label: "arrivalStation"
-schema:domainIncludes: {"@id":"schema:TrainTrip"}
-schema:rangeIncludes: {"@id":"schema:TrainStation"}
+schema:domainIncludes: "https://schema.org/TrainTrip"
+schema:rangeIncludes: "https://schema.org/TrainStation"
 ---
 
-# schema:arrivalStation
+# arrivalStation
+
+The station where the train trip ends.
 

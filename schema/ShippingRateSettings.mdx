@@ -1,12 +1,27 @@
 ---
-$id: schema:ShippingRateSettings
-$type: rdfs:Class
-label: schema:ShippingRateSettings
+$id: https://schema.org/ShippingRateSettings
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ShippingRateSettings
+comment: |
+  A ShippingRateSettings represents re-usable pieces of shipping information. It is designed for publication on an URL that may be referenced via the [[shippingSettingsLink]] property of an [[OfferShippingDetails]]. Several occurrences can be published, distinguished and matched (i.e. identified/referenced) by their different values for [[shippingLabel]].
 rdfs:comment: "A ShippingRateSettings represents re-usable pieces of shipping information. It is designed for publication on an URL that may be referenced via the [[shippingSettingsLink]] property of an [[OfferShippingDetails]]. Several occurrences can be published, distinguished and matched (i.e. identified/referenced) by their different values for [[shippingLabel]]."
 rdfs:label: "ShippingRateSettings"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2506"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2506"
 ---
 
-# schema:ShippingRateSettings
+# ShippingRateSettings
 
+A ShippingRateSettings represents re-usable pieces of shipping information. It is designed for publication on an URL that may be referenced via the [[shippingSettingsLink]] property of an [[OfferShippingDetails]]. Several occurrences can be published, distinguished and matched (i.e. identified/referenced) by their different values for [[shippingLabel]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [doesNotShip](https://schema.org/doesNotShip) | Text |  |
+| [freeShippingThreshold](https://schema.org/freeShippingThreshold) | Text |  |
+| [isUnlabelledFallback](https://schema.org/isUnlabelledFallback) | Text |  |
+| [orderPercentage](https://schema.org/orderPercentage) | Text |  |
+| [shippingDestination](https://schema.org/shippingDestination) | Text |  |
+| [shippingRate](https://schema.org/shippingRate) | Text |  |
+| [weightPercentage](https://schema.org/weightPercentage) | Text |  |

@@ -1,13 +1,22 @@
 ---
-$id: schema:SeekToAction
-$type: rdfs:Class
-label: schema:SeekToAction
+$id: https://schema.org/SeekToAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SeekToAction
+comment: |
+  This is the [[Action]] of navigating to a specific [[startOffset]] timestamp within a [[VideoObject]], typically represented with a URL template structure.
 rdfs:comment: "This is the [[Action]] of navigating to a specific [[startOffset]] timestamp within a [[VideoObject]], typically represented with a URL template structure."
 rdfs:label: "SeekToAction"
-rdfs:subClassOf: {"@id":"schema:Action"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2722"}
+rdfs:subClassOf: "https://schema.org/Action"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2722"
 ---
 
-# schema:SeekToAction
+# SeekToAction
 
+This is the [[Action]] of navigating to a specific [[startOffset]] timestamp within a [[VideoObject]], typically represented with a URL template structure.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [startOffset](https://schema.org/startOffset) | Text |  |

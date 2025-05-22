@@ -1,13 +1,17 @@
 ---
-$id: schema:possibleTreatment
-$type: rdf:Property
-label: schema:possibleTreatment
+$id: https://schema.org/possibleTreatment
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: possibleTreatment
+comment: |
+  A possible treatment to address this condition, sign or symptom.
 rdfs:comment: "A possible treatment to address this condition, sign or symptom."
 rdfs:label: "possibleTreatment"
-schema:domainIncludes: [{"@id":"schema:MedicalSignOrSymptom"},{"@id":"schema:MedicalCondition"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalTherapy"}
+schema:domainIncludes: ["https://schema.org/MedicalSignOrSymptom","https://schema.org/MedicalCondition"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalTherapy"
 ---
 
-# schema:possibleTreatment
+# possibleTreatment
+
+A possible treatment to address this condition, sign or symptom.
 

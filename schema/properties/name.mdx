@@ -1,14 +1,18 @@
 ---
-$id: schema:name
-$type: rdf:Property
-label: schema:name
-owl:equivalentProperty: {"@id":"dcterms:title"}
+$id: https://schema.org/name
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: name
+comment: |
+  The name of the item.
+owl:equivalentProperty: "dcterms:title"
 rdfs:comment: "The name of the item."
 rdfs:label: "name"
-rdfs:subPropertyOf: {"@id":"rdfs:label"}
-schema:domainIncludes: {"@id":"schema:Thing"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "http://www.w3.org/2000/01/rdf-schema#label"
+schema:domainIncludes: "https://schema.org/Thing"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:name
+# name
+
+The name of the item.
 

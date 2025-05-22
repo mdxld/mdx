@@ -1,13 +1,27 @@
 ---
-$id: schema:MedicalProcedure
-$type: rdfs:Class
-label: schema:MedicalProcedure
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/50731006"}
+$id: https://schema.org/MedicalProcedure
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalProcedure
+comment: |
+  A process of care used in either a diagnostic, therapeutic, preventive or palliative capacity that relies on invasive (surgical), non-invasive, or other techniques.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/50731006"
 rdfs:comment: "A process of care used in either a diagnostic, therapeutic, preventive or palliative capacity that relies on invasive (surgical), non-invasive, or other techniques."
 rdfs:label: "MedicalProcedure"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalProcedure
+# MedicalProcedure
 
+A process of care used in either a diagnostic, therapeutic, preventive or palliative capacity that relies on invasive (surgical), non-invasive, or other techniques.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [bodyLocation](https://schema.org/bodyLocation) | Text |  |
+| [followup](https://schema.org/followup) | Text |  |
+| [howPerformed](https://schema.org/howPerformed) | Text |  |
+| [preparation](https://schema.org/preparation) | Text |  |
+| [procedureType](https://schema.org/procedureType) | Text |  |
+| [status](https://schema.org/status) | Text |  |

@@ -1,14 +1,18 @@
 ---
-$id: schema:isbn
-$type: rdf:Property
-label: schema:isbn
-owl:equivalentProperty: {"@id":"http://purl.org/ontology/bibo/isbn"}
+$id: https://schema.org/isbn
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isbn
+comment: |
+  The ISBN of the book.
+owl:equivalentProperty: "http://purl.org/ontology/bibo/isbn"
 rdfs:comment: "The ISBN of the book."
 rdfs:label: "isbn"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:domainIncludes: {"@id":"schema:Book"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:domainIncludes: "https://schema.org/Book"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:isbn
+# isbn
+
+The ISBN of the book.
 

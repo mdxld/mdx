@@ -1,13 +1,17 @@
 ---
-$id: schema:doseValue
-$type: rdf:Property
-label: schema:doseValue
+$id: https://schema.org/doseValue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: doseValue
+comment: |
+  The value of the dose, e.g. 500.
 rdfs:comment: "The value of the dose, e.g. 500."
 rdfs:label: "doseValue"
-schema:domainIncludes: {"@id":"schema:DoseSchedule"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:QualitativeValue"},{"@id":"schema:Number"}]
+schema:domainIncludes: "https://schema.org/DoseSchedule"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/QualitativeValue","https://schema.org/Number"]
 ---
 
-# schema:doseValue
+# doseValue
+
+The value of the dose, e.g. 500.
 

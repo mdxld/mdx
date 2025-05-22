@@ -1,13 +1,17 @@
 ---
-$id: schema:availableStrength
-$type: rdf:Property
-label: schema:availableStrength
+$id: https://schema.org/availableStrength
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: availableStrength
+comment: |
+  An available dosage strength for the drug.
 rdfs:comment: "An available dosage strength for the drug."
 rdfs:label: "availableStrength"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:DrugStrength"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/DrugStrength"
 ---
 
-# schema:availableStrength
+# availableStrength
+
+An available dosage strength for the drug.
 

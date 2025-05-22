@@ -1,13 +1,17 @@
 ---
-$id: schema:merchant
-$type: rdf:Property
-label: schema:merchant
+$id: https://schema.org/merchant
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: merchant
+comment: |
+  'merchant' is an out-dated term for 'seller'.
 rdfs:comment: "'merchant' is an out-dated term for 'seller'."
 rdfs:label: "merchant"
-schema:domainIncludes: {"@id":"schema:Order"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:supersededBy: {"@id":"schema:seller"}
+schema:domainIncludes: "https://schema.org/Order"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:supersededBy: "https://schema.org/seller"
 ---
 
-# schema:merchant
+# merchant
+
+'merchant' is an out-dated term for 'seller'.
 

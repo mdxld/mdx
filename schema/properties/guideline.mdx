@@ -1,13 +1,17 @@
 ---
-$id: schema:guideline
-$type: rdf:Property
-label: schema:guideline
+$id: https://schema.org/guideline
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: guideline
+comment: |
+  A medical guideline related to this entity.
 rdfs:comment: "A medical guideline related to this entity."
 rdfs:label: "guideline"
-schema:domainIncludes: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalGuideline"}
+schema:domainIncludes: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalGuideline"
 ---
 
-# schema:guideline
+# guideline
+
+A medical guideline related to this entity.
 

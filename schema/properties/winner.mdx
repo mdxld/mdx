@@ -1,13 +1,17 @@
 ---
-$id: schema:winner
-$type: rdf:Property
-label: schema:winner
+$id: https://schema.org/winner
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: winner
+comment: |
+  A sub property of participant. The winner of the action.
 rdfs:comment: "A sub property of participant. The winner of the action."
 rdfs:label: "winner"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:LoseAction"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/LoseAction"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:winner
+# winner
+
+A sub property of participant. The winner of the action.
 

@@ -1,12 +1,29 @@
 ---
-$id: schema:LoanOrCredit
-$type: rdfs:Class
-label: schema:LoanOrCredit
+$id: https://schema.org/LoanOrCredit
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LoanOrCredit
+comment: |
+  A financial product for the loaning of an amount of money, or line of credit, under agreed terms and charges.
 rdfs:comment: "A financial product for the loaning of an amount of money, or line of credit, under agreed terms and charges."
 rdfs:label: "LoanOrCredit"
-rdfs:subClassOf: {"@id":"schema:FinancialProduct"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
+rdfs:subClassOf: "https://schema.org/FinancialProduct"
+schema:contributor: "https://schema.org/docs/collab/FIBO"
 ---
 
-# schema:LoanOrCredit
+# LoanOrCredit
 
+A financial product for the loaning of an amount of money, or line of credit, under agreed terms and charges.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [amount](https://schema.org/amount) | Text |  |
+| [currency](https://schema.org/currency) | Text |  |
+| [gracePeriod](https://schema.org/gracePeriod) | Text |  |
+| [loanRepaymentForm](https://schema.org/loanRepaymentForm) | Text |  |
+| [loanTerm](https://schema.org/loanTerm) | Text |  |
+| [loanType](https://schema.org/loanType) | Text |  |
+| [recourseLoan](https://schema.org/recourseLoan) | Text |  |
+| [renegotiableLoan](https://schema.org/renegotiableLoan) | Text |  |
+| [requiredCollateral](https://schema.org/requiredCollateral) | Text |  |

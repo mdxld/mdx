@@ -1,13 +1,17 @@
 ---
-$id: schema:code
-$type: rdf:Property
-label: schema:code
+$id: https://schema.org/code
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: code
+comment: |
+  A medical code for the entity, taken from a controlled vocabulary or ontology such as ICD-9, DiseasesDB, MeSH, SNOMED-CT, RxNorm, etc.
 rdfs:comment: "A medical code for the entity, taken from a controlled vocabulary or ontology such as ICD-9, DiseasesDB, MeSH, SNOMED-CT, RxNorm, etc."
 rdfs:label: "code"
-schema:domainIncludes: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalCode"}
+schema:domainIncludes: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalCode"
 ---
 
-# schema:code
+# code
+
+A medical code for the entity, taken from a controlled vocabulary or ontology such as ICD-9, DiseasesDB, MeSH, SNOMED-CT, RxNorm, etc.
 

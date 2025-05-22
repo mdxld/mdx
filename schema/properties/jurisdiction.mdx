@@ -1,14 +1,18 @@
 ---
-$id: schema:jurisdiction
-$type: rdf:Property
-label: schema:jurisdiction
+$id: https://schema.org/jurisdiction
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: jurisdiction
+comment: |
+  Indicates a legal jurisdiction, e.g. of some legislation, or where some government service is based.
 rdfs:comment: "Indicates a legal jurisdiction, e.g. of some legislation, or where some government service is based."
 rdfs:label: "jurisdiction"
-schema:domainIncludes: [{"@id":"schema:Legislation"},{"@id":"schema:GovernmentService"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:AdministrativeArea"},{"@id":"schema:Text"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2534"}
+schema:domainIncludes: ["https://schema.org/Legislation","https://schema.org/GovernmentService"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/AdministrativeArea","https://schema.org/Text"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2534"
 ---
 
-# schema:jurisdiction
+# jurisdiction
+
+Indicates a legal jurisdiction, e.g. of some legislation, or where some government service is based.
 

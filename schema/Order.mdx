@@ -1,11 +1,41 @@
 ---
-$id: schema:Order
-$type: rdfs:Class
-label: schema:Order
+$id: https://schema.org/Order
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Order
+comment: |
+  An order is a confirmation of a transaction (a receipt), which can contain multiple line items, each represented by an Offer that has been accepted by the customer.
 rdfs:comment: "An order is a confirmation of a transaction (a receipt), which can contain multiple line items, each represented by an Offer that has been accepted by the customer."
 rdfs:label: "Order"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Order
+# Order
 
+An order is a confirmation of a transaction (a receipt), which can contain multiple line items, each represented by an Offer that has been accepted by the customer.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [acceptedOffer](https://schema.org/acceptedOffer) | Text |  |
+| [billingAddress](https://schema.org/billingAddress) | Text |  |
+| [broker](https://schema.org/broker) | Text |  |
+| [confirmationNumber](https://schema.org/confirmationNumber) | Text |  |
+| [customer](https://schema.org/customer) | Text |  |
+| [discount](https://schema.org/discount) | Text |  |
+| [discountCode](https://schema.org/discountCode) | Text |  |
+| [discountCurrency](https://schema.org/discountCurrency) | Text |  |
+| [isGift](https://schema.org/isGift) | Text |  |
+| [merchant](https://schema.org/merchant) | Text |  |
+| [orderDate](https://schema.org/orderDate) | Text |  |
+| [orderDelivery](https://schema.org/orderDelivery) | Text |  |
+| [orderedItem](https://schema.org/orderedItem) | Text |  |
+| [orderNumber](https://schema.org/orderNumber) | Text |  |
+| [orderStatus](https://schema.org/orderStatus) | Text |  |
+| [partOfInvoice](https://schema.org/partOfInvoice) | Text |  |
+| [paymentDue](https://schema.org/paymentDue) | Text |  |
+| [paymentDueDate](https://schema.org/paymentDueDate) | Text |  |
+| [paymentMethod](https://schema.org/paymentMethod) | Text |  |
+| [paymentMethodId](https://schema.org/paymentMethodId) | Text |  |
+| [paymentUrl](https://schema.org/paymentUrl) | Text |  |
+| [seller](https://schema.org/seller) | Text |  |

@@ -1,13 +1,17 @@
 ---
-$id: schema:tracks
-$type: rdf:Property
-label: schema:tracks
+$id: https://schema.org/tracks
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: tracks
+comment: |
+  A music recording (track)&#x2014;usually a single song.
 rdfs:comment: "A music recording (track)&#x2014;usually a single song."
 rdfs:label: "tracks"
-schema:domainIncludes: [{"@id":"schema:MusicGroup"},{"@id":"schema:MusicPlaylist"}]
-schema:rangeIncludes: {"@id":"schema:MusicRecording"}
-schema:supersededBy: {"@id":"schema:track"}
+schema:domainIncludes: ["https://schema.org/MusicGroup","https://schema.org/MusicPlaylist"]
+schema:rangeIncludes: "https://schema.org/MusicRecording"
+schema:supersededBy: "https://schema.org/track"
 ---
 
-# schema:tracks
+# tracks
+
+A music recording (track)&#x2014;usually a single song.
 

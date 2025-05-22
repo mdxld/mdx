@@ -1,13 +1,17 @@
 ---
-$id: schema:resultComment
-$type: rdf:Property
-label: schema:resultComment
+$id: https://schema.org/resultComment
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: resultComment
+comment: |
+  A sub property of result. The Comment created or sent as a result of this action.
 rdfs:comment: "A sub property of result. The Comment created or sent as a result of this action."
 rdfs:label: "resultComment"
-rdfs:subPropertyOf: {"@id":"schema:result"}
-schema:domainIncludes: [{"@id":"schema:CommentAction"},{"@id":"schema:ReplyAction"}]
-schema:rangeIncludes: {"@id":"schema:Comment"}
+rdfs:subPropertyOf: "https://schema.org/result"
+schema:domainIncludes: ["https://schema.org/CommentAction","https://schema.org/ReplyAction"]
+schema:rangeIncludes: "https://schema.org/Comment"
 ---
 
-# schema:resultComment
+# resultComment
+
+A sub property of result. The Comment created or sent as a result of this action.
 

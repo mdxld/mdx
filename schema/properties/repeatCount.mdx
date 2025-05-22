@@ -1,14 +1,18 @@
 ---
-$id: schema:repeatCount
-$type: rdf:Property
-label: schema:repeatCount
+$id: https://schema.org/repeatCount
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: repeatCount
+comment: |
+  Defines the number of times a recurring [[Event]] will take place.
 rdfs:comment: "Defines the number of times a recurring [[Event]] will take place."
 rdfs:label: "repeatCount"
-schema:domainIncludes: {"@id":"schema:Schedule"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Integer"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1457"}
+schema:domainIncludes: "https://schema.org/Schedule"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Integer"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1457"
 ---
 
-# schema:repeatCount
+# repeatCount
+
+Defines the number of times a recurring [[Event]] will take place.
 

@@ -1,12 +1,74 @@
 ---
-$id: schema:Offer
-$type: rdfs:Class
-label: schema:Offer
+$id: https://schema.org/Offer
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Offer
+comment: |
+  An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.\n\nNote: As the [[businessFunction]] property, which identifies the form of offer (e.g. sell, lease, repair, dispose), defaults to http://purl.org/goodrelations/v1#Sell; an Offer without a defined businessFunction value can be assumed to be an offer to sell.\n\nFor [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/).
 rdfs:comment: "An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.\\n\\nNote: As the [[businessFunction]] property, which identifies the form of offer (e.g. sell, lease, repair, dispose), defaults to http://purl.org/goodrelations/v1#Sell; an Offer without a defined businessFunction value can be assumed to be an offer to sell.\\n\\nFor [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/)."
 rdfs:label: "Offer"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
+rdfs:subClassOf: "https://schema.org/Intangible"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
 ---
 
-# schema:Offer
+# Offer
 
+An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.\n\nNote: As the [[businessFunction]] property, which identifies the form of offer (e.g. sell, lease, repair, dispose), defaults to http://purl.org/goodrelations/v1#Sell; an Offer without a defined businessFunction value can be assumed to be an offer to sell.\n\nFor [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [acceptedPaymentMethod](https://schema.org/acceptedPaymentMethod) | Text |  |
+| [additionalProperty](https://schema.org/additionalProperty) | Text |  |
+| [addOn](https://schema.org/addOn) | Text |  |
+| [advanceBookingRequirement](https://schema.org/advanceBookingRequirement) | Text |  |
+| [aggregateRating](https://schema.org/aggregateRating) | Text |  |
+| [areaServed](https://schema.org/areaServed) | Text |  |
+| [asin](https://schema.org/asin) | Text |  |
+| [availability](https://schema.org/availability) | Text |  |
+| [availabilityEnds](https://schema.org/availabilityEnds) | Text |  |
+| [availabilityStarts](https://schema.org/availabilityStarts) | Text |  |
+| [availableAtOrFrom](https://schema.org/availableAtOrFrom) | Text |  |
+| [availableDeliveryMethod](https://schema.org/availableDeliveryMethod) | Text |  |
+| [businessFunction](https://schema.org/businessFunction) | Text |  |
+| [category](https://schema.org/category) | Text |  |
+| [checkoutPageURLTemplate](https://schema.org/checkoutPageURLTemplate) | Text |  |
+| [deliveryLeadTime](https://schema.org/deliveryLeadTime) | Text |  |
+| [eligibleCustomerType](https://schema.org/eligibleCustomerType) | Text |  |
+| [eligibleDuration](https://schema.org/eligibleDuration) | Text |  |
+| [eligibleQuantity](https://schema.org/eligibleQuantity) | Text |  |
+| [eligibleRegion](https://schema.org/eligibleRegion) | Text |  |
+| [eligibleTransactionVolume](https://schema.org/eligibleTransactionVolume) | Text |  |
+| [gtin](https://schema.org/gtin) | Text |  |
+| [gtin12](https://schema.org/gtin12) | Text |  |
+| [gtin13](https://schema.org/gtin13) | Text |  |
+| [gtin14](https://schema.org/gtin14) | Text |  |
+| [gtin8](https://schema.org/gtin8) | Text |  |
+| [hasAdultConsideration](https://schema.org/hasAdultConsideration) | Text |  |
+| [hasGS1DigitalLink](https://schema.org/hasGS1DigitalLink) | Text |  |
+| [hasMeasurement](https://schema.org/hasMeasurement) | Text |  |
+| [hasMerchantReturnPolicy](https://schema.org/hasMerchantReturnPolicy) | Text |  |
+| [includesObject](https://schema.org/includesObject) | Text |  |
+| [ineligibleRegion](https://schema.org/ineligibleRegion) | Text |  |
+| [inventoryLevel](https://schema.org/inventoryLevel) | Text |  |
+| [isFamilyFriendly](https://schema.org/isFamilyFriendly) | Text |  |
+| [itemCondition](https://schema.org/itemCondition) | Text |  |
+| [itemOffered](https://schema.org/itemOffered) | Text |  |
+| [leaseLength](https://schema.org/leaseLength) | Text |  |
+| [mobileUrl](https://schema.org/mobileUrl) | Text |  |
+| [mpn](https://schema.org/mpn) | Text |  |
+| [offeredBy](https://schema.org/offeredBy) | Text |  |
+| [price](https://schema.org/price) | Text |  |
+| [priceCurrency](https://schema.org/priceCurrency) | Text |  |
+| [priceSpecification](https://schema.org/priceSpecification) | Text |  |
+| [priceValidUntil](https://schema.org/priceValidUntil) | Text |  |
+| [review](https://schema.org/review) | Text |  |
+| [reviews](https://schema.org/reviews) | Text |  |
+| [seller](https://schema.org/seller) | Text |  |
+| [serialNumber](https://schema.org/serialNumber) | Text |  |
+| [shippingDetails](https://schema.org/shippingDetails) | Text |  |
+| [sku](https://schema.org/sku) | Text |  |
+| [validForMemberTier](https://schema.org/validForMemberTier) | Text |  |
+| [validFrom](https://schema.org/validFrom) | Text |  |
+| [validThrough](https://schema.org/validThrough) | Text |  |
+| [warranty](https://schema.org/warranty) | Text |  |

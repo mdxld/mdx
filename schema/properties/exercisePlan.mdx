@@ -1,14 +1,18 @@
 ---
-$id: schema:exercisePlan
-$type: rdf:Property
-label: schema:exercisePlan
+$id: https://schema.org/exercisePlan
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: exercisePlan
+comment: |
+  A sub property of instrument. The exercise plan used on this action.
 rdfs:comment: "A sub property of instrument. The exercise plan used on this action."
 rdfs:label: "exercisePlan"
-rdfs:subPropertyOf: {"@id":"schema:instrument"}
-schema:domainIncludes: {"@id":"schema:ExerciseAction"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:ExercisePlan"}
+rdfs:subPropertyOf: "https://schema.org/instrument"
+schema:domainIncludes: "https://schema.org/ExerciseAction"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/ExercisePlan"
 ---
 
-# schema:exercisePlan
+# exercisePlan
+
+A sub property of instrument. The exercise plan used on this action.
 

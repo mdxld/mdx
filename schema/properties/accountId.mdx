@@ -1,13 +1,17 @@
 ---
-$id: schema:accountId
-$type: rdf:Property
-label: schema:accountId
+$id: https://schema.org/accountId
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: accountId
+comment: |
+  The identifier for the account the payment will be applied to.
 rdfs:comment: "The identifier for the account the payment will be applied to."
 rdfs:label: "accountId"
-rdfs:subPropertyOf: {"@id":"schema:identifier"}
-schema:domainIncludes: {"@id":"schema:Invoice"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+rdfs:subPropertyOf: "https://schema.org/identifier"
+schema:domainIncludes: "https://schema.org/Invoice"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:accountId
+# accountId
+
+The identifier for the account the payment will be applied to.
 

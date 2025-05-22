@@ -1,13 +1,17 @@
 ---
-$id: schema:subStructure
-$type: rdf:Property
-label: schema:subStructure
+$id: https://schema.org/subStructure
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: subStructure
+comment: |
+  Component (sub-)structure(s) that comprise this anatomical structure.
 rdfs:comment: "Component (sub-)structure(s) that comprise this anatomical structure."
 rdfs:label: "subStructure"
-schema:domainIncludes: {"@id":"schema:AnatomicalStructure"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:AnatomicalStructure"}
+schema:domainIncludes: "https://schema.org/AnatomicalStructure"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/AnatomicalStructure"
 ---
 
-# schema:subStructure
+# subStructure
+
+Component (sub-)structure(s) that comprise this anatomical structure.
 

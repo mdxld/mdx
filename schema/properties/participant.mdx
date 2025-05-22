@@ -1,12 +1,16 @@
 ---
-$id: schema:participant
-$type: rdf:Property
-label: schema:participant
+$id: https://schema.org/participant
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: participant
+comment: |
+  Other co-agents that participated in the action indirectly. E.g. John wrote a book with *Steve*.
 rdfs:comment: "Other co-agents that participated in the action indirectly. E.g. John wrote a book with *Steve*."
 rdfs:label: "participant"
-schema:domainIncludes: {"@id":"schema:Action"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/Action"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:participant
+# participant
+
+Other co-agents that participated in the action indirectly. E.g. John wrote a book with *Steve*.
 

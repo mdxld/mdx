@@ -1,13 +1,17 @@
 ---
-$id: schema:starRating
-$type: rdf:Property
-label: schema:starRating
+$id: https://schema.org/starRating
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: starRating
+comment: |
+  An official rating for a lodging business or food establishment, e.g. from national associations or standards bodies. Use the author property to indicate the rating organization, e.g. as an Organization with name such as (e.g. HOTREC, DEHOGA, WHR, or Hotelstars).
 rdfs:comment: "An official rating for a lodging business or food establishment, e.g. from national associations or standards bodies. Use the author property to indicate the rating organization, e.g. as an Organization with name such as (e.g. HOTREC, DEHOGA, WHR, or Hotelstars)."
 rdfs:label: "starRating"
-schema:contributor: {"@id":"https://schema.org/docs/collab/STI_Accommodation_Ontology"}
-schema:domainIncludes: [{"@id":"schema:FoodEstablishment"},{"@id":"schema:LodgingBusiness"}]
-schema:rangeIncludes: {"@id":"schema:Rating"}
+schema:contributor: "https://schema.org/docs/collab/STI_Accommodation_Ontology"
+schema:domainIncludes: ["https://schema.org/FoodEstablishment","https://schema.org/LodgingBusiness"]
+schema:rangeIncludes: "https://schema.org/Rating"
 ---
 
-# schema:starRating
+# starRating
+
+An official rating for a lodging business or food establishment, e.g. from national associations or standards bodies. Use the author property to indicate the rating organization, e.g. as an Organization with name such as (e.g. HOTREC, DEHOGA, WHR, or Hotelstars).
 

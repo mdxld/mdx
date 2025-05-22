@@ -1,14 +1,18 @@
 ---
-$id: schema:orderPercentage
-$type: rdf:Property
-label: schema:orderPercentage
+$id: https://schema.org/orderPercentage
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: orderPercentage
+comment: |
+  Fraction of the value of the order that is charged as shipping cost.
 rdfs:comment: "Fraction of the value of the order that is charged as shipping cost."
 rdfs:label: "orderPercentage"
-schema:domainIncludes: {"@id":"schema:ShippingRateSettings"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Number"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/3617"}
+schema:domainIncludes: "https://schema.org/ShippingRateSettings"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/Number"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/3617"
 ---
 
-# schema:orderPercentage
+# orderPercentage
+
+Fraction of the value of the order that is charged as shipping cost.
 

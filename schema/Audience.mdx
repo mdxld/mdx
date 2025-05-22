@@ -1,11 +1,21 @@
 ---
-$id: schema:Audience
-$type: rdfs:Class
-label: schema:Audience
+$id: https://schema.org/Audience
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Audience
+comment: |
+  Intended audience for an item, i.e. the group for whom the item was created.
 rdfs:comment: "Intended audience for an item, i.e. the group for whom the item was created."
 rdfs:label: "Audience"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Audience
+# Audience
 
+Intended audience for an item, i.e. the group for whom the item was created.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [audienceType](https://schema.org/audienceType) | Text |  |
+| [geographicArea](https://schema.org/geographicArea) | Text |  |

@@ -1,14 +1,18 @@
 ---
-$id: schema:provider
-$type: rdf:Property
-label: schema:provider
+$id: https://schema.org/provider
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: provider
+comment: |
+  The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 rdfs:comment: "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller."
 rdfs:label: "provider"
-schema:domainIncludes: [{"@id":"schema:Trip"},{"@id":"schema:Reservation"},{"@id":"schema:EducationalOccupationalProgram"},{"@id":"schema:Invoice"},{"@id":"schema:FinancialIncentive"},{"@id":"schema:Service"},{"@id":"schema:Action"},{"@id":"schema:CreativeWork"},{"@id":"schema:ParcelDelivery"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/2927"},{"@id":"https://github.com/schemaorg/schemaorg/issues/2289"}]
+schema:domainIncludes: ["https://schema.org/Trip","https://schema.org/Reservation","https://schema.org/EducationalOccupationalProgram","https://schema.org/Invoice","https://schema.org/FinancialIncentive","https://schema.org/Service","https://schema.org/Action","https://schema.org/CreativeWork","https://schema.org/ParcelDelivery"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/2927","https://github.com/schemaorg/schemaorg/issues/2289"]
 ---
 
-# schema:provider
+# provider
+
+The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 

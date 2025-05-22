@@ -1,14 +1,18 @@
 ---
-$id: schema:sdLicense
-$type: rdf:Property
-label: schema:sdLicense
+$id: https://schema.org/sdLicense
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sdLicense
+comment: |
+  A license document that applies to this structured data, typically indicated by URL.
 rdfs:comment: "A license document that applies to this structured data, typically indicated by URL."
 rdfs:label: "sdLicense"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1886"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/CreativeWork","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1886"
 ---
 
-# schema:sdLicense
+# sdLicense
+
+A license document that applies to this structured data, typically indicated by URL.
 

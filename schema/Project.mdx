@@ -1,13 +1,24 @@
 ---
-$id: schema:Project
-$type: rdfs:Class
-label: schema:Project
-rdfs:comment: "An enterprise (potentially individual but typically collaborative), planned to achieve a particular aim.\nUse properties from [[Organization]], [[subOrganization]]/[[parentOrganization]] to indicate project sub-structures. \n   "
+$id: https://schema.org/Project
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Project
+comment: |
+  An enterprise (potentially individual but typically collaborative), planned to achieve a particular aim.
+  Use properties from [[Organization]], [[subOrganization]]/[[parentOrganization]] to indicate project sub-structures. 
+     
+rdfs:comment: |
+  An enterprise (potentially individual but typically collaborative), planned to achieve a particular aim.
+  Use properties from [[Organization]], [[subOrganization]]/[[parentOrganization]] to indicate project sub-structures. 
+     
 rdfs:label: "Project"
-rdfs:subClassOf: {"@id":"schema:Organization"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: [{"@id":"https://github.com/schemaorg/schemaorg/issues/383"},{"@id":"https://schema.org/docs/collab/FundInfoCollab"}]
+rdfs:subClassOf: "https://schema.org/Organization"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: ["https://github.com/schemaorg/schemaorg/issues/383","https://schema.org/docs/collab/FundInfoCollab"]
 ---
 
-# schema:Project
+# Project
+
+An enterprise (potentially individual but typically collaborative), planned to achieve a particular aim.
+Use properties from [[Organization]], [[subOrganization]]/[[parentOrganization]] to indicate project sub-structures. 
+   
 

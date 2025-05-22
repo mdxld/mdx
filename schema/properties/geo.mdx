@@ -1,12 +1,16 @@
 ---
-$id: schema:geo
-$type: rdf:Property
-label: schema:geo
+$id: https://schema.org/geo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: geo
+comment: |
+  The geo coordinates of the place.
 rdfs:comment: "The geo coordinates of the place."
 rdfs:label: "geo"
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:rangeIncludes: [{"@id":"schema:GeoShape"},{"@id":"schema:GeoCoordinates"}]
+schema:domainIncludes: "https://schema.org/Place"
+schema:rangeIncludes: ["https://schema.org/GeoShape","https://schema.org/GeoCoordinates"]
 ---
 
-# schema:geo
+# geo
+
+The geo coordinates of the place.
 

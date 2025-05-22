@@ -1,12 +1,16 @@
 ---
-$id: schema:billingPeriod
-$type: rdf:Property
-label: schema:billingPeriod
+$id: https://schema.org/billingPeriod
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: billingPeriod
+comment: |
+  The time interval used to compute the invoice.
 rdfs:comment: "The time interval used to compute the invoice."
 rdfs:label: "billingPeriod"
-schema:domainIncludes: {"@id":"schema:Invoice"}
-schema:rangeIncludes: {"@id":"schema:Duration"}
+schema:domainIncludes: "https://schema.org/Invoice"
+schema:rangeIncludes: "https://schema.org/Duration"
 ---
 
-# schema:billingPeriod
+# billingPeriod
+
+The time interval used to compute the invoice.
 

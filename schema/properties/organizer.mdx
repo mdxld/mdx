@@ -1,12 +1,16 @@
 ---
-$id: schema:organizer
-$type: rdf:Property
-label: schema:organizer
+$id: https://schema.org/organizer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: organizer
+comment: |
+  An organizer of an Event.
 rdfs:comment: "An organizer of an Event."
 rdfs:label: "organizer"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:organizer
+# organizer
+
+An organizer of an Event.
 

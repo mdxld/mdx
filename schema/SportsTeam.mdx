@@ -1,11 +1,22 @@
 ---
-$id: schema:SportsTeam
-$type: rdfs:Class
-label: schema:SportsTeam
+$id: https://schema.org/SportsTeam
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SportsTeam
+comment: |
+  Organization: Sports team.
 rdfs:comment: "Organization: Sports team."
 rdfs:label: "SportsTeam"
-rdfs:subClassOf: {"@id":"schema:SportsOrganization"}
+rdfs:subClassOf: "https://schema.org/SportsOrganization"
 ---
 
-# schema:SportsTeam
+# SportsTeam
 
+Organization: Sports team.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [athlete](https://schema.org/athlete) | Text |  |
+| [coach](https://schema.org/coach) | Text |  |
+| [gender](https://schema.org/gender) | Text |  |

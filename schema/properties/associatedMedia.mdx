@@ -1,12 +1,16 @@
 ---
-$id: schema:associatedMedia
-$type: rdf:Property
-label: schema:associatedMedia
+$id: https://schema.org/associatedMedia
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: associatedMedia
+comment: |
+  A media object that encodes this CreativeWork. This property is a synonym for encoding.
 rdfs:comment: "A media object that encodes this CreativeWork. This property is a synonym for encoding."
 rdfs:label: "associatedMedia"
-schema:domainIncludes: [{"@id":"schema:HyperTocEntry"},{"@id":"schema:HyperToc"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: {"@id":"schema:MediaObject"}
+schema:domainIncludes: ["https://schema.org/HyperTocEntry","https://schema.org/HyperToc","https://schema.org/CreativeWork"]
+schema:rangeIncludes: "https://schema.org/MediaObject"
 ---
 
-# schema:associatedMedia
+# associatedMedia
+
+A media object that encodes this CreativeWork. This property is a synonym for encoding.
 

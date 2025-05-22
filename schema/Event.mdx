@@ -1,12 +1,61 @@
 ---
-$id: schema:Event
-$type: rdfs:Class
-label: schema:Event
-owl:equivalentClass: {"@id":"dcmitype:Event"}
+$id: https://schema.org/Event
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Event
+comment: |
+  An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the [[offers]] property. Repeated events may be structured as separate Event objects.
+owl:equivalentClass: "dcmitype:Event"
 rdfs:comment: "An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the [[offers]] property. Repeated events may be structured as separate Event objects."
 rdfs:label: "Event"
-rdfs:subClassOf: {"@id":"schema:Thing"}
+rdfs:subClassOf: "https://schema.org/Thing"
 ---
 
-# schema:Event
+# Event
 
+An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the [[offers]] property. Repeated events may be structured as separate Event objects.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [about](https://schema.org/about) | Text |  |
+| [actor](https://schema.org/actor) | Text |  |
+| [aggregateRating](https://schema.org/aggregateRating) | Text |  |
+| [attendee](https://schema.org/attendee) | Text |  |
+| [attendees](https://schema.org/attendees) | Text |  |
+| [audience](https://schema.org/audience) | Text |  |
+| [composer](https://schema.org/composer) | Text |  |
+| [contributor](https://schema.org/contributor) | Text |  |
+| [director](https://schema.org/director) | Text |  |
+| [doorTime](https://schema.org/doorTime) | Text |  |
+| [duration](https://schema.org/duration) | Text |  |
+| [endDate](https://schema.org/endDate) | Text |  |
+| [eventAttendanceMode](https://schema.org/eventAttendanceMode) | Text |  |
+| [eventSchedule](https://schema.org/eventSchedule) | Text |  |
+| [eventStatus](https://schema.org/eventStatus) | Text |  |
+| [funder](https://schema.org/funder) | Text |  |
+| [funding](https://schema.org/funding) | Text |  |
+| [inLanguage](https://schema.org/inLanguage) | Text |  |
+| [isAccessibleForFree](https://schema.org/isAccessibleForFree) | Text |  |
+| [keywords](https://schema.org/keywords) | Text |  |
+| [location](https://schema.org/location) | Text |  |
+| [maximumAttendeeCapacity](https://schema.org/maximumAttendeeCapacity) | Text |  |
+| [maximumPhysicalAttendeeCapacity](https://schema.org/maximumPhysicalAttendeeCapacity) | Text |  |
+| [maximumVirtualAttendeeCapacity](https://schema.org/maximumVirtualAttendeeCapacity) | Text |  |
+| [offers](https://schema.org/offers) | Text |  |
+| [organizer](https://schema.org/organizer) | Text |  |
+| [performer](https://schema.org/performer) | Text |  |
+| [performers](https://schema.org/performers) | Text |  |
+| [previousStartDate](https://schema.org/previousStartDate) | Text |  |
+| [recordedIn](https://schema.org/recordedIn) | Text |  |
+| [remainingAttendeeCapacity](https://schema.org/remainingAttendeeCapacity) | Text |  |
+| [review](https://schema.org/review) | Text |  |
+| [sponsor](https://schema.org/sponsor) | Text |  |
+| [startDate](https://schema.org/startDate) | Text |  |
+| [subEvent](https://schema.org/subEvent) | Text |  |
+| [subEvents](https://schema.org/subEvents) | Text |  |
+| [superEvent](https://schema.org/superEvent) | Text |  |
+| [translator](https://schema.org/translator) | Text |  |
+| [typicalAgeRange](https://schema.org/typicalAgeRange) | Text |  |
+| [workFeatured](https://schema.org/workFeatured) | Text |  |
+| [workPerformed](https://schema.org/workPerformed) | Text |  |

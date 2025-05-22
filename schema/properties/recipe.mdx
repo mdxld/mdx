@@ -1,13 +1,17 @@
 ---
-$id: schema:recipe
-$type: rdf:Property
-label: schema:recipe
+$id: https://schema.org/recipe
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recipe
+comment: |
+  A sub property of instrument. The recipe/instructions used to perform the action.
 rdfs:comment: "A sub property of instrument. The recipe/instructions used to perform the action."
 rdfs:label: "recipe"
-rdfs:subPropertyOf: {"@id":"schema:instrument"}
-schema:domainIncludes: {"@id":"schema:CookAction"}
-schema:rangeIncludes: {"@id":"schema:Recipe"}
+rdfs:subPropertyOf: "https://schema.org/instrument"
+schema:domainIncludes: "https://schema.org/CookAction"
+schema:rangeIncludes: "https://schema.org/Recipe"
 ---
 
-# schema:recipe
+# recipe
+
+A sub property of instrument. The recipe/instructions used to perform the action.
 

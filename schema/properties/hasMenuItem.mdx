@@ -1,12 +1,16 @@
 ---
-$id: schema:hasMenuItem
-$type: rdf:Property
-label: schema:hasMenuItem
+$id: https://schema.org/hasMenuItem
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasMenuItem
+comment: |
+  A food or drink item contained in a menu or menu section.
 rdfs:comment: "A food or drink item contained in a menu or menu section."
 rdfs:label: "hasMenuItem"
-schema:domainIncludes: [{"@id":"schema:Menu"},{"@id":"schema:MenuSection"}]
-schema:rangeIncludes: {"@id":"schema:MenuItem"}
+schema:domainIncludes: ["https://schema.org/Menu","https://schema.org/MenuSection"]
+schema:rangeIncludes: "https://schema.org/MenuItem"
 ---
 
-# schema:hasMenuItem
+# hasMenuItem
+
+A food or drink item contained in a menu or menu section.
 

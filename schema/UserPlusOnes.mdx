@@ -1,12 +1,16 @@
 ---
-$id: schema:UserPlusOnes
-$type: rdfs:Class
-label: schema:UserPlusOnes
+$id: https://schema.org/UserPlusOnes
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: UserPlusOnes
+comment: |
+  UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
 rdfs:comment: "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]]."
 rdfs:label: "UserPlusOnes"
-rdfs:subClassOf: {"@id":"schema:UserInteraction"}
-schema:supersededBy: {"@id":"schema:InteractionCounter"}
+rdfs:subClassOf: "https://schema.org/UserInteraction"
+schema:supersededBy: "https://schema.org/InteractionCounter"
 ---
 
-# schema:UserPlusOnes
+# UserPlusOnes
+
+UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
 

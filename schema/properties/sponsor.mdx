@@ -1,12 +1,16 @@
 ---
-$id: schema:sponsor
-$type: rdf:Property
-label: schema:sponsor
+$id: https://schema.org/sponsor
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sponsor
+comment: |
+  A person or organization that supports a thing through a pledge, promise, or financial contribution. E.g. a sponsor of a Medical Study or a corporate sponsor of an event.
 rdfs:comment: "A person or organization that supports a thing through a pledge, promise, or financial contribution. E.g. a sponsor of a Medical Study or a corporate sponsor of an event."
 rdfs:label: "sponsor"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Event"},{"@id":"schema:Person"},{"@id":"schema:Grant"},{"@id":"schema:CreativeWork"},{"@id":"schema:MedicalStudy"}]
-schema:rangeIncludes: [{"@id":"schema:Person"},{"@id":"schema:Organization"}]
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Event","https://schema.org/Person","https://schema.org/Grant","https://schema.org/CreativeWork","https://schema.org/MedicalStudy"]
+schema:rangeIncludes: ["https://schema.org/Person","https://schema.org/Organization"]
 ---
 
-# schema:sponsor
+# sponsor
+
+A person or organization that supports a thing through a pledge, promise, or financial contribution. E.g. a sponsor of a Medical Study or a corporate sponsor of an event.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:inker
-$type: rdf:Property
-label: schema:inker
+$id: https://schema.org/inker
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inker
+comment: |
+  The individual who traces over the pencil drawings in ink after pencils are complete.
 rdfs:comment: "The individual who traces over the pencil drawings in ink after pencils are complete."
 rdfs:label: "inker"
-schema:domainIncludes: [{"@id":"schema:ComicStory"},{"@id":"schema:ComicIssue"},{"@id":"schema:VisualArtwork"}]
-schema:isPartOf: {"@id":"https://bib.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: ["https://schema.org/ComicStory","https://schema.org/ComicIssue","https://schema.org/VisualArtwork"]
+schema:isPartOf: "https://bib.schema.org"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:inker
+# inker
+
+The individual who traces over the pencil drawings in ink after pencils are complete.
 

@@ -1,12 +1,16 @@
 ---
-$id: schema:minimumPaymentDue
-$type: rdf:Property
-label: schema:minimumPaymentDue
+$id: https://schema.org/minimumPaymentDue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: minimumPaymentDue
+comment: |
+  The minimum payment required at this time.
 rdfs:comment: "The minimum payment required at this time."
 rdfs:label: "minimumPaymentDue"
-schema:domainIncludes: {"@id":"schema:Invoice"}
-schema:rangeIncludes: [{"@id":"schema:PriceSpecification"},{"@id":"schema:MonetaryAmount"}]
+schema:domainIncludes: "https://schema.org/Invoice"
+schema:rangeIncludes: ["https://schema.org/PriceSpecification","https://schema.org/MonetaryAmount"]
 ---
 
-# schema:minimumPaymentDue
+# minimumPaymentDue
+
+The minimum payment required at this time.
 

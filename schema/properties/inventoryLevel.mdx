@@ -1,13 +1,17 @@
 ---
-$id: schema:inventoryLevel
-$type: rdf:Property
-label: schema:inventoryLevel
+$id: https://schema.org/inventoryLevel
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: inventoryLevel
+comment: |
+  The current approximate inventory level for the item or items.
 rdfs:comment: "The current approximate inventory level for the item or items."
 rdfs:label: "inventoryLevel"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Demand"},{"@id":"schema:Offer"},{"@id":"schema:SomeProducts"}]
-schema:rangeIncludes: {"@id":"schema:QuantitativeValue"}
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Demand","https://schema.org/Offer","https://schema.org/SomeProducts"]
+schema:rangeIncludes: "https://schema.org/QuantitativeValue"
 ---
 
-# schema:inventoryLevel
+# inventoryLevel
+
+The current approximate inventory level for the item or items.
 

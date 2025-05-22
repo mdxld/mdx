@@ -1,13 +1,17 @@
 ---
-$id: schema:recipeInstructions
-$type: rdf:Property
-label: schema:recipeInstructions
+$id: https://schema.org/recipeInstructions
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recipeInstructions
+comment: |
+  A step in making the recipe, in the form of a single item (document, video, etc.) or an ordered list with HowToStep and/or HowToSection items.
 rdfs:comment: "A step in making the recipe, in the form of a single item (document, video, etc.) or an ordered list with HowToStep and/or HowToSection items."
 rdfs:label: "recipeInstructions"
-rdfs:subPropertyOf: {"@id":"schema:step"}
-schema:domainIncludes: {"@id":"schema:Recipe"}
-schema:rangeIncludes: [{"@id":"schema:ItemList"},{"@id":"schema:CreativeWork"},{"@id":"schema:Text"}]
+rdfs:subPropertyOf: "https://schema.org/step"
+schema:domainIncludes: "https://schema.org/Recipe"
+schema:rangeIncludes: ["https://schema.org/ItemList","https://schema.org/CreativeWork","https://schema.org/Text"]
 ---
 
-# schema:recipeInstructions
+# recipeInstructions
+
+A step in making the recipe, in the form of a single item (document, video, etc.) or an ordered list with HowToStep and/or HowToSection items.
 

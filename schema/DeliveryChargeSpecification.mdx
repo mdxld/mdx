@@ -1,12 +1,24 @@
 ---
-$id: schema:DeliveryChargeSpecification
-$type: rdfs:Class
-label: schema:DeliveryChargeSpecification
+$id: https://schema.org/DeliveryChargeSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DeliveryChargeSpecification
+comment: |
+  The price for the delivery of an offer using a particular delivery method.
 rdfs:comment: "The price for the delivery of an offer using a particular delivery method."
 rdfs:label: "DeliveryChargeSpecification"
-rdfs:subClassOf: {"@id":"schema:PriceSpecification"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/PriceSpecification"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:DeliveryChargeSpecification
+# DeliveryChargeSpecification
 
+The price for the delivery of an offer using a particular delivery method.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [appliesToDeliveryMethod](https://schema.org/appliesToDeliveryMethod) | Text |  |
+| [areaServed](https://schema.org/areaServed) | Text |  |
+| [eligibleRegion](https://schema.org/eligibleRegion) | Text |  |
+| [ineligibleRegion](https://schema.org/ineligibleRegion) | Text |  |

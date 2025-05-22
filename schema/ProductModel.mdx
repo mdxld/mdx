@@ -1,12 +1,23 @@
 ---
-$id: schema:ProductModel
-$type: rdfs:Class
-label: schema:ProductModel
+$id: https://schema.org/ProductModel
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ProductModel
+comment: |
+  A datasheet or vendor specification of a product (in the sense of a prototypical description).
 rdfs:comment: "A datasheet or vendor specification of a product (in the sense of a prototypical description)."
 rdfs:label: "ProductModel"
-rdfs:subClassOf: {"@id":"schema:Product"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsClass"}
+rdfs:subClassOf: "https://schema.org/Product"
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsClass"
 ---
 
-# schema:ProductModel
+# ProductModel
 
+A datasheet or vendor specification of a product (in the sense of a prototypical description).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [isVariantOf](https://schema.org/isVariantOf) | Text |  |
+| [predecessorOf](https://schema.org/predecessorOf) | Text |  |
+| [successorOf](https://schema.org/successorOf) | Text |  |

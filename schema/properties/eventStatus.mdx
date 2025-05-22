@@ -1,12 +1,16 @@
 ---
-$id: schema:eventStatus
-$type: rdf:Property
-label: schema:eventStatus
+$id: https://schema.org/eventStatus
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: eventStatus
+comment: |
+  An eventStatus of an event represents its status; particularly useful when an event is cancelled or rescheduled.
 rdfs:comment: "An eventStatus of an event represents its status; particularly useful when an event is cancelled or rescheduled."
 rdfs:label: "eventStatus"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: {"@id":"schema:EventStatusType"}
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: "https://schema.org/EventStatusType"
 ---
 
-# schema:eventStatus
+# eventStatus
+
+An eventStatus of an event represents its status; particularly useful when an event is cancelled or rescheduled.
 

@@ -1,12 +1,22 @@
 ---
-$id: schema:MedicalWebPage
-$type: rdfs:Class
-label: schema:MedicalWebPage
+$id: https://schema.org/MedicalWebPage
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalWebPage
+comment: |
+  A web page that provides medical information.
 rdfs:comment: "A web page that provides medical information."
 rdfs:label: "MedicalWebPage"
-rdfs:subClassOf: {"@id":"schema:WebPage"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/WebPage"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalWebPage
+# MedicalWebPage
 
+A web page that provides medical information.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [aspect](https://schema.org/aspect) | Text |  |
+| [medicalAudience](https://schema.org/medicalAudience) | Text |  |

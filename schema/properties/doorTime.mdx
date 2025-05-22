@@ -1,12 +1,16 @@
 ---
-$id: schema:doorTime
-$type: rdf:Property
-label: schema:doorTime
+$id: https://schema.org/doorTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: doorTime
+comment: |
+  The time admission will commence.
 rdfs:comment: "The time admission will commence."
 rdfs:label: "doorTime"
-schema:domainIncludes: {"@id":"schema:Event"}
-schema:rangeIncludes: [{"@id":"schema:Time"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/Event"
+schema:rangeIncludes: ["https://schema.org/Time","https://schema.org/DateTime"]
 ---
 
-# schema:doorTime
+# doorTime
+
+The time admission will commence.
 

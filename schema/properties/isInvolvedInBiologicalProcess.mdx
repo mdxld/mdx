@@ -1,14 +1,18 @@
 ---
-$id: schema:isInvolvedInBiologicalProcess
-$type: rdf:Property
-label: schema:isInvolvedInBiologicalProcess
+$id: https://schema.org/isInvolvedInBiologicalProcess
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isInvolvedInBiologicalProcess
+comment: |
+  Biological process this BioChemEntity is involved in; please use PropertyValue if you want to include any evidence.
 rdfs:comment: "Biological process this BioChemEntity is involved in; please use PropertyValue if you want to include any evidence."
 rdfs:label: "isInvolvedInBiologicalProcess"
-schema:domainIncludes: {"@id":"schema:BioChemEntity"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:PropertyValue"},{"@id":"schema:DefinedTerm"},{"@id":"schema:URL"}]
-schema:source: {"@id":"http://www.bioschemas.org/BioChemEntity"}
+schema:domainIncludes: "https://schema.org/BioChemEntity"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/PropertyValue","https://schema.org/DefinedTerm","https://schema.org/URL"]
+schema:source: "http://www.bioschemas.org/BioChemEntity"
 ---
 
-# schema:isInvolvedInBiologicalProcess
+# isInvolvedInBiologicalProcess
+
+Biological process this BioChemEntity is involved in; please use PropertyValue if you want to include any evidence.
 

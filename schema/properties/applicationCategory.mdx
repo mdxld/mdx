@@ -1,12 +1,16 @@
 ---
-$id: schema:applicationCategory
-$type: rdf:Property
-label: schema:applicationCategory
+$id: https://schema.org/applicationCategory
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: applicationCategory
+comment: |
+  Type of software application, e.g. 'Game, Multimedia'.
 rdfs:comment: "Type of software application, e.g. 'Game, Multimedia'."
 rdfs:label: "applicationCategory"
-schema:domainIncludes: {"@id":"schema:SoftwareApplication"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:Text"}]
+schema:domainIncludes: "https://schema.org/SoftwareApplication"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/Text"]
 ---
 
-# schema:applicationCategory
+# applicationCategory
+
+Type of software application, e.g. 'Game, Multimedia'.
 

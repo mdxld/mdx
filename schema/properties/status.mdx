@@ -1,13 +1,17 @@
 ---
-$id: schema:status
-$type: rdf:Property
-label: schema:status
+$id: https://schema.org/status
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: status
+comment: |
+  The status of the study (enumerated).
 rdfs:comment: "The status of the study (enumerated)."
 rdfs:label: "status"
-schema:domainIncludes: [{"@id":"schema:MedicalCondition"},{"@id":"schema:MedicalStudy"},{"@id":"schema:MedicalProcedure"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:MedicalStudyStatus"},{"@id":"schema:Text"},{"@id":"schema:EventStatusType"}]
+schema:domainIncludes: ["https://schema.org/MedicalCondition","https://schema.org/MedicalStudy","https://schema.org/MedicalProcedure"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/MedicalStudyStatus","https://schema.org/Text","https://schema.org/EventStatusType"]
 ---
 
-# schema:status
+# status
+
+The status of the study (enumerated).
 

@@ -1,14 +1,24 @@
 ---
-$id: schema:MortgageLoan
-$type: rdfs:Class
-label: schema:MortgageLoan
+$id: https://schema.org/MortgageLoan
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MortgageLoan
+comment: |
+  A loan in which property or real estate is used as collateral. (A loan securitized against some real estate.)
 rdfs:comment: "A loan in which property or real estate is used as collateral. (A loan securitized against some real estate.)"
 rdfs:label: "MortgageLoan"
-rdfs:subClassOf: {"@id":"schema:LoanOrCredit"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1253"}
+rdfs:subClassOf: "https://schema.org/LoanOrCredit"
+schema:contributor: "https://schema.org/docs/collab/FIBO"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1253"
 ---
 
-# schema:MortgageLoan
+# MortgageLoan
 
+A loan in which property or real estate is used as collateral. (A loan securitized against some real estate.)
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [domiciledMortgage](https://schema.org/domiciledMortgage) | Text |  |
+| [loanMortgageMandateAmount](https://schema.org/loanMortgageMandateAmount) | Text |  |

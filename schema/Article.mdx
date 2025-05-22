@@ -1,12 +1,28 @@
 ---
-$id: schema:Article
-$type: rdfs:Class
-label: schema:Article
+$id: https://schema.org/Article
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Article
+comment: |
+  An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.\n\nSee also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
 rdfs:comment: "An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.\\n\\nSee also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html)."
 rdfs:label: "Article"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/rNews"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:contributor: "https://schema.org/docs/collab/rNews"
 ---
 
-# schema:Article
+# Article
 
+An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.\n\nSee also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [articleBody](https://schema.org/articleBody) | Text |  |
+| [articleSection](https://schema.org/articleSection) | Text |  |
+| [backstory](https://schema.org/backstory) | Text |  |
+| [pageEnd](https://schema.org/pageEnd) | Text |  |
+| [pageStart](https://schema.org/pageStart) | Text |  |
+| [pagination](https://schema.org/pagination) | Text |  |
+| [speakable](https://schema.org/speakable) | Text |  |
+| [wordCount](https://schema.org/wordCount) | Text |  |

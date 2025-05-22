@@ -1,12 +1,16 @@
 ---
-$id: schema:review
-$type: rdf:Property
-label: schema:review
+$id: https://schema.org/review
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: review
+comment: |
+  A review of the item.
 rdfs:comment: "A review of the item."
 rdfs:label: "review"
-schema:domainIncludes: [{"@id":"schema:Brand"},{"@id":"schema:Organization"},{"@id":"schema:Offer"},{"@id":"schema:Service"},{"@id":"schema:Event"},{"@id":"schema:Place"},{"@id":"schema:CreativeWork"},{"@id":"schema:Product"}]
-schema:rangeIncludes: {"@id":"schema:Review"}
+schema:domainIncludes: ["https://schema.org/Brand","https://schema.org/Organization","https://schema.org/Offer","https://schema.org/Service","https://schema.org/Event","https://schema.org/Place","https://schema.org/CreativeWork","https://schema.org/Product"]
+schema:rangeIncludes: "https://schema.org/Review"
 ---
 
-# schema:review
+# review
+
+A review of the item.
 

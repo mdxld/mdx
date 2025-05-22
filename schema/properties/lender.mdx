@@ -1,13 +1,17 @@
 ---
-$id: schema:lender
-$type: rdf:Property
-label: schema:lender
+$id: https://schema.org/lender
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: lender
+comment: |
+  A sub property of participant. The person that lends the object being borrowed.
 rdfs:comment: "A sub property of participant. The person that lends the object being borrowed."
 rdfs:label: "lender"
-rdfs:subPropertyOf: {"@id":"schema:participant"}
-schema:domainIncludes: {"@id":"schema:BorrowAction"}
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/participant"
+schema:domainIncludes: "https://schema.org/BorrowAction"
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:lender
+# lender
+
+A sub property of participant. The person that lends the object being borrowed.
 

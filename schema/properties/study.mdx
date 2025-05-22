@@ -1,13 +1,17 @@
 ---
-$id: schema:study
-$type: rdf:Property
-label: schema:study
+$id: https://schema.org/study
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: study
+comment: |
+  A medical study or trial related to this entity.
 rdfs:comment: "A medical study or trial related to this entity."
 rdfs:label: "study"
-schema:domainIncludes: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:MedicalStudy"}
+schema:domainIncludes: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/MedicalStudy"
 ---
 
-# schema:study
+# study
+
+A medical study or trial related to this entity.
 

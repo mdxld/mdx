@@ -1,13 +1,17 @@
 ---
-$id: schema:workLocation
-$type: rdf:Property
-label: schema:workLocation
+$id: https://schema.org/workLocation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: workLocation
+comment: |
+  A contact location for a person's place of work.
 rdfs:comment: "A contact location for a person's place of work."
 rdfs:label: "workLocation"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: {"@id":"schema:Person"}
-schema:rangeIncludes: [{"@id":"schema:ContactPoint"},{"@id":"schema:Place"}]
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: "https://schema.org/Person"
+schema:rangeIncludes: ["https://schema.org/ContactPoint","https://schema.org/Place"]
 ---
 
-# schema:workLocation
+# workLocation
+
+A contact location for a person's place of work.
 

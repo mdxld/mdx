@@ -1,12 +1,24 @@
 ---
-$id: schema:ImageObject
-$type: rdfs:Class
-label: schema:ImageObject
-owl:equivalentClass: {"@id":"dcmitype:Image"}
+$id: https://schema.org/ImageObject
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: ImageObject
+comment: |
+  An image file.
+owl:equivalentClass: "dcmitype:Image"
 rdfs:comment: "An image file."
 rdfs:label: "ImageObject"
-rdfs:subClassOf: {"@id":"schema:MediaObject"}
+rdfs:subClassOf: "https://schema.org/MediaObject"
 ---
 
-# schema:ImageObject
+# ImageObject
 
+An image file.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [caption](https://schema.org/caption) | Text |  |
+| [embeddedTextCaption](https://schema.org/embeddedTextCaption) | Text |  |
+| [exifData](https://schema.org/exifData) | Text |  |
+| [representativeOfPage](https://schema.org/representativeOfPage) | Text |  |

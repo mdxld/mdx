@@ -1,11 +1,32 @@
 ---
-$id: schema:Reservation
-$type: rdfs:Class
-label: schema:Reservation
+$id: https://schema.org/Reservation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Reservation
+comment: |
+  Describes a reservation for travel, dining or an event. Some reservations require tickets. \n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, restaurant reservations, flights, or rental cars, use [[Offer]].
 rdfs:comment: "Describes a reservation for travel, dining or an event. Some reservations require tickets. \\n\\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, restaurant reservations, flights, or rental cars, use [[Offer]]."
 rdfs:label: "Reservation"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:Reservation
+# Reservation
 
+Describes a reservation for travel, dining or an event. Some reservations require tickets. \n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, restaurant reservations, flights, or rental cars, use [[Offer]].
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [bookingAgent](https://schema.org/bookingAgent) | Text |  |
+| [bookingTime](https://schema.org/bookingTime) | Text |  |
+| [broker](https://schema.org/broker) | Text |  |
+| [modifiedTime](https://schema.org/modifiedTime) | Text |  |
+| [priceCurrency](https://schema.org/priceCurrency) | Text |  |
+| [programMembershipUsed](https://schema.org/programMembershipUsed) | Text |  |
+| [provider](https://schema.org/provider) | Text |  |
+| [reservationFor](https://schema.org/reservationFor) | Text |  |
+| [reservationId](https://schema.org/reservationId) | Text |  |
+| [reservationStatus](https://schema.org/reservationStatus) | Text |  |
+| [reservedTicket](https://schema.org/reservedTicket) | Text |  |
+| [totalPrice](https://schema.org/totalPrice) | Text |  |
+| [underName](https://schema.org/underName) | Text |  |

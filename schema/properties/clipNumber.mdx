@@ -1,13 +1,17 @@
 ---
-$id: schema:clipNumber
-$type: rdf:Property
-label: schema:clipNumber
+$id: https://schema.org/clipNumber
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: clipNumber
+comment: |
+  Position of the clip within an ordered group of clips.
 rdfs:comment: "Position of the clip within an ordered group of clips."
 rdfs:label: "clipNumber"
-rdfs:subPropertyOf: {"@id":"schema:position"}
-schema:domainIncludes: {"@id":"schema:Clip"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Integer"}]
+rdfs:subPropertyOf: "https://schema.org/position"
+schema:domainIncludes: "https://schema.org/Clip"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Integer"]
 ---
 
-# schema:clipNumber
+# clipNumber
+
+Position of the clip within an ordered group of clips.
 

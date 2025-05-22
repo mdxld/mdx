@@ -1,13 +1,17 @@
 ---
-$id: schema:isSimilarTo
-$type: rdf:Property
-label: schema:isSimilarTo
+$id: https://schema.org/isSimilarTo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: isSimilarTo
+comment: |
+  A pointer to another, functionally similar product (or multiple products).
 rdfs:comment: "A pointer to another, functionally similar product (or multiple products)."
 rdfs:label: "isSimilarTo"
-schema:contributor: {"@id":"https://schema.org/docs/collab/GoodRelationsTerms"}
-schema:domainIncludes: [{"@id":"schema:Service"},{"@id":"schema:Product"}]
-schema:rangeIncludes: [{"@id":"schema:Product"},{"@id":"schema:Service"}]
+schema:contributor: "https://schema.org/docs/collab/GoodRelationsTerms"
+schema:domainIncludes: ["https://schema.org/Service","https://schema.org/Product"]
+schema:rangeIncludes: ["https://schema.org/Product","https://schema.org/Service"]
 ---
 
-# schema:isSimilarTo
+# isSimilarTo
+
+A pointer to another, functionally similar product (or multiple products).
 

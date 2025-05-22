@@ -1,11 +1,20 @@
 ---
-$id: schema:PlanAction
-$type: rdfs:Class
-label: schema:PlanAction
+$id: https://schema.org/PlanAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PlanAction
+comment: |
+  The act of planning the execution of an event/task/action/reservation/plan to a future date.
 rdfs:comment: "The act of planning the execution of an event/task/action/reservation/plan to a future date."
 rdfs:label: "PlanAction"
-rdfs:subClassOf: {"@id":"schema:OrganizeAction"}
+rdfs:subClassOf: "https://schema.org/OrganizeAction"
 ---
 
-# schema:PlanAction
+# PlanAction
 
+The act of planning the execution of an event/task/action/reservation/plan to a future date.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [scheduledTime](https://schema.org/scheduledTime) | Text |  |

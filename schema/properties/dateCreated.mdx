@@ -1,12 +1,16 @@
 ---
-$id: schema:dateCreated
-$type: rdf:Property
-label: schema:dateCreated
+$id: https://schema.org/dateCreated
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dateCreated
+comment: |
+  The date on which the CreativeWork was created or the item was added to a DataFeed.
 rdfs:comment: "The date on which the CreativeWork was created or the item was added to a DataFeed."
 rdfs:label: "dateCreated"
-schema:domainIncludes: [{"@id":"schema:DataFeedItem"},{"@id":"schema:CreativeWork"}]
-schema:rangeIncludes: [{"@id":"schema:Date"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: ["https://schema.org/DataFeedItem","https://schema.org/CreativeWork"]
+schema:rangeIncludes: ["https://schema.org/Date","https://schema.org/DateTime"]
 ---
 
-# schema:dateCreated
+# dateCreated
+
+The date on which the CreativeWork was created or the item was added to a DataFeed.
 

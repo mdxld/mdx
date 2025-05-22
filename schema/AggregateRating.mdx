@@ -1,11 +1,22 @@
 ---
-$id: schema:AggregateRating
-$type: rdfs:Class
-label: schema:AggregateRating
+$id: https://schema.org/AggregateRating
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: AggregateRating
+comment: |
+  The average rating based on multiple ratings or reviews.
 rdfs:comment: "The average rating based on multiple ratings or reviews."
 rdfs:label: "AggregateRating"
-rdfs:subClassOf: {"@id":"schema:Rating"}
+rdfs:subClassOf: "https://schema.org/Rating"
 ---
 
-# schema:AggregateRating
+# AggregateRating
 
+The average rating based on multiple ratings or reviews.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [itemReviewed](https://schema.org/itemReviewed) | Text |  |
+| [ratingCount](https://schema.org/ratingCount) | Text |  |
+| [reviewCount](https://schema.org/reviewCount) | Text |  |

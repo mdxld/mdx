@@ -1,11 +1,25 @@
 ---
-$id: schema:LodgingReservation
-$type: rdfs:Class
-label: schema:LodgingReservation
+$id: https://schema.org/LodgingReservation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: LodgingReservation
+comment: |
+  A reservation for lodging at a hotel, motel, inn, etc.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
 rdfs:comment: "A reservation for lodging at a hotel, motel, inn, etc.\\n\\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations."
 rdfs:label: "LodgingReservation"
-rdfs:subClassOf: {"@id":"schema:Reservation"}
+rdfs:subClassOf: "https://schema.org/Reservation"
 ---
 
-# schema:LodgingReservation
+# LodgingReservation
 
+A reservation for lodging at a hotel, motel, inn, etc.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [checkinTime](https://schema.org/checkinTime) | Text |  |
+| [checkoutTime](https://schema.org/checkoutTime) | Text |  |
+| [lodgingUnitDescription](https://schema.org/lodgingUnitDescription) | Text |  |
+| [lodgingUnitType](https://schema.org/lodgingUnitType) | Text |  |
+| [numAdults](https://schema.org/numAdults) | Text |  |
+| [numChildren](https://schema.org/numChildren) | Text |  |

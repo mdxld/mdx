@@ -1,13 +1,17 @@
 ---
-$id: schema:encoding
-$type: rdf:Property
-label: schema:encoding
+$id: https://schema.org/encoding
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: encoding
+comment: |
+  A media object that encodes this CreativeWork. This property is a synonym for associatedMedia.
 rdfs:comment: "A media object that encodes this CreativeWork. This property is a synonym for associatedMedia."
 rdfs:label: "encoding"
-schema:domainIncludes: {"@id":"schema:CreativeWork"}
-schema:inverseOf: {"@id":"schema:encodesCreativeWork"}
-schema:rangeIncludes: {"@id":"schema:MediaObject"}
+schema:domainIncludes: "https://schema.org/CreativeWork"
+schema:inverseOf: "https://schema.org/encodesCreativeWork"
+schema:rangeIncludes: "https://schema.org/MediaObject"
 ---
 
-# schema:encoding
+# encoding
+
+A media object that encodes this CreativeWork. This property is a synonym for associatedMedia.
 

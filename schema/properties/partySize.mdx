@@ -1,12 +1,16 @@
 ---
-$id: schema:partySize
-$type: rdf:Property
-label: schema:partySize
+$id: https://schema.org/partySize
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: partySize
+comment: |
+  Number of people the reservation should accommodate.
 rdfs:comment: "Number of people the reservation should accommodate."
 rdfs:label: "partySize"
-schema:domainIncludes: [{"@id":"schema:FoodEstablishmentReservation"},{"@id":"schema:TaxiReservation"}]
-schema:rangeIncludes: [{"@id":"schema:Integer"},{"@id":"schema:QuantitativeValue"}]
+schema:domainIncludes: ["https://schema.org/FoodEstablishmentReservation","https://schema.org/TaxiReservation"]
+schema:rangeIncludes: ["https://schema.org/Integer","https://schema.org/QuantitativeValue"]
 ---
 
-# schema:partySize
+# partySize
+
+Number of people the reservation should accommodate.
 

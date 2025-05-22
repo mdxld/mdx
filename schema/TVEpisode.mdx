@@ -1,11 +1,23 @@
 ---
-$id: schema:TVEpisode
-$type: rdfs:Class
-label: schema:TVEpisode
+$id: https://schema.org/TVEpisode
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TVEpisode
+comment: |
+  A TV episode which can be part of a series or season.
 rdfs:comment: "A TV episode which can be part of a series or season."
 rdfs:label: "TVEpisode"
-rdfs:subClassOf: {"@id":"schema:Episode"}
+rdfs:subClassOf: "https://schema.org/Episode"
 ---
 
-# schema:TVEpisode
+# TVEpisode
 
+A TV episode which can be part of a series or season.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [countryOfOrigin](https://schema.org/countryOfOrigin) | Text |  |
+| [partOfTVSeries](https://schema.org/partOfTVSeries) | Text |  |
+| [subtitleLanguage](https://schema.org/subtitleLanguage) | Text |  |
+| [titleEIDR](https://schema.org/titleEIDR) | Text |  |

@@ -1,13 +1,17 @@
 ---
-$id: schema:regionDrained
-$type: rdf:Property
-label: schema:regionDrained
+$id: https://schema.org/regionDrained
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: regionDrained
+comment: |
+  The anatomical or organ system drained by this vessel; generally refers to a specific part of an organ.
 rdfs:comment: "The anatomical or organ system drained by this vessel; generally refers to a specific part of an organ."
 rdfs:label: "regionDrained"
-schema:domainIncludes: [{"@id":"schema:LymphaticVessel"},{"@id":"schema:Vein"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:AnatomicalStructure"},{"@id":"schema:AnatomicalSystem"}]
+schema:domainIncludes: ["https://schema.org/LymphaticVessel","https://schema.org/Vein"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: ["https://schema.org/AnatomicalStructure","https://schema.org/AnatomicalSystem"]
 ---
 
-# schema:regionDrained
+# regionDrained
+
+The anatomical or organ system drained by this vessel; generally refers to a specific part of an organ.
 

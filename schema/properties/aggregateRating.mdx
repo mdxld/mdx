@@ -1,12 +1,16 @@
 ---
-$id: schema:aggregateRating
-$type: rdf:Property
-label: schema:aggregateRating
+$id: https://schema.org/aggregateRating
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: aggregateRating
+comment: |
+  The overall rating, based on a collection of reviews or ratings, of the item.
 rdfs:comment: "The overall rating, based on a collection of reviews or ratings, of the item."
 rdfs:label: "aggregateRating"
-schema:domainIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Offer"},{"@id":"schema:Service"},{"@id":"schema:Event"},{"@id":"schema:Place"},{"@id":"schema:CreativeWork"},{"@id":"schema:Product"},{"@id":"schema:Brand"}]
-schema:rangeIncludes: {"@id":"schema:AggregateRating"}
+schema:domainIncludes: ["https://schema.org/Organization","https://schema.org/Offer","https://schema.org/Service","https://schema.org/Event","https://schema.org/Place","https://schema.org/CreativeWork","https://schema.org/Product","https://schema.org/Brand"]
+schema:rangeIncludes: "https://schema.org/AggregateRating"
 ---
 
-# schema:aggregateRating
+# aggregateRating
+
+The overall rating, based on a collection of reviews or ratings, of the item.
 

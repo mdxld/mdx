@@ -1,13 +1,17 @@
 ---
-$id: schema:xpath
-$type: rdf:Property
-label: schema:xpath
+$id: https://schema.org/xpath
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: xpath
+comment: |
+  An XPath, e.g. of a [[SpeakableSpecification]] or [[WebPageElement]]. In the latter case, multiple matches within a page can constitute a single conceptual "Web page element".
 rdfs:comment: "An XPath, e.g. of a [[SpeakableSpecification]] or [[WebPageElement]]. In the latter case, multiple matches within a page can constitute a single conceptual \"Web page element\"."
 rdfs:label: "xpath"
-schema:domainIncludes: [{"@id":"schema:SpeakableSpecification"},{"@id":"schema:WebPageElement"}]
-schema:rangeIncludes: {"@id":"schema:XPathType"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1389"}
+schema:domainIncludes: ["https://schema.org/SpeakableSpecification","https://schema.org/WebPageElement"]
+schema:rangeIncludes: "https://schema.org/XPathType"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1389"
 ---
 
-# schema:xpath
+# xpath
+
+An XPath, e.g. of a [[SpeakableSpecification]] or [[WebPageElement]]. In the latter case, multiple matches within a page can constitute a single conceptual "Web page element".
 

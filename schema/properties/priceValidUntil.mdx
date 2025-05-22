@@ -1,12 +1,16 @@
 ---
-$id: schema:priceValidUntil
-$type: rdf:Property
-label: schema:priceValidUntil
+$id: https://schema.org/priceValidUntil
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: priceValidUntil
+comment: |
+  The date after which the price is no longer available.
 rdfs:comment: "The date after which the price is no longer available."
 rdfs:label: "priceValidUntil"
-schema:domainIncludes: {"@id":"schema:Offer"}
-schema:rangeIncludes: {"@id":"schema:Date"}
+schema:domainIncludes: "https://schema.org/Offer"
+schema:rangeIncludes: "https://schema.org/Date"
 ---
 
-# schema:priceValidUntil
+# priceValidUntil
+
+The date after which the price is no longer available.
 

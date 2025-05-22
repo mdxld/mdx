@@ -1,12 +1,16 @@
 ---
-$id: schema:athlete
-$type: rdf:Property
-label: schema:athlete
+$id: https://schema.org/athlete
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: athlete
+comment: |
+  A person that acts as performing member of a sports team; a player as opposed to a coach.
 rdfs:comment: "A person that acts as performing member of a sports team; a player as opposed to a coach."
 rdfs:label: "athlete"
-schema:domainIncludes: {"@id":"schema:SportsTeam"}
-schema:rangeIncludes: {"@id":"schema:Person"}
+schema:domainIncludes: "https://schema.org/SportsTeam"
+schema:rangeIncludes: "https://schema.org/Person"
 ---
 
-# schema:athlete
+# athlete
+
+A person that acts as performing member of a sports team; a player as opposed to a coach.
 

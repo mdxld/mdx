@@ -1,13 +1,17 @@
 ---
-$id: schema:startTime
-$type: rdf:Property
-label: schema:startTime
+$id: https://schema.org/startTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: startTime
+comment: |
+  The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. E.g. John wrote a book from *January* to December. For media, including audio and video, it's the time offset of the start of a clip within a larger file.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
 rdfs:comment: "The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. E.g. John wrote a book from *January* to December. For media, including audio and video, it's the time offset of the start of a clip within a larger file.\\n\\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions."
 rdfs:label: "startTime"
-schema:domainIncludes: [{"@id":"schema:InteractionCounter"},{"@id":"schema:Schedule"},{"@id":"schema:Action"},{"@id":"schema:MediaObject"},{"@id":"schema:FoodEstablishmentReservation"}]
-schema:rangeIncludes: [{"@id":"schema:DateTime"},{"@id":"schema:Time"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2493"}
+schema:domainIncludes: ["https://schema.org/InteractionCounter","https://schema.org/Schedule","https://schema.org/Action","https://schema.org/MediaObject","https://schema.org/FoodEstablishmentReservation"]
+schema:rangeIncludes: ["https://schema.org/DateTime","https://schema.org/Time"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2493"
 ---
 
-# schema:startTime
+# startTime
+
+The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. E.g. John wrote a book from *January* to December. For media, including audio and video, it's the time offset of the start of a clip within a larger file.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
 

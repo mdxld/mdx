@@ -1,11 +1,23 @@
 ---
-$id: schema:DeliveryEvent
-$type: rdfs:Class
-label: schema:DeliveryEvent
+$id: https://schema.org/DeliveryEvent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: DeliveryEvent
+comment: |
+  An event involving the delivery of an item.
 rdfs:comment: "An event involving the delivery of an item."
 rdfs:label: "DeliveryEvent"
-rdfs:subClassOf: {"@id":"schema:Event"}
+rdfs:subClassOf: "https://schema.org/Event"
 ---
 
-# schema:DeliveryEvent
+# DeliveryEvent
 
+An event involving the delivery of an item.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [accessCode](https://schema.org/accessCode) | Text |  |
+| [availableFrom](https://schema.org/availableFrom) | Text |  |
+| [availableThrough](https://schema.org/availableThrough) | Text |  |
+| [hasDeliveryMethod](https://schema.org/hasDeliveryMethod) | Text |  |

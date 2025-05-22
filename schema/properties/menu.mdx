@@ -1,13 +1,17 @@
 ---
-$id: schema:menu
-$type: rdf:Property
-label: schema:menu
+$id: https://schema.org/menu
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: menu
+comment: |
+  Either the actual menu as a structured representation, as text, or a URL of the menu.
 rdfs:comment: "Either the actual menu as a structured representation, as text, or a URL of the menu."
 rdfs:label: "menu"
-schema:domainIncludes: {"@id":"schema:FoodEstablishment"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"},{"@id":"schema:Menu"}]
-schema:supersededBy: {"@id":"schema:hasMenu"}
+schema:domainIncludes: "https://schema.org/FoodEstablishment"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL","https://schema.org/Menu"]
+schema:supersededBy: "https://schema.org/hasMenu"
 ---
 
-# schema:menu
+# menu
+
+Either the actual menu as a structured representation, as text, or a URL of the menu.
 

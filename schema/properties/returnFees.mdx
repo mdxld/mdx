@@ -1,14 +1,18 @@
 ---
-$id: schema:returnFees
-$type: rdf:Property
-label: schema:returnFees
+$id: https://schema.org/returnFees
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: returnFees
+comment: |
+  The type of return fees for purchased products (for any return reason).
 rdfs:comment: "The type of return fees for purchased products (for any return reason)."
 rdfs:label: "returnFees"
-schema:domainIncludes: [{"@id":"schema:MerchantReturnPolicy"},{"@id":"schema:MerchantReturnPolicySeasonalOverride"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:ReturnFeesEnumeration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2288"}
+schema:domainIncludes: ["https://schema.org/MerchantReturnPolicy","https://schema.org/MerchantReturnPolicySeasonalOverride"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/ReturnFeesEnumeration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2288"
 ---
 
-# schema:returnFees
+# returnFees
+
+The type of return fees for purchased products (for any return reason).
 

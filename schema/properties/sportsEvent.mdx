@@ -1,13 +1,17 @@
 ---
-$id: schema:sportsEvent
-$type: rdf:Property
-label: schema:sportsEvent
+$id: https://schema.org/sportsEvent
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: sportsEvent
+comment: |
+  A sub property of location. The sports event where this action occurred.
 rdfs:comment: "A sub property of location. The sports event where this action occurred."
 rdfs:label: "sportsEvent"
-rdfs:subPropertyOf: {"@id":"schema:location"}
-schema:domainIncludes: {"@id":"schema:ExerciseAction"}
-schema:rangeIncludes: {"@id":"schema:SportsEvent"}
+rdfs:subPropertyOf: "https://schema.org/location"
+schema:domainIncludes: "https://schema.org/ExerciseAction"
+schema:rangeIncludes: "https://schema.org/SportsEvent"
 ---
 
-# schema:sportsEvent
+# sportsEvent
+
+A sub property of location. The sports event where this action occurred.
 

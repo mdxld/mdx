@@ -1,13 +1,17 @@
 ---
-$id: schema:assembly
-$type: rdf:Property
-label: schema:assembly
+$id: https://schema.org/assembly
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: assembly
+comment: |
+  Library file name, e.g., mscorlib.dll, system.web.dll.
 rdfs:comment: "Library file name, e.g., mscorlib.dll, system.web.dll."
 rdfs:label: "assembly"
-schema:domainIncludes: {"@id":"schema:APIReference"}
-schema:rangeIncludes: {"@id":"schema:Text"}
-schema:supersededBy: {"@id":"schema:executableLibraryName"}
+schema:domainIncludes: "https://schema.org/APIReference"
+schema:rangeIncludes: "https://schema.org/Text"
+schema:supersededBy: "https://schema.org/executableLibraryName"
 ---
 
-# schema:assembly
+# assembly
+
+Library file name, e.g., mscorlib.dll, system.web.dll.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:exerciseType
-$type: rdf:Property
-label: schema:exerciseType
+$id: https://schema.org/exerciseType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: exerciseType
+comment: |
+  Type(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc.
 rdfs:comment: "Type(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc."
 rdfs:label: "exerciseType"
-schema:domainIncludes: [{"@id":"schema:ExercisePlan"},{"@id":"schema:ExerciseAction"}]
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: ["https://schema.org/ExercisePlan","https://schema.org/ExerciseAction"]
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:exerciseType
+# exerciseType
+
+Type(s) of exercise or activity, such as strength training, flexibility training, aerobics, cardiac rehabilitation, etc.
 

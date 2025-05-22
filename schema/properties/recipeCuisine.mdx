@@ -1,12 +1,16 @@
 ---
-$id: schema:recipeCuisine
-$type: rdf:Property
-label: schema:recipeCuisine
+$id: https://schema.org/recipeCuisine
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: recipeCuisine
+comment: |
+  The cuisine of the recipe (for example, French or Ethiopian).
 rdfs:comment: "The cuisine of the recipe (for example, French or Ethiopian)."
 rdfs:label: "recipeCuisine"
-schema:domainIncludes: {"@id":"schema:Recipe"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/Recipe"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:recipeCuisine
+# recipeCuisine
+
+The cuisine of the recipe (for example, French or Ethiopian).
 

@@ -1,14 +1,18 @@
 ---
-$id: schema:documentation
-$type: rdf:Property
-label: schema:documentation
+$id: https://schema.org/documentation
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: documentation
+comment: |
+  Further documentation describing the Web API in more detail.
 rdfs:comment: "Further documentation describing the Web API in more detail."
 rdfs:label: "documentation"
-schema:domainIncludes: {"@id":"schema:WebAPI"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:CreativeWork"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1423"}
+schema:domainIncludes: "https://schema.org/WebAPI"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/CreativeWork"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1423"
 ---
 
-# schema:documentation
+# documentation
+
+Further documentation describing the Web API in more detail.
 

@@ -1,14 +1,18 @@
 ---
-$id: schema:refundType
-$type: rdf:Property
-label: schema:refundType
+$id: https://schema.org/refundType
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: refundType
+comment: |
+  A refund type, from an enumerated list.
 rdfs:comment: "A refund type, from an enumerated list."
 rdfs:label: "refundType"
-schema:domainIncludes: [{"@id":"schema:MerchantReturnPolicySeasonalOverride"},{"@id":"schema:MerchantReturnPolicy"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:RefundTypeEnumeration"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2288"}
+schema:domainIncludes: ["https://schema.org/MerchantReturnPolicySeasonalOverride","https://schema.org/MerchantReturnPolicy"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/RefundTypeEnumeration"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2288"
 ---
 
-# schema:refundType
+# refundType
+
+A refund type, from an enumerated list.
 

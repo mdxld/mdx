@@ -1,12 +1,16 @@
 ---
-$id: schema:hasDigitalDocumentPermission
-$type: rdf:Property
-label: schema:hasDigitalDocumentPermission
+$id: https://schema.org/hasDigitalDocumentPermission
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: hasDigitalDocumentPermission
+comment: |
+  A permission related to the access to this document (e.g. permission to read or write an electronic document). For a public document, specify a grantee with an Audience with audienceType equal to "public".
 rdfs:comment: "A permission related to the access to this document (e.g. permission to read or write an electronic document). For a public document, specify a grantee with an Audience with audienceType equal to \"public\"."
 rdfs:label: "hasDigitalDocumentPermission"
-schema:domainIncludes: {"@id":"schema:DigitalDocument"}
-schema:rangeIncludes: {"@id":"schema:DigitalDocumentPermission"}
+schema:domainIncludes: "https://schema.org/DigitalDocument"
+schema:rangeIncludes: "https://schema.org/DigitalDocumentPermission"
 ---
 
-# schema:hasDigitalDocumentPermission
+# hasDigitalDocumentPermission
+
+A permission related to the access to this document (e.g. permission to read or write an electronic document). For a public document, specify a grantee with an Audience with audienceType equal to "public".
 

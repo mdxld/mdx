@@ -1,12 +1,16 @@
 ---
-$id: schema:releaseNotes
-$type: rdf:Property
-label: schema:releaseNotes
+$id: https://schema.org/releaseNotes
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: releaseNotes
+comment: |
+  Description of what changed in this version.
 rdfs:comment: "Description of what changed in this version."
 rdfs:label: "releaseNotes"
-schema:domainIncludes: {"@id":"schema:SoftwareApplication"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
+schema:domainIncludes: "https://schema.org/SoftwareApplication"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
 ---
 
-# schema:releaseNotes
+# releaseNotes
+
+Description of what changed in this version.
 

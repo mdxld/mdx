@@ -1,11 +1,23 @@
 ---
-$id: schema:MenuItem
-$type: rdfs:Class
-label: schema:MenuItem
+$id: https://schema.org/MenuItem
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MenuItem
+comment: |
+  A food or drink item listed in a menu or menu section.
 rdfs:comment: "A food or drink item listed in a menu or menu section."
 rdfs:label: "MenuItem"
-rdfs:subClassOf: {"@id":"schema:Intangible"}
+rdfs:subClassOf: "https://schema.org/Intangible"
 ---
 
-# schema:MenuItem
+# MenuItem
 
+A food or drink item listed in a menu or menu section.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [menuAddOn](https://schema.org/menuAddOn) | Text |  |
+| [nutrition](https://schema.org/nutrition) | Text |  |
+| [offers](https://schema.org/offers) | Text |  |
+| [suitableForDiet](https://schema.org/suitableForDiet) | Text |  |

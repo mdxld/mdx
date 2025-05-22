@@ -1,13 +1,17 @@
 ---
-$id: schema:funder
-$type: rdf:Property
-label: schema:funder
+$id: https://schema.org/funder
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: funder
+comment: |
+  A person or organization that supports (sponsors) something through some kind of financial contribution.
 rdfs:comment: "A person or organization that supports (sponsors) something through some kind of financial contribution."
 rdfs:label: "funder"
-rdfs:subPropertyOf: {"@id":"schema:sponsor"}
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:Grant"},{"@id":"schema:MonetaryGrant"},{"@id":"schema:Organization"},{"@id":"schema:Event"},{"@id":"schema:Person"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+rdfs:subPropertyOf: "https://schema.org/sponsor"
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/Grant","https://schema.org/MonetaryGrant","https://schema.org/Organization","https://schema.org/Event","https://schema.org/Person"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:funder
+# funder
+
+A person or organization that supports (sponsors) something through some kind of financial contribution.
 

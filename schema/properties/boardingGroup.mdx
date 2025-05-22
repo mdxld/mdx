@@ -1,12 +1,16 @@
 ---
-$id: schema:boardingGroup
-$type: rdf:Property
-label: schema:boardingGroup
+$id: https://schema.org/boardingGroup
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: boardingGroup
+comment: |
+  The airline-specific indicator of boarding order / preference.
 rdfs:comment: "The airline-specific indicator of boarding order / preference."
 rdfs:label: "boardingGroup"
-schema:domainIncludes: {"@id":"schema:FlightReservation"}
-schema:rangeIncludes: {"@id":"schema:Text"}
+schema:domainIncludes: "https://schema.org/FlightReservation"
+schema:rangeIncludes: "https://schema.org/Text"
 ---
 
-# schema:boardingGroup
+# boardingGroup
+
+The airline-specific indicator of boarding order / preference.
 

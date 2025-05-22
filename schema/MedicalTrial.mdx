@@ -1,12 +1,21 @@
 ---
-$id: schema:MedicalTrial
-$type: rdfs:Class
-label: schema:MedicalTrial
+$id: https://schema.org/MedicalTrial
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalTrial
+comment: |
+  A medical trial is a type of medical study that uses a scientific process to compare the safety and efficacy of medical therapies or medical procedures. In general, medical trials are controlled and subjects are allocated at random to the different treatment and/or control groups.
 rdfs:comment: "A medical trial is a type of medical study that uses a scientific process to compare the safety and efficacy of medical therapies or medical procedures. In general, medical trials are controlled and subjects are allocated at random to the different treatment and/or control groups."
 rdfs:label: "MedicalTrial"
-rdfs:subClassOf: {"@id":"schema:MedicalStudy"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalStudy"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalTrial
+# MedicalTrial
 
+A medical trial is a type of medical study that uses a scientific process to compare the safety and efficacy of medical therapies or medical procedures. In general, medical trials are controlled and subjects are allocated at random to the different treatment and/or control groups.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [trialDesign](https://schema.org/trialDesign) | Text |  |

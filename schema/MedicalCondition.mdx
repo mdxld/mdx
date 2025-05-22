@@ -1,12 +1,36 @@
 ---
-$id: schema:MedicalCondition
-$type: rdfs:Class
-label: schema:MedicalCondition
+$id: https://schema.org/MedicalCondition
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MedicalCondition
+comment: |
+  Any condition of the human body that affects the normal functioning of a person, whether physically or mentally. Includes diseases, injuries, disabilities, disorders, syndromes, etc.
 rdfs:comment: "Any condition of the human body that affects the normal functioning of a person, whether physically or mentally. Includes diseases, injuries, disabilities, disorders, syndromes, etc."
 rdfs:label: "MedicalCondition"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:MedicalCondition
+# MedicalCondition
 
+Any condition of the human body that affects the normal functioning of a person, whether physically or mentally. Includes diseases, injuries, disabilities, disorders, syndromes, etc.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [associatedAnatomy](https://schema.org/associatedAnatomy) | Text |  |
+| [differentialDiagnosis](https://schema.org/differentialDiagnosis) | Text |  |
+| [drug](https://schema.org/drug) | Text |  |
+| [epidemiology](https://schema.org/epidemiology) | Text |  |
+| [expectedPrognosis](https://schema.org/expectedPrognosis) | Text |  |
+| [naturalProgression](https://schema.org/naturalProgression) | Text |  |
+| [pathophysiology](https://schema.org/pathophysiology) | Text |  |
+| [possibleComplication](https://schema.org/possibleComplication) | Text |  |
+| [possibleTreatment](https://schema.org/possibleTreatment) | Text |  |
+| [primaryPrevention](https://schema.org/primaryPrevention) | Text |  |
+| [riskFactor](https://schema.org/riskFactor) | Text |  |
+| [secondaryPrevention](https://schema.org/secondaryPrevention) | Text |  |
+| [signOrSymptom](https://schema.org/signOrSymptom) | Text |  |
+| [stage](https://schema.org/stage) | Text |  |
+| [status](https://schema.org/status) | Text |  |
+| [typicalTest](https://schema.org/typicalTest) | Text |  |

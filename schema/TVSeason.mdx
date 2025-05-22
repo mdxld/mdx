@@ -1,11 +1,22 @@
 ---
-$id: schema:TVSeason
-$type: rdfs:Class
-label: schema:TVSeason
+$id: https://schema.org/TVSeason
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: TVSeason
+comment: |
+  Season dedicated to TV broadcast and associated online delivery.
 rdfs:comment: "Season dedicated to TV broadcast and associated online delivery."
 rdfs:label: "TVSeason"
-rdfs:subClassOf: [{"@id":"schema:CreativeWork"},{"@id":"schema:CreativeWorkSeason"}]
+rdfs:subClassOf: ["https://schema.org/CreativeWork","https://schema.org/CreativeWorkSeason"]
 ---
 
-# schema:TVSeason
+# TVSeason
 
+Season dedicated to TV broadcast and associated online delivery.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [countryOfOrigin](https://schema.org/countryOfOrigin) | Text |  |
+| [partOfTVSeries](https://schema.org/partOfTVSeries) | Text |  |
+| [titleEIDR](https://schema.org/titleEIDR) | Text |  |

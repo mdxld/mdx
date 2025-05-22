@@ -1,11 +1,21 @@
 ---
-$id: schema:PlayAction
-$type: rdfs:Class
-label: schema:PlayAction
+$id: https://schema.org/PlayAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: PlayAction
+comment: |
+  The act of playing/exercising/training/performing for enjoyment, leisure, recreation, competition or exercise.\n\nRelated actions:\n\n* [[ListenAction]]: Unlike ListenAction (which is under ConsumeAction), PlayAction refers to performing for an audience or at an event, rather than consuming music.\n* [[WatchAction]]: Unlike WatchAction (which is under ConsumeAction), PlayAction refers to showing/displaying for an audience or at an event, rather than consuming visual content.
 rdfs:comment: "The act of playing/exercising/training/performing for enjoyment, leisure, recreation, competition or exercise.\\n\\nRelated actions:\\n\\n* [[ListenAction]]: Unlike ListenAction (which is under ConsumeAction), PlayAction refers to performing for an audience or at an event, rather than consuming music.\\n* [[WatchAction]]: Unlike WatchAction (which is under ConsumeAction), PlayAction refers to showing/displaying for an audience or at an event, rather than consuming visual content."
 rdfs:label: "PlayAction"
-rdfs:subClassOf: {"@id":"schema:Action"}
+rdfs:subClassOf: "https://schema.org/Action"
 ---
 
-# schema:PlayAction
+# PlayAction
 
+The act of playing/exercising/training/performing for enjoyment, leisure, recreation, competition or exercise.\n\nRelated actions:\n\n* [[ListenAction]]: Unlike ListenAction (which is under ConsumeAction), PlayAction refers to performing for an audience or at an event, rather than consuming music.\n* [[WatchAction]]: Unlike WatchAction (which is under ConsumeAction), PlayAction refers to showing/displaying for an audience or at an event, rather than consuming visual content.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [audience](https://schema.org/audience) | Text |  |
+| [event](https://schema.org/event) | Text |  |

@@ -1,12 +1,16 @@
 ---
-$id: schema:arrivalTime
-$type: rdf:Property
-label: schema:arrivalTime
+$id: https://schema.org/arrivalTime
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: arrivalTime
+comment: |
+  The expected arrival time.
 rdfs:comment: "The expected arrival time."
 rdfs:label: "arrivalTime"
-schema:domainIncludes: {"@id":"schema:Trip"}
-schema:rangeIncludes: [{"@id":"schema:Time"},{"@id":"schema:DateTime"}]
+schema:domainIncludes: "https://schema.org/Trip"
+schema:rangeIncludes: ["https://schema.org/Time","https://schema.org/DateTime"]
 ---
 
-# schema:arrivalTime
+# arrivalTime
+
+The expected arrival time.
 

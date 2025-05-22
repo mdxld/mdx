@@ -1,13 +1,17 @@
 ---
-$id: schema:photo
-$type: rdf:Property
-label: schema:photo
+$id: https://schema.org/photo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: photo
+comment: |
+  A photograph of this place.
 rdfs:comment: "A photograph of this place."
 rdfs:label: "photo"
-rdfs:subPropertyOf: {"@id":"schema:image"}
-schema:domainIncludes: {"@id":"schema:Place"}
-schema:rangeIncludes: [{"@id":"schema:ImageObject"},{"@id":"schema:Photograph"}]
+rdfs:subPropertyOf: "https://schema.org/image"
+schema:domainIncludes: "https://schema.org/Place"
+schema:rangeIncludes: ["https://schema.org/ImageObject","https://schema.org/Photograph"]
 ---
 
-# schema:photo
+# photo
+
+A photograph of this place.
 

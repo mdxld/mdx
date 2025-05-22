@@ -1,12 +1,21 @@
 ---
-$id: schema:InvestmentOrDeposit
-$type: rdfs:Class
-label: schema:InvestmentOrDeposit
+$id: https://schema.org/InvestmentOrDeposit
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: InvestmentOrDeposit
+comment: |
+  A type of financial product that typically requires the client to transfer funds to a financial service in return for potential beneficial financial return.
 rdfs:comment: "A type of financial product that typically requires the client to transfer funds to a financial service in return for potential beneficial financial return."
 rdfs:label: "InvestmentOrDeposit"
-rdfs:subClassOf: {"@id":"schema:FinancialProduct"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
+rdfs:subClassOf: "https://schema.org/FinancialProduct"
+schema:contributor: "https://schema.org/docs/collab/FIBO"
 ---
 
-# schema:InvestmentOrDeposit
+# InvestmentOrDeposit
 
+A type of financial product that typically requires the client to transfer funds to a financial service in return for potential beneficial financial return.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [amount](https://schema.org/amount) | Text |  |

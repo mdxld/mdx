@@ -1,13 +1,22 @@
 ---
-$id: schema:MathSolver
-$type: rdfs:Class
-label: schema:MathSolver
+$id: https://schema.org/MathSolver
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: MathSolver
+comment: |
+  A math solver which is capable of solving a subset of mathematical problems.
 rdfs:comment: "A math solver which is capable of solving a subset of mathematical problems."
 rdfs:label: "MathSolver"
-rdfs:subClassOf: {"@id":"schema:CreativeWork"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/2740"}
+rdfs:subClassOf: "https://schema.org/CreativeWork"
+schema:isPartOf: "https://pending.schema.org"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/2740"
 ---
 
-# schema:MathSolver
+# MathSolver
 
+A math solver which is capable of solving a subset of mathematical problems.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [mathExpression](https://schema.org/mathExpression) | Text |  |

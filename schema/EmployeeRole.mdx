@@ -1,11 +1,21 @@
 ---
-$id: schema:EmployeeRole
-$type: rdfs:Class
-label: schema:EmployeeRole
+$id: https://schema.org/EmployeeRole
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: EmployeeRole
+comment: |
+  A subclass of OrganizationRole used to describe employee relationships.
 rdfs:comment: "A subclass of OrganizationRole used to describe employee relationships."
 rdfs:label: "EmployeeRole"
-rdfs:subClassOf: {"@id":"schema:OrganizationRole"}
+rdfs:subClassOf: "https://schema.org/OrganizationRole"
 ---
 
-# schema:EmployeeRole
+# EmployeeRole
 
+A subclass of OrganizationRole used to describe employee relationships.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [baseSalary](https://schema.org/baseSalary) | Text |  |
+| [salaryCurrency](https://schema.org/salaryCurrency) | Text |  |

@@ -1,14 +1,18 @@
 ---
-$id: schema:termsOfService
-$type: rdf:Property
-label: schema:termsOfService
+$id: https://schema.org/termsOfService
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: termsOfService
+comment: |
+  Human-readable terms of service documentation.
 rdfs:comment: "Human-readable terms of service documentation."
 rdfs:label: "termsOfService"
-schema:domainIncludes: {"@id":"schema:Service"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:URL"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1423"}
+schema:domainIncludes: "https://schema.org/Service"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/URL"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1423"
 ---
 
-# schema:termsOfService
+# termsOfService
+
+Human-readable terms of service documentation.
 

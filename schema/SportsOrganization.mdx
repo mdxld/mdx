@@ -1,11 +1,20 @@
 ---
-$id: schema:SportsOrganization
-$type: rdfs:Class
-label: schema:SportsOrganization
+$id: https://schema.org/SportsOrganization
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: SportsOrganization
+comment: |
+  Represents the collection of all sports organizations, including sports teams, governing bodies, and sports associations.
 rdfs:comment: "Represents the collection of all sports organizations, including sports teams, governing bodies, and sports associations."
 rdfs:label: "SportsOrganization"
-rdfs:subClassOf: {"@id":"schema:Organization"}
+rdfs:subClassOf: "https://schema.org/Organization"
 ---
 
-# schema:SportsOrganization
+# SportsOrganization
 
+Represents the collection of all sports organizations, including sports teams, governing bodies, and sports associations.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [sport](https://schema.org/sport) | Text |  |

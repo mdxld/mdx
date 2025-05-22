@@ -1,12 +1,16 @@
 ---
-$id: schema:event
-$type: rdf:Property
-label: schema:event
+$id: https://schema.org/event
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: event
+comment: |
+  Upcoming or past event associated with this place, organization, or action.
 rdfs:comment: "Upcoming or past event associated with this place, organization, or action."
 rdfs:label: "event"
-schema:domainIncludes: [{"@id":"schema:Place"},{"@id":"schema:LeaveAction"},{"@id":"schema:InformAction"},{"@id":"schema:JoinAction"},{"@id":"schema:InviteAction"},{"@id":"schema:PlayAction"},{"@id":"schema:Organization"}]
-schema:rangeIncludes: {"@id":"schema:Event"}
+schema:domainIncludes: ["https://schema.org/Place","https://schema.org/LeaveAction","https://schema.org/InformAction","https://schema.org/JoinAction","https://schema.org/InviteAction","https://schema.org/PlayAction","https://schema.org/Organization"]
+schema:rangeIncludes: "https://schema.org/Event"
 ---
 
-# schema:event
+# event
+
+Upcoming or past event associated with this place, organization, or action.
 

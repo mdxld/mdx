@@ -1,14 +1,18 @@
 ---
-$id: schema:webFeed
-$type: rdf:Property
-label: schema:webFeed
+$id: https://schema.org/webFeed
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: webFeed
+comment: |
+  The URL for a feed, e.g. associated with a podcast series, blog, or series of date-stamped updates. This is usually RSS or Atom.
 rdfs:comment: "The URL for a feed, e.g. associated with a podcast series, blog, or series of date-stamped updates. This is usually RSS or Atom."
 rdfs:label: "webFeed"
-schema:domainIncludes: [{"@id":"schema:SpecialAnnouncement"},{"@id":"schema:PodcastSeries"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:URL"},{"@id":"schema:DataFeed"}]
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/373"}
+schema:domainIncludes: ["https://schema.org/SpecialAnnouncement","https://schema.org/PodcastSeries"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/URL","https://schema.org/DataFeed"]
+schema:source: "https://github.com/schemaorg/schemaorg/issues/373"
 ---
 
-# schema:webFeed
+# webFeed
+
+The URL for a feed, e.g. associated with a podcast series, blog, or series of date-stamped updates. This is usually RSS or Atom.
 

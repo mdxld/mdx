@@ -1,13 +1,17 @@
 ---
-$id: schema:composer
-$type: rdf:Property
-label: schema:composer
+$id: https://schema.org/composer
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: composer
+comment: |
+  The person or organization who wrote a composition, or who is the composer of a work performed at some event.
 rdfs:comment: "The person or organization who wrote a composition, or who is the composer of a work performed at some event."
 rdfs:label: "composer"
-schema:contributor: {"@id":"https://schema.org/docs/collab/MBZ"}
-schema:domainIncludes: [{"@id":"schema:Event"},{"@id":"schema:MusicComposition"}]
-schema:rangeIncludes: [{"@id":"schema:Organization"},{"@id":"schema:Person"}]
+schema:contributor: "https://schema.org/docs/collab/MBZ"
+schema:domainIncludes: ["https://schema.org/Event","https://schema.org/MusicComposition"]
+schema:rangeIncludes: ["https://schema.org/Organization","https://schema.org/Person"]
 ---
 
-# schema:composer
+# composer
+
+The person or organization who wrote a composition, or who is the composer of a work performed at some event.
 

@@ -1,13 +1,17 @@
 ---
-$id: schema:prescribingInfo
-$type: rdf:Property
-label: schema:prescribingInfo
+$id: https://schema.org/prescribingInfo
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: prescribingInfo
+comment: |
+  Link to prescribing information for the drug.
 rdfs:comment: "Link to prescribing information for the drug."
 rdfs:label: "prescribingInfo"
-schema:domainIncludes: {"@id":"schema:Drug"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
-schema:rangeIncludes: {"@id":"schema:URL"}
+schema:domainIncludes: "https://schema.org/Drug"
+schema:isPartOf: "https://health-lifesci.schema.org"
+schema:rangeIncludes: "https://schema.org/URL"
 ---
 
-# schema:prescribingInfo
+# prescribingInfo
+
+Link to prescribing information for the drug.
 

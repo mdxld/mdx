@@ -1,11 +1,23 @@
 ---
-$id: schema:BroadcastEvent
-$type: rdfs:Class
-label: schema:BroadcastEvent
+$id: https://schema.org/BroadcastEvent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BroadcastEvent
+comment: |
+  An over the air or online broadcast event.
 rdfs:comment: "An over the air or online broadcast event."
 rdfs:label: "BroadcastEvent"
-rdfs:subClassOf: {"@id":"schema:PublicationEvent"}
+rdfs:subClassOf: "https://schema.org/PublicationEvent"
 ---
 
-# schema:BroadcastEvent
+# BroadcastEvent
 
+An over the air or online broadcast event.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [broadcastOfEvent](https://schema.org/broadcastOfEvent) | Text |  |
+| [isLiveBroadcast](https://schema.org/isLiveBroadcast) | Text |  |
+| [subtitleLanguage](https://schema.org/subtitleLanguage) | Text |  |
+| [videoFormat](https://schema.org/videoFormat) | Text |  |

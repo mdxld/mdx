@@ -1,18 +1,22 @@
 ---
-$id: schema:legislationJurisdiction
-$type: rdf:Property
-label: schema:legislationJurisdiction
-owl:equivalentProperty: {"@id":"http://data.europa.eu/eli/ontology#jurisdiction"}
+$id: https://schema.org/legislationJurisdiction
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: legislationJurisdiction
+comment: |
+  The jurisdiction from which the legislation originates.
+owl:equivalentProperty: "http://data.europa.eu/eli/ontology#jurisdiction"
 rdfs:comment: "The jurisdiction from which the legislation originates."
 rdfs:label: "legislationJurisdiction"
-rdfs:subPropertyOf: [{"@id":"schema:jurisdiction"},{"@id":"schema:spatialCoverage"}]
-schema:contributor: {"@id":"https://schema.org/docs/collab/ELI"}
-schema:domainIncludes: {"@id":"schema:Legislation"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:AdministrativeArea"}]
-schema:source: [{"@id":"https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli"},{"@id":"https://github.com/schemaorg/schemaorg/issues/1156"}]
-skos:exactMatch: {"@id":"http://data.europa.eu/eli/ontology#jurisdiction"}
+rdfs:subPropertyOf: ["https://schema.org/jurisdiction","https://schema.org/spatialCoverage"]
+schema:contributor: "https://schema.org/docs/collab/ELI"
+schema:domainIncludes: "https://schema.org/Legislation"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/AdministrativeArea"]
+schema:source: ["https://op.europa.eu/en/web/eu-vocabularies/model/-/resource/dataset/eli","https://github.com/schemaorg/schemaorg/issues/1156"]
+skos:exactMatch: "http://data.europa.eu/eli/ontology#jurisdiction"
 ---
 
-# schema:legislationJurisdiction
+# legislationJurisdiction
+
+The jurisdiction from which the legislation originates.
 

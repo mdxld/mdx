@@ -1,11 +1,22 @@
 ---
-$id: schema:CookAction
-$type: rdfs:Class
-label: schema:CookAction
+$id: https://schema.org/CookAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: CookAction
+comment: |
+  The act of producing/preparing food.
 rdfs:comment: "The act of producing/preparing food."
 rdfs:label: "CookAction"
-rdfs:subClassOf: {"@id":"schema:CreateAction"}
+rdfs:subClassOf: "https://schema.org/CreateAction"
 ---
 
-# schema:CookAction
+# CookAction
 
+The act of producing/preparing food.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [foodEstablishment](https://schema.org/foodEstablishment) | Text |  |
+| [foodEvent](https://schema.org/foodEvent) | Text |  |
+| [recipe](https://schema.org/recipe) | Text |  |

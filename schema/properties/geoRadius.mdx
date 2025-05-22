@@ -1,12 +1,16 @@
 ---
-$id: schema:geoRadius
-$type: rdf:Property
-label: schema:geoRadius
+$id: https://schema.org/geoRadius
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: geoRadius
+comment: |
+  Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation).
 rdfs:comment: "Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation)."
 rdfs:label: "geoRadius"
-schema:domainIncludes: {"@id":"schema:GeoCircle"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"},{"@id":"schema:Distance"}]
+schema:domainIncludes: "https://schema.org/GeoCircle"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number","https://schema.org/Distance"]
 ---
 
-# schema:geoRadius
+# geoRadius
+
+Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation).
 

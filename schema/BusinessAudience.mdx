@@ -1,11 +1,22 @@
 ---
-$id: schema:BusinessAudience
-$type: rdfs:Class
-label: schema:BusinessAudience
+$id: https://schema.org/BusinessAudience
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BusinessAudience
+comment: |
+  A set of characteristics belonging to businesses, e.g. who compose an item's target audience.
 rdfs:comment: "A set of characteristics belonging to businesses, e.g. who compose an item's target audience."
 rdfs:label: "BusinessAudience"
-rdfs:subClassOf: {"@id":"schema:Audience"}
+rdfs:subClassOf: "https://schema.org/Audience"
 ---
 
-# schema:BusinessAudience
+# BusinessAudience
 
+A set of characteristics belonging to businesses, e.g. who compose an item's target audience.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [numberOfEmployees](https://schema.org/numberOfEmployees) | Text |  |
+| [yearlyRevenue](https://schema.org/yearlyRevenue) | Text |  |
+| [yearsInOperation](https://schema.org/yearsInOperation) | Text |  |

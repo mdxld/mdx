@@ -1,11 +1,23 @@
 ---
-$id: schema:BusTrip
-$type: rdfs:Class
-label: schema:BusTrip
+$id: https://schema.org/BusTrip
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BusTrip
+comment: |
+  A trip on a commercial bus line.
 rdfs:comment: "A trip on a commercial bus line."
 rdfs:label: "BusTrip"
-rdfs:subClassOf: {"@id":"schema:Trip"}
+rdfs:subClassOf: "https://schema.org/Trip"
 ---
 
-# schema:BusTrip
+# BusTrip
 
+A trip on a commercial bus line.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [arrivalBusStop](https://schema.org/arrivalBusStop) | Text |  |
+| [busName](https://schema.org/busName) | Text |  |
+| [busNumber](https://schema.org/busNumber) | Text |  |
+| [departureBusStop](https://schema.org/departureBusStop) | Text |  |

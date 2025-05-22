@@ -1,13 +1,23 @@
 ---
-$id: schema:Substance
-$type: rdfs:Class
-label: schema:Substance
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/105590001"}
+$id: https://schema.org/Substance
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Substance
+comment: |
+  Any matter of defined composition that has discrete existence, whose origin may be biological, mineral or chemical.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/105590001"
 rdfs:comment: "Any matter of defined composition that has discrete existence, whose origin may be biological, mineral or chemical."
 rdfs:label: "Substance"
-rdfs:subClassOf: {"@id":"schema:MedicalEntity"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/MedicalEntity"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Substance
+# Substance
 
+Any matter of defined composition that has discrete existence, whose origin may be biological, mineral or chemical.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [activeIngredient](https://schema.org/activeIngredient) | Text |  |
+| [maximumIntake](https://schema.org/maximumIntake) | Text |  |

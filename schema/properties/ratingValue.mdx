@@ -1,12 +1,16 @@
 ---
-$id: schema:ratingValue
-$type: rdf:Property
-label: schema:ratingValue
+$id: https://schema.org/ratingValue
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: ratingValue
+comment: |
+  The rating for the content.\n\nUsage guidelines:\n\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
 rdfs:comment: "The rating for the content.\\n\\nUsage guidelines:\\n\\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator."
 rdfs:label: "ratingValue"
-schema:domainIncludes: {"@id":"schema:Rating"}
-schema:rangeIncludes: [{"@id":"schema:Text"},{"@id":"schema:Number"}]
+schema:domainIncludes: "https://schema.org/Rating"
+schema:rangeIncludes: ["https://schema.org/Text","https://schema.org/Number"]
 ---
 
-# schema:ratingValue
+# ratingValue
+
+The rating for the content.\n\nUsage guidelines:\n\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
 

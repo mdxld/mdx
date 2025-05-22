@@ -1,12 +1,16 @@
 ---
-$id: schema:dateIssued
-$type: rdf:Property
-label: schema:dateIssued
+$id: https://schema.org/dateIssued
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: dateIssued
+comment: |
+  The date the ticket was issued.
 rdfs:comment: "The date the ticket was issued."
 rdfs:label: "dateIssued"
-schema:domainIncludes: {"@id":"schema:Ticket"}
-schema:rangeIncludes: [{"@id":"schema:DateTime"},{"@id":"schema:Date"}]
+schema:domainIncludes: "https://schema.org/Ticket"
+schema:rangeIncludes: ["https://schema.org/DateTime","https://schema.org/Date"]
 ---
 
-# schema:dateIssued
+# dateIssued
+
+The date the ticket was issued.
 

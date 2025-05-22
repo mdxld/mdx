@@ -1,14 +1,18 @@
 ---
-$id: schema:chemicalRole
-$type: rdf:Property
-label: schema:chemicalRole
+$id: https://schema.org/chemicalRole
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: chemicalRole
+comment: |
+  A role played by the BioChemEntity within a chemical context.
 rdfs:comment: "A role played by the BioChemEntity within a chemical context."
 rdfs:label: "chemicalRole"
-schema:domainIncludes: [{"@id":"schema:ChemicalSubstance"},{"@id":"schema:MolecularEntity"}]
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:DefinedTerm"}
-schema:source: {"@id":"http://www.bioschemas.org/ChemicalSubstance"}
+schema:domainIncludes: ["https://schema.org/ChemicalSubstance","https://schema.org/MolecularEntity"]
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/DefinedTerm"
+schema:source: "http://www.bioschemas.org/ChemicalSubstance"
 ---
 
-# schema:chemicalRole
+# chemicalRole
+
+A role played by the BioChemEntity within a chemical context.
 

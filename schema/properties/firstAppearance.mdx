@@ -1,15 +1,19 @@
 ---
-$id: schema:firstAppearance
-$type: rdf:Property
-label: schema:firstAppearance
+$id: https://schema.org/firstAppearance
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: firstAppearance
+comment: |
+  Indicates the first known occurrence of a [[Claim]] in some [[CreativeWork]].
 rdfs:comment: "Indicates the first known occurrence of a [[Claim]] in some [[CreativeWork]]."
 rdfs:label: "firstAppearance"
-rdfs:subPropertyOf: {"@id":"schema:workExample"}
-schema:domainIncludes: {"@id":"schema:Claim"}
-schema:isPartOf: {"@id":"https://pending.schema.org"}
-schema:rangeIncludes: {"@id":"schema:CreativeWork"}
-schema:source: {"@id":"https://github.com/schemaorg/schemaorg/issues/1828"}
+rdfs:subPropertyOf: "https://schema.org/workExample"
+schema:domainIncludes: "https://schema.org/Claim"
+schema:isPartOf: "https://pending.schema.org"
+schema:rangeIncludes: "https://schema.org/CreativeWork"
+schema:source: "https://github.com/schemaorg/schemaorg/issues/1828"
 ---
 
-# schema:firstAppearance
+# firstAppearance
+
+Indicates the first known occurrence of a [[Claim]] in some [[CreativeWork]].
 

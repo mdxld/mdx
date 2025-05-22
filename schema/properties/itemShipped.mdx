@@ -1,12 +1,16 @@
 ---
-$id: schema:itemShipped
-$type: rdf:Property
-label: schema:itemShipped
+$id: https://schema.org/itemShipped
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: itemShipped
+comment: |
+  Item(s) being shipped.
 rdfs:comment: "Item(s) being shipped."
 rdfs:label: "itemShipped"
-schema:domainIncludes: {"@id":"schema:ParcelDelivery"}
-schema:rangeIncludes: {"@id":"schema:Product"}
+schema:domainIncludes: "https://schema.org/ParcelDelivery"
+schema:rangeIncludes: "https://schema.org/Product"
 ---
 
-# schema:itemShipped
+# itemShipped
+
+Item(s) being shipped.
 

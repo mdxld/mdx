@@ -1,12 +1,16 @@
 ---
-$id: schema:comment
-$type: rdf:Property
-label: schema:comment
+$id: https://schema.org/comment
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: comment
+comment: |
+  Comments, typically from users.
 rdfs:comment: "Comments, typically from users."
 rdfs:label: "comment"
-schema:domainIncludes: [{"@id":"schema:CreativeWork"},{"@id":"schema:RsvpAction"}]
-schema:rangeIncludes: {"@id":"schema:Comment"}
+schema:domainIncludes: ["https://schema.org/CreativeWork","https://schema.org/RsvpAction"]
+schema:rangeIncludes: "https://schema.org/Comment"
 ---
 
-# schema:comment
+# comment
+
+Comments, typically from users.
 

@@ -1,12 +1,25 @@
 ---
-$id: schema:EngineSpecification
-$type: rdfs:Class
-label: schema:EngineSpecification
+$id: https://schema.org/EngineSpecification
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: EngineSpecification
+comment: |
+  Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities.
 rdfs:comment: "Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities."
 rdfs:label: "EngineSpecification"
-rdfs:subClassOf: {"@id":"schema:StructuredValue"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/Automotive_Ontology_Working_Group"}
+rdfs:subClassOf: "https://schema.org/StructuredValue"
+schema:contributor: "https://schema.org/docs/collab/Automotive_Ontology_Working_Group"
 ---
 
-# schema:EngineSpecification
+# EngineSpecification
 
+Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [engineDisplacement](https://schema.org/engineDisplacement) | Text |  |
+| [enginePower](https://schema.org/enginePower) | Text |  |
+| [engineType](https://schema.org/engineType) | Text |  |
+| [fuelType](https://schema.org/fuelType) | Text |  |
+| [torque](https://schema.org/torque) | Text |  |

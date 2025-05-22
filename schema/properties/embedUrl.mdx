@@ -1,12 +1,16 @@
 ---
-$id: schema:embedUrl
-$type: rdf:Property
-label: schema:embedUrl
+$id: https://schema.org/embedUrl
+$type: http://www.w3.org/1999/02/22-rdf-syntax-ns#Property
+label: embedUrl
+comment: |
+  A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag.
 rdfs:comment: "A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag."
 rdfs:label: "embedUrl"
-schema:domainIncludes: {"@id":"schema:MediaObject"}
-schema:rangeIncludes: {"@id":"schema:URL"}
+schema:domainIncludes: "https://schema.org/MediaObject"
+schema:rangeIncludes: "https://schema.org/URL"
 ---
 
-# schema:embedUrl
+# embedUrl
+
+A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag.
 

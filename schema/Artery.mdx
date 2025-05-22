@@ -1,13 +1,23 @@
 ---
-$id: schema:Artery
-$type: rdfs:Class
-label: schema:Artery
-owl:equivalentClass: {"@id":"http://purl.bioontology.org/ontology/SNOMEDCT/51114001"}
+$id: https://schema.org/Artery
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: Artery
+comment: |
+  A type of blood vessel that specifically carries blood away from the heart.
+owl:equivalentClass: "http://purl.bioontology.org/ontology/SNOMEDCT/51114001"
 rdfs:comment: "A type of blood vessel that specifically carries blood away from the heart."
 rdfs:label: "Artery"
-rdfs:subClassOf: {"@id":"schema:Vessel"}
-schema:isPartOf: {"@id":"https://health-lifesci.schema.org"}
+rdfs:subClassOf: "https://schema.org/Vessel"
+schema:isPartOf: "https://health-lifesci.schema.org"
 ---
 
-# schema:Artery
+# Artery
 
+A type of blood vessel that specifically carries blood away from the heart.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [arterialBranch](https://schema.org/arterialBranch) | Text |  |
+| [supplyTo](https://schema.org/supplyTo) | Text |  |

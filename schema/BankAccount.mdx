@@ -1,12 +1,23 @@
 ---
-$id: schema:BankAccount
-$type: rdfs:Class
-label: schema:BankAccount
+$id: https://schema.org/BankAccount
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+label: BankAccount
+comment: |
+  A product or service offered by a bank whereby one may deposit, withdraw or transfer money and in some cases be paid interest.
 rdfs:comment: "A product or service offered by a bank whereby one may deposit, withdraw or transfer money and in some cases be paid interest."
 rdfs:label: "BankAccount"
-rdfs:subClassOf: {"@id":"schema:FinancialProduct"}
-schema:contributor: {"@id":"https://schema.org/docs/collab/FIBO"}
+rdfs:subClassOf: "https://schema.org/FinancialProduct"
+schema:contributor: "https://schema.org/docs/collab/FIBO"
 ---
 
-# schema:BankAccount
+# BankAccount
 
+A product or service offered by a bank whereby one may deposit, withdraw or transfer money and in some cases be paid interest.
+
+## Inherited Properties
+
+| Property | Expected Type | Description |
+| --- | --- | --- |
+| [accountMinimumInflow](https://schema.org/accountMinimumInflow) | Text |  |
+| [accountOverdraftLimit](https://schema.org/accountOverdraftLimit) | Text |  |
+| [bankAccountType](https://schema.org/bankAccountType) | Text |  |
