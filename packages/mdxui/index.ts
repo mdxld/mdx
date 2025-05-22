@@ -558,3 +558,6 @@ export { ShadcnSlider }
 import { Toaster as ShadcnSonner } from './components/ui/sonner.js'
 
 export { ShadcnSonner }
+import { Switch as ShadcnSwitch } from './components/ui/switch.js'
+
+export { ShadcnSwitch }
