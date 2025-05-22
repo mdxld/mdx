@@ -280,6 +280,12 @@ importers:
 
   config/typescript-config: {}
 
+  examples/agents:
+    dependencies:
+      mdxai:
+        specifier: workspace:*
+        version: link:../../packages/mdxai
+
   examples/blog:
     dependencies:
       mdxe:
@@ -309,6 +315,8 @@ importers:
       mdxe:
         specifier: workspace:*
         version: link:../../packages/mdxe
+
+  examples/services: {}
 
   examples/startups:
     dependencies:
