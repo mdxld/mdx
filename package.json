@@ -46,6 +46,6 @@
     "@mdxdb/sqlite": "workspace:^"
   },
   "workspaces": [
-    "packages/*"
+    "packages/**"
   ]
 }
