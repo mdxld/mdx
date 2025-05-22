@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:packages": "turbo run build --filter=\"./packages/*\"",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
@@ -10,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
     "version": "changeset version",
-    "release": "turbo run build && changeset publish"
+    "release": "turbo run build && changeset publish",
+    "postinstall": "npm run build:packages"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
