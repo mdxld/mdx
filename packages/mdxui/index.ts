@@ -598,3 +598,49 @@ export {
 import { Textarea as ShadcnTextarea } from './components/ui/textarea.js'
 
 export { ShadcnTextarea }
+import {
+  type ToastProps,
+  type ToastActionElement,
+  ToastProvider,
+  ToastViewport,
+  Toast as ShadcnToast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+} from './components/ui/toast.js'
+
+export {
+  type ToastProps,
+  type ToastActionElement,
+  ToastProvider,
+  ToastViewport,
+  ShadcnToast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+}
+import {
+  type ToastProps,
+  type ToastActionElement,
+  ToastProvider,
+  ToastViewport,
+  Toast as ShadcnToast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+} from './components/ui/toast.js'
+
+export {
+  type ToastProps,
+  type ToastActionElement,
+  ToastProvider,
+  ToastViewport,
+  ShadcnToast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+}
