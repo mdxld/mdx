@@ -42,11 +42,8 @@ export async function runTests(
 }> {
   try {
     const watchFlag = watch ? '--watch' : ''
-    const rootDir = process.cwd()
-    const mdxeDir = path.join(rootDir, 'packages', 'mdxe')
-    const configPath = path.join(mdxeDir, 'vitest.config.ts')
     
-    const command = `npx vitest run --globals --config ${configPath} ${watchFlag} ${testFiles.join(' ')}`
+    const command = `npx vitest run --globals ${watchFlag} ${testFiles.join(' ')}`
 
     const { stdout, stderr } = await execAsync(command)
     const output = stdout + stderr
