@@ -644,3 +644,6 @@ export {
   ToastClose,
   ToastAction,
 }
+import { Toggle as ShadcnToggle, toggleVariants } from './components/ui/toggle.js'
+
+export { ShadcnToggle, toggleVariants }
