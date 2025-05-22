@@ -13,7 +13,7 @@ export async function createTempTestFile(codeBlocks: CodeBlock[], testBlocks: Co
   const tempDir = path.join(process.cwd(), '.mdxe')
   await fs.mkdir(tempDir, { recursive: true })
 
-  const testFileName = path.basename(fileName, path.extname(fileName)) + '.spec.ts'
+  const testFileName = path.basename(fileName, path.extname(fileName)) + '.test.ts'
   const testFilePath = path.join(tempDir, testFileName)
 
   let fileContent = ''
@@ -42,7 +42,7 @@ export async function runTests(
 }> {
   try {
     const watchFlag = watch ? '--watch' : ''
-    const command = `npx vitest run ${watchFlag} ${testFiles.join(' ')}`
+    const command = `npx vitest run --globals ${watchFlag} ${testFiles.join(' ')}`
 
     const { stdout, stderr } = await execAsync(command)
     const output = stdout + stderr
