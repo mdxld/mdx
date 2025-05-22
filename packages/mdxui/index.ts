@@ -650,3 +650,16 @@ export { ShadcnToggle, toggleVariants }
 import { ToggleGroup as ShadcnToggleGroup, ToggleGroupItem } from './components/ui/toggle-group.js'
 
 export { ShadcnToggleGroup, ToggleGroupItem }
+import {
+  Tooltip as ShadcnTooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider
+} from './components/ui/tooltip.js'
+
+export {
+  ShadcnTooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider
+}
