@@ -4,6 +4,7 @@ import { join, resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { compileMdx } from './bundler.js'
 import { parseFrontmatter } from './parser.js'
+import { parseTaskList } from './task-list.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -92,8 +93,8 @@ export async function build(options: BuildOptions): Promise<void> {
       try {
         tempConfigFile = join(process.cwd(), '.velite.temp.js')
         
-        let pattern = `${sourceDir}/**/*.{md,mdx}`
-        let schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
+        let pattern = `${sourceDir}/**/*.{md,mdx}|${sourceDir}/**/README.md|${sourceDir}/**/TODO.md|${sourceDir}/**/ROADMAP.md`
+        let schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } }),\n  tasks: s.json().optional()\n})`
         
         // Special handling for schema and ai folders
         if (isSchemaOrAiFolder) {
@@ -107,8 +108,8 @@ export async function build(options: BuildOptions): Promise<void> {
       } catch (err) {
         console.warn('mdxld: Error creating temporary config file:', err)
         tempConfigFile = join(process.cwd(), '.velite.temp.js')
-        const pattern = `${sourceDir}/**/*.{md,mdx}`
-        const schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
+        const pattern = `${sourceDir}/**/*.{md,mdx}|${sourceDir}/**/README.md|${sourceDir}/**/TODO.md|${sourceDir}/**/ROADMAP.md`
+        const schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } }),\n  tasks: s.json().optional()\n})`
         const configContent = `export default {\n  root: ${JSON.stringify(process.cwd())},\n  collections: {\n    mdx: {\n      name: 'mdx',\n      pattern: '${pattern}',\n      schema: ${schemaFn}\n    }\n  },\n  output: { data: '${outputDir}' }\n}`
         await fs.writeFile(tempConfigFile, configContent, 'utf-8')
       }
@@ -175,6 +176,15 @@ export async function build(options: BuildOptions): Promise<void> {
         try {
           const mdxCode = file.code
           const bundledCode = await compileMdx(mdxCode)
+
+          const taskListResult = parseTaskList(file.raw || '')
+          
+          if (taskListResult.tasks.length > 0) {
+            const metadataPath = join(outputDir, file.path.replace(/\.(md|mdx)$/, '.metadata.json'))
+            await ensureDir(dirname(metadataPath))
+            await fs.writeFile(metadataPath, JSON.stringify({ tasks: taskListResult.tasks }, null, 2), 'utf-8')
+            console.log(`mdxld: Extracted ${taskListResult.tasks.length} tasks from ${file.path}`)
+          }
 
           const outputPath = join(outputDir, file.path.replace(/\.(md|mdx)$/, '.js'))
           await ensureDir(dirname(outputPath))

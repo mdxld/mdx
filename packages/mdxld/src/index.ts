@@ -2,5 +2,6 @@ export { ParseFrontmatterResult, parseFrontmatter, convertToJSONLD } from './par
 
 export * from './components.js' // Will be compiled from components.tsx
 export { build } from './build.js'
+export { TaskItem, ParseTaskListResult, parseTaskList } from './task-list.js'
 
 export * from '@mdxld/schema'
