@@ -561,3 +561,24 @@ export { ShadcnSonner }
 import { Switch as ShadcnSwitch } from './components/ui/switch.js'
 
 export { ShadcnSwitch }
+import {
+  Table as ShadcnTable,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption
+} from './components/ui/table.js'
+
+export {
+  ShadcnTable,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption
+}
