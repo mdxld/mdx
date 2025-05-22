@@ -1,102 +1,96 @@
-import https from 'https';
-import fs from 'fs/promises';
-import path from 'path';
+import https from 'https'
+import fs from 'fs/promises'
+import path from 'path'
 
 /**
  * Fetches Schema.org JSON-LD data from the latest version
  */
 async function fetchSchemaOrgJsonLd(): Promise<any> {
-  const url = 'https://schema.org/version/latest/schemaorg-current-https.jsonld';
-  
+  const url = 'https://schema.org/version/latest/schemaorg-current-https.jsonld'
+
   return new Promise<any>((resolve, reject) => {
-    https.get(url, (response) => {
-      if (response.statusCode !== 200) {
-        const location = response.headers['location'] || response.headers['content-location'];
-        
-        if (location) {
-          console.log(`Handling redirect to ${location}...`);
-          https.get(location, handleResponse).on('error', reject);
-          return;
+    https
+      .get(url, (response) => {
+        if (response.statusCode !== 200) {
+          const location = response.headers['location'] || response.headers['content-location']
+
+          if (location) {
+            console.log(`Handling redirect to ${location}...`)
+            https.get(location, handleResponse).on('error', reject)
+            return
+          }
+
+          reject(new Error(`Failed to fetch Schema.org data: ${response.statusCode} ${response.statusMessage}`))
+          return
         }
-        
-        reject(new Error(`Failed to fetch Schema.org data: ${response.statusCode} ${response.statusMessage}`));
-        return;
-      }
-      
-      handleResponse(response);
-    }).on('error', reject);
-    
+
+        handleResponse(response)
+      })
+      .on('error', reject)
+
     function handleResponse(response: any) {
-      const data: string[] = [];
-      
+      const data: string[] = []
+
       response.on('data', (chunk: Buffer) => {
-        data.push(chunk.toString('utf-8'));
-      });
-      
+        data.push(chunk.toString('utf-8'))
+      })
+
       response.on('end', () => {
         try {
-          const jsonld = JSON.parse(data.join(''));
-          resolve(jsonld);
+          const jsonld = JSON.parse(data.join(''))
+          resolve(jsonld)
         } catch (error) {
-          reject(new Error(`Failed to parse Schema.org data: ${error}`));
+          reject(new Error(`Failed to parse Schema.org data: ${error}`))
         }
-      });
-      
+      })
+
       response.on('error', (error: Error) => {
-        reject(error);
-      });
+        reject(error)
+      })
     }
-  });
+  })
 }
 
 /**
  * Extracts all Things (classes and properties) from the JSON-LD data
  */
 function parseThings(jsonld: any): any[] {
-  const things: any[] = [];
-  
-  const graph = jsonld['@graph'] || [];
-  
-  console.log('Looking for Schema.org classes and properties in the graph...');
-  
+  const things: any[] = []
+
+  const graph = jsonld['@graph'] || []
+
+  console.log('Looking for Schema.org classes and properties in the graph...')
+
   for (const item of graph) {
-    const isClass = 
-      (typeof item['@type'] === 'string' && 
-        (item['@type'] === 'rdfs:Class' || 
-         item['@type'].includes('http://www.w3.org/2000/01/rdf-schema#Class'))) ||
-      (Array.isArray(item['@type']) && 
-        (item['@type'].includes('rdfs:Class') || 
-         item['@type'].some((t: string) => t.includes('http://www.w3.org/2000/01/rdf-schema#Class'))));
-    
-    const isProperty = 
-      (typeof item['@type'] === 'string' && 
-        (item['@type'] === 'rdf:Property' || 
-         item['@type'].includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property'))) ||
-      (Array.isArray(item['@type']) && 
-        (item['@type'].includes('rdf:Property') || 
-         item['@type'].some((t: string) => t.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property'))));
-    
-    const isSchemaOrg = 
-      item['@id']?.startsWith('schema:') ||
-      item['@id']?.startsWith('https://schema.org/') || 
-      item['@id']?.startsWith('http://schema.org/');
-    
+    const isClass =
+      (typeof item['@type'] === 'string' && (item['@type'] === 'rdfs:Class' || item['@type'].includes('http://www.w3.org/2000/01/rdf-schema#Class'))) ||
+      (Array.isArray(item['@type']) &&
+        (item['@type'].includes('rdfs:Class') || item['@type'].some((t: string) => t.includes('http://www.w3.org/2000/01/rdf-schema#Class'))))
+
+    const isProperty =
+      (typeof item['@type'] === 'string' &&
+        (item['@type'] === 'rdf:Property' || item['@type'].includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property'))) ||
+      (Array.isArray(item['@type']) &&
+        (item['@type'].includes('rdf:Property') || item['@type'].some((t: string) => t.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property'))))
+
+    const isSchemaOrg = item['@id']?.startsWith('schema:') || item['@id']?.startsWith('https://schema.org/') || item['@id']?.startsWith('http://schema.org/')
+
     if ((isClass || isProperty) && isSchemaOrg) {
-      console.log(`Found Schema.org ${isClass ? 'class' : 'property'}: ${item['@id']}`);
-      
-      const convertedThing: any = {};
+      console.log(`Found Schema.org ${isClass ? 'class' : 'property'}: ${item['@id']}`)
+
+      const convertedThing: any = {}
       for (const [key, value] of Object.entries(item)) {
         if (key.startsWith('@')) {
-          convertedThing[`$${key.substring(1)}`] = value;
+          convertedThing[`$${key.substring(1)}`] = value
         } else {
-          convertedThing[key] = value;
+          convertedThing[key] = value
         }
       }
-      things.push(convertedThing);
+      things.push(convertedThing)
     }
   }
-  
-  return things;
+
+  return things
 }
 
 /**
@@ -104,273 +98,258 @@ function parseThings(jsonld: any): any[] {
  */
 function formatReference(uri: string): string {
   if (typeof uri !== 'string') {
-    return 'Unknown';
+    return 'Unknown'
   }
-  
-  return `[${uri}](${uri})`;
+
+  return `[${uri}](${uri})`
 }
 
 /**
  * Categorizes properties into direct and inherited properties
  */
-function categorizeProperties(properties: any[], thingId: string): { direct: any[], inherited: any[] } {
-  const direct = properties.filter(prop => {
-    if (!prop.domainIncludes) return false;
-    
-    const domains = Array.isArray(prop.domainIncludes) 
-      ? prop.domainIncludes 
-      : [prop.domainIncludes];
-    
-    return domains.some((domain: any) => 
-      (domain['$id'] || domain) === thingId
-    );
-  });
-  
-  const inherited = properties.filter(prop => !direct.includes(prop));
-  
-  return { direct, inherited };
+function categorizeProperties(properties: any[], thingId: string): { direct: any[]; inherited: any[] } {
+  const direct = properties.filter((prop) => {
+    if (!prop.domainIncludes) return false
+
+    const domains = Array.isArray(prop.domainIncludes) ? prop.domainIncludes : [prop.domainIncludes]
+
+    return domains.some((domain: any) => (domain['$id'] || domain) === thingId)
+  })
+
+  const inherited = properties.filter((prop) => !direct.includes(prop))
+
+  return { direct, inherited }
 }
 
 /**
  * Resolves the inheritance chain to get all properties for a Thing
  */
 function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
-  const properties: any[] = [];
-  const visited = new Set<string>();
-  
+  const properties: any[] = []
+  const visited = new Set<string>()
+
   function collectProperties(thingId: string) {
-    if (visited.has(thingId)) return;
-    visited.add(thingId);
-    
-    const directProperties = allThings.filter(item => {
-      return item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
-        (Array.isArray(item.domainIncludes) 
-          ? item.domainIncludes.some((domain: any) => domain['$id'] === thingId)
-          : item.domainIncludes?.['$id'] === thingId);
-    });
-    
-    properties.push(...directProperties);
-    
-    const currentThing = allThings.find(t => t['$id'] === thingId);
+    if (visited.has(thingId)) return
+    visited.add(thingId)
+
+    const directProperties = allThings.filter((item) => {
+      return (
+        item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
+        (Array.isArray(item.domainIncludes) ? item.domainIncludes.some((domain: any) => domain['$id'] === thingId) : item.domainIncludes?.['$id'] === thingId)
+      )
+    })
+
+    properties.push(...directProperties)
+
+    const currentThing = allThings.find((t) => t['$id'] === thingId)
     if (currentThing?.subClassOf) {
-      const parentIds = Array.isArray(currentThing.subClassOf) 
+      const parentIds = Array.isArray(currentThing.subClassOf)
         ? currentThing.subClassOf.map((parent: any) => parent['$id'] || parent)
-        : [currentThing.subClassOf['$id'] || currentThing.subClassOf];
-      
+        : [currentThing.subClassOf['$id'] || currentThing.subClassOf]
+
       for (const parentId of parentIds) {
-        collectProperties(parentId);
+        collectProperties(parentId)
       }
     }
   }
-  
-  collectProperties(thing['$id']);
-  
-  const uniqueProperties = Array.from(
-    new Map(properties.map(p => [p['$id'], p])).values()
-  );
-  
+
+  collectProperties(thing['$id'])
+
+  const uniqueProperties = Array.from(new Map(properties.map((p) => [p['$id'], p])).values())
+
   return uniqueProperties.sort((a, b) => {
-    const nameA = a.label || a.name || a['$id']?.split('/').pop() || '';
-    const nameB = b.label || b.name || b['$id']?.split('/').pop() || '';
-    return nameA.localeCompare(nameB);
-  });
+    const nameA = a.label || a.name || a['$id']?.split('/').pop() || ''
+    const nameB = b.label || b.name || b['$id']?.split('/').pop() || ''
+    return nameA.localeCompare(nameB)
+  })
 }
 
 /**
  * Generates MDX content with enhanced frontmatter and markdown tables
  */
 function generateMdxContent(thing: any, properties: any[], isProperty: boolean = false): string {
-  const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown';
-  const comment = thing.comment || thing.description || '';
-  
-  let frontmatter = '---\n';
-  frontmatter += `$id: ${thing['$id']}\n`;
-  frontmatter += `$type: ${thing['$type']}\n`;
-  frontmatter += `label: ${label}\n`;
-  
+  const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
+  const comment = thing.comment || thing.description || ''
+
+  let frontmatter = '---\n'
+  frontmatter += `$id: ${thing['$id']}\n`
+  frontmatter += `$type: ${thing['$type']}\n`
+  frontmatter += `label: ${label}\n`
+
   if (comment) {
-    frontmatter += `comment: ${comment}\n`;
+    frontmatter += `comment: ${comment}\n`
   }
-  
+
   if (isProperty) {
     if (thing.domainIncludes) {
-      const domains = Array.isArray(thing.domainIncludes) 
-        ? thing.domainIncludes 
-        : [thing.domainIncludes];
-      
+      const domains = Array.isArray(thing.domainIncludes) ? thing.domainIncludes : [thing.domainIncludes]
+
       domains.forEach((domain: any, index: number) => {
-        const domainId = domain['$id'] || domain;
-        frontmatter += `domain${index > 0 ? index + 1 : ''}: ${domainId}\n`;
-      });
+        const domainId = domain['$id'] || domain
+        frontmatter += `domain${index > 0 ? index + 1 : ''}: ${domainId}\n`
+      })
     }
-    
+
     if (thing.rangeIncludes) {
-      const ranges = Array.isArray(thing.rangeIncludes) 
-        ? thing.rangeIncludes 
-        : [thing.rangeIncludes];
-      
+      const ranges = Array.isArray(thing.rangeIncludes) ? thing.rangeIncludes : [thing.rangeIncludes]
+
       ranges.forEach((range: any, index: number) => {
-        const rangeId = range['$id'] || range;
-        frontmatter += `range${index > 0 ? index + 1 : ''}: ${rangeId}\n`;
-      });
+        const rangeId = range['$id'] || range
+        frontmatter += `range${index > 0 ? index + 1 : ''}: ${rangeId}\n`
+      })
     }
-  }
-  else if (thing.subClassOf) {
+  } else if (thing.subClassOf) {
     const subClassOf = Array.isArray(thing.subClassOf)
       ? thing.subClassOf.map((sc: any) => sc['$id'] || sc).join(', ')
-      : thing.subClassOf['$id'] || thing.subClassOf;
-    frontmatter += `subClassOf: ${subClassOf}\n`;
+      : thing.subClassOf['$id'] || thing.subClassOf
+    frontmatter += `subClassOf: ${subClassOf}\n`
   }
-  
-  const metadataKeys = Object.keys(thing).filter(key => 
-    !['$id', '$type', 'label', 'comment', 'description', 'subClassOf', 'domainIncludes', 'rangeIncludes'].includes(key)
-  );
-  
+
+  const metadataKeys = Object.keys(thing).filter(
+    (key) => !['$id', '$type', 'label', 'comment', 'description', 'subClassOf', 'domainIncludes', 'rangeIncludes'].includes(key),
+  )
+
   for (const key of metadataKeys) {
-    const value = thing[key];
+    const value = thing[key]
     if (value !== undefined && value !== null) {
-      frontmatter += `${key}: ${JSON.stringify(value)}\n`;
+      frontmatter += `${key}: ${JSON.stringify(value)}\n`
     }
   }
-  
-  frontmatter += '---\n\n';
-  
-  let markdown = `# ${label}\n\n`;
-  
+
+  frontmatter += '---\n\n'
+
+  let markdown = `# ${label}\n\n`
+
   if (comment) {
-    markdown += `${comment}\n\n`;
+    markdown += `${comment}\n\n`
   }
-  
+
   if (!isProperty && properties.length > 0) {
-    const directProperties = properties.filter(prop => {
-      if (!prop.domainIncludes) return false;
-      
-      const domains = Array.isArray(prop.domainIncludes) 
-        ? prop.domainIncludes 
-        : [prop.domainIncludes];
-      
-      return domains.some((domain: any) => 
-        (domain['$id'] || domain) === thing['$id']
-      );
-    });
-    
-    const inheritedProperties = properties.filter(prop => !directProperties.includes(prop));
-    
+    const directProperties = properties.filter((prop) => {
+      if (!prop.domainIncludes) return false
+
+      const domains = Array.isArray(prop.domainIncludes) ? prop.domainIncludes : [prop.domainIncludes]
+
+      return domains.some((domain: any) => (domain['$id'] || domain) === thing['$id'])
+    })
+
+    const inheritedProperties = properties.filter((prop) => !directProperties.includes(prop))
+
     if (directProperties.length > 0) {
-      markdown += '## Direct Properties\n\n';
-      markdown += '| Property | Expected Type | Description |\n';
-      markdown += '| --- | --- | --- |\n';
-      
+      markdown += '## Direct Properties\n\n'
+      markdown += '| Property | Expected Type | Description |\n'
+      markdown += '| --- | --- | --- |\n'
+
       for (const property of directProperties) {
-        const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown';
-        const propLink = formatReference(property['$id']);
-        
-        let expectedType = 'Text';
+        const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown'
+        const propLink = formatReference(property['$id'])
+
+        let expectedType = 'Text'
         if (property.rangeIncludes) {
-          const ranges = Array.isArray(property.rangeIncludes)
-            ? property.rangeIncludes
-            : [property.rangeIncludes];
-            
-          expectedType = ranges.map((range: any) => {
-            const type = range['$id'] || range;
-            return formatReference(type);
-          }).join(' or ');
+          const ranges = Array.isArray(property.rangeIncludes) ? property.rangeIncludes : [property.rangeIncludes]
+
+          expectedType = ranges
+            .map((range: any) => {
+              const type = range['$id'] || range
+              return formatReference(type)
+            })
+            .join(' or ')
         }
-        
-        const description = property.comment || property.description || '';
-        
-        markdown += `| ${propLink} | ${expectedType} | ${description} |\n`;
+
+        const description = property.comment || property.description || ''
+
+        markdown += `| ${propLink} | ${expectedType} | ${description} |\n`
       }
-      
-      markdown += '\n';
+
+      markdown += '\n'
     }
-    
+
     if (inheritedProperties.length > 0) {
-      markdown += '## Inherited Properties\n\n';
-      markdown += '| Property | Expected Type | Description |\n';
-      markdown += '| --- | --- | --- |\n';
-      
+      markdown += '## Inherited Properties\n\n'
+      markdown += '| Property | Expected Type | Description |\n'
+      markdown += '| --- | --- | --- |\n'
+
       for (const property of inheritedProperties) {
-        const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown';
-        const propLink = formatReference(property['$id']);
-        
-        let expectedType = 'Text';
+        const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown'
+        const propLink = formatReference(property['$id'])
+
+        let expectedType = 'Text'
         if (property.rangeIncludes) {
-          const ranges = Array.isArray(property.rangeIncludes)
-            ? property.rangeIncludes
-            : [property.rangeIncludes];
-            
-          expectedType = ranges.map((range: any) => {
-            const type = range['$id'] || range;
-            return formatReference(type);
-          }).join(' or ');
+          const ranges = Array.isArray(property.rangeIncludes) ? property.rangeIncludes : [property.rangeIncludes]
+
+          expectedType = ranges
+            .map((range: any) => {
+              const type = range['$id'] || range
+              return formatReference(type)
+            })
+            .join(' or ')
         }
-        
-        const description = property.comment || property.description || '';
-        
-        markdown += `| ${propLink} | ${expectedType} | ${description} |\n`;
+
+        const description = property.comment || property.description || ''
+
+        markdown += `| ${propLink} | ${expectedType} | ${description} |\n`
       }
     }
   }
-  
-  return frontmatter + markdown;
+
+  return frontmatter + markdown
 }
 
 /**
  * Writes the generated MDX files to the appropriate location
  */
 async function writeFiles(things: any[], allThings: any[]): Promise<void> {
-  const outputDir = path.join(process.cwd(), 'schema');
-  const propertiesDir = path.join(outputDir, 'properties');
-  
+  const outputDir = path.join(process.cwd(), 'schema')
+  const propertiesDir = path.join(outputDir, 'properties')
+
   try {
-    await fs.mkdir(outputDir, { recursive: true });
-    await fs.mkdir(propertiesDir, { recursive: true });
-    
-    console.log(`Writing MDX files to ${outputDir}...`);
-    
-    let classCount = 0;
-    let propertyCount = 0;
-    
+    await fs.mkdir(outputDir, { recursive: true })
+    await fs.mkdir(propertiesDir, { recursive: true })
+
+    console.log(`Writing MDX files to ${outputDir}...`)
+
+    let classCount = 0
+    let propertyCount = 0
+
     for (const thing of things) {
-      const name = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown';
-      const isProperty = Array.isArray(thing['$type']) 
-        ? thing['$type'].some(t => t === 'rdf:Property' || t.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property'))
-        : thing['$type'] === 'rdf:Property' || thing['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property');
-      
+      const name = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
+      const isProperty = Array.isArray(thing['$type'])
+        ? thing['$type'].some((t) => t === 'rdf:Property' || t.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property'))
+        : thing['$type'] === 'rdf:Property' || thing['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property')
+
       // Use different directory for properties
-      const dirPath = isProperty ? propertiesDir : outputDir;
-      const filename = `${name.replace('schema:', '').replace(/[^a-zA-Z0-9]/g, '')}.mdx`;
-      const filePath = path.join(dirPath, filename);
-      
-      let properties: any[] = [];
-      
+      const dirPath = isProperty ? propertiesDir : outputDir
+      const filename = `${name.replace('schema:', '').replace(/[^a-zA-Z0-9]/g, '')}.mdx`
+      const filePath = path.join(dirPath, filename)
+
+      let properties: any[] = []
+
       if (!isProperty) {
-        properties = resolveInheritedProperties(thing, allThings);
+        properties = resolveInheritedProperties(thing, allThings)
       }
-      
-      const content = generateMdxContent(thing, properties, isProperty);
-      
-      await fs.writeFile(filePath, content, 'utf-8');
-      
+
+      const content = generateMdxContent(thing, properties, isProperty)
+
+      await fs.writeFile(filePath, content, 'utf-8')
+
       if (isProperty) {
-        propertyCount++;
+        propertyCount++
         if (propertyCount % 100 === 0) {
-          console.log(`Generated ${propertyCount} property MDX files...`);
+          console.log(`Generated ${propertyCount} property MDX files...`)
         }
       } else {
-        classCount++;
+        classCount++
         if (classCount % 100 === 0) {
-          console.log(`Generated ${classCount} class MDX files...`);
+          console.log(`Generated ${classCount} class MDX files...`)
         }
       }
     }
-    
-    console.log(`Successfully generated ${classCount} class MDX files in ${outputDir}`);
-    console.log(`Successfully generated ${propertyCount} property MDX files in ${propertiesDir}`);
+
+    console.log(`Successfully generated ${classCount} class MDX files in ${outputDir}`)
+    console.log(`Successfully generated ${propertyCount} property MDX files in ${propertiesDir}`)
   } catch (error) {
-    console.error('Error writing MDX files:', error);
-    throw error;
+    console.error('Error writing MDX files:', error)
+    throw error
   }
 }
 
@@ -379,38 +358,38 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
  */
 async function main() {
   try {
-    console.log('Fetching Schema.org JSON-LD data...');
-    const jsonld = await fetchSchemaOrgJsonLd();
-    
+    console.log('Fetching Schema.org JSON-LD data...')
+    const jsonld = await fetchSchemaOrgJsonLd()
+
     // Debug the structure of the JSON-LD data
-    console.log('JSON-LD structure:', Object.keys(jsonld));
+    console.log('JSON-LD structure:', Object.keys(jsonld))
     if (jsonld['@graph']) {
-      console.log(`@graph array length: ${jsonld['@graph'].length}`);
+      console.log(`@graph array length: ${jsonld['@graph'].length}`)
       if (jsonld['@graph'].length > 0) {
-        console.log('First few items in @graph:', JSON.stringify(jsonld['@graph'].slice(0, 3), null, 2));
+        console.log('First few items in @graph:', JSON.stringify(jsonld['@graph'].slice(0, 3), null, 2))
       }
     } else {
-      console.log('No @graph found in the JSON-LD data. Full data:', JSON.stringify(jsonld, null, 2));
+      console.log('No @graph found in the JSON-LD data. Full data:', JSON.stringify(jsonld, null, 2))
     }
-    
-    console.log('Parsing Schema.org types...');
-    const allThings = parseThings(jsonld);
-    
-    console.log(`Found ${allThings.length} Schema.org types.`);
-    
+
+    console.log('Parsing Schema.org types...')
+    const allThings = parseThings(jsonld)
+
+    console.log(`Found ${allThings.length} Schema.org types.`)
+
     // No need to filter things since parseThings now returns both classes and properties
-    
-    console.log(`Writing ${allThings.length} Schema.org entities as MDX...`);
-    await writeFiles(allThings, allThings);
-    
-    console.log('Schema.org MDX generation complete!');
+
+    console.log(`Writing ${allThings.length} Schema.org entities as MDX...`)
+    await writeFiles(allThings, allThings)
+
+    console.log('Schema.org MDX generation complete!')
   } catch (error) {
-    console.error('Error generating Schema.org MDX files:', error);
+    console.error('Error generating Schema.org MDX files:', error)
     if (error instanceof Error) {
-      console.error(error.stack);
+      console.error(error.stack)
     }
-    process.exit(1);
+    process.exit(1)
   }
 }
 
-main().catch(console.error);
+main().catch(console.error)

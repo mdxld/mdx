@@ -9,10 +9,8 @@ export function extractContentPath(collectionConfig: Collection): string {
   }
 
   const globPattern = collectionConfig.pattern
-  const basePathParts = typeof globPattern === 'string' 
-    ? globPattern.split('/') 
-    : globPattern[0].split('/')
-  
+  const basePathParts = typeof globPattern === 'string' ? globPattern.split('/') : globPattern[0].split('/')
+
   let contentPath = ''
   for (const part of basePathParts) {
     if (part.includes('*') || part.includes('.')) {

@@ -4,14 +4,7 @@ export * from './components/button.js'
 export * from './tremor.js'
 
 import { Button as ShadcnButton, ButtonProps as ShadcnButtonProps, buttonVariants } from './components/ui/button.js'
-import { 
-  Card as ShadcnCard, 
-  CardHeader, 
-  CardFooter, 
-  CardTitle, 
-  CardDescription, 
-  CardContent 
-} from './components/ui/card.js'
+import { Card as ShadcnCard, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './components/ui/card.js'
 
 import { NumberTicker as ShadcnNumberTicker } from './components/ui/magicui/number-ticker.js'
 import { Globe as ShadcnGlobe } from './components/ui/magicui/globe.js'
@@ -40,7 +33,6 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
-  
   ShadcnNumberTicker,
   ShadcnGlobe,
   ShadcnConfetti,
@@ -58,6 +50,6 @@ export {
   ShadcnBoxReveal,
   ShadcnSparklesText,
   ShadcnMorphingText,
-  ShadcnSpinningText
+  ShadcnSpinningText,
 }
 export type { ShadcnButtonProps, buttonVariants }

@@ -1,8 +1,7 @@
 import * as runtime from 'react/jsx-runtime'
 import React from 'react'
 
-const sharedComponents = {
-}
+const sharedComponents = {}
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)

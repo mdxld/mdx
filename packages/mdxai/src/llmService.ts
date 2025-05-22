@@ -1,77 +1,73 @@
-import { CoreMessage, StreamTextResult, streamText } from 'ai';
-import { openai, createOpenAI } from '@ai-sdk/openai'; // Added createOpenAI
+import { CoreMessage, StreamTextResult, streamText } from 'ai'
+import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 
 interface LLMServiceParams {
-  modelProvider?: typeof openai; // Changed to typeof openai
-  modelId?: string;
-  messages: CoreMessage[];
+  modelProvider?: typeof openai // Changed to typeof openai
+  modelId?: string
+  messages: CoreMessage[]
 }
 
-export async function generateContentStream(
-  params: LLMServiceParams
-): Promise<StreamTextResult<never, string>> { // Changed to StreamTextResult<never, string>
+export async function generateContentStream(params: LLMServiceParams): Promise<StreamTextResult<never, string>> {
+  // Changed to StreamTextResult<never, string>
   const {
     modelProvider = openai, // Default to imported openai instance
-    modelId = 'gpt-4o',     // Default model
+    modelId = 'gpt-4o', // Default model
     messages,
-  } = params;
+  } = params
 
   try {
     // The modelProvider is already an initialized OpenAI client if it's the default 'openai'
     // If a different provider instance is passed, it should also be pre-initialized.
     // The modelId is used to specify which model to use with that provider.
-    const model = modelProvider(modelId as any); // The 'as any' cast is to satisfy the generic signature of OpenAI
+    const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
 
     const result = await streamText({
       model: model,
       messages: messages,
-    });
-    return result;
+    })
+    return result
   } catch (error) {
-    console.error("Error calling LLM service:", error);
-    throw error; // Re-throwing to be caught by CLI command handlers
+    console.error('Error calling LLM service:', error)
+    throw error // Re-throwing to be caught by CLI command handlers
   }
 }
 
-export async function generateListStream(
-  prompt: string
-): Promise<StreamTextResult<never, string>> {
-  const systemMessage = "Respond with a numbered markdown ordered list";
-  
+export async function generateListStream(prompt: string): Promise<StreamTextResult<never, string>> {
+  const systemMessage = 'Respond with a numbered markdown ordered list'
+
   const messages: CoreMessage[] = [
     { role: 'system', content: systemMessage },
-    { role: 'user', content: prompt }
-  ];
+    { role: 'user', content: prompt },
+  ]
 
-  return generateContentStream({ messages });
+  return generateContentStream({ messages })
 }
 
 export function createResearchProvider() {
   if (!process.env.AI_GATEWAY_TOKEN) {
-    throw new Error('AI_GATEWAY_TOKEN environment variable is not set.');
+    throw new Error('AI_GATEWAY_TOKEN environment variable is not set.')
   }
 
   return createOpenAI({
     baseURL: 'https://api.llm.do',
     apiKey: process.env.AI_GATEWAY_TOKEN,
-  });
+  })
 }
 
-export async function generateResearchStream(
-  prompt: string
-): Promise<StreamTextResult<never, string>> {
-  const systemMessage = "Respond with thorough research including citations and references. Be comprehensive and include multiple perspectives when appropriate.";
-  
+export async function generateResearchStream(prompt: string): Promise<StreamTextResult<never, string>> {
+  const systemMessage =
+    'Respond with thorough research including citations and references. Be comprehensive and include multiple perspectives when appropriate.'
+
   const messages: CoreMessage[] = [
     { role: 'system', content: systemMessage },
-    { role: 'user', content: prompt }
-  ];
+    { role: 'user', content: prompt },
+  ]
 
-  const researchProvider = createResearchProvider();
-  
-  return generateContentStream({ 
-    modelProvider: researchProvider, 
+  const researchProvider = createResearchProvider()
+
+  return generateContentStream({
+    modelProvider: researchProvider,
     modelId: 'perplexity/sonar-deep-research',
-    messages 
-  });
+    messages,
+  })
 }

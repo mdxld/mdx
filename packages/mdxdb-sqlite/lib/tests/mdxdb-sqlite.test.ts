@@ -3,11 +3,11 @@ import { MdxDbSqlite } from '../mdxdb-sqlite.js'
 import { DocumentContent } from '@mdxdb/core'
 
 vi.mock('@libsql/client', () => ({
-  createClient: vi.fn().mockReturnValue({})
+  createClient: vi.fn().mockReturnValue({}),
 }))
 
 vi.mock('ai', () => ({
-  embed: vi.fn().mockResolvedValue([0.1, 0.2, 0.3])
+  embed: vi.fn().mockResolvedValue([0.1, 0.2, 0.3]),
 }))
 
 describe('MdxDbSqlite', () => {
@@ -29,11 +29,11 @@ describe('MdxDbSqlite', () => {
 
     const content: DocumentContent = {
       frontmatter: { title: 'Test Document' },
-      body: 'Test content'
+      body: 'Test content',
     }
 
     await db.set('test-doc', content, 'posts')
-    
+
     const doc = await db.getData('test-doc', 'posts')
     expect(doc).toBeDefined()
     expect(doc?.frontmatter?.title).toBe('Test Document')
@@ -45,12 +45,12 @@ describe('MdxDbSqlite', () => {
 
     const content: DocumentContent = {
       frontmatter: { title: 'Test Document' },
-      body: 'Test content'
+      body: 'Test content',
     }
 
     await db.set('test-doc', content, 'posts')
     const result = await db.delete('test-doc', 'posts')
-    
+
     expect(result).toBe(true)
     expect(await db.getData('test-doc', 'posts')).toBeUndefined()
   })
@@ -61,11 +61,11 @@ describe('MdxDbSqlite', () => {
 
     const content: DocumentContent = {
       frontmatter: { title: 'Test Document' },
-      body: 'Test content'
+      body: 'Test content',
     }
 
     await db.set('test-doc', content, 'posts')
-    
+
     const results = await db.search('test')
     expect(results).toEqual([])
   })

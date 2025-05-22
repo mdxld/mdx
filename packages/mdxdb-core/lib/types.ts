@@ -30,47 +30,47 @@ export interface MdxDbInterface {
    * Builds or rebuilds the database
    */
   build(): Promise<VeliteData>
-  
+
   /**
    * Starts watching for changes
    */
   watch(): Promise<void>
-  
+
   /**
    * Stops watching for changes
    */
   stopWatch(): void
-  
+
   /**
    * Creates or updates a document
    */
   set(id: string, content: DocumentContent, collectionName: string): Promise<void>
-  
+
   /**
    * Lists documents from a collection or all collections
    */
   list(collectionName?: string): any[]
-  
+
   /**
    * Gets the current database data
    */
   getData(): VeliteData | null
-  
+
   /**
    * Gets a document by ID
    */
   get(id: string, collectionName?: string): any | undefined
-  
+
   /**
    * Gets all documents from a collection
    */
   getCollection<T extends keyof VeliteData>(name: T): VeliteData[T] | undefined
-  
+
   /**
    * Deletes a document
    */
   delete(id: string, collectionName: string): Promise<boolean>
-  
+
   /**
    * Search for documents using vector embeddings (optional)
    */

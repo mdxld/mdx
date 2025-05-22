@@ -9,7 +9,7 @@ export abstract class MdxDbBase implements MdxDbInterface {
   protected config: MdxDbConfig
 
   constructor(config: MdxDbConfig = {}) {
-    this.config = config.veliteConfig || {} as any
+    this.config = config.veliteConfig || ({} as any)
   }
 
   abstract build(): Promise<VeliteData>
@@ -50,11 +50,11 @@ export abstract class MdxDbBase implements MdxDbInterface {
    */
   getData(id?: string, collectionName?: string): VeliteData | null | any {
     if (id && collectionName) {
-      return this.get(id, collectionName);
+      return this.get(id, collectionName)
     } else if (id) {
-      return this.get(id);
+      return this.get(id)
     }
-    return this.data;
+    return this.data
   }
 
   /**
@@ -69,7 +69,7 @@ export abstract class MdxDbBase implements MdxDbInterface {
     if (collectionName) {
       const collection = this.data[collectionName]
       if (collection && Array.isArray(collection)) {
-        return collection.find(entry => entry.slug === id)
+        return collection.find((entry) => entry.slug === id)
       } else {
         console.warn(`Collection '${collectionName}' not found or is not an array.`)
         return undefined
@@ -78,7 +78,7 @@ export abstract class MdxDbBase implements MdxDbInterface {
       for (const key in this.data) {
         const collection = this.data[key]
         if (Array.isArray(collection)) {
-          const foundEntry = collection.find(entry => entry.slug === id)
+          const foundEntry = collection.find((entry) => entry.slug === id)
           if (foundEntry) {
             return foundEntry
           }
@@ -94,7 +94,7 @@ export abstract class MdxDbBase implements MdxDbInterface {
   getCollection<T extends keyof VeliteData>(name: T): VeliteData[T] | undefined {
     return this.data?.[name]
   }
-  
+
   /**
    * Search for documents using vector embeddings (optional)
    * Default implementation returns empty array

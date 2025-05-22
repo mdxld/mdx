@@ -59,58 +59,60 @@ setUsers(data);
 // Render different content based on current view:
 if (view === 'main') {
 return (
+
 <>
-<Text bold>🏠 Main Menu</Text>
-<SelectInput
-items={[
-{ label: 'List Users', value: 'list' },
-{ label: 'Add User', value: 'add' },
-{ label: 'Exit', value: 'exit' }
-]}
-onSelect={(item) => {
-if (item.value === 'exit') {
-const { exit } = require('ink'); exit(); // terminate app
-} else {
-setView(item.value);
-}
-}}
-/>
+  <Text bold>🏠 Main Menu</Text>
+  <SelectInput
+    items={[
+      { label: 'List Users', value: 'list' },
+      { label: 'Add User', value: 'add' },
+      { label: 'Exit', value: 'exit' },
+    ]}
+    onSelect={(item) => {
+      if (item.value === 'exit') {
+        const { exit } = require('ink')
+        exit() // terminate app
+      } else {
+        setView(item.value)
+      }
+    }}
+  />
 </>
-);
-}
+); }
 
 if (view === 'list') {
 return (
+
 <>
-<Text bold>👥 User List</Text>
-{users.length === 0
-? <Text>(No users found)</Text>
-: users.map(u => <Text key={u.id}>- {u.name}</Text>)
-}
-<Text color="cyan">Press Q to return to menu</Text>
-<Keypress key="q" onPress={() => setView('main')} />
+  <Text bold>👥 User List</Text>
+  {users.length === 0 ? <Text>(No users found)</Text> : users.map((u) => <Text key={u.id}>- {u.name}</Text>)}
+  <Text color='cyan'>Press Q to return to menu</Text>
+  <Keypress key='q' onPress={() => setView('main')} />
 </>
-);
-}
+); }
 
 if (view === 'add') {
 // Simple form example with one field:
 const [name, setName] = useState('');
 return (
+
 <>
-<Text bold>➕ Add New User</Text>
-<Box>
-<Text>Name: </Text>
-<TextInput value={name} onChange={setName} onSubmit={() => {
-createUserInDB(name); // e.g. call DB or API
-setView('main');
-}} />
-</Box>
-<Text dimColor={true}>Type a name and press Enter to submit. Press Esc to cancel.</Text>
-<Keypress key="escape" onPress={() => setView('main')} />
+  <Text bold>➕ Add New User</Text>
+  <Box>
+    <Text>Name: </Text>
+    <TextInput
+      value={name}
+      onChange={setName}
+      onSubmit={() => {
+        createUserInDB(name) // e.g. call DB or API
+        setView('main')
+      }}
+    />
+  </Box>
+  <Text dimColor={true}>Type a name and press Enter to submit. Press Esc to cancel.</Text>
+  <Keypress key='escape' onPress={() => setView('main')} />
 </>
-);
-}
+); }
 
 return null;
 }

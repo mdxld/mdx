@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts', 'src/cli.ts', 'src/build.ts'],
@@ -9,5 +9,5 @@ export default defineConfig({
   clean: true,
   external: ['yaml', 'next-mdx-remote-client', 'schema-dts'],
   noExternal: [],
-  dts: false // Disable TypeScript declaration files to avoid type errors
-});
+  dts: false, // Disable TypeScript declaration files to avoid type errors
+})

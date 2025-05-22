@@ -1,23 +1,23 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "../../../lib/utils.js";
-import { motion } from "framer-motion";
+import * as React from 'react'
+import { cn } from '../../../lib/utils.js'
+import { motion } from 'framer-motion'
 
 export interface TextRevealProps {
-  text: string;
-  revealText?: string;
-  revealColor?: string;
-  textColor?: string;
-  className?: string;
-  textClassName?: string;
-  revealClassName?: string;
-  delay?: number;
-  duration?: number;
-  once?: boolean;
-  animateOnView?: boolean;
-  id?: string;
-  style?: React.CSSProperties;
+  text: string
+  revealText?: string
+  revealColor?: string
+  textColor?: string
+  className?: string
+  textClassName?: string
+  revealClassName?: string
+  delay?: number
+  duration?: number
+  once?: boolean
+  animateOnView?: boolean
+  id?: string
+  style?: React.CSSProperties
 }
 
 export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
@@ -25,8 +25,8 @@ export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
     {
       text,
       revealText = text,
-      revealColor = "#000",
-      textColor = "#fff",
+      revealColor = '#000',
+      textColor = '#fff',
       className,
       textClassName,
       revealClassName,
@@ -37,7 +37,7 @@ export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
       id,
       style,
     },
-    ref
+    ref,
   ) => {
     const containerVariants = {
       hidden: {
@@ -50,7 +50,7 @@ export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
           duration,
         },
       },
-    };
+    }
 
     const revealVariants = {
       hidden: {
@@ -65,36 +65,29 @@ export const TextReveal = React.forwardRef<HTMLDivElement, TextRevealProps>(
           duration: duration * 0.5,
         },
       },
-    };
+    }
 
     return (
       <motion.div
         ref={ref}
-        className={cn("relative", className)}
+        className={cn('relative', className)}
         variants={containerVariants}
-        initial="hidden"
-        animate={animateOnView ? undefined : "visible"}
-        whileInView={animateOnView ? "visible" : undefined}
+        initial='hidden'
+        animate={animateOnView ? undefined : 'visible'}
+        whileInView={animateOnView ? 'visible' : undefined}
         viewport={{ once }}
         id={id}
         style={style}
       >
-        <div
-          className={cn("relative z-10", textClassName)}
-          style={{ color: textColor }}
-        >
+        <div className={cn('relative z-10', textClassName)} style={{ color: textColor }}>
           {text}
         </div>
-        <motion.div
-          className={cn("absolute inset-0", revealClassName)}
-          style={{ color: revealColor }}
-          variants={revealVariants}
-        >
+        <motion.div className={cn('absolute inset-0', revealClassName)} style={{ color: revealColor }} variants={revealVariants}>
           {revealText}
         </motion.div>
       </motion.div>
-    );
-  }
-);
+    )
+  },
+)
 
-TextReveal.displayName = "TextReveal";
+TextReveal.displayName = 'TextReveal'

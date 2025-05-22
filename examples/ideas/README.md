@@ -22,5 +22,5 @@ This will create a `.mdx` directory containing the generated module files.
 You can import the generated module in other projects like this:
 
 ```js
-import * as ideas from 'ideas-example/ideas';
+import * as ideas from 'ideas-example/ideas'
 ```
