@@ -22,10 +22,68 @@ async function ensureDir(dir: string): Promise<void> {
   } catch (error) {}
 }
 
+async function validateMdxFiles(directoryPath: string): Promise<{ valid: boolean; invalidFiles: string[] }> {
+  const result: { valid: boolean; invalidFiles: string[] } = { valid: true, invalidFiles: [] };
+  try {
+    const allFiles: string[] = [];
+    
+    async function scanDir(dir: string) {
+      try {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = join(dir, entry.name);
+          
+          if (entry.name === 'node_modules') continue;
+          
+          if (entry.isDirectory()) {
+            await scanDir(fullPath);
+          } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
+            const relativePath = fullPath.substring(directoryPath.length + 1);
+            allFiles.push(relativePath);
+          }
+        }
+      } catch (error) {
+        console.warn(`mdxld: Error scanning directory ${dir}:`, error);
+      }
+    }
+    
+    await scanDir(directoryPath);
+    
+    console.log(`mdxld: Validating ${allFiles.length} MDX files in ${directoryPath}`);
+    
+    for (const file of allFiles) {
+      const filePath = join(directoryPath, file);
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        const { error } = parseFrontmatter(content);
+        if (error) {
+          result.valid = false;
+          result.invalidFiles.push(`${file} - ${error}`);
+        }
+      } catch (error) {
+        console.warn(`mdxld: Error reading or parsing file ${file}:`, error);
+        result.valid = false;
+        result.invalidFiles.push(`${file} - ${error}`);
+      }
+    }
+  } catch (error) {
+    console.warn('mdxld: Error validating MDX files:', error);
+  }
+  return result;
+}
+
 export async function build(options: BuildOptions): Promise<void> {
   const { sourceDir, outputDir, configFile, watch = false, bundle = false } = options
 
   await ensureDir(outputDir)
+  
+  console.log('mdxld: Validating MDX files in', sourceDir);
+  const validationResult = await validateMdxFiles(sourceDir);
+  if (!validationResult.valid) {
+    console.warn('mdxld: Found invalid MDX files:');
+    validationResult.invalidFiles.forEach(file => console.warn(`- ${file}`));
+    console.warn('mdxld: Continuing build process, but these files may cause issues...');
+  }
   try {
     let tempConfigFile: string | undefined = configFile
     if (!configFile) {
@@ -63,7 +121,11 @@ export async function build(options: BuildOptions): Promise<void> {
     }
 
     let result;
+    
     try {
+      console.log('mdxld: Starting Velite build with pattern:', buildOptions.config);
+      
+      
       result = await veliteBuild(buildOptions)
       console.log('mdxld: Velite build successful')
     } catch (error) {
@@ -82,6 +144,7 @@ export async function build(options: BuildOptions): Promise<void> {
       const errorString = String(error)
       if (errorString.includes('Cannot read properties of undefined (reading \'errorMap\')')) {
         console.warn('mdxld: Encountered known Velite errorMap issue, continuing with build...')
+        console.warn('mdxld: Check validation results above for potential problematic files')
         result = { files: [] }
       } else {
         throw error
