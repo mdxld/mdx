@@ -29,7 +29,7 @@ Chart.displayName = 'Chart'
 const ChartPie = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    data: Record<string, any>[]
+    data: Record<string, unknown>[]
     dataKey: string
     nameKey: string
     innerRadius?: number
@@ -92,7 +92,7 @@ ChartPie.displayName = 'ChartPie'
 const ChartComposed = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    data: Record<string, any>[]
+    data: Record<string, unknown>[]
     margin?: {
       top?: number
       right?: number
