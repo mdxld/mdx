@@ -647,3 +647,6 @@ export {
 import { Toggle as ShadcnToggle, toggleVariants } from './components/ui/toggle.js'
 
 export { ShadcnToggle, toggleVariants }
+import { ToggleGroup as ShadcnToggleGroup, ToggleGroupItem } from './components/ui/toggle-group.js'
+
+export { ShadcnToggleGroup, ToggleGroupItem }
