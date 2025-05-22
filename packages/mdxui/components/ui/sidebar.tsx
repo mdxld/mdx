@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import { cva } from "class-variance-authority"
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 
-import { cn } from "../../lib/utils"
+import { cn } from "../../lib/utils.js"
 import { Slot } from "@radix-ui/react-slot"
 
 // Constants
@@ -59,9 +59,9 @@ function SidebarProvider({
     if (!isClient) return
 
     const mediaQuery = window.matchMedia("(max-width: 768px)")
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsMobile(e.matches)
-      if (e.matches) {
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsMobile(event.matches)
+      if (event.matches) {
         setOpenMobile(false)
       }
     }
@@ -76,24 +76,6 @@ function SidebarProvider({
       mediaQuery.addListener(handleChange)
       return () => mediaQuery.removeListener(handleChange)
     }
-  }, [isClient])
-
-  // Set up keyboard shortcut
-  React.useEffect(() => {
-    if (!isClient) return
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        (e.metaKey || e.ctrlKey) &&
-        e.key.toLowerCase() === SIDEBAR_KEYBOARD_SHORTCUT
-      ) {
-        e.preventDefault()
-        toggleSidebar()
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
   }, [isClient])
 
   const setOpen = React.useCallback(
@@ -118,6 +100,24 @@ function SidebarProvider({
     }
   }, [isMobile, setOpen])
 
+  // Set up keyboard shortcut
+  React.useEffect(() => {
+    if (!isClient) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        (e.metaKey || e.ctrlKey) &&
+        e.key.toLowerCase() === SIDEBAR_KEYBOARD_SHORTCUT
+      ) {
+        e.preventDefault()
+        toggleSidebar()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [isClient, toggleSidebar])
+
   const state = React.useMemo(
     () => (isMobile ? (openMobile ? "expanded" : "collapsed") : open ? "expanded" : "collapsed"),
     [isMobile, open, openMobile]
@@ -141,7 +141,7 @@ function SidebarProvider({
           "--sidebar-width": SIDEBAR_WIDTH,
           "--sidebar-width-mobile": SIDEBAR_WIDTH_MOBILE,
           ...props.style,
-        }}
+        } as React.CSSProperties}
         {...props}
       >
         {children}
@@ -410,7 +410,7 @@ function Sidebar({
   children,
   ...props
 }: SidebarProps) {
-  const { state, isMobile, openMobile } = useSidebar()
+  const { state } = useSidebar()
 
   return (
     <aside
