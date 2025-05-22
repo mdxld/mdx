@@ -595,3 +595,6 @@ export {
   TabsTrigger,
   TabsContent
 }
+import { Textarea as ShadcnTextarea } from './components/ui/textarea.js'
+
+export { ShadcnTextarea }
