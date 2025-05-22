@@ -177,12 +177,17 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
     visited.add(thingId)
 
     const directProperties = allThings.filter((item) => {
+      // Check both domainIncludes and schema:domainIncludes
+      const domainIncludes = item.domainIncludes || item['schema:domainIncludes']
+      
       return (
         item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
-        (Array.isArray(item.domainIncludes) 
-          ? item.domainIncludes.some((domain: any) => 
-              expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thingId))
-          : expandUriPrefix(flattenUriObject(item.domainIncludes)) === expandUriPrefix(thingId))
+        domainIncludes && (
+          Array.isArray(domainIncludes) 
+            ? domainIncludes.some((domain: any) => 
+                expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thingId))
+            : expandUriPrefix(flattenUriObject(domainIncludes)) === expandUriPrefix(thingId)
+        )
       )
     })
 
@@ -224,7 +229,11 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
   frontmatter += `label: ${label}\n`
 
   if (comment) {
-    frontmatter += `comment: ${comment}\n`
+    if (typeof comment === 'string') {
+      frontmatter += `comment: |\n${comment.split('\n').map((line: string) => `  ${line}`).join('\n')}\n`
+    } else {
+      frontmatter += `comment: ${JSON.stringify(comment)}\n`
+    }
   }
 
   if (isProperty) {
@@ -266,7 +275,11 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
           frontmatter += `${key}: ${JSON.stringify(flattenUriObject(value))}\n`
         }
       } else {
-        frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(value as string))}\n`
+        if (typeof value === 'string' && value.includes('\n')) {
+          frontmatter += `${key}: |\n${(value as string).split('\n').map((line: string) => `  ${line}`).join('\n')}\n`
+        } else {
+          frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(value as string))}\n`
+        }
       }
     }
   }
@@ -389,6 +402,26 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
 
       if (!isProperty) {
         properties = resolveInheritedProperties(thing, allThings)
+        // Add debugging for properties
+        if (name === 'FinancialIncentive') {
+          console.log(`Found ${properties.length} properties for ${name}`)
+          if (properties.length === 0) {
+            console.log(`No properties found for ${name} with ID ${thing['$id']}`)
+            const propertiesWithDomain = allThings.filter((item: any) => 
+              item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
+              item.domainIncludes && (
+                (Array.isArray(item.domainIncludes) && 
+                  item.domainIncludes.some((domain: any) => 
+                    expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thing['$id'] as string)
+                )) ||
+                (!Array.isArray(item.domainIncludes) && 
+                  expandUriPrefix(flattenUriObject(item.domainIncludes)) === expandUriPrefix(thing['$id'] as string)
+                )
+              )
+            )
+            console.log(`Direct properties with domain ${thing['$id']}: ${propertiesWithDomain.length}`)
+          }
+        }
       }
 
       const content = generateMdxContent(thing, properties, isProperty)
