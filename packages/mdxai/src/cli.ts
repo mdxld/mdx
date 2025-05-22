@@ -4,7 +4,8 @@ import { Command } from 'commander'
 import packageJson from '../package.json' with { type: 'json' }
 import * as fs from 'fs'
 import * as path from 'path'
-import { generateContentStream, generateListStream, generateResearchStream } from './llmService.js'
+import { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream } from './llmService.js'
+import { extractH1Title, slugifyString, ensureDirectoryExists } from './utils.js'
 import { CoreMessage } from 'ai' // CoreMessage might be needed for type safety
 
 const program = new Command()
@@ -371,6 +372,67 @@ program
         console.error(JSON.stringify({ status: 'error', message: String(error) }))
       } else {
         console.error('Error during research generation:', error)
+      }
+      process.exit(1)
+    }
+  })
+
+program
+  .command('deepwiki <query>')
+  .description('Generate a markdown research document and save it to research/{title}.md')
+  .action(async (query: string) => {
+    const { json } = program.opts<{ json: boolean }>()
+    try {
+      // Ensure AI_GATEWAY_TOKEN is set
+      if (!process.env.AI_GATEWAY_TOKEN) {
+        const msg = 'AI_GATEWAY_TOKEN environment variable is not set.'
+        if (json) {
+          console.error(JSON.stringify({ status: 'error', message: msg }))
+        } else {
+          console.error(msg)
+        }
+        process.exit(1)
+      }
+
+      const result = await generateDeepwikiStream(query)
+
+      let completeContent = ''
+      for await (const delta of result.textStream) {
+        if (!json) {
+          process.stdout.write(delta)
+        }
+        completeContent += delta
+      }
+
+      if (!json) {
+        process.stdout.write('\n') // Add a newline at the end for stdout
+      }
+
+      const title = extractH1Title(completeContent) || query
+      const slugifiedTitle = slugifyString(title)
+      
+      // Ensure research directory exists
+      ensureDirectoryExists('research')
+      
+      const outputPath = path.resolve(`research/${slugifiedTitle}.md`)
+      fs.writeFileSync(outputPath, completeContent)
+
+      if (json) {
+        console.log(
+          JSON.stringify({
+            status: 'success',
+            outputFile: outputPath,
+            content: completeContent,
+          }),
+        )
+      } else {
+        console.log(`Research successfully written to ${outputPath}`)
+      }
+    } catch (error) {
+      if (json) {
+        console.error(JSON.stringify({ status: 'error', message: String(error) }))
+      } else {
+        console.error('Error during deepwiki generation:', error)
       }
       process.exit(1)
     }

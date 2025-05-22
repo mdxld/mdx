@@ -1,4 +1,4 @@
-import { CoreMessage, StreamTextResult, streamText } from 'ai'
+import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 
 interface LLMServiceParams {
@@ -70,4 +70,32 @@ export async function generateResearchStream(prompt: string): Promise<StreamText
     modelId: 'perplexity/sonar-deep-research',
     messages,
   })
+}
+
+export async function generateDeepwikiStream(query: string): Promise<StreamTextResult<never, string>> {
+  if (!process.env.AI_GATEWAY_TOKEN) {
+    throw new Error('AI_GATEWAY_TOKEN environment variable is not set.')
+  }
+
+  const client = await experimental_createMCPClient({
+    transport: {
+      type: 'sse',
+      url: 'https://mcp.deepwiki.com/sse',
+    },
+  });
+
+  const tools = await client.tools();
+
+  const result = await streamText({
+    model: openai('o4-mini'),
+    tools,
+    messages: [
+      {
+        role: 'user',
+        content: `research ${query}`,
+      },
+    ],
+  });
+
+  return result;
 }
