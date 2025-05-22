@@ -71,7 +71,7 @@ function SidebarProvider({
     try {
       mediaQuery.addEventListener("change", handleChange)
       return () => mediaQuery.removeEventListener("change", handleChange)
-    } catch (e) {
+    } catch (_) {
       // Fallback for older browsers
       mediaQuery.addListener(handleChange)
       return () => mediaQuery.removeListener(handleChange)
@@ -540,11 +540,15 @@ function SidebarGroupContent({
   )
 }
 
+interface SidebarGroupActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string
+}
+
 function SidebarGroupAction({
   className,
   children,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: SidebarGroupActionProps) {
   return (
     <button
       className={cn(
@@ -616,11 +620,15 @@ function SidebarMenuButton({
   )
 }
 
+interface SidebarMenuActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string
+}
+
 function SidebarMenuAction({
   className,
   children,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: SidebarMenuActionProps) {
   return (
     <button
       className={cn(
@@ -742,11 +750,15 @@ function SidebarSeparator({
   )
 }
 
+interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string
+}
+
 function SidebarTrigger({
   className,
   children,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: SidebarTriggerProps) {
   const { toggleSidebar } = useSidebar()
   return (
     <button
