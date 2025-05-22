@@ -19,9 +19,13 @@ const Breadcrumb = React.forwardRef<
 ))
 Breadcrumb.displayName = "Breadcrumb"
 
+interface BreadcrumbListProps extends React.OlHTMLAttributes<HTMLOListElement> {
+  className?: string
+}
+
 const BreadcrumbList = React.forwardRef<
   HTMLOListElement,
-  React.OlHTMLAttributes<HTMLOListElement>
+  BreadcrumbListProps
 >(({ className, ...props }, ref) => (
   <ol
     ref={ref}
@@ -34,9 +38,13 @@ const BreadcrumbList = React.forwardRef<
 ))
 BreadcrumbList.displayName = "BreadcrumbList"
 
+interface BreadcrumbItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+  className?: string
+}
+
 const BreadcrumbItem = React.forwardRef<
   HTMLLIElement,
-  React.LiHTMLAttributes<HTMLLIElement>
+  BreadcrumbItemProps
 >(({ className, ...props }, ref) => (
   <li
     ref={ref}
@@ -46,11 +54,14 @@ const BreadcrumbItem = React.forwardRef<
 ))
 BreadcrumbItem.displayName = "BreadcrumbItem"
 
+interface BreadcrumbLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  asChild?: boolean
+  className?: string
+}
+
 const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
-  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-    asChild?: boolean
-  }
+  BreadcrumbLinkProps
 >(({ asChild, className, ...props }, ref) => {
   const Comp = asChild ? Slot : "a"
 
