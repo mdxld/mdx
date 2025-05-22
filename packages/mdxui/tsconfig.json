@@ -1,8 +1,12 @@
 {
   "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "baseUrl": "."
   },
-  "include": ["components", "*.ts", "lib"],
+  "include": ["components/**/*", "*.ts", "*.tsx", "lib/**/*"],
   "exclude": ["dist", "build", "node_modules"]
 }

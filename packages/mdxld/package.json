@@ -45,6 +45,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
+    "check-types": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   }
 }
