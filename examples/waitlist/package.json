@@ -1,0 +1,8 @@
+{
+  "name": "waitlist-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "echo \"No build needed for waitlist example\""
+  }
+}

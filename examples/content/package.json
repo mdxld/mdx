@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "mdxdb build"
+    "build": "@mdxdb/fs build"
   },
   "devDependencies": {
-    "mdxdb": "workspace:*"
+    "@mdxdb/fs": "workspace:*"
   }
 }

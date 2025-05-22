@@ -1,0 +1,11 @@
+{
+  "name": "agents-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "echo \"No build needed for agents example\""
+  },
+  "dependencies": {
+    "mdxai": "workspace:*"
+  }
+}
