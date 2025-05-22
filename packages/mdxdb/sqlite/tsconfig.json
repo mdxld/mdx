@@ -8,12 +8,12 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@mdxdb/core": ["../mdxdb-core/dist/lib"],
-      "@mdxdb/core/*": ["../mdxdb-core/dist/lib/*"]
+      "@mdxdb/core": ["../core/dist/lib"],
+      "@mdxdb/core/*": ["../core/dist/lib/*"]
     }
   },
   "include": ["lib/**/*"],
   "references": [
-    { "path": "../mdxdb-core" }
+    { "path": "../core" }
   ]
 }

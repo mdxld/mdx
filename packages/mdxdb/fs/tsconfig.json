@@ -8,13 +8,13 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@mdxdb/core": ["../mdxdb-core/dist/lib"],
-      "@mdxdb/core/*": ["../mdxdb-core/dist/lib/*"]
+      "@mdxdb/core": ["../core/dist/lib"],
+      "@mdxdb/core/*": ["../core/dist/lib/*"]
     }
   },
   "include": ["lib/**/*.ts"], // Only compile library files
   "exclude": ["node_modules", "dist", ".velite", ".db", "**/*.test.ts", "cli.ts", "velite.config.ts"],
   "references": [
-    { "path": "../mdxdb-core" }
+    { "path": "../core" }
   ]
 }
