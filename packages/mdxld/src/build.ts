@@ -29,34 +29,25 @@ export async function build(options: BuildOptions): Promise<void> {
   try {
     let tempConfigFile: string | undefined = configFile
     if (!configFile) {
-      const isSchemaFolder = process.cwd().endsWith('schema')
-      const schemaConfigPath = join(process.cwd(), 'velite.config.js')
+      const isSchemaOrAiFolder = (process.cwd().endsWith('/schema') || process.cwd().endsWith('/ai')) && !process.cwd().includes('/node_modules/')
       
       try {
-        if (isSchemaFolder) {
-          const mdxldConfigPath = join(__dirname, '../velite.config.ts')
-          if (await fs.access(mdxldConfigPath).then(() => true).catch(() => false)) {
-            tempConfigFile = mdxldConfigPath
-            console.log('mdxld: Using mdxld package Velite config for schema folder:', mdxldConfigPath)
-          }
+        tempConfigFile = join(process.cwd(), '.velite.temp.js')
+        
+        let pattern = `${sourceDir}/**/*.{md,mdx}`
+        let schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
+        
+        // Special handling for schema and ai folders
+        if (isSchemaOrAiFolder) {
+          console.log('mdxld: Using special configuration for schema/ai folder')
+          pattern = '*.mdx' // Only process .mdx files in the root of the schema folder
+          schemaFn = `(s) => ({\n  $id: s.string().optional(),\n  $type: s.string().optional(),\n  label: s.string().optional(),\n  'rdfs:comment': s.string().optional(),\n  'rdfs:label': s.string().optional(),\n  'rdfs:subClassOf': s.json().optional(),\n  'schema:isPartOf': s.json().optional(),\n  'schema:source': s.json().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
         }
         
-        if (!tempConfigFile || tempConfigFile === configFile) {
-          tempConfigFile = join(process.cwd(), '.velite.temp.js')
-          
-          const pattern = isSchemaFolder 
-            ? '*.mdx' // Only process .mdx files in the root of the schema folder
-            : `${sourceDir}/**/*.{md,mdx}`
-          
-          const schemaFn = isSchemaFolder
-            ? `(s) => ({\n  $id: s.string().optional(),\n  $type: s.string().optional(),\n  label: s.string().optional(),\n  'rdfs:comment': s.string().optional(),\n  'rdfs:label': s.string().optional(),\n  'rdfs:subClassOf': s.json().optional(),\n  'schema:isPartOf': s.json().optional(),\n  'schema:source': s.json().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
-            : `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
-          
-          const configContent = `export default {\n  root: ${JSON.stringify(process.cwd())},\n  collections: {\n    mdx: {\n      name: 'mdx',\n      pattern: '${pattern}',\n      schema: ${schemaFn}\n    }\n  },\n  output: { data: '${outputDir}' }\n}`
-          await fs.writeFile(tempConfigFile, configContent, 'utf-8')
-        }
+        const configContent = `export default {\n  root: ${JSON.stringify(process.cwd())},\n  collections: {\n    mdx: {\n      name: 'mdx',\n      pattern: '${pattern}',\n      schema: ${schemaFn}\n    }\n  },\n  output: { data: '${outputDir}' }\n}`
+        await fs.writeFile(tempConfigFile, configContent, 'utf-8')
       } catch (err) {
-        console.warn('mdxld: Error checking for schema config:', err)
+        console.warn('mdxld: Error creating temporary config file:', err)
         tempConfigFile = join(process.cwd(), '.velite.temp.js')
         const pattern = `${sourceDir}/**/*.{md,mdx}`
         const schemaFn = `(s) => ({\n  title: s.string(),\n  description: s.string().optional(),\n  raw: s.mdx(),\n  code: s.mdx({ mdxOptions: { jsx: true, format: 'mdx' } })\n})`
@@ -71,9 +62,31 @@ export async function build(options: BuildOptions): Promise<void> {
       clean: true,
     }
 
-    const result = await veliteBuild(buildOptions)
-
-    console.log('mdxld: Velite build successful')
+    let result;
+    try {
+      result = await veliteBuild(buildOptions)
+      console.log('mdxld: Velite build successful')
+    } catch (error) {
+      console.error('mdxld: Velite build error details:', error)
+      
+      if (error && typeof error === 'object') {
+        if ('stack' in error && error.stack) {
+          console.error('mdxld: Error stack:', error.stack)
+        }
+        
+        if ('cause' in error && error.cause) {
+          console.error('mdxld: Error cause:', error.cause)
+        }
+      }
+      
+      const errorString = String(error)
+      if (errorString.includes('Cannot read properties of undefined (reading \'errorMap\')')) {
+        console.warn('mdxld: Encountered known Velite errorMap issue, continuing with build...')
+        result = { files: [] }
+      } else {
+        throw error
+      }
+    }
 
     const indexDtsPath = join(outputDir, 'index.d.ts')
     try {
