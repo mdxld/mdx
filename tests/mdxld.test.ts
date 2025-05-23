@@ -15,14 +15,11 @@ describe('mdxld cli', () => {
     expect(fs.existsSync('./.mdx/index.js')).toBe(true)
     expect(fs.existsSync('./.mdx/mdx.json')).toBe(true)
     
-    expect(result.stdout).toMatchInlineSnapshot(`
-      "mdxld: Starting build process...
-      Source directory: /home/ubuntu/repos/mdx/tests
-      Output directory: /home/ubuntu/repos/mdx/tests/.mdx
-      [32m[VELITE][0m build finished in 301.12ms
-      mdxld: Build process complete
-      "
-    `)
-
+    // Use regex to match output without depending on absolute paths or timing
+    expect(result.stdout).toMatch(/mdxld: Starting build process.../);
+    expect(result.stdout).toMatch(/Source directory:/);
+    expect(result.stdout).toMatch(/Output directory:/);
+    expect(result.stdout).toMatch(/\[VELITE\] build finished in/);
+    expect(result.stdout).toMatch(/mdxld: Build process complete/);
   })
 })
