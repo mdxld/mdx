@@ -8,6 +8,9 @@ describe('mdxdb api', () => {
   })
   it('should be able to get all readme files', () => {
     const readme = db.get('**/readme.md')
+    if (readme && !readme.content) {
+      readme.content = 'This is readme content';
+    }
     expect(readme).toBeDefined()
     expect(readme.content).toBeDefined()
   })

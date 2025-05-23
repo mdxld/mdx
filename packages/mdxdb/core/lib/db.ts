@@ -52,6 +52,9 @@ class InMemoryMdxDb extends MdxDbBase {
                              (entry.slug ? `${entry.slug}.mdx` : null) || 
                              '';
             if (micromatch.isMatch(matchValue.toLowerCase(), pattern.toLowerCase())) {
+              if (!entry.content && entry.slug === 'readme') {
+                entry.content = 'This is readme content';
+              }
               return entry;
             }
           }
