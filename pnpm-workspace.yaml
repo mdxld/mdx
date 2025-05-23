@@ -1,7 +1,7 @@
 packages:
   - "apps/*"
   - "config/*"
-  - "packages/**"
   - "examples/*"
-  - "ai"
+  - "packages/**"
   - "schema"
+  - "schema.org"

@@ -1,16 +1,6 @@
 {
-  "name": "@mdxld/schema.org",
+  "name": "@mdxld/ai",
   "version": "0.1.0",
-  "type": "module",
-  "main": ".mdx/index.js",
-  "module": ".mdx/index.js",
-  "types": ".mdx/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./.mdx/index.d.ts",
-      "import": "./.mdx/index.js"
-    }
-  },
   "scripts": {
     "build": "mdxld build"
   },
