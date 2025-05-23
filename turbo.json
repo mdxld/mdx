@@ -23,7 +23,8 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": ["^test"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
     }
   }
 }

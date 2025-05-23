@@ -14,7 +14,7 @@ class InMemoryMdxDb extends MdxDbBase {
         { slug: 'test2', filePath: 'content/test2.mdx' },
         { slug: 'test3', filePath: 'content/test3.md' },
         { slug: 'test4', filePath: 'content/test4.mdx' },
-        { slug: 'readme', filePath: 'README.md' }
+        { slug: 'readme', filePath: 'README.md', content: '# README\n\nThis is a test readme file.' }
       ]
     }
   }
@@ -51,7 +51,9 @@ class InMemoryMdxDb extends MdxDbBase {
             const matchValue = entry.filePath || 
                              (entry.slug ? `${entry.slug}.mdx` : null) || 
                              '';
+            console.log(`Checking if '${matchValue}' matches pattern '${pattern}'`);
             if (micromatch.isMatch(matchValue.toLowerCase(), pattern.toLowerCase())) {
+              console.log(`Match found: '${matchValue}' matches '${pattern}'`);
               if (!entry.content && entry.slug === 'readme') {
                 entry.content = 'This is readme content';
               }

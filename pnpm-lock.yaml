@@ -30,6 +30,9 @@ importers:
       '@types/node':
         specifier: ^22.15.21
         version: 22.15.21
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       globby:
         specifier: ^14.1.0
         version: 14.1.0
@@ -347,6 +350,12 @@ importers:
       commander:
         specifier: ^12.1.0
         version: 12.1.0
+      dedent:
+        specifier: ^1.6.0
+        version: 1.6.0
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -5745,7 +5754,6 @@ packages:
     peerDependenciesMeta:
       babel-plugin-macros:
         optional: true
-    dev: true
 
   /deep-eql@5.0.2:
     resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==}
@@ -5854,6 +5862,10 @@ packages:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: true
+
+  /dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
+    engines: {node: '>=12'}
 
   /drizzle-kit@0.28.0:
     resolution: {integrity: sha512-KqI+CS2Ga9GYIrXpxpCDUJJrH/AT/k4UY0Pb4oRgQEGkgN1EdCnqp664cXgwPWjDr5RBtTsjZipw8+8C//K63A==}
