@@ -6,18 +6,25 @@ const schema = s.object({
     meta: s.metadata(),
     mdx: s.raw(),
     code: s.mdx(),
-  }),
+  }).optional(),
   $id: s.string().optional(),
   $type: s.string().optional(),
   $context: s.string().optional(),
 })
 .passthrough()
 .transform((obj) => {
-  const { $, ...data } = obj
+  const $ = obj.$ || {
+    html: '',
+    meta: {},
+    mdx: '',
+    code: {}
+  };
+  const { ...data } = obj;
   return {
     id: data.$id,
     type: data.$type,
     context: data.$context,
+    $,
     data
   }
 })
