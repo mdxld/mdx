@@ -19,11 +19,11 @@ This document has been developed by the [JSON-LD Community Group](https://www.w3
 
 ## Introduction
 
-\[\[JSON-LD11\]\] is a JSON-based format to serialize Linked Data. In recent years, \[\[YAML\]\] has emerged as a more concise format to represent information that had previously been serialized as \[\[JSON\]\], including API specifications, data schemas, and Linked Data.
+[[JSON-LD11]] is a JSON-based format to serialize Linked Data. In recent years, [[YAML]] has emerged as a more concise format to represent information that had previously been serialized as [[JSON]], including API specifications, data schemas, and Linked Data.
 
-This document defines YAML-LD as a set of conventions on top of YAML which specify how to serialize Linked Data \[\[LINKED-DATA\]\] as \[\[YAML\]\] based on JSON-LD syntax, semantics, and APIs.
+This document defines YAML-LD as a set of conventions on top of YAML which specify how to serialize Linked Data [[LINKED-DATA]] as [[YAML]] based on JSON-LD syntax, semantics, and APIs.
 
-Since YAML is more expressive than JSON, both in the available data types and in the document structure (see \[\[RFC9512\]\]), this document identifies constraints on YAML such that any YAML-LD document can be represented in JSON-LD.
+Since YAML is more expressive than JSON, both in the available data types and in the document structure (see [[RFC9512]]), this document identifies constraints on YAML such that any YAML-LD document can be represented in JSON-LD.
 
 See YAML-LD description of this spec at [`spec.yaml`](data/spec.yaml) .
 
@@ -31,8 +31,8 @@ See YAML-LD description of this spec at [`spec.yaml`](data/spec.yaml) .
 
 To understand the basics of this specification, one must be familiar with the following:
 
-- \[\[YAML\]\] data markup language, which is the underlying syntax for YAML-LD
-- basic Linked Data \[\[LINKED-DATA\]\] principles
+- [[YAML]] data markup language, which is the underlying syntax for YAML-LD
+- basic Linked Data [[LINKED-DATA]] principles
 
 This document is intended primarily for two main audiences, as described below.
 
@@ -60,31 +60,31 @@ This document uses the following terms as defined in external specifications and
 
 A YAML-LD stream is a YAML stream of YAML-LD documents.
 
-A YAML-LD document is any YAML document from which a conversion to \[\[JSON\]\] produces a valid JSON-LD document which can be interpreted as \[\[LINKED-DATA\]\].
+A YAML-LD document is any YAML document from which a conversion to [[JSON]] produces a valid JSON-LD document which can be interpreted as [[LINKED-DATA]].
 
-The term media type is imported from \[\[RFC6838\]\].
+The term media type is imported from [[RFC6838]].
 
-The term JSON is imported from \[\[JSON\]\].
+The term JSON is imported from [[JSON]].
 
-The term JSON document represents a serialization of a resource conforming to the \[\[JSON\]\] grammar.
+The term JSON document represents a serialization of a resource conforming to the [[JSON]] grammar.
 
-The terms JSON-LD document, and value object are imported from \[\[JSON-LD11\]\].
+The terms JSON-LD document, and value object are imported from [[JSON-LD11]].
 
-The terms internal representation, and documentLoader are imported from \[\[JSON-LD11-API\]\].
+The terms internal representation, and documentLoader are imported from [[JSON-LD11-API]].
 
-The terms array, boolean, map, map entry, null, and string are imported from \[\[INFRA\]\].
+The terms array, boolean, map, map entry, null, and string are imported from [[INFRA]].
 
-The term number is imported from \[\[ECMASCRIPT\]\].
+The term number is imported from [[ECMASCRIPT]].
 
-The terms YAML, YAML representation graph, YAML stream, YAML directive, TAG directive, YAML document, YAML sequence (either block sequence or flow sequence), YAML mapping (either block mapping or flow mapping), node, scalar, node anchor, node tags, and alias node, are imported from \[\[YAML\]\].
+The terms YAML, YAML representation graph, YAML stream, YAML directive, TAG directive, YAML document, YAML sequence (either block sequence or flow sequence), YAML mapping (either block mapping or flow mapping), node, scalar, node anchor, node tags, and alias node, are imported from [[YAML]].
 
-The term content negotiation is imported from \[\[RFC9110\]\].
+The term content negotiation is imported from [[RFC9110]].
 
-The terms RDF literal, language-tagged string, datatype IRI, and language tag are imported from \[\[RDF11-CONCEPTS\]\].
+The terms RDF literal, language-tagged string, datatype IRI, and language tag are imported from [[RDF11-CONCEPTS]].
 
-The terms fragment and fragment identifier in this document are to be interpreted as in \[\[URI\]\].
+The terms fragment and fragment identifier in this document are to be interpreted as in [[URI]].
 
-The term Linked Data is imported from \[\[LINKED-DATA\]\].
+The term Linked Data is imported from [[LINKED-DATA]].
 
 ## Namespace Prefixes
 
@@ -126,13 +126,13 @@ See YAML-LD version of this table at [`namespace-prefixes.yaml`](data/namespace-
 
 These are used within this document as part of a compact IRI as a shorthand for the resulting IRI, such as `schema:url` used to represent `https://schema.org/url`.
 
-A YAML-LD document complies with the YAML-LD Basic profile of this specification if it follows the normative statements from this specification and can be transformed into a \[\[JSON-LD11\]\] representation, then back to a conforming YAML-LD document, without loss of semantic information.
+A YAML-LD document complies with the YAML-LD Basic profile of this specification if it follows the normative statements from this specification and can be transformed into a [[JSON-LD11]] representation, then back to a conforming YAML-LD document, without loss of semantic information.
 
 For convenience, normative statements for documents are often phrased as statements on the properties of the document.
 
 ## JSON-LD Version
 
-YAML-LD supports \[\[\[JSON-LD11\]\]\] \[\[JSON-LD11\]\] and later.
+YAML-LD supports [[[JSON-LD11]]] [[JSON-LD11]] and later.
 
 ## Test Suites
 
@@ -158,9 +158,9 @@ YAML is more flexible than JSON, as illustrated by the comparison table below.
 
 Features
 
-\[\[JSON\]\]
+[[JSON]]
 
-\[\[YAML\]\]
+[[YAML]]
 
 Allowed encodings
 
@@ -328,7 +328,7 @@ Perspectives for support of the additional YAML features are analyzed in [Extend
 
 ## Encoding
 
-A YAML-LD document MUST be encoded in UTF-8, to ensure interoperability with \[\[JSON\]\]; otherwise, an invalid-encoding MUST be detected, and processing aborted.
+A YAML-LD document MUST be encoded in UTF-8, to ensure interoperability with [[JSON]]; otherwise, an invalid-encoding MUST be detected, and processing aborted.
 
 ## Comments
 
@@ -358,13 +358,13 @@ See Security considerations in JSON-LD 1.1 and `+yaml` structured syntax suffix.
 
 ## Interoperability Considerations
 
-For general interoperability considerations on the serialization of JSON documents in \[\[YAML\]\], see YAML and the Interoperability considerations of the `+yaml` structured syntax suffix.
+For general interoperability considerations on the serialization of JSON documents in [[YAML]], see YAML and the Interoperability considerations of the `+yaml` structured syntax suffix.
 
 The YAML-LD format and the media type registration are not restricted to a specific version of YAML, but implementers that want to use YAML-LD with YAML versions other than 1.2.2 need to be aware that the considerations and analysis provided here, including interoperability and security considerations, are based on the YAML 1.2.2 specification.
 
 ## Embedding YAML-LD in HTML Documents
 
-YAML-LD content can be easily embedded in HTML \[\[HTML\]\] by placing it in a `<script>` element with the \`type\` attribute set to \`application/ld+yaml\`, as illustrated in an example below.
+YAML-LD content can be easily embedded in HTML [[HTML]] by placing it in a `<script>` element with the \`type\` attribute set to \`application/ld+yaml\`, as illustrated in an example below.
 
 YAML syntax is indentation based. Therefore, when processing each \`<script>\` block with YAML-LD content, YAML-LD processor MUST preserve the content of the block for YAML parsing _as-is_, including whitespace characters.
 
@@ -374,7 +374,7 @@ If the YAML-LD `<script>` tag contains a YAML Stream with multiple YAML document
 
 Every YAML-LD file is a YAML-LD stream and might contain multiple YAML-LD documents, as shown in the example below.
 
-\[\[JSON-LD11-API\]\] defines the \`extractAllScripts\` flag, which allows to parse multiple \`<script>\` tags with YAML-LD content.
+[[JSON-LD11-API]] defines the \`extractAllScripts\` flag, which allows to parse multiple \`<script>\` tags with YAML-LD content.
 
 A conformant YAML-LD specification MUST take this flag into account while parsing a normal YAML-LD document.
 
@@ -387,7 +387,7 @@ For interoperability considerations on YAML streams, see the relevant section in
 
 This section has been submitted to the Internet Engineering Steering Group (IESG) for review, approval, and registration with IANA.
 
-This section describes the information required to register the above media type according to \[\[RFC6838\]\]
+This section describes the information required to register the above media type according to [[RFC6838]]
 
 ### application/ld+yaml
 
@@ -407,7 +407,7 @@ Optional parameters:
 
 `profile`
 
-A non-empty list of space-separated URIs identifying specific constraints or conventions that apply to a YAML-LD document according to \[\[RFC6906\]\]. A profile does not change the semantics of the resource representation when processed without profile knowledge, so that clients both with and without knowledge of a profiled resource can safely use the same representation. The `profile` parameter MAY be used by clients to express their preferences in the content negotiation process. If the profile parameter is given, a server SHOULD return a document that honors the profiles in the list which it recognizes, and MUST ignore the profiles in the list which it does not recognize. It is RECOMMENDED that profile URIs are dereferenceable and provide useful documentation at that URI. For more information and background please refer to \[\[RFC6906\]\].
+A non-empty list of space-separated URIs identifying specific constraints or conventions that apply to a YAML-LD document according to [[RFC6906]]. A profile does not change the semantics of the resource representation when processed without profile knowledge, so that clients both with and without knowledge of a profiled resource can safely use the same representation. The `profile` parameter MAY be used by clients to express their preferences in the content negotiation process. If the profile parameter is given, a server SHOULD return a document that honors the profiles in the list which it recognizes, and MUST ignore the profiles in the list which it does not recognize. It is RECOMMENDED that profile URIs are dereferenceable and provide useful documentation at that URI. For more information and background please refer to [[RFC6906]].
 
 This specification allows the use of the \`profile\` parameters listed in and additionally defines the following:
 
@@ -417,9 +417,9 @@ To request or specify [extended](#extended-profile) YAML-LD document form.
 
 This is a placeholder for specifying something like an [extended](#extended-profile) YAML-LD document form making use of YAML-specific features.
 
-When used as a media type parameter \[\[RFC4288\]\] in an HTTP Accept header field \[\[RFC9110\]\], the value of the `profile` parameter MUST be enclosed in quotes (`"`) if it contains special characters such as whitespace, which is required when multiple profile URIs are combined.
+When used as a media type parameter [[RFC4288]] in an HTTP Accept header field [[RFC9110]], the value of the `profile` parameter MUST be enclosed in quotes (`"`) if it contains special characters such as whitespace, which is required when multiple profile URIs are combined.
 
-When processing the "profile" media type parameter, it is important to note that its value contains one or more URIs and not IRIs. In some cases it might therefore be necessary to convert between IRIs and URIs as specified in section 3 Relationship between IRIs and URIs of \[\[RFC3987\]\].
+When processing the "profile" media type parameter, it is important to note that its value contains one or more URIs and not IRIs. In some cases it might therefore be necessary to convert between IRIs and URIs as specified in section 3 Relationship between IRIs and URIs of [[RFC3987]].
 
 Encoding considerations:
 
@@ -488,17 +488,17 @@ W3C
 
 Here, we propose to YAML-LD users a bit of advice which, although optional, might suggest one or two useful thoughts.
 
-Follow JSON-LD best practices …in order to achieve a greater level of reusability, performance, and human friendliness among YAML-LD aware systems. The \[\[json-ld-bp\]\] document is as relevant to YAML-LD as it is to \[\[JSON-LD11\]\].
+Follow JSON-LD best practices …in order to achieve a greater level of reusability, performance, and human friendliness among YAML-LD aware systems. The [[json-ld-bp]] document is as relevant to YAML-LD as it is to [[JSON-LD11]].
 
 Do not force users to author contexts Instead, provide pre-built contexts that the user can reference by URL for a majority of common use cases.
 
-YAML-LD is intended to simplify the authoring of Linked Data for a wide range of domain experts; its target audience is not comprised solely of IT professionals. \[\[YAML\]\] is chosen as a medium to minimize syntactic noise, and to keep the authored documents concise and clear. \[\[JSON-LD11\]\] (and hence YAML-LD) Context comprises a special language of its own. A requirement to _author_ such a context would make the domain expert's job much harder, which we, as system architects and developers, should try to avoid.
+YAML-LD is intended to simplify the authoring of Linked Data for a wide range of domain experts; its target audience is not comprised solely of IT professionals. [[YAML]] is chosen as a medium to minimize syntactic noise, and to keep the authored documents concise and clear. [[JSON-LD11]] (and hence YAML-LD) Context comprises a special language of its own. A requirement to _author_ such a context would make the domain expert's job much harder, which we, as system architects and developers, should try to avoid.
 
 Use a default context
 
 If most, or all, of a user's documents are based on one particular context, try to make it the default in order to rescue the user from copy-pasting the same technical incantation from one document to another.
 
-For instance, according to \[\[JSON-LD11-API\]\], the \`expand()\` method of a JSON-LD processor accepts an \`expandContext\` argument which can be used to provide a default system context.
+For instance, according to [[JSON-LD11-API]], the \`expand()\` method of a JSON-LD processor accepts an \`expandContext\` argument which can be used to provide a default system context.
 
 Alias JSON-LD keywords If possible, map JSON-LD keywords containing the \`@\` character to keywords that do not contain it.
 
@@ -533,7 +533,7 @@ It is therefore best to avoid nesting YAML streams inside \`<script>\` blocks; i
 
 ## Consistency
 
-\[\[?TURTLE\]\] and other Linked Data serializations which support comments
+[[?TURTLE]] and other Linked Data serializations which support comments
 
 do not provide a means to preserve them when processing and serializing the document in other formats
 
@@ -577,7 +577,7 @@ When converting JSON-LD to RDF, `@type` translates to one of the following:
 Possible ways to specify this in YAML-LD are the following:
 
 - In the `@context`, but there we can only say that the node is an IRI, we cannot specify a particular `rdf:type`
-- Using \[\[RDF-SCHEMA\]\] and \[\[OWL2-SYNTAX\]\] based logical reasoning, for instance, via `rdfs:domain` or `rdfs:range` properties
+- Using [[RDF-SCHEMA]] and [[OWL2-SYNTAX]] based logical reasoning, for instance, via `rdfs:domain` or `rdfs:range` properties
 - Inline, using the `@type` keyword
 - Using a YAML Tag, as shown below:
 
@@ -607,11 +607,11 @@ Two alternative approaches have been proposed to implement the Extended profile:
 
 ## Extended Internal Representation
 
-This approach implies extending the JSON-LD internal representation to allow a more complete expression of native data types within YAML-LD, and allows use of the complete \[\[\[JSON-LD11-API\]\]\] \[\[JSON-LD11-API\]\] Application Programming Interface to manipulate extended YAML-LD documents.
+This approach implies extending the JSON-LD internal representation to allow a more complete expression of native data types within YAML-LD, and allows use of the complete [[[JSON-LD11-API]]] [[JSON-LD11-API]] Application Programming Interface to manipulate extended YAML-LD documents.
 
 A YAML-LD document complies with the YAML-LD extended profile of this specification if it follows the normative statements from this specification and can be transformed into the JSON-LD extended internal representation, then back to a conforming YAML-LD document, without loss of semantic information.
 
-As \[\[YAML\]\] has well-defined representation requirements, all YAML-LD streams MUST form a well-formed stream and use alias node defined by a previous node with a corresponding anchor; otherwise, a loading-document-failed error has been detected and processing is aborted.
+As [[YAML]] has well-defined representation requirements, all YAML-LD streams MUST form a well-formed stream and use alias node defined by a previous node with a corresponding anchor; otherwise, a loading-document-failed error has been detected and processing is aborted.
 
 The YAML-LD extended profile allows full use of anchor names and alias nodes subject to the requirements described above in this section.
 
@@ -621,7 +621,7 @@ When processing using the YAML-LD Basic profile, documents MUST NOT contain alia
 
 ## Conversion to the Internal Representation
 
-YAML-LD processing is defined by converting YAML to the internal representation and using \[\[\[JSON-LD11-API\]\]\] to process on that representation, after which the representation is converted back to YAML. As information specific to a given YAML document structure is lost in this transformation, much of the specifics of that original representation are therefore lost in that conversion, limiting the ability to fully round-trip a YAML-LD document back to an equivalent representation. Consequently, round-tripping in this context is limited to preservation of the semantic representation of a document, rather than a specific syntactic representation.
+YAML-LD processing is defined by converting YAML to the internal representation and using [[[JSON-LD11-API]]] to process on that representation, after which the representation is converted back to YAML. As information specific to a given YAML document structure is lost in this transformation, much of the specifics of that original representation are therefore lost in that conversion, limiting the ability to fully round-trip a YAML-LD document back to an equivalent representation. Consequently, round-tripping in this context is limited to preservation of the semantic representation of a document, rather than a specific syntactic representation.
 
 For example, YAML has multiple ways to encode an array, YAML block sequences and flow sequences. Both forms describe the same array of two strings.
 
@@ -629,7 +629,7 @@ A YAML block sequence:
 
 A YAML flow sequence:
 
-The conversion process represented here is compatible with the description of "Composing the Representation Graph" from the 3.1.2 Load section of \[\[YAML\]\]. The steps described below for converting to the internal representation operate upon that .
+The conversion process represented here is compatible with the description of "Composing the Representation Graph" from the 3.1.2 Load section of [[YAML]]. The steps described below for converting to the internal representation operate upon that .
 
 When operating using the YAML-LD Basic profile, it is intended that the common feature provided by most YAML libraries of transforming YAML directly to JSON satisfies the requirements for parsing a YAML-LD file.
 
@@ -648,7 +648,7 @@ A YAML stream is composed of zero or more YAML documents.
     2.  If |doc| is an array, merge it to the end of |stream content|.
     3.  Otherwise, append |doc| to |stream content|
 
-    This step is inconsistent with other statements about processing each document separately, resulting in some other stream of JSON-LD output (i.e., something like _NDJSOND-LD_). Also, presumably an empty stream would result in either an empty _NDJSON-LD_ document, or an empty \[\[JSON-LD\]\] document.
+    This step is inconsistent with other statements about processing each document separately, resulting in some other stream of JSON-LD output (i.e., something like _NDJSOND-LD_). Also, presumably an empty stream would result in either an empty _NDJSON-LD_ document, or an empty [[JSON-LD]] document.
 
 5.  The conversion result is |stream content|.
 
@@ -703,7 +703,7 @@ Any error reported in a recursive processing step MUST result in the failure of 
     1.  If |t| resolves with a prefix of \`tag:yaml.org.2002:\`, the conversion result is mapped through the YAML Core Schema.
     2.  Otherwise, if |t| resolves with a prefix of \`https://www.w3.org/ns/i18n#\`, and the suffix **does not** contain an underscore (\`"\_"\`), the conversion result is a language-tagged string with value taken from |n|, and a language tag taken from the suffix of |t|.
 
-        Node tags including an underscore (\`"\_"\`), such as \`i18n:ar-eg_rtl\` describe a combination of language and text direction. See The \`i18n\` Namespace in \[\[JSON-LD11\]\].
+        Node tags including an underscore (\`"\_"\`), such as \`i18n:ar-eg_rtl\` describe a combination of language and text direction. See The \`i18n\` Namespace in [[JSON-LD11]].
 
     3.  Otherwise, the conversion result is an RDF literal with value taken from |n| and datatype IRI taken from |t|.
 2.  Otherwise, the conversion result is mapped through the YAML Core Schema.
@@ -720,13 +720,13 @@ If a cycle is detected, a processing error MUST be returned, and processing abor
 
 ## Conversion to YAML
 
-The conversion process from the internal representation involves turning that representation back into a YAML representation graph and relies on the description of "Serializing the Representation Graph" from the 3.1.1 Dump section of \[\[YAML\]\] for the final serialization.
+The conversion process from the internal representation involves turning that representation back into a YAML representation graph and relies on the description of "Serializing the Representation Graph" from the 3.1.1 Dump section of [[YAML]] for the final serialization.
 
 As the internal representation is rooted by either an array or a map, the process of transforming the internal representation to YAML begins by preparing an empty representation graph which will be rooted with either a YAML mapping or YAML sequence.
 
 Although outside of the scope of this specification, processors MAY use YAML directives, including TAG directives, and Document markers, as appropriate for best results. Specifically, if the {{JsonLdOptions/processingMode}} API parameter is \`yaml-ld-extended\`, the document SHOULD use the \`%YAML\` directive with version set to at least \`1.2\`. To improve readability and reduce document size, the document MAY use a \`%TAG\` directive appropriate for RDF literals contained within the representation.
 
-The use of \`%TAG\` directives in YAML-LD is similar to the use of the \`PREFIX\` directive in \[\[?Turtle\]\] or the general use of terms as prefixes to create Compact IRIs in \[\[JSON-LD11\]\]: they not change the meaning of the encoded scalars.
+The use of \`%TAG\` directives in YAML-LD is similar to the use of the \`PREFIX\` directive in [[?Turtle]] or the general use of terms as prefixes to create Compact IRIs in [[JSON-LD11]]: they not change the meaning of the encoded scalars.
 
 Although allowed within the YAML Grammar, some current YAML parsers do not allow the use of \`"#"\` within a tag URI. Substituting the \`"%23"\` escape is a workaround for this problem, that will hopefully become unnecessary as implementations are updated.
 
@@ -808,15 +808,15 @@ When transforming from the extended internal representation to the internal repr
 - Literals with datatype \`xsd:decimal\`, \`xsd:double\`, \`xsd:float\`, or derived datatypes, are transformed to a native number,
 - All other literals are transformed to a native string.
 
-An alternative would be to transform such literals to JSON-LD value objects, and we may want to provide a means of transforming between the internal representation and extended internal representation using value objects, but this treatment is consistent with \[\[YAML\]\] Core Schema Tag Resolution.
+An alternative would be to transform such literals to JSON-LD value objects, and we may want to provide a means of transforming between the internal representation and extended internal representation using value objects, but this treatment is consistent with [[YAML]] Core Schema Tag Resolution.
 
 ## The Application Programming Interface
 
-This specification extends the \[\[\[JSON-LD11-API\]\]\] \[\[JSON-LD11-API\]\] Application Programming Interface and the \[\[\[JSON-LD11-FRAMING\]\]\] \[\[JSON-LD11-FRAMING\]\] Application Programming Interface to manage the serialization and deserialization of \[\[YAML\]\] and to enable an option for setting the YAML-LD extended profile.
+This specification extends the [[[JSON-LD11-API]]] [[JSON-LD11-API]] Application Programming Interface and the [[[JSON-LD11-FRAMING]]] [[JSON-LD11-FRAMING]] Application Programming Interface to manage the serialization and deserialization of [[YAML]] and to enable an option for setting the YAML-LD extended profile.
 
 ### JsonLdProcessor
 
-The JSON-LD Processor interface is the high-level programming structure that developers use to access the JSON-LD transformation methods. The updates below is an experimental extension of the {{JsonLdProcessor}} interface defined in the JSON-LD 1.1 API \[\[JSON-LD11-API\]\] to serialize output as YAML rather than JSON.
+The JSON-LD Processor interface is the high-level programming structure that developers use to access the JSON-LD transformation methods. The updates below is an experimental extension of the {{JsonLdProcessor}} interface defined in the JSON-LD 1.1 API [[JSON-LD11-API]] to serialize output as YAML rather than JSON.
 
 {{JsonLdProcessor/compact()}}
 
@@ -853,7 +853,7 @@ Updates the Object to RDF Conversion algorithm before step 10 as follows:
 
 The {{JsonLdOptions}} type is used to pass various options to the {{JsonLdProcessor}} methods.
 
-This specification reuses the following option defined in \[\[JSON-LD11-API\]\]:
+This specification reuses the following option defined in [[JSON-LD11-API]]:
 
 processingMode
 
@@ -897,12 +897,12 @@ When used for the {{documentLoader}}, it causes documents of type \`application/
 
 This section describes an update to the built-in {{LoadDocumentCallback}} to load YAML streams and documents into the internal representation, or into the extended internal representation if the {{JsonLdOptions/processingMode}} parameter is \`yaml-ld-extended\`.
 
-The {{LoadDocumentCallback}} algorithm in \[\[JSON-LD11-API\]\] is updated as follows:
+The {{LoadDocumentCallback}} algorithm in [[JSON-LD11-API]] is updated as follows:
 
 - Step 2 is updated to prefer Content-Type \`application/ld+yaml\`, followed by \`application/yaml\`, followed by the other specified Content-Types.
-- After step 5, add the following processing step: Otherwise, if the retrieved resource's Content-Type is either \`application/yaml\` or any media type with a \`+yaml\` suffix as defined in \[\[RFC6839\]\] transform |document| to the internal representation (or extended internal representation) as described in [](#conversion-to-ir). Additionally, if the {{RemoteDocument/profile}} parameter includes \`http://www.w3.org/ns/json-ld#extended\`, set the {{JsonLdOptions/processingMode}} option to \`yaml-ld-extended\`.
+- After step 5, add the following processing step: Otherwise, if the retrieved resource's Content-Type is either \`application/yaml\` or any media type with a \`+yaml\` suffix as defined in [[RFC6839]] transform |document| to the internal representation (or extended internal representation) as described in [](#conversion-to-ir). Additionally, if the {{RemoteDocument/profile}} parameter includes \`http://www.w3.org/ns/json-ld#extended\`, set the {{JsonLdOptions/processingMode}} option to \`yaml-ld-extended\`.
 
-These updates are intended to be compatible with other updates to the {{LoadDocumentCallback}}, such as Process HTML as defined in \[\[JSON-LD11-API\]\].
+These updates are intended to be compatible with other updates to the {{LoadDocumentCallback}}, such as Process HTML as defined in [[JSON-LD11-API]].
 
 #### YamlLdErrorCode
 
@@ -1012,6 +1012,6 @@ Substitute every `*alias` with the content of the `&anchor` alias references to.
 
 ### Fragment identifiers
 
-Fragment identifiers used with [application/ld+yaml](#application-ld-yaml) are treated as in RDF syntaxes, as per RDF 1.1 Concepts and Abstract Syntax \[\[RDF11-CONCEPTS\]\] and do not follow the process defined for `application/yaml`.
+Fragment identifiers used with [application/ld+yaml](#application-ld-yaml) are treated as in RDF syntaxes, as per RDF 1.1 Concepts and Abstract Syntax [[RDF11-CONCEPTS]] and do not follow the process defined for `application/yaml`.
 
 Perhaps more on fragment identifiers from [Issue 31](https://github.com/json-ld/yaml-ld/issues/31).
