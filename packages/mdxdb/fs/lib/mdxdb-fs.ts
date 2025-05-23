@@ -81,47 +81,113 @@ export class MdxDbFs extends MdxDbBase {
       } catch (veliteError) {
         console.warn('Velite CLI execution failed, falling back to manual build:', veliteError)
         
-        const contentDir = path.join(this.packageDir, 'content/posts')
         const outputDir = path.join(this.packageDir, '.velite')
-        
         await fs.mkdir(outputDir, { recursive: true })
         
+        let contentDirs: { dir: string, collection: string }[] = [];
+        let veliteConfigPath = '';
+        
         try {
-          const files = await fs.readdir(contentDir)
-          const posts = []
+          veliteConfigPath = path.join(this.packageDir, 'velite.config.ts');
+          await fs.access(veliteConfigPath);
           
-          for (const file of files) {
-            if (file.endsWith('.mdx')) {
-              const filePath = path.join(contentDir, file)
-              const content = await fs.readFile(filePath, 'utf-8')
-              
-              const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-              if (match) {
-                const frontmatterText = match[1]
-                const body = match[2]
-                
-                const frontmatter: Record<string, any> = {}
-                frontmatterText.split('\n').forEach((line) => {
-                  const [key, ...valueParts] = line.split(':')
-                  if (key && valueParts.length) {
-                    frontmatter[key.trim()] = valueParts.join(':').trim()
-                  }
-                })
-                
-                posts.push({
-                  slug: path.basename(file, '.mdx'),
-                  ...frontmatter,
-                  body,
-                })
+          const configContent = await fs.readFile(veliteConfigPath, 'utf-8');
+          
+          const patternMatches = configContent.match(/pattern:\s*['"]([^'"]+)['"]/g);
+          if (patternMatches) {
+            for (const match of patternMatches) {
+              const pattern = match.match(/pattern:\s*['"]([^'"]+)['"]/)?.[1];
+              if (pattern) {
+                const parts = pattern.split('/');
+                if (parts.length > 0) {
+                  const dir = parts[0];
+                  contentDirs.push({ dir, collection: dir });
+                }
               }
             }
           }
           
-          await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
-          console.log('Successfully built database using fallback method')
-        } catch (fallbackError) {
-          console.error('Fallback build method also failed:', fallbackError)
-          throw fallbackError
+          const collectionMatches = configContent.match(/name:\s*['"]([^'"]+)['"]/g);
+          if (collectionMatches) {
+            for (let i = 0; i < collectionMatches.length; i++) {
+              const collectionName = collectionMatches[i].match(/name:\s*['"]([^'"]+)['"]/)?.[1];
+              if (collectionName && contentDirs[i]) {
+                contentDirs[i].collection = collectionName;
+              }
+            }
+          }
+        } catch (configError) {
+          console.warn('Could not read velite.config.ts, using fallback directories:', configError);
+        }
+        
+        if (contentDirs.length === 0) {
+          contentDirs = [
+            { dir: 'content/posts', collection: 'posts' },
+            { dir: 'posts', collection: 'posts' },
+            { dir: 'articles', collection: 'articles' },
+            { dir: 'content/articles', collection: 'articles' },
+            { dir: 'content', collection: 'content' }
+          ];
+        }
+        
+        for (const { dir, collection } of contentDirs) {
+          const contentDir = path.join(this.packageDir, dir);
+          
+          try {
+            await fs.access(contentDir);
+            console.log(`Found content directory: ${contentDir}`);
+            
+            const files = await fs.readdir(contentDir);
+            const entries = [];
+            
+            for (const file of files) {
+              if (file.endsWith('.mdx')) {
+                const filePath = path.join(contentDir, file);
+                const content = await fs.readFile(filePath, 'utf-8');
+                
+                const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+                if (match) {
+                  const frontmatterText = match[1];
+                  const body = match[2];
+                  
+                  const frontmatter: Record<string, any> = {};
+                  frontmatterText.split('\n').forEach((line) => {
+                    const [key, ...valueParts] = line.split(':');
+                    if (key && valueParts.length) {
+                      frontmatter[key.trim()] = valueParts.join(':').trim();
+                    }
+                  });
+                  
+                  entries.push({
+                    slug: path.basename(file, '.mdx'),
+                    ...frontmatter,
+                    body,
+                  });
+                }
+              }
+            }
+            
+            if (entries.length > 0) {
+              await fs.writeFile(path.join(outputDir, `${collection}.json`), JSON.stringify(entries));
+              console.log(`Successfully built ${collection} collection with ${entries.length} entries`);
+            }
+          } catch (dirError) {
+            console.log(`Directory ${contentDir} not found or not accessible, skipping`);
+          }
+        }
+        
+        try {
+          const outputFiles = await fs.readdir(outputDir);
+          const jsonFiles = outputFiles.filter(file => file.endsWith('.json'));
+          
+          if (jsonFiles.length === 0) {
+            throw new Error('No content directories found or processed');
+          }
+          
+          console.log(`Successfully built database using fallback method. Created ${jsonFiles.length} collection files.`);
+        } catch (outputError) {
+          console.error('Fallback build method failed to create any collection files:', outputError);
+          throw new Error('Failed to create any collection files in fallback build method');
         }
       }
       
