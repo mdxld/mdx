@@ -3,6 +3,7 @@ import { promises as fs } from 'fs'
 import matter from 'gray-matter'
 import util from 'util'
 import path from 'path'
+import micromatch from 'micromatch'
 import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent, extractContentPath } from '@mdxdb/core'
 
 const execFilePromise = util.promisify(execFile)
@@ -99,7 +100,7 @@ export class MdxDbFs extends MdxDbBase {
     }
   }
 
-  async set(id: string, content: DocumentContent, collectionName: string): Promise<void> {
+  async set(id: string, content: DocumentContent, collectionName: string, pattern?: string): Promise<void> {
     if (!collectionName) {
       throw new Error('`collectionName` is required to create or update an entry.')
     }
@@ -111,25 +112,66 @@ export class MdxDbFs extends MdxDbBase {
     const collectionConfig = this.config.collections[collectionName]
     const contentPath = extractContentPath(collectionConfig)
 
-    const filename = `${id}.mdx`
-    const fullFilePath = path.join(this.packageDir, contentPath, filename)
+    if (!pattern) {
+      const filename = `${id}.mdx`
+      const fullFilePath = path.join(this.packageDir, contentPath, filename)
 
-    console.log(`Creating/updating file: ${fullFilePath}`)
+      console.log(`Creating/updating file: ${fullFilePath}`)
+
+      try {
+        await fs.mkdir(path.dirname(fullFilePath), { recursive: true })
+        const mdxContent = matter.stringify(content.body, content.frontmatter)
+        await fs.writeFile(fullFilePath, mdxContent)
+        console.log(`File '${fullFilePath}' created/updated successfully.`)
+        
+        await this.build()
+      } catch (error) {
+        console.error(`Error creating/updating file '${fullFilePath}':`, error)
+        throw new Error(`Failed to create/update file for entry '${id}' in collection '${collectionName}': ${(error as Error).message}`)
+      }
+      return
+    }
+
+    const baseDir = path.join(this.packageDir, contentPath)
+    console.log(`Using glob pattern '${pattern}' in directory '${baseDir}'`)
 
     try {
-      await fs.mkdir(path.dirname(fullFilePath), { recursive: true })
+      const files = await fs.readdir(baseDir)
+      
+      const matchingFiles = files.filter(file => {
+        return micromatch.isMatch(file, pattern)
+      })
 
-      const mdxContent = matter.stringify(content.body, content.frontmatter)
-
-      await fs.writeFile(fullFilePath, mdxContent)
-      console.log(`File '${fullFilePath}' created/updated successfully.`)
+      if (matchingFiles.length === 0) {
+        console.log(`No files matched pattern '${pattern}' in '${baseDir}'`)
+        const filename = `${id}.mdx`
+        const fullFilePath = path.join(baseDir, filename)
+        
+        console.log(`Creating new file: ${fullFilePath}`)
+        
+        await fs.mkdir(path.dirname(fullFilePath), { recursive: true })
+        const mdxContent = matter.stringify(content.body, content.frontmatter)
+        await fs.writeFile(fullFilePath, mdxContent)
+        console.log(`File '${fullFilePath}' created successfully.`)
+      } else {
+        for (const file of matchingFiles) {
+          const fullFilePath = path.join(baseDir, file)
+          console.log(`Updating file: ${fullFilePath}`)
+          
+          const mdxContent = matter.stringify(content.body, content.frontmatter)
+          await fs.writeFile(fullFilePath, mdxContent)
+          console.log(`File '${fullFilePath}' updated successfully.`)
+        }
+      }
+      
+      await this.build()
     } catch (error) {
-      console.error(`Error creating/updating file '${fullFilePath}':`, error)
-      throw new Error(`Failed to create/update file for entry '${id}' in collection '${collectionName}': ${(error as Error).message}`)
+      console.error(`Error handling glob pattern '${pattern}' in '${baseDir}':`, error)
+      throw new Error(`Failed to create/update files with pattern '${pattern}' in collection '${collectionName}': ${(error as Error).message}`)
     }
   }
 
-  async delete(id: string, collectionName: string): Promise<boolean> {
+  async delete(id: string, collectionName: string, pattern?: string): Promise<boolean> {
     if (!collectionName) {
       throw new Error('`collectionName` is required to delete an entry.')
     }
@@ -141,22 +183,68 @@ export class MdxDbFs extends MdxDbBase {
     const collectionConfig = this.config.collections[collectionName]
     const contentPath = extractContentPath(collectionConfig)
 
-    const filename = `${id}.mdx`
-    const fullFilePath = path.join(this.packageDir, contentPath, filename)
+    if (!pattern) {
+      const filename = `${id}.mdx`
+      const fullFilePath = path.join(this.packageDir, contentPath, filename)
 
-    console.log(`Attempting to delete file: ${fullFilePath}`)
+      console.log(`Attempting to delete file: ${fullFilePath}`)
+
+      try {
+        await fs.unlink(fullFilePath)
+        console.log(`File '${fullFilePath}' deleted successfully.`)
+        
+        await this.build()
+        return true
+      } catch (error) {
+        if ((error as { code?: string }).code === 'ENOENT') {
+          console.log(`File '${fullFilePath}' not found. Nothing to delete.`)
+          return false
+        }
+        console.error(`Error deleting file '${fullFilePath}':`, error)
+        throw new Error(`Failed to delete file for entry '${id}' in collection '${collectionName}': ${(error as Error).message}`)
+      }
+    }
+
+    const baseDir = path.join(this.packageDir, contentPath)
+    console.log(`Using glob pattern '${pattern}' in directory '${baseDir}'`)
 
     try {
-      await fs.unlink(fullFilePath)
-      console.log(`File '${fullFilePath}' deleted successfully.`)
-      return true
-    } catch (error) {
-      if ((error as { code?: string }).code === 'ENOENT') {
-        console.log(`File '${fullFilePath}' not found. Nothing to delete.`)
+      const files = await fs.readdir(baseDir)
+      
+      const matchingFiles = files.filter(file => {
+        return micromatch.isMatch(file, pattern)
+      })
+
+      if (matchingFiles.length === 0) {
+        console.log(`No files matched pattern '${pattern}' in '${baseDir}'`)
         return false
       }
-      console.error(`Error deleting file '${fullFilePath}':`, error)
-      throw new Error(`Failed to delete file for entry '${id}' in collection '${collectionName}': ${(error as Error).message}`)
+
+      let deletedCount = 0
+      for (const file of matchingFiles) {
+        const fullFilePath = path.join(baseDir, file)
+        console.log(`Deleting file: ${fullFilePath}`)
+        
+        try {
+          await fs.unlink(fullFilePath)
+          console.log(`File '${fullFilePath}' deleted successfully.`)
+          deletedCount++
+        } catch (error) {
+          if ((error as { code?: string }).code !== 'ENOENT') {
+            console.error(`Error deleting file '${fullFilePath}':`, error)
+          }
+        }
+      }
+      
+      if (deletedCount > 0) {
+        await this.build()
+        return true
+      }
+      
+      return false
+    } catch (error) {
+      console.error(`Error handling glob pattern '${pattern}' in '${baseDir}':`, error)
+      throw new Error(`Failed to delete files with pattern '${pattern}' in collection '${collectionName}': ${(error as Error).message}`)
     }
   }
 

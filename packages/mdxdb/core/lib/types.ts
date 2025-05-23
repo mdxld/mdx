@@ -43,8 +43,12 @@ export interface MdxDbInterface {
 
   /**
    * Creates or updates a document
+   * @param id Document ID to create or update
+   * @param content Document content to write
+   * @param collectionName Collection name to create or update in
+   * @param pattern Optional glob pattern to match files to update
    */
-  set(id: string, content: DocumentContent, collectionName: string): Promise<void>
+  set(id: string, content: DocumentContent, collectionName: string, pattern?: string): Promise<void>
 
   /**
    * Lists documents from a collection or all collections
@@ -73,8 +77,11 @@ export interface MdxDbInterface {
 
   /**
    * Deletes a document
+   * @param id Document ID to delete
+   * @param collectionName Collection name to delete from
+   * @param pattern Optional glob pattern to match files to delete
    */
-  delete(id: string, collectionName: string): Promise<boolean>
+  delete(id: string, collectionName: string, pattern?: string): Promise<boolean>
 
   /**
    * Search for documents using vector embeddings (optional)
