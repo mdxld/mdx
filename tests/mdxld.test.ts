@@ -8,11 +8,13 @@ const TEST_OUTPUT_DIR = path.join(TEST_DIR, 'output')
 const TEST_SOURCE_DIR = path.join(TEST_DIR, 'source')
 const INVALID_DIR = path.join(TEST_DIR, 'nonexistent')
 
-beforeAll(() => {
-  $`rm -rf ${TEST_DIR} .mdx`
+beforeAll(async () => {
+  await $`rm -rf ${TEST_DIR} .mdx`
   
   fs.mkdirSync(TEST_SOURCE_DIR, { recursive: true })
   fs.mkdirSync(TEST_OUTPUT_DIR, { recursive: true })
+  
+  await new Promise(resolve => setTimeout(resolve, 100))
   
   fs.writeFileSync(
     path.join(TEST_SOURCE_DIR, 'valid.mdx'),
