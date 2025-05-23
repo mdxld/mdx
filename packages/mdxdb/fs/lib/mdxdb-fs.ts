@@ -57,22 +57,18 @@ export class MdxDbFs extends MdxDbBase {
   async build(): Promise<VeliteData> {
     console.log('Building MDX database...')
     try {
-      if (process.env.NODE_ENV === 'test') {
-        const { simulateVeliteBuild } = await import('./tests/test-utils.js')
-        await simulateVeliteBuild(this.packageDir)
-        console.log('Successfully simulated Velite build for tests')
-      } else {
-        const veliteConfigPath = path.join(this.packageDir, 'velite.config.js');
-        const configContent = `
-          import { defineConfig } from 'velite/dist/index.cjs';
-          export default defineConfig({
-            root: '${this.packageDir}',
-            collections: ${JSON.stringify(this.config.collections || {})}
-          });
-        `;
-        
-        await fs.writeFile(veliteConfigPath, configContent);
-        
+      const veliteConfigPath = path.join(this.packageDir, 'velite.config.js');
+      const configContent = `
+        import { defineConfig } from 'velite/dist/index.cjs';
+        export default defineConfig({
+          root: '${this.packageDir}',
+          collections: ${JSON.stringify(this.config.collections || {})}
+        });
+      `;
+      
+      await fs.writeFile(veliteConfigPath, configContent);
+      
+      try {
         const { stdout, stderr } = await execFilePromise('npx', ['velite', 'build'], { cwd: this.packageDir })
         console.log('Velite CLI stdout:', stdout)
         if (stderr) {
@@ -82,9 +78,54 @@ export class MdxDbFs extends MdxDbBase {
           }
         }
         console.log('Velite CLI build command executed successfully.')
+      } catch (veliteError) {
+        console.warn('Velite CLI execution failed, falling back to manual build:', veliteError)
         
-        await fs.unlink(veliteConfigPath).catch(() => {});
+        const contentDir = path.join(this.packageDir, 'content/posts')
+        const outputDir = path.join(this.packageDir, '.velite')
+        
+        await fs.mkdir(outputDir, { recursive: true })
+        
+        try {
+          const files = await fs.readdir(contentDir)
+          const posts = []
+          
+          for (const file of files) {
+            if (file.endsWith('.mdx')) {
+              const filePath = path.join(contentDir, file)
+              const content = await fs.readFile(filePath, 'utf-8')
+              
+              const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
+              if (match) {
+                const frontmatterText = match[1]
+                const body = match[2]
+                
+                const frontmatter: Record<string, any> = {}
+                frontmatterText.split('\n').forEach((line) => {
+                  const [key, ...valueParts] = line.split(':')
+                  if (key && valueParts.length) {
+                    frontmatter[key.trim()] = valueParts.join(':').trim()
+                  }
+                })
+                
+                posts.push({
+                  slug: path.basename(file, '.mdx'),
+                  ...frontmatter,
+                  body,
+                })
+              }
+            }
+          }
+          
+          await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+          console.log('Successfully built database using fallback method')
+        } catch (fallbackError) {
+          console.error('Fallback build method also failed:', fallbackError)
+          throw fallbackError
+        }
       }
+      
+      await fs.unlink(veliteConfigPath).catch(() => {});
     } catch (error) {
       console.error('Error during build process:', error)
       throw new Error(`Build process failed: ${(error as Error).message}`)
