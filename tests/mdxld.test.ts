@@ -15,10 +15,10 @@ describe('mdxld cli', () => {
     expect(fs.existsSync('./.mdx/index.js')).toBe(true)
     expect(fs.existsSync('./.mdx/mdx.json')).toBe(true)
     
-    expect(result.stdout).toContain('mdxld: Starting build process');
-    expect(result.stdout).toContain('Source directory:');
-    expect(result.stdout).toContain('Output directory:');
-    expect(result.stdout).toContain('build finished in');
-    expect(result.stdout).toContain('mdxld: Build process complete');
+    expect(result.stdout).toContain('mdxld: Starting build process')
+    expect(result.stdout).toContain('Source directory:')
+    expect(result.stdout).toContain('Output directory:')
+    expect(result.stdout).toContain('build finished in')
+    expect(result.stdout).toContain('mdxld: Build process complete')
   })
 })
