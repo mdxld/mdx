@@ -39,8 +39,4 @@ dist/
 tsconfig.tsbuildinfo
 
 # mdxld
-.mdx/
-
-# Prevent committing compiled files in lib directories
-packages/**/lib/**/*.js
-packages/**/lib/**/*.d.ts
+.mdx
