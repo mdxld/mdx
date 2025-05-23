@@ -15,7 +15,14 @@ describe('mdxld cli', () => {
     expect(fs.existsSync('./.mdx/index.js')).toBe(true)
     expect(fs.existsSync('./.mdx/mdx.json')).toBe(true)
     
-    expect(result.stdout).toMatchInlineSnapshot()
+    expect(result.stdout).toMatchInlineSnapshot(`
+      "mdxld: Starting build process...
+      Source directory: /home/ubuntu/repos/mdx/tests
+      Output directory: /home/ubuntu/repos/mdx/tests/.mdx
+      [32m[VELITE][0m build finished in 301.12ms
+      mdxld: Build process complete
+      "
+    `)
 
   })
 })
