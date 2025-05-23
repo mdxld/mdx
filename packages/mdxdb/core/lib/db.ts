@@ -51,7 +51,7 @@ class InMemoryMdxDb extends MdxDbBase {
             const matchValue = entry.filePath || 
                              (entry.slug ? `${entry.slug}.mdx` : null) || 
                              '';
-            if (micromatch.isMatch(matchValue, pattern)) {
+            if (micromatch.isMatch(matchValue.toLowerCase(), pattern.toLowerCase())) {
               return entry;
             }
           }
