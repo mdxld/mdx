@@ -382,7 +382,7 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
  * Writes the generated MDX files to the appropriate location
  */
 async function writeFiles(things: any[], allThings: any[]): Promise<void> {
-  const outputDir = path.join(process.cwd(), 'schema')
+  const outputDir = path.join(process.cwd(), 'schema.org')
   const propertiesDir = path.join(outputDir, 'properties')
 
   try {
