@@ -21,4 +21,7 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run check-types
       - run: pnpm run test
+        env:
+          AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN }}
+          AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL }}
 

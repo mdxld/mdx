@@ -1,14 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "target": "es2020",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
