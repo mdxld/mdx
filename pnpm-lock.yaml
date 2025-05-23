@@ -353,6 +353,9 @@ importers:
       dedent:
         specifier: ^1.6.0
         version: 1.6.0
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -5846,7 +5849,6 @@ packages:
   /dotenv@16.5.0:
     resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
-    dev: true
 
   /drizzle-kit@0.28.0:
     resolution: {integrity: sha512-KqI+CS2Ga9GYIrXpxpCDUJJrH/AT/k4UY0Pb4oRgQEGkgN1EdCnqp664cXgwPWjDr5RBtTsjZipw8+8C//K63A==}
