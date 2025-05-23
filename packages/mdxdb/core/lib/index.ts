@@ -6,4 +6,5 @@ export * from './base.js'
 
 export * from './mdxld.js'
 
+export { db } from './db.js'
 export { list, get } from './functions.js'
