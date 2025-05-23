@@ -1,4 +1,4 @@
-name: Publish Any Commit
+name: pkg.pr.new
 on: [push, pull_request]
 
 jobs:
@@ -21,4 +21,4 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - run: pnpm dlx pkg-pr-new publish './packages/*'
+      - run: pnpm dlx pkg-pr-new publish './packages/**'
