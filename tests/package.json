@@ -1,0 +1,22 @@
+{
+  "name": "tests",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@mdxdb/core": "workspace:*",
+    "@mdxdb/fs": "workspace:*",
+    "@mdxdb/sqlite": "workspace:*",
+    "mdxai": "workspace:*",
+    "mdxe": "workspace:*",
+    "mdxld": "workspace:*",
+    "mdxui": "workspace:*",
+    "typescript": "^5.5.3",
+    "vitest": "^3.1.4"
+  },
+  "dependencies": {
+    "zx": "^8.5.4"
+  }
+}
