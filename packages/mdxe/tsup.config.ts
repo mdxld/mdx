@@ -1,7 +1,7 @@
 import { createCliConfig } from '@repo/tsup-config'
 
 export default createCliConfig(['src/cli.ts'], {
-  external: ['react', 'react-dom', 'next', 'commander'],
+  external: ['react', 'react-dom', 'next', 'commander', 'vitest', 'vitest/node', '@vitest/browser', '@vitest/ui'],
   noExternal: [],
   dts: false, // Disable TypeScript declaration files to avoid type errors
   format: ['esm'], // Use ESM format only
