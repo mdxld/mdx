@@ -57,6 +57,17 @@ export class MdxDbFs extends MdxDbBase {
   async build(): Promise<VeliteData> {
     console.log('Executing "npx velite build" via child_process.execFile...')
     try {
+      const veliteConfigPath = path.join(this.packageDir, 'velite.config.js');
+      const configContent = `
+        import { defineConfig } from 'velite/dist/index.cjs';
+        export default defineConfig({
+          root: '${this.packageDir}',
+          collections: ${JSON.stringify(this.config.collections || {})}
+        });
+      `;
+      
+      await fs.writeFile(veliteConfigPath, configContent);
+      
       const { stdout, stderr } = await execFilePromise('npx', ['velite', 'build'], { cwd: this.packageDir })
       console.log('Velite CLI stdout:', stdout)
       if (stderr) {
@@ -66,6 +77,8 @@ export class MdxDbFs extends MdxDbBase {
         }
       }
       console.log('Velite CLI build command executed successfully.')
+      
+      await fs.unlink(veliteConfigPath).catch(() => {});
     } catch (error) {
       console.error('Error executing Velite CLI:', error)
       throw new Error(`Velite CLI execution failed: ${(error as Error).message}`)
