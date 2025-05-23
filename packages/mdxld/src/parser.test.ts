@@ -1,25 +1,26 @@
+import dedent from 'dedent'
 import { parseFrontmatter, convertToJSONLD } from './parser'
 
 describe('parseFrontmatter', () => {
-  it('should return null and an error if frontmatter is not found', () => {
-    const mdxContent = `
-# This is a heading
+  it('should return empty object if frontmatter is not found', () => {
+    const mdxContent = dedent`
+      # This is a heading
 
-This is some content.
+      This is some content.
     `
     const result = parseFrontmatter(mdxContent)
-    expect(result.frontmatter).toBeNull()
-    expect(result.error).toBe('Frontmatter not found')
+    expect(result.frontmatter).toEqual({})
+    expect(result.error).toBeUndefined()
   })
 
   it('should parse valid YAML frontmatter', () => {
-    const mdxContent = `
----
-title: My Post
-tags: ['typescript', 'yaml']
----
+    const mdxContent = dedent`
+      ---
+      title: My Post
+      tags: ['typescript', 'yaml']
+      ---
 
-# This is a heading
+      # This is a heading
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.error).toBeUndefined()
@@ -30,13 +31,13 @@ tags: ['typescript', 'yaml']
   })
 
   it('should return an error for invalid YAML syntax', () => {
-    const mdxContent = `
----
-title: My Post
-tags: [typescript, yaml
----
+    const mdxContent = dedent`
+      ---
+      title: My Post
+      tags: [typescript, yaml
+      ---
 
-# This is a heading
+      # This is a heading
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.frontmatter).toBeNull()
@@ -47,11 +48,35 @@ tags: [typescript, yaml
     const expectedError = 'MDXLD Invalid Frontmatter: Frontmatter must be a YAML object (key-value pairs).'
 
     const testCases = [
-      { name: 'string', mdxContent: '---\n"just a string"\n---\n\n# Heading' },
-      { name: 'number', mdxContent: '---\n12345\n---\n\n# Heading' },
-      { name: 'boolean', mdxContent: '---\ntrue\n---\n\n# Heading' },
-      { name: 'array', mdxContent: '---\n- item1\n- item2\n---\n\n# Heading' },
-      { name: 'empty (null)', mdxContent: '---\n---\n\n# Heading' }, // Empty frontmatter parses to null
+      { name: 'string', mdxContent: dedent`
+        ---
+        "just a string"
+        ---
+
+        # Heading
+      ` },
+      { name: 'number', mdxContent: dedent`
+        ---
+        12345
+        ---
+
+        # Heading
+      ` },
+      { name: 'boolean', mdxContent: dedent`
+        ---
+        true
+        ---
+
+        # Heading
+      ` },
+      { name: 'array', mdxContent: dedent`
+        ---
+        - item1
+        - item2
+        ---
+
+        # Heading
+      ` },
     ]
 
     testCases.forEach((tc) => {
@@ -61,11 +86,23 @@ tags: [typescript, yaml
     })
   })
 
+  it('should return empty object for empty frontmatter', () => {
+    const mdxContent = dedent`
+      ---
+      ---
+
+      # Heading
+    `
+    const result = parseFrontmatter(mdxContent)
+    expect(result.frontmatter).toEqual({})
+    expect(result.error).toBeUndefined()
+  })
+
   it('should handle frontmatter with no content after it', () => {
-    const mdxContent = `
----
-title: My Post
----
+    const mdxContent = dedent`
+      ---
+      title: My Post
+      ---
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.error).toBeUndefined()
@@ -349,13 +386,13 @@ describe('convertToJSONLD', () => {
 
 describe('parseFrontmatter with $-prefixed keys (JSON-LD like)', () => {
   it('should preserve $-prefixed keys at the root level', () => {
-    const mdxContent = `
----
-$context: http://schema.org/
-$type: BlogPosting
-title: My Post with JSON-LD
-author: Jane Doe
----
+    const mdxContent = dedent`
+      ---
+      $context: http://schema.org/
+      $type: BlogPosting
+      title: My Post with JSON-LD
+      author: Jane Doe
+      ---
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.error).toBeUndefined()
@@ -368,19 +405,19 @@ author: Jane Doe
   })
 
   it('should preserve $-prefixed keys in nested objects', () => {
-    const mdxContent = `
----
-title: My Post
-author:
-  $type: Person
-  name: John Doe
-  affiliation:
-    $type: Organization
-    name: Example Corp
-$graph:
-  - $type: Event
-    name: Launch Party
----
+    const mdxContent = dedent`
+      ---
+      title: My Post
+      author:
+        $type: Person
+        name: John Doe
+        affiliation:
+          $type: Organization
+          name: Example Corp
+      $graph:
+        - $type: Event
+          name: Launch Party
+      ---
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.error).toBeUndefined()
@@ -404,18 +441,18 @@ $graph:
   })
 
   it('should preserve $-prefixed keys within arrays of objects', () => {
-    const mdxContent = `
----
-$type: ItemList
-items:
-  - $type: Product
-    name: Product A
-    $id: /product/a
-  - $type: Product
-    name: Product B
-    offers:
-      $type: Offer
-      price: "19.99"
+    const mdxContent = dedent`
+      ---
+      $type: ItemList
+      items:
+        - $type: Product
+          name: Product A
+          $id: /product/a
+        - $type: Product
+          name: Product B
+          offers:
+            $type: Offer
+            price: "19.99"
 ---
     `
     const result = parseFrontmatter(mdxContent)
@@ -441,27 +478,27 @@ items:
   })
 
   it('should handle a mix of $-prefixed and non-prefixed keys in various structures', () => {
-    const mdxContent = `
----
-$context:
-  name: http://schema.org/name
-  description: http://schema.org/description
-  image:
-    $id: http://schema.org/image
-    $type: "@id"
-title: Complex Data
-mainEntity:
-  $id: urn:uuid:1234
-  $type: CreativeWork
-  name: Main Work
-  relatedWork:
-    - $type: Article
-      name: Related Article 1
-      author:
-        name: Author A
-        $id: mailto:author.a@example.com
-    - name: Plain Related Item
----
+    const mdxContent = dedent`
+      ---
+      $context:
+        name: http://schema.org/name
+        description: http://schema.org/description
+        image:
+          $id: http://schema.org/image
+          $type: "@id"
+      title: Complex Data
+      mainEntity:
+        $id: urn:uuid:1234
+        $type: CreativeWork
+        name: Main Work
+        relatedWork:
+          - $type: Article
+            name: Related Article 1
+            author:
+              name: Author A
+              $id: mailto:author.a@example.com
+          - name: Plain Related Item
+      ---
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.error).toBeUndefined()
@@ -497,12 +534,12 @@ mainEntity:
   })
 
   it('should correctly parse frontmatter with only $-prefixed keys', () => {
-    const mdxContent = `
----
-$id: /my-page
-$type: WebPage
----
-Content starts here.
+    const mdxContent = dedent`
+      ---
+      $id: /my-page
+      $type: WebPage
+      ---
+      Content starts here.
     `
     const result = parseFrontmatter(mdxContent)
     expect(result.error).toBeUndefined()

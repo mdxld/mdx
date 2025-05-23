@@ -10,16 +10,21 @@ export function parseFrontmatter(mdxContent: string): ParseFrontmatterResult {
   const match = mdxContent.match(frontmatterRegex)
 
   if (!match) {
-    return { frontmatter: null, error: 'Frontmatter not found' }
+    // Frontmatter is optional, return empty object instead of error
+    return { frontmatter: {} }
   }
 
   const yamlContent = match[1]
 
   try {
     const frontmatter = parse(yamlContent)
-    if (frontmatter === null || typeof frontmatter !== 'object' || Array.isArray(frontmatter)) {
-      // YAML can parse to null, string, number, boolean, array, or object.
-      // We require a non-null object for frontmatter.
+    if (frontmatter === null || frontmatter === undefined) {
+      // Empty frontmatter is allowed, return empty object
+      return { frontmatter: {} }
+    }
+    if (typeof frontmatter !== 'object' || Array.isArray(frontmatter)) {
+      // YAML can parse to string, number, boolean, array, or object.
+      // We require an object for frontmatter.
       return {
         frontmatter: null,
         error: 'MDXLD Invalid Frontmatter: Frontmatter must be a YAML object (key-value pairs).',

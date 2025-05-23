@@ -5,3 +5,4 @@ packages:
   - "packages/**"
   - "schema"
   - "schema.org"
+  - "tests"
