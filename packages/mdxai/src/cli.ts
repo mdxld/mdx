@@ -7,16 +7,20 @@ import * as path from 'path'
 import { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream } from './llmService.js'
 import { extractH1Title, slugifyString, ensureDirectoryExists } from './utils.js'
 import { CoreMessage } from 'ai' // CoreMessage might be needed for type safety
+import { renderApp } from './ui/app.js'
 
 const program = new Command()
 
-program.version(packageJson.version).description('A CLI tool for MDX AI').option('--json', 'Emit JSON describing actions/results')
+program.version(packageJson.version).description('A CLI tool for MDX AI')
+  .option('--json', 'Emit JSON describing actions/results')
+  .option('--concurrency <number>', 'Maximum number of concurrent operations for batch commands', '20')
 
 program
   .command('generate <prompt>')
   .option('-o, --output <filepath>', 'Specify output file path')
   .option('-t, --type <contenttype>', 'Specify content type (e.g., title, outline, draft)', 'draft')
-  .action(async (prompt: string, options: { output?: string; type: string }) => {
+  .option('--ink', 'Use React Ink for interactive UI', false)
+  .action(async (prompt: string, options: { output?: string; type: string; ink: boolean }) => {
     const { json } = program.opts<{ json: boolean }>()
     try {
       // Ensure OPENAI_API_KEY is set
@@ -30,7 +34,6 @@ program
         process.exit(1)
       }
 
-      // const model = openai('gpt-4o'); // Removed: Handled by llmService
       let systemMessage: string | undefined
 
       switch (options.type.toLowerCase()) {
@@ -44,6 +47,16 @@ program
         default:
           systemMessage = 'You are a helpful AI assistant. Generate a Markdown draft based on the following prompt.'
           break
+      }
+
+      if (options.ink) {
+        const unmount = renderApp('generate', { 
+          prompt, 
+          systemMessage,
+          output: options.output
+        });
+        
+        return;
       }
 
       const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string; tool_choice?: any; tool_calls?: any }> = []
@@ -193,7 +206,8 @@ program
   .command('list <prompt>')
   .option('-o, --output <filepath>', 'Specify output file path', 'index.mdx')
   .option('-f, --format <format>', 'Specify output format (markdown, frontmatter, both)', 'markdown')
-  .action(async (prompt: string, options: { output: string; format: string }) => {
+  .option('--ink', 'Use React Ink for interactive UI', false)
+  .action(async (prompt: string, options: { output: string; format: string; ink: boolean }) => {
     const { json } = program.opts<{ json: boolean }>()
     try {
       // Ensure OPENAI_API_KEY is set
@@ -205,6 +219,16 @@ program
           console.error(msg)
         }
         process.exit(1)
+      }
+
+      if (options.ink) {
+        const unmount = renderApp('list', { 
+          prompt, 
+          output: options.output,
+          format: options.format
+        });
+        
+        return;
       }
 
       const result = await generateListStream(prompt)
@@ -288,7 +312,8 @@ program
   .command('research <prompt>')
   .option('-o, --output <filepath>', 'Specify output file path', 'research.mdx')
   .option('-f, --format <format>', 'Specify output format (markdown, frontmatter, both)', 'markdown')
-  .action(async (prompt: string, options: { output: string; format: string }) => {
+  .option('--ink', 'Use React Ink for interactive UI', false)
+  .action(async (prompt: string, options: { output: string; format: string; ink: boolean }) => {
     const { json } = program.opts<{ json: boolean }>()
     try {
       // Ensure AI_GATEWAY_TOKEN is set
@@ -300,6 +325,16 @@ program
           console.error(msg)
         }
         process.exit(1)
+      }
+
+      if (options.ink) {
+        const unmount = renderApp('research', { 
+          prompt, 
+          output: options.output,
+          format: options.format
+        });
+        
+        return;
       }
 
       const result = await generateResearchStream(prompt)
@@ -437,5 +472,51 @@ program
       process.exit(1)
     }
   })
+
+program
+  .command('list+generate <prompt>')
+  .description('Generate a list of items and then generate content for each item')
+  .option('-o, --output <filepath>', 'Specify output file path', 'generated.mdx')
+  .option('--concurrency <number>', 'Maximum number of concurrent operations', '20')
+  .action(async (prompt: string, options: { output: string; concurrency: string }) => {
+    const { json } = program.opts<{ json: boolean }>()
+    try {
+      const unmount = renderApp('list+generate', { 
+        prompt, 
+        output: options.output,
+        concurrency: parseInt(options.concurrency, 10)
+      });
+    } catch (error) {
+      if (json) {
+        console.error(JSON.stringify({ status: 'error', message: String(error) }))
+      } else {
+        console.error('Error during list+generate operation:', error)
+      }
+      process.exit(1)
+    }
+  });
+
+program
+  .command('list+research <prompt>')
+  .description('Generate a list of topics and then research each topic')
+  .option('-o, --output <filepath>', 'Specify output file path', 'research.mdx')
+  .option('--concurrency <number>', 'Maximum number of concurrent operations', '20')
+  .action(async (prompt: string, options: { output: string; concurrency: string }) => {
+    const { json } = program.opts<{ json: boolean }>()
+    try {
+      const unmount = renderApp('list+research', { 
+        prompt, 
+        output: options.output,
+        concurrency: parseInt(options.concurrency, 10)
+      });
+    } catch (error) {
+      if (json) {
+        console.error(JSON.stringify({ status: 'error', message: String(error) }))
+      } else {
+        console.error('Error during list+research operation:', error)
+      }
+      process.exit(1)
+    }
+  });
 
 program.parse(process.argv)
