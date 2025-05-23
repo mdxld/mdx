@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = join(__dirname, '../package.json')
 const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
-import { build } from 'velite'
+import { build } from './build'
 
 const program = new Command()
 
@@ -27,18 +27,18 @@ program
       const cwd = process.cwd()
       const sourceDir = resolve(cwd, options.source)
       const outputDir = resolve(cwd, options.output)
-      // const configFile = options.config ? resolve(cwd, options.config) : undefined
+      const configFile = options.config ? resolve(cwd, options.config) : undefined
 
       console.log(`mdxld: Starting build process...`)
       console.log(`Source directory: ${sourceDir}`)
       console.log(`Output directory: ${outputDir}`)
 
       await build({
-        // sourceDir,
-        // outputDir,
-        // configFile,
+        sourceDir,
+        outputDir,
+        configFile,
         watch: options.watch || false,
-        // bundle: options.bundle || false,
+        bundle: options.bundle || false,
       })
 
       console.log(`mdxld: Build process complete`)

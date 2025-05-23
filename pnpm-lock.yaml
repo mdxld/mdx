@@ -58,12 +58,6 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
 
-  ai:
-    dependencies:
-      mdxld:
-        specifier: workspace:*
-        version: link:../packages/mdxld
-
   apps/io.mw:
     dependencies:
       mdxui:
@@ -531,9 +525,6 @@ importers:
       commander:
         specifier: ^11.1.0
         version: 11.1.0
-      dedent:
-        specifier: ^1.6.0
-        version: 1.6.0
       esbuild:
         specifier: ^0.20.1
         version: 0.20.2
@@ -5690,15 +5681,6 @@ packages:
     resolution: {integrity: sha512-Wy+JTSbFThEOXQIR2L6mxJvEs+veIzpmqD7ynWxMXGpnk3smkHQOp6forLdHsKpAMW9iJpaBBIxz285t1n1C3w==}
     dependencies:
       character-entities: 2.0.2
-
-  /dedent@1.6.0:
-    resolution: {integrity: sha512-F1Z+5UCFpmQUzJa11agbyPVMbpgT/qA3/SKyJ1jyBgm7dUcUEa8v9JwDkerSQXfakBwFljIxhOJqGkjUwZ9FSA==}
-    peerDependencies:
-      babel-plugin-macros: ^3.1.0
-    peerDependenciesMeta:
-      babel-plugin-macros:
-        optional: true
-    dev: false
 
   /deep-eql@5.0.2:
     resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==}
