@@ -21,8 +21,8 @@ export abstract class MdxDbBase implements MdxDbInterface {
   abstract build(): Promise<VeliteData>
   abstract watch(): Promise<void>
   abstract stopWatch(): void
-  abstract set(id: string, content: any, collectionName: string): Promise<void>
-  abstract delete(id: string, collectionName: string): Promise<boolean>
+  abstract set(id: string, content: any, collectionName: string, pattern?: string): Promise<void>
+  abstract delete(id: string, collectionName: string, pattern?: string): Promise<boolean>
 
   /**
    * Lists documents from a collection or all collections

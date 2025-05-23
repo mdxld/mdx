@@ -43,7 +43,9 @@
   "dependencies": {
     "@mdxdb/core": "workspace:^",
     "@mdxdb/fs": "workspace:^",
-    "@mdxdb/sqlite": "workspace:^"
+    "@mdxdb/sqlite": "workspace:^",
+    "@types/micromatch": "^4.0.6",
+    "micromatch": "^4.0.5"
   },
   "workspaces": [
     "packages/**"
