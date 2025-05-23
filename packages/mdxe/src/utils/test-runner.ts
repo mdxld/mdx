@@ -43,13 +43,15 @@ export async function runTests(
   try {
     const watchFlag = watch ? '--watch' : ''
     
+    await import('vitest/node')
+    
     const command = `npx vitest run --globals ${watchFlag} ${testFiles.join(' ')}`
-
+    
     const { stdout, stderr } = await execAsync(command)
     const output = stdout + stderr
-
+    
     const success = !output.includes('FAIL') && !output.includes('ERR_')
-
+    
     return { success, output }
   } catch (error: any) {
     return {
