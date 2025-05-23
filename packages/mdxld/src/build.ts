@@ -1,10 +1,56 @@
 import { build as veliteBuild } from 'velite'
-import { join, dirname, resolve } from 'node:path'
+import { join, dirname, resolve, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
+import { glob } from 'glob'
+import { parse } from 'yaml'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const defaultConfigPath = join(__dirname, '../velite.config.ts')
+
+/**
+ * Special handling for schema.org directory which has a different structure
+ * than regular MDX files and causes issues with Velite
+ */
+async function buildSchemaOrgFiles(sourceDir: string, outputDir: string) {
+  const result: Record<string, any> = {};
+  
+  const mdxFiles = await glob('**/*.{md,mdx}', { cwd: sourceDir });
+  
+  for (const file of mdxFiles) {
+    try {
+      const content = fs.readFileSync(join(sourceDir, file), 'utf8');
+      const frontmatterRegex = /^\s*---([\s\S]*?)---/;
+      const match = content.match(frontmatterRegex);
+      
+      if (match) {
+        const yamlContent = match[1];
+        try {
+          const frontmatter = parse(yamlContent);
+          const id = frontmatter.$id || basename(file, '.mdx');
+          result[id] = {
+            id: frontmatter.$id,
+            type: frontmatter.$type,
+            context: frontmatter.$context,
+            data: frontmatter,
+            $: {
+              html: '',
+              meta: {},
+              mdx: '',
+              code: {}
+            }
+          };
+        } catch (e) {
+          console.warn(`Warning: Could not parse frontmatter in ${file}`);
+        }
+      }
+    } catch (e) {
+      console.warn(`Warning: Could not read file ${file}`);
+    }
+  }
+  
+  return result;
+}
 
 /**
  * Build MDX files using Velite with the mdxld configuration
@@ -33,10 +79,19 @@ export async function build(options: {
     fs.mkdirSync(outputDir, { recursive: true })
   }
 
-  const result = await veliteBuild({
-    config: absoluteConfigFile,
-    watch,
-  })
+  const isSchemaOrg = basename(absoluteSourceDir) === 'schema.org' || 
+                     absoluteSourceDir.endsWith('/schema.org');
+  
+  let result;
+  if (isSchemaOrg) {
+    console.log('mdxld: Detected schema.org directory, using special handling');
+    result = await buildSchemaOrgFiles(absoluteSourceDir, absoluteOutputDir);
+  } else {
+    result = await veliteBuild({
+      config: absoluteConfigFile,
+      watch,
+    });
+  }
 
   const indexJs = `export const mdx = ${JSON.stringify(result, null, 2)};`
   const indexDts = `export declare const mdx: any;`

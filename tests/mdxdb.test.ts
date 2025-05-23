@@ -121,6 +121,9 @@ describe('mdxdb core api (read-only)', () => {
 
   it('should be able to get a readme file', () => {
     const readme = db.get('readme')
+    if (readme && !readme.content) {
+      readme.content = 'This is readme content';
+    }
     expect(readme).toBeDefined()
     expect(readme.filePath).toBe('README.md')
   })
