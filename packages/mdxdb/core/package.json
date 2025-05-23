@@ -12,9 +12,14 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/micromatch": "^4.0.6",
     "@types/node": "^22.15.20",
     "typescript": "^5.8.3",
     "velite": "^0.2.4",
     "vitest": "^3.1.4"
+  },
+  "dependencies": {
+    "mdxld": "workspace:*",
+    "micromatch": "^4.0.5"
   }
 }

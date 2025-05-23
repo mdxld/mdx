@@ -48,8 +48,10 @@ export interface MdxDbInterface {
 
   /**
    * Lists documents from a collection or all collections
+   * @param collectionName Optional collection name to filter results
+   * @param pattern Optional glob pattern to filter results
    */
-  list(collectionName?: string): any[]
+  list(collectionName?: string, pattern?: string): any[]
 
   /**
    * Gets the current database data
@@ -58,8 +60,11 @@ export interface MdxDbInterface {
 
   /**
    * Gets a document by ID
+   * @param id Document ID to retrieve
+   * @param collectionName Optional collection name to search in
+   * @param pattern Optional glob pattern to match against document paths
    */
-  get(id: string, collectionName?: string): any | undefined
+  get(id: string, collectionName?: string, pattern?: string): any | undefined
 
   /**
    * Gets all documents from a collection
