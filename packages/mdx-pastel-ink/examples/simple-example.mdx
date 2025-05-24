@@ -1,0 +1,18 @@
+---
+command: hello
+description: A simple hello command
+input:
+  name: string
+  greeting: string
+---
+
+export default function HelloCommand({ name, greeting, components }) {
+  const { Text } = components;
+  return (
+    <>
+      <Text># Hello Command</Text>
+      <Text>{greeting}, {name}!</Text>
+      <Text>This is a simple example showing input properties in MDX.</Text>
+    </>
+  );
+}
