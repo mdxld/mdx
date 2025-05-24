@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import { render } from 'ink';
+import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types';
 import { createWorkflowFromFrontmatter } from './workflow';
-import type { WorkflowFrontmatter } from './types';
 
 async function compileMdx(mdxContent: string) {
   return { 
@@ -12,18 +11,15 @@ async function compileMdx(mdxContent: string) {
   };
 }
 
-async function main() {
-  const args = process.argv.slice(2);
-  if (args.length === 0) {
-    console.error('Usage: node render.js <mdx-file>');
-    process.exit(1);
-  }
-
-  const mdxPath = resolve(process.cwd(), args[0]);
-  console.log(`Loading MDX file: ${mdxPath}`);
+/**
+ * Render an MDX file as a CLI app
+ */
+export async function renderMdxCli(mdxPath: string, options: Partial<MdxPastelInkOptions> = {}) {
+  const resolvedPath = resolve(process.cwd(), mdxPath);
+  console.log(`Loading MDX file: ${resolvedPath}`);
   
   try {
-    const mdxContent = readFileSync(mdxPath, 'utf8');
+    const mdxContent = readFileSync(resolvedPath, 'utf8');
     const { Component, frontmatter } = await compileMdx(mdxContent);
     
     if ((frontmatter as WorkflowFrontmatter).workflow) {
@@ -44,10 +40,29 @@ async function main() {
     
     console.log('\nRendering MDX content:');
     // render(<Component />);
+    
+    return options.scope || {};
   } catch (error) {
     console.error('Error processing MDX file:', error);
+    throw error;
+  }
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  if (args.length === 0) {
+    console.error('Usage: node render.js <mdx-file>');
+    process.exit(1);
+  }
+
+  try {
+    await renderMdxCli(args[0]);
+  } catch (error) {
+    console.error('Error:', error);
     process.exit(1);
   }
 }
 
-main().catch(console.error);
+if (require.main === module) {
+  main().catch(console.error);
+}
