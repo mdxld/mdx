@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { Text as InkText, Box, TextProps, BoxProps } from 'ink'
-import chalk from 'chalk'
-import * as ReactDOMServer from 'react-dom/server'
+import React, { useState, useEffect, useMemo } from 'react';
+import { Text as InkText, Box } from 'ink';
+import type { TextProps, BoxProps } from 'ink';
+import chalk from 'chalk';
+import * as ReactDOMServer from 'react-dom/server';
 
 /**
  * Text component with chalk styling

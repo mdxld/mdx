@@ -1,3 +1,4 @@
+import React from "react";
 import { AnnotationHandler, InnerToken } from "codehike/code";
 
 export const tokenTransitions: AnnotationHandler = {

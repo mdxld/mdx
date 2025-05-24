@@ -6,12 +6,22 @@ import { ThemeColors, ThemeProvider } from "./calculate-metadata/theme";
 import { useMemo } from "react";
 import { RefreshOnCodeChange } from "./ReloadOnCodeChange";
 import { verticalPadding } from "./font";
+import React from "react";
 
 export type Props = {
   steps: HighlightedCode[] | null;
   themeColors: ThemeColors | null;
   codeWidth: number | null;
+  theme?: string;
+  width?: {
+    type: "auto" | "fixed";
+    value?: number;
+  };
 };
+
+const AbsoluteFillComponent = AbsoluteFill as any;
+const SeriesComponent = Series as any;
+const SeriesSequenceComponent = Series.Sequence as any;
 
 export const Main: React.FC<Props> = ({ steps, themeColors, codeWidth }) => {
   if (!steps) {
@@ -40,18 +50,18 @@ export const Main: React.FC<Props> = ({ steps, themeColors, codeWidth }) => {
 
   return (
     <ThemeProvider themeColors={themeColors}>
-      <AbsoluteFill style={outerStyle}>
-        <AbsoluteFill
+      <AbsoluteFillComponent style={outerStyle}>
+        <AbsoluteFillComponent
           style={{
             width: codeWidth || "100%",
             margin: "auto",
           }}
         >
           <ProgressBar steps={steps} />
-          <AbsoluteFill style={style}>
-            <Series>
+          <AbsoluteFillComponent style={style}>
+            <SeriesComponent>
               {steps.map((step, index) => (
-                <Series.Sequence
+                <SeriesSequenceComponent
                   key={index}
                   layout="none"
                   durationInFrames={stepDuration}
@@ -62,12 +72,12 @@ export const Main: React.FC<Props> = ({ steps, themeColors, codeWidth }) => {
                     newCode={step}
                     durationInFrames={transitionDuration}
                   />
-                </Series.Sequence>
+                </SeriesSequenceComponent>
               ))}
-            </Series>
-          </AbsoluteFill>
-        </AbsoluteFill>
-      </AbsoluteFill>
+            </SeriesComponent>
+          </AbsoluteFillComponent>
+        </AbsoluteFillComponent>
+      </AbsoluteFillComponent>
       <RefreshOnCodeChange />
     </ThemeProvider>
   );
