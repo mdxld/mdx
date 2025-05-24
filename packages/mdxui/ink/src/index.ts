@@ -3,3 +3,4 @@ export * from './render';
 export * from './schema';
 export * from './frontmatter';
 export * from './components';
+export * from './LandingPage';
