@@ -9,6 +9,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = join(__dirname, '../package.json')
 const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
 import { build } from './build'
+import { startMcpServer } from './server.js'
 
 const program = new Command()
 
@@ -44,6 +45,27 @@ program
       console.log(`mdxld: Build process complete`)
     } catch (error) {
       console.error('mdxld: Error during build process:')
+      if (error instanceof Error) {
+        console.error(error.message)
+        if (error.stack) {
+          console.error(error.stack)
+        }
+      } else {
+        console.error(String(error))
+      }
+      process.exit(1)
+    }
+  })
+
+program
+  .command('server')
+  .description('Start MCP server for mdxld tools')
+  .action(async () => {
+    try {
+      console.log('mdxld: Starting MCP server...')
+      await startMcpServer()
+    } catch (error) {
+      console.error('mdxld: Error starting MCP server:')
       if (error instanceof Error) {
         console.error(error.message)
         if (error.stack) {
