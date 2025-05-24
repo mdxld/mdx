@@ -66,10 +66,19 @@ export const research = async (query: string) => {
   
   let text = result?.text || '';
   
+  const toSuperscript = (num: number): string => {
+    const superscriptMap: Record<string, string> = {
+      '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵',
+      '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '0': '⁰'
+    };
+    
+    return num.toString().split('').map(digit => superscriptMap[digit] || digit).join('');
+  };
+  
   for (let i = 0; i < citations.length; i++) {
     const citationNumber = i + 1;
     const citationRegex = new RegExp(`\\[${citationNumber}\\]`, 'g');
-    text = text.replace(citationRegex, `<sup><a href="#citation-${citationNumber}">${citationNumber}</a></sup>`);
+    text = text.replace(citationRegex, `[ ${toSuperscript(citationNumber)} ](#${citationNumber})`);
   }
   
   let markdown = text + '\n\n';
@@ -86,7 +95,7 @@ export const research = async (query: string) => {
     }
     
     markdown += dedent`
-      <details id="citation-${citationNumber}">
+      <details id="${citationNumber}">
         <summary>${summary}</summary>
         ${citation.error ? `Error: ${citation.error}` : citation.markdown || 'No content available'}
       </details>

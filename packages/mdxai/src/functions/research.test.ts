@@ -79,7 +79,10 @@ describe('research', () => {
     expect(firstCitation).toHaveProperty('description');
     expect(firstCitation).toHaveProperty('markdown');
     
-    expect(result.markdown).toContain('<details id="citation-1">');
+    expect(result.markdown).toContain('[ ¹ ](#1)');
+    expect(result.markdown).toContain('[ ² ](#2)');
+    
+    expect(result.markdown).toContain('<details id="1">');
     expect(result.markdown).toContain('<summary>');
     expect(result.markdown).toContain('Test Title');
     expect(result.markdown).toContain('Test Description');
