@@ -31,3 +31,28 @@ export function ensureDirectoryExists(dirPath: string): void {
     fs.mkdirSync(dirPath, { recursive: true })
   }
 }
+
+/**
+ * Finds and reads an AI function file from the .ai directory
+ * @param functionName The name of the AI function
+ * @param workingDir The directory to start searching from (defaults to process.cwd())
+ * @returns The file content and path, or null if not found
+ */
+export async function findAiFunction(functionName: string, workingDir = process.cwd()): Promise<{ content: string; filePath: string } | null> {
+  const possibleExtensions = ['md', 'mdx']
+  const aiDir = path.join(workingDir, '.ai')
+  
+  if (!fs.existsSync(aiDir)) {
+    return null
+  }
+  
+  for (const ext of possibleExtensions) {
+    const filePath = path.join(aiDir, `${functionName}.${ext}`)
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, 'utf-8')
+      return { content, filePath }
+    }
+  }
+  
+  return null
+}
