@@ -17,9 +17,7 @@
     }
   },
   "include": [
-    "src/**/*",
-    "src/components/**/*",
-    "src/types/**/*"
+    "src/**/*"
   ],
   "exclude": ["node_modules"],
   "references": [

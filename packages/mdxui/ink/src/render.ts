@@ -4,46 +4,91 @@ import { resolve } from 'path';
 import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types';
 import { createWorkflowFromFrontmatter } from './workflow';
 
-async function compileMdx(mdxContent: string) {
-  return { 
-    Component: () => null,
-    frontmatter: {} as any
-  };
+import { compile, evaluate } from '@mdx-js/mdx';
+import { VFile } from 'vfile';
+import * as runtime from 'react/jsx-runtime';
+import { parseFrontmatter } from './frontmatter';
+import { defaultComponents } from './components';
+import { landingPageComponents } from './LandingPage';
+
+/**
+ * Compile MDX content to a React component
+ */
+async function compileMdx(mdxContent: string, options: any = {}) {
+  try {
+    // Parse frontmatter
+    const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent);
+    
+    const result = await compile(new VFile(contentWithoutFrontmatter), {
+      jsx: true,
+      jsxImportSource: 'react',
+      ...options.compileOptions
+    });
+    
+    const components = {
+      ...defaultComponents,
+      ...landingPageComponents,
+      ...options.components
+    };
+    
+    const { default: Component } = await evaluate(result, {
+      ...runtime,
+      components,
+      ...options.scope
+    });
+    
+    return { 
+      Component,
+      frontmatter
+    };
+  } catch (error) {
+    console.error('Error compiling MDX:', error);
+    return { 
+      Component: () => null,
+      frontmatter: {} as any
+    };
+  }
 }
 
 /**
- * Render an MDX file as a CLI app
+ * Render MDX content in a CLI app
+ * @param mdxContentOrPath - Either MDX content as a string or a path to an MDX file
+ * @param options - Options for rendering
  */
-export async function renderMdxCli(mdxPath: string, options: Partial<MdxPastelInkOptions> = {}) {
-  const resolvedPath = resolve(process.cwd(), mdxPath);
-  console.log(`Loading MDX file: ${resolvedPath}`);
+export async function renderMdxCli(
+  mdxContentOrPath: string, 
+  options: Partial<MdxPastelInkOptions> = {}
+) {
+  let mdxContent: string;
   
   try {
-    const mdxContent = readFileSync(resolvedPath, 'utf8');
-    const { Component, frontmatter } = await compileMdx(mdxContent);
-    
-    if ((frontmatter as WorkflowFrontmatter).workflow) {
-      console.log('Workflow detected in frontmatter:');
-      const workflow = createWorkflowFromFrontmatter(frontmatter as WorkflowFrontmatter);
-      console.log(`- ID: ${workflow?.id}`);
-      console.log(`- Name: ${workflow?.name}`);
-      console.log(`- Steps: ${workflow?.steps.length}`);
+    if (options.mdxPath || (mdxContentOrPath.includes('/') && !mdxContentOrPath.includes('\n'))) {
+      const filePath = options.mdxPath || mdxContentOrPath;
+      const resolvedPath = resolve(process.cwd(), filePath);
       
-      workflow?.steps.forEach((step, index) => {
-        console.log(`\nStep ${index + 1}: ${step.name}`);
-        console.log(`- ID: ${step.id}`);
-        if (step.description) console.log(`- Description: ${step.description}`);
-        console.log(`- Has input schema: ${!!step.inputSchema}`);
-        console.log(`- Has output schema: ${!!step.outputSchema}`);
-      });
+      try {
+        mdxContent = readFileSync(resolvedPath, 'utf8');
+      } catch (error) {
+        console.error(`Error reading MDX file: ${resolvedPath}`, error);
+        throw error;
+      }
+    } else {
+      mdxContent = mdxContentOrPath;
     }
     
-    console.log('\nRendering MDX content:');
-    // render(<Component />);
+    const { Component, frontmatter } = await compileMdx(mdxContent, options);
     
-    return options.scope || {};
+    // Check for workflow in frontmatter
+    if ((frontmatter as WorkflowFrontmatter).workflow || 
+        (frontmatter as WorkflowFrontmatter).steps || 
+        (frontmatter as WorkflowFrontmatter).screens) {
+      const workflow = createWorkflowFromFrontmatter(frontmatter as WorkflowFrontmatter);
+      return { Component, frontmatter, workflow };
+    }
+    
+    return { Component, frontmatter };
   } catch (error) {
-    console.error('Error processing MDX file:', error);
+    console.error('Error processing MDX:', error);
     throw error;
   }
 }

@@ -3,6 +3,7 @@ export * from './render';
 export * from './schema';
 export * from './frontmatter';
 export * from './components';
+// export * from './components/index';
 export * from './workflow';
 export type { WorkflowFrontmatter } from './types';
 export * from './LandingPage';
