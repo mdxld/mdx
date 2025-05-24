@@ -32,7 +32,7 @@ describe('Image component', () => {
   });
 
   it('should convert SVG to ASCII art', async () => {
-    const asciiArt = '  ###  \n #####\n#######';
+    const asciiArt = '  ###\n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
     const { lastFrame } = render(<Image icon={MockIcon} width={20} />);
@@ -54,7 +54,7 @@ describe('Image component', () => {
   });
 
   it('should handle array output from asciify', async () => {
-    const asciiArt = ['  ###  ', ' ##### ', '#######'];
+    const asciiArt = ['  ###', ' ##### ', '#######'];
     mockAsciify.mockResolvedValue(asciiArt);
     
     const { lastFrame } = render(<Image icon={MockIcon} />);
@@ -93,7 +93,7 @@ describe('Image component', () => {
   });
 
   it('should accept direct SVG string input', async () => {
-    const asciiArt = '  ###  \n #####\n#######';
+    const asciiArt = '  ###\n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
     const svgString = '<svg><circle cx="50" cy="50" r="40" /></svg>';
@@ -109,7 +109,7 @@ describe('Image component', () => {
   });
 
   it('should apply color to the ASCII art', async () => {
-    const asciiArt = '  ###  \n #####\n#######';
+    const asciiArt = '  ###\n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
     const { lastFrame } = render(<Image icon={MockIcon} color="green" />);
@@ -120,7 +120,7 @@ describe('Image component', () => {
   });
 
   it('should respect width and height props', async () => {
-    const asciiArt = '  ###  \n #####\n#######';
+    const asciiArt = '  ###\n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
     render(<Image icon={MockIcon} width={30} height={15} />);
@@ -137,7 +137,7 @@ describe('Image component', () => {
   });
 
   it('should use width for height if height is not provided', async () => {
-    const asciiArt = '  ###  \n #####\n#######';
+    const asciiArt = '  ###\n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
     render(<Image icon={MockIcon} width={25} />);
