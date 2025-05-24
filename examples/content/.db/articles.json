@@ -1,18 +1,1 @@
-[
-  {
-    "title": "My First Article",
-    "slug": "my-first-article",
-    "date": "2024-01-15T00:00:00.000Z",
-    "description": "This is the first article in our example.",
-    "published": true,
-    "body": "const{Fragment:n,jsx:e,jsxs:t}=arguments[0];function _createMdxContent(r){const o={h1:\"h1\",p:\"p\",...r.components};return t(n,{children:[e(o.h1,{children:\"Hello World\"}),\"\\n\",e(o.p,{children:\"This is the body of the first article.\"})]})}return{default:function(n={}){const{wrapper:t}=n.components||{};return t?e(t,{...n,children:e(_createMdxContent,{...n})}):_createMdxContent(n)}};"
-  },
-  {
-    "title": "Another Exciting Post",
-    "slug": "another-exciting-post",
-    "date": "2024-01-20T00:00:00.000Z",
-    "description": "More content to showcase mdxdb.",
-    "published": true,
-    "body": "const{Fragment:n,jsx:e,jsxs:t}=arguments[0];function _createMdxContent(r){const c={h2:\"h2\",p:\"p\",...r.components};return t(n,{children:[e(c.h2,{children:\"Second Article Insights\"}),\"\\n\",e(c.p,{children:\"Mdxdb makes content management easy!\"})]})}return{default:function(n={}){const{wrapper:t}=n.components||{};return t?e(t,{...n,children:e(_createMdxContent,{...n})}):_createMdxContent(n)}};"
-  }
-]
+[{"slug":"my-first-article","title":"My First Article","date":"2024-01-15","description":"This is the first article in our example.","body":"\n# Hello World\n\nThis is the body of the first article.\n"},{"slug":"another-exciting-post","title":"Another Exciting Post","date":"2024-01-20","description":"More content to showcase mdxdb.","body":"\n## Second Article Insights\n\nMdxdb makes content management easy!\n"}]
