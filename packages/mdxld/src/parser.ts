@@ -42,16 +42,16 @@ export function parseCodeBlocksWithEstree(mdxContent: string): CodeBlockWithEstr
     const codeBlocks: CodeBlockWithEstree[] = []
     const processor = unified().use(remarkParse).use(remarkMdx)
     const tree = processor.parse(mdxContent)
-    
+
     const parser = acorn.Parser.extend(acornJsx.default())
-    
+
     visit(tree, 'code', (node: any) => {
       const codeBlock: CodeBlockWithEstree = {
         lang: node.lang || '',
         meta: node.meta || null,
-        value: node.value || ''
+        value: node.value || '',
       }
-      
+
       if (['js', 'jsx', 'javascript', 'ts', 'tsx', 'typescript'].includes(node.lang)) {
         try {
           const estree = parser.parse(node.value, {
@@ -63,26 +63,28 @@ export function parseCodeBlocksWithEstree(mdxContent: string): CodeBlockWithEstr
             allowReturnOutsideFunction: true,
             allowSuperOutsideMethod: true,
             allowHashBang: true,
-            locations: true
+            locations: true,
           } as any)
-          
+
           codeBlock.estree = estree
         } catch (e: any) {
           codeBlock.error = `Code block parsing error: ${e.message}`
         }
       }
-      
+
       codeBlocks.push(codeBlock)
     })
-    
+
     return codeBlocks
   } catch (e: any) {
-    return [{
-      lang: '',
-      meta: null,
-      value: '',
-      error: `MDXLD Code Block Parsing Error: ${e.message}`
-    }]
+    return [
+      {
+        lang: '',
+        meta: null,
+        value: '',
+        error: `MDXLD Code Block Parsing Error: ${e.message}`,
+      },
+    ]
   }
 }
 
@@ -97,9 +99,9 @@ export function parseImportsExports(mdxContent: string): ImportsExportsResult {
     const exports: any[] = []
     const processor = unified().use(remarkParse).use(remarkMdx)
     const tree = processor.parse(mdxContent)
-    
+
     const parser = acorn.Parser.extend(acornJsx.default())
-    
+
     visit(tree, ['mdxjsEsm', 'mdxFlowExpression'], (node: any) => {
       if (node.type === 'mdxjsEsm') {
         try {
@@ -107,16 +109,18 @@ export function parseImportsExports(mdxContent: string): ImportsExportsResult {
             ecmaVersion: 'latest',
             sourceType: 'module',
             allowImportExportEverywhere: true,
-            locations: true
+            locations: true,
           })
-          
+
           if (estree.body && Array.isArray(estree.body)) {
             for (const statement of estree.body) {
               if (statement.type === 'ImportDeclaration') {
                 imports.push(statement)
-              } else if (statement.type === 'ExportNamedDeclaration' || 
-                         statement.type === 'ExportDefaultDeclaration' ||
-                         statement.type === 'ExportAllDeclaration') {
+              } else if (
+                statement.type === 'ExportNamedDeclaration' ||
+                statement.type === 'ExportDefaultDeclaration' ||
+                statement.type === 'ExportAllDeclaration'
+              ) {
                 exports.push(statement)
               }
             }
@@ -131,14 +135,12 @@ export function parseImportsExports(mdxContent: string): ImportsExportsResult {
             ecmaVersion: 'latest',
             sourceType: 'module',
             allowImportExportEverywhere: true,
-            locations: true
+            locations: true,
           })
-          
+
           if (estree.body && Array.isArray(estree.body)) {
             for (const statement of estree.body) {
-              if (statement.type === 'ExportNamedDeclaration' || 
-                  statement.type === 'ExportDefaultDeclaration' ||
-                  statement.type === 'ExportAllDeclaration') {
+              if (statement.type === 'ExportNamedDeclaration' || statement.type === 'ExportDefaultDeclaration' || statement.type === 'ExportAllDeclaration') {
                 exports.push(statement)
               }
             }
@@ -149,13 +151,13 @@ export function parseImportsExports(mdxContent: string): ImportsExportsResult {
         }
       }
     })
-    
+
     return { imports, exports }
   } catch (e: any) {
     return {
       imports: [],
       exports: [],
-      error: `MDXLD Import/Export Parsing Error: ${e.message}`
+      error: `MDXLD Import/Export Parsing Error: ${e.message}`,
     }
   }
 }
@@ -168,33 +170,33 @@ export function parseImportsExports(mdxContent: string): ImportsExportsResult {
 export function parseMdx(mdxContent: string): ParseMdxResult {
   try {
     const frontmatterResult = parseFrontmatter(mdxContent)
-    
+
     // If there was an error parsing frontmatter, include it in the result
     if (frontmatterResult.error) {
       return {
         mdast: null,
         simplifiedMdast: null,
         frontmatter: null,
-        error: frontmatterResult.error
+        error: frontmatterResult.error,
       }
     }
-    
+
     const processor = unified().use(remarkParse).use(remarkMdx)
     const mdast = processor.parse(mdxContent)
-    
+
     const simplifiedMdast = simplifyMdast(mdast)
-    
+
     return {
       mdast,
       simplifiedMdast,
-      frontmatter: frontmatterResult.frontmatter
+      frontmatter: frontmatterResult.frontmatter,
     }
   } catch (e: any) {
     return {
       mdast: null,
       simplifiedMdast: null,
       frontmatter: null,
-      error: `MDXLD MDX Parsing Error: ${e.message}`
+      error: `MDXLD MDX Parsing Error: ${e.message}`,
     }
   }
 }
@@ -206,16 +208,16 @@ export function parseMdx(mdxContent: string): ParseMdxResult {
  */
 export function simplifyMdast(node: any): any {
   if (!node) return null
-  
+
   if (Array.isArray(node)) {
-    return node.map(item => simplifyMdast(item))
+    return node.map((item) => simplifyMdast(item))
   }
-  
+
   if (typeof node === 'object') {
     const simplified: Record<string, any> = {}
-    
+
     const essentialProps = ['type', 'value', 'children', 'lang', 'meta', 'url', 'alt', 'title']
-    
+
     for (const prop of essentialProps) {
       if (node[prop] !== undefined) {
         if (prop === 'children' && Array.isArray(node.children)) {
@@ -225,17 +227,17 @@ export function simplifyMdast(node: any): any {
         }
       }
     }
-    
+
     if (node.position) {
       simplified.position = {
         start: { line: node.position.start.line, column: node.position.start.column },
-        end: { line: node.position.end.line, column: node.position.end.column }
+        end: { line: node.position.end.line, column: node.position.end.column },
       }
     }
-    
+
     return simplified
   }
-  
+
   return node
 }
 

@@ -85,17 +85,17 @@ export default defineConfig({
   await fs.writeFile(
     path.join(veliteDir, 'posts.json'),
     JSON.stringify([
-      { 
-        slug: 'post-1', 
-        title: 'Sample Post 1', 
-        date: '2023-01-01', 
-        body: '# Sample Post 1\nThis is the content of post 1.' 
+      {
+        slug: 'post-1',
+        title: 'Sample Post 1',
+        date: '2023-01-01',
+        body: '# Sample Post 1\nThis is the content of post 1.',
       },
-      { 
-        slug: 'post-2', 
-        title: 'Sample Post 2', 
-        date: '2023-01-02', 
-        body: '# Sample Post 2\nThis is the content of post 2.' 
+      {
+        slug: 'post-2',
+        title: 'Sample Post 2',
+        date: '2023-01-02',
+        body: '# Sample Post 2\nThis is the content of post 2.',
       },
     ]),
   )
@@ -124,22 +124,22 @@ export default defineConfig({
 export async function simulateVeliteBuild(testDir: string): Promise<void> {
   const contentDir = path.join(testDir, 'content/posts')
   const outputDir = path.join(testDir, '.velite')
-  
+
   await fs.mkdir(outputDir, { recursive: true })
-  
+
   const files = await fs.readdir(contentDir)
   const posts = []
-  
+
   for (const file of files) {
     if (file.endsWith('.mdx')) {
       const filePath = path.join(contentDir, file)
       const content = await fs.readFile(filePath, 'utf-8')
-      
+
       const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
       if (match) {
         const frontmatterText = match[1]
         const body = match[2]
-        
+
         const frontmatter: Record<string, any> = {}
         frontmatterText.split('\n').forEach((line) => {
           const [key, ...valueParts] = line.split(':')
@@ -147,7 +147,7 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
             frontmatter[key.trim()] = valueParts.join(':').trim()
           }
         })
-        
+
         posts.push({
           slug: path.basename(file, '.mdx'),
           ...frontmatter,
@@ -156,6 +156,6 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
       }
     }
   }
-  
+
   await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
 }

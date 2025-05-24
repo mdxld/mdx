@@ -66,7 +66,6 @@ export async function renderMdxCli(
   workflow?: ReturnType<typeof createWorkflowFromFrontmatter>;
 }> {
   let mdxContent: string;
-  
   try {
     if (options.mdxPath || (mdxContentOrPath.includes('/') && !mdxContentOrPath.includes('\n'))) {
       const filePath = options.mdxPath || mdxContentOrPath;
@@ -100,20 +99,20 @@ export async function renderMdxCli(
 }
 
 async function main() {
-  const args = process.argv.slice(2);
+  const args = process.argv.slice(2)
   if (args.length === 0) {
-    console.error('Usage: node render.js <mdx-file>');
-    process.exit(1);
+    console.error('Usage: node render.js <mdx-file>')
+    process.exit(1)
   }
 
   try {
-    await renderMdxCli(args[0]);
+    await renderMdxCli(args[0])
   } catch (error) {
-    console.error('Error:', error);
-    process.exit(1);
+    console.error('Error:', error)
+    process.exit(1)
   }
 }
 
 if (require.main === module) {
-  main().catch(console.error);
+  main().catch(console.error)
 }

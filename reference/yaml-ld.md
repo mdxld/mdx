@@ -587,7 +587,6 @@ Possible ways to specify this in YAML-LD are the following:
                   "@id": https://w3.org/yaml-ld/
                   dateModified: !xsd:date 2023-06-26
 
-
   Here, `%TAG` declares the `!xsd:` prefix for tags used in the document. YAML treats tags as IRIs, which brings it close to the LD family of data formats. Note that the directives section must be separated from the main document with `---` (a line containing exactly three hyphens).
 
 ## Reduce duplication
@@ -700,12 +699,14 @@ Any error reported in a recursive processing step MUST result in the failure of 
 ### Converting a YAML scalar
 
 1.  If the {{JsonLdOptions/processingMode}} option is \`yaml-ld-extended\`, and node |n| has a node tag |t|, |n| is mapped as follows:
+
     1.  If |t| resolves with a prefix of \`tag:yaml.org.2002:\`, the conversion result is mapped through the YAML Core Schema.
     2.  Otherwise, if |t| resolves with a prefix of \`https://www.w3.org/ns/i18n#\`, and the suffix **does not** contain an underscore (\`"\_"\`), the conversion result is a language-tagged string with value taken from |n|, and a language tag taken from the suffix of |t|.
 
         Node tags including an underscore (\`"\_"\`), such as \`i18n:ar-eg_rtl\` describe a combination of language and text direction. See The \`i18n\` Namespace in [[JSON-LD11]].
 
     3.  Otherwise, the conversion result is an RDF literal with value taken from |n| and datatype IRI taken from |t|.
+
 2.  Otherwise, the conversion result is mapped through the YAML Core Schema.
 
 Implementations may retain the representation as an YAML Integer, or YAML Floating Point, but a JSON-LD processor must treat them uniformly as a number, although the specific type of number value SHOULD be retained for round-tripping.
@@ -740,7 +741,6 @@ The following block is one example:
         $context: http://schema.org
         $type: Person
         name: Pierre-Antoine Champin
-
 
 See [](#example-serialized-representation-of-the-extended-internal-representation)for an example of serializing the extended internal representation.
 
@@ -914,7 +914,6 @@ The YamlLdErrorCode represents the collection of valid YAML-LD error codes, whic
             "profile-error"
           };
 
-
 invalid-encoding
 
 The character encoding of an input is invalid.
@@ -1004,7 +1003,6 @@ Remove
                   birthDate:
                     "@value": 1970-01-01
                     "@type": xsd:date
-
 
 ## `&anchors` and `*aliases`
 

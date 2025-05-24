@@ -82,9 +82,9 @@ export async function generateDeepwikiStream(query: string): Promise<StreamTextR
       type: 'sse',
       url: 'https://mcp.deepwiki.com/sse',
     },
-  });
+  })
 
-  const tools = await client.tools();
+  const tools = await client.tools()
 
   const result = await streamText({
     model: openai('o4-mini'),
@@ -95,7 +95,7 @@ export async function generateDeepwikiStream(query: string): Promise<StreamTextR
         content: `research ${query}`,
       },
     ],
-  });
+  })
 
-  return result;
+  return result
 }

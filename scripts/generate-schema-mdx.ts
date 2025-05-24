@@ -6,29 +6,29 @@ import path from 'path'
  * Expands URI prefixes to their full URI form
  */
 function expandUriPrefix(uri: string): string {
-  if (typeof uri !== 'string') return uri;
+  if (typeof uri !== 'string') return uri
   const prefixMap: Record<string, string> = {
     'schema:': 'https://schema.org/',
     'rdf:': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-    'rdfs:': 'http://www.w3.org/2000/01/rdf-schema#'
-  };
+    'rdfs:': 'http://www.w3.org/2000/01/rdf-schema#',
+  }
   for (const [prefix, expansion] of Object.entries(prefixMap)) {
     if (uri.startsWith(prefix)) {
-      return uri.replace(prefix, expansion);
+      return uri.replace(prefix, expansion)
     }
   }
-  return uri;
+  return uri
 }
 
 /**
  * Flattens object-wrapped URI references to simple strings
  */
 function flattenUriObject(obj: any): string {
-  if (typeof obj === 'string') return expandUriPrefix(obj);
+  if (typeof obj === 'string') return expandUriPrefix(obj)
   if (obj && (obj['$id'] || obj['@id'])) {
-    return expandUriPrefix(obj['$id'] || obj['@id']);
+    return expandUriPrefix(obj['$id'] || obj['@id'])
   }
-  return obj;
+  return obj
 }
 
 /**
@@ -117,7 +117,7 @@ function parseThings(jsonld: any): any[] {
           }
         } else {
           if (Array.isArray(value)) {
-            convertedThing[key] = value.map(item => {
+            convertedThing[key] = value.map((item) => {
               return typeof item === 'object' ? flattenUriObject(item) : expandUriPrefix(item)
             })
           } else if (typeof value === 'object' && value !== null) {
@@ -141,12 +141,12 @@ function formatReference(uri: string): string {
   if (typeof uri !== 'string') {
     return 'Unknown'
   }
-  
+
   const expandedUri = expandUriPrefix(uri)
   let label = expandedUri.split('/').pop() || expandedUri
-  
+
   label = label.replace(/^(rdfs:|schema:)/, '')
-  
+
   return `[${label}](${expandedUri})`
 }
 
@@ -181,15 +181,13 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
     const directProperties = allThings.filter((item) => {
       // Check both domainIncludes and schema:domainIncludes
       const domainIncludes = item.domainIncludes || item['schema:domainIncludes']
-      
+
       return (
         item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
-        domainIncludes && (
-          Array.isArray(domainIncludes) 
-            ? domainIncludes.some((domain: any) => 
-                expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thingId))
-            : expandUriPrefix(flattenUriObject(domainIncludes)) === expandUriPrefix(thingId)
-        )
+        domainIncludes &&
+        (Array.isArray(domainIncludes)
+          ? domainIncludes.some((domain: any) => expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thingId))
+          : expandUriPrefix(flattenUriObject(domainIncludes)) === expandUriPrefix(thingId))
       )
     })
 
@@ -223,7 +221,7 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
  */
 function generateMdxContent(thing: any, properties: any[], isProperty: boolean = false): string {
   const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
-  const comment = (thing['rdfs:comment'] || thing.comment || thing.description || '')
+  const comment = thing['rdfs:comment'] || thing.comment || thing.description || ''
   const trimmedComment = typeof comment === 'string' ? comment.trim() : comment
 
   let frontmatter = '---\n'
@@ -233,7 +231,10 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
 
   if (trimmedComment) {
     if (typeof trimmedComment === 'string') {
-      frontmatter += `comment: |\n${trimmedComment.split('\n').map((line: string) => `  ${line.trim()}`).join('\n')}\n`
+      frontmatter += `comment: |\n${trimmedComment
+        .split('\n')
+        .map((line: string) => `  ${line.trim()}`)
+        .join('\n')}\n`
     } else {
       frontmatter += `comment: ${JSON.stringify(trimmedComment)}\n`
     }
@@ -273,13 +274,17 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
     if (value !== undefined && value !== null) {
       if (typeof value === 'object' && value !== null) {
         if (Array.isArray(value)) {
-          frontmatter += `${key}: ${JSON.stringify(value.map(item => typeof item === 'object' ? flattenUriObject(item) : expandUriPrefix(item as string)))}\n`
+          frontmatter += `${key}: ${JSON.stringify(value.map((item) => (typeof item === 'object' ? flattenUriObject(item) : expandUriPrefix(item as string))))}\n`
         } else {
           frontmatter += `${key}: ${JSON.stringify(flattenUriObject(value))}\n`
         }
       } else {
         if (typeof value === 'string' && value.includes('\n')) {
-          frontmatter += `${key}: |\n${(value as string).trim().split('\n').map((line: string) => `  ${line.trim()}`).join('\n')}\n`
+          frontmatter += `${key}: |\n${(value as string)
+            .trim()
+            .split('\n')
+            .map((line: string) => `  ${line.trim()}`)
+            .join('\n')}\n`
         } else {
           frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(typeof value === 'string' ? value.trim() : value))}\n`
         }
@@ -303,13 +308,9 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
     const directProperties = properties.filter((prop) => {
       if (!prop.domainIncludes) return false
 
-      const domains = Array.isArray(prop.domainIncludes) 
-        ? prop.domainIncludes
-        : [prop.domainIncludes]
+      const domains = Array.isArray(prop.domainIncludes) ? prop.domainIncludes : [prop.domainIncludes]
 
-      return domains.some((domain: any) => 
-        expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thing['$id'] as string)
-      )
+      return domains.some((domain: any) => expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thing['$id'] as string))
     })
 
     const inheritedProperties = properties.filter((prop) => !directProperties.includes(prop))
@@ -325,10 +326,8 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
 
         let expectedType = 'Text'
         if (property.rangeIncludes) {
-          const ranges = Array.isArray(property.rangeIncludes) 
-            ? property.rangeIncludes
-            : [property.rangeIncludes]
-            
+          const ranges = Array.isArray(property.rangeIncludes) ? property.rangeIncludes : [property.rangeIncludes]
+
           expectedType = ranges
             .map((range: any) => {
               const type = flattenUriObject(range)
@@ -356,10 +355,8 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
 
         let expectedType = 'Text'
         if (property.rangeIncludes) {
-          const ranges = Array.isArray(property.rangeIncludes) 
-            ? property.rangeIncludes
-            : [property.rangeIncludes]
-            
+          const ranges = Array.isArray(property.rangeIncludes) ? property.rangeIncludes : [property.rangeIncludes]
+
           expectedType = ranges
             .map((range: any) => {
               const type = flattenUriObject(range)
@@ -414,17 +411,13 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
           console.log(`Found ${properties.length} properties for ${name}`)
           if (properties.length === 0) {
             console.log(`No properties found for ${name} with ID ${thing['$id']}`)
-            const propertiesWithDomain = allThings.filter((item: any) => 
-              item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
-              item.domainIncludes && (
-                (Array.isArray(item.domainIncludes) && 
-                  item.domainIncludes.some((domain: any) => 
-                    expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thing['$id'] as string)
-                )) ||
-                (!Array.isArray(item.domainIncludes) && 
-                  expandUriPrefix(flattenUriObject(item.domainIncludes)) === expandUriPrefix(thing['$id'] as string)
-                )
-              )
+            const propertiesWithDomain = allThings.filter(
+              (item: any) =>
+                item['$type']?.includes('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') &&
+                item.domainIncludes &&
+                ((Array.isArray(item.domainIncludes) &&
+                  item.domainIncludes.some((domain: any) => expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thing['$id'] as string))) ||
+                  (!Array.isArray(item.domainIncludes) && expandUriPrefix(flattenUriObject(item.domainIncludes)) === expandUriPrefix(thing['$id'] as string))),
             )
             console.log(`Direct properties with domain ${thing['$id']}: ${propertiesWithDomain.length}`)
           }

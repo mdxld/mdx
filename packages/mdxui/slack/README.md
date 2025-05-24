@@ -32,9 +32,9 @@ export * from './hooks'
 export * from './blocks'
 ```
 
-* `GET` handles Slack’s URL‐verification challenge
-* `POST` handles all interactive payloads (block\_actions, view\_submissions, slash\_commands, etc.)
-* You also re-export your hook APIs (`useBlockAction`, `useSlashCommand`, …) and your UI primitives (`Blocks`, `Section`, `Modal`, …) so users can import them from `@mdxui/slack`.
+- `GET` handles Slack’s URL‐verification challenge
+- `POST` handles all interactive payloads (block_actions, view_submissions, slash_commands, etc.)
+- You also re-export your hook APIs (`useBlockAction`, `useSlashCommand`, …) and your UI primitives (`Blocks`, `Section`, `Modal`, …) so users can import them from `@mdxui/slack`.
 
 –––
 
@@ -74,15 +74,13 @@ export async function POST(req: Request) {
   // Slack expects a 200 OK within 3 seconds. If `dispatch` returned a
   // JSON response (e.g. an ephemeral message), include it; otherwise
   // send an empty 200.
-  return result
-    ? NextResponse.json(result)
-    : new NextResponse(null, { status: 200 })
+  return result ? NextResponse.json(result) : new NextResponse(null, { status: 200 })
 }
 ```
 
-* **`verifySlackRequest`** checks the signing secret against the `X-Slack-Signature` header.
-* **`parseSlackPayload`** handles both JSON and `application/x-www-form-urlencoded` bodies.
-* **`dispatch`** is your central router that looks at `payload.type` (e.g. `"block_actions"`, `"view_submission"`, `"slash_commands"`) or the `action_id` or `callback_id` inside it, and invokes the user’s registered callbacks.
+- **`verifySlackRequest`** checks the signing secret against the `X-Slack-Signature` header.
+- **`parseSlackPayload`** handles both JSON and `application/x-www-form-urlencoded` bodies.
+- **`dispatch`** is your central router that looks at `payload.type` (e.g. `"block_actions"`, `"view_submission"`, `"slash_commands"`) or the `action_id` or `callback_id` inside it, and invokes the user’s registered callbacks.
 
 –––
 
@@ -92,11 +90,7 @@ Inside your package you can offer hooks that the user calls at top-level, just l
 
 ```ts
 // src/hooks.ts
-type BlockActionHandler = (ctx: {
-  ack(): Promise<void>
-  payload: BlockActionPayload
-  client: SlackWebClient
-}) => Promise<void>
+type BlockActionHandler = (ctx: { ack(): Promise<void>; payload: BlockActionPayload; client: SlackWebClient }) => Promise<void>
 
 // registry for action_id → handler
 const blockActionRegistry = new Map<string, BlockActionHandler>()
@@ -114,9 +108,11 @@ export async function dispatch(payload: any) {
       const handler = blockActionRegistry.get(action.action_id)
       if (!handler) break
       await handler({
-        ack: async () => {/* send ack HTTP response or empty JSON */},
+        ack: async () => {
+          /* send ack HTTP response or empty JSON */
+        },
         payload,
-        client: new SlackWebClient(process.env.SLACK_BOT_TOKEN!)
+        client: new SlackWebClient(process.env.SLACK_BOT_TOKEN!),
       })
       break
     }
@@ -158,7 +154,7 @@ export async function dispatch(payload: any) {
 
 ## 5. Putting it all together
 
-* **Package export**
+- **Package export**
 
   ```text
   @mdxui/slack/
@@ -169,7 +165,8 @@ export async function dispatch(payload: any) {
   │  └─ internals/     ← signature, payload parsing, router
   └─ index.ts          ← re-exports from route.ts, hooks.ts, blocks.ts
   ```
-* **User side**
+
+- **User side**
 
   ```ts
   // app/api/webhooks/slack/route.ts

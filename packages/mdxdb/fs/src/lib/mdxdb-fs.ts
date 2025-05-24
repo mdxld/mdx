@@ -1,2 +1,2 @@
-import { MdxDbFs } from '../../lib/mdxdb-fs.js';
-export { MdxDbFs };
+import { MdxDbFs } from '../../lib/mdxdb-fs.js'
+export { MdxDbFs }

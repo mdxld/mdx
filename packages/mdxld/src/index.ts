@@ -1,6 +1,6 @@
-export { 
-  ParseFrontmatterResult, 
-  parseFrontmatter, 
+export {
+  ParseFrontmatterResult,
+  parseFrontmatter,
   convertToJSONLD,
   ParseMdxResult,
   parseMdx,
@@ -8,7 +8,7 @@ export {
   CodeBlockWithEstree,
   ImportsExportsResult,
   parseCodeBlocksWithEstree,
-  parseImportsExports
+  parseImportsExports,
 } from './parser.js'
 
 export * from './components.js' // Will be compiled from components.tsx

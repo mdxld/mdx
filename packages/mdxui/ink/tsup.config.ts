@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts', 'src/cli-workflow.ts'],
@@ -13,4 +13,4 @@ export default defineConfig({
   },
   skipNodeModulesBundle: true,
   noExternal: [],
-});
+})
