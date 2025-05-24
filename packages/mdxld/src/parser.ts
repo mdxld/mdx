@@ -324,3 +324,44 @@ export function convertToJSONLD(yamlObject: Record<string, any> | null): Record<
 
   return jsonld
 }
+
+/**
+ * Extract YAML codeblocks associated with headings from MDX content
+ * @param mdxContent MDX content to parse
+ * @returns Array of heading-YAML pairs for schema definitions
+ */
+export interface HeadingYamlPair {
+  headingText: string
+  headingLevel: number
+  yamlContent: string
+}
+
+export function parseHeadingsWithYaml(mdxContent: string): HeadingYamlPair[] {
+  try {
+    const processor = unified().use(remarkParse).use(remarkMdx)
+    const tree = processor.parse(mdxContent)
+    
+    const results: HeadingYamlPair[] = []
+    let currentHeading: { text: string; level: number } | null = null
+    
+    visit(tree, ['heading', 'code'], (node: any) => {
+      if (node.type === 'heading') {
+        currentHeading = {
+          text: node.children?.map((child: any) => child.value || '').join('') || '',
+          level: node.depth
+        }
+      } else if (node.type === 'code' && node.lang === 'yaml' && currentHeading) {
+        results.push({
+          headingText: currentHeading.text,
+          headingLevel: currentHeading.level,
+          yamlContent: node.value
+        })
+      }
+    })
+    
+    return results
+  } catch (e: any) {
+    console.error(`Error parsing headings with YAML: ${e.message}`)
+    return []
+  }
+}

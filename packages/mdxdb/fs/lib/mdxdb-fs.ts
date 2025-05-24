@@ -4,7 +4,15 @@ import matter from 'gray-matter'
 import util from 'util'
 import path from 'path'
 import micromatch from 'micromatch'
-import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent, extractContentPath } from '@mdxdb/core'
+import { 
+  MdxDbBase, 
+  MdxDbConfig, 
+  VeliteData, 
+  DocumentContent, 
+  extractContentPath,
+  discoverSchemas,
+  SchemaDefinition
+} from '@mdxdb/core'
 
 const execFilePromise = util.promisify(execFile)
 
@@ -57,12 +65,43 @@ export class MdxDbFs extends MdxDbBase {
   async build(): Promise<VeliteData> {
     console.log('Building MDX database...')
     try {
+      const dbFolderPath = path.join(this.packageDir, '.db')
+      let discoveredSchemas: SchemaDefinition[] = []
+      
+      try {
+        discoveredSchemas = await discoverSchemas(dbFolderPath)
+        console.log(`Discovered ${discoveredSchemas.length} schema definitions from .db folder`)
+      } catch (error) {
+        console.warn('Failed to discover schemas from .db folder:', error)
+      }
+      
+      const enhancedCollections = { ...this.config.collections } || {}
+      
+      for (const schemaDef of discoveredSchemas) {
+        if (!enhancedCollections[schemaDef.collectionName]) {
+          enhancedCollections[schemaDef.collectionName] = {
+            name: schemaDef.collectionName,
+            pattern: `content/${schemaDef.collectionName}/**/*.{md,mdx}`,
+            schema: schemaDef.schema
+          }
+          console.log(`Added collection '${schemaDef.collectionName}' from schema definition`)
+        } else {
+          const existingCollection = enhancedCollections[schemaDef.collectionName]
+          if (!existingCollection.schema) {
+            existingCollection.schema = schemaDef.schema
+            console.log(`Enhanced existing collection '${schemaDef.collectionName}' with schema from .db folder`)
+          } else {
+            console.log(`Skipped schema for '${schemaDef.collectionName}' as it already has a schema defined`)
+          }
+        }
+      }
+      
       const veliteConfigPath = path.join(this.packageDir, 'velite.config.js')
       const configContent = `
         import { defineConfig } from 'velite/dist/index.cjs';
         export default defineConfig({
           root: '${this.packageDir}',
-          collections: ${JSON.stringify(this.config.collections || {})}
+          collections: ${JSON.stringify(enhancedCollections)}
         });
       `
 
