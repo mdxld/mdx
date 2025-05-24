@@ -8,4 +8,8 @@ export default createCliConfig(['src/cli.ts'], {
   treeshake: false, // Disable tree shaking to preserve dynamic imports
   platform: 'node', // Specify node platform to handle built-in modules correctly
   clean: true, // Clean output directory before building
+  esbuildOptions(options) {
+    options.jsx = 'automatic';
+    options.jsxImportSource = 'react';
+  }
 })

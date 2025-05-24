@@ -1,127 +1,134 @@
-import { Command } from 'commander'
-import pkg from '../package.json' with { type: 'json' }
-
-const program = new Command()
-
-program
-  .name('mdxe')
-  .description('Zero-Config CLI to Execute, Test, & Deploy Markdown & MDX')
-  .version(pkg.version, '-v, --version', 'display version information')
-  .option('-w, --watch', 'Watch files for changes')
-
-program
-  .command('exec [files...]')
-  .description('Execute code blocks in Markdown/MDX files')
-  .action(() => {
-    console.log('exec command not implemented yet')
-  })
-
-program
-  .command('dev')
-  .description('Start a development server')
-  .action(() => {
-    console.log('dev command not implemented yet')
-  })
-
-program
-  .command('build')
-  .description('Build the project for production')
-  .action(() => {
-    console.log('build command not implemented yet')
-  })
-
-program
-  .command('start')
-  .description('Start the production server')
-  .action(() => {
-    console.log('start command not implemented yet')
-  })
-
-program
-  .command('test')
-  .description('Run tests embedded in Markdown/MDX files')
-  .option('-w, --watch', 'Watch files for changes')
-  .action(async (options) => {
-    const { findMdxFiles, extractMdxCodeBlocks } = await import('./utils/mdx-parser')
-    const { createTempTestFile, runTests, cleanupTempFiles } = await import('./utils/test-runner')
-    const path = await import('node:path')
-
-    try {
-      console.log('🔍 Finding MDX files...')
-      const files = await findMdxFiles(process.cwd())
-
-      if (files.length === 0) {
-        console.log('❌ No MDX files found in the current directory.')
-        return
-      }
-
-      const filteredFiles = files.filter(file => !file.includes('/node_modules/'))
-      console.log(`📝 Found ${filteredFiles.length} MDX file(s) (excluding node_modules)`)
-
-      const testFiles: string[] = []
-      let hasTests = false
-
-      for (const file of filteredFiles) {
-        try {
-          const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(file)
-
-          if (testBlocks.length > 0) {
-            hasTests = true
-            console.log(`🧪 Found ${testBlocks.length} test block(s) in ${path.basename(file)}`)
-            const testFile = await createTempTestFile(codeBlocks, testBlocks, file)
-            testFiles.push(testFile)
-          }
-        } catch (error) {
-          console.error(`Error processing file ${file}:`, error)
-        }
-      }
-
-      if (!hasTests) {
-        console.log('❌ No test blocks found in MDX files.')
-        await cleanupTempFiles()
-        return
-      }
-
-      console.log('🚀 Running tests...')
-      const { success, output } = await runTests(testFiles, options.watch || program.opts().watch)
-
-      console.log(output)
-
-      if (success) {
-        console.log('✅ All tests passed!')
-      } else {
-        console.log('❌ Some tests failed.')
-        process.exitCode = 1
-      }
-
-      if (!options.watch && !program.opts().watch) {
-        await cleanupTempFiles()
-      }
-    } catch (error) {
-      console.error('Error running tests:', error)
-      process.exitCode = 1
-      await cleanupTempFiles()
-    }
-  })
-
-program
-  .command('lint')
-  .description('Lint code blocks in Markdown/MDX files')
-  .action(() => {
-    console.log('lint command not implemented yet')
-  })
+#!/usr/bin/env node
+import React from 'react';
+import { render } from 'ink';
+import pastel from 'pastel';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import pkg from '../package.json' with { type: 'json' };
+import { findMdxFiles } from './utils/mdx-parser';
+import { findIndexFile, fileExists } from './utils/file-utils';
+import { parseFrontmatter } from '@mdxui/ink';
+import { MDXApp } from './components/MDXApp';
 
 /**
  * Run the CLI
  */
-export function run() {
-  program.parse(process.argv)
-
-  if (program.opts().watch) {
-    console.log('Watch mode enabled (not implemented yet)')
+export async function run() {
+  if (process.argv.length <= 2) {
+    const indexFile = await findIndexFile(process.cwd());
+    
+    if (indexFile) {
+      console.log(`Found index file: ${path.basename(indexFile)}`);
+      try {
+        const { waitUntilExit } = render(
+          React.createElement(MDXApp, { initialFilePath: indexFile })
+        );
+        await waitUntilExit();
+        return;
+      } catch (error) {
+        console.error(`Error reading index file: ${error}`);
+        process.exit(1);
+      }
+    } else {
+      const { waitUntilExit } = render(
+        React.createElement(MDXApp)
+      );
+      await waitUntilExit();
+      return;
+    }
   }
+
+  const cli = new pastel({
+    name: 'mdxe',
+    version: pkg.version,
+    description: 'Zero-Config CLI to Execute, Test, & Deploy Markdown & MDX'
+  });
+
+  cli.command({
+    name: 'test',
+    description: 'Run tests embedded in Markdown/MDX files',
+    options: {
+      watch: {
+        type: 'boolean',
+        description: 'Watch files for changes',
+        alias: 'w'
+      }
+    },
+    handler: async (options: { watch?: boolean }) => {
+      console.log('Running tests...');
+      const { waitUntilExit } = render(
+        React.createElement(MDXApp, { mode: 'test', options })
+      );
+      await waitUntilExit();
+    }
+  });
+
+  cli.command({
+    name: 'dev',
+    description: 'Start a development server',
+    handler: () => {
+      console.log('Starting development server...');
+      const { waitUntilExit } = render(
+        React.createElement(MDXApp, { mode: 'dev' })
+      );
+      return waitUntilExit();
+    }
+  });
+
+  cli.command({
+    name: 'build',
+    description: 'Build the project for production',
+    handler: () => {
+      console.log('Building project...');
+      const { waitUntilExit } = render(
+        React.createElement(MDXApp, { mode: 'build' })
+      );
+      return waitUntilExit();
+    }
+  });
+
+  cli.command({
+    name: 'start',
+    description: 'Start the production server',
+    handler: () => {
+      console.log('Starting production server...');
+      const { waitUntilExit } = render(
+        React.createElement(MDXApp, { mode: 'start' })
+      );
+      return waitUntilExit();
+    }
+  });
+
+  cli.command({
+    name: 'exec',
+    description: 'Execute code blocks in Markdown/MDX files',
+    args: {
+      files: {
+        type: 'string',
+        description: 'Files to execute',
+        variadic: true,
+        optional: true
+      }
+    },
+    handler: (args: { files?: string[] }) => {
+      if (args.files && args.files.length > 0) {
+        const filePath = path.resolve(process.cwd(), args.files[0]);
+        const { waitUntilExit } = render(
+          React.createElement(MDXApp, { initialFilePath: filePath, mode: 'exec' })
+        );
+        return waitUntilExit();
+      } else {
+        console.log('Please specify a file to execute');
+      }
+    }
+  });
+
+  await cli.run(process.argv.slice(2));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  run()
+  run().catch(error => {
+    console.error('Error:', error);
+    process.exit(1);
+  });
 }
