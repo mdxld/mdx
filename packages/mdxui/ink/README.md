@@ -48,3 +48,36 @@ await renderMdxCli('./path/to/cli.mdx');
 ## License
 
 MIT
+
+## Workflows
+
+Create step-based workflows using MDX with structured frontmatter:
+
+```mdx
+---
+workflow:
+  id: my-workflow
+  name: My Workflow
+  steps:
+    - id: step1
+      name: First Step
+      output:
+        result: string
+    - id: step2
+      name: Second Step
+      input:
+        result: string
+      output:
+        final: string
+---
+
+# My Workflow
+
+<Text>Processing workflow...</Text>
+```
+
+The workflow system automatically:
+- Validates input/output with Zod schemas
+- Chains step outputs to next step inputs
+- Provides type safety for step data
+- Generates mock data for testing

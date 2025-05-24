@@ -16,4 +16,7 @@ const Core = {
   Tremor
 }
 
+export * from './workflow.js'
+export type { Step, Workflow, WorkflowExecution } from './workflow.js'
+
 export default Core
