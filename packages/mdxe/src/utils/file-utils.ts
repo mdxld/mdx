@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { findMdxFiles } from './mdx-parser';
 
 /**
  * Check if a file exists
@@ -173,6 +174,11 @@ export function findRouteByPath(root: RouteNode, pathSegments: string[]): RouteN
 /**
  * Convert a file path to route path segments
  */
+/**
+ * Alias for buildRouteTree for better naming in the CLI
+ */
+export const findRouteTree = buildRouteTree;
+
 export function filePathToRouteSegments(rootDir: string, filePath: string): string[] {
   const relativePath = path.relative(rootDir, filePath);
   const segments = relativePath.split(path.sep);

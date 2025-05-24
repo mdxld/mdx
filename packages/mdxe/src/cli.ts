@@ -1,137 +1,66 @@
 #!/usr/bin/env node
 import React from 'react';
 import { render } from 'ink';
-import pastel from 'pastel';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import pkg from '../package.json' with { type: 'json' };
 import { findMdxFiles } from './utils/mdx-parser';
 import { findIndexFile, fileExists } from './utils/file-utils';
 import { parseFrontmatter } from '@mdxui/ink';
-import { MDXApp } from './components/MDXApp';
-import { ScreenManager } from './components/ScreenManager';
+import { CLIApp } from './components/CLIApp';
 
 /**
  * Run the CLI
  */
 export async function run() {
-  if (process.argv.length <= 2) {
-    const indexFile = await findIndexFile(process.cwd());
+  const args = process.argv.slice(2);
+  let mode: 'default' | 'test' | 'dev' | 'build' | 'start' | 'exec' = 'default';
+  let filePath: string | undefined;
+  let options: Record<string, any> = {};
+  
+  if (args.length > 0) {
+    const command = args[0];
     
-    if (indexFile) {
-      console.log(`Found index file: ${path.basename(indexFile)}`);
-      try {
-        const { waitUntilExit } = render(
-          React.createElement(ScreenManager, { 
-            initialScreen: {
-              id: indexFile,
-              title: path.basename(indexFile),
-              type: 'file',
-              filePath: indexFile
-            }
-          })
-        );
-        await waitUntilExit();
-        return;
-      } catch (error) {
-        console.error(`Error reading index file: ${error}`);
-        process.exit(1);
-      }
-    } else {
-      const { waitUntilExit } = render(
-        React.createElement(ScreenManager)
-      );
-      await waitUntilExit();
-      return;
+    switch (command) {
+      case 'test':
+        mode = 'test';
+        options.watch = args.includes('--watch') || args.includes('-w');
+        break;
+      case 'dev':
+        mode = 'dev';
+        break;
+      case 'build':
+        mode = 'build';
+        break;
+      case 'start':
+        mode = 'start';
+        break;
+      case 'exec':
+        mode = 'exec';
+        if (args.length > 1) {
+          filePath = path.resolve(process.cwd(), args[1]);
+        }
+        break;
+      default:
+        filePath = path.resolve(process.cwd(), command);
+        break;
     }
   }
-
-  const cli = pastel({
-    name: 'mdxe',
-    version: pkg.version,
-    description: 'Zero-Config CLI to Execute, Test, & Deploy Markdown & MDX'
-  });
-
-  cli.command({
-    name: 'test',
-    description: 'Run tests embedded in Markdown/MDX files',
-    options: {
-      watch: {
-        type: 'boolean',
-        description: 'Watch files for changes',
-        alias: 'w'
-      }
-    },
-    handler: async (options: { watch?: boolean }) => {
-      console.log('Running tests...');
-      const { waitUntilExit } = render(
-        React.createElement(MDXApp, { mode: 'test', options })
-      );
-      await waitUntilExit();
-    }
-  });
-
-  cli.command({
-    name: 'dev',
-    description: 'Start a development server',
-    handler: () => {
-      console.log('Starting development server...');
-      const { waitUntilExit } = render(
-        React.createElement(MDXApp, { mode: 'dev' })
-      );
-      return waitUntilExit();
-    }
-  });
-
-  cli.command({
-    name: 'build',
-    description: 'Build the project for production',
-    handler: () => {
-      console.log('Building project...');
-      const { waitUntilExit } = render(
-        React.createElement(MDXApp, { mode: 'build' })
-      );
-      return waitUntilExit();
-    }
-  });
-
-  cli.command({
-    name: 'start',
-    description: 'Start the production server',
-    handler: () => {
-      console.log('Starting production server...');
-      const { waitUntilExit } = render(
-        React.createElement(MDXApp, { mode: 'start' })
-      );
-      return waitUntilExit();
-    }
-  });
-
-  cli.command({
-    name: 'exec',
-    description: 'Execute code blocks in Markdown/MDX files',
-    args: {
-      files: {
-        type: 'string',
-        description: 'Files to execute',
-        variadic: true,
-        optional: true
-      }
-    },
-    handler: (args: { files?: string[] }) => {
-      if (args.files && args.files.length > 0) {
-        const filePath = path.resolve(process.cwd(), args.files[0]);
-        const { waitUntilExit } = render(
-          React.createElement(MDXApp, { initialFilePath: filePath, mode: 'exec' })
-        );
-        return waitUntilExit();
-      } else {
-        console.log('Please specify a file to execute');
-      }
-    }
-  });
-
-  await cli.run(process.argv.slice(2));
+  
+  try {
+    const { waitUntilExit } = render(
+      React.createElement(CLIApp, {
+        initialFilePath: filePath,
+        mode,
+        options
+      })
+    );
+    
+    await waitUntilExit();
+  } catch (error) {
+    console.error('Error running CLI:', error);
+    process.exit(1);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
