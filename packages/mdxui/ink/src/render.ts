@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import React from 'react';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types';
@@ -54,11 +55,16 @@ async function compileMdx(mdxContent: string, options: any = {}) {
  * Render MDX content in a CLI app
  * @param mdxContentOrPath - Either MDX content as a string or a path to an MDX file
  * @param options - Options for rendering
+ * @returns Object containing Component, frontmatter, and optional workflow
  */
 export async function renderMdxCli(
   mdxContentOrPath: string, 
   options: Partial<MdxPastelInkOptions> = {}
-) {
+): Promise<{
+  Component: React.ComponentType<any>;
+  frontmatter: Record<string, any>;
+  workflow?: ReturnType<typeof createWorkflowFromFrontmatter>;
+}> {
   let mdxContent: string;
   
   try {
