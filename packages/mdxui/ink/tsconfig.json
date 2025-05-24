@@ -1,22 +1,11 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": [
-    "src/**/*.ts", 
-    "src/**/*.tsx",
-    "src/types.ts",
-    "src/render.ts",
-    "src/frontmatter.ts",
-    "src/workflow.ts",
-    "src/schema.ts",
-    "src/components/**/*.ts",
-    "src/components/**/*.tsx"
-  ],
-  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.test.ts.bak"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["src/cli.ts", "src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.test.ts.bak"],
   "compilerOptions": {
     "outDir": "dist",
     "jsx": "react",
     "composite": true,
-    "skipLibCheck": true,
     "declaration": true,
     "declarationMap": true
   }
