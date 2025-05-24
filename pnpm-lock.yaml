@@ -339,52 +339,6 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
 
-  packages/mdx-pastel-ink:
-    dependencies:
-      '@mdx-js/mdx':
-        specifier: ^3.0.0
-        version: 3.1.0(acorn@8.14.1)
-      '@mdx-js/react':
-        specifier: ^3.0.0
-        version: 3.1.0(@types/react@18.3.21)(react@18.3.1)
-      chalk:
-        specifier: ^5.3.0
-        version: 5.4.1
-      ink:
-        specifier: ^4.4.1
-        version: 4.4.1(@types/react@18.3.21)(react@18.3.1)
-      pastel:
-        specifier: ^2.0.0
-        version: 2.0.2(ink@4.4.1)(react@18.3.1)(zod@3.25.7)
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
-      zod:
-        specifier: ^3.22.4
-        version: 3.25.7
-    devDependencies:
-      '@types/node':
-        specifier: ^20.10.5
-        version: 20.17.49
-      '@types/react':
-        specifier: ^18.2.45
-        version: 18.3.21
-      eslint:
-        specifier: ^8.56.0
-        version: 8.57.1
-      tsup:
-        specifier: ^8.0.1
-        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.8.3
-      vitest:
-        specifier: ^1.1.0
-        version: 1.6.1(@types/node@20.17.49)
-
   packages/mdxai:
     dependencies:
       '@ai-sdk/openai':
@@ -787,6 +741,61 @@ importers:
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
+
+  packages/mdxui/ink:
+    dependencies:
+      '@mdx-js/mdx':
+        specifier: ^3.0.0
+        version: 3.1.0(acorn@8.14.1)
+      '@mdx-js/react':
+        specifier: ^3.0.0
+        version: 3.1.0(@types/react@18.3.21)(react@18.3.1)
+      chalk:
+        specifier: ^5.3.0
+        version: 5.4.1
+      ink:
+        specifier: ^4.4.1
+        version: 4.4.1(@types/react@18.3.21)(react@18.3.1)
+      pastel:
+        specifier: ^2.0.0
+        version: 2.0.2(ink@4.4.1)(react@18.3.1)(zod@3.25.7)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.7
+    devDependencies:
+      '@types/node':
+        specifier: ^20.10.5
+        version: 20.17.49
+      '@types/react':
+        specifier: ^18.2.45
+        version: 18.3.21
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.1
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+      vitest:
+        specifier: ^1.1.0
+        version: 1.6.1(@types/node@20.17.49)
+
+  packages/mdxui/tailwind:
+    devDependencies:
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      tailwindcss:
+        specifier: ^4.1.5
+        version: 4.1.5
 
   schema:
     dependencies:
