@@ -7,13 +7,17 @@ export async function copyPackageJson() {
     const parsed = JSON.parse(packageJson);
     
     // Create a simplified version for distribution
+    // Remove workspace-specific fields to avoid pnpm workspace conflicts
     const distPackageJson = {
       name: parsed.name,
       version: parsed.version,
       type: parsed.type,
       bin: parsed.bin,
       main: parsed.main,
-      dependencies: parsed.dependencies
+      dependencies: parsed.dependencies,
+      // Explicitly remove workspace fields
+      private: undefined,
+      workspaces: undefined
     };
     
     await fs.mkdir('dist', { recursive: true });
@@ -22,7 +26,7 @@ export async function copyPackageJson() {
       JSON.stringify(distPackageJson, null, 2)
     );
     
-    console.log('✅ package.json copied to dist/');
+    console.log('✅ package.json copied to dist/ (simplified version)');
   } catch (error) {
     console.error('Error copying package.json:', error);
   }
