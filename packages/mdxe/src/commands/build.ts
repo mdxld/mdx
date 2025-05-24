@@ -13,8 +13,10 @@ export async function runBuildCommand(cwd: string = process.cwd()) {
       console.log('📦 Detected Next.js project, building Next.js application...');
       return buildNextApp(cwd);
     } else {
-      console.log('⚠️ No Next.js project detected. Please run `mdxe dev` first to set up the project.');
-      process.exit(1);
+      console.log('⚠️ No Next.js project detected. Creating a basic Next.js setup...');
+      const { createBasicNextSetup } = await import('./dev');
+      await createBasicNextSetup(cwd);
+      return buildNextApp(cwd);
     }
   } catch (error) {
     console.error('Error building project:', error);

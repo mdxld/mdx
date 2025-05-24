@@ -59,7 +59,7 @@ async function isNextJsProject(dir: string): Promise<boolean> {
 /**
  * Create a basic Next.js setup for MDXE
  */
-async function createBasicNextSetup(dir: string) {
+export async function createBasicNextSetup(dir: string) {
   const pagesDir = path.join(dir, 'pages');
   await fs.mkdir(pagesDir, { recursive: true });
   
