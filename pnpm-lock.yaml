@@ -891,6 +891,9 @@ importers:
       '@mdxui/core':
         specifier: workspace:*
         version: link:../core
+      '@radix-ui/react-slot':
+        specifier: ^1.0.2
+        version: 1.2.3(@types/react@19.1.0)(react@19.1.0)
       react:
         specifier: ^19
         version: 19.1.0
@@ -4041,7 +4044,6 @@ packages:
     dependencies:
       '@types/react': 19.1.0
       react: 19.1.0
-    dev: true
 
   /@radix-ui/react-slot@1.2.3(@types/react@19.1.0)(react@19.1.0):
     resolution: {integrity: sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==}
@@ -4055,7 +4057,6 @@ packages:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.1.0)(react@19.1.0)
       '@types/react': 19.1.0
       react: 19.1.0
-    dev: true
 
   /@react-aria/focus@3.20.3(react-dom@19.1.0)(react@18.3.1):
     resolution: {integrity: sha512-rR5uZUMSY4xLHmpK/I8bP1V6vUNHFo33gTvrvNUsAKKqvMfa7R2nu5A6v97dr5g6tVH6xzpdkPsOJCWh90H2cw==}

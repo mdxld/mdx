@@ -25,7 +25,8 @@
     "test": "echo 'Skipping tests for now'"
   },
   "dependencies": {
-    "@mdxui/core": "workspace:*"
+    "@mdxui/core": "workspace:*",
+    "@radix-ui/react-slot": "^1.0.2"
   },
   "peerDependencies": {
     "react": "^19"
