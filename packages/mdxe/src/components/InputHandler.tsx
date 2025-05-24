@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
-import type { MdxFrontmatter } from '@mdxui/ink/src/types';
+import type { MdxFrontmatter } from '@mdxui/ink';
 
 interface InputFormProps {
   frontmatter: MdxFrontmatter;

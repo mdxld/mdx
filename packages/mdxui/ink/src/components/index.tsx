@@ -30,7 +30,11 @@ export const Screens: React.FC<{
   
   const screens = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === Screen) {
-      return React.cloneElement(child, {
+      return React.cloneElement(child as React.ReactElement<{
+        name: string;
+        active?: boolean;
+        children: React.ReactNode;
+      }>, {
         active: child.props.name === currentScreen
       });
     }
@@ -117,16 +121,35 @@ export const Menu: React.FC<{
 /**
  * Form component for input collection
  */
-export const Form: React.FC<{
+interface FormFieldProps {
+  name: string;
+  label: string;
+  type?: string;
+  validate?: (value: string) => true | string;
+  formData?: Record<string, any>;
+  setFormData?: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+}
+
+interface FormSubmitProps {
+  label: string;
+  onClick?: () => void;
+}
+
+interface FormComponent extends React.FC<{
   onSubmit?: (formData: any) => void;
   onCancel?: () => void;
   children: React.ReactNode;
-}> = ({ onSubmit, onCancel, children }) => {
+}> {
+  Field: React.FC<FormFieldProps>;
+  Submit: React.FC<FormSubmitProps>;
+}
+
+export const Form: FormComponent = ({ onSubmit, onCancel, children }) => {
   const [formData, setFormData] = React.useState<Record<string, any>>({});
   
   const formFields = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
+      return React.cloneElement(child as React.ReactElement<any>, {
         formData,
         setFormData
       });
@@ -148,7 +171,7 @@ Form.Field = ({
   validate,
   formData,
   setFormData
-}: any) => {
+}: FormFieldProps) => {
   const [value, setValue] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
   
@@ -182,7 +205,7 @@ Form.Field = ({
   );
 };
 
-Form.Submit = ({ label, onClick }: any) => {
+Form.Submit = ({ label, onClick }: FormSubmitProps) => {
   return (
     <Box marginY={1}>
       <Text color="green">{label}</Text>

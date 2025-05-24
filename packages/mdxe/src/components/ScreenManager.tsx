@@ -6,7 +6,7 @@ import { MDXRenderer } from './MDXRenderer';
 import { InputHandler } from './InputHandler';
 import { WorkflowRunner } from './WorkflowRunner';
 import { findRouteByPath, RouteNode } from '../utils/file-utils';
-import { parseFrontmatter } from '@mdxui/ink/src/frontmatter';
+import { parseFrontmatter } from '@mdxui/ink';
 
 interface Screen {
   id: string;

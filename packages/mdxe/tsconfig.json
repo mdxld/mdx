@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node", "vitest"],
     "paths": {
       "mdxui": ["../mdxui"],
       "mdxui/*": ["../mdxui/*"]
