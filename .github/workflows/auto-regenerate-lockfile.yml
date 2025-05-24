@@ -1,0 +1,53 @@
+name: 🔄 Auto-Regenerate pnpm lockfile on conflict
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: write    # needed to push back to PR branches
+
+jobs:
+  regen-on-conflict:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install pnpm CLI
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.6
+
+      - name: Try strict install
+        id: frozen-install
+        run: pnpm install --frozen-lockfile
+        continue-on-error: true
+
+      - name: Regenerate & commit lockfile if conflict
+        if: steps.frozen-install.outcome == 'failure'
+        run: |
+          echo "🔧 Lockfile conflict detected—rerunning pnpm install"
+          pnpm install --frozen-lockfile=false
+          
+          # Only commit if the lockfile actually changed
+          if git diff --quiet pnpm-lock.yaml; then
+            echo "✅ Lockfile merged cleanly—no commit needed"
+          else
+            echo "✏️ Committing regenerated pnpm-lock.yaml"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add pnpm-lock.yaml
+            git commit -m "🔒 regenerate pnpm-lock.yaml after merge conflict"
+            git push
+          fi
