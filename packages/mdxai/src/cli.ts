@@ -339,7 +339,6 @@ program
 
       const result = await generateResearchStream(prompt)
 
-      const outputPath = path.resolve(options.output)
       let completeContent = ''
 
       for await (const delta of result.textStream) {
@@ -353,43 +352,15 @@ program
         process.stdout.write('\n') // Add a newline at the end for stdout
       }
 
-      let finalContent = ''
+      const title = extractH1Title(completeContent) || prompt
+      const slugifiedTitle = slugifyString(title)
+      
+      // Ensure research directory exists in current working directory
+      ensureDirectoryExists('research')
+      
+      const outputPath = path.resolve(`research/${slugifiedTitle}.md`)
 
-      switch (options.format.toLowerCase()) {
-        case 'frontmatter':
-          const researchItems = completeContent
-            .split('\n\n')
-            .map((paragraph) => paragraph.trim())
-            .filter((paragraph) => paragraph !== '')
-
-          finalContent = '---\nresearch:\n'
-          researchItems.forEach((item) => {
-            finalContent += `  - |\n    ${item.replace(/\n/g, '\n    ')}\n`
-          })
-          finalContent += '---\n'
-          break
-
-        case 'both':
-          const bothResearchItems = completeContent
-            .split('\n\n')
-            .map((paragraph) => paragraph.trim())
-            .filter((paragraph) => paragraph !== '')
-
-          finalContent = '---\nresearch:\n'
-          bothResearchItems.forEach((item) => {
-            finalContent += `  - |\n    ${item.replace(/\n/g, '\n    ')}\n`
-          })
-          finalContent += '---\n\n'
-          finalContent += completeContent
-          break
-
-        case 'markdown':
-        default:
-          finalContent = completeContent
-          break
-      }
-
-      fs.writeFileSync(outputPath, finalContent)
+      fs.writeFileSync(outputPath, completeContent)
 
       if (json) {
         console.log(
