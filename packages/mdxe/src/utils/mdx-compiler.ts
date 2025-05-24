@@ -1,6 +1,6 @@
-import { renderMdxCli } from '@mdxui/ink/src/render';
-import { parseFrontmatter } from '@mdxui/ink/src/frontmatter';
-import type { MdxFrontmatter } from '@mdxui/ink/src/types';
+import { renderMdxCli } from '@mdxui/ink';
+import { parseFrontmatter } from '@mdxui/ink';
+import type { MdxFrontmatter } from '@mdxui/ink';
 
 /**
  * Render MDX content in the CLI
@@ -8,7 +8,11 @@ import type { MdxFrontmatter } from '@mdxui/ink/src/types';
  */
 export async function renderMdx(mdxContent: string, options: RenderMdxOptions = {}) {
   try {
-    return await renderMdxCli(mdxContent, options);
+    return await renderMdxCli(mdxContent, {
+      mdxPath: options.mdxPath,
+      components: options.components,
+      scope: options.scope
+    });
   } catch (error) {
     console.error('Error rendering MDX:', error);
     throw error;
