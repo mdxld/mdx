@@ -5,8 +5,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "jsx": "react",
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true
+    "composite": true
   }
 }
