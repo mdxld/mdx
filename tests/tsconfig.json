@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["react", "react-dom"]
+    "types": ["node", "vitest/globals", "react", "react-dom"]
   },
   "exclude": [
     "../packages/mdxui/remotion/public",
