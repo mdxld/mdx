@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { RevealWrapper, Slide } from '../src/index.js';
+import { Slides, Slide } from '../src/index.js';
 
 const render = vi.fn();
 const screen = {
@@ -23,7 +23,7 @@ vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({}));
 vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({}));
 vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({}));
 
-describe('RevealWrapper', () => {
+describe('Slides', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -34,9 +34,9 @@ describe('RevealWrapper', () => {
 
   it('renders children inside slides container', () => {
     render(
-      <RevealWrapper>
+      <Slides>
         <Slide>Test Slide</Slide>
-      </RevealWrapper>
+      </Slides>
     );
     
     expect(screen.getByText('Test Slide')).toBeTruthy();
@@ -44,9 +44,9 @@ describe('RevealWrapper', () => {
 
   it('initializes Reveal.js on mount', () => {
     render(
-      <RevealWrapper>
+      <Slides>
         <Slide>Test Slide</Slide>
-      </RevealWrapper>
+      </Slides>
     );
     
     const RevealMock = require('reveal.js');
@@ -56,9 +56,9 @@ describe('RevealWrapper', () => {
 
   it('destroys Reveal.js on unmount', () => {
     const { unmount } = render(
-      <RevealWrapper>
+      <Slides>
         <Slide>Test Slide</Slide>
-      </RevealWrapper>
+      </Slides>
     );
     
     unmount();
@@ -71,9 +71,9 @@ describe('RevealWrapper', () => {
     const options = { controls: false, progress: false };
     
     render(
-      <RevealWrapper options={options}>
+      <Slides options={options}>
         <Slide>Test Slide</Slide>
-      </RevealWrapper>
+      </Slides>
     );
     
     const RevealMock = require('reveal.js');

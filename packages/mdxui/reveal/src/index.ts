@@ -1,13 +1,13 @@
-import { RevealWrapper } from './reveal-wrapper.js'
+import { Slides } from './slides.js'
 import { Slide } from './slide.js'
 
 export {
-  RevealWrapper,
+  Slides,
   Slide
 }
 
 const Reveal = {
-  RevealWrapper,
+  Slides,
   Slide
 }
 
