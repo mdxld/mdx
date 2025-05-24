@@ -5,7 +5,7 @@ import { cn } from './lib/utils.js'
 import { motion } from 'framer-motion'
 
 export interface BoxRevealProps {
-  children: React.ReactNode
+  children: any // Using any to bypass ReactNode type conflicts
   direction?: 'left' | 'right' | 'up' | 'down'
   duration?: number
   delay?: number
