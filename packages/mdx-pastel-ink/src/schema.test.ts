@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createZodSchemaFromFrontmatter } from './schema';
+import { createSchemaFromFrontmatter } from './schema';
 
 describe('schema', () => {
   it('should create a zod schema from frontmatter', () => {
@@ -12,8 +12,9 @@ describe('schema', () => {
       }
     };
 
-    const schema = createZodSchemaFromFrontmatter(frontmatter);
+    const schema = createSchemaFromFrontmatter(frontmatter);
     expect(schema).toBeDefined();
+    expect(schema.inputSchema).toBeDefined();
     
     const validData = {
       name: 'test-project',
@@ -22,7 +23,7 @@ describe('schema', () => {
       region: 'sfo'
     };
     
-    const result = schema.safeParse(validData);
+    const result = schema.inputSchema!.safeParse(validData);
     expect(result.success).toBe(true);
     
     const invalidData = {
@@ -32,7 +33,7 @@ describe('schema', () => {
       region: 'sfo'
     };
     
-    const invalidResult = schema.safeParse(invalidData);
+    const invalidResult = schema.inputSchema!.safeParse(invalidData);
     expect(invalidResult.success).toBe(false);
   });
 });
