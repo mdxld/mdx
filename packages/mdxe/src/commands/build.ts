@@ -83,9 +83,9 @@ function buildNextApp(cwd: string) {
         }
       });
     }).catch(() => {
-      console.log('📦 Installing Next.js dependencies...');
+      console.log('📦 Installing Next.js...');
       
-      const installProcess = spawn('pnpm', ['install', 'next', 'react', 'react-dom'], {
+      const installProcess = spawn('pnpm', ['install', 'next'], {
         cwd,
         stdio: 'inherit',
         shell: true,
