@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { InlineAnnotation, AnnotationHandler, InnerToken } from "codehike/code";
 import { interpolate, useCurrentFrame } from "remotion";
 import { useThemeColors } from "../calculate-metadata/theme";
@@ -25,6 +26,7 @@ export const errorInline: AnnotationHandler = {
         "--decoration": "underline wavy red",
       }}
     >
+      {/* @ts-ignore - React 19 compatibility */}
       {children}
     </span>
   ),
@@ -55,6 +57,7 @@ export const errorMessage: AnnotationHandler = {
 
     return (
       <>
+        {/* @ts-ignore - React 19 compatibility */}
         {children}
         <div
           style={{
@@ -68,6 +71,7 @@ export const errorMessage: AnnotationHandler = {
             color: themeColors.editor.foreground,
           }}
         >
+          {/* @ts-ignore - React 19 compatibility */}
           {annotation.data.children || annotation.query}
         </div>
       </>

@@ -1,3 +1,4 @@
+import React from "react";
 import { Composition } from "remotion";
 import { Main } from "./Main";
 
@@ -12,16 +13,16 @@ export const RemotionRoot = () => {
       defaultProps={{
         steps: null,
         themeColors: null,
-        theme: "github-dark" as const,
         codeWidth: null,
+        theme: "github-dark" as const,
         width: {
-          type: "auto",
+          type: "auto" as const,
         },
       }}
       fps={30}
       height={1080}
-      calculateMetadata={calculateMetadata}
-      schema={schema}
+      calculateMetadata={calculateMetadata as any}
+      schema={schema as any}
     />
   );
 };
