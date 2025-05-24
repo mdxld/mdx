@@ -13,7 +13,7 @@ const Core = {
   Button,
   Card,
   Gradient,
-  Tremor
+  Tremor,
 }
 
 export * from './workflow.js'

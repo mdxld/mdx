@@ -15,10 +15,10 @@ describe('Workflow creation and execution', () => {
             id: 'step1',
             name: 'First Step',
             input: { name: 'string' },
-            output: { result: 'string' }
-          }
-        ]
-      }
+            output: { result: 'string' },
+          },
+        ],
+      },
     }
 
     const workflow = createWorkflowFromFrontmatter(frontmatter)
@@ -32,7 +32,7 @@ describe('Workflow creation and execution', () => {
     const step = {
       id: 'test-step',
       name: 'Test Step',
-      outputSchema: z.object({ result: z.string() })
+      outputSchema: z.object({ result: z.string() }),
     }
 
     const result = await executeWorkflowStep(step)
@@ -49,16 +49,16 @@ describe('Workflow creation and execution', () => {
           {
             id: 'idea-input',
             name: 'Initial Idea',
-            output: { idea: 'string', industry: 'string' }
+            output: { idea: 'string', industry: 'string' },
           },
           {
             id: 'refine-icp',
             name: 'Define ICP',
             input: { idea: 'string', industry: 'string' },
-            output: { icp_demographics: 'string', pain_points: 'array' }
-          }
-        ]
-      }
+            output: { icp_demographics: 'string', pain_points: 'array' },
+          },
+        ],
+      },
     }
 
     const workflow = createWorkflowFromFrontmatter(startupFrontmatter)

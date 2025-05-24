@@ -1,10 +1,10 @@
 declare module 'ink-markdown' {
-  import { FC } from 'react';
-  
+  import { FC } from 'react'
+
   interface MarkdownProps {
-    children: string;
+    children: string
   }
-  
-  const Markdown: FC<MarkdownProps>;
-  export default Markdown;
+
+  const Markdown: FC<MarkdownProps>
+  export default Markdown
 }

@@ -1,6 +1,6 @@
 /**
  * Landing page section interfaces for mdxui
- * 
+ *
  * These interfaces define the structure of common landing page sections
  * in a framework-agnostic way. They can be used with different UI implementations
  * like Shadcn (web) or Ink (CLI).
@@ -11,19 +11,19 @@
  */
 export interface Section {
   /** Optional small badge or eyebrow text to highlight above headline */
-  badge?: string;
+  badge?: string
   /** Main headline or title for this section */
-  headline?: string;
+  headline?: string
   /** Longer description or supporting text for the section */
-  description?: string;
+  description?: string
   /** Primary CTA button text (e.g. "Sign Up") */
-  primaryActionText?: string;
+  primaryActionText?: string
   /** URL or link target for the primary CTA */
-  primaryActionLink?: string;
+  primaryActionLink?: string
   /** Secondary CTA text (less emphasized action) */
-  secondaryActionText?: string;
+  secondaryActionText?: string
   /** URL or link target for the secondary CTA */
-  secondaryActionLink?: string;
+  secondaryActionLink?: string
 }
 
 /**
@@ -31,23 +31,23 @@ export interface Section {
  */
 export interface HeroSection extends Section {
   /** Required: main headline to grab attention (e.g., unique value proposition) */
-  headline: string;
+  headline: string
   /** Required: supporting text to elaborate on headline */
-  description: string;
+  description: string
   /** Required: primary call-to-action text (prominent button) */
-  primaryActionText: string;
+  primaryActionText: string
   /** Required: primary call-to-action link URL */
-  primaryActionLink: string;
+  primaryActionLink: string
   /** Optional: secondary call-to-action text */
-  secondaryActionText?: string;
+  secondaryActionText?: string
   /** Optional: secondary call-to-action link URL */
-  secondaryActionLink?: string;
+  secondaryActionLink?: string
   /** Optional image or media (illustration or video) to reinforce the message */
-  mediaUrl?: string;
+  mediaUrl?: string
   /** Alternate text for the image (if mediaUrl is an image) */
-  mediaAlt?: string;
+  mediaAlt?: string
   /** Media type indicator, e.g. "image" or "video" (default "image" if not set) */
-  mediaType?: 'image' | 'video';
+  mediaType?: 'image' | 'video'
 }
 
 /**
@@ -55,15 +55,15 @@ export interface HeroSection extends Section {
  */
 export interface ProblemSection extends Section {
   /** Headline framing the user's pain point or problem */
-  headline?: string;
+  headline?: string
   /** Description or narrative that agitates the problem (e.g., what's at stake, why it hurts) */
-  description?: string;
+  description?: string
   /** Optional list of specific pain points or bullet statements for emphasis */
-  points?: string[];
+  points?: string[]
   /** Optional image illustrating the problem scenario */
-  imageUrl?: string;
+  imageUrl?: string
   /** Alt text for the image (if provided) */
-  imageAlt?: string;
+  imageAlt?: string
 }
 
 /**
@@ -71,13 +71,13 @@ export interface ProblemSection extends Section {
  */
 export interface FeatureItem {
   /** Title or short name of the feature/benefit */
-  title: string;
+  title: string
   /** Description of the feature, focusing on benefit to user */
-  description?: string;
+  description?: string
   /** Optional icon or image URL representing the feature */
-  iconUrl?: string;
+  iconUrl?: string
   /** Alt text for the icon/image */
-  iconAlt?: string;
+  iconAlt?: string
 }
 
 /**
@@ -85,11 +85,11 @@ export interface FeatureItem {
  */
 export interface FeaturesSection extends Section {
   /** Section headline (e.g. "Features" or value proposition) */
-  headline?: string;
+  headline?: string
   /** Section description, if any, elaborating on the value */
-  description?: string;
+  description?: string
   /** List of key features or benefits offered */
-  features: FeatureItem[];
+  features: FeatureItem[]
 }
 
 /**
@@ -97,19 +97,19 @@ export interface FeaturesSection extends Section {
  */
 export interface PricingPlan {
   /** Name of the plan (e.g., "Basic", "Pro") */
-  name: string;
+  name: string
   /** Price display (could be a formatted string like "$10/mo" or "$99/year") */
-  price: string;
+  price: string
   /** Short description or tagline for the plan */
-  description?: string;
+  description?: string
   /** Features or benefits included in this plan (bullet points) */
-  features: string[];
+  features: string[]
   /** CTA text for this plan (e.g., "Buy Now", "Start Free Trial") */
-  ctaText?: string;
+  ctaText?: string
   /** Link URL for the plan's CTA */
-  ctaLink?: string;
+  ctaLink?: string
   /** Flag to mark a recommended or popular plan */
-  featured?: boolean;
+  featured?: boolean
 }
 
 /**
@@ -117,13 +117,13 @@ export interface PricingPlan {
  */
 export interface PricingSection extends Section {
   /** Section headline, e.g. "Pricing" */
-  headline?: string;
+  headline?: string
   /** Section description, e.g. "Choose the plan that suits your needs." */
-  description?: string;
+  description?: string
   /** List of pricing plans on offer */
-  plans: PricingPlan[];
+  plans: PricingPlan[]
   /** Optional note or disclaimer (e.g., "*All prices include ...") */
-  note?: string;
+  note?: string
 }
 
 /**
@@ -131,15 +131,15 @@ export interface PricingSection extends Section {
  */
 export interface Testimonial {
   /** The quoted feedback text from the customer */
-  quote: string;
+  quote: string
   /** Name of the person giving the testimonial */
-  author: string;
+  author: string
   /** Optional subtitle for the author (e.g., their title and company) */
-  authorTitle?: string;
+  authorTitle?: string
   /** URL of the author's photo or avatar */
-  authorImageUrl?: string;
+  authorImageUrl?: string
   /** Alternate text for the author's image */
-  authorImageAlt?: string;
+  authorImageAlt?: string
 }
 
 /**
@@ -147,13 +147,13 @@ export interface Testimonial {
  */
 export interface TestimonialsSection extends Section {
   /** Section headline, e.g. "What our clients are saying" */
-  headline?: string;
+  headline?: string
   /** (Optional) brief intro or tagline for the testimonials section */
-  description?: string;
+  description?: string
   /** List of testimonial entries */
-  testimonials: Testimonial[];
+  testimonials: Testimonial[]
   /** Optional collection of logos for additional social proof */
-  logos?: { imageUrl: string; alt?: string }[];
+  logos?: { imageUrl: string; alt?: string }[]
 }
 
 /**
@@ -161,9 +161,9 @@ export interface TestimonialsSection extends Section {
  */
 export interface FAQItem {
   /** The question being asked */
-  question: string;
+  question: string
   /** The answer to the question */
-  answer: string;
+  answer: string
 }
 
 /**
@@ -171,11 +171,11 @@ export interface FAQItem {
  */
 export interface FAQSection extends Section {
   /** Section headline, e.g. "Frequently Asked Questions" */
-  headline?: string;
+  headline?: string
   /** Optionally, a brief intro text for the FAQ section */
-  description?: string;
+  description?: string
   /** List of question-answer entries */
-  faqs: FAQItem[];
+  faqs: FAQItem[]
 }
 
 /**
@@ -183,17 +183,17 @@ export interface FAQSection extends Section {
  */
 export interface CallToActionSection extends Section {
   /** Required headline to make the final pitch (e.g., "Ready to join us?") */
-  headline: string;
+  headline: string
   /** Optional supporting text encouraging the user */
-  description?: string;
+  description?: string
   /** Primary CTA text (e.g., "Sign Up Now") – should be provided */
-  primaryActionText: string;
+  primaryActionText: string
   /** Primary CTA link URL */
-  primaryActionLink: string;
+  primaryActionLink: string
   /** (Optional) secondary CTA text (e.g., "Contact Sales") */
-  secondaryActionText?: string;
+  secondaryActionText?: string
   /** (Optional) secondary CTA link URL */
-  secondaryActionLink?: string;
+  secondaryActionLink?: string
 }
 
 /**
@@ -201,15 +201,15 @@ export interface CallToActionSection extends Section {
  */
 export interface TeamMember {
   /** Name of the team member */
-  name: string;
+  name: string
   /** Role or title of the team member */
-  role: string;
+  role: string
   /** URL of member's photo */
-  photoUrl?: string;
+  photoUrl?: string
   /** Alt text for the photo */
-  photoAlt?: string;
+  photoAlt?: string
   /** Short bio or description for the member (optional) */
-  bio?: string;
+  bio?: string
 }
 
 /**
@@ -217,11 +217,11 @@ export interface TeamMember {
  */
 export interface TeamSection extends Section {
   /** Section headline, e.g. "Our Team" or "About Us" */
-  headline?: string;
+  headline?: string
   /** Optional subheading or description for the section */
-  description?: string;
+  description?: string
   /** List of team members to display */
-  members: TeamMember[];
+  members: TeamMember[]
 }
 
 /**
@@ -235,4 +235,4 @@ export type LandingPageSection =
   | { type: 'testimonials'; data: TestimonialsSection }
   | { type: 'faq'; data: FAQSection }
   | { type: 'cta'; data: CallToActionSection }
-  | { type: 'team'; data: TeamSection };
+  | { type: 'team'; data: TeamSection }

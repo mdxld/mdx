@@ -2,7 +2,6 @@
 
 This document outlines the major epics and tasks for the `mdxld` monorepo, based on research and project goals.
 
-
 ### To Do
 
 - [ ] `@mdxdb/core` implement `list` and `get` methods with glob support
@@ -11,7 +10,6 @@ This document outlines the major epics and tasks for the `mdxld` monorepo, based
 - [ ] `mdxai` for AI-powered content generation, editing, and augmentation within MDX
 - [ ] `mdxe` for building, executing, testing, and deploying code embedded within MDX documents
 - [ ] `mdxui` for creating a rich UI component library specifically designed for use with MDX
-
 
 ### In Progress
 

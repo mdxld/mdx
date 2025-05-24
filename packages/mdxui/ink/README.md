@@ -23,7 +23,10 @@ input:
 output:
   result: string
 ---
-<Text>Deploying "{name}" ({os}) with {memory}MB in {region}...</Text>
+
+<Text>
+  Deploying "{name}" ({os}) with {memory}MB in {region}...
+</Text>
 ```
 
 ## Installation
@@ -39,10 +42,10 @@ pnpm add mdx-pastel-ink
 ## Usage
 
 ```typescript
-import { renderMdxCli } from '@mdxui/ink';
+import { renderMdxCli } from '@mdxui/ink'
 
 // Render an MDX file as a CLI app
-await renderMdxCli('./path/to/cli.mdx');
+await renderMdxCli('./path/to/cli.mdx')
 ```
 
 ## License
@@ -77,6 +80,7 @@ workflow:
 ```
 
 The workflow system automatically:
+
 - Validates input/output with Zod schemas
 - Chains step outputs to next step inputs
 - Provides type safety for step data

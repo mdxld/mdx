@@ -12,7 +12,4 @@ const mdx = await db.list()
 
 // get the current project readme.md
 const readme = await db.get('readme.md')
-
-
-
 ```
