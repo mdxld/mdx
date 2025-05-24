@@ -1,0 +1,34 @@
+---
+command: image-demo
+description: Demonstrates ASCII art image rendering in the terminal
+---
+
+import { FaHeart, FaStar, FaGithub } from 'react-icons/fa';
+
+export default function ImageDemo({ components }) {
+  const { Text, Box, Image } = components;
+  return (
+    <>
+      <Text bold>Image Component Demo</Text>
+      <Text>Below are examples of SVG icons rendered as ASCII art:</Text>
+      
+      <Box marginY={1}>
+        <Text>Heart Icon (Unicode):</Text>
+        <Image icon={FaHeart} width={20} color="red" />
+      </Box>
+      
+      <Box marginY={1}>
+        <Text>Star Icon (ASCII):</Text>
+        <Image icon={FaStar} width={15} color="yellow" fallback="ascii" />
+      </Box>
+      
+      <Box marginY={1}>
+        <Text>GitHub Icon (Unicode, larger):</Text>
+        <Image icon={FaGithub} width={30} color="blue" />
+      </Box>
+      
+      <Text>The Image component converts SVG icons to ASCII art for terminal display.</Text>
+      <Text>It supports both Unicode and ASCII fallback modes for compatibility.</Text>
+    </>
+  );
+}
