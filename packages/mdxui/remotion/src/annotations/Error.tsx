@@ -1,3 +1,4 @@
+import React from "react";
 import { InlineAnnotation, AnnotationHandler, InnerToken } from "codehike/code";
 import { interpolate, useCurrentFrame } from "remotion";
 import { useThemeColors } from "../calculate-metadata/theme";
