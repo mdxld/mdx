@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
 import { render } from 'ink-testing-library';
 import { Image, ImageProps } from './components';
+import * as ReactDOMServer from 'react-dom/server';
 
 vi.mock('react-dom/server', () => ({
   renderToStaticMarkup: vi.fn().mockImplementation((component) => {
@@ -10,7 +11,9 @@ vi.mock('react-dom/server', () => ({
 }));
 
 const mockAsciify = vi.fn();
-vi.mock('asciify-image', () => mockAsciify);
+vi.mock('asciify-image', () => ({
+  default: mockAsciify
+}));
 
 const MockIcon = (props: any) => <div {...props} />;
 
@@ -63,10 +66,17 @@ describe('Image component', () => {
     expect(lastFrame()).toContain(asciiArt[2]);
   });
 
-  it('should handle errors in SVG rendering', () => {
-    const ErrorIcon = () => { throw new Error('SVG rendering error'); };
+  it('should handle errors in SVG rendering', async () => {
+    const ErrorIcon: React.FC = () => <div>Error Icon</div>;
+    
+    const originalMock = vi.mocked(ReactDOMServer.renderToStaticMarkup).getMockImplementation();
+    
+    vi.mocked(ReactDOMServer.renderToStaticMarkup).mockImplementationOnce(() => {
+      throw new Error('SVG rendering error');
+    });
     
     const { lastFrame } = render(<Image icon={ErrorIcon} />);
+    
     
     expect(lastFrame()).toContain('[Image Error: Failed to render icon: SVG rendering error]');
     expect(mockAsciify).not.toHaveBeenCalled();

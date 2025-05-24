@@ -54,19 +54,22 @@ export function Image({
 }: ImageProps) {
   const [asciiArt, setAsciiArt] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  
+  if (Icon && !svg) {
+    try {
+      ReactDOMServer.renderToStaticMarkup(<Icon color={color} size={width} />);
+    } catch (err) {
+      return <Text color="red">[Image Error: Failed to render icon: {err instanceof Error ? err.message : String(err)}]</Text>;
+    }
+  }
 
   const svgString = useMemo(() => {
     if (svg) return svg;
     if (!Icon) return '';
     
-    try {
-      return ReactDOMServer.renderToStaticMarkup(
-        <Icon color={color} size={width} />
-      );
-    } catch (err) {
-      setError(`Failed to render icon: ${err instanceof Error ? err.message : String(err)}`);
-      return '';
-    }
+    return ReactDOMServer.renderToStaticMarkup(
+      <Icon color={color} size={width} />
+    );
   }, [Icon, svg, color, width]);
 
   useEffect(() => {
@@ -108,7 +111,7 @@ export function Image({
     return <Text color="red">[Image Error: {error}]</Text>;
   }
 
-  if (!asciiArt) {
+  if (!svgString || !asciiArt) {
     return <Text>[Loading image...]</Text>;
   }
 
