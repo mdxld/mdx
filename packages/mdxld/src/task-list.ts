@@ -4,17 +4,17 @@ import remarkGfm from 'remark-gfm'
 import { visit } from 'unist-util-visit'
 
 export interface TaskItem {
-  text: string;
-  checked: boolean;
+  text: string
+  checked: boolean
   position: {
-    start: { line: number; column: number; offset: number };
-    end: { line: number; column: number; offset: number };
-  };
+    start: { line: number; column: number; offset: number }
+    end: { line: number; column: number; offset: number }
+  }
 }
 
 export interface ParseTaskListResult {
-  tasks: TaskItem[];
-  error?: string;
+  tasks: TaskItem[]
+  error?: string
 }
 
 /**
@@ -24,19 +24,17 @@ export interface ParseTaskListResult {
  */
 export function parseTaskList(content: string): ParseTaskListResult {
   if (!content) {
-    return { tasks: [] };
+    return { tasks: [] }
   }
-  
+
   try {
     // For malformed markdown test case, force an error
     if (content.includes('```javascript\nconst x = [unclosed array')) {
-      throw new Error('Malformed markdown detected');
+      throw new Error('Malformed markdown detected')
     }
-    
-    const processor = unified()
-      .use(remarkParse)
-      .use(remarkGfm)
-    
+
+    const processor = unified().use(remarkParse).use(remarkGfm)
+
     const tree = processor.parse(content)
     const tasks: TaskItem[] = []
 
@@ -46,7 +44,7 @@ export function parseTaskList(content: string): ParseTaskListResult {
       if (node.checked !== null && node.checked !== undefined) {
         // Extract the text content from the list item, but only from direct children
         let text = ''
-        
+
         // Process paragraph children directly under this list item
         if (node.children) {
           for (const child of node.children) {
@@ -63,7 +61,7 @@ export function parseTaskList(content: string): ParseTaskListResult {
         tasks.push({
           text: text.trim(),
           checked: node.checked,
-          position: node.position
+          position: node.position,
         })
       }
     })
@@ -71,9 +69,9 @@ export function parseTaskList(content: string): ParseTaskListResult {
     return { tasks }
   } catch (e: any) {
     // Ensure we always return an error message for malformed markdown
-    return { 
-      tasks: [], 
-      error: `Task List Parsing Error: ${e ? e.message : 'Unknown parsing error'}` 
+    return {
+      tasks: [],
+      error: `Task List Parsing Error: ${e ? e.message : 'Unknown parsing error'}`,
     }
   }
 }

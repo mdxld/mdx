@@ -4,5 +4,5 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
   dts: true,
-  external: ['react', '@mdxui/core']
+  external: ['react', '@mdxui/core'],
 })

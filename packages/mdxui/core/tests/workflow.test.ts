@@ -9,9 +9,9 @@ describe('Workflow interfaces', () => {
       name: 'Test Step',
       description: 'A test step',
       inputSchema: z.object({ input: z.string() }),
-      outputSchema: z.object({ output: z.string() })
+      outputSchema: z.object({ output: z.string() }),
     }
-    
+
     expect(step.id).toBe('test-step')
     expect(step.name).toBe('Test Step')
     expect(step.inputSchema).toBeDefined()
@@ -24,9 +24,9 @@ describe('Workflow interfaces', () => {
       name: 'Test Workflow',
       inputSchema: z.object({ start: z.string() }),
       outputSchema: z.object({ end: z.string() }),
-      steps: []
+      steps: [],
     }
-    
+
     expect(workflow.id).toBe('test-workflow')
     expect(workflow.steps).toEqual([])
   })

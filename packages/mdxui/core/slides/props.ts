@@ -1,21 +1,21 @@
-import { TODO } from "../types";
+import { TODO } from '../types'
 
 /** Props for a Title Slide component */
 export interface TitleSlideProps {
   /** Main title text of the slide */
-  title: string;
+  title: string
   /** Secondary text or tagline under the title */
-  subtitle?: string;
+  subtitle?: string
   /** URL of the company or product logo */
-  logoUrl?: string;
+  logoUrl?: string
   /** Tailwind CSS classes for the slide background (e.g. gradient or color) */
-  backgroundClass?: string;
+  backgroundClass?: string
   /** Tailwind CSS classes for the title/text color */
-  textClass?: string;
+  textClass?: string
   /** Notes for the speaker about how to present this slide */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Guidance or rationale on the slide’s visual/design intent */
-  designDescription?: string;
+  designDescription?: string
 }
 
 /** Props for an Agenda Slide component */
@@ -23,77 +23,77 @@ export interface AgendaSlideProps {
   /** List of agenda items with timing and description */
   items: Array<{
     /** Time or sequence label (e.g. “10:00 AM”, “1.”) */
-    time: string;
+    time: string
     /** Title or activity description */
-    activity: string;
+    activity: string
     /** Optional icon URL to represent this activity */
-    iconUrl?: string;
-  }>;
+    iconUrl?: string
+  }>
   /** Accent color class for headings or dividing lines */
-  accentClass?: string;
+  accentClass?: string
   /** Notes for the speaker about pacing or emphasis */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Guidance on alignment, spacing, or brand voice */
-  designDescription?: string;
+  designDescription?: string
 }
 
 /** Props for a Problem–Solution Slide component */
 export interface ProblemSolutionSlideProps {
   /** Heading for the “Problem” half */
-  problemTitle: string;
+  problemTitle: string
   /** Key bullet points outlining the problem */
-  problemPoints: string[];
+  problemPoints: string[]
   /** Heading for the “Solution” half */
-  solutionTitle: string;
+  solutionTitle: string
   /** Key bullet points describing the solution */
-  solutionPoints: string[];
+  solutionPoints: string[]
   /** Optional split-background classes (e.g. left white, right blue) */
-  splitBackgroundClass?: { left: string; right: string };
+  splitBackgroundClass?: { left: string; right: string }
   /** Icon URLs to pair with each solution point */
-  solutionIcons?: string[];
+  solutionIcons?: string[]
   /** Notes for the speaker on how to transition between problem and solution */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Designer notes on color contrast and balance */
-  designDescription?: string;
+  designDescription?: string
 }
 
 /** Props for a Product Showcase Slide component */
 export interface ProductShowcaseSlideProps {
   /** Main headline or value proposition */
-  title: string;
+  title: string
   /** Brief descriptive text or tagline */
-  description?: string;
+  description?: string
   /** URLs of product images or mockups */
-  productImageUrls: string[];
+  productImageUrls: string[]
   /** Tailwind CSS classes for the background to match brand colors */
-  backgroundClass?: string;
+  backgroundClass?: string
   /** CSS classes to style the title/description text */
-  textClass?: string;
+  textClass?: string
   /** Notes for the speaker on highlighting product features */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Design rationale on imagery, whitespace, and hierarchy */
-  designDescription?: string;
+  designDescription?: string
 }
 
 /** Props for a Data Visualization Slide component */
 export interface DataVisualizationSlideProps {
   /** Numeric key metrics to display prominently (e.g. 56k, 43k) */
-  metrics?: Array<{ label: string; value: number | string }>;
+  metrics?: Array<{ label: string; value: number | string }>
   /** Configuration for charts or infographics */
   charts?: Array<{
     /** Type of chart (e.g. “bar”, “line”, “pie”, “infographic”) */
-    type: string;
+    type: string
     /** Data payload—structure depends on chart type */
-    data: TODO;
+    data: TODO
     /** Optional caption or label for the chart */
-    caption?: string;
-  }>;
+    caption?: string
+  }>
   /** Tailwind classes for backgrounds or highlights */
-  accentClass?: string;
+  accentClass?: string
   /** Speaker notes on drawing attention to specific data points */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Guidance for the designer on color palette and typography */
-  designDescription?: string;
+  designDescription?: string
 }
 
 /** Props for a Timeline/Roadmap Slide component */
@@ -101,41 +101,41 @@ export interface TimelineSlideProps {
   /** Ordered milestones or steps in the timeline */
   milestones: Array<{
     /** Title of the milestone */
-    title: string;
+    title: string
     /** Optional date or quarter (e.g. “Q3 2025”) */
-    date?: string;
+    date?: string
     /** Short description of the milestone */
-    description?: string;
+    description?: string
     /** Icon URL representing the milestone visually */
-    iconUrl?: string;
-  }>;
+    iconUrl?: string
+  }>
   /** Tailwind classes for the connecting line or dots */
-  lineClass?: string;
+  lineClass?: string
   /** Accent class for milestone markers */
-  markerClass?: string;
+  markerClass?: string
   /** Speaker notes on pacing through each stage */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Notes on iconography style and spacing */
-  designDescription?: string;
+  designDescription?: string
 }
 
 /** Props for a Call-to-Action / Contact Slide component */
 export interface CallToActionSlideProps {
   /** Main call-to-action text (e.g. “Get in Touch”) */
-  ctaText: string;
+  ctaText: string
   /** URL or mailto link to invoke on click */
-  ctaLink: string;
+  ctaLink: string
   /** Optional list of contact channels */
   contacts?: Array<{
     /** Type of contact (e.g. “email”, “twitter”) */
-    type: string;
+    type: string
     /** URL or handle */
-    value: string;
-  }>;
+    value: string
+  }>
   /** Tailwind CSS classes for background and text */
-  backgroundClass?: string;
+  backgroundClass?: string
   /** Speaker notes on how to close the presentation */
-  speakerNotes?: string;
+  speakerNotes?: string
   /** Designer notes on boldness, tone, and layout impact */
-  designDescription?: string;
+  designDescription?: string
 }

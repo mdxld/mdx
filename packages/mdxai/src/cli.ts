@@ -11,7 +11,9 @@ import { renderApp } from './ui/app.js'
 
 const program = new Command()
 
-program.version(packageJson.version).description('A CLI tool for MDX AI')
+program
+  .version(packageJson.version)
+  .description('A CLI tool for MDX AI')
   .option('--json', 'Emit JSON describing actions/results')
   .option('--concurrency <number>', 'Maximum number of concurrent operations for batch commands', '20')
 
@@ -50,13 +52,13 @@ program
       }
 
       if (options.ink) {
-        const unmount = renderApp('generate', { 
-          prompt, 
+        const unmount = renderApp('generate', {
+          prompt,
           systemMessage,
-          output: options.output
-        });
-        
-        return;
+          output: options.output,
+        })
+
+        return
       }
 
       const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string; tool_choice?: any; tool_calls?: any }> = []
@@ -222,13 +224,13 @@ program
       }
 
       if (options.ink) {
-        const unmount = renderApp('list', { 
-          prompt, 
+        const unmount = renderApp('list', {
+          prompt,
           output: options.output,
-          format: options.format
-        });
-        
-        return;
+          format: options.format,
+        })
+
+        return
       }
 
       const result = await generateListStream(prompt)
@@ -328,13 +330,13 @@ program
       }
 
       if (options.ink) {
-        const unmount = renderApp('research', { 
-          prompt, 
+        const unmount = renderApp('research', {
+          prompt,
           output: options.output,
-          format: options.format
-        });
-        
-        return;
+          format: options.format,
+        })
+
+        return
       }
 
       const result = await generateResearchStream(prompt)
@@ -354,10 +356,10 @@ program
 
       const title = extractH1Title(completeContent) || prompt
       const slugifiedTitle = slugifyString(title)
-      
+
       // Ensure research directory exists in current working directory
       ensureDirectoryExists('research')
-      
+
       const outputPath = path.resolve(`research/${slugifiedTitle}.md`)
 
       fs.writeFileSync(outputPath, completeContent)
@@ -416,10 +418,10 @@ program
 
       const title = extractH1Title(completeContent) || query
       const slugifiedTitle = slugifyString(title)
-      
+
       // Ensure research directory exists
       ensureDirectoryExists('research')
-      
+
       const outputPath = path.resolve(`research/${slugifiedTitle}.md`)
       fs.writeFileSync(outputPath, completeContent)
 
@@ -452,11 +454,11 @@ program
   .action(async (prompt: string, options: { output: string; concurrency: string }) => {
     const { json } = program.opts<{ json: boolean }>()
     try {
-      const unmount = renderApp('list+generate', { 
-        prompt, 
+      const unmount = renderApp('list+generate', {
+        prompt,
         output: options.output,
-        concurrency: parseInt(options.concurrency, 10)
-      });
+        concurrency: parseInt(options.concurrency, 10),
+      })
     } catch (error) {
       if (json) {
         console.error(JSON.stringify({ status: 'error', message: String(error) }))
@@ -465,7 +467,7 @@ program
       }
       process.exit(1)
     }
-  });
+  })
 
 program
   .command('list+research <prompt>')
@@ -475,11 +477,11 @@ program
   .action(async (prompt: string, options: { output: string; concurrency: string }) => {
     const { json } = program.opts<{ json: boolean }>()
     try {
-      const unmount = renderApp('list+research', { 
-        prompt, 
+      const unmount = renderApp('list+research', {
+        prompt,
         output: options.output,
-        concurrency: parseInt(options.concurrency, 10)
-      });
+        concurrency: parseInt(options.concurrency, 10),
+      })
     } catch (error) {
       if (json) {
         console.error(JSON.stringify({ status: 'error', message: String(error) }))
@@ -488,6 +490,6 @@ program
       }
       process.exit(1)
     }
-  });
+  })
 
 program.parse(process.argv)

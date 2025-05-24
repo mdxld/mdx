@@ -48,35 +48,47 @@ describe('parseFrontmatter', () => {
     const expectedError = 'MDXLD Invalid Frontmatter: Frontmatter must be a YAML object (key-value pairs).'
 
     const testCases = [
-      { name: 'string', mdxContent: dedent`
+      {
+        name: 'string',
+        mdxContent: dedent`
         ---
         "just a string"
         ---
 
         # Heading
-      ` },
-      { name: 'number', mdxContent: dedent`
+      `,
+      },
+      {
+        name: 'number',
+        mdxContent: dedent`
         ---
         12345
         ---
 
         # Heading
-      ` },
-      { name: 'boolean', mdxContent: dedent`
+      `,
+      },
+      {
+        name: 'boolean',
+        mdxContent: dedent`
         ---
         true
         ---
 
         # Heading
-      ` },
-      { name: 'array', mdxContent: dedent`
+      `,
+      },
+      {
+        name: 'array',
+        mdxContent: dedent`
         ---
         - item1
         - item2
         ---
 
         # Heading
-      ` },
+      `,
+      },
     ]
 
     testCases.forEach((tc) => {

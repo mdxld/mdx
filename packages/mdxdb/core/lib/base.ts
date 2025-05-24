@@ -54,15 +54,13 @@ export abstract class MdxDbBase implements MdxDbInterface {
     }
 
     if (pattern && entries.length > 0) {
-      return entries.filter(entry => {
-        const matchValue = entry.filePath || 
-                         (entry.slug ? `${entry.slug}.mdx` : null) || 
-                         '';
-        return micromatch.isMatch(matchValue, pattern);
-      });
+      return entries.filter((entry) => {
+        const matchValue = entry.filePath || (entry.slug ? `${entry.slug}.mdx` : null) || ''
+        return micromatch.isMatch(matchValue, pattern)
+      })
     }
 
-    return entries;
+    return entries
   }
 
   /**
@@ -93,17 +91,15 @@ export abstract class MdxDbBase implements MdxDbInterface {
       const collection = this.data[collectionName]
       if (collection && Array.isArray(collection)) {
         const entry = collection.find((entry) => entry.slug === id)
-        
+
         if (entry && pattern) {
-          const matchValue = entry.filePath || 
-                           (entry.slug ? `${entry.slug}.mdx` : null) || 
-                           '';
+          const matchValue = entry.filePath || (entry.slug ? `${entry.slug}.mdx` : null) || ''
           if (!micromatch.isMatch(matchValue, pattern)) {
-            return undefined; // Entry doesn't match pattern
+            return undefined // Entry doesn't match pattern
           }
         }
-        
-        return entry;
+
+        return entry
       } else {
         console.warn(`Collection '${collectionName}' not found or is not an array.`)
         return undefined
@@ -116,15 +112,13 @@ export abstract class MdxDbBase implements MdxDbInterface {
           const entry = collection.find((entry) => entry.slug === id)
           if (entry) {
             if (pattern) {
-              const matchValue = entry.filePath || 
-                               (entry.slug ? `${entry.slug}.mdx` : null) || 
-                               '';
+              const matchValue = entry.filePath || (entry.slug ? `${entry.slug}.mdx` : null) || ''
               if (!micromatch.isMatch(matchValue, pattern)) {
-                continue; // Entry doesn't match pattern, try next collection
+                continue // Entry doesn't match pattern, try next collection
               }
             }
-            
-            return entry;
+
+            return entry
           }
         }
       }
@@ -152,33 +146,25 @@ export abstract class MdxDbBase implements MdxDbInterface {
    * Builds the database using mdxld
    * This is a helper method that tech-specific implementations can use
    */
-  protected async buildWithMdxld(options: {
-    sourceDir?: string
-    outputDir?: string
-    configFile?: string
-  }): Promise<any> {
+  protected async buildWithMdxld(options: { sourceDir?: string; outputDir?: string; configFile?: string }): Promise<any> {
     const result = await buildWithMdxld({
       ...options,
-      watch: false
+      watch: false,
     })
-    
+
     return result
   }
-  
+
   /**
    * Starts watching files using mdxld
    * This is a helper method that tech-specific implementations can use
    */
-  protected watchWithMdxld(options: {
-    sourceDir?: string
-    outputDir?: string
-    configFile?: string
-  }): void {
+  protected watchWithMdxld(options: { sourceDir?: string; outputDir?: string; configFile?: string }): void {
     this.stopMdxldWatch()
-    
+
     this.mdxldWatchProcess = watchWithMdxld(options)
   }
-  
+
   /**
    * Stops the mdxld watch process
    */

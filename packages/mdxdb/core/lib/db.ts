@@ -14,8 +14,8 @@ class InMemoryMdxDb extends MdxDbBase {
         { slug: 'test2', filePath: 'content/test2.mdx' },
         { slug: 'test3', filePath: 'content/test3.md' },
         { slug: 'test4', filePath: 'content/test4.mdx' },
-        { slug: 'readme', filePath: 'README.md', content: '# README\n\nThis is a test readme file.' }
-      ]
+        { slug: 'readme', filePath: 'README.md', content: '# README\n\nThis is a test readme file.' },
+      ],
     }
   }
 
@@ -23,11 +23,9 @@ class InMemoryMdxDb extends MdxDbBase {
     return this.data as VeliteData
   }
 
-  async watch(): Promise<void> {
-  }
+  async watch(): Promise<void> {}
 
-  stopWatch(): void {
-  }
+  stopWatch(): void {}
 
   /**
    * Override the get method to handle glob patterns correctly
@@ -40,32 +38,28 @@ class InMemoryMdxDb extends MdxDbBase {
 
     if (id.includes('*') || id.includes('?') || id.includes('[') || id.includes('{')) {
       const pattern = id
-      
-      const collections = collectionName ? 
-        (this.data[collectionName] ? [this.data[collectionName]] : []) : 
-        Object.values(this.data)
-      
+
+      const collections = collectionName ? (this.data[collectionName] ? [this.data[collectionName]] : []) : Object.values(this.data)
+
       for (const collection of collections) {
         if (Array.isArray(collection)) {
           for (const entry of collection) {
-            const matchValue = entry.filePath || 
-                             (entry.slug ? `${entry.slug}.mdx` : null) || 
-                             '';
-            console.log(`Checking if '${matchValue}' matches pattern '${pattern}'`);
+            const matchValue = entry.filePath || (entry.slug ? `${entry.slug}.mdx` : null) || ''
+            console.log(`Checking if '${matchValue}' matches pattern '${pattern}'`)
             if (micromatch.isMatch(matchValue.toLowerCase(), pattern.toLowerCase())) {
-              console.log(`Match found: '${matchValue}' matches '${pattern}'`);
+              console.log(`Match found: '${matchValue}' matches '${pattern}'`)
               if (!entry.content && entry.slug === 'readme') {
-                entry.content = 'This is readme content';
+                entry.content = 'This is readme content'
               }
-              return entry;
+              return entry
             }
           }
         }
       }
-      
+
       return undefined
     }
-    
+
     return super.get(id, collectionName, pattern)
   }
 
@@ -73,13 +67,13 @@ class InMemoryMdxDb extends MdxDbBase {
     if (!this.data) {
       this.data = {}
     }
-    
+
     if (!this.data[collectionName]) {
       this.data[collectionName] = []
     }
-    
+
     const existingIndex = this.data[collectionName].findIndex((item: any) => item.slug === id)
-    
+
     if (existingIndex >= 0) {
       this.data[collectionName][existingIndex] = { ...content, slug: id }
     } else {
@@ -91,10 +85,10 @@ class InMemoryMdxDb extends MdxDbBase {
     if (!this.data || !this.data[collectionName]) {
       return false
     }
-    
+
     const initialLength = this.data[collectionName].length
     this.data[collectionName] = this.data[collectionName].filter((item: any) => item.slug !== id)
-    
+
     return initialLength !== this.data[collectionName].length
   }
 }
