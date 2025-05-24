@@ -3,8 +3,13 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { MdxDbFs } from './lib/mdxdb-fs.js';
 
-const packageJsonPath = new URL('./package.json', import.meta.url);
-const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf-8'));
+const packageJsonPath = new URL('../package.json', import.meta.url);
+try {
+  var packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf-8'));
+} catch (error) {
+  const fallbackPath = new URL('./package.json', import.meta.url);
+  packageJson = JSON.parse(await fs.readFile(fallbackPath, 'utf-8'));
+}
 
 const program = new Command();
 
