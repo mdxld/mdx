@@ -9,16 +9,20 @@
     "@mdxdb/core": "workspace:*",
     "@mdxdb/fs": "workspace:*",
     "@mdxdb/sqlite": "workspace:*",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "mdxai": "workspace:*",
     "mdxe": "workspace:*",
     "mdxld": "workspace:*",
     "mdxui": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "^5.5.3",
     "vitest": "^3.1.4"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "zx": "^8.5.4"
   }
 }

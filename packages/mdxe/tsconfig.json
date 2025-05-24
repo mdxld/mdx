@@ -5,14 +5,24 @@
     "rootDir": "./src",
     "composite": true,
     "baseUrl": ".",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node", "vitest"],
     "paths": {
       "mdxui": ["../mdxui"],
       "mdxui/*": ["../mdxui/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "exclude": ["node_modules"],
   "references": [
-    { "path": "../mdxui/core" }
+    { "path": "../mdxui/core" },
+    { "path": "../mdxui/ink" }
   ]
 }
