@@ -6,24 +6,45 @@ import pkg from '../package.json' with { type: 'json' };
 import { findMdxFiles } from './utils/mdx-parser';
 import { findIndexFile, fileExists } from './utils/file-utils';
 
+import { runDevCommand } from './commands/dev';
+import { runBuildCommand } from './commands/build';
+import { runStartCommand } from './commands/start';
+
 /**
  * Run the CLI
  */
 export async function run() {
   const args = process.argv.slice(2);
-  let cwd = process.cwd();
+  const command = args[0];
+  const cwd = process.cwd();
   
-  if (args.length > 0) {
-    const dirArg = args[0];
-    if (dirArg !== 'test' && dirArg !== 'dev' && dirArg !== 'build' && dirArg !== 'start' && dirArg !== 'exec') {
-      const resolvedPath = path.resolve(process.cwd(), dirArg);
-      try {
-        const stat = await fs.stat(resolvedPath);
-        if (stat.isDirectory()) {
-          cwd = resolvedPath;
-        }
-      } catch (err) {
+  if (command === 'dev') {
+    return runDevCommand(cwd);
+  } else if (command === 'build') {
+    return runBuildCommand(cwd);
+  } else if (command === 'start') {
+    return runStartCommand(cwd);
+  } else if (command === 'test') {
+    console.log('Test command not implemented yet');
+    return;
+  } else if (command === 'lint') {
+    console.log('Lint command not implemented yet');
+    return;
+  } else if (command === 'exec') {
+    console.log('Exec command not implemented yet');
+    return;
+  }
+  
+  let targetDir = cwd;
+  
+  if (args.length > 0 && command !== 'test' && command !== 'dev' && command !== 'build' && command !== 'start' && command !== 'exec') {
+    const resolvedPath = path.resolve(process.cwd(), command);
+    try {
+      const stat = await fs.stat(resolvedPath);
+      if (stat.isDirectory()) {
+        targetDir = resolvedPath;
       }
+    } catch (err) {
     }
   }
   
@@ -124,7 +145,7 @@ export async function run() {
     };
     
     const { waitUntilExit } = render(
-      React.createElement(SimpleApp, { cwd })
+      React.createElement(SimpleApp, { cwd: targetDir })
     );
     
     await waitUntilExit();
