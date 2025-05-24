@@ -6,16 +6,28 @@ import type { MdxFrontmatter } from '@mdxui/ink';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+interface NavigationAPI {
+  navigateTo?: (screen: any) => void;
+  navigateToFile?: (filePath: string, title?: string) => void;
+  navigateToRoute?: (routePath: string[]) => void;
+  goBack?: () => void;
+  goForward?: () => void;
+}
+
 interface MDXRendererProps {
   content: string;
   filePath: string;
   components?: Record<string, React.ComponentType<any>>;
+  inputs?: Record<string, any>;
+  navigation?: NavigationAPI;
 }
 
 export const MDXRenderer: React.FC<MDXRendererProps> = ({ 
   content, 
   filePath,
-  components = {} 
+  components = {},
+  inputs = {},
+  navigation
 }) => {
   const [compiledMDX, setCompiledMDX] = useState<string | null>(null);
   const [frontmatter, setFrontmatter] = useState<MdxFrontmatter>({});
@@ -33,7 +45,11 @@ export const MDXRenderer: React.FC<MDXRendererProps> = ({
         try {
           await renderMdxCli(content, {
             mdxPath: filePath,
-            components: components
+            components: components as any,
+            scope: {
+              ...inputs,
+              navigation
+            }
           });
           
           setCompiledMDX(mdxContent);

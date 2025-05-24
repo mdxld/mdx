@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
-import { InputForm } from '@mdxui/ink';
+import { InputForm } from '@mdxui/ink/src/components/InputForm';
 import type { MdxFrontmatter } from '@mdxui/ink';
 
 interface InputHandlerProps {
@@ -20,7 +20,7 @@ export const InputHandler: React.FC<InputHandlerProps> = ({
   useEffect(() => {
     if (frontmatter.inputs && Object.keys(frontmatter.inputs).length > 0) {
       const requiredInputs = Object.entries(frontmatter.inputs)
-        .filter(([_, config]) => config.required)
+        .filter(([_, config]) => (config as any).required)
         .map(([name]) => name);
       
       const missingRequiredInputs = requiredInputs.filter(name => 

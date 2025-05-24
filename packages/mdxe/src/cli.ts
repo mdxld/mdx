@@ -9,6 +9,7 @@ import { findMdxFiles } from './utils/mdx-parser';
 import { findIndexFile, fileExists } from './utils/file-utils';
 import { parseFrontmatter } from '@mdxui/ink';
 import { MDXApp } from './components/MDXApp';
+import { ScreenManager } from './components/ScreenManager';
 
 /**
  * Run the CLI
@@ -21,7 +22,14 @@ export async function run() {
       console.log(`Found index file: ${path.basename(indexFile)}`);
       try {
         const { waitUntilExit } = render(
-          React.createElement(MDXApp, { initialFilePath: indexFile })
+          React.createElement(ScreenManager, { 
+            initialScreen: {
+              id: indexFile,
+              title: path.basename(indexFile),
+              type: 'file',
+              filePath: indexFile
+            }
+          })
         );
         await waitUntilExit();
         return;
@@ -31,14 +39,14 @@ export async function run() {
       }
     } else {
       const { waitUntilExit } = render(
-        React.createElement(MDXApp)
+        React.createElement(ScreenManager)
       );
       await waitUntilExit();
       return;
     }
   }
 
-  const cli = new pastel({
+  const cli = pastel({
     name: 'mdxe',
     version: pkg.version,
     description: 'Zero-Config CLI to Execute, Test, & Deploy Markdown & MDX'
