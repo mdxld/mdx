@@ -1,7 +1,5 @@
 import React from 'react';
-import { Box } from 'ink';
-import { Text } from 'ink';
-import { Spacer } from 'ink';
+import { Box, Text, Spacer } from 'ink';
 import BigText from 'ink-big-text';
 import Markdown from 'ink-markdown';
 import Ascii from 'ink-ascii';
