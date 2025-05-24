@@ -1,153 +1,149 @@
-import { ReactNode } from 'react';
+import { TODO } from "../types";
 
-/**
- * Title slide properties
- * 
- * @interface TitleSlideProps
- * @description Main introduction slide typically used at the beginning of presentations
- */
-export interface TitleSlideProps {
-  /** Main title text */
-  title: string;
-  /** Optional subtitle text */
-  subtitle?: string;
-  /** URL for logo image */
-  logoUrl?: string;
-  /** Presenter name and title */
-  presenter?: string;
-  /** Contact info (email, website) */
-  contact?: string;
+// Common enums/types
+export type UseCase =
+  | 'InvestorPitch'
+  | 'ProductDemo'
+  | 'TechTalk'
+  | 'Onboarding'
+  | 'Keynote';
+
+export type SlideType =
+  | 'Title'
+  | 'Section'
+  | 'Content'
+  | 'Code'
+  | 'Image'
+  | 'Chart';
+
+export type LayoutType =
+  | 'SingleColumn'
+  | 'TwoColumn'
+  | 'Split'
+  | 'FullBleed'
+  | 'Centered';
+
+export type Theme = 'Light' | 'Dark' | string;
+
+export type NarrativeRole =
+  | 'Intro'
+  | 'Problem'
+  | 'Solution'
+  | 'Approach'
+  | 'Results'
+  | 'Conclusion'
+  | 'CallToAction';
+
+// Supporting interfaces
+export interface TypographySettings {
+  fontFamily: string;
+  headingSize: number;    // in pt
+  bodySize: number;       // in pt
+  maxLineLength?: number; // e.g. ~6 words per line
 }
 
-/**
- * Bullet list slide properties
- * 
- * @interface BulletListSlideProps
- * @description Slide with a title and a list of bullet points
- */
-export interface BulletListSlideProps {
-  /** Slide heading */
-  title: string;
-  /** List of bullet points */
-  items: string[];
-  /** Whether list is numbered (default: false) */
-  ordered?: boolean;
+export interface ColorScheme {
+  background: string;     // e.g. '#ffffff' or 'black'
+  text: string;           // e.g. '#333333'
+  primary: string;        // accent color
+  secondary?: string;     // optional accent
 }
 
-/**
- * Text content slide properties
- * 
- * @interface TextContentSlideProps
- * @description Slide with a title and paragraph content
- */
-export interface TextContentSlideProps {
-  /** Slide heading */
-  title: string;
-  /** Paragraph or rich text content */
-  content: string;
-  /** Optional character limit hint */
-  maxChars?: number;
-}
-
-/**
- * Code slide properties
- * 
- * @interface CodeSlideProps
- * @description Slide for displaying code snippets with syntax highlighting
- */
-export interface CodeSlideProps {
-  /** Slide heading */
-  title: string;
-  /** Code snippet (supports markdown fences) */
-  code: string;
-  /** Caption or explanation below code */
-  caption?: string;
-  /** Language for syntax highlighting */
-  language?: string;
-}
-
-/**
- * Diagram slide properties
- * 
- * @interface DiagramSlideProps
- * @description Slide for displaying diagrams or charts
- */
-export interface DiagramSlideProps {
-  /** Slide heading */
-  title: string;
-  /** URL or Mermaid definition */
-  diagramSrc: string;
-  /** Array of annotation texts */
-  callouts?: string[];
-}
-
-/**
- * Two column slide properties
- * 
- * @interface TwoColumnSlideProps
- * @description Slide with content split into two columns
- */
-export interface TwoColumnSlideProps {
-  /** Content for left column */
-  left: ReactNode;
-  /** Content for right column */
-  right: ReactNode;
-  /** Optional slide heading */
-  title?: string;
-}
-
-/**
- * Table and chart slide properties
- * 
- * @interface TableChartSlideProps
- * @description Slide for displaying tabular data with optional chart
- */
-export interface TableChartSlideProps {
-  /** Slide heading */
-  title: string;
-  /** 2D array for table rows/columns */
-  tableData: object[][];
-  /** URL for chart image or embed code */
-  chartUrl?: string;
-}
-
-/**
- * Quote slide properties
- * 
- * @interface QuoteSlideProps
- * @description Slide for displaying a quote or significant statement
- */
-export interface QuoteSlideProps {
-  /** Main quote or fact text */
-  quote: string;
-  /** Source or speaker attribution */
-  attribution?: string;
-}
-
-/**
- * Media slide properties
- * 
- * @interface MediaSlideProps
- * @description Slide for displaying images or videos
- */
-export interface MediaSlideProps {
-  /** Media type - 'image' or 'video' */
-  mediaType: 'image' | 'video';
-  /** URL to media file */
+export interface ImageAsset {
   src: string;
-  /** Caption text */
-  caption?: string;
+  alt: string;
+  width?: number;         // for layout guidance
+  height?: number;
 }
 
-/**
- * Closing slide properties
- * 
- * @interface ClosingSlideProps
- * @description Final slide of a presentation
- */
-export interface ClosingSlideProps {
-  /** Closing message (e.g. 'Thank You' or 'Questions?') */
-  message: string;
-  /** Contact info or next steps */
-  contact?: string;
+export interface CodeSnippet {
+  language: string;       // e.g. 'ts', 'js', 'bash'
+  code: string;
+  highlightLines?: number[]; 
+  theme?: Theme;          // light/dark for syntax highlighting
+}
+
+export interface ChartConfig {
+  type: 'bar' | 'line' | 'pie' | 'area' | string;
+  data: TODO;              // you could type this more strictly
+  labels?: string[];
+  description?: string;   // for accessibility
+}
+
+// The Slide interface
+export interface Slide {
+  /** Unique identifier */
+  id: string;
+
+  /** High-level type of slide */
+  type: SlideType;
+
+  /** Role in the narrative arc (e.g. 'Problem', 'Solution') */
+  narrativeRole?: NarrativeRole;
+
+  /** Short, meaningful title (if applicable) */
+  title?: string;
+
+  /** Main textual or markdown content */
+  content?: string;
+
+  /** Layout hint for rendering */
+  layout: LayoutType;
+
+  /** Overrides for typography (falls back to deck defaults) */
+  typography?: TypographySettings;
+
+  /** Overrides for colors (falls back to deck defaults) */
+  colorScheme?: ColorScheme;
+
+  /** One or more images/icons used on this slide */
+  images?: ImageAsset[];
+
+  /** If this is a code-focused slide */
+  codeSnippet?: CodeSnippet;
+
+  /** If this slide shows a chart or graph */
+  chart?: ChartConfig;
+
+  /** Optional bullet points (if using a list) */
+  bulletPoints?: string[];
+
+  /** Transition or build style (e.g. 'fade', 'appear') */
+  transition?: string;
+}
+
+// The Deck interface
+export interface Deck {
+  /** Unique identifier */
+  id: string;
+
+  /** Deck title (e.g. 'Q2 Investor Update') */
+  title: string;
+
+  /** Short description or subtitle */
+  description?: string;
+
+  /** What kind of presentation this is */
+  useCase: UseCase;
+
+  /** Global theme (light/dark or custom) */
+  theme: Theme;
+
+  /** Default layout for slides in this deck */
+  defaultLayout: LayoutType;
+
+  /** Default typography settings for the deck */
+  defaultTypography: TypographySettings;
+
+  /** Default color scheme for the deck */
+  defaultColorScheme: ColorScheme;
+
+  /** Author or presenter name */
+  author?: string;
+
+  /** Creation date */
+  createdAt?: Date;
+
+  /** Ordered list of slides */
+  slides: Slide[];
 }
