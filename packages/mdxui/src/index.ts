@@ -1,8 +1,3 @@
-export * from '@mdxui/core'
-export * from '@mdxui/ink'
-export * from '@mdxui/shadcn'
-export * from '@mdxui/magicui'
-
 import * as CoreComponents from '@mdxui/core'
 import * as ShadcnComponents from '@mdxui/shadcn'
 import * as InkComponents from '@mdxui/ink'
@@ -12,3 +7,11 @@ export const Core = CoreComponents
 export const Shadcn = ShadcnComponents
 export const Ink = InkComponents
 export const Magicui = MagicuiComponents
+
+export { 
+  Gradient, 
+  Tremor,
+  Step, 
+  Workflow, 
+  WorkflowExecution 
+} from '@mdxui/core'
