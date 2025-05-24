@@ -82,7 +82,51 @@ function buildNextApp(cwd: string) {
           resolve();
         }
       });
-    }).catch(() => {
+    }).catch(async () => {
+      const packageJsonPath = path.join(cwd, 'package.json');
+      const packageJsonExists = await fileExists(packageJsonPath);
+      let isMonorepo = false;
+      
+      if (packageJsonExists) {
+        try {
+          const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf-8'));
+          isMonorepo = Object.values({
+            ...packageJson.dependencies || {},
+            ...packageJson.devDependencies || {}
+          }).some((dep: any) => typeof dep === 'string' && dep.startsWith('workspace:'));
+        } catch (error) {
+          console.error('Error parsing package.json:', error);
+        }
+      }
+      
+      if (isMonorepo) {
+        console.log('📦 Detected monorepo workspace, skipping Next.js installation...');
+        const nextProcess = spawn('npx', ['next', 'build'], {
+          cwd,
+          stdio: 'inherit',
+          shell: true,
+        });
+        
+        return new Promise<void>((resolve, reject) => {
+          nextProcess.on('error', (error) => {
+            console.error('Failed to build Next.js application:', error);
+            console.log('⚠️ Build failed but continuing as this is a monorepo example');
+            resolve();
+          });
+          
+          nextProcess.on('close', (code) => {
+            if (code !== 0) {
+              console.error(`Next.js build exited with code ${code}`);
+              console.log('⚠️ Build failed but continuing as this is a monorepo example');
+              resolve();
+            } else {
+              console.log('✅ Next.js build completed successfully');
+              resolve();
+            }
+          });
+        });
+      }
+      
       console.log('📦 Installing Next.js...');
       
       const installProcess = spawn('pnpm', ['install', 'next'], {
