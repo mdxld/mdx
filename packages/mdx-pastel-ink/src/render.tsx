@@ -34,15 +34,23 @@ export async function compileMdx(mdxContent: string, scope: Record<string, any> 
   try {
     const compiled = await compile(mdxContent, {
       outputFormat: 'function-body',
-      development: false
+      development: true,
+      jsx: true
     });
     
-    const { default: Content } = await evaluate(compiled, {
+    const result = await evaluate(compiled, {
       ...runtime,
       ...scope
     });
     
-    return Content;
+    if (result.default) {
+      return result.default;
+    } else {
+      return (props) => {
+        const MDXContent = result.default || (() => result);
+        return React.createElement(MDXContent, props);
+      };
+    }
   } catch (error) {
     console.error('Error compiling MDX:', error);
     
@@ -73,7 +81,9 @@ export async function renderMdxCli(mdxPath: string, options: Partial<MdxPastelIn
   
   const combinedScope = {
     ...inputValues,
-    ...options.scope
+    ...options.scope,
+    ...defaultComponents,
+    ...(options.components || {})
   };
   
   const Content = await compileMdx(parsed.content, combinedScope);
