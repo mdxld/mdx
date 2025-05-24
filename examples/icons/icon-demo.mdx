@@ -1,0 +1,38 @@
+---
+title: Icon Demo
+description: Demonstrates using the Icon component with react-icons in the terminal
+---
+
+import { IoRocketSharp, IoHomeSharp } from 'react-icons/io5';
+import { FaHeart, FaGithub } from 'react-icons/fa';
+import { MdSettings } from 'react-icons/md';
+
+export default function IconDemo({ components }) {
+  const { Text, Box, Image, Icon } = components;
+  
+  return (
+    <Box flexDirection="column" padding={1}>
+      <Text bold>Icon Component Demo</Text>
+      
+      <Box marginY={1}>
+        <Text>Direct usage with imported icons:</Text>
+        <Image icon={IoRocketSharp} width={20} color="cyan" />
+        <Image icon={FaHeart} width={20} color="red" />
+        <Image icon={MdSettings} width={20} color="yellow" />
+      </Box>
+      
+      <Box marginY={1}>
+        <Text>Using the new Icon component with name prop:</Text>
+        <Icon name="IoRocketSharp" width={20} color="cyan" />
+        <Icon name="FaHeart" width={20} color="red" />
+        <Icon name="MdSettings" width={20} color="yellow" />
+      </Box>
+      
+      <Box marginY={1}>
+        <Text>More icons:</Text>
+        <Icon name="IoHomeSharp" width={15} color="green" />
+        <Icon name="FaGithub" width={15} color="white" />
+      </Box>
+    </Box>
+  );
+}
