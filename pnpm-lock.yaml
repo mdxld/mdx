@@ -313,6 +313,31 @@ importers:
         specifier: workspace:*
         version: link:../../packages/mdxe
 
+  examples/pitch-deck:
+    dependencies:
+      '@mdxui/reveal':
+        specifier: workspace:*
+        version: link:../../packages/mdxui/reveal
+      mdxai:
+        specifier: workspace:*
+        version: link:../../packages/mdxai
+      mdxui:
+        specifier: workspace:*
+        version: link:../../packages/mdxui
+      react:
+        specifier: ^19.0.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.1.0(react@19.1.0)
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.7
+    devDependencies:
+      mdxe:
+        specifier: workspace:*
+        version: link:../../packages/mdxe
+
   examples/slides:
     dependencies:
       '@mdxui/reveal':
