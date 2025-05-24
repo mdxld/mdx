@@ -75,7 +75,7 @@ export class MdxDbFs extends MdxDbBase {
         console.warn('Failed to discover schemas from .db folder:', error)
       }
       
-      const enhancedCollections = { ...this.config.collections } || {}
+      const enhancedCollections = { ...(this.config.collections || {}) }
       
       for (const schemaDef of discoveredSchemas) {
         if (!enhancedCollections[schemaDef.collectionName]) {
