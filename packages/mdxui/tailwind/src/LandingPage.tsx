@@ -14,7 +14,7 @@ import {
   Testimonial,
   FAQItem,
   TeamMember
-} from '@mdxui/core/landing-page'
+} from 'mdxui'
 
 /**
  * Utility function to conditionally join class names
