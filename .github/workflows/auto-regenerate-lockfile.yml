@@ -4,6 +4,15 @@ on:
   pull_request:
     types: [synchronize, opened, reopened]
   workflow_dispatch:
+    inputs:
+      pr_branch:
+        description: 'PR branch to run on (e.g., username/branch-name)'
+        required: true
+        type: string
+        
+# How to manually trigger this workflow for a specific PR:
+# gh workflow run auto-regenerate-lockfile.yml -R mdxld/mdx -r <branch-name> -f pr_branch=<branch-name>
+# Example: gh workflow run auto-regenerate-lockfile.yml -R mdxld/mdx -r devin/1748107177-reveal-mdxui -f pr_branch=devin/1748107177-reveal-mdxui
 
 permissions:
   contents: write    # needed to push back to PR branches
@@ -16,7 +25,7 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_branch || github.head_ref }}
           persist-credentials: true
 
       - name: Setup Node.js
@@ -29,8 +38,36 @@ jobs:
         with:
           version: 8.15.6
 
+      - name: Check if lockfile exists
+        id: lockfile-check
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "🔧 pnpm-lock.yaml is missing, will create new one"
+            echo "missing=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ pnpm-lock.yaml exists"
+            echo "missing=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create new lockfile if missing
+        if: steps.lockfile-check.outputs.missing == 'true'
+        run: |
+          echo "🔧 Creating new pnpm-lock.yaml from scratch"
+          pnpm install --frozen-lockfile=false
+          
+          # Commit the new lockfile
+          if [ -f pnpm-lock.yaml ]; then
+            echo "✏️ Committing new pnpm-lock.yaml"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add pnpm-lock.yaml
+            git commit -m "🔒 create new pnpm-lock.yaml"
+            git push
+          fi
+
       - name: Check for merge conflicts in lockfile
         id: conflict-check
+        if: steps.lockfile-check.outputs.missing == 'false'
         run: |
           if git status --porcelain | grep -q "^UU pnpm-lock.yaml"; then
             echo "🔧 Merge conflict detected in pnpm-lock.yaml"
@@ -41,15 +78,16 @@ jobs:
           fi
 
       - name: Resolve lockfile merge conflict
-        if: steps.conflict-check.outputs.conflict == 'true'
+        if: steps.lockfile-check.outputs.missing == 'false' && steps.conflict-check.outputs.conflict == 'true'
         run: |
           echo "🔧 Resolving pnpm-lock.yaml merge conflict"
           git checkout --theirs pnpm-lock.yaml || rm -f pnpm-lock.yaml
           git add pnpm-lock.yaml || echo "Lockfile removed"
           
           # Pull latest from base branch to get clean lockfile
-          git fetch origin ${{ github.base_ref }}
-          git checkout origin/${{ github.base_ref }} -- pnpm-lock.yaml || echo "No lockfile in base branch"
+          # For workflow_dispatch, we need to use 'main' as the base branch
+          git fetch origin ${{ github.event_name == 'workflow_dispatch' && 'main' || github.base_ref }}
+          git checkout origin/${{ github.event_name == 'workflow_dispatch' && 'main' || github.base_ref }} -- pnpm-lock.yaml || echo "No lockfile in base branch"
           
           # Regenerate lockfile
           pnpm install --frozen-lockfile=false
@@ -66,12 +104,12 @@ jobs:
 
       - name: Try strict install
         id: frozen-install
-        if: steps.conflict-check.outputs.conflict == 'false'
+        if: steps.lockfile-check.outputs.missing == 'false' && steps.conflict-check.outputs.conflict == 'false'
         run: pnpm install --frozen-lockfile
         continue-on-error: true
 
       - name: Regenerate & commit lockfile if conflict
-        if: steps.conflict-check.outputs.conflict == 'false' && steps.frozen-install.outcome == 'failure'
+        if: steps.lockfile-check.outputs.missing == 'false' && steps.conflict-check.outputs.conflict == 'false' && steps.frozen-install.outcome == 'failure'
         run: |
           echo "🔧 Lockfile conflict detected—rerunning pnpm install"
           pnpm install --frozen-lockfile=false
