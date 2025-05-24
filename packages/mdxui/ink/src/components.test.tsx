@@ -54,7 +54,7 @@ describe('Image component', () => {
   });
 
   it('should handle array output from asciify', async () => {
-    const asciiArt = ['  ###', ' ##### ', '#######'];
+    const asciiArt = ['  ###', ' #####', '#######'];
     mockAsciify.mockResolvedValue(asciiArt);
     
     const { lastFrame } = render(<Image icon={MockIcon} />);
