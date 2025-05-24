@@ -6,7 +6,8 @@
     "jsx": "react-jsx",
     "strict": true,
     "noEmit": true,
-    "lib": ["ES2021"],
+    "lib": ["ES2021", "DOM"],
+    "types": ["node", "vitest/globals", "react", "react-dom"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
