@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import React from 'react';
 
 export interface MdxPastelInkOptions {
   /**
@@ -42,6 +43,24 @@ export interface MdxFrontmatter {
    * Any additional frontmatter properties
    */
   [key: string]: any;
+}
+
+/**
+ * Extended frontmatter interface for workflow-based MDX files
+ */
+export interface WorkflowFrontmatter extends MdxFrontmatter {
+  workflow?: {
+    id: string;
+    name: string;
+    description?: string;
+    steps: Array<{
+      id: string;
+      name: string;
+      description?: string;
+      input?: Record<string, string>;
+      output: Record<string, string>;
+    }>;
+  };
 }
 
 export interface ParsedMdxDocument {
