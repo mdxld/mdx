@@ -7,11 +7,3 @@ export const Core = CoreComponents
 export const Shadcn = ShadcnComponents
 export const Ink = InkComponents
 export const Magicui = MagicuiComponents
-
-export { 
-  Gradient, 
-  Tremor,
-  Step, 
-  Workflow, 
-  WorkflowExecution 
-} from '@mdxui/core'
