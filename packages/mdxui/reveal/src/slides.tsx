@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
+declare global {
+  interface Window {}
+}
+
 interface RevealOptions {
   plugins?: any[];
   hash?: boolean;

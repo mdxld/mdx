@@ -7,7 +7,7 @@ import * as runtime from 'react/jsx-runtime'
 import { parseFrontmatter } from './frontmatter'
 import { createSchemaFromFrontmatter } from './schema'
 import { MdxPastelInkOptions, ParsedMdxDocument } from './types'
-import { defaultComponents } from './components'
+import { defaultComponents, wrapSvgComponent } from './components'
 
 /**
  * Parse an MDX file and extract frontmatter, content, and schemas
@@ -90,8 +90,23 @@ export async function renderMdxCli(mdxPath: string, options: Partial<MdxPastelIn
     ...(options.components || {}),
   }
 
-  // Render the component with input values and components
-  const { waitUntilExit } = render(<Content components={mergedComponents} {...inputValues} />)
+  const processedComponents = Object.entries(mergedComponents).reduce((acc, [key, component]) => {
+    const isSvgComponent = 
+      typeof component === 'function' && 
+      key.match(/^[A-Z]/) && // Component names start with capital letter
+      !defaultComponents.hasOwnProperty(key); // Not one of our built-in components
+    
+    if (isSvgComponent) {
+      acc[key] = wrapSvgComponent(component as React.ComponentType<any>);
+    } else {
+      acc[key] = component;
+    }
+    
+    return acc;
+  }, {} as Record<string, any>);
+
+  // Render the component with input values and processed components
+  const { waitUntilExit } = render(<Content components={processedComponents} {...inputValues} />)
 
   await waitUntilExit()
 
