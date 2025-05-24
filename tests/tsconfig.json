@@ -6,11 +6,11 @@
     "jsx": "react-jsx",
     "strict": true,
     "noEmit": true,
-    "lib": ["ES2021", "DOM"],
-    "types": ["node", "vitest/globals", "react", "react-dom"],
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "vitest/globals", "react", "react-dom"]
   },
   "exclude": [
     "../packages/mdxui/remotion/public",

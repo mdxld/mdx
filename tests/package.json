@@ -9,6 +9,8 @@
     "@mdxdb/core": "workspace:*",
     "@mdxdb/fs": "workspace:*",
     "@mdxdb/sqlite": "workspace:*",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "mdxai": "workspace:*",
     "mdxe": "workspace:*",
     "mdxld": "workspace:*",
