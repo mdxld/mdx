@@ -17,10 +17,15 @@ server.tool(
     watch: z.boolean().optional().describe("Watch for file changes"),
     bundle: z.boolean().optional().describe("Bundle with esbuild")
   },
-  async (params) => {
+  async (params, extra) => {
     try {
       const result = await build(params);
-      return JSON.stringify(result, null, 2);
+      return {
+        content: [{ 
+          type: "text", 
+          text: JSON.stringify(result, null, 2) 
+        }]
+      };
     } catch (error) {
       throw new Error(`Build failed: ${error instanceof Error ? error.message : String(error)}`);
     }
@@ -31,9 +36,14 @@ server.tool(
   "parseFrontmatter",
   "Parse YAML-LD frontmatter from MDX content",
   { content: z.string().describe("MDX content to parse") },
-  async ({ content }) => {
+  async ({ content }, extra) => {
     const result = parseFrontmatter(content);
-    return JSON.stringify(result, null, 2);
+    return {
+      content: [{ 
+        type: "text", 
+        text: JSON.stringify(result, null, 2) 
+      }]
+    };
   }
 );
 
@@ -41,9 +51,14 @@ server.tool(
   "parseTaskList",
   "Parse task list items from Markdown content", 
   { content: z.string().describe("Markdown content to parse for task items") },
-  async ({ content }) => {
+  async ({ content }, extra) => {
     const result = parseTaskList(content);
-    return JSON.stringify(result, null, 2);
+    return {
+      content: [{ 
+        type: "text", 
+        text: JSON.stringify(result, null, 2) 
+      }]
+    };
   }
 );
 
@@ -51,9 +66,14 @@ server.tool(
   "convertToJSONLD",
   "Convert YAML object to JSON-LD format",
   { yamlObject: z.record(z.any()).describe("YAML object to convert") },
-  async ({ yamlObject }) => {
+  async ({ yamlObject }, extra) => {
     const result = convertToJSONLD(yamlObject);
-    return JSON.stringify(result, null, 2);
+    return {
+      content: [{ 
+        type: "text", 
+        text: JSON.stringify(result, null, 2) 
+      }]
+    };
   }
 );
 
