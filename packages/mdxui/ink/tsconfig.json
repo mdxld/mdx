@@ -4,6 +4,7 @@
   "exclude": ["src/cli.ts", "src/render.ts", "src/render.test.ts", "src/render.test.ts.bak"],
   "compilerOptions": {
     "outDir": "dist",
-    "jsx": "react"
+    "jsx": "react",
+    "composite": true
   }
 }
