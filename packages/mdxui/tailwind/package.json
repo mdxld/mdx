@@ -4,8 +4,17 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./shared-styles.css",
+    ".": {
+      "import": "./index.js",
+      "default": "./shared-styles.css"
+    },
     "./postcss": "./postcss.config.js"
+  },
+  "scripts": {
+    "build": "echo 'No build needed for tailwind package'"
+  },
+  "dependencies": {
+    "@mdxui/core": "workspace:*"
   },
   "devDependencies": {
     "postcss": "^8.5.3",
