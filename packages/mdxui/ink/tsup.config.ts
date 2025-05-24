@@ -10,7 +10,7 @@ export default defineConfig({
     'src/render.ts'
   ],
   format: ['esm', 'cjs'],
-  dts: true, // Enable declaration file generation
+  dts: false, // Temporarily disable declaration file generation to fix CI
   splitting: false,
   sourcemap: true,
   clean: true, // Clean output directory before build
