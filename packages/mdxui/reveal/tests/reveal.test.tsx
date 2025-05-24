@@ -2,12 +2,26 @@ import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Slides, Slide } from '../src/index.js';
 
-const render = vi.fn();
-const screen = {
-  getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
-  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION' })
-};
-const cleanup = vi.fn();
+beforeEach(() => {
+  vi.stubGlobal('window', {
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn()
+  });
+  
+  vi.stubGlobal('navigator', {
+    userAgent: 'node.js'
+  });
+  
+  vi.stubGlobal('document', {
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn()
+  });
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.clearAllMocks();
+});
 
 vi.mock('reveal.js', () => {
   const mockReveal = vi.fn();
@@ -22,6 +36,16 @@ vi.mock('reveal.js/dist/theme/black.css', () => ({}));
 vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({}));
 vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({}));
 vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({}));
+
+const render = vi.fn().mockReturnValue({
+  unmount: vi.fn()
+});
+
+const screen = {
+  getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
+  getByTestId: vi.fn().mockReturnValue({ className: 'custom-class', tagName: 'SECTION' })
+};
+const cleanup = vi.fn();
 
 describe('Slides', () => {
   beforeEach(() => {
