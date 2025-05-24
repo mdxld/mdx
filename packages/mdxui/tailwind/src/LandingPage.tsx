@@ -132,7 +132,7 @@ export const Problem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
             )}
             {points && points.length > 0 && (
               <ul className="space-y-2">
-                {points.map((point, i) => (
+                {points.map((point: string, i: number) => (
                   <li key={i} className="flex items-center gap-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +215,7 @@ export const Features = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-          {features.map((feature, i) => (
+          {features.map((feature: FeatureItem, i: number) => (
             <FeatureCard key={i} {...feature} />
           ))}
         </div>
@@ -268,7 +268,7 @@ export const PricingCard = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
       <div className="p-6 space-y-4 border-t border-gray-200 dark:border-gray-800">
         <div className="text-4xl font-bold">{price}</div>
         <ul className="space-y-2">
-          {features.map((feature, i) => (
+          {features.map((feature: string, i: number) => (
             <li key={i} className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -335,7 +335,7 @@ export const Pricing = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-          {plans.map((plan, i) => (
+          {plans.map((plan: PricingPlan, i: number) => (
             <PricingCard key={i} {...plan} />
           ))}
         </div>
@@ -423,13 +423,13 @@ export const Testimonials = forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-          {testimonials.map((testimonial, i) => (
+          {testimonials.map((testimonial: Testimonial, i: number) => (
             <TestimonialCard key={i} {...testimonial} />
           ))}
         </div>
         {logos && logos.length > 0 && (
           <div className="flex flex-wrap justify-center items-center gap-8 mt-12">
-            {logos.map((logo, i) => (
+            {logos.map((logo: { imageUrl: string; alt?: string }, i: number) => (
               <div key={i} className="h-12">
                 <img
                   src={logo.imageUrl}
@@ -517,7 +517,7 @@ export const FAQ = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
             )}
           </div>
           <div className="mx-auto max-w-3xl mt-8">
-            {faqs.map((faq, i) => (
+            {faqs.map((faq: FAQItem, i: number) => (
               <FAQAccordion 
                 key={i} 
                 {...faq} 
@@ -642,7 +642,7 @@ export const Team = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEleme
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
-          {members.map((member, i) => (
+          {members.map((member: TeamMember, i: number) => (
             <TeamMemberCard key={i} {...member} />
           ))}
         </div>
