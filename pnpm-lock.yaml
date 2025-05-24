@@ -71,7 +71,7 @@ importers:
     dependencies:
       mdxui:
         specifier: workspace:*
-        version: link:../../packages/mdxui/core
+        version: link:../../packages/mdxui
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0)(react@19.1.0)
@@ -126,7 +126,7 @@ importers:
         version: 0.0.5
       mdxui:
         specifier: workspace:*
-        version: link:../../packages/mdxui/core
+        version: link:../../packages/mdxui
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0)(react@19.1.0)
@@ -178,7 +178,7 @@ importers:
         version: 0.22.3
       mdxui:
         specifier: workspace:*
-        version: link:../../packages/mdxui/core
+        version: link:../../packages/mdxui
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0)(react@19.1.0)
@@ -551,7 +551,7 @@ importers:
         version: 14.1.0
       mdxui:
         specifier: workspace:*
-        version: link:../mdxui/core
+        version: link:../mdxui
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0)(react@19.1.0)
@@ -681,6 +681,52 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
 
+  packages/mdxui:
+    dependencies:
+      '@mdxui/core':
+        specifier: workspace:*
+        version: link:core
+      '@mdxui/ink':
+        specifier: workspace:*
+        version: link:ink
+      '@mdxui/magicui':
+        specifier: workspace:*
+        version: link:magicui
+      '@mdxui/shadcn':
+        specifier: workspace:*
+        version: link:shadcn
+      '@mdxui/tailwind':
+        specifier: workspace:*
+        version: link:tailwind
+      react:
+        specifier: ^19
+        version: 19.1.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../config/tsup-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.0
+      eslint:
+        specifier: ^9.27.0
+        version: 9.27.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.2)
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
+
   packages/mdxui/core:
     dependencies:
       '@tremor/react':
@@ -692,6 +738,9 @@ importers:
       react:
         specifier: ^19
         version: 19.1.0
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.7
     devDependencies:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
@@ -756,6 +805,9 @@ importers:
       asciify-image:
         specifier: ^0.1.10
         version: 0.1.10
+      '@mdxui/core':
+        specifier: workspace:*
+        version: link:../core
       chalk:
         specifier: ^5.3.0
         version: 5.4.1
@@ -815,8 +867,110 @@ importers:
         specifier: ^1.1.0
         version: 1.6.1(@types/node@20.17.49)
 
-  packages/mdxui/tailwind:
+  packages/mdxui/magicui:
+    dependencies:
+      '@mdxui/core':
+        specifier: workspace:*
+        version: link:../core
+      react:
+        specifier: ^19
+        version: 19.1.0
     devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../config/eslint-config
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../../config/tsup-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../config/typescript-config
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.0
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.0
+        version: 2.1.1
+      eslint:
+        specifier: ^9.27.0
+        version: 9.27.0
+      framer-motion:
+        specifier: ^12.12.1
+        version: 12.12.1(react-dom@19.1.0)(react@19.1.0)
+      tailwind-merge:
+        specifier: ^2.2.1
+        version: 2.6.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.2)
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
+
+  packages/mdxui/shadcn:
+    dependencies:
+      '@mdxui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@radix-ui/react-slot':
+        specifier: ^1.0.2
+        version: 1.2.3(@types/react@19.1.0)(react@19.1.0)
+      react:
+        specifier: ^19
+        version: 19.1.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../config/eslint-config
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../../config/tsup-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../config/typescript-config
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.0
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.0
+        version: 2.1.1
+      eslint:
+        specifier: ^9.27.0
+        version: 9.27.0
+      tailwind-merge:
+        specifier: ^2.2.1
+        version: 2.6.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.2)
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/node@22.15.21)(tsx@4.19.4)
+
+  packages/mdxui/tailwind:
+    dependencies:
+      '@mdxui/core':
+        specifier: workspace:*
+        version: link:../core
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+    devDependencies:
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.21
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -862,7 +1016,7 @@ importers:
         version: link:../packages/mdxld
       mdxui:
         specifier: workspace:*
-        version: link:../packages/mdxui/core
+        version: link:../packages/mdxui
       typescript:
         specifier: ^5.5.3
         version: 5.8.3
@@ -4280,7 +4434,6 @@ packages:
     dependencies:
       '@types/react': 19.1.0
       react: 19.1.0
-    dev: true
 
   /@radix-ui/react-slot@1.2.3(@types/react@19.1.0)(react@19.1.0):
     resolution: {integrity: sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==}
@@ -4294,7 +4447,6 @@ packages:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.1.0)(react@19.1.0)
       '@types/react': 19.1.0
       react: 19.1.0
-    dev: true
 
   /@react-aria/focus@3.20.3(react-dom@19.1.0)(react@18.3.1):
     resolution: {integrity: sha512-rR5uZUMSY4xLHmpK/I8bP1V6vUNHFo33gTvrvNUsAKKqvMfa7R2nu5A6v97dr5g6tVH6xzpdkPsOJCWh90H2cw==}
@@ -6194,6 +6346,9 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: false
+
+  /ccount@2.0.1:
+    resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
 
   /cfonts@2.10.1:
     resolution: {integrity: sha512-l5IcLv4SaOdL/EGR6BpOF5SEro88VcGJJ6+xbvJb+wXi19YC6UeHE/brv7a4vIcLZopnt3Ys3zWeNnyfB04UPg==}
@@ -8434,7 +8589,6 @@ packages:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       tslib: 2.8.1
-    dev: false
 
   /fresh@2.0.0:
     resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
@@ -10870,11 +11024,9 @@ packages:
     resolution: {integrity: sha512-GXq/uUbZBEiFFE+K1Z/sxdPdadMdfJ/jmBALDfIuHGi0NmtealLOfH9FqT+6aNPgVx8ilq0DtYmyQlo6Uj9LKQ==}
     dependencies:
       motion-utils: 12.12.1
-    dev: false
 
   /motion-utils@12.12.1:
     resolution: {integrity: sha512-f9qiqUHm7hWSLlNW8gS9pisnsN7CRFRD58vNjptKdsqFLpkVnX00TNeD6Q0d27V9KzT7ySFyK1TZ/DShfVOv6w==}
-    dev: false
 
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -12146,7 +12298,6 @@ packages:
     dependencies:
       react: 19.1.0
       scheduler: 0.26.0
-    dev: false
 
   /react-icons@5.5.0(react@18.3.1):
     resolution: {integrity: sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw==}
@@ -12785,7 +12936,6 @@ packages:
 
   /scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
-    dev: false
 
   /schema-dts@1.1.5:
     resolution: {integrity: sha512-RJr9EaCmsLzBX2NDiO5Z3ux2BVosNZN5jo0gWgsyKvxKIUL5R3swNvoorulAeL9kLB0iTSX7V6aokhla2m7xbg==}

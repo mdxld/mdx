@@ -40,7 +40,7 @@ function createOutputSchema(output: Record<string, string>) {
 /**
  * Create a Zod type from a string type definition
  */
-function createZodType(type: string): z.ZodTypeAny {
+export function createZodType(type: string): z.ZodTypeAny {
   if (type === 'string') {
     return z.string();
   }
@@ -51,6 +51,14 @@ function createZodType(type: string): z.ZodTypeAny {
   
   if (type === 'boolean') {
     return z.boolean();
+  }
+  
+  if (type === 'array') {
+    return z.array(z.any());
+  }
+  
+  if (type === 'object') {
+    return z.record(z.any());
   }
   
   if (type.startsWith('enum[')) {
