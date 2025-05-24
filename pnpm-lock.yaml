@@ -607,9 +607,18 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.0
         version: 1.12.0
+      '@types/acorn':
+        specifier: ^4.0.6
+        version: 4.0.6
       '@types/glob':
         specifier: ^8.1.0
         version: 8.1.0
+      acorn:
+        specifier: ^8.10.0
+        version: 8.14.1
+      acorn-jsx:
+        specifier: ^5.3.2
+        version: 5.3.2(acorn@8.14.1)
       commander:
         specifier: ^11.1.0
         version: 11.1.0
@@ -4191,6 +4200,12 @@ packages:
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
+
+  /@types/acorn@4.0.6:
+    resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
+    dependencies:
+      '@types/estree': 1.0.7
+    dev: false
 
   /@types/braces@3.0.5:
     resolution: {integrity: sha512-SQFof9H+LXeWNz8wDe7oN5zu7ket0qwMu5vZubW4GCJ8Kkeh6nBWUz87+KTz/G3Kqsrp0j/W253XJb3KMEeg3w==}
