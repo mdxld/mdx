@@ -1,7 +1,5 @@
-#!/usr/bin/env node
 import React from 'react';
-import { render, Box, Text } from 'ink';
-import { Command } from 'pastel';
+import { render, Box, Text, useInput } from 'ink';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import pkg from '../package.json' with { type: 'json' };
@@ -9,10 +7,8 @@ import { findMdxFiles } from './utils/mdx-parser';
 import { findIndexFile } from './utils/file-utils';
 
 const App = () => {
-  return (
-    <Box>
-      <Text>MDXE - Markdown/MDX Execution Engine</Text>
-    </Box>
+  return React.createElement(Box, null,
+    React.createElement(Text, null, "MDXE - Markdown/MDX Execution Engine")
   );
 };
 
@@ -20,84 +16,82 @@ const App = () => {
  * Run the CLI
  */
 export async function run() {
-  if (process.argv.length <= 2) {
-    const indexFile = await findIndexFile(process.cwd());
+  const cwd = process.argv.length > 2 ? process.argv[2] : process.cwd();
+  const resolvedPath = path.resolve(process.cwd(), cwd);
+  
+  try {
+    const stat = await fs.stat(resolvedPath);
+    const workingDir = stat.isDirectory() ? resolvedPath : process.cwd();
     
-    if (indexFile) {
-      console.log(`Found index file: ${path.basename(indexFile)}`);
-      try {
-        render(<App />);
-        return;
-      } catch (error) {
-        console.error(`Error reading index file: ${error}`);
-        process.exit(1);
+    const indexFile = await findIndexFile(workingDir);
+    const mdxFiles = await findMdxFiles(workingDir);
+    
+    const SimpleApp = () => {
+      const [exit, setExit] = React.useState(false);
+      
+      useInput((input, key) => {
+        if (input === 'q' || key.escape) {
+          setExit(true);
+        }
+      });
+      
+      if (exit) {
+        return null;
       }
-    } else {
-      render(<App />);
-      return;
-    }
+      
+      return React.createElement(Box, { flexDirection: "column", padding: 1 },
+        React.createElement(Box, { marginBottom: 1 },
+          React.createElement(Text, { bold: true, color: "green" }, "MDXE - Markdown/MDX-First Application Framework")
+        ),
+        
+        React.createElement(Box, { marginBottom: 1 },
+          React.createElement(Text, null, 
+            "Current directory: ", 
+            React.createElement(Text, { color: "blue" }, workingDir)
+          )
+        ),
+        
+        indexFile && React.createElement(Box, { marginBottom: 1 },
+          React.createElement(Text, null,
+            "Found index file: ",
+            React.createElement(Text, { color: "green" }, path.basename(indexFile))
+          )
+        ),
+        
+        React.createElement(Box, { marginY: 1 },
+          React.createElement(Text, { bold: true }, "Available MDX Files:")
+        ),
+        
+        mdxFiles.length > 0 
+          ? React.createElement(Box, { flexDirection: "column", marginY: 1 },
+              ...mdxFiles.map((file, index) => 
+                React.createElement(Text, { key: file },
+                  React.createElement(Text, { color: "yellow" }, `${index + 1}`),
+                  React.createElement(Text, null, ". "),
+                  React.createElement(Text, null, path.relative(workingDir, file))
+                )
+              )
+            )
+          : React.createElement(Box, null,
+              React.createElement(Text, { color: "yellow" }, "No MDX files found in this directory.")
+            ),
+        
+        React.createElement(Box, { marginTop: 1 },
+          React.createElement(Text, { dimColor: true },
+            "Press ",
+            React.createElement(Text, { color: "yellow" }, "q"),
+            " to quit"
+          )
+        )
+      );
+    };
+    
+    const { waitUntilExit } = render(React.createElement(SimpleApp));
+    await waitUntilExit();
+  } catch (error) {
+    console.error('Error:', error);
+    process.exit(1);
   }
-
-  const cli = new Command({
-    name: 'mdxe',
-    version: pkg.version,
-    description: 'Zero-Config CLI to Execute, Test, & Deploy Markdown & MDX'
-  });
-
-  cli.command({
-    name: 'test',
-    description: 'Run tests embedded in Markdown/MDX files',
-    handler: () => {
-      console.log('test command not implemented yet');
-    }
-  });
-
-  cli.command({
-    name: 'dev',
-    description: 'Start a development server',
-    handler: () => {
-      console.log('dev command not implemented yet');
-    }
-  });
-
-  cli.command({
-    name: 'build',
-    description: 'Build the project for production',
-    handler: () => {
-      console.log('build command not implemented yet');
-    }
-  });
-
-  cli.command({
-    name: 'start',
-    description: 'Start the production server',
-    handler: () => {
-      console.log('start command not implemented yet');
-    }
-  });
-
-  cli.command({
-    name: 'exec',
-    description: 'Execute code blocks in Markdown/MDX files',
-    args: {
-      files: {
-        type: 'string',
-        description: 'Files to execute',
-        variadic: true,
-        optional: true
-      }
-    },
-    handler: (args) => {
-      if (args.files && args.files.length > 0) {
-        const filePath = path.resolve(process.cwd(), args.files[0]);
-        render(<App />);
-      } else {
-        console.log('Please specify a file to execute');
-      }
-    }
-  });
-
-  await cli.run(process.argv.slice(2));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -1,7 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
-import { InputForm } from '@mdxui/ink/src/components/InputForm';
-import type { MdxFrontmatter } from '@mdxui/ink';
+import { MdxFrontmatter } from '@mdxui/ink';
+
+interface InputFormProps {
+  frontmatter: MdxFrontmatter;
+  onSubmit: (values: Record<string, any>) => void;
+}
+
+const InputForm: React.FC<InputFormProps> = ({ frontmatter, onSubmit }) => {
+  const [inputValues, setInputValues] = useState<Record<string, any>>({});
+  
+  useEffect(() => {
+    if (Object.keys(inputValues).length > 0) {
+      onSubmit(inputValues);
+    }
+  }, [inputValues, onSubmit]);
+  
+  if (!frontmatter.inputs || Object.keys(frontmatter.inputs).length === 0) {
+    return null;
+  }
+  
+  return (
+    <Box flexDirection="column" padding={1}>
+      <Text bold>Input Parameters</Text>
+      {Object.entries(frontmatter.inputs).map(([name, config]: [string, any]) => (
+        <Box key={name} flexDirection="column" marginY={1}>
+          <Text>
+            {config.required ? '* ' : '  '}
+            {name}
+            {config.description ? ` - ${config.description}` : ''}
+            {config.default !== undefined ? ` (default: ${config.default})` : ''}
+            :
+          </Text>
+          <Box marginLeft={2}>
+            <Text>{inputValues[name] || config.default || ''}</Text>
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+};
 
 interface InputHandlerProps {
   frontmatter: MdxFrontmatter;
