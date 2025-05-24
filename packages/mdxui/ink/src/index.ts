@@ -5,6 +5,7 @@ export * from './frontmatter';
 export * from './components';
 export * from './components/InputForm';
 export * from './components/InputPrompt';
+export * from './components/WorkflowManager';
 export * from './workflow';
 export type { WorkflowFrontmatter } from './types';
 export * from './LandingPage';

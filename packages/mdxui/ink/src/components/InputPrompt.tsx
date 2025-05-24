@@ -56,7 +56,7 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
       } else if (type === 'boolean') {
         setValue(!value);
       } else {
-        setValue(prev => typeof prev === 'string' ? prev.slice(0, -1) : '');
+        setValue((prev: any) => typeof prev === 'string' ? prev.slice(0, -1) : '');
       }
       setError(null);
     } else if (type === 'enum' && /^\d$/.test(input)) {
@@ -73,7 +73,7 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
     } else if (type === 'number' && !/^\d$/.test(input) && input !== '.') {
       return;
     } else {
-      setValue(prev => `${prev}${input}`);
+      setValue((prev: any) => `${prev}${input}`);
       setError(null);
     }
   });
