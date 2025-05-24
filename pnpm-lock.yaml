@@ -801,7 +801,17 @@ importers:
         version: 1.6.1(@types/node@20.17.49)
 
   packages/mdxui/tailwind:
+    dependencies:
+      mdxui:
+        specifier: workspace:*
+        version: link:../core
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
     devDependencies:
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.21
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
