@@ -1,7 +1,14 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/cli-workflow.ts'],
+  entry: [
+    'src/index.ts', 
+    'src/cli-workflow.ts',
+    'src/frontmatter.ts',
+    'src/workflow.ts',
+    'src/types.ts',
+    'src/render.ts'
+  ],
   format: ['esm', 'cjs'],
   dts: true, // Enable declaration file generation
   splitting: false,
