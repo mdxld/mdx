@@ -3,6 +3,7 @@ import { Text as InkText, Box } from 'ink';
 import type { TextProps, BoxProps } from 'ink';
 import chalk from 'chalk';
 import * as ReactDOMServer from 'react-dom/server';
+import { IconName, getIconLibrary, ICON_LIBRARIES } from './icons';
 
 /**
  * Text component with chalk styling
@@ -117,10 +118,62 @@ export function Image({ icon: Icon, svg, width = 20, height, color = 'white', fa
 }
 
 /**
+ * Props for the Icon component
+ */
+export interface IconProps extends Omit<ImageProps, 'icon'> {
+  name: IconName
+}
+
+/**
+ * Icon component that renders react-icons as ASCII art
+ */
+export function Icon({ name, ...imageProps }: IconProps) {
+  const [IconComponent, setIconComponent] = useState<React.ComponentType<any> | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const loadIcon = async () => {
+      try {
+        const library = getIconLibrary(name)
+        if (!library) {
+          throw new Error(`Unknown icon library for icon: ${name}`)
+        }
+
+        const libraryPath = ICON_LIBRARIES[library]
+        const iconModule = await import(libraryPath)
+        
+        if (!iconModule[name]) {
+          throw new Error(`Icon ${name} not found in ${libraryPath}`)
+        }
+
+        setIconComponent(() => iconModule[name])
+        setError(null)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err))
+        setIconComponent(null)
+      }
+    }
+
+    loadIcon()
+  }, [name])
+
+  if (error) {
+    return <Text color='red'>[Icon Error: {error}]</Text>
+  }
+
+  if (!IconComponent) {
+    return <Text>[Loading icon {name}...]</Text>
+  }
+
+  return <Image icon={IconComponent} {...imageProps} />
+}
+
+/**
  * Default components to provide to MDX
  */
 export const defaultComponents = {
   Text,
   Box: PastelBox,
   Image,
+  Icon,
 }
