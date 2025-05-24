@@ -16,7 +16,7 @@ import {
   Testimonial,
   FAQItem,
   TeamMember
-} from '../../landing-page.js'
+} from '../../LandingPage.js'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card.js'
 import { buttonVariants } from './button.js'
@@ -146,7 +146,7 @@ export const Problem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
             )}
             {points && points.length > 0 && (
               <ul className="space-y-2">
-                {points.map((point, i) => (
+                {points.map((point: string, i: number) => (
                   <motion.li 
                     key={i} 
                     className="flex items-center gap-2"
@@ -237,7 +237,7 @@ export const Features = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-          {features.map((feature, i) => (
+          {features.map((feature: FeatureItem, i: number) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -303,7 +303,7 @@ const PricingCard = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEleme
       <CardContent className="grid gap-4">
         <div className="text-4xl font-bold">{price}</div>
         <ul className="grid gap-2">
-          {features.map((feature, i) => (
+          {features.map((feature: string, i: number) => (
             <li key={i} className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -371,7 +371,7 @@ export const Pricing = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-          {plans.map((plan, i) => (
+          {plans.map((plan: PricingPlan, i: number) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -466,7 +466,7 @@ export const Testimonials = forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-          {testimonials.map((testimonial, i) => (
+          {testimonials.map((testimonial: Testimonial, i: number) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -479,7 +479,7 @@ export const Testimonials = forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
         </div>
         {logos && logos.length > 0 && (
           <div className="flex flex-wrap justify-center items-center gap-8 mt-12">
-            {logos.map((logo, i) => (
+            {logos.map((logo: { imageUrl: string; alt?: string }, i: number) => (
               <div key={i} className="h-12">
                 <img
                   src={logo.imageUrl}
@@ -568,7 +568,7 @@ export const FAQ = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
           )}
         </div>
         <div className="mx-auto max-w-3xl mt-8">
-          {faqs.map((faq, i) => (
+          {faqs.map((faq: FAQItem, i: number) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 10 }}
@@ -714,7 +714,7 @@ export const Team = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEleme
           )}
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
-          {members.map((member, i) => (
+          {members.map((member: TeamMember, i: number) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
