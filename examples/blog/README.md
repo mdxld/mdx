@@ -31,6 +31,9 @@ MDXE includes all components from the mdxui package, which you can use in your M
 
 ```mdx
 import { Button, Card } from 'mdxui'
+// Or import specific components from their packages:
+// import { Button } from '@mdxui/core'
+// import { Card } from '@mdxui/shadcn'
 
 # Welcome to MDXE
 

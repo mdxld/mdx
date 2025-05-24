@@ -13,11 +13,11 @@
 
 ```tsx
 // mdx-components.tsx
-export { useMDXComponents } from 'mdxui'
+export { useMDXComponents } from '@mdxui/core'
 ```
 
 ```tsx
-import { Button } from 'mdxui'
+import { Button } from '@mdxui/core'
 
 export default function Example() {
   return <Button variant='primary'>Click me</Button>

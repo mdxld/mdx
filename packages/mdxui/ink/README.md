@@ -39,7 +39,7 @@ pnpm add mdx-pastel-ink
 ## Usage
 
 ```typescript
-import { renderMdxCli } from 'mdx-pastel-ink';
+import { renderMdxCli } from '@mdxui/ink';
 
 // Render an MDX file as a CLI app
 await renderMdxCli('./path/to/cli.mdx');
