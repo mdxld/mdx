@@ -2,6 +2,7 @@ export * from './card.js'
 export * from './gradient.js'
 export * from './components/button.js'
 export * from './tremor.js'
+export * from './landing-page.js'
 
 import { Button as ShadcnButton, ButtonProps as ShadcnButtonProps, buttonVariants } from './components/ui/button.js'
 import { Card as ShadcnCard, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './components/ui/card.js'
