@@ -1,0 +1,47 @@
+{
+  "name": "@mdxui/magicui",
+  "type": "module",
+  "version": "0.0.0",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "*.js",
+    "*.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup",
+    "check-types": "tsc --noEmit",
+    "dev": "tsc --watch",
+    "lint": "echo 'Skipping lint for now'",
+    "test": "echo 'Skipping tests for now'"
+  },
+  "dependencies": {
+    "@mdxui/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "eslint": "^9.27.0",
+    "framer-motion": "^12.12.1",
+    "tailwind-merge": "^2.2.1",
+    "tsup": "^8.0.2",
+    "typescript": "5.8.2",
+    "vitest": "^3.1.4"
+  }
+}

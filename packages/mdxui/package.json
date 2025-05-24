@@ -1,0 +1,52 @@
+{
+  "name": "mdxui",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "MDX UI components library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "echo 'Skipping lint for now'",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "mdx",
+    "ui",
+    "components",
+    "react"
+  ],
+  "author": "MDX Team",
+  "license": "MIT",
+  "dependencies": {
+    "@mdxui/core": "workspace:*",
+    "@mdxui/ink": "workspace:*",
+    "@mdxui/tailwind": "workspace:*",
+    "@mdxui/shadcn": "workspace:*",
+    "@mdxui/magicui": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.1.0",
+    "eslint": "^9.27.0",
+    "tsup": "^8.0.2",
+    "typescript": "5.8.2",
+    "vitest": "^3.1.4"
+  }
+}

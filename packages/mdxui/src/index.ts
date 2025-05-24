@@ -1,0 +1,10 @@
+export { default as Core } from '@mdxui/core'
+export { default as Ink } from '@mdxui/ink'
+export { default as Tailwind } from '@mdxui/tailwind'
+export { default as Shadcn } from '@mdxui/shadcn'
+export { default as Magicui } from '@mdxui/magicui'
+
+export * from '@mdxui/core'
+export * from '@mdxui/ink'
+export * from '@mdxui/shadcn'
+export * from '@mdxui/magicui'
