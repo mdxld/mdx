@@ -9,8 +9,11 @@
     "lib": ["ES2021"],
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["public", "remotion.config.ts", "build", "build/public", "**/code*.tsx", "**/code*.swift", "../../../tests"]
+  "exclude": [
+    "../packages/mdxui/remotion/public",
+    "../packages/mdxui/remotion/build",
+    "**/code*.tsx"
+  ]
 }
