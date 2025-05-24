@@ -12,6 +12,11 @@ export type Props = {
   steps: HighlightedCode[] | null;
   themeColors: ThemeColors | null;
   codeWidth: number | null;
+  theme?: string;
+  width?: {
+    type: "auto" | "fixed";
+    value?: number;
+  };
 };
 
 const AbsoluteFillComponent = AbsoluteFill as any;
