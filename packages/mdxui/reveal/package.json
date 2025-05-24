@@ -1,12 +1,14 @@
 {
-  "name": "mdxui",
+  "name": "@mdxui/reveal",
   "type": "module",
-  "version": "0.1.0",
-  "description": "MDX UI components library",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "0.0.0",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
-    "dist"
+    "dist",
+    "*.js",
+    "*.d.ts"
   ],
   "exports": {
     ".": {
@@ -14,28 +16,17 @@
       "import": "./dist/index.js"
     }
   },
+  "license": "MIT",
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch",
+    "check-types": "tsc --noEmit",
+    "dev": "tsc --watch",
     "lint": "echo 'Skipping lint for now'",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "test": "vitest run"
   },
-  "keywords": [
-    "mdx",
-    "ui",
-    "components",
-    "react"
-  ],
-  "author": "MDX Team",
-  "license": "MIT",
   "dependencies": {
     "@mdxui/core": "workspace:*",
-    "@mdxui/ink": "workspace:*",
-    "@mdxui/tailwind": "workspace:*",
-    "@mdxui/shadcn": "workspace:*",
-    "@mdxui/magicui": "workspace:*",
-    "@mdxui/reveal": "workspace:*"
+    "reveal.js": "^5.0.0"
   },
   "peerDependencies": {
     "react": "^19"
@@ -45,7 +36,11 @@
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/react": "^19.1.0",
+    "@types/reveal.js": "latest",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "eslint": "^9.27.0",
+    "tailwind-merge": "^2.2.1",
     "tsup": "^8.0.2",
     "typescript": "5.8.2",
     "vitest": "^3.1.4"
