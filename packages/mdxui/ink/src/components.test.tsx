@@ -14,6 +14,8 @@ vi.mock('asciify-image', () => mockAsciify);
 
 const MockIcon = (props: any) => <div {...props} />;
 
+const wait = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('Image component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -30,9 +32,9 @@ describe('Image component', () => {
     const asciiArt = '  ###  \n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
-    const { lastFrame, waitUntilLastFrame } = render(<Image icon={MockIcon} width={20} />);
+    const { lastFrame } = render(<Image icon={MockIcon} width={20} />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(lastFrame()).toContain(asciiArt.split('\n')[0]);
     expect(lastFrame()).toContain(asciiArt.split('\n')[1]);
@@ -52,9 +54,9 @@ describe('Image component', () => {
     const asciiArt = ['  ###  ', ' ##### ', '#######'];
     mockAsciify.mockResolvedValue(asciiArt);
     
-    const { lastFrame, waitUntilLastFrame } = render(<Image icon={MockIcon} />);
+    const { lastFrame } = render(<Image icon={MockIcon} />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(lastFrame()).toContain(asciiArt[0]);
     expect(lastFrame()).toContain(asciiArt[1]);
@@ -73,9 +75,9 @@ describe('Image component', () => {
   it('should handle errors in ASCII conversion', async () => {
     mockAsciify.mockRejectedValue(new Error('ASCII conversion error'));
     
-    const { lastFrame, waitUntilLastFrame } = render(<Image icon={MockIcon} />);
+    const { lastFrame } = render(<Image icon={MockIcon} />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(lastFrame()).toContain('[Image Error: Failed to convert to ASCII: ASCII conversion error]');
   });
@@ -85,9 +87,9 @@ describe('Image component', () => {
     mockAsciify.mockResolvedValue(asciiArt);
     
     const svgString = '<svg><circle cx="50" cy="50" r="40" /></svg>';
-    const { lastFrame, waitUntilLastFrame } = render(<Image svg={svgString} />);
+    const { lastFrame } = render(<Image svg={svgString} />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(lastFrame()).toContain(asciiArt.split('\n')[0]);
     expect(mockAsciify).toHaveBeenCalledWith(
@@ -100,9 +102,9 @@ describe('Image component', () => {
     const asciiArt = '  ###  \n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
-    const { lastFrame, waitUntilLastFrame } = render(<Image icon={MockIcon} color="green" />);
+    const { lastFrame } = render(<Image icon={MockIcon} color="green" />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(mockAsciify).toHaveBeenCalled();
   });
@@ -111,9 +113,9 @@ describe('Image component', () => {
     const asciiArt = '  ###  \n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
-    const { waitUntilLastFrame } = render(<Image icon={MockIcon} width={30} height={15} />);
+    render(<Image icon={MockIcon} width={30} height={15} />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(mockAsciify).toHaveBeenCalledWith(
       expect.anything(),
@@ -128,9 +130,9 @@ describe('Image component', () => {
     const asciiArt = '  ###  \n #####\n#######';
     mockAsciify.mockResolvedValue(asciiArt);
     
-    const { waitUntilLastFrame } = render(<Image icon={MockIcon} width={25} />);
+    render(<Image icon={MockIcon} width={25} />);
     
-    await waitUntilLastFrame();
+    await wait(100);
     
     expect(mockAsciify).toHaveBeenCalledWith(
       expect.anything(),
