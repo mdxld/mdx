@@ -3,10 +3,10 @@ import { defineConfig } from 'tsup'
 export default defineConfig({
   entry: ['src/index.ts', 'src/cli-workflow.ts'],
   format: ['esm', 'cjs'],
-  dts: false, // Temporarily disable dts generation
+  dts: true, // Enable declaration file generation
   splitting: false,
   sourcemap: true,
-  clean: false, // Don't clean to preserve manually generated declaration files
+  clean: true, // Clean output directory before build
   external: ['react', 'react-dom', 'ink'],
   esbuildOptions(options) {
     options.jsx = 'automatic'
