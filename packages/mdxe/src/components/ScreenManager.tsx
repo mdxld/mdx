@@ -6,7 +6,7 @@ import { MDXRenderer } from './MDXRenderer';
 import { InputHandler } from './InputHandler';
 import { WorkflowRunner } from './WorkflowRunner';
 import { findRouteByPath, RouteNode } from '../utils/file-utils';
-import { parseFrontmatter } from '@mdxui/ink';
+import { parseFrontmatter } from '@mdxui/ink/src/frontmatter';
 
 interface Screen {
   id: string;
@@ -226,7 +226,7 @@ export const ScreenManager: React.FC<ScreenManagerProps> = ({
           <Box marginBottom={1}>
             <Text color="blue">
               <Text color="gray">{'/'}</Text>
-              {routePath.map((segment, i) => (
+              {routePath.map((segment: string, i: number) => (
                 <React.Fragment key={i}>
                   <Text color="blue">{segment}</Text>
                   <Text color="gray">{'/'}</Text>
@@ -237,7 +237,7 @@ export const ScreenManager: React.FC<ScreenManagerProps> = ({
         )}
         
         <Box flexDirection="column" marginY={1}>
-          {routeNode.children.map((item, index) => (
+          {routeNode.children.map((item: RouteNode, index: number) => (
             <Text key={index}>
               <Text color="yellow">{index + 1}</Text>
               <Text>. </Text>

@@ -1,6 +1,6 @@
-import { renderMdxCli } from '@mdxui/ink';
-import { parseFrontmatter } from '@mdxui/ink';
-import type { MdxFrontmatter } from '@mdxui/ink';
+import { renderMdxCli } from '@mdxui/ink/src/render';
+import { parseFrontmatter } from '@mdxui/ink/src/frontmatter';
+import type { MdxFrontmatter } from '@mdxui/ink/src/types';
 
 /**
  * Render MDX content in the CLI

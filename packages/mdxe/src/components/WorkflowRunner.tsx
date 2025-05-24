@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Text } from 'ink';
-import { WorkflowManager } from '@mdxui/ink';
-import type { MdxFrontmatter } from '@mdxui/ink';
+import { WorkflowManager } from '@mdxui/ink/src/components/WorkflowManager';
+import type { MdxFrontmatter } from '@mdxui/ink/src/types';
 
 interface WorkflowRunnerProps {
   frontmatter: MdxFrontmatter;
