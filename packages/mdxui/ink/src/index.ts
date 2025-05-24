@@ -14,7 +14,10 @@ import * as schema from './schema'
 import * as frontmatter from './frontmatter'
 import * as components from './components'
 
-const Ink = {
+const Ink: {
+  renderMdxCli: typeof render.renderMdxCli;
+  [key: string]: any;
+} = {
   ...types,
   ...render,
   ...schema,

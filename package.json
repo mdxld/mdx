@@ -16,7 +16,10 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
+    "@types/ink": "^2.0.3",
     "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "dotenv": "^16.5.0",
     "globby": "^14.1.0",
     "prettier": "^3.5.3",
@@ -46,6 +49,9 @@
     "@mdxdb/fs": "workspace:^",
     "@mdxdb/sqlite": "workspace:^",
     "@types/micromatch": "^4.0.6",
+    "ink-ascii": "^0.0.4",
+    "ink-big-text": "^1.2.0",
+    "ink-markdown": "^1.0.4",
     "micromatch": "^4.0.5"
   },
   "workspaces": [

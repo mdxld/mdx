@@ -1,10 +1,11 @@
 {
   "extends": "../../../tsconfig.json",
   "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"],
-  "exclude": ["src/cli.ts", "src/render.ts", "src/render.test.ts", "src/render.test.ts.bak"],
+  "exclude": ["src/cli.ts", "src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.test.ts.bak"],
   "compilerOptions": {
     "outDir": "dist",
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "composite": true
   }
 }
