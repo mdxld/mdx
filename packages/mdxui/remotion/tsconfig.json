@@ -12,5 +12,5 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true
   },
-  "exclude": ["public", "remotion.config.ts"]
+  "exclude": ["public", "remotion.config.ts", "build", "build/public", "**/code*.tsx", "**/code*.swift", "../../../tests"]
 }

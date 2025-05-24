@@ -57,17 +57,17 @@ export class MdxDbFs extends MdxDbBase {
   async build(): Promise<VeliteData> {
     console.log('Building MDX database...')
     try {
-      const veliteConfigPath = path.join(this.packageDir, 'velite.config.js');
+      const veliteConfigPath = path.join(this.packageDir, 'velite.config.js')
       const configContent = `
         import { defineConfig } from 'velite/dist/index.cjs';
         export default defineConfig({
           root: '${this.packageDir}',
           collections: ${JSON.stringify(this.config.collections || {})}
         });
-      `;
-      
-      await fs.writeFile(veliteConfigPath, configContent);
-      
+      `
+
+      await fs.writeFile(veliteConfigPath, configContent)
+
       try {
         const { stdout, stderr } = await execFilePromise('npx', ['velite', 'build'], { cwd: this.packageDir })
         console.log('Velite CLI stdout:', stdout)
@@ -80,118 +80,118 @@ export class MdxDbFs extends MdxDbBase {
         console.log('Velite CLI build command executed successfully.')
       } catch (veliteError) {
         console.warn('Velite CLI execution failed, falling back to manual build:', veliteError)
-        
+
         const outputDir = path.join(this.packageDir, '.velite')
         await fs.mkdir(outputDir, { recursive: true })
-        
-        let contentDirs: { dir: string, collection: string }[] = [];
-        let veliteConfigPath = '';
-        
+
+        let contentDirs: { dir: string; collection: string }[] = []
+        let veliteConfigPath = ''
+
         try {
-          veliteConfigPath = path.join(this.packageDir, 'velite.config.ts');
-          await fs.access(veliteConfigPath);
-          
-          const configContent = await fs.readFile(veliteConfigPath, 'utf-8');
-          
-          const patternMatches = configContent.match(/pattern:\s*['"]([^'"]+)['"]/g);
+          veliteConfigPath = path.join(this.packageDir, 'velite.config.ts')
+          await fs.access(veliteConfigPath)
+
+          const configContent = await fs.readFile(veliteConfigPath, 'utf-8')
+
+          const patternMatches = configContent.match(/pattern:\s*['"]([^'"]+)['"]/g)
           if (patternMatches) {
             for (const match of patternMatches) {
-              const pattern = match.match(/pattern:\s*['"]([^'"]+)['"]/)?.[1];
+              const pattern = match.match(/pattern:\s*['"]([^'"]+)['"]/)?.[1]
               if (pattern) {
-                const parts = pattern.split('/');
+                const parts = pattern.split('/')
                 if (parts.length > 0) {
-                  const dir = parts[0];
-                  contentDirs.push({ dir, collection: dir });
+                  const dir = parts[0]
+                  contentDirs.push({ dir, collection: dir })
                 }
               }
             }
           }
-          
-          const collectionMatches = configContent.match(/name:\s*['"]([^'"]+)['"]/g);
+
+          const collectionMatches = configContent.match(/name:\s*['"]([^'"]+)['"]/g)
           if (collectionMatches) {
             for (let i = 0; i < collectionMatches.length; i++) {
-              const collectionName = collectionMatches[i].match(/name:\s*['"]([^'"]+)['"]/)?.[1];
+              const collectionName = collectionMatches[i].match(/name:\s*['"]([^'"]+)['"]/)?.[1]
               if (collectionName && contentDirs[i]) {
-                contentDirs[i].collection = collectionName;
+                contentDirs[i].collection = collectionName
               }
             }
           }
         } catch (configError) {
-          console.warn('Could not read velite.config.ts, using fallback directories:', configError);
+          console.warn('Could not read velite.config.ts, using fallback directories:', configError)
         }
-        
+
         if (contentDirs.length === 0) {
           contentDirs = [
             { dir: 'content/posts', collection: 'posts' },
             { dir: 'posts', collection: 'posts' },
             { dir: 'articles', collection: 'articles' },
             { dir: 'content/articles', collection: 'articles' },
-            { dir: 'content', collection: 'content' }
-          ];
+            { dir: 'content', collection: 'content' },
+          ]
         }
-        
+
         for (const { dir, collection } of contentDirs) {
-          const contentDir = path.join(this.packageDir, dir);
-          
+          const contentDir = path.join(this.packageDir, dir)
+
           try {
-            await fs.access(contentDir);
-            console.log(`Found content directory: ${contentDir}`);
-            
-            const files = await fs.readdir(contentDir);
-            const entries = [];
-            
+            await fs.access(contentDir)
+            console.log(`Found content directory: ${contentDir}`)
+
+            const files = await fs.readdir(contentDir)
+            const entries = []
+
             for (const file of files) {
               if (file.endsWith('.mdx')) {
-                const filePath = path.join(contentDir, file);
-                const content = await fs.readFile(filePath, 'utf-8');
-                
-                const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+                const filePath = path.join(contentDir, file)
+                const content = await fs.readFile(filePath, 'utf-8')
+
+                const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
                 if (match) {
-                  const frontmatterText = match[1];
-                  const body = match[2];
-                  
-                  const frontmatter: Record<string, any> = {};
+                  const frontmatterText = match[1]
+                  const body = match[2]
+
+                  const frontmatter: Record<string, any> = {}
                   frontmatterText.split('\n').forEach((line) => {
-                    const [key, ...valueParts] = line.split(':');
+                    const [key, ...valueParts] = line.split(':')
                     if (key && valueParts.length) {
-                      frontmatter[key.trim()] = valueParts.join(':').trim();
+                      frontmatter[key.trim()] = valueParts.join(':').trim()
                     }
-                  });
-                  
+                  })
+
                   entries.push({
                     slug: path.basename(file, '.mdx'),
                     ...frontmatter,
                     body,
-                  });
+                  })
                 }
               }
             }
-            
+
             if (entries.length > 0) {
-              await fs.writeFile(path.join(outputDir, `${collection}.json`), JSON.stringify(entries));
-              console.log(`Successfully built ${collection} collection with ${entries.length} entries`);
+              await fs.writeFile(path.join(outputDir, `${collection}.json`), JSON.stringify(entries))
+              console.log(`Successfully built ${collection} collection with ${entries.length} entries`)
             }
           } catch (dirError) {
-            console.log(`Directory ${contentDir} not found or not accessible, skipping`);
+            console.log(`Directory ${contentDir} not found or not accessible, skipping`)
           }
         }
-        
+
         try {
-          const outputFiles = await fs.readdir(outputDir);
-          const jsonFiles = outputFiles.filter(file => file.endsWith('.json'));
-          
+          const outputFiles = await fs.readdir(outputDir)
+          const jsonFiles = outputFiles.filter((file) => file.endsWith('.json'))
+
           if (jsonFiles.length === 0) {
-            throw new Error('No content directories found or processed');
+            throw new Error('No content directories found or processed')
           }
-          
-          console.log(`Successfully built database using fallback method. Created ${jsonFiles.length} collection files.`);
+
+          console.log(`Successfully built database using fallback method. Created ${jsonFiles.length} collection files.`)
         } catch (outputError) {
-          console.error('Fallback build method failed to create any collection files:', outputError);
-          throw new Error('Failed to create any collection files in fallback build method');
+          console.error('Fallback build method failed to create any collection files:', outputError)
+          throw new Error('Failed to create any collection files in fallback build method')
         }
       }
-      
-      await fs.unlink(veliteConfigPath).catch(() => {});
+
+      await fs.unlink(veliteConfigPath).catch(() => {})
     } catch (error) {
       console.error('Error during build process:', error)
       throw new Error(`Build process failed: ${(error as Error).message}`)
@@ -249,7 +249,7 @@ export class MdxDbFs extends MdxDbBase {
         const mdxContent = matter.stringify(content.body, content.frontmatter)
         await fs.writeFile(fullFilePath, mdxContent)
         console.log(`File '${fullFilePath}' created/updated successfully.`)
-        
+
         await this.build()
       } catch (error) {
         console.error(`Error creating/updating file '${fullFilePath}':`, error)
@@ -263,8 +263,8 @@ export class MdxDbFs extends MdxDbBase {
 
     try {
       const files = await fs.readdir(baseDir)
-      
-      const matchingFiles = files.filter(file => {
+
+      const matchingFiles = files.filter((file) => {
         return micromatch.isMatch(file, pattern)
       })
 
@@ -272,9 +272,9 @@ export class MdxDbFs extends MdxDbBase {
         console.log(`No files matched pattern '${pattern}' in '${baseDir}'`)
         const filename = `${id}.mdx`
         const fullFilePath = path.join(baseDir, filename)
-        
+
         console.log(`Creating new file: ${fullFilePath}`)
-        
+
         await fs.mkdir(path.dirname(fullFilePath), { recursive: true })
         const mdxContent = matter.stringify(content.body, content.frontmatter)
         await fs.writeFile(fullFilePath, mdxContent)
@@ -283,13 +283,13 @@ export class MdxDbFs extends MdxDbBase {
         for (const file of matchingFiles) {
           const fullFilePath = path.join(baseDir, file)
           console.log(`Updating file: ${fullFilePath}`)
-          
+
           const mdxContent = matter.stringify(content.body, content.frontmatter)
           await fs.writeFile(fullFilePath, mdxContent)
           console.log(`File '${fullFilePath}' updated successfully.`)
         }
       }
-      
+
       await this.build()
     } catch (error) {
       console.error(`Error handling glob pattern '${pattern}' in '${baseDir}':`, error)
@@ -318,7 +318,7 @@ export class MdxDbFs extends MdxDbBase {
       try {
         await fs.unlink(fullFilePath)
         console.log(`File '${fullFilePath}' deleted successfully.`)
-        
+
         await this.build()
         return true
       } catch (error) {
@@ -336,8 +336,8 @@ export class MdxDbFs extends MdxDbBase {
 
     try {
       const files = await fs.readdir(baseDir)
-      
-      const matchingFiles = files.filter(file => {
+
+      const matchingFiles = files.filter((file) => {
         return micromatch.isMatch(file, pattern)
       })
 
@@ -350,7 +350,7 @@ export class MdxDbFs extends MdxDbBase {
       for (const file of matchingFiles) {
         const fullFilePath = path.join(baseDir, file)
         console.log(`Deleting file: ${fullFilePath}`)
-        
+
         try {
           await fs.unlink(fullFilePath)
           console.log(`File '${fullFilePath}' deleted successfully.`)
@@ -361,12 +361,12 @@ export class MdxDbFs extends MdxDbBase {
           }
         }
       }
-      
+
       if (deletedCount > 0) {
         await this.build()
         return true
       }
-      
+
       return false
     } catch (error) {
       console.error(`Error handling glob pattern '${pattern}' in '${baseDir}':`, error)

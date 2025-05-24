@@ -5,12 +5,12 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**", "build/**", "*.js", "*.d.ts"]
     },
     "build:packages": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**", "build/**", "*.js", "*.d.ts"]
     },
     "lint": {
       "dependsOn": ["^lint"]

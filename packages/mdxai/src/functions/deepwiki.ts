@@ -2,7 +2,6 @@ import { experimental_createMCPClient as createMCPClient, generateText } from 'a
 import { model } from '../ai'
 
 export const deepwiki = async (prompt: string) => {
-
   const mcpClient = await createMCPClient({
     transport: {
       type: 'sse',

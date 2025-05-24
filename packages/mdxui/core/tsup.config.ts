@@ -7,5 +7,5 @@ export default createLibraryConfig(['index.ts', 'card.ts', 'gradient.ts'], {
   esbuildOptions: (options) => {
     options.resolveExtensions = ['.tsx', '.ts', '.jsx', '.js', '.json']
     return options
-  }
+  },
 }) as Options

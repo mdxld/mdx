@@ -35,7 +35,7 @@ export {
   BoxReveal,
   SparklesText,
   MorphingText,
-  SpinningText
+  SpinningText,
 }
 
 const Magicui = {
@@ -56,7 +56,7 @@ const Magicui = {
   BoxReveal,
   SparklesText,
   MorphingText,
-  SpinningText
+  SpinningText,
 }
 
 export default Magicui

@@ -7,84 +7,83 @@ import os from 'os'
 
 async function setupMockMdxDb(testDir: string, testCollection: string, initialEntries: any[] = []) {
   const fsDb = new MdxDb(testDir)
-  
+
   Object.defineProperty(fsDb, 'config', {
     value: {
       collections: {
         [testCollection]: {
           pattern: `content/${testCollection}/**/*.mdx`,
-        }
+        },
       },
     },
   })
-  
+
   const mockDataStore = {
-    [testCollection]: [...initialEntries]
+    [testCollection]: [...initialEntries],
   }
-  
-  fsDb.build = async function() {
+
+  fsDb.build = async function () {
     const contentDir = path.join(testDir, 'content', testCollection)
     let entries = [...mockDataStore[testCollection]]
-    
+
     try {
       const files = await fs.readdir(contentDir)
       for (const file of files) {
         if (file.endsWith('.mdx')) {
           const slug = path.basename(file, '.mdx')
-          if (!entries.some(entry => entry.slug === slug)) {
+          if (!entries.some((entry) => entry.slug === slug)) {
             let title = 'Test Document'
             if (slug.startsWith('persistence-test-')) {
               title = 'Persistence Test Document'
             } else if (slug.startsWith('persistence-test-2-')) {
               title = 'Second Persistence Test'
             }
-            
+
             entries.push({
               slug,
               title,
-              filePath: path.join(contentDir, file)
+              filePath: path.join(contentDir, file),
             })
           }
         }
       }
-    } catch (error) {
-    }
-    
+    } catch (error) {}
+
     mockDataStore[testCollection] = entries
-    
+
     const veliteOutputDir = path.join(testDir, '.velite')
     await fs.mkdir(veliteOutputDir, { recursive: true })
     const collectionFile = path.join(veliteOutputDir, `${testCollection}.json`)
     await fs.writeFile(collectionFile, JSON.stringify(entries))
-    
+
     return { [testCollection]: entries }
   }
-  
-  fsDb.get = function(slug: string, collection = 'default') {
+
+  fsDb.get = function (slug: string, collection = 'default') {
     if (collection === testCollection) {
       return mockDataStore[collection]?.find((entry: any) => entry.slug === slug)
     }
     return undefined
   }
-  
-  fsDb.list = function(collection = 'default') {
+
+  fsDb.list = function (collection = 'default') {
     if (collection === testCollection) {
       return mockDataStore[collection] || []
     }
     return []
   }
-  
+
   const originalSet = fsDb.set
-  fsDb.set = async function(id: string, content: any, collectionName: string, pattern?: string) {
+  fsDb.set = async function (id: string, content: any, collectionName: string, pattern?: string) {
     await originalSet.call(this, id, content, collectionName, pattern)
-    
+
     if (collectionName === testCollection) {
-      const entry = { 
-        slug: id, 
+      const entry = {
+        slug: id,
         title: content.frontmatter?.title || 'Untitled',
-        ...content.frontmatter
+        ...content.frontmatter,
       }
-      
+
       const existingIndex = mockDataStore[collectionName].findIndex((e: any) => e.slug === id)
       if (existingIndex >= 0) {
         mockDataStore[collectionName][existingIndex] = entry
@@ -93,23 +92,23 @@ async function setupMockMdxDb(testDir: string, testCollection: string, initialEn
       }
     }
   }
-  
+
   const originalDelete = fsDb.delete
-  fsDb.delete = async function(slug: string, collection = 'default') {
+  fsDb.delete = async function (slug: string, collection = 'default') {
     const result = await originalDelete.call(this, slug, collection)
-    
+
     if (collection === testCollection) {
       const index = mockDataStore[collection].findIndex((e: any) => e.slug === slug)
       if (index >= 0) {
         mockDataStore[collection].splice(index, 1)
       }
     }
-    
+
     return result
   }
-  
+
   await fsDb.build()
-  
+
   return fsDb
 }
 
@@ -122,7 +121,7 @@ describe('mdxdb core api (read-only)', () => {
   it('should be able to get a readme file', () => {
     const readme = db.get('readme')
     if (readme && !readme.content) {
-      readme.content = 'This is readme content';
+      readme.content = 'This is readme content'
     }
     expect(readme).toBeDefined()
     expect(readme.filePath).toBe('README.md')
@@ -146,10 +145,10 @@ describe('mdxdb core api (read-only)', () => {
 
   it('should verify core implementation is separate from fs implementation', () => {
     const initialLength = db.list().length
-    
+
     db.set('test-core-only', { content: 'test' }, 'docs')
     expect(db.get('test-core-only', 'docs')).toBeDefined()
-    
+
     expect(db.list().length).toBe(initialLength + 1)
   })
 })
@@ -158,20 +157,20 @@ describe('mdxdb fs api (mutable)', () => {
   let testDir: string
   let fsDb: MdxDb
   let contentDir: string
-  
+
   const testCollection = 'test-collection'
   const testId = `test-${Date.now()}`
   const testContent = {
     frontmatter: { title: 'Test Document', date: new Date().toISOString() },
-    body: '# Test Document\n\nThis is a test document created by the test suite.'
+    body: '# Test Document\n\nThis is a test document created by the test suite.',
   }
 
   beforeEach(async () => {
     testDir = path.join(os.tmpdir(), `mdxdb-test-${Date.now()}`)
     contentDir = path.join(testDir, 'content', testCollection)
-    
+
     await fs.mkdir(contentDir, { recursive: true })
-    
+
     fsDb = await setupMockMdxDb(testDir, testCollection)
   })
 
@@ -190,7 +189,7 @@ describe('mdxdb fs api (mutable)', () => {
 
   it('should allow setting entries like Map.set()', async () => {
     await fsDb.set(testId, testContent, testCollection)
-    
+
     const entry = fsDb.get(testId, testCollection)
     expect(entry).toBeDefined()
     expect(entry.title).toBe('Test Document')
@@ -198,7 +197,7 @@ describe('mdxdb fs api (mutable)', () => {
 
   it('should allow getting entries like Map.get()', async () => {
     await fsDb.set(testId, testContent, testCollection)
-    
+
     const entry = fsDb.get(testId, testCollection)
     expect(entry).toBeDefined()
     expect(entry.title).toBe('Test Document')
@@ -206,23 +205,23 @@ describe('mdxdb fs api (mutable)', () => {
 
   it('should allow listing entries like Map iteration', async () => {
     await fsDb.set(testId, testContent, testCollection)
-    
+
     const entries = fsDb.list(testCollection)
     expect(entries.length).toBeGreaterThan(0)
-    expect(entries.some(entry => entry.slug === testId)).toBe(true)
+    expect(entries.some((entry) => entry.slug === testId)).toBe(true)
   })
 
   it('should allow deleting entries like Map.delete()', async () => {
     await fsDb.set(testId, testContent, testCollection)
-    
+
     const deleteResult = await fsDb.delete(testId, testCollection)
     expect(deleteResult).toBe(true)
-    
+
     const entry = fsDb.get(testId, testCollection)
     expect(entry).toBeUndefined()
-    
+
     const entries = fsDb.list(testCollection)
-    expect(entries.some(entry => entry.slug === testId)).toBe(false)
+    expect(entries.some((entry) => entry.slug === testId)).toBe(false)
   })
 
   it('should return false when deleting non-existent entries', async () => {
@@ -235,23 +234,23 @@ describe('mdxdb fs persistence', () => {
   let testDir: string
   let fsDb: MdxDb
   let contentDir: string
-  
+
   const testCollection = 'test-collection'
   const testId = `persistence-test-${Date.now()}`
   const testContent = {
-    frontmatter: { 
-      title: 'Persistence Test Document', 
-      date: new Date().toISOString() 
+    frontmatter: {
+      title: 'Persistence Test Document',
+      date: new Date().toISOString(),
     },
-    body: '# Persistence Test Document\n\nThis document tests filesystem persistence.'
+    body: '# Persistence Test Document\n\nThis document tests filesystem persistence.',
   }
 
   beforeEach(async () => {
     testDir = path.join(os.tmpdir(), `mdxdb-persistence-test-${Date.now()}`)
     contentDir = path.join(testDir, 'content', testCollection)
-    
+
     await fs.mkdir(contentDir, { recursive: true })
-    
+
     fsDb = await setupMockMdxDb(testDir, testCollection)
   })
 
@@ -265,45 +264,45 @@ describe('mdxdb fs persistence', () => {
 
   it('should persist mutations to the filesystem and reflect them in subsequent operations', async () => {
     await fsDb.set(testId, testContent, testCollection)
-    
+
     const newDb = await setupMockMdxDb(testDir, testCollection)
-    
+
     const loadedEntry = newDb.get(testId, testCollection)
     expect(loadedEntry).toBeDefined()
     expect(loadedEntry.title).toBe('Persistence Test Document')
-    
+
     await newDb.delete(testId, testCollection)
-    
+
     const finalDb = await setupMockMdxDb(testDir, testCollection)
-    
+
     const deletedEntry = finalDb.get(testId, testCollection)
     expect(deletedEntry).toBeUndefined()
   })
-  
+
   it('should verify that list() reflects filesystem changes', async () => {
     const testId2 = `persistence-test-2-${Date.now()}`
     const testContent2 = {
-      frontmatter: { 
-        title: 'Second Persistence Test', 
-        date: new Date().toISOString() 
+      frontmatter: {
+        title: 'Second Persistence Test',
+        date: new Date().toISOString(),
       },
-      body: '# Second Persistence Test\n\nThis is another test document.'
+      body: '# Second Persistence Test\n\nThis is another test document.',
     }
-    
+
     await fsDb.set(testId, testContent, testCollection)
     await fsDb.set(testId2, testContent2, testCollection)
-    
+
     const newDb = await setupMockMdxDb(testDir, testCollection)
-    
+
     const entries = newDb.list(testCollection)
     expect(entries.length).toBeGreaterThanOrEqual(2)
-    expect(entries.some(entry => entry.slug === testId)).toBe(true)
-    expect(entries.some(entry => entry.slug === testId2)).toBe(true)
-    
+    expect(entries.some((entry) => entry.slug === testId)).toBe(true)
+    expect(entries.some((entry) => entry.slug === testId2)).toBe(true)
+
     await newDb.delete(testId, testCollection)
-    
+
     const updatedEntries = newDb.list(testCollection)
-    expect(updatedEntries.some(entry => entry.slug === testId)).toBe(false)
-    expect(updatedEntries.some(entry => entry.slug === testId2)).toBe(true)
+    expect(updatedEntries.some((entry) => entry.slug === testId)).toBe(false)
+    expect(updatedEntries.some((entry) => entry.slug === testId2)).toBe(true)
   })
 })

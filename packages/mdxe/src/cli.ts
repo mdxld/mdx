@@ -55,7 +55,7 @@ program
         return
       }
 
-      const filteredFiles = files.filter(file => !file.includes('/node_modules/'))
+      const filteredFiles = files.filter((file) => !file.includes('/node_modules/'))
       console.log(`📝 Found ${filteredFiles.length} MDX file(s) (excluding node_modules)`)
 
       const testFiles: string[] = []
