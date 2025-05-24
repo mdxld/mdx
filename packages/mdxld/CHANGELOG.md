@@ -1,5 +1,11 @@
 # mdxld
 
+## 1.2.0
+
+### Minor Changes
+
+- ab6cdc7: Add mdast and estree parsing support to mdxld
+
 ## 1.1.6
 
 ### Patch Changes
