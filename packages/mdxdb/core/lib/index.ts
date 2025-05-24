@@ -8,3 +8,5 @@ export * from './mdxld.js'
 
 export { db } from './db.js'
 export { list, get } from './functions.js'
+
+export * from './schema-discovery.js'
