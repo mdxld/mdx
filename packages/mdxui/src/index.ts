@@ -1,12 +1,14 @@
-import CoreDefault from '@mdxui/core'
-import ShadcnDefault from '@mdxui/shadcn'
-import TailwindDefault from '@mdxui/tailwind'
-
-export { CoreDefault as Core }
-export { ShadcnDefault as Shadcn }
-export { TailwindDefault as Tailwind }
-
 export * from '@mdxui/core'
 export * from '@mdxui/ink'
 export * from '@mdxui/shadcn'
 export * from '@mdxui/magicui'
+
+import * as CoreComponents from '@mdxui/core'
+import * as ShadcnComponents from '@mdxui/shadcn'
+import * as InkComponents from '@mdxui/ink'
+import * as MagicuiComponents from '@mdxui/magicui'
+
+export const Core = CoreComponents
+export const Shadcn = ShadcnComponents
+export const Ink = InkComponents
+export const Magicui = MagicuiComponents

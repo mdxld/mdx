@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@mdxui/*": ["./*/src"]
+      "@mdxui/*": ["./*/src", "./*"]
     }
   },
-  "include": ["*/src/**/*.ts", "*/src/**/*.tsx"],
+  "include": ["*/src/**/*.ts", "*/src/**/*.tsx", "*/index.ts", "*/index.js"],
   "exclude": ["node_modules"]
 }
