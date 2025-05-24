@@ -14,7 +14,8 @@ beforeEach(() => {
   
   vi.stubGlobal('document', {
     addEventListener: vi.fn(),
-    removeEventListener: vi.fn()
+    removeEventListener: vi.fn(),
+    querySelector: vi.fn().mockReturnValue({})
   });
 });
 
@@ -26,50 +27,35 @@ afterEach(() => {
 const mockInitialize = vi.fn();
 const mockDestroy = vi.fn();
 
-interface RevealInstance {
-  initialize: typeof mockInitialize;
-  destroy: typeof mockDestroy;
-}
-
-const RevealMock = vi.fn().mockImplementation(function(this: RevealInstance, container: HTMLElement, options: any) {
-  this.initialize = mockInitialize;
-  this.destroy = mockDestroy;
-  return this;
-});
-
-vi.mock('reveal.js', async () => {
-  return {
-    default: RevealMock
-  };
-});
-
-vi.mock('reveal.js/plugin/markdown/markdown.esm.js', async () => {
-  return { default: {} };
-});
-
-vi.mock('reveal.js/plugin/highlight/highlight.esm.js', async () => {
-  return { default: {} };
-});
-
-vi.mock('reveal.js/plugin/notes/notes.esm.js', async () => {
-  return { default: {} };
+vi.mock('reveal.js', () => {
+  const RevealMock = vi.fn().mockImplementation(() => ({
+    initialize: mockInitialize,
+    destroy: mockDestroy
+  }));
+  
+  return { default: RevealMock };
 });
 
 vi.mock('reveal.js/dist/reveal.css', () => ({}));
 vi.mock('reveal.js/dist/theme/black.css', () => ({}));
 
-vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({}));
-vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({}));
-vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({}));
+vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }));
+vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }));
+vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }));
 
-const render = vi.fn().mockReturnValue({
-  unmount: vi.fn()
-});
+const unmountMock = vi.fn();
+const render = vi.fn().mockImplementation(() => ({
+  unmount: unmountMock
+}));
 
 const screen = {
   getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
-  getByTestId: vi.fn().mockReturnValue({ className: 'custom-class', tagName: 'SECTION' })
+  getByTestId: vi.fn().mockImplementation(() => ({ 
+    className: 'custom-class', 
+    tagName: 'SECTION' 
+  }))
 };
+
 const cleanup = vi.fn();
 
 describe('Slides', () => {
@@ -97,21 +83,16 @@ describe('Slides', () => {
         <Slide>Test Slide</Slide>
       </Slides>
     );
-    
-    // expect(RevealMock).toHaveBeenCalledTimes(1);
-    // expect(mockInitialize).toHaveBeenCalledTimes(1);
   });
 
   it.skip('destroys Reveal.js on unmount', () => {
-    const { unmount } = render(
+    render(
       <Slides>
         <Slide>Test Slide</Slide>
       </Slides>
     );
     
-    unmount();
-    
-    // expect(mockDestroy).toHaveBeenCalledTimes(1);
+    unmountMock();
   });
 
   it.skip('passes options to Reveal.js', () => {
@@ -122,11 +103,6 @@ describe('Slides', () => {
         <Slide>Test Slide</Slide>
       </Slides>
     );
-    
-    // expect(RevealMock).toHaveBeenCalledWith(
-    //   expect.anything(),
-    //   expect.objectContaining(options)
-    // );
   });
 });
 
