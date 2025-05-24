@@ -1,0 +1,72 @@
+import { RevealWrapper, Slide } from '@mdxui/reveal';
+
+<RevealWrapper>
+  <Slide>
+    # Welcome to MDX Slides
+    
+    Create beautiful presentations with MDX and Reveal.js
+    
+    ---
+    
+    Built with [@mdxui/reveal](https://github.com/mdxld/mdx)
+  </Slide>
+
+  <Slide>
+    ## Features
+    
+    - Write slides in **Markdown**
+    - Use React components
+    - Code highlighting
+    - Speaker notes
+    - All Reveal.js features
+  </Slide>
+
+  <Slide>
+    ## Code Example
+    
+    ```js
+    // This code will be highlighted
+    function hello() {
+      console.log("Hello from Reveal.js in MDX!");
+      return "Hello, world!";
+    }
+    ```
+  </Slide>
+  
+  <Slide>
+    ## Speaker Notes
+    
+    This slide has speaker notes!
+    
+    <aside className="notes">
+      These notes will only be visible in presenter view.
+      
+      - Remember to mention the Q&A at the end
+      - Demonstrate the presenter view
+    </aside>
+  </Slide>
+  
+  <Slide>
+    ## Vertical Slides
+    
+    Press down to see more slides
+    
+    <Slide>
+      ### Nested Slide 1
+      
+      This is a vertical slide
+    </Slide>
+    
+    <Slide>
+      ### Nested Slide 2
+      
+      Another vertical slide
+    </Slide>
+  </Slide>
+  
+  <Slide>
+    ## Thank You!
+    
+    Check out the [documentation](https://github.com/mdxld/mdx) for more information
+  </Slide>
+</RevealWrapper>
