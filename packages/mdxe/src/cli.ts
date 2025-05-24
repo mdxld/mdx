@@ -1,127 +1,163 @@
-import { Command } from 'commander'
-import pkg from '../package.json' with { type: 'json' }
+import React from 'react';
+import { render, Box, Text, useInput } from 'ink';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import pkg from '../package.json' with { type: 'json' };
+import { findMdxFiles } from './utils/mdx-parser';
+import { findIndexFile, fileExists } from './utils/file-utils';
 
-const program = new Command()
-
-program
-  .name('mdxe')
-  .description('Zero-Config CLI to Execute, Test, & Deploy Markdown & MDX')
-  .version(pkg.version, '-v, --version', 'display version information')
-  .option('-w, --watch', 'Watch files for changes')
-
-program
-  .command('exec [files...]')
-  .description('Execute code blocks in Markdown/MDX files')
-  .action(() => {
-    console.log('exec command not implemented yet')
-  })
-
-program
-  .command('dev')
-  .description('Start a development server')
-  .action(() => {
-    console.log('dev command not implemented yet')
-  })
-
-program
-  .command('build')
-  .description('Build the project for production')
-  .action(() => {
-    console.log('build command not implemented yet')
-  })
-
-program
-  .command('start')
-  .description('Start the production server')
-  .action(() => {
-    console.log('start command not implemented yet')
-  })
-
-program
-  .command('test')
-  .description('Run tests embedded in Markdown/MDX files')
-  .option('-w, --watch', 'Watch files for changes')
-  .action(async (options) => {
-    const { findMdxFiles, extractMdxCodeBlocks } = await import('./utils/mdx-parser')
-    const { createTempTestFile, runTests, cleanupTempFiles } = await import('./utils/test-runner')
-    const path = await import('node:path')
-
-    try {
-      console.log('🔍 Finding MDX files...')
-      const files = await findMdxFiles(process.cwd())
-
-      if (files.length === 0) {
-        console.log('❌ No MDX files found in the current directory.')
-        return
-      }
-
-      const filteredFiles = files.filter((file) => !file.includes('/node_modules/'))
-      console.log(`📝 Found ${filteredFiles.length} MDX file(s) (excluding node_modules)`)
-
-      const testFiles: string[] = []
-      let hasTests = false
-
-      for (const file of filteredFiles) {
-        try {
-          const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(file)
-
-          if (testBlocks.length > 0) {
-            hasTests = true
-            console.log(`🧪 Found ${testBlocks.length} test block(s) in ${path.basename(file)}`)
-            const testFile = await createTempTestFile(codeBlocks, testBlocks, file)
-            testFiles.push(testFile)
-          }
-        } catch (error) {
-          console.error(`Error processing file ${file}:`, error)
-        }
-      }
-
-      if (!hasTests) {
-        console.log('❌ No test blocks found in MDX files.')
-        await cleanupTempFiles()
-        return
-      }
-
-      console.log('🚀 Running tests...')
-      const { success, output } = await runTests(testFiles, options.watch || program.opts().watch)
-
-      console.log(output)
-
-      if (success) {
-        console.log('✅ All tests passed!')
-      } else {
-        console.log('❌ Some tests failed.')
-        process.exitCode = 1
-      }
-
-      if (!options.watch && !program.opts().watch) {
-        await cleanupTempFiles()
-      }
-    } catch (error) {
-      console.error('Error running tests:', error)
-      process.exitCode = 1
-      await cleanupTempFiles()
-    }
-  })
-
-program
-  .command('lint')
-  .description('Lint code blocks in Markdown/MDX files')
-  .action(() => {
-    console.log('lint command not implemented yet')
-  })
+import { runDevCommand } from './commands/dev';
+import { runBuildCommand } from './commands/build';
+import { runStartCommand } from './commands/start';
 
 /**
  * Run the CLI
  */
-export function run() {
-  program.parse(process.argv)
-
-  if (program.opts().watch) {
-    console.log('Watch mode enabled (not implemented yet)')
+export async function run() {
+  const args = process.argv.slice(2);
+  const command = args[0];
+  const cwd = process.cwd();
+  
+  if (command === 'dev') {
+    return runDevCommand(cwd);
+  } else if (command === 'build') {
+    return runBuildCommand(cwd);
+  } else if (command === 'start') {
+    return runStartCommand(cwd);
+  } else if (command === 'test') {
+    console.log('Test command not implemented yet');
+    return;
+  } else if (command === 'lint') {
+    console.log('Lint command not implemented yet');
+    return;
+  } else if (command === 'exec') {
+    console.log('Exec command not implemented yet');
+    return;
+  }
+  
+  let targetDir = cwd;
+  
+  if (args.length > 0 && command !== 'test' && command !== 'dev' && command !== 'build' && command !== 'start' && command !== 'exec') {
+    const resolvedPath = path.resolve(process.cwd(), command);
+    try {
+      const stat = await fs.stat(resolvedPath);
+      if (stat.isDirectory()) {
+        targetDir = resolvedPath;
+      }
+    } catch (err) {
+    }
+  }
+  
+  try {
+    const SimpleApp = ({ cwd = process.cwd() }) => {
+      const [files, setFiles] = React.useState<string[]>([]);
+      const [indexFile, setIndexFile] = React.useState<string | null>(null);
+      const [loading, setLoading] = React.useState(true);
+      const [error, setError] = React.useState<string | null>(null);
+      const [exit, setExit] = React.useState(false);
+    
+      React.useEffect(() => {
+        const loadFiles = async () => {
+          try {
+            setLoading(true);
+            const mdxFiles = await findMdxFiles(cwd);
+            setFiles(mdxFiles);
+            
+            const index = await findIndexFile(cwd);
+            setIndexFile(index);
+          } catch (err) {
+            setError(`Error loading files: ${err instanceof Error ? err.message : String(err)}`);
+          } finally {
+            setLoading(false);
+          }
+        };
+        
+        loadFiles();
+      }, [cwd]);
+    
+      useInput((input, key) => {
+        if (input === 'q' || key.escape) {
+          setExit(true);
+        }
+      });
+    
+      if (exit) {
+        return null;
+      }
+    
+      if (loading) {
+        return React.createElement(Box, null,
+          React.createElement(Text, { color: "yellow" }, "Loading MDX files...")
+        );
+      }
+    
+      if (error) {
+        return React.createElement(Box, { flexDirection: "column" },
+          React.createElement(Text, { color: "red" }, `Error: ${error}`)
+        );
+      }
+    
+      return React.createElement(Box, { flexDirection: "column", padding: 1 },
+        React.createElement(Box, { marginBottom: 1 },
+          React.createElement(Text, { bold: true, color: "green" }, "MDXE - Markdown/MDX-First Application Framework")
+        ),
+        
+        React.createElement(Box, { marginBottom: 1 },
+          React.createElement(Text, null, 
+            "Current directory: ", 
+            React.createElement(Text, { color: "blue" }, cwd)
+          )
+        ),
+        
+        indexFile && React.createElement(Box, { marginBottom: 1 },
+          React.createElement(Text, null,
+            "Found index file: ",
+            React.createElement(Text, { color: "green" }, path.basename(indexFile))
+          )
+        ),
+        
+        React.createElement(Box, { marginY: 1 },
+          React.createElement(Text, { bold: true }, "Available MDX Files:")
+        ),
+        
+        files.length > 0 
+          ? React.createElement(Box, { flexDirection: "column", marginY: 1 },
+              ...files.map((file, index) => 
+                React.createElement(Text, { key: file },
+                  React.createElement(Text, { color: "yellow" }, `${index + 1}`),
+                  React.createElement(Text, null, ". "),
+                  React.createElement(Text, null, path.relative(cwd, file))
+                )
+              )
+            )
+          : React.createElement(Box, null,
+              React.createElement(Text, { color: "yellow" }, "No MDX files found in this directory.")
+            ),
+        
+        React.createElement(Box, { marginTop: 1 },
+          React.createElement(Text, { dimColor: true },
+            "Press ",
+            React.createElement(Text, { color: "yellow" }, "q"),
+            " to quit"
+          )
+        )
+      );
+    };
+    
+    const { waitUntilExit } = render(
+      React.createElement(SimpleApp, { cwd: targetDir })
+    );
+    
+    await waitUntilExit();
+  } catch (error) {
+    console.error('Error running CLI:', error);
+    process.exit(1);
   }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  run()
+  run().catch(error => {
+    console.error('Error:', error);
+    process.exit(1);
+  });
 }
