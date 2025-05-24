@@ -1,0 +1,23 @@
+---
+command: deploy
+description: Deploy a project to the cloud
+input:
+  name: string
+  os: enum[Ubuntu, Debian]
+  memory: number
+  region: enum[iad,sfo,lhr]
+output:
+  result: string
+---
+
+export default function Deploy(props) {
+  return (
+    <Text>
+      Deploying project with the following configuration:
+      - Name: {props.name}
+      - OS: {props.os}
+      - Memory: {props.memory}MB
+      - Region: {props.region}
+    </Text>
+  );
+}

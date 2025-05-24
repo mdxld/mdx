@@ -1,0 +1,21 @@
+---
+command: deploy
+description: Deploy a project to the cloud
+input:
+  name: string
+  os: enum[Ubuntu, Debian]
+  memory: number
+  region: enum[iad,sfo,lhr]
+output:
+  result: string
+---
+
+export default function DeployCommand({ name, os, memory, region, components }) {
+  const { Text } = components;
+  return (
+    <>
+      <Text>Deploy Command</Text>
+      <Text>Deploying "{name}" ({os}) with {memory}MB in {region}...</Text>
+    </>
+  );
+}
