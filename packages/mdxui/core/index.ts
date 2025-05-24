@@ -2,6 +2,7 @@ export * from './card.js'
 export * from './gradient.js'
 export * from './components/button.js'
 export * from './tremor.js'
+export * from './LandingPage.js'
 
 import { Button } from './components/button.js'
 import { Card } from './components/card.js'

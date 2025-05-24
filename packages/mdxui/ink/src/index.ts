@@ -3,6 +3,7 @@ export * from './render';
 export * from './schema';
 export * from './frontmatter';
 export * from './components';
+export * from './LandingPage';
 
 import * as types from './types';
 import * as render from './render';
