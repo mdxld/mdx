@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { RevealWrapper, Slide } from '../../packages/mdxui/reveal/src';
+import { RevealWrapper, Slide } from '../src/index.js';
 
 const render = vi.fn();
 const screen = {
