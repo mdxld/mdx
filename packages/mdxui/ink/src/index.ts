@@ -9,7 +9,7 @@ export type { WorkflowFrontmatter } from './types'
 export * from './LandingPage'
 export * from './slides'
 export * from './slide'
-export { default as Markdown } from './markdown.js'
+export { default as Markdown } from './markdown'
 export { default as Ascii } from './ascii.js'
 
 import * as types from './types'
