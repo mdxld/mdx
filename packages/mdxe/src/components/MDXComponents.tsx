@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Text } from 'ink';
-import { Markdown, landingPageComponents } from '@mdxui/ink';
+import { landingPageComponents } from '@mdxui/ink';
+import Markdown from '../../../mdxui/ink/src/markdown';
 
 /**
  * MDX components for rendering in the terminal
