@@ -382,6 +382,9 @@ importers:
 
   examples/slides:
     dependencies:
+      '@mdxui/ink':
+        specifier: workspace:*
+        version: link:../../packages/mdxui/ink
       '@mdxui/reveal':
         specifier: workspace:*
         version: link:../../packages/mdxui/reveal

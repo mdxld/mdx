@@ -2,8 +2,15 @@
   "name": "@mdxui/ink",
   "version": "0.1.0",
   "description": "Create CLI apps using MDX with React Ink and Pastel",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
