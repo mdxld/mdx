@@ -1,5 +1,8 @@
-import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient } from 'ai'
+import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
+import { createCacheMiddleware } from './cacheMiddleware'
+
+const cacheMiddleware = createCacheMiddleware()
 
 interface LLMServiceParams {
   modelProvider?: typeof openai // Changed to typeof openai
@@ -20,9 +23,14 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
     // If a different provider instance is passed, it should also be pre-initialized.
     // The modelId is used to specify which model to use with that provider.
     const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
+    
+    const wrappedModel = wrapLanguageModel({
+      model: model,
+      middleware: cacheMiddleware
+    })
 
     const result = await streamText({
-      model: model,
+      model: wrappedModel,
       messages: messages,
     })
     return result
@@ -64,12 +72,20 @@ export async function generateResearchStream(prompt: string): Promise<StreamText
   ]
 
   const researchProvider = createResearchProvider()
-
-  return generateContentStream({
-    modelProvider: researchProvider,
-    modelId: 'perplexity/sonar-deep-research',
-    messages,
+  
+  const model = researchProvider('perplexity/sonar-deep-research' as any)
+  const wrappedModel = wrapLanguageModel({
+    model: model,
+    middleware: cacheMiddleware
   })
+
+  // Use streamText directly with the wrapped model
+  const result = await streamText({
+    model: wrappedModel,
+    messages: messages,
+  })
+  
+  return result
 }
 
 export async function generateDeepwikiStream(query: string): Promise<StreamTextResult<never, string>> {
@@ -86,8 +102,14 @@ export async function generateDeepwikiStream(query: string): Promise<StreamTextR
 
   const tools = await client.tools()
 
+  const model = openai('o4-mini')
+  const wrappedModel = wrapLanguageModel({
+    model: model,
+    middleware: cacheMiddleware
+  })
+
   const result = await streamText({
-    model: openai('o4-mini'),
+    model: wrappedModel,
     tools,
     messages: [
       {
