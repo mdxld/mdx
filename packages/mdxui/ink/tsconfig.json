@@ -1,6 +1,6 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": ["src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/types/**/*.d.ts"],
+  "include": ["src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/types/**/*.d.ts", "src/InkMDXRenderer.tsx", "src/component-loader.ts", "src/mdx-plugins.ts", "src/bundler.ts"],
   "exclude": ["src/cli.ts", "src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.test.ts.bak"],
   "compilerOptions": {
     "outDir": "dist",
