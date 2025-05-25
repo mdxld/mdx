@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text } from 'ink';
-import Markdown from 'ink-markdown';
+import Markdown from '../markdown.js';
 
 /**
  * Screen component for defining a screen in a multi-screen CLI app

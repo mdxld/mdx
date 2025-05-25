@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Text } from 'ink';
-import Markdown from 'ink-markdown';
 import { landingPageComponents } from '@mdxui/ink';
+// @ts-ignore - Import directly from dist to avoid declaration file issues
+import Markdown from '../../../mdxui/ink/dist/markdown.js';
 
 /**
  * MDX components for rendering in the terminal

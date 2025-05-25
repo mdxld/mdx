@@ -305,7 +305,7 @@ importers:
     dependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../packages/mdxe
+        version: link:../../packages/mdxe/cli
       nextra:
         specifier: ^4.2.17
         version: 4.2.17(acorn@8.14.1)(next@15.3.0)(react-dom@19.1.0)(react@18.3.1)(typescript@5.8.3)
@@ -378,7 +378,7 @@ importers:
     dependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../packages/mdxe
+        version: link:../../packages/mdxe/cli
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0)(react@19.1.0)
@@ -427,7 +427,7 @@ importers:
     devDependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../packages/mdxe
+        version: link:../../packages/mdxe/cli
 
   examples/slides:
     dependencies:
@@ -449,7 +449,7 @@ importers:
     devDependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../packages/mdxe
+        version: link:../../packages/mdxe/cli
 
   examples/startups:
     dependencies:
@@ -471,7 +471,7 @@ importers:
     dependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../packages/mdxe
+        version: link:../../packages/mdxe/cli
     devDependencies:
       vitest:
         specifier: ^3.1.4
@@ -691,14 +691,14 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@22.15.21)(jsdom@26.1.0)(tsx@4.19.4)
 
-  packages/mdxe:
+  packages/mdxe/cli:
     dependencies:
       '@mdx-js/mdx':
         specifier: ^2.3.0
         version: 2.3.0
       '@mdxui/ink':
         specifier: workspace:*
-        version: link:../mdxui/ink
+        version: link:../../mdxui/ink
       commander:
         specifier: ^12.0.0
         version: 12.1.0
@@ -709,11 +709,11 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4(ink@4.4.1)(react@18.3.1)
       ink-big-text:
-        specifier: ^1.2.0
-        version: 1.2.0(ink@4.4.1)(react@18.3.1)
+        specifier: ^2.0.0
+        version: 2.0.0(ink@4.4.1)(react@18.3.1)
       mdxui:
         specifier: workspace:*
-        version: link:../mdxui
+        version: link:../../mdxui
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@18.3.1)(react@18.3.1)
@@ -741,7 +741,7 @@ importers:
     devDependencies:
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@types/ink':
         specifier: ^2.0.3
         version: 2.0.3(@types/react@19.1.5)(react@18.3.1)
@@ -1006,18 +1006,21 @@ importers:
       chalk:
         specifier: ^5.3.0
         version: 5.4.1
+      figlet:
+        specifier: ^1.7.0
+        version: 1.8.1
       ink:
         specifier: ^4.4.1
         version: 4.4.1(@types/react@18.3.21)(react@18.3.1)
-      ink-ascii:
-        specifier: ^0.0.4
-        version: 0.0.4(ink@4.4.1)(react@18.3.1)
       ink-big-text:
-        specifier: ^1.0.0
-        version: 1.2.0(ink@4.4.1)(react@18.3.1)
-      ink-markdown:
-        specifier: ^1.0.4
-        version: 1.0.4(ink@4.4.1)(react@18.3.1)
+        specifier: ^2.0.0
+        version: 2.0.0(ink@4.4.1)(react@18.3.1)
+      marked:
+        specifier: ^15.0.12
+        version: 15.0.12
+      marked-terminal:
+        specifier: ^7.3.0
+        version: 7.3.0(marked@15.0.12)
       pastel:
         specifier: ^2.0.0
         version: 2.0.2(ink@4.4.1)(react@18.3.1)(zod@3.25.7)
@@ -1333,7 +1336,7 @@ importers:
         version: link:../packages/mdxai
       mdxe:
         specifier: workspace:*
-        version: link:../packages/mdxe
+        version: link:../packages/mdxe/cli
       mdxld:
         specifier: workspace:*
         version: link:../packages/mdxld
@@ -7815,6 +7818,15 @@ packages:
       window-size: 1.1.1
     dev: false
 
+  /cfonts@3.3.0:
+    resolution: {integrity: sha512-RlVxeEw2FXWI5Bs9LD0/Ef3bsQIc9m6lK/DINN20HIW0Y0YHUO2jjy88cot9YKZITiRTCdWzTfLmTyx47HeSLA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      supports-color: 8.1.1
+      window-size: 1.1.1
+    dev: false
+
   /chai@4.5.0:
     resolution: {integrity: sha512-RITGBfijLkBddZvnn8jdqoTypxvqbOLYQkGGxXzeFjVHvudaPw0HNFD9x928/eUwYWd2dPCugVqspGALTZZQKw==}
     engines: {node: '>=4'}
@@ -7945,6 +7957,19 @@ packages:
     dependencies:
       restore-cursor: 4.0.0
 
+  /cli-highlight@2.1.11:
+    resolution: {integrity: sha512-9KDcoEVwyUXrjcJNvHD0NFc/hiwe/WPVYIleQh2O1N2Zro5gWJZ/K+3DGn8w8P/F6FxOgzyC5bxDyHIgCSPhGg==}
+    engines: {node: '>=8.0.0', npm: '>=5.0.0'}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      highlight.js: 10.7.3
+      mz: 2.7.0
+      parse5: 5.1.1
+      parse5-htmlparser2-tree-adapter: 6.0.1
+      yargs: 16.2.0
+    dev: false
+
   /cli-spinners@2.9.2:
     resolution: {integrity: sha512-ywqV+5MmyL4E7ybXgKys4DugZbX0FC6LnwrhjuykIjnK9k8OQacQ7axGKnjDXWNhns0xot3bZI5h55H8yo9cJg==}
     engines: {node: '>=6'}
@@ -7984,6 +8009,14 @@ packages:
       execa: 8.0.1
       is-wsl: 3.1.0
       is64bit: 2.0.0
+    dev: false
+
+  /cliui@7.0.4:
+    resolution: {integrity: sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==}
+    dependencies:
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
+      wrap-ansi: 7.0.0
     dev: false
 
   /clsx@2.1.1:
@@ -10521,6 +10554,11 @@ packages:
       - supports-color
     dev: false
 
+  /get-caller-file@2.0.5:
+    resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
+    engines: {node: 6.* || 8.* || >= 10.*}
+    dev: false
+
   /get-east-asian-width@1.3.0:
     resolution: {integrity: sha512-vpeMIQKxczTD/0s2CdEWHcb0eeJe6TFjxb+J5xgX7hScxqrGuyjmv4c1D4A/gelKfyox0gJJwIHF+fLjeaM8kQ==}
     engines: {node: '>=18'}
@@ -11042,6 +11080,10 @@ packages:
     resolution: {integrity: sha512-7xgomUX6ADmcYzFik0HzAxh/73YlKR9bmFzf51CZwR+b6YtzU2m0u49hQCqV6SvlqIqsaxovfwdvbnsw3b/zpg==}
     dev: false
 
+  /highlight.js@10.7.3:
+    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
+    dev: false
+
   /hosted-git-info@4.1.0:
     resolution: {integrity: sha512-kyCuEOWjJqZuDbRHzL8V93NzQhwIB71oFWSyzVo+KPZI+pnQPPxucdkrOZvkLRnrf5URsQM+IJ09Dw29cRALIA==}
     engines: {node: '>=10'}
@@ -11212,6 +11254,19 @@ packages:
       react: '>=16.8.0'
     dependencies:
       cfonts: 2.10.1
+      ink: 4.4.1(@types/react@19.1.5)(react@18.3.1)
+      prop-types: 15.8.1
+      react: 18.3.1
+    dev: false
+
+  /ink-big-text@2.0.0(ink@4.4.1)(react@18.3.1):
+    resolution: {integrity: sha512-Juzqv+rIOLGuhMJiE50VtS6dg6olWfzFdL7wsU/EARSL5Eaa5JNXMogMBm9AkjgzO2Y3UwWCOh87jbhSn8aNdw==}
+    engines: {node: '>=14.16'}
+    peerDependencies:
+      ink: '>=4'
+      react: '>=18'
+    dependencies:
+      cfonts: 3.3.0
       ink: 4.4.1(@types/react@19.1.5)(react@18.3.1)
       prop-types: 15.8.1
       react: 18.3.1
@@ -12453,6 +12508,22 @@ packages:
       node-emoji: 2.2.0
       supports-hyperlinks: 3.2.0
 
+  /marked-terminal@7.3.0(marked@15.0.12):
+    resolution: {integrity: sha512-t4rBvPsHc57uE/2nJOLmMbZCQ4tgAccAED3ngXQqW6g+TxA488JzJ+FK3lQkzBQOI1mRV/r/Kq+1ZlJ4D0owQw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      marked: '>=1 <16'
+    dependencies:
+      ansi-escapes: 7.0.0
+      ansi-regex: 6.1.0
+      chalk: 5.4.1
+      cli-highlight: 2.1.11
+      cli-table3: 0.6.5
+      marked: 15.0.12
+      node-emoji: 2.2.0
+      supports-hyperlinks: 3.2.0
+    dev: false
+
   /marked@15.0.12:
     resolution: {integrity: sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==}
     engines: {node: '>= 18'}
@@ -13661,7 +13732,7 @@ packages:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001713
+      caniuse-lite: 1.0.30001718
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -13706,7 +13777,7 @@ packages:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001713
+      caniuse-lite: 1.0.30001718
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 19.1.0(react@18.3.1)
@@ -14303,6 +14374,20 @@ packages:
 
   /parse-numeric-range@1.3.0:
     resolution: {integrity: sha512-twN+njEipszzlMJd4ONUYgSfZPDxgHhT9Ahed5uTigpQn90FggW4SA/AIPq/6a149fTbE9qBEcSwE3FAEp6wQQ==}
+    dev: false
+
+  /parse5-htmlparser2-tree-adapter@6.0.1:
+    resolution: {integrity: sha512-qPuWvbLgvDGilKc5BoicRovlT4MtYT6JfJyBOMDsKoiT+GiuP5qyrPCnR9HcPECIJJmZh5jRndyNThnhhb/vlA==}
+    dependencies:
+      parse5: 6.0.1
+    dev: false
+
+  /parse5@5.1.1:
+    resolution: {integrity: sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==}
+    dev: false
+
+  /parse5@6.0.1:
+    resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
     dev: false
 
   /parse5@7.3.0:
@@ -15489,6 +15574,11 @@ packages:
       tough-cookie: 2.5.0
       tunnel-agent: 0.6.0
       uuid: 3.4.0
+    dev: false
+
+  /require-directory@2.1.1:
+    resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /require-from-string@2.0.2:
@@ -18524,6 +18614,11 @@ packages:
     engines: {node: '>=0.4'}
     dev: false
 
+  /y18n@5.0.8:
+    resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
+    engines: {node: '>=10'}
+    dev: false
+
   /yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
     dev: false
@@ -18532,6 +18627,24 @@ packages:
     resolution: {integrity: sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==}
     engines: {node: '>= 14.6'}
     hasBin: true
+
+  /yargs-parser@20.2.9:
+    resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
+    engines: {node: '>=10'}
+    dev: false
+
+  /yargs@16.2.0:
+    resolution: {integrity: sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==}
+    engines: {node: '>=10'}
+    dependencies:
+      cliui: 7.0.4
+      escalade: 3.2.0
+      get-caller-file: 2.0.5
+      require-directory: 2.1.1
+      string-width: 4.2.3
+      y18n: 5.0.8
+      yargs-parser: 20.2.9
+    dev: false
 
   /yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}

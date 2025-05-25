@@ -1,11 +1,15 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"],
+  "include": ["src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/types/**/*.d.ts"],
   "exclude": ["src/cli.ts", "src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.test.ts.bak"],
   "compilerOptions": {
     "outDir": "dist",
     "jsx": "react",
     "esModuleInterop": true,
-    "composite": true
+    "composite": true,
+    "declaration": true,
+    "declarationDir": "dist",
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "types": ["node", "react"]
   }
 }
