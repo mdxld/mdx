@@ -1,9 +1,22 @@
-import { LanguageModelV1Middleware, LanguageModelV1StreamPart } from 'ai'
+import { 
+  LanguageModelV1Middleware, 
+  LanguageModelV1StreamPart
+} from 'ai'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 import hash from 'object-hash'
 
 const CACHE_DIR = join(process.cwd(), '.ai/cache')
+
+interface CachedData {
+  text: string;
+  finishReason?: string;
+  usage?: {
+    promptTokens: number;
+    completionTokens: number;
+  };
+  rawCall?: any;
+}
 
 export const createCacheMiddleware = (): LanguageModelV1Middleware => {
   return {
@@ -39,11 +52,11 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
 
       try {
         const cachedData = await fs.readFile(cacheFilePath, 'utf-8')
-        const cachedResult = JSON.parse(cachedData)
+        const cachedResult = JSON.parse(cachedData) as CachedData
         console.log(`Cache hit for streaming key: ${cacheKey}`)
         
         const text = cachedResult.text || ''
-        const stream = new ReadableStream({
+        const stream = new ReadableStream<LanguageModelV1StreamPart>({
           start(controller) {
             for (const char of text) {
               controller.enqueue({ 
@@ -51,21 +64,31 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
                 textDelta: char 
               })
             }
-            controller.enqueue({ type: 'finish' as const })
+            controller.enqueue({ 
+              type: 'finish' as const,
+              finishReason: 'stop' as const,
+              usage: cachedResult.usage || {
+                promptTokens: 0,
+                completionTokens: 0
+              }
+            })
             controller.close()
           }
         })
 
         return {
           stream,
-          text: cachedResult.text || '',
-          ...cachedResult
+          rawCall: cachedResult.rawCall || { 
+            rawPrompt: {}, 
+            rawSettings: {} 
+          }
         }
       } catch (error) {
         console.log(`Cache miss for streaming key: ${cacheKey}`)
       }
 
-      const { stream, ...rest } = await doStream()
+      const result = await doStream()
+      const { stream } = result
       let fullText = ''
       
       const transformStream = new TransformStream<
@@ -81,10 +104,27 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
         async flush() {
           try {
             await fs.mkdir(CACHE_DIR, { recursive: true })
-            const cacheData = {
+            const cacheData: CachedData = {
               text: fullText,
-              ...rest
+              rawCall: result.rawCall
             }
+            
+            const reader = stream.getReader();
+            try {
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                if (value && value.type === 'finish') {
+                  cacheData.finishReason = value.finishReason;
+                  cacheData.usage = value.usage;
+                }
+              }
+            } catch (error) {
+              console.warn('Error reading stream for caching:', error);
+            } finally {
+              reader.releaseLock();
+            }
+            
             await fs.writeFile(cacheFilePath, JSON.stringify(cacheData, null, 2))
             console.log(`Cached streaming result for key: ${cacheKey}`)
           } catch (error) {
@@ -95,7 +135,7 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
 
       return {
         stream: stream.pipeThrough(transformStream),
-        ...rest
+        rawCall: result.rawCall
       }
     }
   }

@@ -2,8 +2,18 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 import { createCacheMiddleware } from './cacheMiddleware'
+import { LanguageModelV1StreamPart } from 'ai'
 
 const CACHE_DIR = join(process.cwd(), '.ai/cache')
+
+const createMockParams = (overrides = {}) => {
+  return {
+    inputFormat: "messages",
+    mode: { type: "regular" },
+    prompt: { messages: [] },
+    ...overrides
+  };
+};
 
 describe('Cache Middleware', () => {
   beforeEach(async () => {
@@ -22,21 +32,23 @@ describe('Cache Middleware', () => {
 
   it('should cache and retrieve generate results', async () => {
     const middleware = createCacheMiddleware()
-    const mockParams = {
+    const mockParams = createMockParams({
       temperature: 0.7,
       maxTokens: 100
-    }
+    })
     
     const mockResult = { 
       text: 'cached response',
-      usage: { promptTokens: 10, completionTokens: 5, totalTokens: 15 }
+      finishReason: 'stop',
+      rawCall: {},
+      usage: { promptTokens: 10, completionTokens: 5 }
     }
 
     const mockDoGenerate = vi.fn().mockResolvedValue(mockResult)
 
-    const result1 = await middleware.wrapGenerate!({
+    const result1 = await (middleware.wrapGenerate as any)({
       doGenerate: mockDoGenerate,
-      params: mockParams 
+      params: mockParams
     })
     expect(result1).toEqual(mockResult)
     expect(mockDoGenerate).toHaveBeenCalledTimes(1)
@@ -45,9 +57,9 @@ describe('Cache Middleware', () => {
       throw new Error('Should not be called')
     })
     
-    const result2 = await middleware.wrapGenerate!({
+    const result2 = await (middleware.wrapGenerate as any)({
       doGenerate: mockDoGenerate2,
-      params: mockParams 
+      params: mockParams
     })
     expect(result2).toEqual(mockResult)
     expect(mockDoGenerate2).not.toHaveBeenCalled()
@@ -55,19 +67,21 @@ describe('Cache Middleware', () => {
 
   it('should create cache directory if it does not exist', async () => {
     const middleware = createCacheMiddleware()
-    const mockParams = {
+    const mockParams = createMockParams({
       temperature: 0.7,
       maxTokens: 100
-    }
+    })
     
     const mockResult = { 
       text: 'test response',
-      usage: { promptTokens: 10, completionTokens: 5, totalTokens: 15 }
+      finishReason: 'stop',
+      rawCall: {},
+      usage: { promptTokens: 10, completionTokens: 5 }
     }
 
-    await middleware.wrapGenerate!({
+    await (middleware.wrapGenerate as any)({
       doGenerate: async () => mockResult,
-      params: mockParams 
+      params: mockParams
     })
 
     const dirExists = await fs.access(CACHE_DIR).then(() => true).catch(() => false)
@@ -77,93 +91,103 @@ describe('Cache Middleware', () => {
   it('should handle different cache keys for different parameters', async () => {
     const middleware = createCacheMiddleware()
     
-    const mockParams1 = {
+    const mockParams1 = createMockParams({
       temperature: 0.7,
       maxTokens: 100
-    }
+    })
     
     const mockResult1 = { 
       text: 'response 1',
-      usage: { promptTokens: 10, completionTokens: 5, totalTokens: 15 }
+      finishReason: 'stop',
+      rawCall: {},
+      usage: { promptTokens: 10, completionTokens: 5 }
     }
     
-    const mockParams2 = {
+    const mockParams2 = createMockParams({
       temperature: 0.5,
       maxTokens: 200
-    }
+    })
     
     const mockResult2 = { 
       text: 'response 2',
-      usage: { promptTokens: 10, completionTokens: 5, totalTokens: 15 }
+      finishReason: 'stop',
+      rawCall: {},
+      usage: { promptTokens: 10, completionTokens: 5 }
     }
 
     const mockDoGenerate1 = vi.fn().mockResolvedValue(mockResult1)
     const mockDoGenerate2 = vi.fn().mockResolvedValue(mockResult2)
 
-    const result1 = await middleware.wrapGenerate!({
+    const result1 = await (middleware.wrapGenerate as any)({
       doGenerate: mockDoGenerate1,
-      params: mockParams1 
+      params: mockParams1
     })
     expect(result1).toEqual(mockResult1)
     expect(mockDoGenerate1).toHaveBeenCalledTimes(1)
 
-    const result2 = await middleware.wrapGenerate!({
+    const result2 = await (middleware.wrapGenerate as any)({
       doGenerate: mockDoGenerate2,
-      params: mockParams2 
+      params: mockParams2
     })
     expect(result2).toEqual(mockResult2)
     expect(mockDoGenerate2).toHaveBeenCalledTimes(1)
 
-    const result1Again = await middleware.wrapGenerate!({
+    const result1Again = await (middleware.wrapGenerate as any)({
       doGenerate: vi.fn().mockImplementation(() => {
         throw new Error('Should not be called')
       }),
-      params: mockParams1 
+      params: mockParams1
     })
     expect(result1Again).toEqual(mockResult1)
 
-    const result2Again = await middleware.wrapGenerate!({
+    const result2Again = await (middleware.wrapGenerate as any)({
       doGenerate: vi.fn().mockImplementation(() => {
         throw new Error('Should not be called')
       }),
-      params: mockParams2 
+      params: mockParams2
     })
     expect(result2Again).toEqual(mockResult2)
   })
 
   it('should handle stream caching', async () => {
     const middleware = createCacheMiddleware()
-    const mockParams = {
+    const mockParams = createMockParams({
       temperature: 0.7,
       maxTokens: 100
-    }
+    })
     
     const mockText = 'Hello'
     const mockStreamResult = {
-      stream: new ReadableStream({
+      stream: new ReadableStream<LanguageModelV1StreamPart>({
         start(controller) {
           for (const char of mockText) {
             controller.enqueue({ type: 'text-delta', textDelta: char })
           }
-          controller.enqueue({ type: 'finish' })
+          controller.enqueue({ 
+            type: 'finish',
+            finishReason: 'stop' as const,
+            usage: {
+              promptTokens: 10,
+              completionTokens: 5
+            }
+          })
           controller.close()
         }
       }),
-      text: mockText, // Set the text property to the full text
-      usage: { promptTokens: 10, completionTokens: 5, totalTokens: 15 }
+      rawCall: { rawPrompt: {}, rawSettings: {} }
     }
 
     const mockDoStream = vi.fn().mockResolvedValue(mockStreamResult)
 
-    const result1 = await middleware.wrapStream!({
+    const result1 = await (middleware.wrapStream as any)({
       doStream: mockDoStream,
-      params: mockParams 
+      params: mockParams
     })
     
     expect(mockDoStream).toHaveBeenCalledTimes(1)
     expect(result1.stream).toBeInstanceOf(ReadableStream)
     
-    const readStream = async (stream) => {
+    const readStream = async (stream: ReadableStream<LanguageModelV1StreamPart>) => {
       const reader = stream.getReader()
       let content = ''
       
@@ -193,9 +217,9 @@ describe('Cache Middleware', () => {
       throw new Error('Should not be called')
     })
     
-    const result2 = await middleware.wrapStream!({
+    const result2 = await (middleware.wrapStream as any)({
       doStream: mockDoStream2,
-      params: mockParams 
+      params: mockParams
     })
     
     expect(mockDoStream2).not.toHaveBeenCalled()
