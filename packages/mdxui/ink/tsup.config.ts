@@ -11,7 +11,9 @@ export default defineConfig({
     'src/markdown.tsx',
     'src/ascii.tsx',
     'src/slides.tsx',
-    'src/slide.tsx'
+    'src/slide.tsx',
+    'src/components.tsx',
+    'src/LandingPage.tsx'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: true, // Enable declaration file generation
