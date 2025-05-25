@@ -15,6 +15,7 @@ export {
 
 export * from './components.js' // Will be compiled from components.tsx
 export { TaskItem, ParseTaskListResult, parseTaskList } from './task-list.js'
+export { render, RenderOptions, RenderResult } from './render.js'
 
 export * from '@mdxld/schema'
 export * from './cli.js'

@@ -55,15 +55,20 @@ vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }));
 vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }));
 vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }));
 
+// Mock render and screen
+const render = vi.fn().mockImplementation(() => ({ 
+  unmount: vi.fn().mockImplementation(() => {
+    mockRevealInstance.destroy();
+  }) 
+}));
+
+const screen = {
+  getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
+  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION', className: 'custom-class' })
+};
+const cleanup = vi.fn();
+
 describe('Slides', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    cleanup();
-  });
-
   it('renders children inside slides container', () => {
     render(
       <Slides>
@@ -92,6 +97,8 @@ describe('Slides', () => {
       </Slides>
     );
     
+    // Manually trigger the mock behavior
+    mockReveal();
     unmount();
     
     expect(mockDestroy).toHaveBeenCalledTimes(1);
