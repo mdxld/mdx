@@ -10,9 +10,9 @@ export * from './LandingPage'
 export * from './slides'
 export * from './slide'
 
-import MarkdownComponent from './markdown'
-import AsciiComponent from './ascii'
-export { MarkdownComponent as Markdown, AsciiComponent as Ascii }
+import MarkdownDefault from './markdown'
+import AsciiDefault from './ascii'
+export { MarkdownDefault as Markdown, AsciiDefault as Ascii }
 
 import * as types from './types'
 import * as render from './render'
@@ -26,8 +26,8 @@ const Ink: {
   renderMdxCli: typeof render.renderMdxCli;
   Slides: typeof Slides;
   Slide: typeof Slide;
-  Markdown: typeof MarkdownComponent;
-  Ascii: typeof AsciiComponent;
+  Markdown: typeof MarkdownDefault;
+  Ascii: typeof AsciiDefault;
   [key: string]: any;
 } = {
   ...types,
@@ -37,8 +37,8 @@ const Ink: {
   ...components,
   Slides,
   Slide,
-  Markdown: MarkdownComponent,
-  Ascii: AsciiComponent
+  Markdown: MarkdownDefault,
+  Ascii: AsciiDefault
 }
 
 export default Ink
