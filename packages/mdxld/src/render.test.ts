@@ -1,6 +1,6 @@
 import dedent from 'dedent'
 import { render } from './render'
-import { vi, describe, it, expect } from 'vitest'
+import { vi, describe, it, expect, beforeEach } from 'vitest'
 import React from 'react'
 
 vi.mock('react-dom/server', () => ({
@@ -15,7 +15,16 @@ vi.mock('turndown', () => {
   }
 })
 
+vi.mock('@mdx-js/mdx', () => ({
+  compile: vi.fn().mockResolvedValue({ value: 'compiled MDX' }),
+  evaluate: vi.fn().mockResolvedValue({ default: () => 'MDX Component' })
+}))
+
 describe('render', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+  
   it('should render MDX content to markdown', async () => {
     const mdxContent = dedent`
       ---
@@ -74,10 +83,8 @@ describe('render', () => {
   })
   
   it('should throw an error when MDX compilation fails', async () => {
-    vi.mock('@mdx-js/mdx', () => ({
-      compile: vi.fn().mockRejectedValue(new Error('Compilation error')),
-      evaluate: vi.fn()
-    }))
+    const compileMock = vi.mocked(await import('@mdx-js/mdx')).compile
+    compileMock.mockRejectedValueOnce(new Error('Compilation error'))
     
     const mdxContent = dedent`
       # Invalid MDX
