@@ -5,6 +5,7 @@ import { Slides, Slide } from '../../packages/mdxui/reveal/src/index.js';
 const mockRevealFn = vi.fn();
 const mockInitialize = vi.fn();
 const mockDestroy = vi.fn();
+const mockRevealInstance = { destroy: mockDestroy };
 
 vi.mock('reveal.js', async () => {
   mockRevealFn.prototype.initialize = mockInitialize;
@@ -37,16 +38,6 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
 });
-
-const render = vi.fn().mockImplementation(() => ({
-  unmount: vi.fn()
-}));
-
-const screen = {
-  getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
-  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION', className: 'custom-class' })
-};
-const cleanup = vi.fn();
 
 vi.mock('reveal.js/dist/reveal.css', () => ({}));
 vi.mock('reveal.js/dist/theme/black.css', () => ({}));
@@ -98,7 +89,7 @@ describe('Slides', () => {
     );
     
     // Manually trigger the mock behavior
-    mockReveal();
+    mockRevealFn();
     unmount();
     
     expect(mockDestroy).toHaveBeenCalledTimes(1);
