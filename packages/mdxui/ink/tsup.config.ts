@@ -9,10 +9,14 @@ export default defineConfig({
     'src/types.ts',
     'src/render.ts',
     'src/markdown.tsx',
-    'src/ascii.tsx'
+    'src/ascii.tsx',
+    'src/slides.tsx',
+    'src/slide.tsx',
+    'src/components.tsx',
+    'src/LandingPage.tsx'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
-  dts: true, // Enable declaration file generation
+  dts: false, // Temporarily disable declaration file generation to fix CI
   splitting: false,
   sourcemap: true,
   clean: true, // Clean output directory before build
