@@ -1,211 +1,49 @@
-# MDX Database (mdxdb)
+# `mdxdb` Packages
 
-MDX Database provides a way to treat Markdown and MDX files as a queryable database. It offers a unified API for storing, retrieving, and searching content across different storage backends.
+`mdxdb` turns a folder of Markdown or MDX files into a queryable database. The project is organized into small packages so you can choose the right backend.
 
-## Package Overview
+## Packages
 
-The mdxdb ecosystem consists of three main packages:
+### `@mdxdb/core`
 
-### @mdxdb/core
+Base classes, utilities and types used by all implementations. Exported helpers include `list`, `get`, `set` and `delete`.
 
-Core interfaces and base classes that define the shared API across all implementations.
+### `@mdxdb/fs`
 
-**Key Features:**
-- Abstract base classes and interfaces
-- Common utility functions
-- Shared type definitions
-- Schema discovery functionality
+File system implementation powered by [Velite](https://velite.js.org/). Provides a simple `MdxDb` class and the `mdxdb` CLI.
 
-### @mdxdb/fs
+```ts
+import { MdxDb } from '@mdxdb/fs'
 
-File system implementation with CLI tools for content management.
-
-**Key Features:**
-- Velite integration for content discovery and parsing
-- File watching for real-time updates
-- CLI tools for content generation
-- Git integration for version control
-
-### @mdxdb/sqlite
-
-SQLite-based implementation with vector search capabilities.
-
-**Key Features:**
-- SQLite backend for persistent storage
-- Vector embeddings for semantic search
-- Document chunking for improved search relevance
-- Compatible with the same core API as the file system implementation
-
-## Core API Reference
-
-All mdxdb implementations share the same core API defined by the `MdxDbInterface`:
-
-### build()
-
-Builds or rebuilds the database from content files.
-
-```typescript
-build(): Promise<VeliteData>
+const db = new MdxDb()
+await db.build()
+const posts = db.list('posts')
 ```
 
-Returns a Promise that resolves to the database data (collections of documents).
+### `@mdxdb/sqlite`
 
-### watch()
+Experimental SQLite backed database with persistent storage and vector search.
 
-Starts watching for changes to content files.
+## CLI Usage
 
-```typescript
-watch(): Promise<void>
-```
-
-Returns a Promise that resolves when the watch process has started.
-
-### stopWatch()
-
-Stops watching for changes.
-
-```typescript
-stopWatch(): void
-```
-
-### list()
-
-Lists documents from a collection or all collections.
-
-```typescript
-list(collectionName?: string, pattern?: string): any[]
-```
-
-- `collectionName` (optional): Collection name to filter results
-- `pattern` (optional): Glob pattern to filter results
-
-Returns an array of document objects.
-
-### get()
-
-Gets a document by ID.
-
-```typescript
-get(id: string, collectionName?: string, pattern?: string): any | undefined
-```
-
-- `id`: Document ID to retrieve
-- `collectionName` (optional): Collection name to search in
-- `pattern` (optional): Glob pattern to match against document paths
-
-Returns the document object if found, otherwise `undefined`.
-
-### set()
-
-Creates or updates a document.
-
-```typescript
-set(id: string, content: DocumentContent, collectionName: string, pattern?: string): Promise<void>
-```
-
-- `id`: Document ID to create or update
-- `content`: Document content to write (frontmatter and body)
-- `collectionName`: Collection name to create or update in
-- `pattern` (optional): Glob pattern to match files to update
-
-The `DocumentContent` interface includes:
-
-```typescript
-interface DocumentContent {
-  frontmatter: Record<string, any>
-  body: string
-}
-```
-
-### delete()
-
-Deletes a document.
-
-```typescript
-delete(id: string, collectionName: string, pattern?: string): Promise<boolean>
-```
-
-- `id`: Document ID to delete
-- `collectionName`: Collection name to delete from
-- `pattern` (optional): Glob pattern to match files to delete
-
-Returns a Promise that resolves to `true` if the document was deleted, `false` if it wasn't found.
-
-### search() (optional)
-
-Searches for documents using vector embeddings (implemented in @mdxdb/sqlite).
-
-```typescript
-search?(query: string, collectionName?: string): Promise<any[]>
-```
-
-- `query`: Search query text
-- `collectionName` (optional): Collection name to search in
-
-Returns a Promise that resolves to an array of matching documents.
-
-## CLI Usage (@mdxdb/fs)
-
-The @mdxdb/fs package includes a CLI for managing content.
-
-### Global Options
-
-- `--json`: Emit JSON describing actions/results
-- `--concurrency <number>`: Maximum number of concurrent operations for batch commands (default: 20)
-
-### Commands
-
-#### mdxdb build
-
-Builds the MDX database.
+The CLI is installed with `@mdxdb/fs` and offers a few commands:
 
 ```bash
-mdxdb build
+mdxdb build               # index MDX content
+mdxdb generate-database   # create a database with AI
+mdxdb generate-collection # scaffold a collection
+mdxdb generate-documents  # add documents to a collection
 ```
 
-This command:
-1. Instantiates MdxDbFs with the current working directory
-2. Builds the database using Velite
-3. Exports the database to the `.db` directory
+Use `--json` for machine-readable output or `--ink` for an interactive UI.
 
-#### mdxdb generate-database
+## Quick Example
 
-Generates a database with multiple collections.
+```ts
+import { db } from '@mdxdb/fs'
 
-```bash
-mdxdb generate-database [options]
-```
-
-Options:
-- `-d, --description <description>`: Description of the database to generate
-- `-c, --count <number>`: Number of collections to generate (default: 3)
-- `--ink`: Use React Ink for interactive UI
-
-Prerequisites:
-- Requires `OPENAI_API_KEY` environment variable to be set
-
-#### mdxdb generate-collection
-
-Generates a collection with a schema.
-
-```bash
-mdxdb generate-collection [options]
-```
-
-Options:
-- `-d, --description <description>`: Description of the collection to generate
-- `-n, --name <name>`: Name of the collection
-- `--ink`: Use React Ink for interactive UI
-
-Prerequisites:
-- Requires `OPENAI_API_KEY` environment variable to be set
-
-#### mdxdb generate-documents
-
-Generates documents for a collection.
-
-```bash
-mdxdb generate-documents [options]
+const all = await db.list()
+const readme = await db.get('readme')
 ```
 
 Options:
