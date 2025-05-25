@@ -8,8 +8,8 @@ export default defineConfig({
     'src/workflow.ts',
     'src/types.ts',
     'src/render.ts',
-    'src/markdown.ts',
-    'src/ascii.ts'
+    'src/markdown.tsx',
+    'src/ascii.tsx'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: true, // Enable declaration file generation
