@@ -71,14 +71,12 @@ describe('@mdxe/esbuild', () => {
 
   describe('build script generation', () => {
     it('should create valid build script content', () => {
-      const buildScript = `
-import { buildMdxContent } from '@mdxe/esbuild';
-
-buildMdxContent({
-  contentDir: '${TEST_CONTENT_DIR.replace(/\\/g,'/')}',
-  outFile: '${path.join(TEST_OUTPUT_DIR, 'content.mjs').replace(/\\/g,'/')}',
-});
-      `
+      const buildScript = 
+        "import { buildMdxContent } from '@mdxe/esbuild';\n\n" +
+        "buildMdxContent({\n" +
+        `  contentDir: '${TEST_CONTENT_DIR.replace(/\\/g,'/')}',\n` +
+        `  outFile: '${path.join(TEST_OUTPUT_DIR, 'content.mjs').replace(/\\/g,'/')}',\n` +
+        "});\n";
       
       fs.writeFileSync(path.join(TEST_DIR, 'build.js'), buildScript)
       
@@ -89,22 +87,19 @@ buildMdxContent({
     })
 
     it('should create valid esbuild plugin config', () => {
-      const esbuildConfig = `
-import { mdxePlugin } from '@mdxe/esbuild';
-import * as esbuild from 'esbuild';
-
-esbuild.build({
-  entryPoints: ['src/index.js'],
-  bundle: true,
-  outfile: 'dist/bundle.js',
-  plugins: [
-    mdxePlugin({
-      contentDir: '${TEST_CONTENT_DIR.replace(/\\/g,'/')}',
-      outFile: '${path.join(TEST_OUTPUT_DIR, 'content.mjs').replace(/\\/g,'/')}',
-    })
-  ]
-});
-      `
+      const esbuildConfig = 
+        "import { mdxePlugin } from '@mdxe/esbuild';\n" +
+        "// Import esbuild dynamically when needed\n" +
+        "// import * as esbuild from 'esbuild';\n\n" +
+        "// Example usage with esbuild\n" +
+        "export default {\n" +
+        "  plugins: [\n" +
+        "    mdxePlugin({\n" +
+        `      contentDir: '${TEST_CONTENT_DIR.replace(/\\/g,'/')}',\n` +
+        `      outFile: '${path.join(TEST_OUTPUT_DIR, 'content.mjs').replace(/\\/g,'/')}',\n` +
+        "    })\n" +
+        "  ]\n" +
+        "};\n";
       
       fs.writeFileSync(path.join(TEST_DIR, 'esbuild.config.js'), esbuildConfig)
       
