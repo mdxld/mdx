@@ -1,4 +1,4 @@
-import { beforeAll, describe, it, expect, afterEach, afterAll } from 'vitest'
+import { beforeAll, describe, it, expect, afterAll } from 'vitest'
 import { $ } from 'zx'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -69,17 +69,14 @@ describe('@mdxe/esbuild', () => {
     })
   })
 
-  describe('integration tests', () => {
-    it('should create build script for testing', () => {
+  describe('build script generation', () => {
+    it('should create valid build script content', () => {
       const buildScript = `
-import { buildMdxContent } from '../packages/mdxe/esbuild/dist/index.js';
+import { buildMdxContent } from '@mdxe/esbuild';
 
 buildMdxContent({
   contentDir: '${TEST_CONTENT_DIR.replace(/\\/g,'/')}',
   outFile: '${path.join(TEST_OUTPUT_DIR, 'content.mjs').replace(/\\/g,'/')}',
-}).catch(err => {
-  console.error('Build failed:', err);
-  process.exit(1);
 });
       `
       
@@ -91,9 +88,9 @@ buildMdxContent({
       expect(scriptContent).toContain(path.join(TEST_OUTPUT_DIR, 'content.mjs').replace(/\\/g,'/'))
     })
 
-    it('should create esbuild plugin config for testing', () => {
+    it('should create valid esbuild plugin config', () => {
       const esbuildConfig = `
-import { mdxePlugin } from '../packages/mdxe/esbuild/dist/index.js';
+import { mdxePlugin } from '@mdxe/esbuild';
 import * as esbuild from 'esbuild';
 
 esbuild.build({
