@@ -9,8 +9,10 @@ export type { WorkflowFrontmatter } from './types'
 export * from './LandingPage'
 export * from './slides'
 export * from './slide'
-export { default as Markdown } from './markdown'
-export { default as Ascii } from './ascii'
+
+import MarkdownComponent from './markdown'
+import AsciiComponent from './ascii'
+export { MarkdownComponent as Markdown, AsciiComponent as Ascii }
 
 import * as types from './types'
 import * as render from './render'
@@ -19,12 +21,13 @@ import * as frontmatter from './frontmatter'
 import * as components from './components'
 import { Slides } from './slides'
 import { Slide } from './slide'
-import Markdown from './markdown'
 
 const Ink: {
   renderMdxCli: typeof render.renderMdxCli;
   Slides: typeof Slides;
   Slide: typeof Slide;
+  Markdown: typeof MarkdownComponent;
+  Ascii: typeof AsciiComponent;
   [key: string]: any;
 } = {
   ...types,
@@ -34,7 +37,8 @@ const Ink: {
   ...components,
   Slides,
   Slide,
-  Markdown
+  Markdown: MarkdownComponent,
+  Ascii: AsciiComponent
 }
 
 export default Ink

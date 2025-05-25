@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
-import Markdown from '../../../mdxui/ink/src/markdown';
 import { parseFrontmatter, createSchemaFromFrontmatter, renderMdxCli, MdxFrontmatter } from '@mdxui/ink';
+import Markdown from '../../../mdxui/ink/src/markdown';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
