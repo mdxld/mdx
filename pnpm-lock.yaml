@@ -779,6 +779,55 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/node@20.17.49)(tsx@4.19.4)
 
+  packages/mdxe/esbuild:
+    dependencies:
+      '@mdx-js/esbuild':
+        specifier: ^3.0.0
+        version: 3.1.0(acorn@8.14.1)(esbuild@0.20.2)
+      esbuild:
+        specifier: ^0.20.1
+        version: 0.20.2
+      fast-glob:
+        specifier: ^3.3.0
+        version: 3.3.3
+      remark-frontmatter:
+        specifier: ^5.0.0
+        version: 5.0.0
+      remark-gfm:
+        specifier: ^4.0.0
+        version: 4.0.1
+      remark-mdx-frontmatter:
+        specifier: ^4.0.0
+        version: 4.0.0
+    devDependencies:
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../../config/tsup-config
+      '@types/node':
+        specifier: ^20.14.10
+        version: 20.17.49
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/node@20.17.49)(tsx@4.19.4)
+
+  packages/mdxe/esbuild/examples/minimal:
+    dependencies:
+      '@mdxe/esbuild':
+        specifier: workspace:*
+        version: link:../..
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+
   packages/mdxld:
     dependencies:
       '@fal-works/esbuild-plugin-global-externals':
@@ -15744,6 +15793,17 @@ packages:
       - supports-color
     dev: false
 
+  /remark-mdx-frontmatter@4.0.0:
+    resolution: {integrity: sha512-PZzAiDGOEfv1Ua7exQ8S5kKxkD8CDaSb4nM+1Mprs6u8dyvQifakh+kCj6NovfGXW+bTvrhjaR3srzjS2qJHKg==}
+    dependencies:
+      '@types/mdast': 4.0.4
+      estree-util-is-identifier-name: 3.0.0
+      estree-util-value-to-estree: 3.4.0
+      toml: 3.0.0
+      unified: 11.0.5
+      yaml: 2.8.0
+    dev: false
+
   /remark-mdx-remove-esm@1.1.0:
     resolution: {integrity: sha512-oN3F9QRuPKSdzZi+wvEodBVjKwya63sl403pWzJvm0+c503iUjCDR+JAnP3Ho/4205IWbQ2NujPQi/B9kU6ZrA==}
     dependencies:
@@ -17160,6 +17220,10 @@ packages:
     dependencies:
       '@tokenizer/token': 0.3.0
       ieee754: 1.2.1
+    dev: false
+
+  /toml@3.0.0:
+    resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
     dev: false
 
   /tough-cookie@2.5.0:
