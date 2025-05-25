@@ -1,0 +1,35 @@
+{
+  "name": "@mdxe/esbuild",
+  "type": "module",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "dependencies": {
+    "esbuild": "^0.20.1",
+    "@mdx-js/esbuild": "^3.0.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^4.0.0", 
+    "remark-gfm": "^4.0.0",
+    "fast-glob": "^3.3.0"
+  },
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@types/node": "^20.14.10",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vitest": "^3.1.4"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "check-types": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  }
+}
