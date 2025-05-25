@@ -256,9 +256,28 @@ export function Icon({ name, ...imageProps }: IconProps) {
 import BigText from 'ink-big-text';
 import { Children } from 'react';
 
-const Table = require('ink-table');
-const Link = require('ink-link');
-const SyntaxHighlight = require('ink-syntax-highlight');
+let Table: any;
+let Link: any; 
+let SyntaxHighlight: any;
+
+try {
+  Table = require('ink-table').default || require('ink-table');
+} catch {
+  Table = ({ data }: { data: any[] }) => <Text>Table: {data.length} rows</Text>;
+}
+
+try {
+  Link = require('ink-link').default || require('ink-link');
+} catch {
+  Link = ({ url, children }: { url: string; children: React.ReactNode }) => 
+    <Text color="blue">{children} ({url})</Text>;
+}
+
+try {
+  SyntaxHighlight = require('ink-syntax-highlight').default || require('ink-syntax-highlight');
+} catch {
+  SyntaxHighlight = ({ code }: { code: string }) => <Text backgroundColor="gray">{code}</Text>;
+}
 
 /**
  * Heading components (h1-h6)
@@ -349,9 +368,7 @@ export function Code({ children, className }: { children: React.ReactNode; class
   
   if (isCodeBlock) {
     const language = className.replace('language-', '');
-  // Use SyntaxHighlight as a function component
-  // @ts-ignore - SyntaxHighlight is a function component
-  return <SyntaxHighlight code={String(children)} language={language} />;
+    return <SyntaxHighlight code={String(children)} language={language} />;
   }
   
   return <Text backgroundColor="gray" color="black">{children}</Text>;
@@ -412,8 +429,6 @@ export function TableComponent({ children }: { children: React.ReactNode }) {
  */
 export function A({ href, children }: { href?: string; children: React.ReactNode }) {
   if (!href) return <Text>{children}</Text>;
-  // Use Link as a function component
-  // @ts-ignore - Link is a function component
   return <Link url={href}>{children}</Link>;
 }
 

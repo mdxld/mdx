@@ -86,7 +86,8 @@ export async function loadMdxComponents(): Promise<MDXComponents> {
     
     for (const [key, value] of Object.entries(userComponents)) {
       if (key !== 'useMDXComponents' && typeof value === 'function') {
-        componentMapping[key] = value;
+        // Use proper type assertion for component mapping
+        (componentMapping as any)[key] = value as React.ComponentType<any>;
       }
     }
     
