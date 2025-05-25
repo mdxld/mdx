@@ -90,6 +90,8 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
       const result = await doStream()
       const { stream } = result
       let fullText = ''
+      let finishReason: string | undefined
+      let usage: { promptTokens: number; completionTokens: number } | undefined
       
       const transformStream = new TransformStream<
         LanguageModelV1StreamPart,
@@ -98,6 +100,9 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
         transform(chunk, controller) {
           if (chunk.type === 'text-delta') {
             fullText += chunk.textDelta
+          } else if (chunk.type === 'finish') {
+            finishReason = chunk.finishReason
+            usage = chunk.usage
           }
           controller.enqueue(chunk)
         },
@@ -106,23 +111,9 @@ export const createCacheMiddleware = (): LanguageModelV1Middleware => {
             await fs.mkdir(CACHE_DIR, { recursive: true })
             const cacheData: CachedData = {
               text: fullText,
+              finishReason,
+              usage,
               rawCall: result.rawCall
-            }
-            
-            const reader = stream.getReader();
-            try {
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                if (value && value.type === 'finish') {
-                  cacheData.finishReason = value.finishReason;
-                  cacheData.usage = value.usage;
-                }
-              }
-            } catch (error) {
-              console.warn('Error reading stream for caching:', error);
-            } finally {
-              reader.releaseLock();
             }
             
             await fs.writeFile(cacheFilePath, JSON.stringify(cacheData, null, 2))
