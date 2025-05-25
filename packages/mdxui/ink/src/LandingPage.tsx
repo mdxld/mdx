@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Text, Spacer } from 'ink'
 import BigText from 'ink-big-text'
-import Markdown from 'ink-markdown'
-import Ascii from 'ink-ascii'
+import Markdown from './markdown'
+import Ascii from './ascii'
 import chalk from 'chalk'
 
 import type {

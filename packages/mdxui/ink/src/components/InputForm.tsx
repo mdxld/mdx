@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Text, useInput } from 'ink';
 import { z } from 'zod';
-import { MdxFrontmatter } from '../types';
-import { createSchemaFromFrontmatter } from '../schema';
+import { MdxFrontmatter } from '../types.js';
+import { createSchemaFromFrontmatter } from '../schema.js';
 
 interface InputFormProps {
   frontmatter: MdxFrontmatter;

@@ -7,14 +7,21 @@ export default defineConfig({
     'src/frontmatter.ts',
     'src/workflow.ts',
     'src/types.ts',
-    'src/render.ts'
+    'src/render.ts',
+    'src/markdown.tsx',
+    'src/ascii.tsx',
+    'src/slides.tsx',
+    'src/slide.tsx',
+    'src/components.tsx',
+    'src/LandingPage.tsx',
+    'src/icons.ts'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: false, // Temporarily disable declaration file generation to fix CI
   splitting: false,
   sourcemap: true,
   clean: true, // Clean output directory before build
-  external: ['react', 'react-dom', 'ink', 'ink-big-text', 'ink-markdown'],
+  external: ['react', 'react-dom', 'ink', 'ink-big-text', 'figlet'],
   esbuildOptions(options) {
     options.jsx = 'automatic'
   },

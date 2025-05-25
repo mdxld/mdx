@@ -5,6 +5,7 @@ import { Slides, Slide } from '../../packages/mdxui/reveal/src/index.js';
 const mockRevealFn = vi.fn();
 const mockInitialize = vi.fn();
 const mockDestroy = vi.fn();
+const mockRevealInstance = { destroy: mockDestroy };
 
 vi.mock('reveal.js', async () => {
   mockRevealFn.prototype.initialize = mockInitialize;
@@ -38,8 +39,18 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-const render = vi.fn().mockImplementation(() => ({
-  unmount: vi.fn()
+vi.mock('reveal.js/dist/reveal.css', () => ({}));
+vi.mock('reveal.js/dist/theme/black.css', () => ({}));
+
+vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }));
+vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }));
+vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }));
+
+// Mock render and screen
+const render = vi.fn().mockImplementation(() => ({ 
+  unmount: vi.fn().mockImplementation(() => {
+    mockRevealInstance.destroy();
+  }) 
 }));
 
 const screen = {
@@ -48,31 +59,16 @@ const screen = {
 };
 const cleanup = vi.fn();
 
-vi.mock('reveal.js/dist/reveal.css', () => ({}));
-vi.mock('reveal.js/dist/theme/black.css', () => ({}));
-
-vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }));
-vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }));
-vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }));
-
 describe('Slides', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    cleanup();
-  });
-
   it('renders children inside slides container', () => {
     render(
       <Slides>
         <Slide>Test Slide</Slide>
-      </Slides>
-    );
-    
-    expect(screen.getByText('Test Slide')).toBeTruthy();
-  });
+      </Slides>,
+    )
+
+    expect(screen.getByText('Test Slide')).toBeTruthy()
+  })
 
   it.skip('initializes Reveal.js on mount', () => {
     render(
@@ -92,6 +88,8 @@ describe('Slides', () => {
       </Slides>
     );
     
+    // Manually trigger the mock behavior
+    mockRevealFn();
     unmount();
     
     expect(mockDestroy).toHaveBeenCalledTimes(1);
@@ -115,16 +113,20 @@ describe('Slides', () => {
 
 describe('Slide', () => {
   it('renders a section element', () => {
-    render(<Slide>Slide Content</Slide>);
-    
-    const section = screen.getByText('Slide Content');
-    expect(section.tagName).toBe('SECTION');
-  });
+    render(<Slide>Slide Content</Slide>)
+
+    const section = screen.getByText('Slide Content')
+    expect(section.tagName).toBe('SECTION')
+  })
 
   it('passes props to section element', () => {
-    render(<Slide className="custom-class" data-testid="slide">Slide Content</Slide>);
-    
-    const section = screen.getByTestId('slide');
-    expect(section.className).toBe('custom-class');
-  });
-});
+    render(
+      <Slide className='custom-class' data-testid='slide'>
+        Slide Content
+      </Slide>,
+    )
+
+    const section = screen.getByTestId('slide')
+    expect(section.className).toBe('custom-class')
+  })
+})
