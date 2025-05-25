@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
-import { createWorkflowFromFrontmatter, executeWorkflowStep } from '../workflow.js';
-import type { WorkflowFrontmatter } from '../types.js';
-import { InputForm } from './InputForm.js';
+import { createWorkflowFromFrontmatter, executeWorkflowStep } from '../workflow';
+import type { WorkflowFrontmatter } from '../types';
+import { InputForm } from './InputForm';
 
 interface WorkflowManagerProps {
   frontmatter: WorkflowFrontmatter;
