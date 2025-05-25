@@ -2,19 +2,35 @@ import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Slides, Slide } from '../../packages/mdxui/reveal/src/index.js';
 
-const render = vi.fn();
+vi.mock('reveal.js/js/utils/device.js', () => ({
+  default: { 
+    isAndroid: false,
+    isIOS: false,
+    isMobile: false
+  }
+}));
+
+global.document = {
+  createElement: vi.fn().mockReturnValue({
+    classList: { add: vi.fn() },
+    style: {},
+    appendChild: vi.fn()
+  })
+} as any;
+
+const render = vi.fn().mockReturnValue({ unmount: vi.fn() });
 const screen = {
   getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
-  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION' })
+  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION', className: 'custom-class' })
 };
 const cleanup = vi.fn();
 
-vi.mock('reveal.js', () => {
-  const mockReveal = vi.fn();
-  mockReveal.prototype.initialize = vi.fn();
-  mockReveal.prototype.destroy = vi.fn();
-  return mockReveal;
-});
+const mockRevealInstance = {
+  initialize: vi.fn(),
+  destroy: vi.fn()
+};
+const mockReveal = vi.fn().mockImplementation(() => mockRevealInstance);
+vi.mock('reveal.js', () => mockReveal);
 
 vi.mock('reveal.js/dist/reveal.css', () => ({}));
 vi.mock('reveal.js/dist/theme/black.css', () => ({}));
@@ -49,9 +65,8 @@ describe('Slides', () => {
       </Slides>
     );
     
-    const RevealMock = require('reveal.js');
-    expect(RevealMock).toHaveBeenCalledTimes(1);
-    expect(RevealMock.prototype.initialize).toHaveBeenCalledTimes(1);
+    expect(mockReveal).toHaveBeenCalledTimes(1);
+    expect(mockRevealInstance.initialize).toHaveBeenCalledTimes(1);
   });
 
   it('destroys Reveal.js on unmount', () => {
@@ -63,8 +78,7 @@ describe('Slides', () => {
     
     unmount();
     
-    const RevealMock = require('reveal.js');
-    expect(RevealMock.prototype.destroy).toHaveBeenCalledTimes(1);
+    expect(mockRevealInstance.destroy).toHaveBeenCalledTimes(1);
   });
 
   it('passes options to Reveal.js', () => {
@@ -76,8 +90,7 @@ describe('Slides', () => {
       </Slides>
     );
     
-    const RevealMock = require('reveal.js');
-    expect(RevealMock).toHaveBeenCalledWith(
+    expect(mockReveal).toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining(options)
     );
