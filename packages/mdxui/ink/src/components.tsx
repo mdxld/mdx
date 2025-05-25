@@ -108,7 +108,7 @@ export function Image({ icon: Icon, svg, src, alt, width = 20, height, color = '
             }
           })
           .catch(err => {
-            setError(`Failed to load SVG image: ${err.message}`)
+            setError(`Failed to load SVG image: ${err?.message || String(err)}`)
           })
       } else {
         const options: any = {
@@ -134,7 +134,7 @@ export function Image({ icon: Icon, svg, src, alt, width = 20, height, color = '
             }
           })
           .catch(err => {
-            setError(`Failed to load image: ${err.message}`)
+            setError(`Failed to load image: ${err?.message || String(err)}`)
           })
       }
     }
@@ -171,7 +171,7 @@ export function Image({ icon: Icon, svg, src, alt, width = 20, height, color = '
         }
       })
       .catch((err: Error) => {
-        setError(`Failed to convert to ASCII: ${err.message}`)
+        setError(`Failed to convert to ASCII: ${err?.message || String(err)}`)
       })
   }, [svgString, width, height, fallback])
 
