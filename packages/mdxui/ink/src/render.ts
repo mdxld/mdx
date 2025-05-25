@@ -2,15 +2,15 @@
 import React from 'react';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types';
-import { createWorkflowFromFrontmatter } from './workflow';
+import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types.js';
+import { createWorkflowFromFrontmatter } from './workflow.js';
 
 import { compile, evaluate } from '@mdx-js/mdx';
 import { VFile } from 'vfile';
 import * as runtime from 'react/jsx-runtime';
-import { parseFrontmatter } from './frontmatter';
-import { defaultComponents } from './components';
-import { landingPageComponents } from './LandingPage';
+import { parseFrontmatter } from './frontmatter.js';
+import { defaultComponents } from './components.js';
+import { landingPageComponents } from './LandingPage.js';
 
 /**
  * Compile MDX content to a React component
