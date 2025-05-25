@@ -1,7 +1,6 @@
 import React from 'react'
-import {render} from 'ink'
+import { Box, render, Text } from 'ink'
 import SelectInput from 'ink-select-input'
-import {Text} from 'ink'
 
 type Item = { label: string, value: string }
 
@@ -14,25 +13,16 @@ const Demo = () => {
 	};
 
 	const items: Item[] = [
-		{
-			label: 'First',
-			value: 'first'
-		},
-		{
-			label: 'Second',
-			value: 'second'
-		},
-		{
-			label: 'Third',
-			value: 'third'
-		}
+		{ label: 'First', value: 'first' },
+		{ label: 'Second', value: 'second' },
+		{ label: 'Third', value: 'third' }
 	]
 
 	return (
-		<>
+		<Box flexGrow={1} flexDirection='column' borderColor='gray' borderStyle='round'>
 			<SelectInput items={items} onSelect={handleSelect} />
 			<Text>You selected {selected?.value ?? 'nothing'}</Text>
-		</>
+		</Box>
 	)
 }
 
