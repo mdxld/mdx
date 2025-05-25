@@ -13,6 +13,7 @@ vi.mock('react-dom/server', () => ({
 const mockAsciify = vi.fn()
 vi.mock('asciify-image', () => ({
   default: mockAsciify,
+  __esModule: true
 }))
 
 const MockIcon = (props: any) => <div {...props} />
