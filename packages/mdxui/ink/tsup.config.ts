@@ -14,7 +14,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true, // Clean output directory before build
-  external: ['react', 'react-dom', 'ink', 'ink-big-text', 'ink-markdown'],
+  external: ['react', 'react-dom', 'ink', 'ink-big-text', 'figlet'],
   esbuildOptions(options) {
     options.jsx = 'automatic'
   },

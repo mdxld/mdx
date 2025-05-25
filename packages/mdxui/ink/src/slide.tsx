@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Box, Text } from 'ink';
 import BigText from 'ink-big-text';
-import Markdown from 'ink-markdown';
+import Markdown from './markdown.js';
 
 /**
  * Props for the Slide component
