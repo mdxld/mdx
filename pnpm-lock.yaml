@@ -1076,6 +1076,9 @@ importers:
       '@types/glob':
         specifier: ^8.1.0
         version: 8.1.0
+      '@types/ink-testing-library':
+        specifier: ^1.0.4
+        version: 1.0.4
       '@types/node':
         specifier: ^20.10.5
         version: 20.17.49
@@ -6450,6 +6453,19 @@ packages:
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
     dependencies:
       '@types/unist': 3.0.3
+
+  /@types/ink-testing-library@1.0.4:
+    resolution: {integrity: sha512-ui3mKjA+IBpXuIe1WsSQzU8WwOK2hkIM9O27RUEIMxFEzFesfSPGrlwQV0xYuDjxgSibD8mZGeRG+ruimGM+qg==}
+    dependencies:
+      '@types/ink': 0.5.2
+    dev: true
+
+  /@types/ink@0.5.2:
+    resolution: {integrity: sha512-yEuhWTRMXJkIWiaM58c5kuRot5HFccv9kjjgy0fBZG0+tYb+sMBaxHNPVqyZXspGGlmwDOQ1d3BsygWpWlW17w==}
+    dependencies:
+      '@types/node': 22.15.21
+      '@types/prop-types': 15.7.14
+    dev: true
 
   /@types/ink@2.0.3(@types/react@19.1.5)(react@18.3.1):
     resolution: {integrity: sha512-DYKIKEJqhsGfQ/jgX0t9BzfHmBJ/9dBBT2MDsHAQRAfOPhEe7LZm5QeNBx1J34/e108StCPuJ3r4bh1y38kCJA==}
