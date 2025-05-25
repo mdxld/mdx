@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { createZodType } from './schema'
-import { WorkflowFrontmatter } from './types'
+import { createZodType } from './schema.js'
+import { WorkflowFrontmatter } from './types.js'
 
 interface Step<TInput = any, TOutput = any> {
   id: string

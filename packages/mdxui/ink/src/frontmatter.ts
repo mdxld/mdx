@@ -1,4 +1,4 @@
-import { MdxFrontmatter } from './types'
+import { MdxFrontmatter } from './types.js'
 
 /**
  * Parse frontmatter from MDX content
