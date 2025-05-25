@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { MdxFrontmatter } from './types'
+import { MdxFrontmatter } from './types.js'
 
 /**
  * Create Zod schemas from frontmatter input/output definitions
