@@ -13,7 +13,8 @@ export default defineConfig({
     'src/slides.tsx',
     'src/slide.tsx',
     'src/components.tsx',
-    'src/LandingPage.tsx'
+    'src/LandingPage.tsx',
+    'src/icons.ts'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: true, // Enable declaration file generation
