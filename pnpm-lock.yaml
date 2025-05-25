@@ -812,6 +812,9 @@ importers:
 
   packages/mdxe/esbuild/examples/minimal:
     dependencies:
+      '@mdxe/esbuild':
+        specifier: workspace:*
+        version: link:../..
       react:
         specifier: ^18.2.0
         version: 18.3.1
