@@ -64,11 +64,11 @@ describe('Slides', () => {
     render(
       <Slides>
         <Slide>Test Slide</Slide>
-      </Slides>
-    );
-    
-    expect(screen.getByText('Test Slide')).toBeTruthy();
-  });
+      </Slides>,
+    )
+
+    expect(screen.getByText('Test Slide')).toBeTruthy()
+  })
 
   it.skip('initializes Reveal.js on mount', () => {
     render(
@@ -113,16 +113,20 @@ describe('Slides', () => {
 
 describe('Slide', () => {
   it('renders a section element', () => {
-    render(<Slide>Slide Content</Slide>);
-    
-    const section = screen.getByText('Slide Content');
-    expect(section.tagName).toBe('SECTION');
-  });
+    render(<Slide>Slide Content</Slide>)
+
+    const section = screen.getByText('Slide Content')
+    expect(section.tagName).toBe('SECTION')
+  })
 
   it('passes props to section element', () => {
-    render(<Slide className="custom-class" data-testid="slide">Slide Content</Slide>);
-    
-    const section = screen.getByTestId('slide');
-    expect(section.className).toBe('custom-class');
-  });
-});
+    render(
+      <Slide className='custom-class' data-testid='slide'>
+        Slide Content
+      </Slide>,
+    )
+
+    const section = screen.getByTestId('slide')
+    expect(section.className).toBe('custom-class')
+  })
+})

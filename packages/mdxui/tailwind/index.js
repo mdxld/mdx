@@ -1,4 +1,3 @@
-const Tailwind = {
-};
+const Tailwind = {}
 
-export default Tailwind;
+export default Tailwind

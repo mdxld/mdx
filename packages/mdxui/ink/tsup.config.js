@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts', 'src/cli.ts'],
@@ -9,5 +9,5 @@ export default defineConfig({
   clean: true,
   jsx: true,
   cjsInterop: false,
-  noExternal: ['ink', 'pastel', 'chalk']
-});
+  noExternal: ['ink', 'pastel', 'chalk'],
+})

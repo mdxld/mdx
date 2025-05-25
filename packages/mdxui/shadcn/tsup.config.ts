@@ -5,5 +5,5 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   external: ['react', '@mdxui/core', '@mdxai', '@mdxui/ink'],
-  noExternal: []
+  noExternal: [],
 })
