@@ -18,6 +18,8 @@
 	],
 	"dependencies": {
 		"ink": "^4.1.0",
+		"ink-select-input": "^6.2.0",
+		"ink-use-stdout-dimensions": "^1.0.5",
 		"pastel": "^2.0.0",
 		"react": "^18.2.0",
 		"zod": "^3.21.4"
