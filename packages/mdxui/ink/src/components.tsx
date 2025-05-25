@@ -172,7 +172,7 @@ export function Image({ icon: Icon, svg, src, alt, width = 20, height, color = '
         }
       })
       .catch((err: Error) => {
-        setError(`Failed to convert to ASCII: ${err.message}`)
+        setError(`Failed to convert to ASCII: ${err.message || 'unknown error'}`)
       })
   }, [svgString, width, height, fallback])
 
