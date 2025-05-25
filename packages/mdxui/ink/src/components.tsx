@@ -154,11 +154,6 @@ export function Image({ icon: Icon, svg, src, alt, width = 20, height, color = '
       color: false, // Terminal color will be handled by Ink
     }
 
-    if (process.env.NODE_ENV === 'test' || process.env.CI === 'true') {
-      setAsciiArt('  ###\n #####\n#######')
-      setError(null)
-      return
-    }
 
     const svgDataUrl = `data:image/svg+xml;base64,${Buffer.from(svgString).toString('base64')}`
     
@@ -177,8 +172,7 @@ export function Image({ icon: Icon, svg, src, alt, width = 20, height, color = '
         }
       })
       .catch((err: Error) => {
-        setAsciiArt('  ###\n #####\n#######')
-        setError(null)
+        setError(`Failed to convert to ASCII: ${err.message}`)
       })
   }, [svgString, width, height, fallback])
 
