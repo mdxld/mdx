@@ -1,6 +1,6 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "src/slides.tsx", "src/slide.tsx", "src/components.tsx", "src/LandingPage.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "test/**/*.ts", "test/**/*.tsx", "src/slides.tsx", "src/slide.tsx", "src/components.tsx", "src/LandingPage.tsx"],
   "exclude": ["src/cli.ts", "src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.test.ts.bak"],
   "compilerOptions": {
     "outDir": "dist",
