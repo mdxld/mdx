@@ -9,6 +9,7 @@
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@mdx-js/esbuild": "^3.0.0",
+    "@mdx-js/mdx": "^3.1.0",
     "@mdxld/schema": "^0.1.0",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "@types/acorn": "^4.0.6",
@@ -28,6 +29,7 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "velite": "^0.2.4",
+    "vfile": "^6.0.1",
     "yaml": "^2.4.0",
     "zod": "^3.22.4"
   },

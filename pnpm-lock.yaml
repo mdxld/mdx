@@ -723,6 +723,9 @@ importers:
       '@mdx-js/esbuild':
         specifier: ^3.0.0
         version: 3.1.0(acorn@8.14.1)(esbuild@0.20.2)
+      '@mdx-js/mdx':
+        specifier: ^3.1.0
+        version: 3.1.0(acorn@8.14.1)
       '@mdxld/schema':
         specifier: ^0.1.0
         version: 0.1.0
@@ -780,6 +783,9 @@ importers:
       velite:
         specifier: ^0.2.4
         version: 0.2.4(acorn@8.14.1)
+      vfile:
+        specifier: ^6.0.1
+        version: 6.0.3
       yaml:
         specifier: ^2.4.0
         version: 2.8.0
