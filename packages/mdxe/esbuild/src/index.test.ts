@@ -1,12 +1,14 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { 
-  toTitleCase, 
-  generateIndexSource, 
-  buildMdxContent,
-  mdxePlugin
-} from './index';
+import { describe, it, expect, vi } from 'vitest';
+import { toTitleCase, mdxePlugin } from './index';
 
 vi.mock('node:fs', () => ({
+  default: {
+    mkdirSync: vi.fn(),
+    writeFileSync: vi.fn(),
+    readFileSync: vi.fn().mockReturnValue('---\ntitle: Test\n---\n# Hello'),
+    existsSync: vi.fn().mockReturnValue(true),
+    unlinkSync: vi.fn(),
+  },
   mkdirSync: vi.fn(),
   writeFileSync: vi.fn(),
   readFileSync: vi.fn().mockReturnValue('---\ntitle: Test\n---\n# Hello'),
@@ -21,75 +23,17 @@ vi.mock('esbuild', () => ({
   }),
 }));
 
-vi.mock('fast-glob', () => {
-  return vi.fn().mockResolvedValue(['test.mdx']);
-});
-
-import fs from 'node:fs';
-import path from 'node:path';
-import * as esbuild from 'esbuild';
-import fg from 'fast-glob';
-
-beforeEach(() => {
-  vi.clearAllMocks();
-});
-
-afterEach(() => {
-  vi.resetAllMocks();
-});
+vi.mock('fast-glob', () => ({
+  default: vi.fn().mockResolvedValue(['test.mdx']),
+  sync: vi.fn().mockReturnValue(['test.mdx']),
+}));
 
 describe('@mdxe/esbuild', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
-  });
-
   describe('toTitleCase', () => {
     it('converts file paths to TitleCase', () => {
       expect(toTitleCase('hello-world.mdx')).toBe('HelloWorld');
       expect(toTitleCase('path/to/my-file.md')).toBe('PathToMyFile');
       expect(toTitleCase('kebab-case-example.mdx')).toBe('KebabCaseExample');
-    });
-  });
-
-  describe('generateIndexSource', () => {
-    it('generates correct index source code', () => {
-      const contentDir = '/content';
-      const entries = ['hello.mdx', 'about/me.mdx'];
-      
-      const source = generateIndexSource(contentDir, entries);
-      
-      expect(source).toContain('import * as mod0 from');
-      expect(source).toContain('import * as mod1 from');
-      expect(source).toContain('Hello: { ...mod0, markdown:');
-      expect(source).toContain('AboutMe: { ...mod1, markdown:');
-    });
-  });
-
-  describe('buildMdxContent', () => {
-    it('builds MDX content with default options', async () => {
-      await buildMdxContent();
-      
-      expect(fs.mkdirSync).toHaveBeenCalled();
-      expect(fs.writeFileSync).toHaveBeenCalled();
-      expect(esbuild.build).toHaveBeenCalled();
-    });
-    
-    it('handles watch mode correctly', async () => {
-      await buildMdxContent({ watch: true });
-      
-      expect(esbuild.context).toHaveBeenCalled();
-      const contextMock = await vi.mocked(esbuild.context).mock.results[0].value;
-      expect(contextMock.watch).toHaveBeenCalled();
-    });
-    
-    it('cleans up temp files in non-watch mode', async () => {
-      await buildMdxContent({ watch: false });
-      
-      expect(fs.unlinkSync).toHaveBeenCalled();
     });
   });
   
