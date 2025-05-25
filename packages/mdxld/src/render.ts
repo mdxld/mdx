@@ -40,8 +40,8 @@ export async function render(mdxContent: string, options: RenderOptions = {}): P
   try {
     const { frontmatter } = parseFrontmatter(mdxContent);
     
-    const frontmatterRegex = /^\s*---([\s\S]*?)---/;
-    const contentWithoutFrontmatter = mdxContent.replace(frontmatterRegex, '').trim();
+    const frontmatterRegex = /^\s*---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*[\r\n]+/;
+    const contentWithoutFrontmatter = mdxContent.replace(frontmatterRegex, '');
     
     const compiled = await compile(new VFile(contentWithoutFrontmatter), {
       jsx: true,

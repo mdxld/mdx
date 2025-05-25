@@ -802,6 +802,9 @@ importers:
       '@types/react':
         specifier: ^18.2.43
         version: 18.3.21
+      '@types/turndown':
+        specifier: ^5.0.5
+        version: 5.0.5
       dedent:
         specifier: ^1.6.0
         version: 1.6.0
@@ -6441,6 +6444,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@types/turndown@5.0.5:
+    resolution: {integrity: sha512-TL2IgGgc7B5j78rIccBtlYAnkuv8nUQqhQc+DSYV5j9Be9XOcm/SKOVRuA47xAVI3680Tk9B1d8flK2GWT2+4w==}
+    dev: true
 
   /@types/unist@2.0.11:
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}

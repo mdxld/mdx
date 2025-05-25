@@ -37,6 +37,7 @@
     "@repo/tsup-config": "workspace:*",
     "@types/node": "^20.14.10",
     "@types/react": "^18.2.43",
+    "@types/turndown": "^5.0.5",
     "dedent": "^1.6.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
