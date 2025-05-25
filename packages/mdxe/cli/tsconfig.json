@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
@@ -22,7 +22,7 @@
   ],
   "exclude": ["node_modules"],
   "references": [
-    { "path": "../mdxui/core" },
-    { "path": "../mdxui/ink" }
+    { "path": "../../mdxui/core" },
+    { "path": "../../mdxui/ink" }
   ]
 }
