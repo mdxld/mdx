@@ -5,9 +5,15 @@ on:
     branches: ["**"]
   pull_request:
 
+# Allow bot commits to trigger this workflow
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Explicitly run even if triggered by a bot
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
