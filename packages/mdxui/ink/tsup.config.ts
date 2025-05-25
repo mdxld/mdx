@@ -17,7 +17,7 @@ export default defineConfig({
     'src/icons.ts'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
-  dts: false, // Temporarily disable declaration file generation to fix CI
+  dts: true, // Enable declaration file generation
   splitting: false,
   sourcemap: true,
   clean: true, // Clean output directory before build
