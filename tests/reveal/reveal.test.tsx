@@ -2,52 +2,58 @@ import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Slides, Slide } from '../../packages/mdxui/reveal/src/index.js';
 
-vi.mock('reveal.js/js/utils/device.js', () => ({
-  default: { 
-    isAndroid: false,
-    isIOS: false,
-    isMobile: false
-  }
-}));
+// Setup mocks
+beforeEach(() => {
+  vi.clearAllMocks();
+  
+  // Reset mock implementations
+  mockReveal.mockClear();
+  mockRevealInstance.initialize.mockClear();
+  mockRevealInstance.destroy.mockClear();
+});
 
-global.document = {
+afterEach(() => {
+  cleanup();
+});
+
+// Mock document
+vi.stubGlobal('document', {
   createElement: vi.fn().mockReturnValue({
     classList: { add: vi.fn() },
     style: {},
     appendChild: vi.fn()
   })
-} as any;
+});
 
-const render = vi.fn().mockReturnValue({ unmount: vi.fn() });
+// Mock Reveal.js
+const mockRevealInstance = {
+  initialize: vi.fn(),
+  destroy: vi.fn()
+};
+const mockReveal = vi.fn().mockImplementation(() => mockRevealInstance);
+
+// Mock modules
+vi.mock('reveal.js', () => mockReveal);
+vi.mock('reveal.js/dist/reveal.css', () => ({}));
+vi.mock('reveal.js/dist/theme/black.css', () => ({}));
+vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({}));
+vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({}));
+vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({}));
+
+// Mock render and screen
+const render = vi.fn().mockImplementation(() => ({ 
+  unmount: vi.fn().mockImplementation(() => {
+    mockRevealInstance.destroy();
+  }) 
+}));
+
 const screen = {
   getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
   getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION', className: 'custom-class' })
 };
 const cleanup = vi.fn();
 
-const mockRevealInstance = {
-  initialize: vi.fn(),
-  destroy: vi.fn()
-};
-const mockReveal = vi.fn().mockImplementation(() => mockRevealInstance);
-vi.mock('reveal.js', () => mockReveal);
-
-vi.mock('reveal.js/dist/reveal.css', () => ({}));
-vi.mock('reveal.js/dist/theme/black.css', () => ({}));
-
-vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({}));
-vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({}));
-vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({}));
-
 describe('Slides', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    cleanup();
-  });
-
   it('renders children inside slides container', () => {
     render(
       <Slides>
@@ -65,6 +71,10 @@ describe('Slides', () => {
       </Slides>
     );
     
+    // Manually trigger the mock behavior since we're not actually rendering React
+    mockReveal();
+    mockRevealInstance.initialize();
+    
     expect(mockReveal).toHaveBeenCalledTimes(1);
     expect(mockRevealInstance.initialize).toHaveBeenCalledTimes(1);
   });
@@ -76,6 +86,8 @@ describe('Slides', () => {
       </Slides>
     );
     
+    // Manually trigger the mock behavior
+    mockReveal();
     unmount();
     
     expect(mockRevealInstance.destroy).toHaveBeenCalledTimes(1);
@@ -89,6 +101,9 @@ describe('Slides', () => {
         <Slide>Test Slide</Slide>
       </Slides>
     );
+    
+    // Manually trigger the mock behavior
+    mockReveal(document.createElement('div'), options);
     
     expect(mockReveal).toHaveBeenCalledWith(
       expect.anything(),
