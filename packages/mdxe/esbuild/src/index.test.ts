@@ -1,7 +1,4 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import fs from 'node:fs';
-import path from 'node:path';
-import * as esbuild from 'esbuild';
 import { 
   toTitleCase, 
   generateIndexSource, 
@@ -12,8 +9,8 @@ import {
 vi.mock('node:fs', () => ({
   mkdirSync: vi.fn(),
   writeFileSync: vi.fn(),
-  readFileSync: vi.fn(),
-  existsSync: vi.fn(),
+  readFileSync: vi.fn().mockReturnValue('---\ntitle: Test\n---\n# Hello'),
+  existsSync: vi.fn().mockReturnValue(true),
   unlinkSync: vi.fn(),
 }));
 
@@ -24,15 +21,26 @@ vi.mock('esbuild', () => ({
   }),
 }));
 
-vi.mock('fast-glob', () => ({
-  default: vi.fn().mockResolvedValue(['test.mdx']),
-}));
+vi.mock('fast-glob', () => {
+  return vi.fn().mockResolvedValue(['test.mdx']);
+});
+
+import fs from 'node:fs';
+import path from 'node:path';
+import * as esbuild from 'esbuild';
+import fg from 'fast-glob';
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 describe('@mdxe/esbuild', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(fs.readFileSync).mockReturnValue('---\ntitle: Test\n---\n# Hello');
-    vi.mocked(fs.existsSync).mockReturnValue(true);
   });
 
   afterEach(() => {
