@@ -7,11 +7,13 @@
     "build": "mdxe build",
     "start": "mdxe start",
     "lint": "mdxe lint",
-    "test": "mdxe test"
+    "test": "mdxe test",
+    "terminal": "mdxe"
   },
   "dependencies": {
     "mdxui": "workspace:*",
     "@mdxui/reveal": "workspace:*",
+    "@mdxui/ink": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

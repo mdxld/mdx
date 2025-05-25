@@ -3,12 +3,73 @@ import { render, Box, Text, useInput } from 'ink';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import pkg from '../package.json' with { type: 'json' };
-import { findMdxFiles } from './utils/mdx-parser';
+import { findMdxFiles, findSlidesFile, SlidesInfo } from './utils/mdx-parser';
 import { findIndexFile, fileExists } from './utils/file-utils';
+import { renderMdxCli } from '@mdxui/ink';
 
 import { runDevCommand } from './commands/dev';
 import { runBuildCommand } from './commands/build';
 import { runStartCommand } from './commands/start';
+
+/**
+ * Renders terminal slides using @mdxui/ink
+ */
+async function renderTerminalSlides(filePath: string): Promise<void> {
+  try {
+    console.log(`Rendering slides from ${path.basename(filePath)}...`);
+    await renderMdxCli(filePath);
+  } catch (error) {
+    console.error('Error rendering slides:', error);
+    
+    const { waitUntilExit } = render(
+      React.createElement(FallbackSlideViewer, { filePath, error: String(error) })
+    );
+    
+    await waitUntilExit();
+  }
+}
+
+/**
+ * Fallback component if slide rendering fails
+ */
+const FallbackSlideViewer = ({ filePath, error }: { filePath: string, error: string }) => {
+  const [exit, setExit] = React.useState(false);
+
+  useInput((input, key) => {
+    if (input === 'q' || key.escape) {
+      setExit(true);
+    }
+  });
+
+  if (exit) {
+    return null;
+  }
+
+  return React.createElement(Box, { flexDirection: "column", padding: 1 },
+    React.createElement(Box, { marginBottom: 1 },
+      React.createElement(Text, { bold: true, color: "red" }, "Error Rendering Slides")
+    ),
+    
+    React.createElement(Box, { marginBottom: 1 },
+      React.createElement(Text, null,
+        "Failed to render slides from: ",
+        React.createElement(Text, { color: "blue" }, path.basename(filePath))
+      )
+    ),
+    
+    React.createElement(Box, { marginY: 1 },
+      React.createElement(Text, { color: "red" }, error)
+    ),
+    
+    React.createElement(Box, { marginTop: 1 },
+      React.createElement(Text, { dimColor: true },
+        "Press ",
+        React.createElement(Text, { color: "yellow" }, "q"),
+        " to quit"
+      )
+    )
+  );
+};
 
 /**
  * Run the CLI
@@ -49,6 +110,14 @@ export async function run() {
   }
   
   try {
+    const slidesFile = await findSlidesFile(targetDir);
+    
+    if (slidesFile) {
+      console.log(`Found slides in ${path.basename(slidesFile.filePath)}`);
+      await renderTerminalSlides(slidesFile.filePath);
+      return;
+    }
+    
     const SimpleApp = ({ cwd = process.cwd() }) => {
       const [files, setFiles] = React.useState<string[]>([]);
       const [indexFile, setIndexFile] = React.useState<string | null>(null);

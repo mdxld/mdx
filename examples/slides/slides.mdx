@@ -1,72 +1,133 @@
-import { Slides, Slide } from '@mdxui/reveal';
+import { Slides as RevealSlides, Slide as RevealSlide } from '@mdxui/reveal';
+import { Slides as InkSlides, Slide as InkSlide } from '@mdxui/ink';
 
-<Slides>
-  <Slide>
-    # Welcome to MDX Slides
-    
-    Create beautiful presentations with MDX and Reveal.js
-    
-    ---
-    
-    Built with [@mdxui/reveal](https://github.com/mdxld/mdx)
-  </Slide>
+{/* 
+  This example supports both web-based slides using Reveal.js and terminal-based slides using Ink.
+  When running with `mdxe dev` or in a browser, it will use Reveal.js.
+  When running with `mdxe` (terminal mode), it will use Ink.
+*/}
 
-  <Slide>
-    ## Features
-    
-    - Write slides in **Markdown**
-    - Use React components
-    - Code highlighting
-    - Speaker notes
-    - All Reveal.js features
-  </Slide>
+{/* For web rendering with Reveal.js */}
+{typeof window !== 'undefined' && (
+  <RevealSlides>
+    <RevealSlide>
+      # Welcome to MDX Slides
+      
+      Create beautiful presentations with MDX and Reveal.js
+      
+      ---
+      
+      Built with [@mdxui/reveal](https://github.com/mdxld/mdx) and [@mdxui/ink](https://github.com/mdxld/mdx)
+    </RevealSlide>
 
-  <Slide>
-    ## Code Example
-    
-    ```js
-    // This code will be highlighted
-    function hello() {
-      console.log("Hello from Reveal.js in MDX!");
-      return "Hello, world!";
-    }
-    ```
-  </Slide>
-  
-  <Slide>
-    ## Speaker Notes
-    
-    This slide has speaker notes!
-    
-    <aside className="notes">
-      These notes will only be visible in presenter view.
+    <RevealSlide>
+      ## Features
       
-      - Remember to mention the Q&A at the end
-      - Demonstrate the presenter view
-    </aside>
-  </Slide>
-  
-  <Slide>
-    ## Vertical Slides
-    
-    Press down to see more slides
-    
-    <Slide>
-      ### Nested Slide 1
+      - Write slides in **Markdown**
+      - Use React components
+      - Code highlighting
+      - Speaker notes
+      - All Reveal.js features
+    </RevealSlide>
+
+    <RevealSlide>
+      ## Code Example
       
-      This is a vertical slide
-    </Slide>
+      ```js
+      // This code will be highlighted
+      function hello() {
+        console.log("Hello from Reveal.js in MDX!");
+        return "Hello, world!";
+      }
+      ```
+    </RevealSlide>
     
-    <Slide>
-      ### Nested Slide 2
+    <RevealSlide>
+      ## Speaker Notes
       
-      Another vertical slide
-    </Slide>
-  </Slide>
-  
-  <Slide>
-    ## Thank You!
+      This slide has speaker notes!
+      
+      <aside className="notes">
+        These notes will only be visible in presenter view.
+        
+        - Remember to mention the Q&A at the end
+        - Demonstrate the presenter view
+      </aside>
+    </RevealSlide>
     
-    Check out the [documentation](https://github.com/mdxld/mdx) for more information
-  </Slide>
-</Slides>
+    <RevealSlide>
+      ## Vertical Slides
+      
+      Press down to see more slides
+      
+      <RevealSlide>
+        ### Nested Slide 1
+        
+        This is a vertical slide
+      </RevealSlide>
+      
+      <RevealSlide>
+        ### Nested Slide 2
+        
+        Another vertical slide
+      </RevealSlide>
+    </RevealSlide>
+    
+    <RevealSlide>
+      ## Thank You!
+      
+      Check out the [documentation](https://github.com/mdxld/mdx) for more information
+    </RevealSlide>
+  </RevealSlides>
+)}
+
+{/* For terminal rendering with Ink */}
+{typeof window === 'undefined' && (
+  <InkSlides options={{ slideNumber: true, showHelp: true }}>
+    <InkSlide>
+      # Welcome to MDX Slides
+      
+      Create beautiful presentations with MDX in the terminal
+      
+      ---
+      
+      Built with [@mdxui/ink](https://github.com/mdxld/mdx)
+    </InkSlide>
+
+    <InkSlide>
+      ## Features
+      
+      - Write slides in **Markdown**
+      - Use React components
+      - Terminal-based presentation
+      - Arrow key navigation
+      - Ink-powered rendering
+    </InkSlide>
+
+    <InkSlide>
+      ## Code Example
+      
+      ```js
+      // This code will be displayed in the terminal
+      function hello() {
+        console.log("Hello from Ink in MDX!");
+        return "Hello, world!";
+      }
+      ```
+    </InkSlide>
+    
+    <InkSlide>
+      ## Navigation
+      
+      Use left and right arrow keys to navigate between slides
+      
+      Press 'q' to exit the presentation
+    </InkSlide>
+    
+    <InkSlide>
+      ## Thank You!
+      
+      Check out the [documentation](https://github.com/mdxld/mdx) for more information
+    </InkSlide>
+  </InkSlides>
+)}
