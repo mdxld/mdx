@@ -295,3 +295,9 @@ export const components = {
   Execute,
   Markdown: (props: any) => <Markdown>{props.children}</Markdown>
 };
+
+// Export event status components
+export * from './EventStatus';
+export * from './EventProgressIndicator';
+export * from './EventListDisplay';
+export * from './EventStatusProvider';

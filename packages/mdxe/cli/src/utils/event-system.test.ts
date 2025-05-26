@@ -131,6 +131,74 @@ describe('event-system', () => {
       
       expect(response.context.important).toBe('value');
     });
+
+    it('supports direct context modification with helper methods', async () => {
+      on('test-event', (data, context) => {
+        context?.set('step1', 'completed');
+        context?.merge({ processed: { step1: true } });
+        return 'result1';
+      });
+      
+      on('test-event', (data, context) => {
+        expect(context?.get('step1')).toBe('completed');
+        expect(context?.has('processed')).toBe(true);
+        context?.set('step2', 'completed');
+        return 'result2';
+      });
+      
+      const response = await emit('test-event', { test: 'data' });
+      
+      expect(response.context.get('step1')).toBe('completed');
+      expect(response.context.get('step2')).toBe('completed');
+      expect(response.context.processed.step1).toBe(true);
+    });
+
+    it('performs deep merging of complex objects', async () => {
+      on('test-event', (data, context) => {
+        context?.merge({
+          user: { name: 'John', preferences: { theme: 'dark' } },
+          settings: { lang: 'en' }
+        });
+        return 'result1';
+      });
+      
+      on('test-event', (data, context) => {
+        context?.merge({
+          user: { age: 30, preferences: { notifications: true } },
+          settings: { timezone: 'UTC' }
+        });
+        return 'result2';
+      });
+      
+      const response = await emit('test-event');
+      
+      expect(response.context.user.name).toBe('John');
+      expect(response.context.user.age).toBe(30);
+      expect(response.context.user.preferences.theme).toBe('dark');
+      expect(response.context.user.preferences.notifications).toBe(true);
+      expect(response.context.settings.lang).toBe('en');
+      expect(response.context.settings.timezone).toBe('UTC');
+    });
+
+    it('maintains backward compatibility with return-based context', async () => {
+      on('test-event', (data, context) => {
+        return {
+          result: 'legacy',
+          context: { legacyStyle: true }
+        };
+      });
+      
+      on('test-event', (data, context) => {
+        expect(context?.get('legacyStyle')).toBe(true);
+        context?.set('modernStyle', true);
+        return 'modern';
+      });
+      
+      const response = await emit('test-event');
+      
+      expect(response.context.get('legacyStyle')).toBe(true);
+      expect(response.context.get('modernStyle')).toBe(true);
+    });
   });
 
   describe('clearEvents', () => {
