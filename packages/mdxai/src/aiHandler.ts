@@ -39,6 +39,18 @@ export interface AiFunction extends TemplateFn {
 }
 
 /**
+ * Stringify a value to YAML if it's an array or object, otherwise return as string
+ * @param value The value to stringify
+ * @returns The stringified value
+ */
+function stringifyValue(value: any): string {
+  if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
+    return yaml.stringify(value).trim();
+  }
+  return String(value);
+}
+
+/**
  * Core AI template literal function for text generation
  * 
  * Usage: await ai`Write a blog post about ${topic}`
@@ -81,7 +93,7 @@ const aiFunction: AiFunction = function(template: TemplateStringsArray, ...value
     template.forEach((str, i) => {
       prompt += str;
       if (i < values.length) {
-        prompt += values[i];
+        prompt += stringifyValue(values[i]);
       }
     });
     
@@ -112,7 +124,7 @@ export const ai = new Proxy(aiFunction, {
         templateStrings.forEach((str, i) => {
           prompt += str;
           if (i < values.length) {
-            prompt += values[i];
+            prompt += stringifyValue(values[i]);
           }
         });
         
@@ -131,7 +143,7 @@ export const ai = new Proxy(aiFunction, {
       templateStrings.forEach((str, i) => {
         prompt += str;
         if (i < args.length - 1) {
-          prompt += args[i + 1];
+          prompt += stringifyValue(args[i + 1]);
         }
       });
       
