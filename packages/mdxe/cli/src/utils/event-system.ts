@@ -1,6 +1,6 @@
 /**
  * Event system for MDXE
- * Provides a simple event registry for registering and emitting events
+ * Provides a simple event registry for registering and sending events
  */
 
 /**
@@ -66,7 +66,7 @@ export class MutableEventContext implements EventContext {
 
 /**
  * Event registry class
- * Stores event handlers and provides methods to register and emit events
+ * Stores event handlers and provides methods to register and send events
  */
 class EventRegistry {
   private handlers: Map<string, EventHandler[]> = new Map();
@@ -74,7 +74,7 @@ class EventRegistry {
   /**
    * Register a callback for a specific event
    * @param event Event name
-   * @param callback Function to call when the event is emitted
+   * @param callback Function to call when the event is sent
    */
   on(event: string, callback: (data: any, context?: MutableEventContext) => Promise<any> | any) {
     if (!this.handlers.has(event)) {
@@ -85,13 +85,13 @@ class EventRegistry {
   }
 
   /**
-   * Emit an event with optional data and context
+   * Send an event with optional data and context
    * @param event Event name
    * @param data Optional data to pass to the event handlers
    * @param context Optional context object to share between handlers
    * @returns Array of results from handlers and the final context
    */
-  async emit(event: string, data?: any, context: EventContext = {}) {
+  async send(event: string, data?: any, context: EventContext = {}) {
     const handlers = this.handlers.get(event) || [];
     const results: any[] = [];
     const mutableContext = new MutableEventContext(context);
@@ -137,6 +137,6 @@ class EventRegistry {
 export const eventRegistry = new EventRegistry();
 
 export const on = eventRegistry.on.bind(eventRegistry);
-export const emit = eventRegistry.emit.bind(eventRegistry);
+export const send = eventRegistry.send.bind(eventRegistry);
 export const clearEvents = eventRegistry.clear.bind(eventRegistry);
 export const clearEvent = eventRegistry.clearEvent.bind(eventRegistry);

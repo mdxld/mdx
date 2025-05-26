@@ -203,6 +203,23 @@ return "second block";
       expect(results[1].result).toBe('second block');
     });
     
+    it('supports event sending in code blocks', async () => {
+      const codeBlock: CodeBlock = {
+        lang: 'typescript',
+        meta: null,
+        value: `
+          on('test-event', (data) => data.value * 2);
+          const result = await send('test-event', { value: 21 });
+          return result.results[0];
+        `
+      };
+      
+      const result = await executeCodeBlock(codeBlock);
+      
+      expect(result.success).toBe(true);
+      expect(result.result).toBe(42);
+    });
+    
     it('captures console outputs across multiple code blocks', async () => {
       const mdxContent = `
 # Test Document
