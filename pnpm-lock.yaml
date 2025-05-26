@@ -744,6 +744,9 @@ importers:
       '@mdxui/ink':
         specifier: workspace:*
         version: link:../../mdxui/ink
+      chokidar:
+        specifier: ^4.0.3
+        version: 4.0.3
       commander:
         specifier: ^12.0.0
         version: 12.1.0
@@ -790,6 +793,9 @@ importers:
       '@repo/tsup-config':
         specifier: workspace:*
         version: link:../../../config/tsup-config
+      '@types/chokidar':
+        specifier: ^2.1.7
+        version: 2.1.7
       '@types/ink':
         specifier: ^2.0.3
         version: 2.0.3(@types/react@19.1.5)(react@18.3.1)
@@ -6348,6 +6354,13 @@ packages:
     dependencies:
       '@types/node': 22.15.21
     dev: false
+
+  /@types/chokidar@2.1.7:
+    resolution: {integrity: sha512-A7/MFHf6KF7peCzjEC1BBTF8jpmZTokb3vr/A0NxRGfwRLK3Ws+Hq6ugVn6cJIMfM6wkCak/aplWrxbTcu8oig==}
+    deprecated: This is a stub types definition. chokidar provides its own type definitions, so you do not need this installed.
+    dependencies:
+      chokidar: 4.0.3
+    dev: true
 
   /@types/commander@2.12.5:
     resolution: {integrity: sha512-YXGZ/rz+s57VbzcvEV9fUoXeJlBt5HaKu5iUheiIWNsJs23bz6AnRuRiZBRVBLYyPnixNvVnuzM5pSaxr8Yp/g==}

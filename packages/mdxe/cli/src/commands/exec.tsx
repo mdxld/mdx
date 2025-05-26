@@ -9,13 +9,19 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import React from 'react';
 import { render, Text, Box } from 'ink';
+import { FileWatcher } from '../utils/file-watcher';
+
+export interface ExecOptions {
+  watch?: boolean;
+}
 
 /**
  * Run the exec command
  * @param filePath Path to the MDX file to execute
+ * @param options Execution options including watch mode
  * @param contextType Optional execution context type
  */
-export async function runExecCommand(filePath: string, contextType?: ExecutionContextType) {
+export async function runExecCommand(filePath: string, options: ExecOptions = {}, contextType?: ExecutionContextType) {
   try {
     const execContext = contextType || 'default';
     console.log(`Executing MDX file: ${path.basename(filePath)} in ${execContext} context`);
@@ -26,65 +32,50 @@ export async function runExecCommand(filePath: string, contextType?: ExecutionCo
       console.error(`File not found: ${filePath}`);
       process.exit(1);
     }
-    
-    // Read MDX content
-    const content = await fs.readFile(filePath, 'utf-8');
-    
-    const results = await executeMdxCodeBlocks(content, { 
-      executionContext: execContext 
-    });
-    
-    const { waitUntilExit } = render(
-      <Box flexDirection="column" padding={1}>
-        <Text bold color="green">MDX Execution Complete</Text>
-        <Text>Executed {results.length} code block(s)</Text>
+
+    const executeFile = async () => {
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        const results = await executeMdxCodeBlocks(content, { 
+          executionContext: execContext as any
+        });
         
-        {results.map((result, index) => (
-          <Box key={index} marginTop={1} flexDirection="column">
-            <Text>
-              Block {index + 1}: {result.success ? 
-                <Text color="green">✓ Success</Text> : 
-                <Text color="red">✗ Failed</Text>
-              }
-            </Text>
-            {result.error && (
-              <Text color="red">Error: {result.error}</Text>
-            )}
-            {result.result !== undefined && (
-              <Text>Result: {JSON.stringify(result.result)}</Text>
-            )}
-            {result.outputs && result.outputs.length > 0 && (
-              <Box flexDirection="column" marginTop={1}>
-                <Text bold>Console Outputs:</Text>
-                {result.outputs.map((output, outputIndex) => (
-                  <Text key={outputIndex} color={
-                    output.type === 'error' ? 'red' : 
-                    output.type === 'warn' ? 'yellow' : 
-                    output.type === 'info' ? 'blue' : 
-                    'white'
-                  }>
-                    {output.type}: {output.args.map(arg => 
-                      typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-                    ).join(' ')}
-                  </Text>
-                ))}
-              </Box>
-            )}
-            <Text dimColor>Duration: {result.duration}ms</Text>
-          </Box>
-        ))}
-      </Box>
-    );
-    
-    await waitUntilExit();
-    
-    const failedBlocks = results.filter(r => !r.success);
-    if (failedBlocks.length > 0) {
-      console.log(`${failedBlocks.length} code block(s) failed`);
-      process.exit(1);
+        console.log(`\n🔄 Execution complete at ${new Date().toLocaleTimeString()}`);
+        console.log(`Executed ${results.length} code block(s)`);
+        
+        const failedBlocks = results.filter(r => !r.success);
+        if (failedBlocks.length > 0) {
+          console.log(`❌ ${failedBlocks.length} code block(s) failed`);
+          failedBlocks.forEach((result, index) => {
+            console.log(`  Block ${index + 1}: ${result.error}`);
+          });
+          process.exit(1);
+        } else {
+          console.log(`✅ All code blocks executed successfully`);
+        }
+      } catch (error) {
+        console.error('Error executing MDX file:', error);
+      }
+    };
+
+    await executeFile();
+
+    if (options.watch) {
+      const watcher = new FileWatcher(filePath, executeFile, {
+        debounceDelay: 300
+      });
+      
+      watcher.start();
+      
+      process.on('SIGINT', () => {
+        console.log('\n👋 Stopping file watcher...');
+        watcher.stop();
+        process.exit(0);
+      });
+      
+      console.log('Press Ctrl+C to stop watching');
+      await new Promise(() => {}); // Keep running indefinitely
     }
-    
-    console.log('MDX execution completed successfully');
   } catch (error) {
     console.error('Error executing MDX file:', error);
     process.exit(1);
