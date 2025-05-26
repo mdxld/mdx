@@ -42,7 +42,7 @@ jobs:
           version: 8.15.6
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --filter=!voice
 
       - name: Create Release Pull Request
         id: changesets
@@ -74,7 +74,7 @@ jobs:
           version: 8.15.6
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --filter=!voice
 
       - name: Check for Changeset
         run: echo "Skipping changeset check in PR workflow"
