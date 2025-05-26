@@ -27,6 +27,14 @@ async function buildSchemaOrgFiles(sourceDir: string, outputDir: string) {
         const yamlContent = match[1]
         try {
           const frontmatter = parse(yamlContent)
+          
+          try {
+            JSON.stringify(frontmatter)
+          } catch (jsonError) {
+            console.error(`Error: Frontmatter in ${file} cannot be serialized to JSON:`, jsonError)
+            continue // Skip this file
+          }
+          
           const id = frontmatter.$id || basename(file, '.mdx')
           result[id] = {
             id: frontmatter.$id,
@@ -41,11 +49,13 @@ async function buildSchemaOrgFiles(sourceDir: string, outputDir: string) {
             },
           }
         } catch (e) {
-          console.warn(`Warning: Could not parse frontmatter in ${file}`)
+          console.error(`Error: Could not parse frontmatter in ${file}:`, e)
         }
+      } else {
+        console.warn(`Warning: No frontmatter found in ${file}`)
       }
     } catch (e) {
-      console.warn(`Warning: Could not read file ${file}`)
+      console.error(`Error: Could not read file ${file}:`, e)
     }
   }
 
@@ -80,13 +90,20 @@ export async function build(options: { sourceDir?: string; outputDir?: string; c
     })
   }
 
-  const indexJs = `export const mdx = ${JSON.stringify(result, null, 2)};`
-  const indexDts = `export declare const mdx: any;`
-  const mdxJson = JSON.stringify(result, null, 2)
-
-  fs.writeFileSync(join(outputDir, 'index.js'), indexJs)
-  fs.writeFileSync(join(outputDir, 'index.d.ts'), indexDts)
-  fs.writeFileSync(join(outputDir, 'mdx.json'), mdxJson)
+  try {
+    const resultJson = JSON.stringify(result, null, 2)
+    
+    const indexJs = `export const mdx = ${resultJson};`
+    const indexDts = `export declare const mdx: any;`
+    
+    fs.writeFileSync(join(outputDir, 'index.js'), indexJs)
+    fs.writeFileSync(join(outputDir, 'index.d.ts'), indexDts)
+    fs.writeFileSync(join(outputDir, 'mdx.json'), resultJson)
+  } catch (error) {
+    console.error('Error generating output files:', error)
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    throw new Error(`Failed to generate output files: ${errorMessage}`)
+  }
 
   return result
 }
