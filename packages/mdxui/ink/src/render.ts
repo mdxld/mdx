@@ -15,7 +15,11 @@ import { landingPageComponents } from './LandingPage';
 /**
  * Compile MDX content to a React component
  */
-async function compileMdx(mdxContent: string, options: any = {}) {
+export async function compileMdx(
+  mdxContent: string, 
+  scope: Record<string, any> = {},
+  options: { remarkPlugins?: any[]; rehypePlugins?: any[] } = {}
+): Promise<React.ComponentType<any>> {
   try {
     // Parse frontmatter
     const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent);
@@ -23,31 +27,26 @@ async function compileMdx(mdxContent: string, options: any = {}) {
     const result = await compile(new VFile(contentWithoutFrontmatter), {
       jsx: true,
       jsxImportSource: 'react',
-      ...options.compileOptions
+      remarkPlugins: options.remarkPlugins,
+      rehypePlugins: options.rehypePlugins
     });
     
     const components = {
       ...defaultComponents,
-      ...landingPageComponents,
-      ...options.components
+      ...landingPageComponents
     };
     
+    // @ts-expect-error - components is a valid property for evaluate but not in the type definition
     const { default: Component } = await evaluate(result, {
       ...runtime,
-      components,
-      ...options.scope
+      ...scope,
+      components
     });
     
-    return { 
-      Component,
-      frontmatter
-    };
+    return Component;
   } catch (error) {
     console.error('Error compiling MDX:', error);
-    return { 
-      Component: () => null,
-      frontmatter: {} as any
-    };
+    return () => null;
   }
 }
 
@@ -59,7 +58,7 @@ async function compileMdx(mdxContent: string, options: any = {}) {
  */
 export async function renderMdxCli(
   mdxContentOrPath: string, 
-  options: Partial<MdxPastelInkOptions> = {}
+  options: Partial<MdxPastelInkOptions & { executeCode?: boolean }> = {}
 ): Promise<{
   Component: React.ComponentType<any>;
   frontmatter: Record<string, any>;
@@ -81,7 +80,13 @@ export async function renderMdxCli(
       mdxContent = mdxContentOrPath;
     }
     
-    const { Component, frontmatter } = await compileMdx(mdxContent, options);
+    // Parse frontmatter
+    const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent);
+    
+    const Component = await compileMdx(contentWithoutFrontmatter, options.scope, {
+      remarkPlugins: [],
+      rehypePlugins: []
+    });
     
     // Check for workflow in frontmatter
     if ((frontmatter as WorkflowFrontmatter).workflow || 

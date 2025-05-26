@@ -13,6 +13,8 @@ export * from './InkMDXRenderer'
 export * from './component-loader'
 export * from './mdx-plugins'
 export * from './bundler'
+export * from './code-execution'
+export * from './ExecutionResults'
 
 import MarkdownDefault from './markdown'
 import AsciiDefault from './ascii'
