@@ -97,16 +97,23 @@ export class MdxDbFs extends MdxDbBase {
       }
       
       const veliteConfigPath = path.join(this.packageDir, 'velite.config.js')
-      const configContent = `
-        import { defineConfig } from 'velite/dist/index.cjs';
-        export default defineConfig({
-          root: '${this.packageDir}',
-          collections: ${JSON.stringify(enhancedCollections)}
-        });
-      `
-
-      await fs.mkdir(path.dirname(veliteConfigPath), { recursive: true })
-      await fs.writeFile(veliteConfigPath, configContent)
+      
+      let shouldDeleteConfig = false
+      try {
+        await fs.access(veliteConfigPath)
+        console.log('velite.config.js already exists, using existing file')
+      } catch (error) {
+        shouldDeleteConfig = true
+        const configContent = `
+          import { defineConfig } from 'velite/dist/index.cjs';
+          export default defineConfig({
+            root: '${this.packageDir}',
+            collections: ${JSON.stringify(enhancedCollections)}
+          });
+        `
+        await fs.mkdir(path.dirname(veliteConfigPath), { recursive: true })
+        await fs.writeFile(veliteConfigPath, configContent)
+      }
 
       try {
         const { stdout, stderr } = await execFilePromise('npx', ['velite', 'build'], { cwd: this.packageDir })
@@ -250,7 +257,9 @@ export class MdxDbFs extends MdxDbBase {
         }
       }
 
-      await fs.unlink(veliteConfigPath).catch(() => {})
+      if (shouldDeleteConfig) {
+        await fs.unlink(veliteConfigPath).catch(() => {})
+      }
     } catch (error) {
       console.error('Error during build process:', error)
       throw new Error(`Build process failed: ${(error as Error).message}`)
