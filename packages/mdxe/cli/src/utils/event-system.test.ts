@@ -106,10 +106,10 @@ describe('event-system', () => {
       });
       
       on('test-event', (data, context) => {
-        expect(context.firstRan).toBe(true);
+        expect(context?.firstRan).toBe(true);
         return {
           result: 'second handler',
-          context: { ...context, secondRan: true }
+          context: { ...(context || {}), secondRan: true }
         };
       });
       
@@ -123,7 +123,7 @@ describe('event-system', () => {
       const initialContext = { important: 'value' };
       
       on('test-event', (data, context) => {
-        expect(context.important).toBe('value');
+        expect(context?.important).toBe('value');
         return 'result';
       });
       
