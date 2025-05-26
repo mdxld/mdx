@@ -36,33 +36,47 @@ export class Collection implements CollectionInterface {
     if (!result) {
       // Get all items in the collection
       const allItems = this.db.list(this.collectionName) || []
+      console.log(`Collection.get: Looking for "${idOrTitle}" in ${allItems.length} items`)
       
-      const normalizedInput = String(idOrTitle).trim();
-      result = allItems.find(item => 
-        item && 
-        typeof item === 'object' && 
-        item.title && 
-        String(item.title).trim() === normalizedInput
-      );
-      
-      if (!result) {
-        const lowerInput = normalizedInput.toLowerCase();
-        result = allItems.find(item => 
-          item && 
-          typeof item === 'object' && 
-          item.title && 
-          String(item.title).trim().toLowerCase() === lowerInput
-        );
+      // Try exact title match
+      const normalizedInput = String(idOrTitle).trim()
+      for (const item of allItems) {
+        if (item && typeof item === 'object' && item.title) {
+          const itemTitle = String(item.title).trim()
+          console.log(`Comparing: "${itemTitle}" === "${normalizedInput}"`)
+          if (itemTitle === normalizedInput) {
+            console.log(`Found exact title match: ${itemTitle}`)
+            result = item
+            break
+          }
+        }
       }
       
-      // If still not found and input has uppercase or spaces, try slugifying
+      if (!result) {
+        const lowerInput = normalizedInput.toLowerCase()
+        for (const item of allItems) {
+          if (item && typeof item === 'object' && item.title) {
+            const itemTitle = String(item.title).trim().toLowerCase()
+            if (itemTitle === lowerInput) {
+              console.log(`Found case-insensitive title match: ${item.title}`)
+              result = item
+              break
+            }
+          }
+        }
+      }
+      
       if (!result && idOrTitle.match(/[A-Z\s]/)) {
-        const slug = this.generateSlug(idOrTitle);
-        result = this.db.get(slug, this.collectionName);
+        const slug = this.generateSlug(idOrTitle)
+        console.log(`Trying slugified match: "${slug}"`)
+        result = this.db.get(slug, this.collectionName)
+        if (result) {
+          console.log(`Found by slugified title: ${result.title}`)
+        }
       }
     }
     
-    return result;
+    return result
   }
 
   /**
