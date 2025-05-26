@@ -10,5 +10,6 @@ export default defineConfig({
     },
     globals: true,
     environment: 'node',
+    hookTimeout: 30000, // Increase hook timeout to 30 seconds to match test timeout
   },
 })
