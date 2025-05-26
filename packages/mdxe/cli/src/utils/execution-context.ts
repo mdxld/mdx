@@ -6,11 +6,53 @@
 import { on, emit, EventContext } from './event-system';
 import { renderInputPrompt } from './input-prompt';
 
+export type ExecutionContextType = 'dev' | 'test' | 'production' | 'default';
+
+export interface ContextConfig {
+  env: Record<string, string>;
+  globals?: Record<string, any>;
+}
+
+export const EXECUTION_CONTEXTS: Record<ExecutionContextType, ContextConfig> = {
+  dev: {
+    env: {
+      NODE_ENV: 'development',
+      MDXE_CONTEXT: 'dev',
+      DEBUG: '1'
+    }
+  },
+  test: {
+    env: {
+      NODE_ENV: 'test',
+      MDXE_CONTEXT: 'test',
+      CI: 'false'
+    }
+  },
+  production: {
+    env: {
+      NODE_ENV: 'production',
+      MDXE_CONTEXT: 'production'
+    }
+  },
+  default: {
+    env: {
+      NODE_ENV: 'development',
+      MDXE_CONTEXT: 'default'
+    }
+  }
+};
+
 /**
  * Create an execution context with global objects for MDX code blocks
+ * @param contextType The execution context type to use
  * @returns Object with global objects and functions
  */
-export function createExecutionContext() {
+export function createExecutionContext(contextType: ExecutionContextType = 'default') {
+  const contextConfig = EXECUTION_CONTEXTS[contextType];
+  
+  Object.entries(contextConfig.env).forEach(([key, value]) => {
+    process.env[key] = value;
+  });
   return {
     /**
      * Register a callback for a specific event
