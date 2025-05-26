@@ -281,6 +281,7 @@ describe('AI Handler', () => {
 
     it('should throw error when not used as template literal', () => {
       expect(() => {
+        // @ts-expect-error - intentionally testing runtime error when used incorrectly
         list('not a template literal')
       }).toThrow('list function must be used as a template literal tag')
     })
