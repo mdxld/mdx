@@ -4,19 +4,62 @@
  */
 
 import * as esbuild from 'esbuild';
-import { createExecutionContext } from './execution-context';
+import { createExecutionContext, ExecutionContextType } from './execution-context';
 import type { CodeBlock } from './mdx-parser';
+import { extractExecutionContext } from './mdx-parser';
+
+export interface CapturedOutput {
+  type: 'log' | 'error' | 'warn' | 'info';
+  args: any[];
+  timestamp: number;
+}
 
 export interface ExecutionResult {
   success: boolean;
   result?: any;
   error?: string;
   duration: number;
+  outputs?: CapturedOutput[];
 }
 
 export interface ExecutionOptions {
   context?: Record<string, any>;
   timeout?: number;
+  executionContext?: ExecutionContextType;
+}
+
+/**
+ * Capture console outputs during code execution
+ */
+function captureConsoleOutputs(fn: () => Promise<any>): Promise<{ result: any; outputs: CapturedOutput[] }> {
+  const outputs: CapturedOutput[] = [];
+  const originalConsole = {
+    log: console.log,
+    error: console.error,
+    warn: console.warn,
+    info: console.info,
+  };
+
+  console.log = (...args: any[]) => {
+    outputs.push({ type: 'log', args, timestamp: Date.now() });
+    originalConsole.log(...args);
+  };
+  console.error = (...args: any[]) => {
+    outputs.push({ type: 'error', args, timestamp: Date.now() });
+    originalConsole.error(...args);
+  };
+  console.warn = (...args: any[]) => {
+    outputs.push({ type: 'warn', args, timestamp: Date.now() });
+    originalConsole.warn(...args);
+  };
+  console.info = (...args: any[]) => {
+    outputs.push({ type: 'info', args, timestamp: Date.now() });
+    originalConsole.info(...args);
+  };
+
+  return fn().finally(() => {
+    Object.assign(console, originalConsole);
+  }).then(result => ({ result, outputs }));
 }
 
 /**
@@ -27,6 +70,7 @@ export async function executeCodeBlock(
   options: ExecutionOptions = {}
 ): Promise<ExecutionResult> {
   const startTime = Date.now();
+  const originalEnv = { ...process.env };
   
   try {
     // Only execute TypeScript/JavaScript code blocks
@@ -34,25 +78,37 @@ export async function executeCodeBlock(
       return {
         success: false,
         error: `Unsupported language: ${codeBlock.lang}`,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
+        outputs: []
       };
     }
 
-    // Create execution context with global objects
-    const executionContext = createExecutionContext();
-    const customContext = options.context || {};
-    const fullContext = { ...executionContext, ...customContext };
+    const contextType = options.executionContext || extractExecutionContext(codeBlock.meta);
     
-    // Special case for the async test
-    if (codeBlock.value.includes('await new Promise') && codeBlock.value.includes('return "done"')) {
-      // This is a direct handling of the test case
-      await new Promise(resolve => setTimeout(resolve, 10));
-      return {
-        success: true,
-        result: "done",
-        duration: Date.now() - startTime
-      };
-    }
+    // Create execution context with global objects
+    const executionContext = createExecutionContext(contextType);
+    const customContext = options.context || {};
+    
+    const { EXECUTION_CONTEXTS } = await import('./execution-context.js');
+    const contextEnv = EXECUTION_CONTEXTS[contextType]?.env || {};
+    
+    Object.entries(contextEnv).forEach(([key, value]) => {
+      process.env[key] = value as string;
+    });
+    
+    // Create full context with environment variables
+    const fullContext = { 
+      ...executionContext, 
+      ...customContext,
+      env: contextEnv,
+      process: { 
+        env: { 
+          ...process.env 
+        } 
+      }
+    };
+    
+    // No special case handling - let the normal execution path handle all code blocks
     
     // Check if code contains await statements
     const hasAwait = codeBlock.value.includes('await ');
@@ -66,24 +122,30 @@ export async function executeCodeBlock(
           target: 'es2020',
         });
         
-        // Execute the transpiled code
+        // Execute the transpiled code with console capture
         const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
         const contextKeys = Object.keys(fullContext);
         const contextValues = Object.values(fullContext);
         
         const execFunction = new AsyncFunction(...contextKeys, result.code);
-        const execResult = await execFunction(...contextValues);
+        
+        // Capture console outputs during execution
+        const { result: execResult, outputs } = await captureConsoleOutputs(async () => {
+          return await execFunction(...contextValues);
+        });
         
         return {
           success: true,
           result: execResult,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
+          outputs
         };
       } catch (error) {
         return {
           success: false,
           error: error instanceof Error ? error.message : String(error),
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
+          outputs: []
         };
       }
     } else {
@@ -92,14 +154,19 @@ export async function executeCodeBlock(
       const contextKeys = Object.keys(fullContext);
       const contextValues = Object.values(fullContext);
       
-      // Execute the code directly
+      // Execute the code directly with console capture
       const execFunction = new AsyncFunction(...contextKeys, codeBlock.value);
-      const result = await execFunction(...contextValues);
+      
+      // Capture console outputs during execution
+      const { result, outputs } = await captureConsoleOutputs(async () => {
+        return await execFunction(...contextValues);
+      });
       
       return {
         success: true,
         result,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
+        outputs
       };
     }
   } catch (error) {
@@ -107,8 +174,17 @@ export async function executeCodeBlock(
     return {
       success: false,
       error: error instanceof Error ? error.message : String(error),
-      duration: Date.now() - startTime
+      duration: Date.now() - startTime,
+      outputs: []
     };
+  } finally {
+    Object.keys(process.env).forEach(key => {
+      if (originalEnv[key] !== undefined) {
+        process.env[key] = originalEnv[key];
+      } else {
+        delete process.env[key];
+      }
+    });
   }
 }
 
@@ -142,11 +218,15 @@ export async function executeMdxCodeBlocks(
   const { extractCodeBlocks } = await import('./mdx-parser');
   const codeBlocks = extractCodeBlocks(mdxContent);
   
-  // Filter to only executable code blocks
-  const executableBlocks = codeBlocks.filter(block => 
-    ['typescript', 'ts', 'javascript', 'js'].includes(block.lang) && 
-    !block.meta?.includes('test') // Skip test blocks
-  );
+  // Filter executable blocks based on context
+  const executableBlocks = codeBlocks.filter(block => {
+    if (!['typescript', 'ts', 'javascript', 'js'].includes(block.lang)) return false;
+    
+    const blockContext = extractExecutionContext(block.meta);
+    if (blockContext === 'test' && options.executionContext !== 'test') return false;
+    
+    return true;
+  });
   
   return executeCodeBlocks(executableBlocks, options);
 }
