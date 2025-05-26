@@ -2,7 +2,12 @@ import { CoreMessage, StreamTextResult, streamText, generateText, experimental_c
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 import { createCacheMiddleware } from './cacheMiddleware'
 
-const cacheMiddleware = createCacheMiddleware()
+const cacheMiddleware = createCacheMiddleware({
+  ttl: 24 * 60 * 60 * 1000, // 24 hours
+  maxSize: 100,
+  persistentCache: true,
+  memoryCache: true
+})
 
 interface LLMServiceParams {
   modelProvider?: typeof openai // Changed to typeof openai

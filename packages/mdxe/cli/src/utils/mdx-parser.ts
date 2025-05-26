@@ -5,6 +5,7 @@ import { visit } from 'unist-util-visit'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { globby } from 'globby'
+import { ExecutionContextType } from './execution-context'
 
 /**
  * Represents a code block extracted from MDX content
@@ -13,6 +14,19 @@ export interface CodeBlock {
   lang: string
   meta: string | null
   value: string
+}
+
+/**
+ * Extract execution context from code block metadata
+ */
+export function extractExecutionContext(meta: string | null): ExecutionContextType {
+  if (!meta) return 'default';
+  
+  if (meta.includes('test')) return 'test';
+  if (meta.includes('dev')) return 'dev';
+  if (meta.includes('production')) return 'production';
+  
+  return 'default';
 }
 
 /**

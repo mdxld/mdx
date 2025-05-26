@@ -8,16 +8,61 @@
  */
 interface EventHandler {
   event: string;
-  callback: (data: any, context?: EventContext) => Promise<any> | any;
+  callback: (data: any, context?: MutableEventContext) => Promise<any> | any;
   timeout?: number; // Optional timeout in milliseconds
 }
 
 /**
- * Event context interface
- * Provides a way to share data between event handlers
+ * Event context interface with helper methods
+ * Provides a way to share and modify data between event handlers
  */
 export interface EventContext {
   [key: string]: any;
+  
+  set?(key: string, value: any): void;
+  get?(key: string): any;
+  merge?(data: object): void;
+  has?(key: string): boolean;
+}
+
+/**
+ * Context implementation with helper methods
+ */
+export class MutableEventContext implements EventContext {
+  [key: string]: any;
+  
+  constructor(initialData: object = {}) {
+    Object.assign(this, initialData);
+  }
+  
+  set(key: string, value: any): void {
+    this[key] = value;
+  }
+  
+  get(key: string): any {
+    return this[key];
+  }
+  
+  merge(data: object): void {
+    this.deepMerge(this, data);
+  }
+  
+  has(key: string): boolean {
+    return key in this;
+  }
+  
+  private deepMerge(target: any, source: any): void {
+    for (const key in source) {
+      if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+        if (!target[key] || typeof target[key] !== 'object') {
+          target[key] = {};
+        }
+        this.deepMerge(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
 }
 
 /**
@@ -45,7 +90,7 @@ class EventRegistry {
   private async executeHandlerWithTimeout(
     handler: EventHandler, 
     data: any, 
-    context: EventContext, 
+    context: MutableEventContext, 
     timeout?: number
   ): Promise<any> {
     if (!timeout) {
@@ -68,7 +113,7 @@ class EventRegistry {
    */
   on(
     event: string, 
-    callback: (data: any, context?: EventContext) => Promise<any> | any,
+    callback: (data: any, context?: MutableEventContext) => Promise<any> | any,
     timeout?: number
   ) {
     if (!this.handlers.has(event)) {
@@ -89,20 +134,19 @@ class EventRegistry {
   async emit(event: string, data?: any, context: EventContext = {}, options: EmitOptions = {}) {
     const handlers = this.handlers.get(event) || [];
     const results: any[] = [];
-    let currentContext = { ...context }; // Clone to avoid modifying the original
+    const mutableContext = new MutableEventContext(context);
     
     if (options.parallel && handlers.length > 0) {
       try {
         const handlerPromises = handlers.map(async (handler, index) => {
           try {
-            const handlerContext = { ...currentContext };
             const result = await this.executeHandlerWithTimeout(
               handler, 
               data, 
-              handlerContext, 
+              mutableContext, 
               handler.timeout || options.timeout
             );
-            return { success: true, result, context: handlerContext };
+            return { success: true, result, index };
           } catch (error) {
             const errorInfo = this.createErrorInfo(error, event, index, data);
             
@@ -110,13 +154,13 @@ class EventRegistry {
             
             if (event !== 'error' && event !== 'handler.error') {
               try {
-                await this.emit('handler.error', errorInfo, currentContext);
+                await this.emit('handler.error', errorInfo, mutableContext);
               } catch (errorHandlerError) {
                 console.error('Error in error handler:', errorHandlerError);
               }
             }
             
-            return { success: false, error: errorInfo };
+            return { success: false, error: errorInfo, index };
           }
         });
         
@@ -126,29 +170,20 @@ class EventRegistry {
           if (result.success) {
             results.push(result.result);
             if (result.result && typeof result.result === 'object' && result.result.context) {
-              currentContext = { ...currentContext, ...result.result.context };
-            }
-            if (result.context) {
-              currentContext = { ...currentContext, ...result.context };
+              mutableContext.merge(result.result.context);
             }
           } else {
             results.push(null);
-            currentContext.errors = currentContext.errors || [];
-            currentContext.errors.push(result.error);
+            const errors = mutableContext.get('errors') || [];
+            errors.push(result.error);
+            mutableContext.set('errors', errors);
           }
         });
       } catch (error) {
         console.error(`Unexpected error in parallel event emission for ${event}:`, error);
-        currentContext.errors = currentContext.errors || [];
-        currentContext.errors.push({
-          event,
-          error: error instanceof Error ? {
-            message: error.message,
-            stack: error.stack,
-            name: error.name
-          } : String(error),
-          timestamp: new Date().toISOString()
-        });
+        const errors = mutableContext.get('errors') || [];
+        errors.push(this.createErrorInfo(error, event, -1, data));
+        mutableContext.set('errors', errors);
       }
     } else {
       for (let i = 0; i < handlers.length; i++) {
@@ -157,25 +192,26 @@ class EventRegistry {
           const result = await this.executeHandlerWithTimeout(
             handler, 
             data, 
-            currentContext, 
+            mutableContext, 
             handler.timeout || options.timeout
           );
           results.push(result);
           
           if (result && typeof result === 'object' && result.context) {
-            currentContext = { ...currentContext, ...result.context };
+            mutableContext.merge(result.context);
           }
         } catch (error) {
           const errorInfo = this.createErrorInfo(error, event, i, data);
           
           console.error(`Error in async event handler for '${event}' (handler ${i + 1}/${handlers.length}):`, errorInfo);
           
-          currentContext.errors = currentContext.errors || [];
-          currentContext.errors.push(errorInfo);
+          const errors = mutableContext.get('errors') || [];
+          errors.push(errorInfo);
+          mutableContext.set('errors', errors);
           
           if (event !== 'error' && event !== 'handler.error') {
             try {
-              await this.emit('handler.error', errorInfo, currentContext);
+              await this.emit('handler.error', errorInfo, mutableContext);
             } catch (errorHandlerError) {
               console.error('Error in error handler:', errorHandlerError);
             }
@@ -186,7 +222,7 @@ class EventRegistry {
       }
     }
     
-    return { results, context: currentContext };
+    return { results, context: mutableContext };
   }
 
   /**
