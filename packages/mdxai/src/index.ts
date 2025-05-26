@@ -11,7 +11,23 @@ export interface GenerateOptions {
 }
 
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream }
-export { ai, generateAiText, executeAiFunction, TemplateFn } from './aiHandler.js'
+export { 
+  ai, 
+  generateAiText,
+  executeAiFunction, 
+  TemplateFn 
+} from './aiHandler.js'
+
+export { 
+  createAiFolderStructure,
+  writeAiFunction,
+  findAiFunctionsInHierarchy,
+  findAiFunctionEnhanced,
+  ensureAiFunctionExists,
+  createAiFunctionVersion,
+  listAiFunctionVersions,
+  AI_FOLDER_STRUCTURE
+} from './utils.js'
 
 /**
  * Generate markdown/MDX content based on a prompt.

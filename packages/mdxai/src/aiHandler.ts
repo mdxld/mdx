@@ -3,7 +3,17 @@ import { z } from 'zod'
 import matter from 'gray-matter'
 import fs from 'fs'
 import { model } from './ai.js'
-import { findAiFunction } from './utils.js'
+import { 
+  findAiFunction, 
+  findAiFunctionEnhanced, 
+  ensureAiFunctionExists,
+  createAiFolderStructure,
+  writeAiFunction,
+  findAiFunctionsInHierarchy,
+  createAiFunctionVersion,
+  listAiFunctionVersions,
+  AI_FOLDER_STRUCTURE
+} from './utils.js'
 
 /**
  * Type for template literal function
@@ -129,10 +139,19 @@ export const ai = new Proxy(aiFunction, {
  * @returns The result of the AI function execution
  */
 export async function executeAiFunction(functionName: string, prompt: string): Promise<any> {
-  const aiFile = await findAiFunction(functionName)
+  let aiFile = await findAiFunctionEnhanced(functionName)
   
   if (!aiFile) {
-    throw new Error(`AI function '${functionName}' not found in .ai directory`)
+    try {
+      const createdPath = ensureAiFunctionExists(functionName)
+      aiFile = await findAiFunctionEnhanced(functionName)
+      if (!aiFile) {
+        throw new Error(`Failed to create AI function '${functionName}'`)
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      throw new Error(`AI function '${functionName}' not found in .ai directory and could not be created: ${errorMessage}`)
+    }
   }
   
   const { data: frontmatter, content: template } = matter(aiFile.filePath ? fs.readFileSync(aiFile.filePath, 'utf-8') : aiFile.content)
