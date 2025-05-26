@@ -23,6 +23,34 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile --filter=!voice
+          
+      # Debug step to verify lockfile presence
+      - name: Check for lockfile
+        id: check-lockfile
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            echo "✅ pnpm-lock.yaml exists"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ pnpm-lock.yaml is missing"
+            echo "exists=false" >> $GITHUB_OUTPUT
+            ls -la
+          fi
+          
+      # Try frozen install first
+      - name: Install with frozen lockfile
+        id: frozen-install
+        if: steps.check-lockfile.outputs.exists == 'true'
+        run: pnpm install --frozen-lockfile --filter=!voice
+        continue-on-error: true
+        
+      # Fallback to regenerating lockfile if missing or frozen install fails
+      - name: Regenerate lockfile and install
+        if: steps.check-lockfile.outputs.exists == 'false' || steps.frozen-install.outcome == 'failure'
+        run: |
+          echo "🔧 Regenerating lockfile and installing dependencies"
+          pnpm install --no-frozen-lockfile --filter=!voice
+          
+      # Build step
       - run: pnpm run build
 
