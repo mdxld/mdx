@@ -17,7 +17,9 @@ export {
   generateAiText,
   executeAiFunction, 
   TemplateFn,
-  ResearchTemplateFn
+  ResearchTemplateFn,
+  list,
+  ListFunction
 } from './aiHandler.js'
 
 export { 

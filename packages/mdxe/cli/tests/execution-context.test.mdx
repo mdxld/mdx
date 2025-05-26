@@ -1,0 +1,26 @@
+# Execution Context Test
+
+This file tests the execution context functionality in MDXE.
+
+## Default Context
+
+```typescript
+console.log('NODE_ENV (process.env):', process.env.NODE_ENV);
+console.log('MDXE_CONTEXT (process.env):', process.env.MDXE_CONTEXT);
+```
+
+## Dev Context
+
+```typescript dev
+console.log('NODE_ENV (process.env):', process.env.NODE_ENV);
+console.log('MDXE_CONTEXT (process.env):', process.env.MDXE_CONTEXT);
+console.log('DEBUG (process.env):', process.env.DEBUG);
+```
+
+## Test Context
+
+```typescript test
+console.log('NODE_ENV (process.env):', process.env.NODE_ENV);
+console.log('MDXE_CONTEXT (process.env):', process.env.MDXE_CONTEXT);
+console.log('CI (process.env):', process.env.CI);
+```
