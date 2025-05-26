@@ -99,7 +99,7 @@ export function extractCodeBlocks(content: string): string[] {
   let match;
   
   while ((match = codeBlockRegex.exec(content)) !== null) {
-    codeBlocks.push(match[1]);
+    codeBlocks.push(match[1].trimEnd());
   }
   
   return codeBlocks;
