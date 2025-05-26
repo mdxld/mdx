@@ -3,7 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "mdxe build"
+    "dev": "mdxe",
+    "exec": "mdxe",
+    "build": "mdxe build",
+    "start": "mdxe start",
+    "lint": "mdxe lint",
+    "test": "mdxe test"
   },
   "dependencies": {
     "mdxe": "workspace:*"
