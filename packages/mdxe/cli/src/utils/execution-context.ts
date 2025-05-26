@@ -3,7 +3,7 @@
  * Provides global objects and functions for MDX code blocks
  */
 
-import { on, emit, EventContext } from './event-system';
+import { on, emit, MutableEventContext } from './event-system';
 import { renderInputPrompt } from './input-prompt';
 
 export type ExecutionContextType = 'dev' | 'test' | 'production' | 'default';
@@ -59,12 +59,12 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
      * Special handling for 'idea.captured' event to prompt for user input
      * Supports context propagation between handlers
      */
-    on: async (event: string, callback: (data: any, context?: EventContext) => any) => {
+    on: async (event: string, callback: (data: any, context?: MutableEventContext) => any) => {
       if (event === 'idea.captured') {
         on(event, callback);
         
         const idea = await renderInputPrompt('Enter your startup idea:');
-        return callback(idea, { eventType: 'idea.captured', timestamp: new Date().toISOString() });
+        return callback(idea, new MutableEventContext({ eventType: 'idea.captured', timestamp: new Date().toISOString() }));
       }
       return on(event, callback);
     },
