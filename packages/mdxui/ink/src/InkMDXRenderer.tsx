@@ -83,10 +83,15 @@ export function InkMDXRenderer({
         }
         
         const { compileMdx } = await import('./render');
+        const { getAllComponents } = await import('./component-loader');
+        
+        const allComponents = await getAllComponents();
+        const finalComponents = mergeComponents(allComponents, components);
         
         const Component = await compileMdx(mdxContent, scope, {
           remarkPlugins: [],
-          rehypePlugins: []
+          rehypePlugins: [],
+          components: finalComponents
         });
         setMdxComponent(() => Component);
         setError(null);

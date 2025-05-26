@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Component loading and registration system for MDX to Ink component mapping.
+ * 
+ * This module provides a flexible system for mapping MDX elements to Ink terminal UI components.
+ * It supports both file-based component discovery and programmatic component registration.
+ */
 import fs from 'fs/promises';
 import path from 'path';
 import React from 'react';
@@ -110,4 +116,39 @@ export function mergeComponents(
   }
   
   return { ...defaults, ...overrides };
+}
+
+declare global {
+  var __mdxComponentRegistry: Record<string, React.ComponentType<any>> | undefined;
+}
+
+/**
+ * Register a single component for MDX rendering
+ */
+export function registerComponent(name: string, component: React.ComponentType<any>): void {
+  if (typeof component !== 'function') {
+    throw new Error(`Component for "${name}" must be a React component function`);
+  }
+  if (!globalThis.__mdxComponentRegistry) {
+    globalThis.__mdxComponentRegistry = {};
+  }
+  globalThis.__mdxComponentRegistry[name] = component;
+}
+
+/**
+ * Register multiple components at once
+ */
+export function registerComponents(components: MDXComponents): void {
+  for (const [name, component] of Object.entries(components)) {
+    registerComponent(name, component);
+  }
+}
+
+/**
+ * Get all registered components (including programmatically registered ones)
+ */
+export async function getAllComponents(): Promise<MDXComponents> {
+  const fileComponents = await loadMdxComponents();
+  const registryComponents = globalThis.__mdxComponentRegistry || {};
+  return mergeComponents(fileComponents, registryComponents);
 }
