@@ -1,13 +1,4 @@
-interface CollectionConfig {
-  slug: string
-  fields: Array<{
-    name: string
-    type: string
-    required?: boolean
-    unique?: boolean
-    options?: Array<{ label: string; value: string }>
-  }>
-}
+import type { CollectionConfig } from 'payload'
 
 /**
  * Payload collection for MDX files
@@ -88,6 +79,11 @@ export const EmbeddingsCollection: CollectionConfig = {
     {
       name: 'collection',
       type: 'text',
+      required: true,
+    },
+    {
+      name: 'vector',
+      type: 'json',
       required: true,
     },
   ],

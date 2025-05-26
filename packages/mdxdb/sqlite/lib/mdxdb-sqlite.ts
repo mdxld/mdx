@@ -1,14 +1,14 @@
 import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent } from '../../core/lib/index.js'
-import { createClient } from '@libsql/client'
-import { getPayload } from 'payload'
 import { FilesCollection, EmbeddingsCollection } from './collections.js'
+import { generateEmbedding, chunkDocument, ChunkType } from './embeddings.js'
+import { getPayloadClient } from './payload.config.js'
+import { Payload } from 'payload'
+import matter from 'gray-matter'
+import path from 'path'
 
 interface MdxDbSqliteInterface extends MdxDbBase {
   getData(id?: string, collectionName?: string): Promise<any>
 }
-import { generateEmbedding, chunkDocument, ChunkType } from './embeddings.js'
-import matter from 'gray-matter'
-import path from 'path'
 
 /**
  * SQLite configuration options
@@ -22,11 +22,10 @@ interface SQLiteConfig extends MdxDbConfig {
 }
 
 /**
- * MdxDb implementation using SQLite
+ * MdxDb implementation using SQLite with Payload CMS
  */
 export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
-  private dbClient: any
-  private payload: any
+  private payload: Payload | null = null
   private initialized: boolean = false
   private dbConfig: SQLiteConfig
   declare protected config: MdxDbConfig
@@ -39,30 +38,42 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
   }
 
   /**
-   * Initialize the SQLite database and Payload CMS
+   * Calculate cosine similarity between two vectors
+   */
+  private cosineSimilarity(vecA: number[], vecB: number[]): number {
+    const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0)
+    const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0))
+    const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0))
+    return dotProduct / (magnitudeA * magnitudeB)
+  }
+
+  /**
+   * Initialize Payload CMS with SQLite adapter
    */
   private async initialize(): Promise<void> {
     if (this.initialized) return
 
     try {
-      this.dbClient = createClient({
-        url: this.dbConfig.url || 'file:mdxdb.db',
-        authToken: this.dbConfig.authToken,
-        ...(this.dbConfig.inMemory ? { url: ':memory:' } : {}),
-      })
-
-      this.payload = {
-        find: async ({ collection, where }: any) => ({ docs: [] }),
-        create: async ({ collection, data }: any) => ({ id: 'mock-id', ...data }),
-        update: async ({ collection, id, data }: any) => ({ id, ...data }),
-        delete: async ({ collection, id, where }: any) => true,
+      // Set environment variables for Payload configuration
+      if (this.dbConfig.url) {
+        process.env.DATABASE_URL = this.dbConfig.url
+      }
+      
+      if (this.dbConfig.authToken) {
+        process.env.DATABASE_AUTH_TOKEN = this.dbConfig.authToken
+      }
+      
+      if (this.dbConfig.inMemory) {
+        process.env.DATABASE_URL = ':memory:'
       }
 
+      this.payload = await getPayloadClient()
+      
       this.initialized = true
-      console.log('SQLite database and Payload CMS initialized successfully')
+      console.log('Payload CMS with SQLite adapter initialized successfully')
     } catch (error) {
-      console.error('Error initializing SQLite database:', error)
-      throw new Error(`Failed to initialize SQLite database: ${(error as Error).message}`)
+      console.error('Error initializing Payload CMS:', error)
+      throw new Error(`Failed to initialize Payload CMS: ${(error as Error).message}`)
     }
   }
 
@@ -73,22 +84,23 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
     await this.initialize()
 
     try {
-      await this.payload.delete({
-        collection: 'files',
-        where: { id: { exists: true } },
-      })
+      if (this.payload) {
+        await this.payload.delete({
+          collection: 'files',
+          where: { id: { exists: true } },
+        })
 
-      await this.payload.delete({
-        collection: 'embeddings',
-        where: { id: { exists: true } },
-      })
+        await this.payload.delete({
+          collection: 'embeddings',
+          where: { id: { exists: true } },
+        })
+      }
 
       const veliteData: VeliteData = {}
 
       if (this.config.collections) {
         for (const [collectionName, collectionConfig] of Object.entries(this.config.collections)) {
           const contentPath = path.join(this.dbConfig.packageDir || '.', (collectionConfig as any).contentDir || '')
-
           veliteData[collectionName] = []
         }
       }
@@ -122,6 +134,10 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
   async set(id: string, content: DocumentContent, collectionName: string): Promise<void> {
     await this.initialize()
 
+    if (!this.payload) {
+      throw new Error('Payload not initialized')
+    }
+
     try {
       const mdxContent = matter.stringify(content.body, content.frontmatter)
 
@@ -138,7 +154,7 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
       if (existingFile.docs.length > 0) {
         const result = await this.payload.update({
           collection: 'files',
-          id: existingFile.docs[0].id,
+          id: existingFile.docs[0].id as string,
           data: {
             slug: id,
             collection: collectionName,
@@ -150,7 +166,7 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
           },
         })
 
-        fileId = result.id
+        fileId = result.id as string
 
         await this.payload.delete({
           collection: 'embeddings',
@@ -170,9 +186,10 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
           },
         })
 
-        fileId = result.id
+        fileId = result.id as string
       }
 
+      // Generate and store embeddings
       const chunks = chunkDocument(mdxContent)
 
       for (const chunk of chunks) {
@@ -227,6 +244,10 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
   async delete(id: string, collectionName: string): Promise<boolean> {
     await this.initialize()
 
+    if (!this.payload) {
+      throw new Error('Payload not initialized')
+    }
+
     try {
       const existingFile = await this.payload.find({
         collection: 'files',
@@ -240,7 +261,7 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
         return false
       }
 
-      const fileId = existingFile.docs[0].id
+      const fileId = existingFile.docs[0].id as string
 
       await this.payload.delete({
         collection: 'embeddings',
@@ -268,10 +289,14 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
   }
 
   /**
-   * Search for documents using vector embeddings
+   * Get data from the database
    */
   async getData(id?: string, collectionName?: string): Promise<any> {
     await this.initialize()
+
+    if (!this.payload) {
+      throw new Error('Payload not initialized')
+    }
 
     try {
       if (id && collectionName) {
@@ -293,20 +318,74 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
     }
   }
 
+  /**
+   * Search for documents using vector similarity
+   * @param query Search query
+   * @param collectionName Optional collection name to filter results
+   * @returns Array of documents sorted by similarity
+   */
   async search(query: string, collectionName?: string): Promise<any[]> {
     await this.initialize()
 
+    if (!this.payload) {
+      throw new Error('Payload not initialized')
+    }
+
     try {
+      // Generate embedding for the query
       const queryEmbedding = await generateEmbedding(query)
 
-      const whereCondition = collectionName ? { collection: { equals: collectionName } } : {}
+      const whereCondition = collectionName 
+        ? { collection: { equals: collectionName } }
+        : undefined
 
-      const results = await this.payload.find({
-        collection: 'files',
+      const embeddingsResult = await this.payload.find({
+        collection: 'embeddings',
         where: whereCondition,
+        limit: 1000, // Reasonable limit for similarity calculation
       })
 
-      return results.docs
+      if (!embeddingsResult.docs || embeddingsResult.docs.length === 0) {
+        return []
+      }
+
+      const scoredResults = embeddingsResult.docs.map((embedding: any) => {
+        const vector = embedding.vector
+        const similarity = this.cosineSimilarity(queryEmbedding, vector)
+        
+        return {
+          ...embedding,
+          similarity,
+        }
+      })
+
+      const topResults = scoredResults
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, 10)
+
+      const results = []
+      
+      for (const result of topResults) {
+        const file = await this.payload.findByID({
+          collection: 'files',
+          id: result.fileId,
+        })
+
+        if (file) {
+          results.push({
+            slug: file.slug,
+            collection: file.collection,
+            content: result.content,
+            frontmatter: file.frontmatter,
+            body: file.markdown,
+            similarity: result.similarity,
+            sectionPath: result.sectionPath,
+            chunkType: result.chunkType,
+          })
+        }
+      }
+
+      return results
     } catch (error) {
       console.error('Error searching documents:', error)
       throw new Error(`Failed to search documents: ${(error as Error).message}`)
