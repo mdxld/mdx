@@ -19,10 +19,12 @@ export function createExecutionContext() {
      */
     on: async (event: string, callback: (data: any, context?: EventContext) => any) => {
       if (event === 'idea.captured') {
+        on(event, callback);
+        
         const idea = await renderInputPrompt('Enter your startup idea:');
         return callback(idea, { eventType: 'idea.captured', timestamp: new Date().toISOString() });
       }
-      on(event, callback);
+      return on(event, callback);
     },
 
     /**
