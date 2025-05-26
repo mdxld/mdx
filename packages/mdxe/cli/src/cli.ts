@@ -94,10 +94,34 @@ export async function run() {
         
         loadFiles();
       }, [cwd]);
+      
+      React.useEffect(() => {
+        if (!loading && !error) {
+          if (indexFile || files.length === 1) {
+            const fileToExecute = indexFile || files[0];
+            setExit(true);
+            setTimeout(() => {
+              runExecCommand(fileToExecute);
+            }, 100);
+          }
+        }
+      }, [loading, error, files.length, indexFile, files]);
     
+      const [selectedIndex, setSelectedIndex] = React.useState(0);
+      
       useInput((input, key) => {
         if (input === 'q' || key.escape) {
           setExit(true);
+        } else if (key.upArrow && selectedIndex > 0) {
+          setSelectedIndex(prev => prev - 1);
+        } else if (key.downArrow && selectedIndex < files.length - 1) {
+          setSelectedIndex(prev => prev + 1);
+        } else if (key.return && files.length > 0) {
+          const selectedFile = files[selectedIndex];
+          setExit(true);
+          setTimeout(() => {
+            runExecCommand(selectedFile);
+          }, 100);
         }
       });
     
@@ -144,8 +168,9 @@ export async function run() {
           ? React.createElement(Box, { flexDirection: "column", marginY: 1 },
               ...files.map((file, index) => 
                 React.createElement(Text, { key: file },
-                  React.createElement(Text, { color: "yellow" }, `${index + 1}`),
-                  React.createElement(Text, null, ". "),
+                  React.createElement(Text, { color: index === selectedIndex ? "green" : "yellow" }, 
+                    index === selectedIndex ? "→ " : "  "
+                  ),
                   React.createElement(Text, null, path.relative(cwd, file))
                 )
               )
@@ -156,7 +181,15 @@ export async function run() {
         
         React.createElement(Box, { marginTop: 1 },
           React.createElement(Text, { dimColor: true },
-            "Press ",
+            files.length > 1 
+              ? "Use arrow keys to navigate, " 
+              : "",
+            files.length > 0
+              ? React.createElement(React.Fragment, null,
+                  React.createElement(Text, { color: "yellow" }, "Enter"),
+                  " to select, or "
+                )
+              : "Press ",
             React.createElement(Text, { color: "yellow" }, "q"),
             " to quit"
           )
