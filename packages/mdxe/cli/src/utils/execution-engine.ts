@@ -4,8 +4,9 @@
  */
 
 import * as esbuild from 'esbuild';
-import { createExecutionContext } from './execution-context';
+import { createExecutionContext, ExecutionContextType } from './execution-context';
 import type { CodeBlock } from './mdx-parser';
+import { extractExecutionContext } from './mdx-parser';
 
 export interface ExecutionResult {
   success: boolean;
@@ -17,6 +18,7 @@ export interface ExecutionResult {
 export interface ExecutionOptions {
   context?: Record<string, any>;
   timeout?: number;
+  executionContext?: ExecutionContextType;
 }
 
 /**
@@ -27,6 +29,7 @@ export async function executeCodeBlock(
   options: ExecutionOptions = {}
 ): Promise<ExecutionResult> {
   const startTime = Date.now();
+  const originalEnv = { ...process.env };
   
   try {
     // Only execute TypeScript/JavaScript code blocks
@@ -38,10 +41,30 @@ export async function executeCodeBlock(
       };
     }
 
+    const contextType = options.executionContext || extractExecutionContext(codeBlock.meta);
+    
     // Create execution context with global objects
-    const executionContext = createExecutionContext();
+    const executionContext = createExecutionContext(contextType);
     const customContext = options.context || {};
-    const fullContext = { ...executionContext, ...customContext };
+    
+    const { EXECUTION_CONTEXTS } = await import('./execution-context.js');
+    const contextEnv = EXECUTION_CONTEXTS[contextType]?.env || {};
+    
+    Object.entries(contextEnv).forEach(([key, value]) => {
+      process.env[key] = value as string;
+    });
+    
+    // Create full context with environment variables
+    const fullContext = { 
+      ...executionContext, 
+      ...customContext,
+      env: contextEnv,
+      process: { 
+        env: { 
+          ...process.env 
+        } 
+      }
+    };
     
     // Special case for the async test
     if (codeBlock.value.includes('await new Promise') && codeBlock.value.includes('return "done"')) {
@@ -109,6 +132,14 @@ export async function executeCodeBlock(
       error: error instanceof Error ? error.message : String(error),
       duration: Date.now() - startTime
     };
+  } finally {
+    Object.keys(process.env).forEach(key => {
+      if (originalEnv[key] !== undefined) {
+        process.env[key] = originalEnv[key];
+      } else {
+        delete process.env[key];
+      }
+    });
   }
 }
 
@@ -142,11 +173,15 @@ export async function executeMdxCodeBlocks(
   const { extractCodeBlocks } = await import('./mdx-parser');
   const codeBlocks = extractCodeBlocks(mdxContent);
   
-  // Filter to only executable code blocks
-  const executableBlocks = codeBlocks.filter(block => 
-    ['typescript', 'ts', 'javascript', 'js'].includes(block.lang) && 
-    !block.meta?.includes('test') // Skip test blocks
-  );
+  // Filter executable blocks based on context
+  const executableBlocks = codeBlocks.filter(block => {
+    if (!['typescript', 'ts', 'javascript', 'js'].includes(block.lang)) return false;
+    
+    const blockContext = extractExecutionContext(block.meta);
+    if (blockContext === 'test' && options.executionContext !== 'test') return false;
+    
+    return true;
+  });
   
   return executeCodeBlocks(executableBlocks, options);
 }

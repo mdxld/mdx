@@ -4,6 +4,7 @@
  */
 
 import { executeMdxCodeBlocks } from '../utils/execution-engine';
+import { ExecutionContextType } from '../utils/execution-context';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import React from 'react';
@@ -12,10 +13,12 @@ import { render, Text, Box } from 'ink';
 /**
  * Run the exec command
  * @param filePath Path to the MDX file to execute
+ * @param contextType Optional execution context type
  */
-export async function runExecCommand(filePath: string) {
+export async function runExecCommand(filePath: string, contextType?: ExecutionContextType) {
   try {
-    console.log(`Executing MDX file: ${path.basename(filePath)}`);
+    const execContext = contextType || 'default';
+    console.log(`Executing MDX file: ${path.basename(filePath)} in ${execContext} context`);
     
     try {
       await fs.access(filePath);
@@ -27,7 +30,9 @@ export async function runExecCommand(filePath: string) {
     // Read MDX content
     const content = await fs.readFile(filePath, 'utf-8');
     
-    const results = await executeMdxCodeBlocks(content);
+    const results = await executeMdxCodeBlocks(content, { 
+      executionContext: execContext 
+    });
     
     const { waitUntilExit } = render(
       <Box flexDirection="column" padding={1}>
