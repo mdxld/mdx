@@ -22,6 +22,7 @@ export {
   list,
   ListFunction
 } from './aiHandler.js'
+export { ResearchOptions, ResearchResult, ScrapedCitation } from './functions/research.js'
 
 export { 
   createAiFolderStructure,
