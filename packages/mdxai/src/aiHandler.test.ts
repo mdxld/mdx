@@ -74,6 +74,23 @@ vi.mock('./utils', () => ({
     filePath: '/path/to/mock/file.md',
     content: '',
   }),
+  findAiFunctionEnhanced: vi.fn().mockResolvedValue({
+    filePath: '/path/to/mock/file.md',
+    content: '',
+  }),
+  ensureAiFunctionExists: vi.fn().mockReturnValue('/path/to/mock/file.md'),
+  createAiFolderStructure: vi.fn(),
+  writeAiFunction: vi.fn(),
+  findAiFunctionsInHierarchy: vi.fn().mockReturnValue([]),
+  createAiFunctionVersion: vi.fn(),
+  listAiFunctionVersions: vi.fn(),
+  AI_FOLDER_STRUCTURE: {
+    ROOT: '.ai',
+    FUNCTIONS: 'functions',
+    TEMPLATES: 'templates',
+    VERSIONS: 'versions',
+    CACHE: 'cache'
+  }
 }))
 
 describe('AI Handler', () => {
