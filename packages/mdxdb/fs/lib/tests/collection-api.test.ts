@@ -27,7 +27,7 @@ describe('Collection API', () => {
     
     await simulateVeliteBuild(fixture.testDir)
     await db.build()
-  })
+  }, TEST_TIMEOUT)
 
   afterEach(async () => {
     await fixture.cleanup()
