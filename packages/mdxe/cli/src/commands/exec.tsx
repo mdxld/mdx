@@ -1,36 +1,13 @@
 /**
  * MDXE Exec Command
- * Executes MDX files with code blocks
+ * Executes MDX files with code blocks using esbuild transpilation
  */
 
-import { createExecutionContext } from '../utils/execution-context';
+import { executeMdxCodeBlocks } from '../utils/execution-engine';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import React from 'react';
 import { render, Text, Box } from 'ink';
-
-/**
- * Extract and execute code blocks from MDX content
- */
-async function executeCodeBlocks(content: string, executionContext: Record<string, any>) {
-  // Simple regex to extract TypeScript code blocks
-  const codeBlockRegex = /```typescript\n([\s\S]*?)```/g;
-  let match;
-  
-  while ((match = codeBlockRegex.exec(content)) !== null) {
-    const codeBlock = match[1];
-    try {
-      const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
-      const contextKeys = Object.keys(executionContext);
-      const contextValues = Object.values(executionContext);
-      
-      const execFunction = new AsyncFunction(...contextKeys, codeBlock);
-      await execFunction(...contextValues);
-    } catch (error) {
-      console.error('Error executing code block:', error);
-    }
-  }
-}
 
 /**
  * Run the exec command
@@ -47,21 +24,45 @@ export async function runExecCommand(filePath: string) {
       process.exit(1);
     }
     
+    // Read MDX content
     const content = await fs.readFile(filePath, 'utf-8');
     
-    const executionContext = createExecutionContext();
-    
-    await executeCodeBlocks(content, executionContext);
+    const results = await executeMdxCodeBlocks(content);
     
     const { waitUntilExit } = render(
       <Box flexDirection="column" padding={1}>
         <Text bold color="green">MDX Execution Complete</Text>
-        <Text>Code blocks have been executed.</Text>
+        <Text>Executed {results.length} code block(s)</Text>
+        
+        {results.map((result, index) => (
+          <Box key={index} marginTop={1} flexDirection="column">
+            <Text>
+              Block {index + 1}: {result.success ? 
+                <Text color="green">✓ Success</Text> : 
+                <Text color="red">✗ Failed</Text>
+              }
+            </Text>
+            {result.error && (
+              <Text color="red">Error: {result.error}</Text>
+            )}
+            {result.result !== undefined && (
+              <Text>Result: {JSON.stringify(result.result)}</Text>
+            )}
+            <Text dimColor>Duration: {result.duration}ms</Text>
+          </Box>
+        ))}
       </Box>
     );
     
     await waitUntilExit();
-    console.log('MDX execution completed');
+    
+    const failedBlocks = results.filter(r => !r.success);
+    if (failedBlocks.length > 0) {
+      console.log(`${failedBlocks.length} code block(s) failed`);
+      process.exit(1);
+    }
+    
+    console.log('MDX execution completed successfully');
   } catch (error) {
     console.error('Error executing MDX file:', error);
     process.exit(1);
