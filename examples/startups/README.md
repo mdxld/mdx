@@ -76,6 +76,25 @@ on('idea.captured', async idea => {
 - [ ] `mdxai` Create automatic file creation in `.ai` folder when new AI functions are called
 - [ ] `mdxai` Implement versioning system for AI function definitions
 
+### Database Integration
+
+- [ ] `mdxdb` Create database access functions for storing and retrieving content
+- [ ] `mdxdb` Implement file system backend for content storage
+- [ ] `mdxdb` Add SQLite backend with vector search capabilities
+- [ ] `mdxdb` Develop schema definition system for content types
+- [ ] `mdxdb` Create query builder for complex data retrieval
+- [ ] `mdxdb` Implement caching layer for improved performance
+- [ ] `mdxdb` Add migration system for schema evolution
+
+### Execution Context
+
+- [ ] `mdxe` Add `on`, `ai`, and `db` objects to execution scope for code blocks
+- [ ] `mdxe` Implement code execution context with global object injection
+- [ ] `mdxe` Create scope sharing between executed code blocks and MDX content
+- [ ] `mdxe` Add TypeScript type definitions for injected global objects
+- [ ] `mdxe` Implement context persistence between execution runs
+- [ ] `mdxe` Create sandbox environment for secure code execution
+
 ### Integration and Utilities
 
 - [ ] `mdxai` Create research function for gathering information from external sources
