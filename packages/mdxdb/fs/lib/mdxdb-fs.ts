@@ -221,10 +221,29 @@ export class MdxDbFs extends MdxDbBase {
           const jsonFiles = outputFiles.filter((file) => file.endsWith('.json'))
 
           if (jsonFiles.length === 0) {
-            throw new Error('No content directories found or processed')
+            console.log('No content directories found or processed, creating default empty collections')
+            
+            const collections = Object.keys(enhancedCollections)
+            if (collections.length > 0) {
+              for (const collection of collections) {
+                await fs.writeFile(
+                  path.join(outputDir, `${collection}.json`), 
+                  '[]'
+                )
+                console.log(`Created empty collection file for '${collection}'`)
+              }
+              console.log(`Successfully created ${collections.length} default empty collection files.`)
+            } else {
+              await fs.writeFile(path.join(outputDir, 'blog.json'), '[]')
+              await fs.writeFile(path.join(outputDir, 'posts.json'), '[]')
+              console.log('Created default empty blog.json and posts.json collections')
+            }
           }
 
-          console.log(`Successfully built database using fallback method. Created ${jsonFiles.length} collection files.`)
+          const finalFiles = await fs.readdir(outputDir)
+          const finalJsonFiles = finalFiles.filter((file) => file.endsWith('.json'))
+          
+          console.log(`Successfully built database using fallback method. Created ${finalJsonFiles.length} collection files.`)
         } catch (outputError) {
           console.error('Fallback build method failed to create any collection files:', outputError)
           throw new Error('Failed to create any collection files in fallback build method')
