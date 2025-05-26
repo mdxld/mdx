@@ -39,6 +39,18 @@ export interface AiFunction extends TemplateFn {
 }
 
 /**
+ * Stringify a value to YAML if it's an array or object, otherwise return as string
+ * @param value The value to stringify
+ * @returns The stringified value
+ */
+function stringifyValue(value: any): string {
+  if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
+    return yaml.stringify(value).trim();
+  }
+  return String(value);
+}
+
+/**
  * Core AI template literal function for text generation
  * 
  * Usage: await ai`Write a blog post about ${topic}`
@@ -81,11 +93,10 @@ const aiFunction: AiFunction = function(template: TemplateStringsArray, ...value
     template.forEach((str, i) => {
       prompt += str;
       if (i < values.length) {
-        prompt += values[i];
+        prompt += stringifyValue(values[i]);
       }
     });
     
-    // For direct template literal usage, use generateAiText for simpler text generation
     return generateAiText(prompt);
   }
   
@@ -112,17 +123,13 @@ export const ai = new Proxy(aiFunction, {
         templateStrings.forEach((str, i) => {
           prompt += str;
           if (i < values.length) {
-            if (values[i] !== null && typeof values[i] === 'object') {
-              prompt += yaml.stringify(values[i]);
-            } else {
-              prompt += values[i];
-            }
+            prompt += stringifyValue(values[i]);
           }
         });
         
         return executeAiFunction(propName, prompt);
       } else {
-        return executeAiFunction(propName, yaml.stringify(templateOrArgs));
+        return executeAiFunction(propName, stringifyValue(templateOrArgs));
       }
     }
   },
@@ -135,15 +142,10 @@ export const ai = new Proxy(aiFunction, {
       templateStrings.forEach((str, i) => {
         prompt += str;
         if (i < args.length - 1) {
-          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
-            prompt += yaml.stringify(args[i + 1]);
-          } else {
-            prompt += args[i + 1];
-          }
+          prompt += stringifyValue(args[i + 1]);
         }
       });
       
-      // For direct template literal usage, use generateAiText for simpler text generation
       return generateAiText(prompt);
     }
     
@@ -369,7 +371,6 @@ function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
 }
 
 /**
-<<<<<<< HEAD
  * Infer and validate AI function output types
  * @param outputSchema The output schema from frontmatter
  * @param result The actual result from AI function
@@ -390,18 +391,6 @@ export function inferAndValidateOutput(outputSchema: any, result: any): any {
     console.warn('Type validation failed:', error);
     return result; // Return original result if validation fails
   }
-}
-
-/**
-||||||| 36af6a3
-=======
- * Helper function to stringify complex values to YAML
- */
-function stringifyToYaml(value: any): string {
-  if (typeof value === 'object' && value !== null) {
-    return yaml.stringify(value)
-  }
-  return String(value)
 }
 
 /**
@@ -433,14 +422,12 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
             seenItems.add(item)
             
             try {
-              // Try to parse as JSON to detect arrays and objects
               const parsedItem = JSON.parse(item)
               if (typeof parsedItem === 'object' && parsedItem !== null) {
-                yield stringifyToYaml(parsedItem)
+                yield stringifyValue(parsedItem)
                 continue
               }
             } catch (e) {
-              // Not valid JSON, continue with the original item
             }
             
             yield item
@@ -484,17 +471,14 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
         .map(line => line.replace(/^[-*•]\s*/, '').trim())
     }
 
-    // Process items to convert arrays and objects to YAML
     return items.map(item => {
       try {
-        // Try to parse as JSON to detect arrays and objects
         const parsedItem = JSON.parse(item)
         if (typeof parsedItem === 'object' && parsedItem !== null) {
-          return stringifyToYaml(parsedItem)
+          return stringifyValue(parsedItem)
         }
         return item
       } catch (e) {
-        // Not valid JSON, return the original item
         return item
       }
     })
@@ -541,7 +525,6 @@ export const list = new Proxy(function () {}, {
 }) as ListFunction
 
 /**
->>>>>>> main
  * Research template literal function for external data gathering
  * 
  * Usage: await research`${market} in the context of delivering ${idea}`
