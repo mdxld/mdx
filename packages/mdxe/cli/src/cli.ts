@@ -40,7 +40,17 @@ export async function run() {
       console.log('No file specified and no index file found');
       return;
     }
-    return runExecCommand(filePath);
+    
+    let contextType = undefined;
+    const contextIndex = args.indexOf('--context');
+    if (contextIndex !== -1 && args.length > contextIndex + 1) {
+      const context = args[contextIndex + 1];
+      if (['dev', 'test', 'production', 'default'].includes(context)) {
+        contextType = context as any; // Cast to ExecutionContextType
+      }
+    }
+    
+    return runExecCommand(filePath, contextType);
   }
   
   let targetDir = cwd;

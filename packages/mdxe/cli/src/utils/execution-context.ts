@@ -3,25 +3,70 @@
  * Provides global objects and functions for MDX code blocks
  */
 
-import { on, emit } from './event-system';
+import { on, emit, MutableEventContext } from './event-system';
 import { renderInputPrompt } from './input-prompt';
+
+export type ExecutionContextType = 'dev' | 'test' | 'production' | 'default';
+
+export interface ContextConfig {
+  env: Record<string, string>;
+  globals?: Record<string, any>;
+}
+
+export const EXECUTION_CONTEXTS: Record<ExecutionContextType, ContextConfig> = {
+  dev: {
+    env: {
+      NODE_ENV: 'development',
+      MDXE_CONTEXT: 'dev',
+      DEBUG: '1'
+    }
+  },
+  test: {
+    env: {
+      NODE_ENV: 'test',
+      MDXE_CONTEXT: 'test',
+      CI: 'false'
+    }
+  },
+  production: {
+    env: {
+      NODE_ENV: 'production',
+      MDXE_CONTEXT: 'production'
+    }
+  },
+  default: {
+    env: {
+      NODE_ENV: 'development',
+      MDXE_CONTEXT: 'default'
+    }
+  }
+};
 
 /**
  * Create an execution context with global objects for MDX code blocks
+ * @param contextType The execution context type to use
  * @returns Object with global objects and functions
  */
-export function createExecutionContext() {
+export function createExecutionContext(contextType: ExecutionContextType = 'default') {
+  const contextConfig = EXECUTION_CONTEXTS[contextType];
+  
+  Object.entries(contextConfig.env).forEach(([key, value]) => {
+    process.env[key] = value;
+  });
   return {
     /**
      * Register a callback for a specific event
      * Special handling for 'idea.captured' event to prompt for user input
+     * Supports context propagation between handlers
      */
-    on: async (event: string, callback: (data: any) => any) => {
+    on: async (event: string, callback: (data: any, context?: MutableEventContext) => any) => {
       if (event === 'idea.captured') {
+        on(event, callback);
+        
         const idea = await renderInputPrompt('Enter your startup idea:');
-        return callback(idea);
+        return callback(idea, new MutableEventContext({ eventType: 'idea.captured', timestamp: new Date().toISOString() }));
       }
-      on(event, callback);
+      return on(event, callback);
     },
 
     /**
