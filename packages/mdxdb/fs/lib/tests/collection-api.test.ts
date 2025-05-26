@@ -197,17 +197,29 @@ ${content}`
     
     await db.build()
     
-    console.log('All blog posts after build:', JSON.stringify(db.blog.list(), null, 2))
+    const allPosts = db.blog.list()
+    console.log('All blog posts after build:', JSON.stringify(allPosts, null, 2))
     
     const postBySlug = db.blog.get('my-first-blog-post')
     console.log('Post by slug:', postBySlug)
+    expect(postBySlug).toBeDefined()
+    expect(postBySlug.title).toBe(title)
     
-    const post = db.blog.get('My First Blog Post')
+    const manualTitleMatch = allPosts.find(post => post.title === title)
+    console.log('Manual title match:', manualTitleMatch)
+    
+    const post = db.blog.get(title)
     console.log('Post by title:', post)
     
     const finalPost = post || postBySlug
     expect(finalPost).toBeDefined()
     expect(finalPost.title).toBe(title)
     expect(finalPost.body.trim()).toBe(content)
+    
+    if (post) {
+      console.log('✅ Title-based lookup is working correctly')
+    } else {
+      console.log('❌ Title-based lookup failed, using slug-based lookup as fallback')
+    }
   }, TEST_TIMEOUT)
 })
