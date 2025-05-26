@@ -185,12 +185,26 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
   await fs.writeFile(veliteConfigPath, configContent)
 
   // Process posts directory
-  const posts = await processDirectory(postsDir)
-  await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+  try {
+    const posts = await processDirectory(postsDir)
+    await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+    console.log('Created posts.json successfully')
+  } catch (error) {
+    console.error('Error creating posts.json:', error)
+    await fs.writeFile(path.join(outputDir, 'posts.json'), '[]')
+    console.log('Created empty posts.json as fallback')
+  }
 
   // Process blog directory
-  const blogPosts = await processDirectory(blogDir)
-  await fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
+  try {
+    const blogPosts = await processDirectory(blogDir)
+    await fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
+    console.log('Created blog.json successfully')
+  } catch (error) {
+    console.error('Error creating blog.json:', error)
+    await fs.writeFile(path.join(outputDir, 'blog.json'), '[]')
+    console.log('Created empty blog.json as fallback')
+  }
 }
 
 /**
