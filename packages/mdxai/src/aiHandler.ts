@@ -348,7 +348,7 @@ async function handleObjectOutput(systemPrompt: string, outputSchema: Record<str
  * @param obj The object to create a schema from
  * @returns A Zod schema
  */
-function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
+export function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
   const schemaObj: Record<string, z.ZodTypeAny> = {}
   
   for (const [key, value] of Object.entries(obj)) {

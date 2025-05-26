@@ -22,6 +22,7 @@ export {
   list,
   ListFunction
 } from './aiHandler.js'
+export { extract, ExtractFunction, ExtractType, ExtractOptions } from './functions/extract.js'
 
 export { 
   createAiFolderStructure,

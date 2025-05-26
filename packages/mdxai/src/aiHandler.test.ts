@@ -360,3 +360,19 @@ describe('AI Handler', () => {
     })
   })
 })
+
+describe('extract function integration', () => {
+  it('should be available as import from aiHandler', async () => {
+    const { extract } = await import('./functions/extract')
+    
+    expect(extract).toBeDefined()
+    expect(typeof extract).toBe('function')
+  })
+
+  it('should work with the existing AI infrastructure', async () => {
+    const { extract } = await import('./functions/extract')
+    const result = await extract`Extract test data`
+
+    expect(result).toBeDefined()
+  })
+})
