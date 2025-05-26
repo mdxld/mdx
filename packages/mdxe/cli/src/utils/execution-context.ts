@@ -19,8 +19,13 @@ export function createExecutionContext() {
      */
     on: async (event: string, callback: (data: any, context?: EventContext) => any) => {
       if (event === 'idea.captured') {
-        const idea = await renderInputPrompt('Enter your startup idea:');
-        return callback(idea, { eventType: 'idea.captured', timestamp: new Date().toISOString() });
+        try {
+          const idea = await renderInputPrompt('Enter your startup idea:');
+          return callback(idea, { eventType: 'idea.captured', timestamp: new Date().toISOString() });
+        } catch (error) {
+          console.error('Error in idea.captured handler:', error);
+          throw error;
+        }
       }
       on(event, callback);
     },

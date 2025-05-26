@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { on, emit, clearEvents, clearEvent, eventRegistry } from './event-system';
+import { on, emit, clearEvents, clearEvent, eventRegistry, EmitOptions } from './event-system';
 
 describe('event-system', () => {
   beforeEach(() => {
@@ -90,7 +90,7 @@ describe('event-system', () => {
       const response = await emit('test-event');
       
       expect(consoleSpy).toHaveBeenCalled();
-      expect(response.results).toEqual(['success']);
+      expect(response.results).toEqual([null, 'success']);
       expect(response.context.errors).toBeDefined();
       expect(response.context.errors.length).toBe(1);
       
@@ -130,6 +130,147 @@ describe('event-system', () => {
       const response = await emit('test-event', 'data', initialContext);
       
       expect(response.context.important).toBe('value');
+    });
+  });
+
+  describe('enhanced async error handling', () => {
+    it('provides detailed error context for async handler failures', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      on('test-event', async () => {
+        throw new Error('Async handler error');
+      });
+      
+      const response = await emit('test-event', { testData: 'value' });
+      
+      expect(response.context.errors).toBeDefined();
+      expect(response.context.errors.length).toBe(1);
+      
+      const error = response.context.errors[0];
+      expect(error.event).toBe('test-event');
+      expect(error.handlerIndex).toBe(0);
+      expect(error.error.message).toBe('Async handler error');
+      expect(error.error.stack).toBeDefined();
+      expect(error.timestamp).toBeDefined();
+      expect(error.data).toBeDefined();
+      
+      consoleSpy.mockRestore();
+    });
+
+    it('emits error events for centralized error handling', async () => {
+      const errorHandler = vi.fn();
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      on('handler.error', errorHandler);
+      on('test-event', async () => {
+        throw new Error('Test error for centralized handling');
+      });
+      
+      await emit('test-event');
+      
+      expect(errorHandler).toHaveBeenCalledWith(
+        expect.objectContaining({
+          event: 'test-event',
+          error: expect.objectContaining({
+            message: 'Test error for centralized handling'
+          })
+        }),
+        expect.any(Object)
+      );
+      
+      consoleSpy.mockRestore();
+    });
+
+    it('handles nested async operations with proper error isolation', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      on('test-event', async () => {
+        for (let i = 0; i < 3; i++) {
+          await new Promise(resolve => setTimeout(resolve, 1));
+          if (i === 1) {
+            throw new Error(`Nested error at iteration ${i}`);
+          }
+        }
+        return 'should not reach here';
+      });
+      
+      on('test-event', async () => {
+        return 'second handler success';
+      });
+      
+      const response = await emit('test-event');
+      
+      expect(response.results).toEqual([null, 'second handler success']);
+      expect(response.context.errors.length).toBe(1);
+      expect(response.context.errors[0].error.message).toBe('Nested error at iteration 1');
+      
+      consoleSpy.mockRestore();
+    });
+
+    it('supports handler timeouts', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      on('test-event', async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        return 'slow handler';
+      });
+      
+      const options: EmitOptions = { timeout: 10 };
+      const response = await emit('test-event', null, {}, options);
+      
+      expect(response.results).toEqual([null]);
+      expect(response.context.errors.length).toBe(1);
+      expect(response.context.errors[0].error.message).toContain('timeout');
+      
+      consoleSpy.mockRestore();
+    });
+
+    it('supports parallel execution of handlers', async () => {
+      const startTime = Date.now();
+      
+      on('test-event', async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        return 'handler 1';
+      });
+      
+      on('test-event', async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        return 'handler 2';
+      });
+      
+      on('test-event', async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        return 'handler 3';
+      });
+      
+      const options: EmitOptions = { parallel: true };
+      const response = await emit('test-event', null, {}, options);
+      
+      const duration = Date.now() - startTime;
+      
+      expect(duration).toBeLessThan(150); // Allow some buffer for test overhead
+      expect(response.results).toEqual(['handler 1', 'handler 2', 'handler 3']);
+    });
+
+    it('handles errors in parallel execution', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      on('test-event', async () => {
+        throw new Error('Error in first handler');
+      });
+      
+      on('test-event', async () => {
+        return 'second handler success';
+      });
+      
+      const options: EmitOptions = { parallel: true };
+      const response = await emit('test-event', null, {}, options);
+      
+      expect(response.results).toEqual([null, 'second handler success']);
+      expect(response.context.errors.length).toBe(1);
+      expect(response.context.errors[0].error.message).toBe('Error in first handler');
+      
+      consoleSpy.mockRestore();
     });
   });
 
