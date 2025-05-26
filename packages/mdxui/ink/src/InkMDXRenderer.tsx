@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
 import fs from 'fs/promises';
-import { renderMdxCli, compileMdx } from './render';
+import { renderMdxCli } from './render';
 import { mergeComponents } from './component-loader';
 import { defaultComponents } from './components';
 import type { MDXComponents } from './component-loader';
+import { executeCodeBlocks, type CodeExecutionResult } from './code-execution';
+import { ExecutionResults } from './ExecutionResults';
 
 export interface InkMDXRendererProps {
   /**
@@ -31,6 +33,11 @@ export interface InkMDXRendererProps {
    * Additional data to provide to the MDX scope
    */
   scope?: Record<string, any>;
+  
+  /**
+   * Whether to execute code blocks found in the MDX content
+   */
+  executeCode?: boolean;
 }
 
 /**
@@ -42,12 +49,14 @@ export function InkMDXRenderer({
   Component,
   components,
   scope,
+  executeCode = false,
 }: InkMDXRendererProps) {
   const [mdxComponent, setMdxComponent] = useState<React.ComponentType<any> | null>(
     Component || null
   );
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(!Component && (!!file || !!content));
+  const [executionResults, setExecutionResults] = useState<any[]>([]);
 
   const mergedComponents = mergeComponents(defaultComponents, components);
 
@@ -67,6 +76,14 @@ export function InkMDXRenderer({
       try {
         setLoading(true);
         const mdxContent = content || (file ? await fs.readFile(file, 'utf-8') : '');
+        
+        if (executeCode && mdxContent) {
+          const results = await executeCodeBlocks(mdxContent);
+          setExecutionResults(results);
+        }
+        
+        const { compileMdx } = await import('./render');
+        
         const Component = await compileMdx(mdxContent, scope, {
           remarkPlugins: [],
           rehypePlugins: []
@@ -82,7 +99,7 @@ export function InkMDXRenderer({
     }
 
     loadMdx();
-  }, [file, content, Component, JSON.stringify(mergedComponents), JSON.stringify(scope)]);
+  }, [file, content, Component, executeCode, JSON.stringify(mergedComponents), JSON.stringify(scope)]);
 
   if (loading) {
     return <Text>Loading MDX content...</Text>;
@@ -102,5 +119,12 @@ export function InkMDXRenderer({
   }
 
   const MdxComponent = mdxComponent;
-  return <MdxComponent />;
+  return (
+    <Box flexDirection="column">
+      <MdxComponent />
+      {executeCode && executionResults.length > 0 && (
+        <ExecutionResults results={executionResults} />
+      )}
+    </Box>
+  );
 }

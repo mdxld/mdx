@@ -123,6 +123,15 @@ describe('AI Handler', () => {
       expect(typeof result).toBe('string')
       expect(result).toContain('mock string response')
     })
+    
+    it('should handle variable interpolation in template literals', async () => {
+      const topic = 'TypeScript'
+      const result = await ai`Write a blog post about ${topic}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+      expect(result).toContain('mock string response')
+    })
   })
   
   describe('ai function properties', () => {

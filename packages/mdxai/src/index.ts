@@ -13,6 +13,7 @@ export interface GenerateOptions {
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream }
 export { 
   ai, 
+  generateAiText,
   executeAiFunction, 
   TemplateFn 
 } from './aiHandler.js'
