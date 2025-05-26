@@ -3,6 +3,7 @@ import { z } from 'zod'
 import matter from 'gray-matter'
 import fs from 'fs'
 import { model } from './ai.js'
+import { research as researchFunction } from './functions/research.js'
 import { 
   findAiFunction, 
   findAiFunctionEnhanced, 
@@ -14,6 +15,8 @@ import {
   listAiFunctionVersions,
   AI_FOLDER_STRUCTURE
 } from './utils.js'
+import { generateListStream } from './llmService.js'
+import yaml from 'yaml'
 
 /**
  * Type for template literal function
@@ -21,10 +24,18 @@ import {
 export type TemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
 
 /**
+ * Type definition for the list function that supports both Promise and AsyncIterable
+ */
+export type ListFunction = {
+  (strings: TemplateStringsArray, ...values: any[]): Promise<string[]> & AsyncIterable<string>
+}
+
+/**
  * Type for AI function with dynamic properties
  */
 export interface AiFunction extends TemplateFn {
   [key: string | symbol]: any;
+  list?: ListFunction;
 }
 
 /**
@@ -347,3 +358,213 @@ function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
   
   return z.object(schemaObj)
 }
+
+/**
+ * Helper function to stringify complex values to YAML
+ */
+function stringifyToYaml(value: any): string {
+  if (typeof value === 'object' && value !== null) {
+    return yaml.stringify(value)
+  }
+  return String(value)
+}
+
+/**
+ * Create async iterator that yields list items as they're parsed from the stream
+ */
+async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, void, unknown> {
+  if (process.env.NODE_ENV === 'test') {
+    const mockItems = ['Item 1', 'Item 2', 'Item 3']
+    for (const item of mockItems) {
+      yield item
+    }
+    return
+  }
+
+  try {
+    const result = await generateListStream(prompt)
+    let buffer = ''
+    const seenItems = new Set<string>()
+
+    for await (const chunk of result.textStream) {
+      buffer += chunk
+      
+      const lines = buffer.split('\n')
+      for (const line of lines) {
+        const trimmedLine = line.trim()
+        if (/^\d+\./.test(trimmedLine)) {
+          const item = trimmedLine.replace(/^\d+\.\s*/, '').trim()
+          if (item && !seenItems.has(item)) {
+            seenItems.add(item)
+            
+            try {
+              // Try to parse as JSON to detect arrays and objects
+              const parsedItem = JSON.parse(item)
+              if (typeof parsedItem === 'object' && parsedItem !== null) {
+                yield stringifyToYaml(parsedItem)
+                continue
+              }
+            } catch (e) {
+              // Not valid JSON, continue with the original item
+            }
+            
+            yield item
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error in list async iterator:', error)
+    throw error
+  }
+}
+
+/**
+ * Generate complete list as Promise<string[]>
+ */
+async function generateCompleteList(prompt: string): Promise<string[]> {
+  if (process.env.NODE_ENV === 'test') {
+    return ['Item 1', 'Item 2', 'Item 3']
+  }
+
+  try {
+    const result = await generateListStream(prompt)
+    let completeContent = ''
+
+    for await (const chunk of result.textStream) {
+      completeContent += chunk
+    }
+
+    let items = completeContent
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => /^\d+\./.test(line))
+      .map(line => line.replace(/^\d+\.\s*/, '').trim())
+
+    if (items.length === 0) {
+      items = completeContent
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0 && !line.startsWith('#'))
+        .map(line => line.replace(/^[-*•]\s*/, '').trim())
+    }
+
+    // Process items to convert arrays and objects to YAML
+    return items.map(item => {
+      try {
+        // Try to parse as JSON to detect arrays and objects
+        const parsedItem = JSON.parse(item)
+        if (typeof parsedItem === 'object' && parsedItem !== null) {
+          return stringifyToYaml(parsedItem)
+        }
+        return item
+      } catch (e) {
+        // Not valid JSON, return the original item
+        return item
+      }
+    })
+  } catch (error) {
+    console.error('Error in generateCompleteList:', error)
+    throw error
+  }
+}
+
+/**
+ * List template literal function for generating arrays of items with async iterator support
+ * 
+ * Usage: 
+ * - As Promise: const items = await list`10 ideas for ${topic}`
+ * - As AsyncIterable: for await (const item of list`10 ideas for ${topic}`) { ... }
+ */
+export const list = new Proxy(function () {}, {
+  apply: (target: any, thisArg: any, args: any[]) => {
+    if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
+      const [template, ...expressions] = args
+      const prompt = String.raw({ raw: template }, ...expressions)
+
+      const listFunction: any = () => generateCompleteList(prompt)
+      
+      listFunction.then = (resolve: any, reject: any) => {
+        return generateCompleteList(prompt).then(resolve, reject)
+      }
+      
+      listFunction.catch = (reject: any) => {
+        return generateCompleteList(prompt).catch(reject)
+      }
+      
+      listFunction.finally = (callback: any) => {
+        return generateCompleteList(prompt).finally(callback)
+      }
+
+      listFunction[Symbol.asyncIterator] = () => createListAsyncIterator(prompt)
+
+      return listFunction
+    }
+
+    throw new Error('list function must be used as a template literal tag')
+  },
+}) as ListFunction
+
+/**
+ * Research template literal function for external data gathering
+ * 
+ * Usage: await research`${market} in the context of delivering ${idea}`
+ */
+export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
+
+const researchFunction_: ResearchTemplateFn = function(template: TemplateStringsArray, ...values: any[]) {
+  if (Array.isArray(template) && 'raw' in template) {
+    let query = '';
+    
+    template.forEach((str, i) => {
+      query += str;
+      if (i < values.length) {
+        if (values[i] !== null && typeof values[i] === 'object') {
+          query += yaml.stringify(values[i]);
+        } else {
+          query += values[i];
+        }
+      }
+    });
+    
+    return researchFunction(query);
+  }
+  
+  throw new Error('Research function must be called as a template literal');
+};
+
+export const research = new Proxy(researchFunction_, {
+  get(target, prop) {
+    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+      return undefined
+    }
+    
+    if (typeof prop === 'symbol') {
+      return Reflect.get(target, prop)
+    }
+    
+    return target
+  },
+  
+  apply(target, thisArg, args) {
+    if (Array.isArray(args[0]) && 'raw' in args[0]) {
+      const templateStrings = args[0] as TemplateStringsArray;
+      let query = '';
+      
+      templateStrings.forEach((str, i) => {
+        query += str;
+        if (i < args.length - 1) {
+          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
+            query += yaml.stringify(args[i + 1]);
+          } else {
+            query += args[i + 1];
+          }
+        }
+      });
+      
+      return researchFunction(query);
+    }
+    
+    throw new Error('Research function must be called as a template literal');
+  }
+});

@@ -8,15 +8,60 @@
  */
 interface EventHandler {
   event: string;
-  callback: (data: any, context?: EventContext) => Promise<any> | any;
+  callback: (data: any, context?: MutableEventContext) => Promise<any> | any;
 }
 
 /**
- * Event context interface
- * Provides a way to share data between event handlers
+ * Event context interface with helper methods
+ * Provides a way to share and modify data between event handlers
  */
 export interface EventContext {
   [key: string]: any;
+  
+  set?(key: string, value: any): void;
+  get?(key: string): any;
+  merge?(data: object): void;
+  has?(key: string): boolean;
+}
+
+/**
+ * Context implementation with helper methods
+ */
+export class MutableEventContext implements EventContext {
+  [key: string]: any;
+  
+  constructor(initialData: object = {}) {
+    Object.assign(this, initialData);
+  }
+  
+  set(key: string, value: any): void {
+    this[key] = value;
+  }
+  
+  get(key: string): any {
+    return this[key];
+  }
+  
+  merge(data: object): void {
+    this.deepMerge(this, data);
+  }
+  
+  has(key: string): boolean {
+    return key in this;
+  }
+  
+  private deepMerge(target: any, source: any): void {
+    for (const key in source) {
+      if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+        if (!target[key] || typeof target[key] !== 'object') {
+          target[key] = {};
+        }
+        this.deepMerge(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
 }
 
 /**
@@ -31,7 +76,7 @@ class EventRegistry {
    * @param event Event name
    * @param callback Function to call when the event is emitted
    */
-  on(event: string, callback: (data: any, context?: EventContext) => Promise<any> | any) {
+  on(event: string, callback: (data: any, context?: MutableEventContext) => Promise<any> | any) {
     if (!this.handlers.has(event)) {
       this.handlers.set(event, []);
     }
@@ -49,20 +94,20 @@ class EventRegistry {
   async emit(event: string, data?: any, context: EventContext = {}) {
     const handlers = this.handlers.get(event) || [];
     const results: any[] = [];
-    let currentContext = { ...context }; // Clone to avoid modifying the original
+    const mutableContext = new MutableEventContext(context);
     
     for (const handler of handlers) {
       try {
-        const result = await handler.callback(data, currentContext);
+        const result = await handler.callback(data, mutableContext);
         results.push(result);
         
         if (result && typeof result === 'object' && result.context) {
-          currentContext = { ...currentContext, ...result.context };
+          mutableContext.merge(result.context);
         }
       } catch (error) {
         console.error(`Error in event handler for ${event}:`, error);
-        currentContext.errors = currentContext.errors || [];
-        currentContext.errors.push({
+        mutableContext.set('errors', mutableContext.get('errors') || []);
+        mutableContext.get('errors').push({
           handler: handler.event,
           error: error instanceof Error ? error.message : String(error),
           timestamp: new Date().toISOString()
@@ -70,7 +115,7 @@ class EventRegistry {
       }
     }
     
-    return { results, context: currentContext };
+    return { results, context: mutableContext };
   }
 
   /**

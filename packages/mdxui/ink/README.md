@@ -8,6 +8,8 @@ Create CLI apps using MDX with React Ink and Pastel.
 - Define input schema in frontmatter
 - Use React Ink components for terminal UI
 - Pastel for beautiful terminal styling
+- Flexible component mapping system for MDX elements to Ink components
+- Support for both file-based and programmatic component registration
 
 ## Example
 
@@ -42,11 +44,29 @@ pnpm add mdx-pastel-ink
 ## Usage
 
 ```typescript
-import { renderMdxCli } from '@mdxui/ink'
+import { renderMdxCli, registerComponent, registerComponents } from '@mdxui/ink'
 
 // Render an MDX file as a CLI app
 await renderMdxCli('./path/to/cli.mdx')
+
+// Register custom components programmatically
+import { Box, Text } from 'ink';
+
+// Register a single component
+registerComponent('h1', ({ children }) => (
+  <Box borderStyle="double" padding={1}>
+    <Text bold color="green">{children}</Text>
+  </Box>
+));
+
+// Register multiple components at once
+registerComponents({
+  p: ({ children }) => <Text color="blue">{children}</Text>,
+  ul: ({ children }) => <Box marginLeft={2}>{children}</Box>
+});
 ```
+
+For more details on the component mapping system, see [Component Mapping Documentation](./docs/component-mapping.md).
 
 ## License
 

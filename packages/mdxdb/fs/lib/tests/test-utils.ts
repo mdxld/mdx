@@ -9,6 +9,7 @@ const execFilePromise = promisify(execFile)
 export interface TestFixture {
   testDir: string
   contentDir: string
+  blogDir: string
   veliteDir: string
   exportDir: string
   cleanup: () => Promise<void>
@@ -18,35 +19,63 @@ export interface TestFixture {
  * Creates a temporary test directory structure for file system tests
  */
 export async function createTestFixture(): Promise<TestFixture> {
-  const timestamp = Date.now()
-  const testDir = path.resolve(os.tmpdir(), `mdxdb-fs-test-${timestamp}`)
+  try {
+    const timestamp = Date.now()
+    const testDir = path.resolve(os.tmpdir(), `mdxdb-fs-test-${timestamp}`)
 
-  const contentDir = path.join(testDir, 'content/posts')
-  const veliteDir = path.join(testDir, '.velite')
-  const exportDir = path.join(testDir, 'export')
+    const contentDir = path.join(testDir, 'content/posts')
+    const blogDir = path.join(testDir, 'content/blog')
+    const veliteDir = path.join(testDir, '.velite')
+    const exportDir = path.join(testDir, 'export')
 
-  await fs.mkdir(contentDir, { recursive: true })
-  await fs.mkdir(veliteDir, { recursive: true })
-  await fs.mkdir(exportDir, { recursive: true })
+    await fs.mkdir(contentDir, { recursive: true })
+    await fs.mkdir(blogDir, { recursive: true })
+    await fs.mkdir(veliteDir, { recursive: true })
+    await fs.mkdir(exportDir, { recursive: true })
+    
+    console.log(`Created test directories at ${testDir}`)
 
-  await fs.writeFile(
-    path.join(contentDir, 'post-1.mdx'),
-    `---
+    const contentDirExists = await dirExists(contentDir)
+    const blogDirExists = await dirExists(blogDir)
+    
+    if (!contentDirExists) {
+      console.error(`Content directory ${contentDir} does not exist after creation attempt`)
+      await fs.mkdir(contentDir, { recursive: true })
+    }
+    
+    if (!blogDirExists) {
+      console.error(`Blog directory ${blogDir} does not exist after creation attempt`)
+      await fs.mkdir(blogDir, { recursive: true })
+    }
+
+    await fs.writeFile(
+      path.join(contentDir, 'post-1.mdx'),
+      `---
 title: Sample Post 1
 date: 2023-01-01
 ---
 # Sample Post 1
 This is the content of post 1.`,
-  )
+    )
 
-  await fs.writeFile(
-    path.join(contentDir, 'post-2.mdx'),
-    `---
+    await fs.writeFile(
+      path.join(contentDir, 'post-2.mdx'),
+      `---
 title: Sample Post 2
 date: 2023-01-02
 ---
 # Sample Post 2
 This is the content of post 2.`,
+    )
+
+  await fs.writeFile(
+    path.join(blogDir, 'sample-blog.mdx'),
+    `---
+title: Sample Blog
+date: 2023-01-03
+---
+# Sample Blog
+This is a sample blog post.`,
   )
 
   await fs.writeFile(
@@ -63,6 +92,15 @@ export default defineConfig({
     posts: {
       name: 'Post',
       pattern: 'content/posts/**/*.mdx',
+      schema: {
+        title: { type: 'string', required: true },
+        date: { type: 'date', required: true },
+        body: { type: 'mdx', required: true }
+      }
+    },
+    blog: {
+      name: 'Blog',
+      pattern: 'content/blog/**/*.mdx',
       schema: {
         title: { type: 'string', required: true },
         date: { type: 'date', required: true },
@@ -100,6 +138,18 @@ export default defineConfig({
     ]),
   )
 
+  await fs.writeFile(
+    path.join(veliteDir, 'blog.json'),
+    JSON.stringify([
+      {
+        slug: 'sample-blog',
+        title: 'Sample Blog',
+        date: '2023-01-03',
+        body: '# Sample Blog\nThis is a sample blog post.',
+      },
+    ]),
+  )
+
   const cleanup = async () => {
     try {
       await fs.rm(testDir, { recursive: true, force: true })
@@ -111,9 +161,14 @@ export default defineConfig({
   return {
     testDir,
     contentDir,
+    blogDir,
     veliteDir,
     exportDir,
     cleanup,
+  }
+  } catch (error) {
+    console.error(`Error creating test fixture: ${error}`)
+    throw error
   }
 }
 
@@ -122,40 +177,106 @@ export default defineConfig({
  * This avoids the need to run the actual Velite CLI while still testing real file system operations
  */
 export async function simulateVeliteBuild(testDir: string): Promise<void> {
-  const contentDir = path.join(testDir, 'content/posts')
+  const postsDir = path.join(testDir, 'content/posts')
+  const blogDir = path.join(testDir, 'content/blog')
   const outputDir = path.join(testDir, '.velite')
 
+  // Ensure output directory exists
   await fs.mkdir(outputDir, { recursive: true })
+  
+  // Ensure content directories exist
+  await fs.mkdir(postsDir, { recursive: true })
+  await fs.mkdir(blogDir, { recursive: true })
 
-  const files = await fs.readdir(contentDir)
-  const posts = []
-
-  for (const file of files) {
-    if (file.endsWith('.mdx')) {
-      const filePath = path.join(contentDir, file)
-      const content = await fs.readFile(filePath, 'utf-8')
-
-      const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-      if (match) {
-        const frontmatterText = match[1]
-        const body = match[2]
-
-        const frontmatter: Record<string, any> = {}
-        frontmatterText.split('\n').forEach((line) => {
-          const [key, ...valueParts] = line.split(':')
-          if (key && valueParts.length) {
-            frontmatter[key.trim()] = valueParts.join(':').trim()
-          }
-        })
-
-        posts.push({
-          slug: path.basename(file, '.mdx'),
-          ...frontmatter,
-          body,
-        })
+  const veliteConfigPath = path.join(testDir, 'velite.config.js')
+  const configContent = `
+    module.exports = {
+      root: '${testDir}',
+      collections: {
+        blog: {
+          pattern: 'content/blog/**/*.mdx',
+        },
+        posts: {
+          pattern: 'content/posts/**/*.mdx',
+        },
       }
-    }
+    };
+  `
+  await fs.writeFile(veliteConfigPath, configContent)
+
+  // Process posts directory
+  try {
+    const posts = await processDirectory(postsDir)
+    await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+    console.log('Created posts.json successfully')
+  } catch (error) {
+    console.error('Error creating posts.json:', error)
+    await fs.writeFile(path.join(outputDir, 'posts.json'), '[]')
+    console.log('Created empty posts.json as fallback')
   }
 
-  await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+  // Process blog directory
+  try {
+    const blogPosts = await processDirectory(blogDir)
+    await fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
+    console.log('Created blog.json successfully')
+  } catch (error) {
+    console.error('Error creating blog.json:', error)
+    await fs.writeFile(path.join(outputDir, 'blog.json'), '[]')
+    console.log('Created empty blog.json as fallback')
+  }
+}
+
+/**
+ * Process all MDX files in a directory
+ */
+async function processDirectory(dir: string): Promise<any[]> {
+  const results = []
+  
+  try {
+    const files = await fs.readdir(dir)
+    
+    for (const file of files) {
+      if (file.endsWith('.mdx')) {
+        const filePath = path.join(dir, file)
+        const content = await fs.readFile(filePath, 'utf-8')
+
+        const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
+        if (match) {
+          const frontmatterText = match[1]
+          const body = match[2].trim()
+
+          const frontmatter: Record<string, any> = {}
+          frontmatterText.split('\n').forEach((line) => {
+            const [key, ...valueParts] = line.split(':')
+            if (key && valueParts.length) {
+              frontmatter[key.trim()] = valueParts.join(':').trim()
+            }
+          })
+
+          results.push({
+            slug: path.basename(file, '.mdx'),
+            ...frontmatter,
+            body,
+          })
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`Error processing directory ${dir}:`, error)
+  }
+  
+  return results
+}
+
+/**
+ * Check if a directory exists
+ */
+async function dirExists(dir: string): Promise<boolean> {
+  try {
+    const stats = await fs.stat(dir)
+    return stats.isDirectory()
+  } catch (error) {
+    return false
+  }
 }

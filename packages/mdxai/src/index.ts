@@ -11,11 +11,16 @@ export interface GenerateOptions {
 }
 
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream }
+export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
 export { 
   ai, 
+  research,
   generateAiText,
   executeAiFunction, 
-  TemplateFn 
+  TemplateFn,
+  ResearchTemplateFn,
+  list,
+  ListFunction
 } from './aiHandler.js'
 
 export { 

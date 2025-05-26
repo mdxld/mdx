@@ -5,12 +5,13 @@ import { resolve } from 'path';
 import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types';
 import { createWorkflowFromFrontmatter } from './workflow';
 
-import { compile, evaluate } from '@mdx-js/mdx';
+import { compile, evaluate, type UseMdxComponents } from '@mdx-js/mdx';
 import { VFile } from 'vfile';
 import * as runtime from 'react/jsx-runtime';
 import { parseFrontmatter } from './frontmatter';
 import { defaultComponents } from './components';
 import { landingPageComponents } from './LandingPage';
+import { loadMdxComponents, type MDXComponents } from './component-loader';
 
 /**
  * Compile MDX content to a React component
@@ -18,7 +19,7 @@ import { landingPageComponents } from './LandingPage';
 export async function compileMdx(
   mdxContent: string, 
   scope: Record<string, any> = {},
-  options: { remarkPlugins?: any[]; rehypePlugins?: any[] } = {}
+  options: { remarkPlugins?: any[]; rehypePlugins?: any[]; components?: Record<string, React.ComponentType<any>> } = {}
 ): Promise<React.ComponentType<any>> {
   try {
     // Parse frontmatter
@@ -33,14 +34,16 @@ export async function compileMdx(
     
     const components = {
       ...defaultComponents,
-      ...landingPageComponents
+      ...landingPageComponents,
+      ...options.components
     };
     
-    // @ts-expect-error - components is a valid property for evaluate but not in the type definition
+    // Use the correct type for useMDXComponents
+    const useMDXComponents: UseMdxComponents = () => components as MDXComponents;
     const { default: Component } = await evaluate(result, {
       ...runtime,
       ...scope,
-      components
+      useMDXComponents
     });
     
     return Component;
@@ -83,9 +86,11 @@ export async function renderMdxCli(
     // Parse frontmatter
     const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent);
     
+    const loadedComponents = await loadMdxComponents();
     const Component = await compileMdx(contentWithoutFrontmatter, options.scope, {
       remarkPlugins: [],
-      rehypePlugins: []
+      rehypePlugins: [],
+      components: loadedComponents
     });
     
     // Check for workflow in frontmatter
