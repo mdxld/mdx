@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "latest",
-    "@mdxui/ink": "workspace:*",
+
     "ai": "latest",
     "ink": "^4.4.1",
     "ink-spinner": "^5.0.0",
