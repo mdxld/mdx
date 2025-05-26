@@ -3,6 +3,7 @@ import { ai, executeAiFunction } from './aiHandler'
 import fs from 'fs'
 import matter from 'gray-matter'
 import * as aiModule from 'ai'
+import yaml from 'yaml'
 
 type MockGrayMatterFile = {
   data: Record<string, any>;
@@ -93,6 +94,24 @@ vi.mock('./utils', () => ({
   }
 }))
 
+vi.mock('yaml', () => {
+  return {
+    default: {
+      stringify: vi.fn().mockImplementation((value) => {
+        if (Array.isArray(value)) {
+          return `- ${value.join('\n- ')}\n`
+        }
+        if (typeof value === 'object' && value !== null) {
+          return Object.entries(value)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join('\n') + '\n'
+        }
+        return String(value)
+      })
+    }
+  }
+})
+
 describe('AI Handler', () => {
   const originalEnv = { ...process.env }
   const mockSystemPrompt = 'You are a helpful assistant. ${prompt}'
@@ -131,6 +150,33 @@ describe('AI Handler', () => {
       expect(result).toBeDefined()
       expect(typeof result).toBe('string')
       expect(result).toContain('mock string response')
+    })
+    
+    it('should stringify arrays to YAML in template literals', async () => {
+      const items = ['TypeScript', 'JavaScript', 'React']
+      const result = await ai`Write a blog post about these technologies: ${items}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+      expect(result).toContain('mock string response')
+      expect(yaml.stringify).toHaveBeenCalledWith(items)
+    })
+    
+    it('should stringify objects to YAML in template literals', async () => {
+      const project = {
+        name: 'MDX AI',
+        technologies: ['TypeScript', 'React'],
+        features: {
+          templateLiterals: true,
+          yamlSupport: true
+        }
+      }
+      const result = await ai`Write a blog post about this project: ${project}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+      expect(result).toContain('mock string response')
+      expect(yaml.stringify).toHaveBeenCalledWith(project)
     })
   })
   
