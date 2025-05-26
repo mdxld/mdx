@@ -63,8 +63,10 @@ log('INIT', 'API key configured');
 const App: React.FC = () => {
   const [transcript, setTranscript] = useState('');
   const [listening, setListening] = useState(false);
+  const [aiSpeaking, setAiSpeaking] = useState(false);
 
   const audioBufferRef = useRef<Buffer[]>([]); // Store audio chunks
+  const microphoneMutedRef = useRef(false); // Track if mic should be muted
   const { exit } = useApp();
 
   useEffect(() => {
@@ -72,6 +74,7 @@ const App: React.FC = () => {
     let micInstance: Mic | null = null;
     let speakerInstance: Speaker | null = null;
     let isCleaningUp = false;
+    let micStream: any = null;
 
     // // Auto-kill after 10 seconds for testing
     // const autoKillTimer = setTimeout(() => {
@@ -81,6 +84,28 @@ const App: React.FC = () => {
     //   }
     // }, 10000);
 
+    const stopMicrophone = () => {
+      if (micInstance && micStream) {
+        try {
+          micInstance.stop();
+          log('🔇', 'Microphone stopped');
+        } catch (err) {
+          log('ERROR', 'Error stopping microphone', { error: err });
+        }
+      }
+    };
+
+    const startMicrophone = () => {
+      if (micInstance && !isCleaningUp) {
+        try {
+          micInstance.start();
+          log('🎤', 'Microphone started');
+        } catch (err) {
+          log('ERROR', 'Error starting microphone', { error: err });
+        }
+      }
+    };
+
     const setupRealtimeConnection = () => {
       micInstance = Mic({
         rate: String(SAMPLE_RATE),
@@ -89,7 +114,7 @@ const App: React.FC = () => {
         encoding: 'signed-integer',
         device: 'default'
       });
-      const micStream = (micInstance as Mic).getAudioStream();
+      micStream = (micInstance as Mic).getAudioStream();
 
       speakerInstance = new Speaker({
         channels: CHANNELS,
@@ -117,29 +142,29 @@ const App: React.FC = () => {
               ws.on('open', () => {
           log('INIT', 'Connected to OpenAI');
 
-          // Send a test message to initialize the session
-          if (ws && ws.readyState === WebSocket.OPEN) {
-            const testMessage = {
-              type: 'response.create',
-              response: {
-                modalities: ['text', 'audio'],
-                instructions: 'Say hello in a friendly voice'
-              }
-            };
-            ws.send(JSON.stringify(testMessage));
-          }
+          // Don't send initial test message - wait for user to speak first
+          // if (ws && ws.readyState === WebSocket.OPEN) {
+          //   const testMessage = {
+          //     type: 'response.create',
+          //     response: {
+          //       modalities: ['text', 'audio'],
+          //       instructions: 'Say hello in a friendly voice'
+          //     }
+          //   };
+          //   ws.send(JSON.stringify(testMessage));
+          // }
 
           // Start microphone
           if (micInstance) {
             micInstance.start();
             setListening(true);
-            log('INIT', 'Ready for conversation');
+            log('INIT', 'Ready for conversation - speak to begin');
           }
         });
 
         let micDataCount = 0;
         micStream.on('data', (chunk: Buffer) => {
-          if (isCleaningUp) return; // Don't process new data during cleanup
+          if (isCleaningUp || microphoneMutedRef.current) return; // Don't process data during cleanup or when AI is speaking
           micDataCount++;
           
           if (ws && ws.readyState === WebSocket.OPEN) {
@@ -148,6 +173,11 @@ const App: React.FC = () => {
               type: 'input_audio_buffer.append',
               audio: base64Audio,
             }));
+            
+            // Log every 100 chunks to monitor mic activity
+            if (micDataCount % 100 === 0) {
+              log('MIC', `Sent ${micDataCount} audio chunks to API`);
+            }
           }
         });
 
@@ -183,9 +213,16 @@ const App: React.FC = () => {
                   audioBufferRef.current.push(audioBuffer);
                 }
                 break;
+              case 'response.audio.start':
+                // Completely stop microphone when AI starts speaking
+                stopMicrophone();
+                microphoneMutedRef.current = true;
+                setAiSpeaking(true);
+                setListening(false);
+                log('🔇', 'Stopping microphone - AI speaking');
+                break;
               case 'session.created':
                 if (ws && ws.readyState === WebSocket.OPEN) {
-                  const existingTurnDetection = msg.session?.turn_detection || {};
                   const updatePayload = {
                     type: 'session.update',
                     session: {
@@ -196,13 +233,25 @@ const App: React.FC = () => {
                         model: 'whisper-1'
                       },
                       turn_detection: {
-                        ...existingTurnDetection,
+                        type: 'server_vad',
+                        threshold: 0.6, // Balanced threshold - not too sensitive
+                        prefix_padding_ms: 300,
+                        silence_duration_ms: 800, // Reasonable silence duration
                         interrupt_response: false
-                      }
+                      },
+                      voice: 'alloy'
                     }
                   };
                   ws.send(JSON.stringify(updatePayload));
                 }
+                break;
+              case 'input_audio_buffer.speech_started':
+                log('🎤', 'User speech detected');
+                break;
+              case 'input_audio_buffer.speech_stopped':
+                log('🎤', 'User speech ended');
+                // Don't manually commit - let the server handle turn detection automatically
+                // The server will automatically process the audio when it detects the user has stopped speaking
                 break;
               case 'response.text.delta':
                 setTranscript((t) => t + msg.text);
@@ -211,12 +260,7 @@ const App: React.FC = () => {
                 setTranscript((t) => t + '\n');
                 break;
 
-              case 'response.audio': 
-                if (msg.data && speakerInstance && !isCleaningUp) {
-                  const audioBuffer = Buffer.from(msg.data, 'base64');
-                  speakerInstance.write(audioBuffer);
-                }
-                break;
+              // Remove the duplicate response.audio handler - only use response.audio.done
               case 'response.audio.done':
                 if (audioBufferRef.current.length > 0) {
                   const combinedAudio = Buffer.concat(audioBufferRef.current);
@@ -224,19 +268,70 @@ const App: React.FC = () => {
                   if (speakerInstance && !isCleaningUp) {
                     try {
                       speakerInstance.write(combinedAudio);
+                      log('🔊', 'Playing AI audio response');
+                      
+                      // Add a much longer delay before restarting the microphone
+                      setTimeout(() => {
+                        if (!isCleaningUp) {
+                          startMicrophone();
+                          microphoneMutedRef.current = false;
+                          setAiSpeaking(false);
+                          setListening(true);
+                          log('🎤', 'Restarting microphone - ready for user input');
+                        }
+                      }, 1500); // 1.5 second delay to let audio finish completely
+                      
                     } catch (err) {
                       log('ERROR', 'Audio playback failed', { error: err });
+                      startMicrophone();
+                      microphoneMutedRef.current = false;
+                      setAiSpeaking(false);
+                      setListening(true);
                     }
                   }
                   
                   // Clear the buffer for next response
                   audioBufferRef.current = [];
+                } else {
+                  // If no audio buffer, still restart microphone after a delay
+                  setTimeout(() => {
+                    if (!isCleaningUp) {
+                      startMicrophone();
+                      microphoneMutedRef.current = false;
+                      setAiSpeaking(false);
+                      setListening(true);
+                      log('🎤', 'Restarting microphone - ready for user input');
+                    }
+                  }, 1500);
                 }
                 break;
-              case 'response.end':
-                cleanup();
+              case 'response.done':
+                // Ensure microphone is restarted when response is completely done
+                setTimeout(() => {
+                  if (!isCleaningUp) {
+                    startMicrophone();
+                    microphoneMutedRef.current = false;
+                    setAiSpeaking(false);
+                    setListening(true);
+                    log('🎤', 'Response complete - microphone ready');
+                  }
+                }, 1000);
                 break;
-                            default:
+              case 'error':
+                log('ERROR', 'OpenAI API error', msg);
+                // Restart microphone on error
+                if (!isCleaningUp) {
+                  startMicrophone();
+                  microphoneMutedRef.current = false;
+                  setAiSpeaking(false);
+                  setListening(true);
+                }
+                break;
+              default:
+                // Log unknown message types for debugging
+                if (msg.type && !msg.type.includes('heartbeat')) {
+                  log('DEBUG', `Unknown message type: ${msg.type}`);
+                }
                 break;
             }
           } catch (parseError) {
@@ -286,7 +381,7 @@ const App: React.FC = () => {
       // }
       
       try {
-        if (listening && micInstance) {
+        if (micInstance) {
           log('CLEANUP', 'Stopping microphone');
           micInstance.stop();
         }
@@ -314,6 +409,8 @@ const App: React.FC = () => {
       }
       
       setListening(false);
+      setAiSpeaking(false);
+      microphoneMutedRef.current = false;
       
       // Exit the app
       setTimeout(() => {
@@ -336,7 +433,10 @@ const App: React.FC = () => {
   return (
     <Box flexDirection="column">
       <Box>
-        <Text>{listening ? '🎤 Listening...' : '🔇 Not listening'}</Text>
+        <Text>
+          {aiSpeaking ? '🔊 AI Speaking...' : listening ? '🎤 Listening...' : '🔇 Not listening'}
+          {microphoneMutedRef.current ? ' (Muted)' : ''}
+        </Text>
       </Box>
       <Box marginTop={1}>
         <Text>{transcript}</Text>
