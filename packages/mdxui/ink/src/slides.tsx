@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { Box, Text, useInput } from 'ink';
 import BigText from 'ink-big-text';
-import Markdown from 'ink-markdown';
+import Markdown from './markdown';
 import { Children, isValidElement, cloneElement } from 'react';
 
 /**

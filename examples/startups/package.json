@@ -3,15 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "dev": "mdxe",
+    "exec": "mdxe",
+    "build": "mdxe build",
+    "start": "mdxe start",
+    "lint": "mdxe lint",
+    "test": "mdxe test"
   },
   "dependencies": {
-    "ideas-example": "workspace:*",
-    "react": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.43",
-    "typescript": "^5.3.3"
+    "mdxe": "workspace:*"
   }
 }

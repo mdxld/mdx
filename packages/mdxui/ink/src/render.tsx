@@ -8,6 +8,8 @@ import { parseFrontmatter } from './frontmatter'
 import { createSchemaFromFrontmatter } from './schema'
 import { MdxPastelInkOptions, ParsedMdxDocument } from './types'
 import { defaultComponents, wrapSvgComponent } from './components'
+import { mergeComponents } from './component-loader'
+import { getPlugins } from './mdx-plugins'
 
 /**
  * Parse an MDX file and extract frontmatter, content, and schemas
@@ -30,12 +32,19 @@ export async function parseMdxFile(mdxPath: string): Promise<ParsedMdxDocument> 
 /**
  * Compile MDX content to a React component
  */
-export async function compileMdx(mdxContent: string, scope: Record<string, any> = {}): Promise<React.ComponentType<any>> {
+export async function compileMdx(
+  mdxContent: string, 
+  scope: Record<string, any> = {},
+  options: { remarkPlugins?: any[]; rehypePlugins?: any[] } = {}
+): Promise<React.ComponentType<any>> {
   try {
+    const plugins = getPlugins(options);
+    
     const compiled = await compile(mdxContent, {
       outputFormat: 'function-body',
-      development: true,
+      development: process.env.NODE_ENV !== 'production',
       jsx: true,
+      ...plugins,
     })
 
     const result = await evaluate(compiled, {

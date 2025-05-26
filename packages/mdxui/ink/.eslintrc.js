@@ -5,14 +5,14 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   env: {
     node: true,
-    es6: true
+    es6: true,
   },
   rules: {
-    'no-unused-vars': 'off'
-  }
-};
+    'no-unused-vars': 'off',
+  },
+}

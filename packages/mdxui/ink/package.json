@@ -19,7 +19,12 @@
     "dev": "tsup --watch",
     "lint": "echo 'Skipping lint for now'",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cli": "node dist/cli.js",
+    "bundle": "node dist/cli-bundler.js"
+  },
+  "bin": {
+    "ink-mdx": "dist/cli-bundler.js"
   },
   "keywords": [
     "mdx",
@@ -35,18 +40,30 @@
     "@mdx-js/react": "^3.0.0",
     "asciify-image": "^0.1.10",
     "chalk": "^5.3.0",
+    "commander": "^14.0.0",
+    "esbuild": "^0.19.11",
+    "figlet": "^1.7.0",
+    "glob": "^11.0.2",
     "ink": "^4.4.1",
-    "ink-ascii": "^0.0.4",
-    "ink-big-text": "^1.0.0",
-    "ink-markdown": "^1.0.4",
+    "ink-big-text": "^2.0.0",
+    "ink-link": "^2.0.0",
+    "ink-syntax-highlight": "^1.0.0",
+    "ink-table": "^3.0.0",
+    "ink-task-list": "^2.0.0",
+    "marked": "^15.0.12",
+    "marked-terminal": "^7.3.0",
     "pastel": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
+    "remark-gfm": "^3.0.1",
     "vfile": "^6.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/commander": "^2.12.5",
+    "@types/glob": "^8.1.0",
+    "@types/ink-testing-library": "^1.0.4",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^19.1.5",
@@ -59,5 +76,9 @@
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
   }
 }
