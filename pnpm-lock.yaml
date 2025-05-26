@@ -698,6 +698,9 @@ importers:
       commander:
         specifier: ^12.0.0
         version: 12.1.0
+      esbuild:
+        specifier: ^0.20.1
+        version: 0.20.2
       globby:
         specifier: ^14.0.1
         version: 14.1.0
