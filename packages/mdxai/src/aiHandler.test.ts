@@ -395,14 +395,14 @@ describe('AI Handler', () => {
     })
 
     it('should throw error when not used as template literal', () => {
+      const incorrectUsage = new Function('list', 'return list("not a template literal")')
+      
       expect(() => {
-        list('not a template literal')
+        incorrectUsage(list)
       }).toThrow('list function must be used as a template literal tag')
     })
 
     it('should use YAML.stringify for arrays and objects', () => {
-      
-      
       expect(yaml.stringify).toBeDefined()
     })
   })
