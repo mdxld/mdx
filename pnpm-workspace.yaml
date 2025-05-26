@@ -2,6 +2,7 @@ packages:
   - "apps/*"
   - "config/*"
   - "examples/*"
+  - "!examples/voice"
   - "packages/**"
   - "schema"
   - "schema.org"
