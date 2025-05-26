@@ -356,24 +356,36 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
             console.log('Initializing MDX database...');
             
             let MdxDbClass;
-            try {
-              const mdxdbModule = await import(path.resolve(process.cwd(), 'packages/mdxdb/fs/lib/mdxdb.js'));
-              MdxDbClass = mdxdbModule.MdxDb;
-            } catch (importError) {
+            const possiblePaths = [
+              '@mdxdb/fs',
+              path.resolve(process.cwd(), 'node_modules/@mdxdb/fs'),
+              path.resolve(process.cwd(), '../../node_modules/@mdxdb/fs'),
+              path.resolve(process.cwd(), '../../packages/mdxdb/fs/lib/mdxdb.js'),
+              path.resolve(process.cwd(), '../../../packages/mdxdb/fs/lib/mdxdb.js'),
+              path.resolve(process.cwd(), 'packages/mdxdb/fs/lib/mdxdb.js')
+            ];
+            
+            let importError = null;
+            for (const importPath of possiblePaths) {
               try {
-                const mdxdbModule = await import(path.resolve(process.cwd(), '../mdxdb/fs/lib/mdxdb.js'));
+                const mdxdbModule = await import(importPath);
                 MdxDbClass = mdxdbModule.MdxDb;
-              } catch (importError2) {
-                console.error('Failed to import MdxDb, creating fallback implementation');
-                mdxDb = {
-                  get: async () => null,
-                  list: async () => [],
-                  set: async () => ({}),
-                  delete: async () => false
-                };
-                dbInitialized = true;
-                return mdxDb;
+                if (MdxDbClass) break;
+              } catch (err) {
+                importError = err;
               }
+            }
+            
+            if (!MdxDbClass) {
+              console.error('Failed to import MdxDb, creating fallback implementation');
+              mdxDb = {
+                get: async () => null,
+                list: async () => [],
+                set: async () => ({}),
+                delete: async () => false
+              };
+              dbInitialized = true;
+              return mdxDb;
             }
             
             mdxDb = new MdxDbClass(process.cwd());
