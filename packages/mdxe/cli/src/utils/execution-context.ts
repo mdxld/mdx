@@ -3,7 +3,7 @@
  * Provides global objects and functions for MDX code blocks
  */
 
-import { on, emit, EventContext } from './event-system';
+import { on, send, EventContext } from './event-system';
 import { renderInputPrompt } from './input-prompt';
 
 /**
@@ -26,10 +26,10 @@ export function createExecutionContext() {
     },
 
     /**
-     * Emit an event to trigger all registered callbacks
+     * Send an event to trigger all registered callbacks
      * Supports async callbacks and context propagation
      */
-    emit: emit,
+    send: send,
 
     /**
      * Placeholder for AI functions

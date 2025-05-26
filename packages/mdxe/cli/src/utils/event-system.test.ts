@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { on, emit, clearEvents, clearEvent, eventRegistry } from './event-system';
+import { on, send, clearEvents, clearEvent, eventRegistry } from './event-system';
 
 describe('event-system', () => {
   beforeEach(() => {
@@ -34,13 +34,13 @@ describe('event-system', () => {
     });
   });
 
-  describe('emit', () => {
+  describe('send', () => {
     it('calls registered handlers with data', async () => {
       const callback = vi.fn();
       const testData = { message: 'test' };
       
       on('test-event', callback);
-      await emit('test-event', testData);
+      await send('test-event', testData);
       
       expect(callback).toHaveBeenCalledWith(testData, expect.any(Object));
     });
@@ -52,7 +52,7 @@ describe('event-system', () => {
       
       on('test-event', callback1);
       on('test-event', callback2);
-      await emit('test-event', testData);
+      await send('test-event', testData);
       
       expect(callback1).toHaveBeenCalledWith(testData, expect.any(Object));
       expect(callback2).toHaveBeenCalledWith(testData, expect.any(Object));
@@ -62,7 +62,7 @@ describe('event-system', () => {
       on('test-event', () => 'result1');
       on('test-event', () => 'result2');
       
-      const response = await emit('test-event');
+      const response = await send('test-event');
       
       expect(response.results).toEqual(['result1', 'result2']);
       expect(response.context).toBeDefined();
@@ -74,7 +74,7 @@ describe('event-system', () => {
         return 'async result';
       });
       
-      const response = await emit('test-event');
+      const response = await send('test-event');
       
       expect(response.results).toEqual(['async result']);
     });
@@ -87,7 +87,7 @@ describe('event-system', () => {
       });
       on('test-event', () => 'success');
       
-      const response = await emit('test-event');
+      const response = await send('test-event');
       
       expect(consoleSpy).toHaveBeenCalled();
       expect(response.results).toEqual(['success']);
@@ -113,7 +113,7 @@ describe('event-system', () => {
         };
       });
       
-      const response = await emit('test-event', { initial: 'data' });
+      const response = await send('test-event', { initial: 'data' });
       
       expect(response.context.firstRan).toBe(true);
       expect(response.context.secondRan).toBe(true);
@@ -127,7 +127,7 @@ describe('event-system', () => {
         return 'result';
       });
       
-      const response = await emit('test-event', 'data', initialContext);
+      const response = await send('test-event', 'data', initialContext);
       
       expect(response.context.important).toBe('value');
     });
@@ -157,22 +157,22 @@ describe('event-system', () => {
   });
 
   describe('execution context integration', () => {
-    it('exposes emit function through execution context', async () => {
+    it('exposes send function through execution context', async () => {
       const { createExecutionContext } = await import('./execution-context');
       const context = createExecutionContext();
       
-      expect(context.emit).toBeDefined();
-      expect(typeof context.emit).toBe('function');
+      expect(context.send).toBeDefined();
+      expect(typeof context.send).toBe('function');
     });
 
-    it('allows emitting events from execution context', async () => {
+    it('allows sending events from execution context', async () => {
       const { createExecutionContext } = await import('./execution-context');
       const context = createExecutionContext();
       
       const callback = vi.fn();
       context.on('test-event', callback);
       
-      await context.emit('test-event', { message: 'test data' });
+      await context.send('test-event', { message: 'test data' });
       
       expect(callback).toHaveBeenCalledWith({ message: 'test data' }, expect.any(Object));
     });
@@ -186,7 +186,7 @@ describe('event-system', () => {
         return `processed: ${data.value}`;
       });
       
-      const result = await context.emit('async-event', { value: 'test' });
+      const result = await context.send('async-event', { value: 'test' });
       
       expect(result.results).toEqual(['processed: test']);
     });

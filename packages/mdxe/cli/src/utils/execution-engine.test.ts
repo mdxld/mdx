@@ -96,13 +96,13 @@ return "second block";
       expect(results[1].result).toBe('second block');
     });
     
-    it('supports event emission in code blocks', async () => {
+    it('supports event sending in code blocks', async () => {
       const codeBlock: CodeBlock = {
         lang: 'typescript',
         meta: null,
         value: `
           on('test-event', (data) => data.value * 2);
-          const result = await emit('test-event', { value: 21 });
+          const result = await send('test-event', { value: 21 });
           return result.results[0];
         `
       };

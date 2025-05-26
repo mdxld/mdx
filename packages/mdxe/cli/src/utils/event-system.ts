@@ -1,6 +1,6 @@
 /**
  * Event system for MDXE
- * Provides a simple event registry for registering and emitting events
+ * Provides a simple event registry for registering and sending events
  */
 
 /**
@@ -40,13 +40,13 @@ class EventRegistry {
   }
 
   /**
-   * Emit an event with optional data and context
+   * Send an event with optional data and context
    * @param event Event name
    * @param data Optional data to pass to the event handlers
    * @param context Optional context object to share between handlers
    * @returns Array of results from handlers and the final context
    */
-  async emit(event: string, data?: any, context: EventContext = {}) {
+  async send(event: string, data?: any, context: EventContext = {}) {
     const handlers = this.handlers.get(event) || [];
     const results: any[] = [];
     let currentContext = { ...context }; // Clone to avoid modifying the original
@@ -92,6 +92,6 @@ class EventRegistry {
 export const eventRegistry = new EventRegistry();
 
 export const on = eventRegistry.on.bind(eventRegistry);
-export const emit = eventRegistry.emit.bind(eventRegistry);
+export const send = eventRegistry.send.bind(eventRegistry);
 export const clearEvents = eventRegistry.clear.bind(eventRegistry);
 export const clearEvent = eventRegistry.clearEvent.bind(eventRegistry);
