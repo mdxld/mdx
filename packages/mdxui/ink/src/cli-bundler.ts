@@ -5,7 +5,8 @@ import { bundleMdx } from './bundler';
 import { z } from 'zod';
 import path from 'path';
 import fs from 'fs/promises';
-import glob from 'glob';
+import * as globModule from 'glob';
+const glob = globModule.sync;
 
 const program = new Command();
 
@@ -19,6 +20,7 @@ program
   .description('Render an MDX file in the terminal')
   .argument('<mdxPath>', 'Path to the MDX file to render')
   .option('-s, --scope <scope>', 'Additional scope variables in key=value format')
+  .option('-e, --execute', 'Execute code blocks in the MDX file', false)
   .action(async (mdxPath, options) => {
     try {
       const scope: Record<string, string> = {};
@@ -33,7 +35,10 @@ program
         });
       }
 
-      const result = await renderMdxCli(mdxPath, { scope });
+      const result = await renderMdxCli(mdxPath, { 
+        scope,
+        executeCode: options.execute 
+      });
       console.log('Rendered successfully with input values:', result);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -55,12 +60,7 @@ program
   .option('-s, --sourcemap', 'Generate source maps', true)
   .action(async (input, options) => {
     try {
-      const files = await new Promise<string[]>((resolve, reject) => {
-        glob(input, (err, matches) => {
-          if (err) reject(err);
-          else resolve(matches);
-        });
-      });
+      const files = glob(input);
       
       if (files.length === 0) {
         console.warn(`No files found matching pattern: ${input}`);
