@@ -99,6 +99,23 @@ vi.mock('./utils', () => ({
   }
 }))
 
+vi.mock('yaml', () => {
+  return {
+    default: {
+      stringify: vi.fn().mockImplementation((value) => {
+        if (Array.isArray(value)) {
+          return `- ${value.join('\n- ')}\n`
+        }
+        if (typeof value === 'object' && value !== null) {
+          return Object.entries(value)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join('\n') + '\n'
+        }
+        return String(value)
+      })
+    }
+  }
+})
 vi.mock('./llmService', () => ({
   generateListStream: vi.fn().mockResolvedValue({
     textStream: {
@@ -109,16 +126,6 @@ vi.mock('./llmService', () => ({
   }),
 }))
 
-vi.mock('yaml', () => ({
-  default: {
-    stringify: vi.fn().mockImplementation((obj) => {
-      if (Array.isArray(obj)) {
-        return '- item1\n- item2\n- item3'
-      }
-      return 'key: value\nkey2: value2'
-    }),
-  },
-}))
 
 describe('AI Handler', () => {
   const originalEnv = { ...process.env }
@@ -158,6 +165,33 @@ describe('AI Handler', () => {
       expect(result).toBeDefined()
       expect(typeof result).toBe('string')
       expect(result).toContain('mock string response')
+    })
+    
+    it('should stringify arrays to YAML in template literals', async () => {
+      const items = ['TypeScript', 'JavaScript', 'React']
+      const result = await ai`Write a blog post about these technologies: ${items}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+      expect(result).toContain('mock string response')
+      expect(yaml.stringify).toHaveBeenCalledWith(items)
+    })
+    
+    it('should stringify objects to YAML in template literals', async () => {
+      const project = {
+        name: 'MDX AI',
+        technologies: ['TypeScript', 'React'],
+        features: {
+          templateLiterals: true,
+          yamlSupport: true
+        }
+      }
+      const result = await ai`Write a blog post about this project: ${project}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+      expect(result).toContain('mock string response')
+      expect(yaml.stringify).toHaveBeenCalledWith(project)
     })
   })
   
