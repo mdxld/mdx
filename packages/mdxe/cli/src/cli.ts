@@ -9,6 +9,7 @@ import { findIndexFile, fileExists } from './utils/file-utils';
 import { runDevCommand } from './commands/dev';
 import { runBuildCommand } from './commands/build';
 import { runStartCommand } from './commands/start';
+import { runExecCommand } from './commands/exec';
 
 /**
  * Run the CLI
@@ -31,8 +32,12 @@ export async function run() {
     console.log('Lint command not implemented yet');
     return;
   } else if (command === 'exec') {
-    console.log('Exec command not implemented yet');
-    return;
+    const filePath = args[1] || await findIndexFile(cwd);
+    if (!filePath) {
+      console.log('No file specified and no index file found');
+      return;
+    }
+    return runExecCommand(filePath);
   }
   
   let targetDir = cwd;
