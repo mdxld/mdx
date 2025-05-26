@@ -3,7 +3,7 @@
  * Provides global objects and functions for MDX code blocks
  */
 
-import { on, emit, MutableEventContext } from './event-system';
+import { on, send, emit, MutableEventContext } from './event-system';
 import { renderInputPrompt } from './input-prompt';
 
 export type ExecutionContextType = 'dev' | 'test' | 'production' | 'default';
@@ -70,9 +70,22 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
           console.error('Error in idea.captured handler:', error);
           throw error;
         }
+
       }
       return on(event, callback);
     },
+
+    /**
+     * Send an event to trigger all registered callbacks
+     * Supports async callbacks and context propagation
+     */
+    send: send,
+    
+    /**
+     * Emit an event (alias for send)
+     * Maintained for backward compatibility
+     */
+    emit: emit,
 
     /**
      * Placeholder for AI functions

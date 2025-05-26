@@ -1,6 +1,6 @@
 /**
  * Event system for MDXE
- * Provides a simple event registry for registering and emitting events
+ * Provides a simple event registry for registering and sending events
  */
 
 /**
@@ -75,7 +75,7 @@ export interface EmitOptions {
 
 /**
  * Event registry class
- * Stores event handlers and provides methods to register and emit events
+ * Stores event handlers and provides methods to register and send events
  */
 class EventRegistry {
   private handlers: Map<string, EventHandler[]> = new Map();
@@ -108,7 +108,7 @@ class EventRegistry {
   /**
    * Register a callback for a specific event
    * @param event Event name
-   * @param callback Function to call when the event is emitted
+   * @param callback Function to call when the event is sent
    * @param timeout Optional timeout in milliseconds for this handler
    */
   on(
@@ -124,14 +124,14 @@ class EventRegistry {
   }
 
   /**
-   * Emit an event with optional data and context
+   * Send an event with optional data and context
    * @param event Event name
    * @param data Optional data to pass to the event handlers
    * @param context Optional context object to share between handlers
    * @param options Optional emission options
    * @returns Array of results from handlers and the final context
    */
-  async emit(event: string, data?: any, context: EventContext = {}, options: EmitOptions = {}) {
+  async send(event: string, data?: any, context: EventContext = {}, options: EmitOptions = {}) {
     const handlers = this.handlers.get(event) || [];
     const results: any[] = [];
     const mutableContext = new MutableEventContext(context);
@@ -154,7 +154,7 @@ class EventRegistry {
             
             if (event !== 'error' && event !== 'handler.error') {
               try {
-                await this.emit('handler.error', errorInfo, mutableContext);
+                await this.send('handler.error', errorInfo, mutableContext);
               } catch (errorHandlerError) {
                 console.error('Error in error handler:', errorHandlerError);
               }
@@ -211,7 +211,7 @@ class EventRegistry {
           
           if (event !== 'error' && event !== 'handler.error') {
             try {
-              await this.emit('handler.error', errorInfo, mutableContext);
+              await this.send('handler.error', errorInfo, mutableContext);
             } catch (errorHandlerError) {
               console.error('Error in error handler:', errorHandlerError);
             }
@@ -261,6 +261,7 @@ class EventRegistry {
 export const eventRegistry = new EventRegistry();
 
 export const on = eventRegistry.on.bind(eventRegistry);
-export const emit = eventRegistry.emit.bind(eventRegistry);
+export const send = eventRegistry.send.bind(eventRegistry);
+export const emit = eventRegistry.send.bind(eventRegistry); // Alias for backward compatibility
 export const clearEvents = eventRegistry.clear.bind(eventRegistry);
 export const clearEvent = eventRegistry.clearEvent.bind(eventRegistry);
