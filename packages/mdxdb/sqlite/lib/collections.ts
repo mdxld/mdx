@@ -90,5 +90,10 @@ export const EmbeddingsCollection: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'vector',
+      type: 'json',
+      required: true,
+    },
   ],
 }

@@ -2,6 +2,7 @@ import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent } from '../../core/
 import { createClient } from '@libsql/client'
 import { getPayload } from 'payload'
 import { FilesCollection, EmbeddingsCollection } from './collections.js'
+import crypto from 'crypto'
 
 interface MdxDbSqliteInterface extends MdxDbBase {
   getData(id?: string, collectionName?: string): Promise<any>
@@ -39,6 +40,81 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
   }
 
   /**
+   * Build a SQL WHERE clause from Payload CMS where conditions
+   */
+  private buildWhereClause(where: any): string {
+    if (!where || Object.keys(where).length === 0) return ''
+    
+    const conditions: string[] = []
+    
+    for (const [field, condition] of Object.entries(where)) {
+      if (condition && typeof condition === 'object') {
+        for (const [operator, value] of Object.entries(condition)) {
+          switch (operator) {
+            case 'equals':
+              conditions.push(`${field} = ?`)
+              break
+            case 'contains':
+              conditions.push(`${field} LIKE ?`)
+              break
+            case 'exists':
+              conditions.push(value ? `${field} IS NOT NULL` : `${field} IS NULL`)
+              break
+            default:
+              console.warn(`Unsupported operator: ${operator}`)
+          }
+        }
+      } else {
+        conditions.push(`${field} = ?`)
+      }
+    }
+    
+    return conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : ''
+  }
+  
+  /**
+   * Extract arguments from Payload CMS where conditions
+   */
+  private extractWhereArgs(where: any): any[] {
+    if (!where || Object.keys(where).length === 0) return []
+    
+    const args: any[] = []
+    
+    for (const [field, condition] of Object.entries(where)) {
+      if (condition && typeof condition === 'object') {
+        for (const [operator, value] of Object.entries(condition)) {
+          switch (operator) {
+            case 'equals':
+              args.push(value)
+              break
+            case 'contains':
+              args.push(`%${value}%`)
+              break
+            case 'exists':
+              break
+            default:
+              console.warn(`Unsupported operator: ${operator}`)
+          }
+        }
+      } else {
+        args.push(condition)
+      }
+    }
+    
+    return args
+  }
+  
+  /**
+   * Calculate cosine similarity between two vectors
+   */
+  private cosineSimilarity(vecA: number[], vecB: number[]): number {
+    const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0)
+    const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0))
+    const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0))
+    return dotProduct / (magnitudeA * magnitudeB)
+  }
+
+  /**
    * Initialize the SQLite database and Payload CMS
    */
   private async initialize(): Promise<void> {
@@ -51,15 +127,134 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
         ...(this.dbConfig.inMemory ? { url: ':memory:' } : {}),
       })
 
+      await this.dbClient.execute(`
+        CREATE TABLE IF NOT EXISTS files (
+          id TEXT PRIMARY KEY,
+          slug TEXT NOT NULL,
+          collection TEXT NOT NULL,
+          frontmatter TEXT NOT NULL,
+          mdx TEXT NOT NULL,
+          markdown TEXT NOT NULL,
+          html TEXT NOT NULL,
+          code TEXT NOT NULL,
+          UNIQUE(slug, collection)
+        )
+      `)
+
+      await this.dbClient.execute(`
+        CREATE TABLE IF NOT EXISTS embeddings (
+          id TEXT PRIMARY KEY,
+          fileId TEXT NOT NULL,
+          content TEXT NOT NULL,
+          chunkType TEXT NOT NULL,
+          sectionPath TEXT,
+          collection TEXT NOT NULL,
+          vector TEXT NOT NULL,
+          FOREIGN KEY(fileId) REFERENCES files(id)
+        )
+      `)
+
       this.payload = {
-        find: async ({ collection, where }: any) => ({ docs: [] }),
-        create: async ({ collection, data }: any) => ({ id: 'mock-id', ...data }),
-        update: async ({ collection, id, data }: any) => ({ id, ...data }),
-        delete: async ({ collection, id, where }: any) => true,
+        find: async ({ collection, where }: any) => {
+          if (collection === 'files') {
+            const whereClause = where ? this.buildWhereClause(where) : ''
+            const result = await this.dbClient.execute({
+              sql: `SELECT * FROM files ${whereClause}`,
+              args: this.extractWhereArgs(where)
+            })
+            return { docs: result.rows || [] }
+          } else if (collection === 'embeddings') {
+            const whereClause = where ? this.buildWhereClause(where) : ''
+            const result = await this.dbClient.execute({
+              sql: `SELECT * FROM embeddings ${whereClause}`,
+              args: this.extractWhereArgs(where)
+            })
+            return { docs: result.rows || [] }
+          }
+          return { docs: [] }
+        },
+        create: async ({ collection, data }: any) => {
+          const id = crypto.randomUUID()
+          if (collection === 'files') {
+            const { slug, collection: collectionName, frontmatter, mdx, markdown, html, code } = data
+            await this.dbClient.execute({
+              sql: `
+                INSERT INTO files (id, slug, collection, frontmatter, mdx, markdown, html, code)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+              `,
+              args: [
+                id, 
+                slug, 
+                collectionName, 
+                JSON.stringify(frontmatter), 
+                mdx, 
+                markdown, 
+                html, 
+                code
+              ]
+            })
+          } else if (collection === 'embeddings') {
+            const { fileId, content, chunkType, sectionPath, collection: collectionName, vector } = data
+            await this.dbClient.execute({
+              sql: `
+                INSERT INTO embeddings (id, fileId, content, chunkType, sectionPath, collection, vector)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+              `,
+              args: [
+                id, 
+                fileId, 
+                content, 
+                chunkType, 
+                sectionPath || null, 
+                collectionName, 
+                JSON.stringify(vector)
+              ]
+            })
+          }
+          return { id, ...data }
+        },
+        update: async ({ collection, id, data }: any) => {
+          if (collection === 'files') {
+            const { slug, collection: collectionName, frontmatter, mdx, markdown, html, code } = data
+            await this.dbClient.execute({
+              sql: `
+                UPDATE files
+                SET slug = ?, collection = ?, frontmatter = ?, mdx = ?, markdown = ?, html = ?, code = ?
+                WHERE id = ?
+              `,
+              args: [
+                slug, 
+                collectionName, 
+                JSON.stringify(frontmatter), 
+                mdx, 
+                markdown, 
+                html, 
+                code, 
+                id
+              ]
+            })
+          }
+          return { id, ...data }
+        },
+        delete: async ({ collection, id, where }: any) => {
+          if (id) {
+            await this.dbClient.execute({
+              sql: `DELETE FROM ${collection} WHERE id = ?`,
+              args: [id]
+            })
+          } else if (where) {
+            const whereClause = this.buildWhereClause(where)
+            await this.dbClient.execute({
+              sql: `DELETE FROM ${collection} ${whereClause}`,
+              args: this.extractWhereArgs(where)
+            })
+          }
+          return true
+        },
       }
 
       this.initialized = true
-      console.log('SQLite database and Payload CMS initialized successfully')
+      console.log('SQLite database initialized successfully')
     } catch (error) {
       console.error('Error initializing SQLite database:', error)
       throw new Error(`Failed to initialize SQLite database: ${(error as Error).message}`)
@@ -299,14 +494,44 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
     try {
       const queryEmbedding = await generateEmbedding(query)
 
-      const whereCondition = collectionName ? { collection: { equals: collectionName } } : {}
+      const whereClause = collectionName ? 'WHERE collection = ?' : ''
+      const params = collectionName ? [collectionName] : []
 
-      const results = await this.payload.find({
-        collection: 'files',
-        where: whereCondition,
+      const result = await this.dbClient.execute({
+        sql: `
+          SELECT e.*, f.slug, f.frontmatter, f.markdown, f.collection
+          FROM embeddings e
+          JOIN files f ON e.fileId = f.id
+          ${whereClause}
+        `,
+        args: params
       })
 
-      return results.docs
+      if (!result.rows || result.rows.length === 0) {
+        return []
+      }
+
+      const scoredResults = result.rows.map((row: any) => {
+        const vector = JSON.parse(row.vector)
+        const similarity = this.cosineSimilarity(queryEmbedding, vector)
+        
+        const frontmatter = JSON.parse(row.frontmatter)
+        
+        return {
+          slug: row.slug,
+          collection: row.collection,
+          content: row.content,
+          frontmatter,
+          body: row.markdown,
+          similarity,
+          sectionPath: row.sectionPath,
+          chunkType: row.chunkType
+        }
+      })
+
+      return scoredResults
+        .sort((a: { similarity: number }, b: { similarity: number }) => b.similarity - a.similarity)
+        .slice(0, 10)
     } catch (error) {
       console.error('Error searching documents:', error)
       throw new Error(`Failed to search documents: ${(error as Error).message}`)

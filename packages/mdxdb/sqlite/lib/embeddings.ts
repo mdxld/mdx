@@ -1,9 +1,10 @@
+import matter from 'gray-matter'
+
 const embed = async ({ model, input, dimensions }: { model: string; input: string; dimensions: number }) => {
   return Array(dimensions)
     .fill(0)
     .map(() => Math.random())
 }
-import matter from 'gray-matter'
 
 /**
  * Generate embeddings for a text string
