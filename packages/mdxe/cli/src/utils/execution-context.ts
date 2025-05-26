@@ -217,6 +217,11 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
   Object.entries(contextConfig.env).forEach(([key, value]) => {
     process.env[key] = value;
   });
+  
+  createAiFolderStructure().catch(err => {
+    console.error('Failed to create AI folder structure:', err);
+  });
+  
   return {
     /**
      * Register a callback for a specific event
