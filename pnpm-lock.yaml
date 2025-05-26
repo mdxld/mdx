@@ -539,6 +539,9 @@ importers:
       ink:
         specifier: ^5.2.1
         version: 5.2.1(@types/react@18.3.21)(react@18.3.1)
+      lru-cache:
+        specifier: ^11.1.0
+        version: 11.1.0
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
@@ -552,7 +555,7 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
       yaml:
-        specifier: ^2.4.0
+        specifier: ^2.8.0
         version: 2.8.0
       zod:
         specifier: ^3.21.4
@@ -573,6 +576,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.0
         version: 18.3.7(@types/react@18.3.21)
+      '@types/yaml':
+        specifier: ^1.9.7
+        version: 1.9.7
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.17.49)(typescript@5.8.3)
@@ -6758,6 +6764,13 @@ packages:
       '@types/node': 22.15.21
     dev: false
 
+  /@types/yaml@1.9.7:
+    resolution: {integrity: sha512-8WMXRDD1D+wCohjfslHDgICd2JtMATZU8CkhH8LVJqcJs6dyYj5TGptzP8wApbmEullGBSsCEzzap73DQ1HJaA==}
+    deprecated: This is a stub types definition. yaml provides its own type definitions, so you do not need this installed.
+    dependencies:
+      yaml: 2.8.0
+    dev: true
+
   /@types/yauzl@2.10.3:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
@@ -7068,7 +7081,7 @@ packages:
       '@vitest/spy': 3.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.3.5(@types/node@22.15.21)(tsx@4.19.4)
+      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
     dev: true
 
   /@vitest/pretty-format@3.1.4:
