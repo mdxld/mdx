@@ -28,59 +28,46 @@ export async function createTestFixture(): Promise<TestFixture> {
     const veliteDir = path.join(testDir, '.velite')
     const exportDir = path.join(testDir, 'export')
 
-    await fs.mkdir(contentDir, { recursive: true })
-    await fs.mkdir(blogDir, { recursive: true })
-    await fs.mkdir(veliteDir, { recursive: true })
-    await fs.mkdir(exportDir, { recursive: true })
+    await Promise.all([
+      fs.mkdir(contentDir, { recursive: true }),
+      fs.mkdir(blogDir, { recursive: true }),
+      fs.mkdir(veliteDir, { recursive: true }),
+      fs.mkdir(exportDir, { recursive: true })
+    ])
     
     console.log(`Created test directories at ${testDir}`)
 
-    const contentDirExists = await dirExists(contentDir)
-    const blogDirExists = await dirExists(blogDir)
-    
-    if (!contentDirExists) {
-      console.error(`Content directory ${contentDir} does not exist after creation attempt`)
-      await fs.mkdir(contentDir, { recursive: true })
-    }
-    
-    if (!blogDirExists) {
-      console.error(`Blog directory ${blogDir} does not exist after creation attempt`)
-      await fs.mkdir(blogDir, { recursive: true })
-    }
-
-    await fs.writeFile(
-      path.join(contentDir, 'post-1.mdx'),
-      `---
+    await Promise.all([
+      fs.writeFile(
+        path.join(contentDir, 'post-1.mdx'),
+        `---
 title: Sample Post 1
 date: 2023-01-01
 ---
 # Sample Post 1
-This is the content of post 1.`,
-    )
-
-    await fs.writeFile(
-      path.join(contentDir, 'post-2.mdx'),
-      `---
+This is the content of post 1.`
+      ),
+      fs.writeFile(
+        path.join(contentDir, 'post-2.mdx'),
+        `---
 title: Sample Post 2
 date: 2023-01-02
 ---
 # Sample Post 2
-This is the content of post 2.`,
-    )
-
-  await fs.writeFile(
-    path.join(blogDir, 'sample-blog.mdx'),
-    `---
+This is the content of post 2.`
+      ),
+      fs.writeFile(
+        path.join(blogDir, 'sample-blog.mdx'),
+        `---
 title: Sample Blog
 date: 2023-01-03
 ---
 # Sample Blog
-This is a sample blog post.`,
-  )
-
-  await fs.writeFile(
-    path.join(testDir, 'velite.config.ts'),
-    `import { defineConfig } from 'velite'
+This is a sample blog post.`
+      ),
+      fs.writeFile(
+        path.join(testDir, 'velite.config.ts'),
+        `import { defineConfig } from 'velite'
     
 export default defineConfig({
   output: {
@@ -116,39 +103,37 @@ export default defineConfig({
       }
     }
   }
-})
-    `,
-  )
-
-  await fs.writeFile(
-    path.join(veliteDir, 'posts.json'),
-    JSON.stringify([
-      {
-        slug: 'post-1',
-        title: 'Sample Post 1',
-        date: '2023-01-01',
-        body: '# Sample Post 1\nThis is the content of post 1.',
-      },
-      {
-        slug: 'post-2',
-        title: 'Sample Post 2',
-        date: '2023-01-02',
-        body: '# Sample Post 2\nThis is the content of post 2.',
-      },
-    ]),
-  )
-
-  await fs.writeFile(
-    path.join(veliteDir, 'blog.json'),
-    JSON.stringify([
-      {
-        slug: 'sample-blog',
-        title: 'Sample Blog',
-        date: '2023-01-03',
-        body: '# Sample Blog\nThis is a sample blog post.',
-      },
-    ]),
-  )
+})`
+      ),
+      fs.writeFile(
+        path.join(veliteDir, 'posts.json'),
+        JSON.stringify([
+          {
+            slug: 'post-1',
+            title: 'Sample Post 1',
+            date: '2023-01-01',
+            body: '# Sample Post 1\nThis is the content of post 1.',
+          },
+          {
+            slug: 'post-2',
+            title: 'Sample Post 2',
+            date: '2023-01-02',
+            body: '# Sample Post 2\nThis is the content of post 2.',
+          },
+        ])
+      ),
+      fs.writeFile(
+        path.join(veliteDir, 'blog.json'),
+        JSON.stringify([
+          {
+            slug: 'sample-blog',
+            title: 'Sample Blog',
+            date: '2023-01-03',
+            body: '# Sample Blog\nThis is a sample blog post.',
+          },
+        ])
+      )
+    ])
 
   const cleanup = async () => {
     try {
@@ -181,12 +166,11 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
   const blogDir = path.join(testDir, 'content/blog')
   const outputDir = path.join(testDir, '.velite')
 
-  // Ensure output directory exists
-  await fs.mkdir(outputDir, { recursive: true })
-  
-  // Ensure content directories exist
-  await fs.mkdir(postsDir, { recursive: true })
-  await fs.mkdir(blogDir, { recursive: true })
+  await Promise.all([
+    fs.mkdir(outputDir, { recursive: true }),
+    fs.mkdir(postsDir, { recursive: true }),
+    fs.mkdir(blogDir, { recursive: true })
+  ])
 
   const veliteConfigPath = path.join(testDir, 'velite.config.js')
   const configContent = `
@@ -202,29 +186,31 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
       }
     };
   `
-  await fs.writeFile(veliteConfigPath, configContent)
+  
+  // Process both directories in parallel
+  const [posts, blogPosts] = await Promise.all([
+    fs.writeFile(veliteConfigPath, configContent).then(() => processDirectory(postsDir)),
+    processDirectory(blogDir)
+  ])
 
-  // Process posts directory
-  try {
-    const posts = await processDirectory(postsDir)
-    await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
-    console.log('Created posts.json successfully')
-  } catch (error) {
-    console.error('Error creating posts.json:', error)
-    await fs.writeFile(path.join(outputDir, 'posts.json'), '[]')
-    console.log('Created empty posts.json as fallback')
-  }
-
-  // Process blog directory
-  try {
-    const blogPosts = await processDirectory(blogDir)
-    await fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
-    console.log('Created blog.json successfully')
-  } catch (error) {
-    console.error('Error creating blog.json:', error)
-    await fs.writeFile(path.join(outputDir, 'blog.json'), '[]')
-    console.log('Created empty blog.json as fallback')
-  }
+  await Promise.all([
+    fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts)).then(() => 
+      console.log('Created posts.json successfully')
+    ).catch(error => {
+      console.error('Error creating posts.json:', error)
+      return fs.writeFile(path.join(outputDir, 'posts.json'), '[]').then(() =>
+        console.log('Created empty posts.json as fallback')
+      )
+    }),
+    fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts)).then(() =>
+      console.log('Created blog.json successfully')
+    ).catch(error => {
+      console.error('Error creating blog.json:', error)
+      return fs.writeFile(path.join(outputDir, 'blog.json'), '[]').then(() =>
+        console.log('Created empty blog.json as fallback')
+      )
+    })
+  ])
 }
 
 /**
