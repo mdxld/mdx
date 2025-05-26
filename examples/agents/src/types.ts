@@ -28,3 +28,17 @@ export interface SourcePart {
 }
 
 export type StreamPart = ReasoningPart | TextDeltaPart | SourcePart;
+
+export interface MCPSource {
+  id: string;
+  url: string;
+  transportType: 'sse' | 'stdio';
+  status: 'connected' | 'connecting' | 'error';
+  errorMessage?: string;
+}
+
+export interface MCPClient {
+  id: string;
+  client: any; // MCP client instance
+  tools: Record<string, any>;
+}

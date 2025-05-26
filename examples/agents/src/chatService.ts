@@ -1,4 +1,145 @@
-import { ChatMessage, StreamPart } from './types.js';
+import { ChatMessage, StreamPart, MCPSource, MCPClient } from './types.js';
+import { experimental_createMCPClient, streamText, generateText } from 'ai';
+import { Experimental_StdioMCPTransport } from 'ai/mcp-stdio';
+import { openai } from '@ai-sdk/openai';
+
+/**
+ * Detects the transport type based on the input string
+ * - If the input starts with http:// or https://, it's an SSE transport
+ * - If the input contains spaces, it's a stdio transport
+ */
+export function detectTransportType(input: string): 'sse' | 'stdio' {
+  if (input.startsWith('https://') || input.startsWith('http://')) {
+    return 'sse';
+  }
+  if (input.includes(' ')) {
+    return 'stdio';
+  }
+  throw new Error('Unable to detect transport type. Use https:// for SSE or command with spaces for stdio.');
+}
+
+/**
+ * Creates an MCP client based on the provided source
+ */
+export async function createMCPClient(source: MCPSource): Promise<MCPClient> {
+  try {
+    let client;
+    
+    if (source.transportType === 'sse') {
+      client = await experimental_createMCPClient({
+        transport: {
+          type: 'sse',
+          url: source.url,
+        },
+      });
+    } else if (source.transportType === 'stdio') {
+      const parts = source.url.split(' ');
+      const command = parts[0];
+      const args = parts.slice(1);
+      
+      const transport = new Experimental_StdioMCPTransport({
+        command,
+        args,
+      });
+      
+      client = await experimental_createMCPClient({
+        transport,
+      });
+    } else {
+      throw new Error(`Unsupported transport type: ${source.transportType}`);
+    }
+    
+    const tools = await client.tools();
+    
+    return {
+      id: source.id,
+      client,
+      tools,
+    };
+  } catch (error) {
+    console.error(`Error creating MCP client for ${source.url}:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Generates a chat response using MCP tools
+ */
+export async function generateChatResponseWithMCP(
+  messages: ChatMessage[], 
+  mcpClients: MCPClient[]
+): Promise<AsyncGenerator<StreamPart>> {
+  try {
+    console.log('Generating chat response with MCP tools...');
+    
+    const aggregatedTools: Record<string, any> = {};
+    
+    for (const mcpClient of mcpClients) {
+      Object.assign(aggregatedTools, mcpClient.tools);
+    }
+    
+    if (Object.keys(aggregatedTools).length === 0) {
+      return mockStreamGenerator(
+        "No MCP tools are available. Please add an MCP source first.",
+        true,
+        false
+      );
+    }
+    
+    const openaiMessages = messages.map(msg => ({
+      role: msg.role,
+      content: msg.content,
+    }));
+    
+    const result = streamText({
+      model: openai('o4-mini'),
+      messages: openaiMessages,
+      tools: aggregatedTools,
+      providerOptions: {
+        openai: {
+          reasoningSummary: 'detailed',
+        },
+      },
+    });
+    
+    return processStreamFromOpenAI(result.fullStream);
+  } catch (error) {
+    console.error('Error generating chat response with MCP:', error);
+    return mockStreamGenerator(
+      `Sorry, I encountered an error while using MCP tools: ${error instanceof Error ? error.message : String(error)}`,
+      true,
+      false
+    );
+  }
+}
+
+/**
+ * Processes the OpenAI stream and converts it to our StreamPart format
+ */
+async function* processStreamFromOpenAI(stream: AsyncIterable<any>): AsyncGenerator<StreamPart> {
+  try {
+    for await (const part of stream) {
+      if (part.type === 'reasoning') {
+        yield { type: 'reasoning', textDelta: part.textDelta };
+      } else if (part.type === 'text-delta') {
+        yield { type: 'text-delta', textDelta: part.textDelta };
+      } else if (part.type === 'sources' && part.sources) {
+        const sources = part.sources.map((source: any) => ({
+          title: source.title || 'Source',
+          url: source.url,
+        }));
+        
+        yield { type: 'sources', sources };
+      }
+    }
+  } catch (error) {
+    console.error('Error processing OpenAI stream:', error);
+    yield { 
+      type: 'text-delta', 
+      textDelta: `\nError processing response: ${error instanceof Error ? error.message : String(error)}` 
+    };
+  }
+}
 
 /**
  * Simulates a streaming response for demonstration purposes
