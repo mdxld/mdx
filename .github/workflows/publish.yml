@@ -34,7 +34,7 @@ jobs:
           version: 8.15.6
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --filter=!voice
 
       - name: Publish to NPM
         run: pnpm run release
