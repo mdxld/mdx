@@ -1,6 +1,84 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import fs from 'fs/promises'
 import path from 'path'
+import { MutableEventContext } from '../../../packages/mdxe/cli/src/utils/event-system'
+
+interface ResearchResult {
+  text: string;
+  markdown: string;
+  citations: string[];
+  reasoning: string;
+  scrapedCitations: {
+    url: string;
+    title: string;
+    description: string;
+    markdown: string;
+  }[];
+}
+
+interface LeanCanvas {
+  problem: string;
+  solution: string;
+  uniqueValueProposition: string;
+  customerSegments: string[];
+  channels: string[];
+  revenue: string;
+  costs: string;
+}
+
+interface StoryBrand {
+  name: string;
+  description: string;
+  mission: string;
+  values: string;
+  target_audience: string;
+  tone: string;
+  key_messages: string[];
+  status: string;
+}
+
+interface LandingPage {
+  headline: string;
+  subheadline: string;
+  features: string[];
+  cta: string;
+}
+
+interface ListFunction extends AsyncIterable<string> {
+  (): Promise<string[]>;
+}
+
+interface AiFunction {
+  (strings: TemplateStringsArray, ...values: any[]): Promise<string>;
+  leanCanvas: (params: any) => Promise<LeanCanvas>;
+  storyBrand: (params: any) => Promise<StoryBrand>;
+  landingPage: (params: any) => Promise<LandingPage>;
+}
+
+interface MockExecutionContext {
+  ai: AiFunction;
+  research: (strings: TemplateStringsArray, ...values: any[]) => Promise<ResearchResult>;
+  list: (strings: TemplateStringsArray, ...values: any[]) => ListFunction;
+  extract: (strings: TemplateStringsArray, ...values: any[]) => Promise<string[]>;
+  on: (event: string, callback: (data: any, context?: MutableEventContext) => any) => any;
+  db: {
+    build: any;
+    watch: any;
+    get: any;
+    list: any;
+    set: any;
+    delete: any;
+    blog: {
+      create: any;
+      get: any;
+      list: any;
+      update: any;
+      delete: any;
+    };
+  };
+  generateText: (params: { prompt: string, functionName: string }) => Promise<{ text: string }>;
+  createAiFolderStructure: () => Promise<void>;
+}
 
 vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
   return {
@@ -8,7 +86,7 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
       const aiFunction = vi.fn((strings: TemplateStringsArray, ...values: any[]) => {
         const prompt = String.raw({ raw: strings }, ...values)
         return Promise.resolve(`Mock AI response for: ${prompt}`)
-      })
+      }) as unknown as AiFunction
       
       aiFunction.leanCanvas = vi.fn().mockResolvedValue({
         problem: 'Content creation is time-consuming',
@@ -170,7 +248,7 @@ describe('Startups Example Integration', () => {
   it('should generate research results with citations', async () => {
     const context = createExecutionContext('test')
     
-    const result = await context.research()
+    const result = await context.research`AI tools in the context of delivering AI-powered content generation`
     
     expect(result).toHaveProperty('text')
     expect(result).toHaveProperty('markdown')
@@ -181,14 +259,14 @@ describe('Startups Example Integration', () => {
   it('should generate lists with async iterator support', async () => {
     const context = createExecutionContext('test')
     
-    const listFn = context.list()
-    const items = await listFn()
+    const listFn = context.list`10 possible market segments for AI-powered content generation`
+    const items = await listFn as unknown as string[]
     
     expect(Array.isArray(items)).toBe(true)
     expect(items.length).toBeGreaterThan(0)
     
     const asyncItems: string[] = []
-    for await (const item of listFn) {
+    for await (const item of context.list`5 blog post titles for AI tools`) {
       asyncItems.push(item)
     }
     
@@ -197,8 +275,14 @@ describe('Startups Example Integration', () => {
   
   it('should generate structured objects with ai.functionName', async () => {
     const context = createExecutionContext('test')
+    const typedAi = context.ai as AiFunction
     
-    const storyBrand = await context.ai.storyBrand()
+    const storyBrand = await typedAi.storyBrand({
+      idea: 'AI-powered content generation',
+      market: 'Digital Marketing',
+      icp: 'Small business owners',
+      marketResearch: 'Market is growing at 15% annually'
+    })
     
     expect(storyBrand).toHaveProperty('name')
     expect(storyBrand).toHaveProperty('description')
@@ -210,36 +294,38 @@ describe('Startups Example Integration', () => {
   it('should execute the full startups workflow', async () => {
     const context = createExecutionContext('test')
     const { on, ai, list, research, db } = context
+    const typedAi = ai as AiFunction
+    const typedList = list as unknown as (strings: TemplateStringsArray, ...values: any[]) => ListFunction
     
     const blogCreateSpy = vi.spyOn(db.blog, 'create')
     
     await on('idea.captured', async (idea: string) => {
       expect(idea).toBe('AI-powered content generation')
       
-      const marketsFn = list()
-      const markets = await marketsFn()
+      const marketsFn = typedList`10 possible market segments for ${idea}`
+      const markets = await marketsFn as unknown as string[]
       expect(Array.isArray(markets)).toBe(true)
       const market = markets[0]
       
-      const marketResearch = await research()
+      const marketResearch = await research`${market} in the context of delivering ${idea}`
       expect(marketResearch).toHaveProperty('markdown')
       
-      const icpsFn = list()
-      const icps = await icpsFn()
+      const icpsFn = typedList`10 possible ideal customer profiles for ${{ idea, market, marketResearch }}`
+      const icps = await icpsFn as unknown as string[]
       expect(Array.isArray(icps)).toBe(true)
       const icp = icps[0]
       
-      const leanCanvas = await ai.leanCanvas()
+      const leanCanvas = await typedAi.leanCanvas({ idea, market, icp, marketResearch })
       expect(leanCanvas).toBeTruthy()
       
-      const storyBrand = await ai.storyBrand()
+      const storyBrand = await typedAi.storyBrand({ idea, market, icp, marketResearch, leanCanvas })
       expect(storyBrand).toBeTruthy()
       
-      const landingPage = await ai.landingPage()
+      const landingPage = await typedAi.landingPage({ idea, market, icp, marketResearch, leanCanvas, storyBrand })
       expect(landingPage).toBeTruthy()
       
-      const titlesFn = list()
-      const titles = await titlesFn()
+      const titlesFn = typedList`25 blog post titles for ${{ idea, icp, market, leanCanvas, storyBrand }}`
+      const titles = await titlesFn as unknown as string[]
       expect(Array.isArray(titles)).toBe(true)
       const title = titles[0]
       
@@ -249,10 +335,10 @@ describe('Startups Example Integration', () => {
       await db.blog.create(title, content)
       expect(blogCreateSpy).toHaveBeenCalledWith(title, content)
       
-      const influencers = await research()
+      const influencers = await research`influencers across all social media platforms for ${icp} in ${market}`
       expect(influencers).toHaveProperty('markdown')
       
-      const competitors = await research()
+      const competitors = await research`competitors of ${idea} for ${icp} in ${market}`
       expect(competitors).toHaveProperty('markdown')
     })
   })

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import fs from 'fs/promises'
 import path from 'path'
+import { MutableEventContext } from '../../../packages/mdxe/cli/src/utils/event-system'
 
 type ResearchResult = {
   text: string;
@@ -43,32 +44,68 @@ type LandingPage = {
   cta: string;
 };
 
+interface ListFunction extends AsyncIterable<string> {
+  (): Promise<string[]>;
+}
+
+interface AiFunction {
+  (strings: TemplateStringsArray, ...values: any[]): Promise<string>;
+  leanCanvas: (params: any) => Promise<LeanCanvas>;
+  storyBrand: (params: any) => Promise<StoryBrand>;
+  landingPage: (params: any) => Promise<LandingPage>;
+}
+
+interface MockExecutionContext {
+  ai: AiFunction;
+  research: (strings: TemplateStringsArray, ...values: any[]) => Promise<ResearchResult>;
+  list: (strings: TemplateStringsArray, ...values: any[]) => ListFunction;
+  extract: (strings: TemplateStringsArray, ...values: any[]) => Promise<string[]>;
+  on: (event: string, callback: (data: any, context?: MutableEventContext) => any) => any;
+  db: {
+    blog: {
+      create: (title: string, content: string) => Promise<any>;
+      get: any;
+      list: any;
+      update: any;
+      delete: any;
+    };
+    get: any;
+    list: any;
+    set: any;
+    delete: any;
+  };
+  generateText: (params: { prompt: string, functionName: string }) => Promise<{ text: string }>;
+  createAiFolderStructure: () => Promise<void>;
+}
+
 vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
   return {
-    createExecutionContext: vi.fn(() => {
-      const createMockListFn = (items = ['Item 1', 'Item 2', 'Item 3']) => {
-        const mockListFn = vi.fn().mockResolvedValue(items);
+    createExecutionContext: vi.fn((): MockExecutionContext => {
+      const createMockListFn = (items = ['Item 1', 'Item 2', 'Item 3']): ListFunction => {
+        const mockListFn = function() {
+          return Promise.resolve(items)
+        } as ListFunction
         
         mockListFn[Symbol.asyncIterator] = function() {
-          let index = 0;
+          let index = 0
           return {
             next: async () => {
               if (index < items.length) {
-                return { value: items[index++], done: false };
+                return { value: items[index++], done: false }
               } else {
-                return { value: undefined, done: true };
+                return { value: undefined, done: true }
               }
             }
-          };
-        };
+          }
+        }
         
-        return mockListFn;
-      };
+        return mockListFn
+      }
       
       const mockAiFn = vi.fn((strings: TemplateStringsArray, ...values: any[]) => {
-        const prompt = String.raw({ raw: strings }, ...values);
-        return Promise.resolve(`Mock AI response for: ${prompt}`);
-      });
+        const prompt = String.raw({ raw: strings }, ...values)
+        return Promise.resolve(`Mock AI response for: ${prompt}`)
+      }) as unknown as AiFunction
       
       mockAiFn.leanCanvas = vi.fn().mockResolvedValue({
         problem: 'Content creation is time-consuming',
@@ -78,7 +115,7 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
         channels: ['Direct sales', 'Online marketing'],
         revenue: 'Subscription model',
         costs: 'AI API costs, development, marketing'
-      } as LeanCanvas);
+      } as LeanCanvas)
       
       mockAiFn.storyBrand = vi.fn().mockResolvedValue({
         name: 'ContentAI',
@@ -92,17 +129,17 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
           'Improve content quality with AI assistance'
         ],
         status: 'published'
-      } as StoryBrand);
+      } as StoryBrand)
       
       mockAiFn.landingPage = vi.fn().mockResolvedValue({
         headline: 'Create Better Content 10x Faster with AI',
         subheadline: 'The AI-powered platform for small businesses',
         features: ['AI content generation', 'SEO optimization', 'Brand voice customization'],
         cta: 'Start Free Trial'
-      } as LandingPage);
+      } as LandingPage)
       
-      const mockResearchFn = vi.fn((strings: TemplateStringsArray, ...values: any[]) => {
-        const prompt = String.raw({ raw: strings }, ...values);
+      const mockResearchFn = vi.fn((strings: TemplateStringsArray, ...values: any[]): Promise<ResearchResult> => {
+        const prompt = String.raw({ raw: strings }, ...values)
         return Promise.resolve({
           text: `Mock research results for: ${prompt}`,
           markdown: '# Research Results\n\nMock research results with citations [ ¹ ](#1)',
@@ -116,26 +153,26 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
               markdown: '# Example Content\n\nThis is example content from a citation.'
             }
           ]
-        } as ResearchResult);
-      });
+        } as ResearchResult)
+      })
       
-      const mockListFn = vi.fn((strings: TemplateStringsArray, ...values: any[]) => {
-        const prompt = String.raw({ raw: strings }, ...values);
+      const mockListFn = vi.fn((strings: TemplateStringsArray, ...values: any[]): ListFunction => {
+        const prompt = String.raw({ raw: strings }, ...values)
         return createMockListFn([
           `Item 1 for ${prompt}`,
           `Item 2 for ${prompt}`,
           `Item 3 for ${prompt}`
-        ]);
-      });
+        ])
+      })
       
-      const mockExtractFn = vi.fn((strings: TemplateStringsArray, ...values: any[]) => {
-        const prompt = String.raw({ raw: strings }, ...values);
+      const mockExtractFn = vi.fn((strings: TemplateStringsArray, ...values: any[]): Promise<string[]> => {
+        const prompt = String.raw({ raw: strings }, ...values)
         return Promise.resolve([
           `Extracted item 1 for ${prompt}`,
           `Extracted item 2 for ${prompt}`,
           `Extracted item 3 for ${prompt}`
-        ]);
-      });
+        ])
+      })
       
       const mockDb = {
         blog: {
@@ -145,7 +182,7 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
               title,
               content,
               date: new Date().toISOString()
-            });
+            })
           }),
           get: vi.fn().mockResolvedValue(null),
           list: vi.fn().mockResolvedValue([]),
@@ -156,25 +193,25 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
         list: vi.fn().mockResolvedValue([]),
         set: vi.fn().mockResolvedValue({}),
         delete: vi.fn().mockResolvedValue(true)
-      };
+      }
       
-      const eventHandlers: Record<string, Function[]> = {};
+      const eventHandlers: Record<string, Function[]> = {}
       const mockOnFn = vi.fn((event: string, callback: Function) => {
         if (!eventHandlers[event]) {
-          eventHandlers[event] = [];
+          eventHandlers[event] = []
         }
-        eventHandlers[event].push(callback);
+        eventHandlers[event].push(callback)
         
         if (event === 'idea.captured') {
           setTimeout(() => {
             if (eventHandlers[event]) {
-              eventHandlers[event].forEach(handler => handler('AI-powered content generation'));
+              eventHandlers[event].forEach(handler => handler('AI-powered content generation'))
             }
-          }, 0);
+          }, 0)
         }
         
-        return callback;
-      });
+        return callback
+      })
       
       return {
         ai: mockAiFn,
@@ -184,13 +221,13 @@ vi.mock('../../../packages/mdxe/cli/src/utils/execution-context', () => {
         on: mockOnFn,
         db: mockDb,
         generateText: vi.fn(({ prompt, functionName }: { prompt: string, functionName: string }) => {
-          return Promise.resolve({ text: `Mock response for ${functionName}: ${prompt}` });
+          return Promise.resolve({ text: `Mock response for ${functionName}: ${prompt}` })
         }),
         createAiFolderStructure: vi.fn().mockResolvedValue(undefined)
-      };
+      }
     })
-  };
-});
+  }
+})
 
 import { createExecutionContext } from '../../../packages/mdxe/cli/src/utils/execution-context';
 
@@ -221,6 +258,9 @@ describe('Startups Example Integration', () => {
   });
   
   it('should create .ai folder structure with function definitions', async () => {
+    const context = createExecutionContext('test') as unknown as MockExecutionContext;
+    await context.createAiFolderStructure();
+    
     const aiExists = await fs.stat(AI_FOLDER).then(() => true).catch(() => false);
     expect(aiExists).toBe(true);
     
@@ -232,7 +272,7 @@ describe('Startups Example Integration', () => {
   });
   
   it('should generate research results with citations', async () => {
-    const context = createExecutionContext('test');
+    const context = createExecutionContext('test') as unknown as MockExecutionContext;
     
     const result = await context.research`AI tools in the context of delivering AI-powered content generation`;
     
@@ -243,7 +283,7 @@ describe('Startups Example Integration', () => {
   });
   
   it('should generate lists with async iterator support', async () => {
-    const context = createExecutionContext('test');
+    const context = createExecutionContext('test') as unknown as MockExecutionContext;
     
     const listFn = context.list`10 possible market segments for AI-powered content generation`;
     const items = await listFn();
@@ -252,7 +292,7 @@ describe('Startups Example Integration', () => {
     expect(items.length).toBeGreaterThan(0);
     
     const asyncItems: string[] = [];
-    for await (const item of listFn) {
+    for await (const item of context.list`5 blog post titles for AI tools`) {
       asyncItems.push(item);
     }
     
@@ -260,7 +300,7 @@ describe('Startups Example Integration', () => {
   });
   
   it('should generate structured objects with ai.functionName', async () => {
-    const context = createExecutionContext('test');
+    const context = createExecutionContext('test') as unknown as MockExecutionContext;
     
     const storyBrand = await context.ai.storyBrand({
       idea: 'AI-powered content generation',
@@ -277,15 +317,17 @@ describe('Startups Example Integration', () => {
   });
   
   it('should execute the full startups workflow', async () => {
-    const context = createExecutionContext('test');
+    const context = createExecutionContext('test') as unknown as MockExecutionContext;
     const { on, ai, list, research, db } = context;
     
     const blogCreateSpy = vi.spyOn(db.blog, 'create');
     
     await on('idea.captured', async (idea: string) => {
+      const typedAi = ai as AiFunction;
+      const typedList = list as (strings: TemplateStringsArray, ...values: any[]) => ListFunction;
       expect(idea).toBe('AI-powered content generation');
       
-      const marketsFn = list`10 possible market segments for ${idea}`;
+      const marketsFn = typedList`10 possible market segments for ${idea}`;
       const markets = await marketsFn();
       expect(Array.isArray(markets)).toBe(true);
       const market = markets[0];
@@ -293,26 +335,26 @@ describe('Startups Example Integration', () => {
       const marketResearch = await research`${market} in the context of delivering ${idea}`;
       expect(marketResearch).toHaveProperty('markdown');
       
-      const icpsFn = list`10 possible ideal customer profiles for ${{ idea, market, marketResearch }}`;
+      const icpsFn = typedList`10 possible ideal customer profiles for ${{ idea, market, marketResearch }}`;
       const icps = await icpsFn();
       expect(Array.isArray(icps)).toBe(true);
       const icp = icps[0];
       
-      const leanCanvas = await ai.leanCanvas({ idea, market, icp, marketResearch });
+      const leanCanvas = await typedAi.leanCanvas({ idea, market, icp, marketResearch });
       expect(leanCanvas).toBeTruthy();
       
-      const storyBrand = await ai.storyBrand({ idea, market, icp, marketResearch, leanCanvas });
+      const storyBrand = await typedAi.storyBrand({ idea, market, icp, marketResearch, leanCanvas });
       expect(storyBrand).toBeTruthy();
       
-      const landingPage = await ai.landingPage({ idea, market, icp, marketResearch, leanCanvas, storyBrand });
+      const landingPage = await typedAi.landingPage({ idea, market, icp, marketResearch, leanCanvas, storyBrand });
       expect(landingPage).toBeTruthy();
       
-      const titlesFn = list`25 blog post titles for ${{ idea, icp, market, leanCanvas, storyBrand }}`;
+      const titlesFn = typedList`25 blog post titles for ${{ idea, icp, market, leanCanvas, storyBrand }}`;
       const titles = await titlesFn();
       expect(Array.isArray(titles)).toBe(true);
       const title = titles[0];
       
-      const content = await ai`write a blog post, starting with "# ${title}"`;
+      const content = await typedAi`write a blog post, starting with "# ${title}"`;
       expect(content).toBeTruthy();
       
       await db.blog.create(title, content);
