@@ -3,6 +3,7 @@ import { z } from 'zod'
 import matter from 'gray-matter'
 import fs from 'fs'
 import { model } from './ai.js'
+import { research as researchFunction } from './functions/research.js'
 import { 
   findAiFunction, 
   findAiFunctionEnhanced, 
@@ -347,3 +348,59 @@ function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
   
   return z.object(schemaObj)
 }
+
+/**
+ * Research template literal function for external data gathering
+ * 
+ * Usage: await research`${market} in the context of delivering ${idea}`
+ */
+export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
+
+const researchFunction_: ResearchTemplateFn = function(template: TemplateStringsArray, ...values: any[]) {
+  if (Array.isArray(template) && 'raw' in template) {
+    let query = '';
+    
+    template.forEach((str, i) => {
+      query += str;
+      if (i < values.length) {
+        query += values[i];
+      }
+    });
+    
+    return researchFunction(query);
+  }
+  
+  throw new Error('Research function must be called as a template literal');
+};
+
+export const research = new Proxy(researchFunction_, {
+  get(target, prop) {
+    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+      return undefined
+    }
+    
+    if (typeof prop === 'symbol') {
+      return Reflect.get(target, prop)
+    }
+    
+    return target
+  },
+  
+  apply(target, thisArg, args) {
+    if (Array.isArray(args[0]) && 'raw' in args[0]) {
+      const templateStrings = args[0] as TemplateStringsArray;
+      let query = '';
+      
+      templateStrings.forEach((str, i) => {
+        query += str;
+        if (i < args.length - 1) {
+          query += args[i + 1];
+        }
+      });
+      
+      return researchFunction(query);
+    }
+    
+    throw new Error('Research function must be called as a template literal');
+  }
+});
