@@ -22,10 +22,45 @@ export class Collection implements CollectionInterface {
   }
 
   /**
-   * Get a document by ID from this collection
+   * Get a document by ID, slug, or title from this collection
+   * 
+   * This method will:
+   * 1. Try to find by exact ID/slug match
+   * 2. Try to find by exact title match
+   * 3. Try to find by case-insensitive title match
+   * 4. Try to find by slugified title
    */
-  get(id: string): any | undefined {
-    return this.db.get(id, this.collectionName)
+  get(idOrTitle: string): any | undefined {
+    let result = this.db.get(idOrTitle, this.collectionName)
+    
+    if (!result) {
+      // Get all items in the collection
+      const allItems = this.db.list(this.collectionName) || []
+      
+      for (const item of allItems) {
+        if (item && typeof item === 'object' && item.title) {
+          if (String(item.title).trim() === String(idOrTitle).trim()) {
+            return item;
+          }
+        }
+      }
+      
+      for (const item of allItems) {
+        if (item && typeof item === 'object' && item.title) {
+          if (String(item.title).toLowerCase().trim() === String(idOrTitle).toLowerCase().trim()) {
+            return item;
+          }
+        }
+      }
+      
+      // If still not found and input has uppercase or spaces, try slugifying
+      if (idOrTitle.match(/[A-Z\s]/)) {
+        const slug = this.generateSlug(idOrTitle)
+        result = this.db.get(slug, this.collectionName)
+      }
+    }
+    
+    return result
   }
 
   /**
