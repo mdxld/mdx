@@ -31,6 +31,8 @@ export class Collection implements CollectionInterface {
    * 4. Try to find by slugified title
    */
   get(idOrTitle: string): any | undefined {
+    if (!idOrTitle) return undefined;
+    
     let result = this.db.get(idOrTitle, this.collectionName)
     
     if (!result) {
@@ -40,38 +42,45 @@ export class Collection implements CollectionInterface {
       
       // Try exact title match
       const normalizedInput = String(idOrTitle).trim()
+      
+      // Debug: Print all titles in collection
+      console.log('All titles in collection:')
+      for (const item of allItems) {
+        if (item && typeof item === 'object' && item.title) {
+          console.log(`- "${item.title}" (${typeof item.title})`)
+        }
+      }
+      
+      // First pass: exact title match
       for (const item of allItems) {
         if (item && typeof item === 'object' && item.title) {
           const itemTitle = String(item.title).trim()
           console.log(`Comparing: "${itemTitle}" === "${normalizedInput}"`)
           if (itemTitle === normalizedInput) {
             console.log(`Found exact title match: ${itemTitle}`)
-            result = item
-            break
+            return item // Return immediately on exact match
           }
         }
       }
       
-      if (!result) {
-        const lowerInput = normalizedInput.toLowerCase()
-        for (const item of allItems) {
-          if (item && typeof item === 'object' && item.title) {
-            const itemTitle = String(item.title).trim().toLowerCase()
-            if (itemTitle === lowerInput) {
-              console.log(`Found case-insensitive title match: ${item.title}`)
-              result = item
-              break
-            }
+      const lowerInput = normalizedInput.toLowerCase()
+      for (const item of allItems) {
+        if (item && typeof item === 'object' && item.title) {
+          const itemTitle = String(item.title).trim().toLowerCase()
+          if (itemTitle === lowerInput) {
+            console.log(`Found case-insensitive title match: ${item.title}`)
+            return item // Return immediately on case-insensitive match
           }
         }
       }
       
-      if (!result && idOrTitle.match(/[A-Z\s]/)) {
+      if (idOrTitle.match(/[A-Z\s]/)) {
         const slug = this.generateSlug(idOrTitle)
         console.log(`Trying slugified match: "${slug}"`)
         result = this.db.get(slug, this.collectionName)
         if (result) {
           console.log(`Found by slugified title: ${result.title}`)
+          return result // Return immediately on slugified match
         }
       }
     }
