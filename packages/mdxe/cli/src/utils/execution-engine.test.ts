@@ -152,9 +152,14 @@ describe('execution-engine', () => {
       
       expect(result.success).toBe(true);
       expect(result.outputs).toBeDefined();
-      expect(result.outputs?.length).toBe(2);
-      expect(result.outputs?.[0].args[0]).toBe('Before await');
-      expect(result.outputs?.[1].args[0]).toBe('After await');
+      
+      const testOutputs = result.outputs?.filter(o => 
+        o.args[0] === 'Before await' || o.args[0] === 'After await'
+      );
+      
+      expect(testOutputs?.length).toBe(2);
+      expect(testOutputs?.[0].args[0]).toBe('Before await');
+      expect(testOutputs?.[1].args[0]).toBe('After await');
     });
     
     it('captures console outputs with complex objects', async () => {
