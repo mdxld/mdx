@@ -26,6 +26,7 @@
     "p-queue": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "yaml": "^2.4.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
