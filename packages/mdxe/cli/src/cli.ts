@@ -10,6 +10,7 @@ import { runDevCommand } from './commands/dev';
 import { runBuildCommand } from './commands/build';
 import { runStartCommand } from './commands/start';
 import { runExecCommand } from './commands/exec';
+import { ExecutionContextType } from './utils/execution-context';
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine';
 export type { ExecutionResult, ExecutionOptions } from './utils/execution-engine';
@@ -35,7 +36,8 @@ export async function run() {
     console.log('Lint command not implemented yet');
     return;
   } else if (command === 'exec') {
-    const filePath = args[1] || await findIndexFile(cwd);
+    const watchFlag = args.includes('--watch');
+    const filePath = args.filter(arg => !arg.startsWith('--'))[1] || await findIndexFile(cwd);
     if (!filePath) {
       console.log('No file specified and no index file found');
       return;
@@ -46,11 +48,11 @@ export async function run() {
     if (contextIndex !== -1 && args.length > contextIndex + 1) {
       const context = args[contextIndex + 1];
       if (['dev', 'test', 'production', 'default'].includes(context)) {
-        contextType = context as any; // Cast to ExecutionContextType
+        contextType = context as ExecutionContextType;
       }
     }
     
-    return runExecCommand(filePath, contextType);
+    return runExecCommand(filePath, { watch: watchFlag }, contextType);
   }
   
   let targetDir = cwd;
