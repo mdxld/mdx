@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { ai, executeAiFunction } from './aiHandler'
+import { ai, executeAiFunction, inferAndValidateOutput } from './aiHandler'
 import fs from 'fs'
 import matter from 'gray-matter'
 import * as aiModule from 'ai'
@@ -235,6 +235,60 @@ describe('AI Handler', () => {
       expect(['formal', 'casual', 'professional']).toContain(result.tone)
       expect(result).toHaveProperty('status')
       expect(['draft', 'published', 'archived']).toContain(result.status)
+    })
+  })
+  
+  describe('enhanced object context support', () => {
+    it('should handle complex nested objects in function calls', async () => {
+      vi.mocked(matter).mockImplementationOnce(() => 
+        createMockGrayMatterFile(
+          { output: 'string' }, 
+          'Process this context: ${prompt}'
+        )
+      )
+      
+      const complexObject = {
+        idea: 'AI-powered startup',
+        market: { size: '100B', segments: ['enterprise', 'consumer'] },
+        metrics: [{ name: 'revenue', value: 1000000 }]
+      }
+      
+      const result = await ai.leanCanvas(complexObject)
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    })
+    
+    it('should handle complex objects in template literals', async () => {
+      const complexContext = {
+        idea: 'AI startup',
+        marketResearch: { data: 'extensive research' }
+      }
+      
+      const result = await ai`Create a plan for ${complexContext}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    })
+  })
+  
+  describe('type inference and validation', () => {
+    it('should validate output types against schema', async () => {
+      const result = inferAndValidateOutput(
+        { name: 'string', count: 'number' },
+        { name: 'test', count: 42 }
+      )
+      
+      expect(result).toEqual({ name: 'test', count: 42 })
+    })
+    
+    it('should handle validation failures gracefully', async () => {
+      const result = inferAndValidateOutput(
+        { name: 'string' },
+        { invalidKey: 'value' }
+      )
+      
+      expect(result).toEqual({ invalidKey: 'value' })
     })
   })
 })

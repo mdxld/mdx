@@ -103,13 +103,17 @@ export const ai = new Proxy(aiFunction, {
         templateStrings.forEach((str, i) => {
           prompt += str;
           if (i < values.length) {
-            prompt += values[i];
+            if (values[i] !== null && typeof values[i] === 'object') {
+              prompt += yaml.stringify(values[i]);
+            } else {
+              prompt += values[i];
+            }
           }
         });
         
         return executeAiFunction(propName, prompt);
       } else {
-        return executeAiFunction(propName, JSON.stringify(templateOrArgs));
+        return executeAiFunction(propName, yaml.stringify(templateOrArgs));
       }
     }
   },
@@ -122,7 +126,11 @@ export const ai = new Proxy(aiFunction, {
       templateStrings.forEach((str, i) => {
         prompt += str;
         if (i < args.length - 1) {
-          prompt += args[i + 1];
+          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
+            prompt += yaml.stringify(args[i + 1]);
+          } else {
+            prompt += args[i + 1];
+          }
         }
       });
       
@@ -170,7 +178,8 @@ export async function executeAiFunction(functionName: string, prompt: string): P
   } else if (Array.isArray(outputType)) {
     return await handleArrayOutput(systemPrompt)
   } else if (typeof outputType === 'object') {
-    return await handleObjectOutput(systemPrompt, outputType)
+    const result = await handleObjectOutput(systemPrompt, outputType)
+    return inferAndValidateOutput(outputType, result)
   } else {
     return await handleStringOutput(systemPrompt)
   }
@@ -348,6 +357,29 @@ function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
   }
   
   return z.object(schemaObj)
+}
+
+/**
+ * Infer and validate AI function output types
+ * @param outputSchema The output schema from frontmatter
+ * @param result The actual result from AI function
+ * @returns Validated and typed result
+ */
+export function inferAndValidateOutput(outputSchema: any, result: any): any {
+  if (!outputSchema) {
+    return result;
+  }
+
+  try {
+    if (typeof outputSchema === 'object' && !Array.isArray(outputSchema)) {
+      const zodSchema = createZodSchemaFromObject(outputSchema);
+      return zodSchema.parse(result);
+    }
+    return result;
+  } catch (error) {
+    console.warn('Type validation failed:', error);
+    return result; // Return original result if validation fails
+  }
 }
 
 /**

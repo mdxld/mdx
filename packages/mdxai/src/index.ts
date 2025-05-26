@@ -15,7 +15,8 @@ export {
   ai, 
   research,
   generateAiText,
-  executeAiFunction, 
+  executeAiFunction,
+  inferAndValidateOutput,
   TemplateFn,
   ResearchTemplateFn
 } from './aiHandler.js'
