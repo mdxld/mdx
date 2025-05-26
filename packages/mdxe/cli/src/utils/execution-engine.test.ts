@@ -252,4 +252,45 @@ return "second block";
       expect(results[1].outputs?.[0].args[0]).toBe('Second block error');
     });
   });
+
+  describe('isolated-vm security', () => {
+    it('prevents access to Node.js globals', async () => {
+      const codeBlock: CodeBlock = {
+        lang: 'typescript',
+        meta: null,
+        value: 'return typeof require;'
+      };
+      
+      const result = await executeCodeBlock(codeBlock);
+      
+      expect(result.success).toBe(true);
+      expect(result.result).toBe('undefined');
+    });
+
+    it('enforces memory limits', async () => {
+      const codeBlock: CodeBlock = {
+        lang: 'typescript',
+        meta: null,
+        value: 'const arr = []; while(true) arr.push(new Array(1000000)); return "done";'
+      };
+      
+      const result = await executeCodeBlock(codeBlock);
+      
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
+    });
+
+    it('enforces execution timeouts', async () => {
+      const codeBlock: CodeBlock = {
+        lang: 'typescript',
+        meta: null,
+        value: 'while(true) {}; return "done";'
+      };
+      
+      const result = await executeCodeBlock(codeBlock);
+      
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
+    });
+  });
 });

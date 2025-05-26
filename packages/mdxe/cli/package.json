@@ -13,6 +13,7 @@
     "globby": "^14.0.1",
     "ink-ascii": "^0.0.4",
     "ink-big-text": "^2.0.0",
+    "isolated-vm": "^6.0.0",
     "mdxui": "workspace:*",
     "next": "^15.3.0",
     "pastel": "^2.0.2",
