@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import fs from 'fs'
 import { model } from './ai.js'
 import { research as researchFunction } from './functions/research.js'
+import yaml from 'yaml'
 import { 
   findAiFunction, 
   findAiFunctionEnhanced, 
@@ -363,7 +364,11 @@ const researchFunction_: ResearchTemplateFn = function(template: TemplateStrings
     template.forEach((str, i) => {
       query += str;
       if (i < values.length) {
-        query += values[i];
+        if (values[i] !== null && typeof values[i] === 'object') {
+          query += yaml.stringify(values[i]);
+        } else {
+          query += values[i];
+        }
       }
     });
     
@@ -394,7 +399,11 @@ export const research = new Proxy(researchFunction_, {
       templateStrings.forEach((str, i) => {
         query += str;
         if (i < args.length - 1) {
-          query += args[i + 1];
+          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
+            query += yaml.stringify(args[i + 1]);
+          } else {
+            query += args[i + 1];
+          }
         }
       });
       
