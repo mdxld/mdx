@@ -115,32 +115,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   };
   
   useInput((input, key) => {
+    // Only handle Ctrl+C for exit, let ChatInput handle everything else
     if (key.ctrl && input === 'c') {
       exit();
-    }
-    
-    if (input === 'w' && !isLoading) {
-      setWebSearchEnabled(prev => !prev);
-    }
-    
-    if (input === 'r') {
-      setShowReasoning(prev => !prev);
-    }
-    
-    if (input === 'm' && !isLoading) {
-      setShowMcpSourceManager(prev => !prev);
-    }
-    
-    if (input === 't' && !isLoading) {
-      setMcpEnabled(prev => !prev);
-    }
-    
-    if (!isLoading && /^[0-9]$/.test(input)) {
-      const sourceIndex = parseInt(input, 10);
-      if (sourceIndex < mcpSources.length) {
-        const sourceToRemove = mcpSources[sourceIndex];
-        handleRemoveMcpSource(sourceToRemove.id);
-      }
     }
   });
   
@@ -172,6 +149,60 @@ export const ChatUI: React.FC<ChatUIProps> = ({
     return fullResponse;
   };
   
+  const handleCommand = (command: string, args: string[]) => {
+    switch (command.toLowerCase()) {
+      case 'web':
+        setWebSearchEnabled(prev => !prev);
+        break;
+      case 'reasoning':
+      case 'r':
+        setShowReasoning(prev => !prev);
+        break;
+      case 'mcp':
+      case 'm':
+        if (!isLoading) {
+          setShowMcpSourceManager(prev => !prev);
+        }
+        break;
+      case 'tools':
+      case 't':
+        if (!isLoading) {
+          setMcpEnabled(prev => !prev);
+        }
+        break;
+      case 'help':
+      case 'h':
+        const helpMessage: ChatMessageType = {
+          role: 'assistant',
+          content: `Available commands:
+/web - Toggle web search (currently ${webSearchEnabled ? 'enabled' : 'disabled'})
+/reasoning or /r - Toggle reasoning display (currently ${showReasoning ? 'enabled' : 'disabled'})
+/mcp or /m - Toggle MCP source manager (currently ${showMcpSourceManager ? 'open' : 'closed'})
+/tools or /t - Toggle MCP tools (currently ${mcpEnabled ? 'enabled' : 'disabled'})
+/help or /h - Show this help message
+
+You can also type numbers (0-9) to remove MCP sources when the manager is open.`
+        };
+        setMessages(prev => [...prev, helpMessage]);
+        break;
+      default:
+        if (!isLoading && /^[0-9]$/.test(command)) {
+          const sourceIndex = parseInt(command, 10);
+          if (sourceIndex < mcpSources.length) {
+            const sourceToRemove = mcpSources[sourceIndex];
+            handleRemoveMcpSource(sourceToRemove.id);
+          }
+        } else {
+          const errorMessage: ChatMessageType = {
+            role: 'assistant',
+            content: `Unknown command: /${command}. Type /help to see available commands.`
+          };
+          setMessages(prev => [...prev, errorMessage]);
+        }
+        break;
+    }
+  };
+
   const handleSubmit = async (input: string) => {
     if (!input.trim()) return;
     
@@ -271,11 +302,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
       {/* Controls help text */}
       <Box marginBottom={1}>
         <Text dimColor>
-          Press <Text color="cyan">w</Text> to toggle web search, 
-          <Text color="yellow"> r</Text> to toggle reasoning, 
-          <Text color="green"> m</Text> to manage MCP sources,
-          <Text color="magenta"> t</Text> to toggle MCP tools,
-          <Text color="red"> Ctrl+C</Text> to exit
+          Use commands: <Text color="cyan">/web</Text>, <Text color="yellow">/reasoning</Text>, <Text color="green">/mcp</Text>, <Text color="magenta">/tools</Text>, <Text color="white">/help</Text> | <Text color="red">Ctrl+C</Text> to exit
         </Text>
       </Box>
       
@@ -325,7 +352,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
       {sources.length > 0 && <SourcesList sources={sources} />}
       
       {/* Input box */}
-      <ChatInput onSubmit={handleSubmit} disabled={isLoading} />
+      <ChatInput onSubmit={handleSubmit} onCommand={handleCommand} disabled={isLoading} />
     </Box>
   );
 };

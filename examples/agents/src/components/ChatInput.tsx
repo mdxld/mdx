@@ -3,10 +3,11 @@ import { Box, Text, useInput } from 'ink';
 
 interface ChatInputProps {
   onSubmit: (input: string) => void;
+  onCommand?: (command: string, args: string[]) => void;
   disabled?: boolean;
 }
 
-export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, disabled = false }) => {
+export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, onCommand, disabled = false }) => {
   const [input, setInput] = useState('');
   
   useInput((value, key) => {
@@ -14,12 +15,23 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, disabled = false
     
     if (key.return) {
       if (input.trim()) {
-        onSubmit(input);
+        // Check if it's a command (starts with /)
+        if (input.trim().startsWith('/')) {
+          const parts = input.trim().slice(1).split(' ');
+          const command = parts[0];
+          const args = parts.slice(1);
+          
+          if (onCommand) {
+            onCommand(command, args);
+          }
+        } else {
+          onSubmit(input);
+        }
         setInput('');
       }
     } else if (key.backspace || key.delete) {
       setInput(prev => prev.slice(0, -1));
-    } else if (!key.ctrl && !key.meta && !key.shift && value && value.length === 1) {
+    } else if (!key.ctrl && !key.meta && value && value.length === 1) {
       setInput(prev => prev + value);
     }
   });
@@ -33,7 +45,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, disabled = false
       </Box>
       
       <Box marginTop={1}>
-        <Text dimColor>Press Enter to send</Text>
+        <Text dimColor>
+          Press Enter to send. Use commands: /web, /reasoning, /mcp, /tools, /help
+        </Text>
       </Box>
     </Box>
   );
