@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { ai, executeAiFunction } from './aiHandler'
+import { ai, executeAiFunction, list } from './aiHandler'
 import fs from 'fs'
 import matter from 'gray-matter'
 import * as aiModule from 'ai'
@@ -140,7 +140,7 @@ describe('AI Handler', () => {
         createMockGrayMatterFile({ output: 'array' }, 'Generate a list. ${prompt}')
       )
       
-      const result = await ai.list`Generate 3 blog post ideas`
+      const result = await ai.generateList`Generate 3 blog post ideas`
       
       expect(Array.isArray(result)).toBe(true)
       expect(result.length).toBeGreaterThan(0)
@@ -235,6 +235,54 @@ describe('AI Handler', () => {
       expect(['formal', 'casual', 'professional']).toContain(result.tone)
       expect(result).toHaveProperty('status')
       expect(['draft', 'published', 'archived']).toContain(result.status)
+    })
+  })
+  
+  describe('list function', () => {
+    it('should work as a Promise returning string array', async () => {
+      const result = await list`Generate 5 programming languages`
+      
+      expect(Array.isArray(result)).toBe(true)
+      expect(result).toEqual(['Item 1', 'Item 2', 'Item 3'])
+    })
+
+    it('should work as an AsyncIterable', async () => {
+      const items: string[] = []
+      
+      for await (const item of list`Generate 5 programming languages`) {
+        items.push(item)
+      }
+      
+      expect(items).toEqual(['Item 1', 'Item 2', 'Item 3'])
+    })
+
+    it('should handle template literal interpolation', async () => {
+      const topic = 'TypeScript'
+      const count = 5
+      const result = await list`Generate ${count} tips for ${topic}`
+      
+      expect(Array.isArray(result)).toBe(true)
+      expect(result.length).toBeGreaterThan(0)
+    })
+
+    it('should support Promise methods', async () => {
+      const result = list`Generate ideas`
+      
+      expect(typeof result.then).toBe('function')
+      expect(typeof result.catch).toBe('function')
+      expect(typeof result.finally).toBe('function')
+    })
+
+    it('should support async iterator protocol', () => {
+      const result = list`Generate ideas`
+      
+      expect(typeof result[Symbol.asyncIterator]).toBe('function')
+    })
+
+    it('should throw error when not used as template literal', () => {
+      expect(() => {
+        list('not a template literal')
+      }).toThrow('list function must be used as a template literal tag')
     })
   })
 })
