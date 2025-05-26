@@ -1,4 +1,4 @@
-import chokidar from 'chokidar';
+import chokidar, { FSWatcher } from 'chokidar';
 import path from 'node:path';
 import { debounce } from './debounce';
 
@@ -8,7 +8,7 @@ export interface WatchOptions {
 }
 
 export class FileWatcher {
-  private watcher: chokidar.FSWatcher | null = null;
+  private watcher: FSWatcher | null = null;
 
   constructor(
     private filePath: string,
@@ -35,7 +35,7 @@ export class FileWatcher {
       persistent: true
     });
 
-    this.watcher.on('change', (changedPath) => {
+    this.watcher.on('change', (changedPath: string) => {
       if (changedPath === this.filePath || path.extname(changedPath).match(/\.(md|mdx)$/)) {
         console.log(`File changed: ${path.basename(changedPath)}`);
         debouncedOnChange(changedPath);
