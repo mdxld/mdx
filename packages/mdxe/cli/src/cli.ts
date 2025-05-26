@@ -11,6 +11,9 @@ import { runBuildCommand } from './commands/build';
 import { runStartCommand } from './commands/start';
 import { runExecCommand } from './commands/exec';
 
+export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine';
+export type { ExecutionResult, ExecutionOptions } from './utils/execution-engine';
+
 /**
  * Run the CLI
  */
