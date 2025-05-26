@@ -1,6 +1,5 @@
 import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent } from '../../core/lib/index.js'
 import { createClient } from '@libsql/client'
-import { getPayload } from 'payload'
 import { FilesCollection, EmbeddingsCollection } from './collections.js'
 import crypto from 'crypto'
 
@@ -488,6 +487,12 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
     }
   }
 
+  /**
+   * Search for documents using vector similarity
+   * @param query Search query
+   * @param collectionName Optional collection name to filter results
+   * @returns Array of documents sorted by similarity
+   */
   async search(query: string, collectionName?: string): Promise<any[]> {
     await this.initialize()
 

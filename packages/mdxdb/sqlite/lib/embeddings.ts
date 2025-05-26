@@ -1,23 +1,18 @@
 import matter from 'gray-matter'
 
-const embed = async ({ model, input, dimensions }: { model: string; input: string; dimensions: number }) => {
-  return Array(dimensions)
-    .fill(0)
-    .map(() => Math.random())
-}
-
 /**
  * Generate embeddings for a text string
+ * This is a mock implementation that would be replaced with a real embedding model in production
  */
 export async function generateEmbedding(text: string): Promise<number[]> {
   try {
-    const embedding = await embed({
-      model: 'openai/embeddings-large-3',
-      input: text,
-      dimensions: 256,
-    })
-
-    return embedding
+    const hash = text.split('').reduce((acc, char) => {
+      return acc + char.charCodeAt(0);
+    }, 0);
+    
+    return Array(1536).fill(0).map((_, i) => {
+      return Math.cos(hash * (i + 1) * 0.001) * 0.5 + 0.5;
+    });
   } catch (error) {
     console.error('Error generating embedding:', error)
     throw new Error(`Failed to generate embedding: ${(error as Error).message}`)
