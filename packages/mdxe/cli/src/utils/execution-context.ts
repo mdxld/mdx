@@ -26,6 +26,12 @@ export function createExecutionContext() {
     },
 
     /**
+     * Emit an event to trigger all registered callbacks
+     * Supports async callbacks and context propagation
+     */
+    emit: emit,
+
+    /**
      * Placeholder for AI functions
      * Will be implemented in future versions
      */

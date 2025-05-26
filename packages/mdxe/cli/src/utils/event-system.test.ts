@@ -155,4 +155,40 @@ describe('event-system', () => {
       expect(eventRegistry['handlers'].has('event2')).toBe(true);
     });
   });
+
+  describe('execution context integration', () => {
+    it('exposes emit function through execution context', async () => {
+      const { createExecutionContext } = await import('./execution-context');
+      const context = createExecutionContext();
+      
+      expect(context.emit).toBeDefined();
+      expect(typeof context.emit).toBe('function');
+    });
+
+    it('allows emitting events from execution context', async () => {
+      const { createExecutionContext } = await import('./execution-context');
+      const context = createExecutionContext();
+      
+      const callback = vi.fn();
+      context.on('test-event', callback);
+      
+      await context.emit('test-event', { message: 'test data' });
+      
+      expect(callback).toHaveBeenCalledWith({ message: 'test data' }, expect.any(Object));
+    });
+
+    it('supports async callbacks through execution context', async () => {
+      const { createExecutionContext } = await import('./execution-context');
+      const context = createExecutionContext();
+      
+      context.on('async-event', async (data) => {
+        await new Promise(resolve => setTimeout(resolve, 10));
+        return `processed: ${data.value}`;
+      });
+      
+      const result = await context.emit('async-event', { value: 'test' });
+      
+      expect(result.results).toEqual(['processed: test']);
+    });
+  });
 });
