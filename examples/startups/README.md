@@ -41,7 +41,7 @@ on('idea.captured', async idea => {
 
 - [ ] `mdxe` Implement event registry system for registering event handlers
 - [ ] `mdxe` Create `on` function to register callbacks for specific event types
-- [ ] `mdxe` Develop event emission system to trigger registered callbacks
+- [ ] `mdxe` Develop event sending system to trigger registered callbacks
 - [ ] `mdxe` Add support for async event handlers with proper error handling
 - [ ] `mdxe` Implement event context propagation between handlers
 - [ ] `@mdxui/ink` Create UI components for displaying event processing status

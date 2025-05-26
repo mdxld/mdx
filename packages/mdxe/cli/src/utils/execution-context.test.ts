@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createExecutionContext } from './execution-context';
-import { clearEvents, emit } from './event-system';
+import { clearEvents, send } from './event-system';
 import * as inputPrompt from './input-prompt';
 
 vi.mock('./input-prompt', () => ({
@@ -19,7 +19,7 @@ describe('execution-context', () => {
       const callback = vi.fn().mockReturnValue('test result');
       
       await context.on('test.event', callback);
-      const response = await emit('test.event', { data: 'test' });
+      const response = await send('test.event', { data: 'test' });
       
       expect(callback).toHaveBeenCalledWith({ data: 'test' }, expect.any(Object));
       expect(response.results).toContain('test result');
@@ -30,7 +30,7 @@ describe('execution-context', () => {
       const callback = vi.fn().mockResolvedValue('async result');
       
       await context.on('async.event', callback);
-      const response = await emit('async.event', { data: 'async' });
+      const response = await send('async.event', { data: 'async' });
       
       expect(callback).toHaveBeenCalledWith({ data: 'async' }, expect.any(Object));
       expect(response.results).toContain('async result');
@@ -64,7 +64,7 @@ describe('execution-context', () => {
       await context.on('multi.event', callback1);
       await context.on('multi.event', callback2);
       
-      const response = await emit('multi.event', { data: 'multi' });
+      const response = await send('multi.event', { data: 'multi' });
       
       expect(callback1).toHaveBeenCalled();
       expect(callback2).toHaveBeenCalled();

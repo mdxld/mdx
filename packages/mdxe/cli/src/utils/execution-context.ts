@@ -3,7 +3,7 @@
  * Provides global objects and functions for MDX code blocks
  */
 
-import { on, emit, MutableEventContext } from './event-system';
+import { on, send, MutableEventContext } from './event-system';
 import { renderInputPrompt } from './input-prompt';
 
 export type ExecutionContextType = 'dev' | 'test' | 'production' | 'default';
@@ -68,6 +68,12 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
       }
       return on(event, callback);
     },
+
+    /**
+     * Send an event to trigger all registered callbacks
+     * Supports async callbacks and context propagation
+     */
+    send: send,
 
     /**
      * Placeholder for AI functions
