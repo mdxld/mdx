@@ -136,6 +136,7 @@ describe('extract function', () => {
   describe('error handling', () => {
     it('should throw error when not used as template literal', () => {
       expect(() => {
+        // @ts-expect-error - intentionally testing runtime error when used incorrectly
         extract('not a template literal')
       }).toThrow('extract function must be used as a template literal tag')
     })
