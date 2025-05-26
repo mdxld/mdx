@@ -398,12 +398,14 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
             seenItems.add(item)
             
             try {
+              // Try to parse as JSON to detect arrays and objects
               const parsedItem = JSON.parse(item)
               if (typeof parsedItem === 'object' && parsedItem !== null) {
                 yield stringifyToYaml(parsedItem)
                 continue
               }
             } catch (e) {
+              // Not valid JSON, continue with the original item
             }
             
             yield item
@@ -447,14 +449,17 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
         .map(line => line.replace(/^[-*•]\s*/, '').trim())
     }
 
+    // Process items to convert arrays and objects to YAML
     return items.map(item => {
       try {
+        // Try to parse as JSON to detect arrays and objects
         const parsedItem = JSON.parse(item)
         if (typeof parsedItem === 'object' && parsedItem !== null) {
           return stringifyToYaml(parsedItem)
         }
         return item
       } catch (e) {
+        // Not valid JSON, return the original item
         return item
       }
     })
