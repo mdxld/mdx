@@ -14,7 +14,8 @@ export default defineConfig({
     'src/slide.tsx',
     'src/components.tsx',
     'src/LandingPage.tsx',
-    'src/icons.ts'
+    'src/icons.ts',
+    'src/cli-bundler.ts'
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: false, // Temporarily disable declaration file generation to fix CI
