@@ -5,7 +5,8 @@
   "private": true,
   "description": "OpenAI Realtime audio streaming example with React Ink",
   "scripts": {
-    "start": "tsx cli.tsx"
+    "start": "./start-clean.sh",
+    "dev": "tsx cli.tsx"
   },
   "dependencies": {
     "dotenv": "^16.5.0",
