@@ -66,7 +66,7 @@ export class MutableEventContext implements EventContext {
 
 /**
  * Event registry class
- * Stores event handlers and provides methods to register and emit events
+ * Stores event handlers and provides methods to register and send events
  */
 class EventRegistry {
   private handlers: Map<string, EventHandler[]> = new Map();
@@ -74,7 +74,7 @@ class EventRegistry {
   /**
    * Register a callback for a specific event
    * @param event Event name
-   * @param callback Function to call when the event is emitted
+   * @param callback Function to call when the event is sent
    */
   on(event: string, callback: (data: any, context?: MutableEventContext) => Promise<any> | any) {
     if (!this.handlers.has(event)) {
