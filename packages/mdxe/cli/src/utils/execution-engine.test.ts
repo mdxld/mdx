@@ -209,7 +209,7 @@ return "second block";
         meta: null,
         value: `
           on('test-event', (data) => data.value * 2);
-          const result = await send('test-event', { value: 21 });
+          const result = await emit('test-event', { value: 21 });
           return result.results[0];
         `
       };
