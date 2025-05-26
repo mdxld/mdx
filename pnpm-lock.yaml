@@ -539,6 +539,9 @@ importers:
       ink:
         specifier: ^5.2.1
         version: 5.2.1(@types/react@18.3.21)(react@18.3.1)
+      lru-cache:
+        specifier: ^11.1.0
+        version: 11.1.0
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
@@ -7068,7 +7071,7 @@ packages:
       '@vitest/spy': 3.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.3.5(@types/node@22.15.21)(tsx@4.19.4)
+      vite: 6.3.5(@types/node@20.17.49)(tsx@4.19.4)(yaml@2.8.0)
     dev: true
 
   /@vitest/pretty-format@3.1.4:
