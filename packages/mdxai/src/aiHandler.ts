@@ -97,7 +97,6 @@ const aiFunction: AiFunction = function(template: TemplateStringsArray, ...value
       }
     });
     
-    // For direct template literal usage, use generateAiText for simpler text generation
     return generateAiText(prompt);
   }
   
@@ -130,7 +129,7 @@ export const ai = new Proxy(aiFunction, {
         
         return executeAiFunction(propName, prompt);
       } else {
-        return executeAiFunction(propName, JSON.stringify(templateOrArgs));
+        return executeAiFunction(propName, stringifyValue(templateOrArgs));
       }
     }
   },
@@ -147,7 +146,6 @@ export const ai = new Proxy(aiFunction, {
         }
       });
       
-      // For direct template literal usage, use generateAiText for simpler text generation
       return generateAiText(prompt);
     }
     
@@ -191,7 +189,8 @@ export async function executeAiFunction(functionName: string, prompt: string): P
   } else if (Array.isArray(outputType)) {
     return await handleArrayOutput(systemPrompt)
   } else if (typeof outputType === 'object') {
-    return await handleObjectOutput(systemPrompt, outputType)
+    const result = await handleObjectOutput(systemPrompt, outputType)
+    return inferAndValidateOutput(outputType, result)
   } else {
     return await handleStringOutput(systemPrompt)
   }
@@ -372,13 +371,26 @@ export function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema
 }
 
 /**
- * Helper function to stringify complex values to YAML
+ * Infer and validate AI function output types
+ * @param outputSchema The output schema from frontmatter
+ * @param result The actual result from AI function
+ * @returns Validated and typed result
  */
-function stringifyToYaml(value: any): string {
-  if (typeof value === 'object' && value !== null) {
-    return yaml.stringify(value)
+export function inferAndValidateOutput(outputSchema: any, result: any): any {
+  if (!outputSchema) {
+    return result;
   }
-  return String(value)
+
+  try {
+    if (typeof outputSchema === 'object' && !Array.isArray(outputSchema)) {
+      const zodSchema = createZodSchemaFromObject(outputSchema);
+      return zodSchema.parse(result);
+    }
+    return result;
+  } catch (error) {
+    console.warn('Type validation failed:', error);
+    return result; // Return original result if validation fails
+  }
 }
 
 /**
@@ -410,14 +422,12 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
             seenItems.add(item)
             
             try {
-              // Try to parse as JSON to detect arrays and objects
               const parsedItem = JSON.parse(item)
               if (typeof parsedItem === 'object' && parsedItem !== null) {
-                yield stringifyToYaml(parsedItem)
+                yield stringifyValue(parsedItem)
                 continue
               }
             } catch (e) {
-              // Not valid JSON, continue with the original item
             }
             
             yield item
@@ -461,17 +471,14 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
         .map(line => line.replace(/^[-*•]\s*/, '').trim())
     }
 
-    // Process items to convert arrays and objects to YAML
     return items.map(item => {
       try {
-        // Try to parse as JSON to detect arrays and objects
         const parsedItem = JSON.parse(item)
         if (typeof parsedItem === 'object' && parsedItem !== null) {
-          return stringifyToYaml(parsedItem)
+          return stringifyValue(parsedItem)
         }
         return item
       } catch (e) {
-        // Not valid JSON, return the original item
         return item
       }
     })

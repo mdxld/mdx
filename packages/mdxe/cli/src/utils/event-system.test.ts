@@ -132,7 +132,6 @@ describe('event-system', () => {
       
       expect(response.context.important).toBe('value');
     });
-
     it('supports direct context modification with helper methods', async () => {
       on('test-event', (data, context) => {
         context?.set('step1', 'completed');
