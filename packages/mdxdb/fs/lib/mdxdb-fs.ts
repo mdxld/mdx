@@ -105,6 +105,7 @@ export class MdxDbFs extends MdxDbBase {
         });
       `
 
+      await fs.mkdir(path.dirname(veliteConfigPath), { recursive: true })
       await fs.writeFile(veliteConfigPath, configContent)
 
       try {

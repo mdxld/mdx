@@ -37,30 +37,32 @@ export class Collection implements CollectionInterface {
       // Get all items in the collection
       const allItems = this.db.list(this.collectionName) || []
       
-      for (const item of allItems) {
-        if (item && typeof item === 'object' && item.title) {
-          if (String(item.title).trim() === String(idOrTitle).trim()) {
-            return item;
-          }
-        }
-      }
+      const normalizedInput = String(idOrTitle).trim();
+      result = allItems.find(item => 
+        item && 
+        typeof item === 'object' && 
+        item.title && 
+        String(item.title).trim() === normalizedInput
+      );
       
-      for (const item of allItems) {
-        if (item && typeof item === 'object' && item.title) {
-          if (String(item.title).toLowerCase().trim() === String(idOrTitle).toLowerCase().trim()) {
-            return item;
-          }
-        }
+      if (!result) {
+        const lowerInput = normalizedInput.toLowerCase();
+        result = allItems.find(item => 
+          item && 
+          typeof item === 'object' && 
+          item.title && 
+          String(item.title).trim().toLowerCase() === lowerInput
+        );
       }
       
       // If still not found and input has uppercase or spaces, try slugifying
-      if (idOrTitle.match(/[A-Z\s]/)) {
-        const slug = this.generateSlug(idOrTitle)
-        result = this.db.get(slug, this.collectionName)
+      if (!result && idOrTitle.match(/[A-Z\s]/)) {
+        const slug = this.generateSlug(idOrTitle);
+        result = this.db.get(slug, this.collectionName);
       }
     }
     
-    return result
+    return result;
   }
 
   /**

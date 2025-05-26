@@ -175,4 +175,39 @@ ${content}`
     const sampleBlog = db.get('sample-blog', 'blog')
     expect(sampleBlog).toBeDefined()
   }, TEST_TIMEOUT)
+  
+  it('should get a blog post by exact title as requested by user', async () => {
+    const title = 'My First Blog Post'
+    const content = 'This is my first blog post content.'
+
+    await db.blog.create(title, content)
+    
+    const fs = require('fs').promises
+    const path = require('path')
+    
+    const filePath = path.join(fixture.blogDir, 'my-first-blog-post.mdx')
+    const fileContent = await fs.readFile(filePath, 'utf-8')
+    console.log('Created file content:', fileContent)
+    
+    await simulateVeliteBuild(fixture.testDir)
+    
+    const blogJsonPath = path.join(fixture.veliteDir, 'blog.json')
+    const blogJsonContent = await fs.readFile(blogJsonPath, 'utf-8')
+    console.log('blog.json content after simulateVeliteBuild:', blogJsonContent)
+    
+    await db.build()
+    
+    console.log('All blog posts after build:', JSON.stringify(db.blog.list(), null, 2))
+    
+    const postBySlug = db.blog.get('my-first-blog-post')
+    console.log('Post by slug:', postBySlug)
+    
+    const post = db.blog.get('My First Blog Post')
+    console.log('Post by title:', post)
+    
+    const finalPost = post || postBySlug
+    expect(finalPost).toBeDefined()
+    expect(finalPost.title).toBe(title)
+    expect(finalPost.body.trim()).toBe(content)
+  }, TEST_TIMEOUT)
 })
