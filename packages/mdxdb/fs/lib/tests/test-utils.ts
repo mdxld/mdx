@@ -19,38 +19,54 @@ export interface TestFixture {
  * Creates a temporary test directory structure for file system tests
  */
 export async function createTestFixture(): Promise<TestFixture> {
-  const timestamp = Date.now()
-  const testDir = path.resolve(os.tmpdir(), `mdxdb-fs-test-${timestamp}`)
+  try {
+    const timestamp = Date.now()
+    const testDir = path.resolve(os.tmpdir(), `mdxdb-fs-test-${timestamp}`)
 
-  const contentDir = path.join(testDir, 'content/posts')
-  const blogDir = path.join(testDir, 'content/blog')
-  const veliteDir = path.join(testDir, '.velite')
-  const exportDir = path.join(testDir, 'export')
+    const contentDir = path.join(testDir, 'content/posts')
+    const blogDir = path.join(testDir, 'content/blog')
+    const veliteDir = path.join(testDir, '.velite')
+    const exportDir = path.join(testDir, 'export')
 
-  await fs.mkdir(contentDir, { recursive: true })
-  await fs.mkdir(blogDir, { recursive: true })
-  await fs.mkdir(veliteDir, { recursive: true })
-  await fs.mkdir(exportDir, { recursive: true })
+    await fs.mkdir(contentDir, { recursive: true })
+    await fs.mkdir(blogDir, { recursive: true })
+    await fs.mkdir(veliteDir, { recursive: true })
+    await fs.mkdir(exportDir, { recursive: true })
+    
+    console.log(`Created test directories at ${testDir}`)
 
-  await fs.writeFile(
-    path.join(contentDir, 'post-1.mdx'),
-    `---
+    const contentDirExists = await dirExists(contentDir)
+    const blogDirExists = await dirExists(blogDir)
+    
+    if (!contentDirExists) {
+      console.error(`Content directory ${contentDir} does not exist after creation attempt`)
+      await fs.mkdir(contentDir, { recursive: true })
+    }
+    
+    if (!blogDirExists) {
+      console.error(`Blog directory ${blogDir} does not exist after creation attempt`)
+      await fs.mkdir(blogDir, { recursive: true })
+    }
+
+    await fs.writeFile(
+      path.join(contentDir, 'post-1.mdx'),
+      `---
 title: Sample Post 1
 date: 2023-01-01
 ---
 # Sample Post 1
 This is the content of post 1.`,
-  )
+    )
 
-  await fs.writeFile(
-    path.join(contentDir, 'post-2.mdx'),
-    `---
+    await fs.writeFile(
+      path.join(contentDir, 'post-2.mdx'),
+      `---
 title: Sample Post 2
 date: 2023-01-02
 ---
 # Sample Post 2
 This is the content of post 2.`,
-  )
+    )
 
   await fs.writeFile(
     path.join(blogDir, 'sample-blog.mdx'),
@@ -149,6 +165,10 @@ export default defineConfig({
     veliteDir,
     exportDir,
     cleanup,
+  }
+  } catch (error) {
+    console.error(`Error creating test fixture: ${error}`)
+    throw error
   }
 }
 
