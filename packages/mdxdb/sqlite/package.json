@@ -13,8 +13,11 @@
   "dependencies": {
     "@libsql/client": "^0.15.7",
     "@mdxdb/core": "workspace:^",
+    "@payloadcms/db-sqlite": "^3.38.0",
+    "ai": "^2.2.37",
     "gray-matter": "^4.0.3",
-    "libsql": "^0.5.11"
+    "libsql": "^0.5.11",
+    "payload": "^3.38.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.20",

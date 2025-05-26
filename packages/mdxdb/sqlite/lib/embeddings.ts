@@ -2,10 +2,12 @@ import matter from 'gray-matter'
 
 /**
  * Generate embeddings for a text string
- * This is a mock implementation that would be replaced with a real embedding model in production
+ * This is a mock implementation for development and testing
+ * In production, this would be replaced with a real embedding model
  */
 export async function generateEmbedding(text: string): Promise<number[]> {
   try {
+    // Deterministic mock implementation
     const hash = text.split('').reduce((acc, char) => {
       return acc + char.charCodeAt(0);
     }, 0);
