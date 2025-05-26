@@ -23,6 +23,36 @@ export interface DocumentContent {
 }
 
 /**
+ * Interface for collection operations
+ */
+export interface CollectionInterface {
+  /**
+   * Create a new document in this collection
+   */
+  create(title: string, content: string): Promise<void>
+  
+  /**
+   * Get a document by ID from this collection
+   */
+  get(id: string): any | undefined
+  
+  /**
+   * List all documents in this collection
+   */
+  list(): any[]
+  
+  /**
+   * Update an existing document in this collection
+   */
+  update(id: string, title: string, content: string): Promise<void>
+  
+  /**
+   * Delete a document from this collection
+   */
+  delete(id: string): Promise<boolean>
+}
+
+/**
  * Interface for database operations
  */
 export interface MdxDbInterface {
@@ -87,6 +117,12 @@ export interface MdxDbInterface {
    * Search for documents using vector embeddings (optional)
    */
   search?(query: string, collectionName?: string): Promise<any[]>
+  
+  /**
+   * Dynamic collection access
+   * This allows for db.collectionName.method() syntax
+   */
+  [collectionName: string]: CollectionInterface | any
 }
 
 /**
