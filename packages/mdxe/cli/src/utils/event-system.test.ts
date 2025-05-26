@@ -146,7 +146,7 @@ describe('event-system', () => {
         return 'result2';
       });
       
-      const response = await emit('test-event', { test: 'data' });
+      const response = await send('test-event', { test: 'data' });
       
       expect(response.context.get('step1')).toBe('completed');
       expect(response.context.get('step2')).toBe('completed');
@@ -170,7 +170,7 @@ describe('event-system', () => {
         return 'result2';
       });
       
-      const response = await emit('test-event');
+      const response = await send('test-event');
       
       expect(response.context.user.name).toBe('John');
       expect(response.context.user.age).toBe(30);
@@ -194,7 +194,7 @@ describe('event-system', () => {
         return 'modern';
       });
       
-      const response = await emit('test-event');
+      const response = await send('test-event');
       
       expect(response.context.get('legacyStyle')).toBe(true);
       expect(response.context.get('modernStyle')).toBe(true);
