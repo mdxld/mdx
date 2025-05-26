@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { ai, executeAiFunction, list } from './aiHandler'
+import { ai, executeAiFunction, inferAndValidateOutput, list } from './aiHandler'
 import fs from 'fs'
 import matter from 'gray-matter'
 import * as aiModule from 'ai'
@@ -99,6 +99,16 @@ vi.mock('./utils', () => ({
   }
 }))
 
+vi.mock('./llmService', () => ({
+  generateListStream: vi.fn().mockResolvedValue({
+    textStream: {
+      [Symbol.asyncIterator]: async function* () {
+        yield 'This is a mock list response'
+      },
+    },
+  }),
+}))
+
 vi.mock('yaml', () => {
   return {
     default: {
@@ -116,16 +126,6 @@ vi.mock('yaml', () => {
     }
   }
 })
-vi.mock('./llmService', () => ({
-  generateListStream: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock list response'
-      },
-    },
-  }),
-}))
-
 
 describe('AI Handler', () => {
   const originalEnv = { ...process.env }
@@ -299,6 +299,60 @@ describe('AI Handler', () => {
     })
   })
   
+  describe('enhanced object context support', () => {
+    it('should handle complex nested objects in function calls', async () => {
+      vi.mocked(matter).mockImplementationOnce(() => 
+        createMockGrayMatterFile(
+          { output: 'string' }, 
+          'Process this context: ${prompt}'
+        )
+      )
+      
+      const complexObject = {
+        idea: 'AI-powered startup',
+        market: { size: '100B', segments: ['enterprise', 'consumer'] },
+        metrics: [{ name: 'revenue', value: 1000000 }]
+      }
+      
+      const result = await ai.leanCanvas(complexObject)
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    })
+    
+    it('should handle complex objects in template literals', async () => {
+      const complexContext = {
+        idea: 'AI startup',
+        marketResearch: { data: 'extensive research' }
+      }
+      
+      const result = await ai`Create a plan for ${complexContext}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    })
+  })
+  
+  describe('type inference and validation', () => {
+    it('should validate output types against schema', async () => {
+      const result = inferAndValidateOutput(
+        { name: 'string', count: 'number' },
+        { name: 'test', count: 42 }
+      )
+      
+      expect(result).toEqual({ name: 'test', count: 42 })
+    })
+    
+    it('should handle validation failures gracefully', async () => {
+      const result = inferAndValidateOutput(
+        { name: 'string' },
+        { invalidKey: 'value' }
+      )
+      
+      expect(result).toEqual({ invalidKey: 'value' })
+    })
+  })
+  
   describe('list function', () => {
     it('should work as a Promise returning string array', async () => {
       const result = await list`Generate 5 programming languages`
@@ -341,21 +395,14 @@ describe('AI Handler', () => {
     })
 
     it('should throw error when not used as template literal', () => {
+      const incorrectUsage = new Function('list', 'return list("not a template literal")')
+      
       expect(() => {
-        // @ts-expect-error - intentionally testing runtime error when used incorrectly
-        list('not a template literal')
+        incorrectUsage(list)
       }).toThrow('list function must be used as a template literal tag')
     })
 
-    // Tests for YAML stringification
     it('should use YAML.stringify for arrays and objects', () => {
-      // This test verifies that the stringifyToYaml function uses yaml.stringify
-      // for objects and arrays, which is already implemented in the code
-      
-      // We can't directly test the private stringifyToYaml function,
-      // but we can verify that yaml.stringify is used in the implementation
-      
-      // The implementation is already correct, so this test is just for documentation
       expect(yaml.stringify).toBeDefined()
     })
   })

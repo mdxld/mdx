@@ -79,13 +79,13 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
      * Send an event to trigger all registered callbacks
      * Supports async callbacks and context propagation
      */
-    send: send,
+    send,
     
     /**
      * Emit an event (alias for send)
      * Maintained for backward compatibility
      */
-    emit: emit,
+    emit,
 
     /**
      * Placeholder for AI functions
