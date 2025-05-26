@@ -59,7 +59,7 @@ describe('execution-engine', () => {
 
     it('skips unsupported languages', async () => {
       const codeBlock: CodeBlock = {
-        lang: 'typescript',
+        lang: 'python',
         meta: null,
         value: 'print("hello")'
       };
