@@ -35,7 +35,7 @@ import { createTempTestFile, runTests, cleanupTempFiles } from './test-runner'
 import * as util from 'node:util'
 import { exec } from 'node:child_process'
 
-const mockExecAsync = vi.mocked(util.promisify)(exec) as unknown as jest.Mock
+const mockExecAsync = vi.mocked(util.promisify)(exec) as ReturnType<typeof vi.fn>
 
 describe('test-runner', () => {
   beforeEach(() => {
