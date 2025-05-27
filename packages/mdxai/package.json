@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
+    "@google/genai": "latest",
     "@mendable/firecrawl-js": "^1.25.1",
     "ai": "^4.3.16",
     "commander": "^12.1.0",
@@ -27,6 +28,7 @@
     "p-queue": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "wav": "^1.0.2",
     "yaml": "^2.8.0",
     "zod": "^3.21.4"
   },
