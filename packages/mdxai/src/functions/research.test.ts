@@ -6,6 +6,9 @@ import * as ai from 'ai'
 import * as scrapeModule from './scrape'
 import { createCacheMiddleware } from '../cacheMiddleware'
 
+// Import the actual modules but don't mock them directly
+// Instead create mock functions that we'll use in the tests
+
 const isCI = process.env.CI === 'true'
 
 const originalEnv = { ...process.env }
@@ -17,8 +20,8 @@ const cacheMiddleware = createCacheMiddleware({
   memoryCache: true,
 })
 
-// Create mock functions without using vi.mock or vi.spyOn
-const generateTextSpy = vi.fn().mockResolvedValue({
+// Create mock functions without using vi.mock
+const generateTextMock = vi.fn().mockResolvedValue({
   text: 'This is a test response with citation [1] and another citation [2].',
   response: {
     body: {
@@ -34,11 +37,8 @@ const generateTextSpy = vi.fn().mockResolvedValue({
   },
 })
 
-// Store original function
-const originalGenerateText = ai.generateText
-
-// Create mock functions without using vi.spyOn
-const scrapeSpy = vi.fn().mockImplementation((url) => {
+// Create mock functions without using vi.mock
+const scrapeMock = vi.fn().mockImplementation((url) => {
   const domain = new URL(url).hostname
   
   return Promise.resolve({
@@ -51,27 +51,21 @@ const scrapeSpy = vi.fn().mockImplementation((url) => {
   })
 })
 
-// Store original function
-const originalScrape = scrapeModule.scrape
-
 describe('research (mocked)', () => {
   beforeEach(() => {
     process.env.AI_GATEWAY_TOKEN = 'mock-token'
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     
-    // Replace functions with mocks before each test
-    Object.defineProperty(ai, 'generateText', { value: generateTextSpy, writable: true, configurable: true })
-    Object.defineProperty(scrapeModule, 'scrape', { value: scrapeSpy, writable: true, configurable: true })
+    // Use vi.fn() to create a new function that calls our mock
+    vi.spyOn(ai, 'generateText').mockImplementation((...args) => generateTextMock(...args))
+    vi.spyOn(scrapeModule, 'scrape').mockImplementation((...args) => scrapeMock(...args))
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
     vi.clearAllMocks()
-    
-    // Restore original functions after each test
-    Object.defineProperty(ai, 'generateText', { value: originalGenerateText, writable: true, configurable: true })
-    Object.defineProperty(scrapeModule, 'scrape', { value: originalScrape, writable: true, configurable: true })
+    vi.restoreAllMocks()
   })
 
   it('should process citations and create enhanced markdown', async () => {
@@ -114,10 +108,7 @@ describe('research e2e', () => {
     
     process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
-    
-    // Restore original functions for e2e tests
-    Object.defineProperty(ai, 'generateText', { value: originalGenerateText, writable: true, configurable: true })
-    Object.defineProperty(scrapeModule, 'scrape', { value: originalScrape, writable: true, configurable: true })
+    vi.restoreAllMocks()
   })
 
   afterEach(() => {
@@ -184,11 +175,8 @@ describe('research e2e', () => {
       return
     }
 
-    // Store original function
-    const originalGenerateText = ai.generateText
-    
     // Create a custom mock for this test
-    const customSpy = vi.fn().mockResolvedValueOnce({
+    const customMock = vi.fn().mockResolvedValueOnce({
       text: 'This is a test response with invalid citation [1].',
       response: {
         body: {
@@ -204,8 +192,8 @@ describe('research e2e', () => {
       },
     } as any)
     
-    // Replace function with mock
-    Object.defineProperty(ai, 'generateText', { value: customSpy, writable: true, configurable: true })
+    // Use vi.spyOn to temporarily replace the implementation
+    const spy = vi.spyOn(ai, 'generateText').mockImplementation(() => customMock())
     
     const query = 'Test with invalid citation URL'
     const result = await research(query)
@@ -219,7 +207,7 @@ describe('research e2e', () => {
     
     expect(Array.isArray(result.scrapedCitations)).toBe(true)
     
-    // Restore original function
-    Object.defineProperty(ai, 'generateText', { value: originalGenerateText, writable: true, configurable: true })
+    // Restore the original implementation
+    spy.mockRestore()
   }, 30000)
 })
