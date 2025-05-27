@@ -106,7 +106,9 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
 const saveToCache = async (url: string, content: ScrapedContent): Promise<void> => {
   try {
     const cacheFilePath = getCacheFilePath(url)
-    await ensureDirectoryExists(cacheFilePath)
+    
+    const cacheDir = path.dirname(cacheFilePath)
+    await fs.mkdir(cacheDir, { recursive: true, mode: 0o777 })
     
     const cachedAt = new Date().toISOString()
     
@@ -139,7 +141,9 @@ const saveToCache = async (url: string, content: ScrapedContent): Promise<void> 
     const markdownContent = content.markdown || ''
     const fileContent = `${frontmatter}\n\n${markdownContent}`
     
-    await fs.writeFile(cacheFilePath, fileContent, 'utf-8')
+    await fs.writeFile(cacheFilePath, fileContent, { encoding: 'utf-8', mode: 0o666 })
+    
+    await fs.access(cacheFilePath)
   } catch (error) {
     console.warn(`Failed to cache content for ${url}:`, error)
   }
@@ -149,7 +153,7 @@ export const scrape = async (url: string): Promise<ScrapedContent> => {
   // Try to load from cache first
   const cached = await loadFromCache(url)
   if (cached) {
-    return cached
+    return { ...cached, cached: true }
   }
 
   // If not cached or cache is stale, scrape fresh content
@@ -162,13 +166,16 @@ export const scrape = async (url: string): Promise<ScrapedContent> => {
       throw new Error(`Failed to scrape: ${response.error || 'Unknown error'}`)
     }
 
+    const data = response.data || response
+    const metadata = data.metadata || {}
+
     const scrapedContent: ScrapedContent = {
       url,
-      title: response.metadata?.title || response.metadata?.ogTitle || '',
-      description: response.metadata?.description || response.metadata?.ogDescription || '',
-      image: response.metadata?.ogImage || '',
-      markdown: response.markdown || '',
-      html: response.html || '',
+      title: metadata.title || metadata.ogTitle || '',
+      description: metadata.description || metadata.ogDescription || '',
+      image: metadata.ogImage || '',
+      markdown: data.markdown || '',
+      html: data.html || '',
       cached: false,
     }
 
@@ -220,4 +227,4 @@ export const scrapeMultiple = async (
   }
 
   return results
-}        
+}                                                
