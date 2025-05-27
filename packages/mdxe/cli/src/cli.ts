@@ -10,6 +10,7 @@ import { runDevCommand } from './commands/dev'
 import { runBuildCommand } from './commands/build'
 import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
+import { runSendCommand } from './commands/send'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
@@ -53,6 +54,12 @@ export async function run() {
     }
 
     return runExecCommand(filePath, { watch: watchFlag }, contextType)
+  } else if (command === 'send') {
+    const eventName = args[1]
+    const eventData = args[2]
+    const verboseFlag = args.includes('--verbose') || args.includes('-v')
+    
+    return runSendCommand(eventName, eventData, { verbose: verboseFlag })
   }
 
   let targetDir = cwd
