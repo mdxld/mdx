@@ -5,40 +5,44 @@ import FirecrawlApp from '@mendable/firecrawl-js'
 import { createCacheMiddleware } from '../cacheMiddleware'
 
 // Mock modules at the top level
-vi.mock('ai', () => ({
-  generateText: vi.fn().mockResolvedValue({
-    text: 'This is a test response with citation [1] and another citation [2].',
-    response: {
-      body: {
-        citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
-        choices: [
-          {
-            message: {
-              reasoning: 'This is mock reasoning',
+vi.mock('ai', () => {
+  return {
+    generateText: vi.fn().mockResolvedValue({
+      text: 'This is a test response with citation [1] and another citation [2].',
+      response: {
+        body: {
+          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
+          choices: [
+            {
+              message: {
+                reasoning: 'This is mock reasoning',
+              },
             },
-          },
-        ],
+          ],
+        },
       },
-    },
-  }),
-  model: vi.fn().mockReturnValue('mock-model'),
-}))
+    }),
+    model: vi.fn().mockReturnValue('mock-model'),
+  }
+})
 
-vi.mock('./scrape', () => ({
-  scrape: vi.fn().mockImplementation((url) => {
-    const domain = new URL(url).hostname
-    
-    return Promise.resolve({
-      url,
-      title: `Content from ${domain}`,
-      description: `Description from ${domain}`,
-      image: 'https://example.com/image.png',
-      markdown: '# Test Markdown\nThis is test content',
-      cached: false
-    })
-  }),
-  ScrapedContent: class {}
-}))
+vi.mock('./scrape', () => {
+  return {
+    scrape: vi.fn().mockImplementation((url) => {
+      const domain = new URL(url).hostname
+      
+      return Promise.resolve({
+        url,
+        title: `Content from ${domain}`,
+        description: `Description from ${domain}`,
+        image: 'https://example.com/image.png',
+        markdown: '# Test Markdown\nThis is test content',
+        cached: false
+      })
+    }),
+    ScrapedContent: class {}
+  }
+})
 
 const isCI = process.env.CI === 'true'
 
