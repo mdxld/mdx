@@ -291,6 +291,7 @@ async function handleArrayOutput(systemPrompt: string): Promise<string[]> {
  */
 async function handleObjectOutput(systemPrompt: string, outputSchema: Record<string, any>): Promise<any> {
   if (process.env.NODE_ENV === 'test') {
+    console.log('Using mock object output for testing')
     const mockObject: Record<string, any> = {}
 
     for (const [key, value] of Object.entries(outputSchema)) {
