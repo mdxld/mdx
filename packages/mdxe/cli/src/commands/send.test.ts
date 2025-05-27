@@ -1,6 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { runSendCommand } from './send'
 import * as eventSystem from '../utils/event-system'
+import type { MutableEventContext } from '../utils/event-system'
+
+const createMockContext = (getReturn: any = []): MutableEventContext => {
+  return {
+    get: vi.fn().mockImplementation((key?: string) => getReturn),
+    set: vi.fn(),
+    merge: vi.fn(),
+    has: vi.fn(),
+    deepMerge: vi.fn()
+  } as unknown as MutableEventContext
+}
 
 describe('send command', () => {
   beforeEach(() => {
@@ -13,9 +24,10 @@ describe('send command', () => {
   })
 
   it('sends an event with the provided name', async () => {
+    const mockContext = createMockContext()
     const sendSpy = vi.spyOn(eventSystem, 'send').mockResolvedValue({
       results: [],
-      context: { get: () => [] }
+      context: mockContext
     })
 
     await runSendCommand('test-event')
@@ -24,9 +36,10 @@ describe('send command', () => {
   })
 
   it('sends an event with parsed JSON data', async () => {
+    const mockContext = createMockContext()
     const sendSpy = vi.spyOn(eventSystem, 'send').mockResolvedValue({
       results: [],
-      context: { get: () => [] }
+      context: mockContext
     })
 
     const jsonData = '{"key": "value", "nested": {"prop": true}}'
@@ -39,9 +52,10 @@ describe('send command', () => {
   })
 
   it('reports the number of triggered handlers', async () => {
+    const mockContext = createMockContext()
     vi.spyOn(eventSystem, 'send').mockResolvedValue({
       results: ['result1', 'result2'],
-      context: { get: () => [] }
+      context: mockContext
     })
 
     await runSendCommand('test-event')
@@ -54,10 +68,11 @@ describe('send command', () => {
       { error: { message: 'Handler error 1' } },
       { error: { message: 'Handler error 2' } }
     ]
-
+    const mockContext = createMockContext(errors)
+    
     vi.spyOn(eventSystem, 'send').mockResolvedValue({
       results: ['result1', null],
-      context: { get: () => errors }
+      context: mockContext
     })
 
     await runSendCommand('test-event')
@@ -77,10 +92,11 @@ describe('send command', () => {
 
   it('shows verbose output when verbose flag is set', async () => {
     const testData = { key: 'value' }
+    const mockContext = createMockContext()
     
     vi.spyOn(eventSystem, 'send').mockResolvedValue({
       results: ['result1'],
-      context: { get: () => [] }
+      context: mockContext
     })
 
     await runSendCommand('test-event', JSON.stringify(testData), { verbose: true })

@@ -46,7 +46,7 @@ export async function runSendCommand(eventName: string, eventData?: string, opti
     console.log(`Triggered ${result.results.length} handler(s)`)
     
     if (options.verbose) {
-      console.log('\nResults:', result.results)
+      console.log('Results:', result.results)
     }
     
     const errors = result.context.get?.('errors') || []
