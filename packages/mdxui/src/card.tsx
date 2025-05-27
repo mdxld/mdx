@@ -13,5 +13,6 @@ export function Card(props: CardProps) {
     return <CoreCard {...props} />
   }
   
+  // @ts-ignore - Handle React 18 vs 19 type compatibility
   return <InkCard {...props} />
 }

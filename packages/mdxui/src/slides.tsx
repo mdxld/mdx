@@ -40,6 +40,7 @@ export function Slides(props: UnifiedSlidesProps) {
     return <RevealSlides options={options}>{children}</RevealSlides>
   }
   
+  // @ts-ignore - Handle React 18 vs 19 type compatibility
   return <InkSlides options={options}>{children}</InkSlides>
 }
 
@@ -54,5 +55,6 @@ export function Slide(props: UnifiedSlideProps) {
     return <RevealSlide className={className} style={style}>{children}</RevealSlide>
   }
   
+  // @ts-ignore - Handle React 18 vs 19 type compatibility
   return <InkSlide index={index} total={total}>{children}</InkSlide>
 }

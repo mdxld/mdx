@@ -11,5 +11,6 @@ export function Button(props: ButtonProps) {
     return <CoreButton {...props} />
   }
   
+  // @ts-ignore - Handle React 18 vs 19 type compatibility
   return <InkButton {...props} />
 }
