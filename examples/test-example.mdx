@@ -1,0 +1,41 @@
+# Test Example
+
+This is an example MDX file with code blocks and test blocks to verify the vitest integration.
+
+## Code Block
+
+```typescript
+// Regular code block
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+export function subtract(a: number, b: number): number {
+  return a - b;
+}
+
+export function multiply(a: number, b: number): number {
+  return a * b;
+}
+```
+
+## Test Block
+
+```typescript test
+// Test block
+import { describe, it, expect } from 'vitest';
+
+describe('Math functions', () => {
+  it('should add two numbers correctly', () => {
+    expect(add(2, 3)).toBe(5);
+  });
+
+  it('should subtract two numbers correctly', () => {
+    expect(subtract(5, 2)).toBe(3);
+  });
+
+  it('should multiply two numbers correctly', () => {
+    expect(multiply(2, 3)).toBe(6);
+  });
+});
+```

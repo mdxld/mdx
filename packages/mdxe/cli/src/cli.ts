@@ -11,6 +11,7 @@ import { runBuildCommand } from './commands/build'
 import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
 import { runSendCommand } from './commands/send'
+import { runTestCommand } from './commands/test'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
@@ -30,10 +31,10 @@ export async function run() {
     return runBuildCommand(cwd)
   } else if (command === 'start') {
     return runStartCommand(cwd)
-  } else if (command === 'test') {
-    console.log('Test command not implemented yet')
-    return
-  } else if (command === 'lint') {
+  }  else if (command === 'test') {
+    const watchFlag = args.includes('--watch')
+    return runTestCommand(cwd, watchFlag)
+  }else if (command === 'lint') {
     console.log('Lint command not implemented yet')
     return
   } else if (command === 'exec') {
