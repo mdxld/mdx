@@ -1,10 +1,15 @@
 import { describe, it, expect } from 'vitest'
 import { research } from 'mdxai'
 
-describe('research', () => {
+describe('research', async () => {
+  
+  const company = 'Vercel'
+  const result = await research`the origin story of ${company}`
+
   it('should interpolate a string', async () => {
-    const company = 'Vercel'
-    const result = await research`the origin story of ${company}`
-    expect(result).toBe('Paris')
+    expect(result).toContain(company)
+  })
+  it('should return citations', async () => {
+    expect(result.citations).toBeDefined()
   })
 }, 300_000)

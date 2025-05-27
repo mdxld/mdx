@@ -125,7 +125,7 @@ describe('video function', () => {
       expect(result.videoFilePaths).toHaveLength(1)
       expect(result.metadata.model).toBe('veo-2.0-generate-001')
       expect(result.metadata.aspectRatio).toBe('16:9')
-      expect(result.metadata.personGeneration).toBe('allow')
+      expect(result.metadata.personGeneration).toBe('disallow')
     })
 
     it('should use custom configuration options', async () => {
@@ -159,7 +159,7 @@ describe('video function', () => {
       const config: VideoConfig = {
         prompt: 'A cat playing with a ball',
         model: 'veo-2.0-generate-001',
-        personGeneration: 'dont_allow',
+        personGeneration: 'disallow',
         aspectRatio: '9:16',
         maxWaitTimeSeconds: 120,
         pollingIntervalSeconds: 5,
@@ -169,7 +169,7 @@ describe('video function', () => {
 
       expect(result.metadata.model).toBe('veo-2.0-generate-001')
       expect(result.metadata.aspectRatio).toBe('9:16')
-      expect(result.metadata.personGeneration).toBe('dont_allow')
+      expect(result.metadata.personGeneration).toBe('disallow')
     })
   })
 
@@ -181,7 +181,7 @@ describe('video function', () => {
         metadata: {
           model: 'veo-2.0-generate-001',
           aspectRatio: '16:9',
-          personGeneration: 'allow',
+          personGeneration: 'disallow',
           generationTimeMs: 5000,
           completedAt: '2024-01-01T00:00:00.000Z',
         },
@@ -211,7 +211,7 @@ describe('video function', () => {
         metadata: {
           model: 'veo-2.0-generate-001',
           aspectRatio: '16:9',
-          personGeneration: 'allow',
+          personGeneration: 'disallow',
           generationTimeMs: 5000,
           completedAt: '2024-01-01T00:00:00.000Z',
         },
