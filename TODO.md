@@ -2,7 +2,6 @@
 
 ### Ready
 
-- [ ] `ai` tests
 - [ ] `list` tests
 - [ ] `research` tests
 - [ ] `plan` tests
@@ -16,6 +15,6 @@
 
 ### In Progress
 
-- [ ] 
+- [ ] `ai` tests
 
 ### Completed ✓
