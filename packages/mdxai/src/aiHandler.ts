@@ -403,7 +403,7 @@ export function inferAndValidateOutput(outputSchema: any, result: any): any {
  */
 async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, void, unknown> {
   if (process.env.NODE_ENV === 'test') {
-    const mockItems = ['Item 1', 'Item 2', 'Item 3']
+    const mockItems = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']
     for (const item of mockItems) {
       yield item
     }
@@ -450,7 +450,7 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
  */
 async function generateCompleteList(prompt: string): Promise<string[]> {
   if (process.env.NODE_ENV === 'test') {
-    return ['Item 1', 'Item 2', 'Item 3']
+    return ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']
   }
 
   try {

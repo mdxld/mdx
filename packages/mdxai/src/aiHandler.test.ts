@@ -349,7 +349,7 @@ describe('AI Handler (mocked)', () => {
       const result = await list`Generate 5 programming languages`
 
       expect(Array.isArray(result)).toBe(true)
-      expect(result).toEqual(['Item 1', 'Item 2', 'Item 3'])
+      expect(result).toEqual(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'])
     })
 
     it('should work as an AsyncIterable', async () => {
@@ -359,7 +359,7 @@ describe('AI Handler (mocked)', () => {
         items.push(item)
       }
 
-      expect(items).toEqual(['Item 1', 'Item 2', 'Item 3'])
+      expect(items).toEqual(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'])
     })
 
     it('should handle template literal interpolation', async () => {
