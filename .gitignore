@@ -41,3 +41,6 @@ tsconfig.tsbuildinfo
 
 # mdxld
 .mdx
+
+# cache
+.ai/cache/

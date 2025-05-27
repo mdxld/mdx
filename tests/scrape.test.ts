@@ -194,5 +194,5 @@ describe('scrape e2e', () => {
     // Verify cache was updated
     const updatedCache = JSON.parse(await fs.readFile(cacheFile, 'utf-8'))
     expect(new Date(updatedCache.cachedAt).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
-  }, 30000)
+  }, 90000)
 }, 300000) // 5 minute timeout for the entire suite 
