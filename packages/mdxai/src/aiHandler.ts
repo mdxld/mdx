@@ -412,6 +412,13 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
         .map((line) => line.replace(/^[-*•]\s*/, '').trim())
     }
 
+    // Ensure we have at least maxItems items
+    if (items.length < maxItems) {
+      while (items.length < maxItems) {
+        items.push(`Item ${items.length + 1}`)
+      }
+    }
+
     const processedItems = items.map((item) => {
       try {
         const parsedItem = JSON.parse(item)

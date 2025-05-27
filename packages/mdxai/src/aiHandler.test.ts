@@ -477,9 +477,6 @@ describe('AI Handler e2e', () => {
       return
     }
     
-    const originalGenerateListStream = generateListStream
-    vi.doUnmock('./llmService')
-    
     const result1 = await list`Generate 5 short programming tips`
     
     expect(result1).toBeDefined()
@@ -491,13 +488,8 @@ describe('AI Handler e2e', () => {
     expect(result2).toBeDefined()
     expect(Array.isArray(result2)).toBe(true)
     expect(result2.length).toBe(5)
-    expect(result2).toEqual(result1)
     
-    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-      vi.mock('./llmService', () => ({
-        generateListStream: originalGenerateListStream
-      }))
-    }
+    expect(result2).toEqual(result1)
   }, 30000)
 
 })
