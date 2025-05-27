@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { scrape, scrapeMultiple } from './scrape'
 
-// Mock FirecrawlApp
+// Mock FirecrawlApp at the top level
 vi.mock('@mendable/firecrawl-js', () => {
   return {
     default: vi.fn(() => ({
@@ -29,16 +29,94 @@ vi.mock('@mendable/firecrawl-js', () => {
   }
 })
 
-// Mock fs module
+// Mock fs module at the top level
 vi.mock('fs', () => {
+  // Create a cache for readFile responses
+  const readFileResponses = [
+    JSON.stringify({ cached: true }),
+    `---
+url: "https://example.com/cached"
+title: "Content from example.com"
+description: "Description from example.com"
+image: "https://example.com/image.png"
+cachedAt: "${new Date().toISOString()}"
+---
+
+# Test Markdown
+This is test content`
+  ]
+  
+  let readFileIndex = 0
+  
+  // Create a cache for access responses
+  const accessResponses = [
+    Promise.resolve(),
+    Promise.reject(new Error('File not found'))
+  ]
+  
+  let accessIndex = 0
+  
   return {
     promises: {
-      readFile: vi.fn(() => Promise.resolve(JSON.stringify({ cached: true }))),
+      readFile: vi.fn(() => {
+        const response = readFileResponses[readFileIndex % readFileResponses.length]
+        readFileIndex++
+        return Promise.resolve(response)
+      }),
       writeFile: vi.fn(() => Promise.resolve()),
-      access: vi.fn(() => Promise.resolve()),
+      access: vi.fn(() => {
+        const response = accessResponses[accessIndex % accessResponses.length]
+        accessIndex++
+        return response
+      }),
       mkdir: vi.fn(() => Promise.resolve()),
     }
   }
+})
+
+describe('scrape', () => {
+  const originalEnv = { ...process.env }
+
+  beforeEach(() => {
+    process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
+    process.env.NODE_ENV = 'test'
+    vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    process.env = { ...originalEnv }
+  })
+
+  it('should scrape content from a URL', async () => {
+    const url = 'https://example.com'
+    const result = await scrape(url)
+
+    expect(result).toBeDefined()
+    expect(result.url).toBe(url)
+    expect(result.title).toBe('Content from example.com')
+    expect(result.description).toBe('Description from example.com')
+    expect(result.markdown).toBe('# Test Markdown\nThis is test content')
+    expect(result.cached).toBe(false)
+  })
+
+  it('should return cached result when available', async () => {
+    const url = 'https://example.com/cached'
+    
+    // First call should return cached result
+    const result = await scrape(url)
+    expect(result.cached).toBe(true)
+    expect(result.url).toBe(url)
+    expect(result.title).toBe('Content from example.com')
+  })
+
+  it('should handle scraping errors gracefully', async () => {
+    const url = 'https://example.com/error'
+    const result = await scrape(url)
+    
+    expect(result).toBeDefined()
+    expect(result.url).toBe(url)
+    expect(result.error).toBe('Failed to scrape: Scraping failed')
+  })
 })
 
 // Mock the scrape function for scrapeMultiple tests
@@ -66,73 +144,12 @@ vi.mock('./scrape', async (importOriginal) => {
         markdown: '# Test Markdown\nThis is test content',
         cached: false
       }
-    }),
-    scrapeMultiple: mod.scrapeMultiple
+    })
   }
-})
-
-describe('scrape', () => {
-  const originalEnv = { ...process.env }
-  const fs = require('fs')
-
-  beforeEach(() => {
-    process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
-    process.env.NODE_ENV = 'test'
-    vi.clearAllMocks()
-  })
-
-  afterEach(() => {
-    process.env = { ...originalEnv }
-    vi.restoreAllMocks()
-  })
-
-  it('should scrape content from a URL', async () => {
-    const url = 'https://example.com'
-    const result = await scrape(url)
-
-    expect(result).toBeDefined()
-    expect(result.url).toBe(url)
-    expect(result.title).toBe('Content from example.com')
-    expect(result.description).toBe('Description from example.com')
-    expect(result.markdown).toBe('# Test Markdown\nThis is test content')
-    expect(result.cached).toBe(false)
-  })
-
-  it('should return cached result when available', async () => {
-    // Setup mock to return cached content for the first call
-    fs.promises.readFile.mockReturnValueOnce(Promise.resolve(`---
-url: "https://example.com/cached"
-title: "Content from example.com"
-description: "Description from example.com"
-image: "https://example.com/image.png"
-cachedAt: "${new Date().toISOString()}"
----
-
-# Test Markdown
-This is test content`))
-
-    const url = 'https://example.com/cached'
-    
-    // First call should return cached result
-    const result = await scrape(url)
-    expect(result.cached).toBe(true)
-    expect(result.url).toBe(url)
-    expect(result.title).toBe('Content from example.com')
-  })
-
-  it('should handle scraping errors gracefully', async () => {
-    const url = 'https://example.com/error'
-    const result = await scrape(url)
-    
-    expect(result).toBeDefined()
-    expect(result.url).toBe(url)
-    expect(result.error).toBe('Failed to scrape: Scraping failed')
-  })
 })
 
 describe('scrapeMultiple', () => {
   const originalEnv = { ...process.env }
-  const mockScrape = vi.mocked(scrape)
 
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
@@ -142,7 +159,6 @@ describe('scrapeMultiple', () => {
 
   afterEach(() => {
     process.env = { ...originalEnv }
-    vi.restoreAllMocks()
   })
 
   it('should scrape multiple URLs', async () => {
