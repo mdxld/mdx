@@ -15,6 +15,7 @@ export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
 export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction } from './aiHandler.js'
 export { extract, ExtractFunction, ExtractType, ExtractOptions } from './functions/extract.js'
 export { generateVideo, VideoGenerationConfig, VideoGenerationResult } from './functions/generateVideo.js'
+export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
 
 export {
   createAiFolderStructure,
