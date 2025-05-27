@@ -166,11 +166,11 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
   const blogDir = path.join(testDir, 'content/blog')
   const outputDir = path.join(testDir, '.velite')
 
-  await Promise.all([
-    fs.mkdir(outputDir, { recursive: true }), 
-    fs.mkdir(postsDir, { recursive: true }), 
-    fs.mkdir(blogDir, { recursive: true })
-  ])
+  await fs.mkdir(testDir, { recursive: true })
+  await fs.mkdir(path.join(testDir, 'content'), { recursive: true })
+  await fs.mkdir(postsDir, { recursive: true })
+  await fs.mkdir(blogDir, { recursive: true })
+  await fs.mkdir(outputDir, { recursive: true })
 
   const veliteConfigPath = path.join(testDir, 'velite.config.js')
   const configContent = `
