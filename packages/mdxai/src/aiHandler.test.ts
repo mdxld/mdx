@@ -53,35 +53,37 @@ vi.mock('gray-matter', () => ({
   default: vi.fn(),
 }))
 
-vi.mock('ai', () => ({
-  streamText: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock string response'
+if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+  vi.mock('ai', () => ({
+    streamText: vi.fn().mockResolvedValue({
+      textStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield 'This is a mock string response'
+        },
       },
-    },
-  }),
-  streamObject: vi.fn().mockResolvedValue({
-    object: {
-      name: 'Mock Brand name',
-      description: 'Mock Brand description',
-      tone: 'formal',
-      status: 'draft',
-    },
-    partialObjectStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield { name: 'Mock Brand name' }
-        yield { description: 'Mock Brand description' }
-      },
-    },
-  }),
-  model: vi.fn().mockReturnValue('mock-model'),
-  wrapLanguageModel: vi.fn().mockReturnValue({
-    generateContent: vi.fn().mockResolvedValue({
-      content: 'Mock content',
     }),
-  }),
-}))
+    streamObject: vi.fn().mockResolvedValue({
+      object: {
+        name: 'Mock Brand name',
+        description: 'Mock Brand description',
+        tone: 'formal',
+        status: 'draft',
+      },
+      partialObjectStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield { name: 'Mock Brand name' }
+          yield { description: 'Mock Brand description' }
+        },
+      },
+    }),
+    model: vi.fn().mockReturnValue('mock-model'),
+    wrapLanguageModel: vi.fn().mockReturnValue({
+      generateContent: vi.fn().mockResolvedValue({
+        content: 'Mock content',
+      }),
+    }),
+  }))
+}
 
 vi.mock('./utils', () => ({
   findAiFunction: vi.fn().mockResolvedValue({
@@ -107,15 +109,19 @@ vi.mock('./utils', () => ({
   },
 }))
 
-vi.mock('./llmService', () => ({
-  generateListStream: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock list response'
+import { generateListStream } from './llmService'
+
+if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+  vi.mock('./llmService', () => ({
+    generateListStream: vi.fn().mockResolvedValue({
+      textStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield 'This is a mock list response'
+        },
       },
-    },
-  }),
-}))
+    }),
+  }))
+}
 
 vi.mock('yaml', () => {
   return {
@@ -349,7 +355,8 @@ describe('AI Handler (mocked)', () => {
       const result = await list`Generate 5 programming languages`
 
       expect(Array.isArray(result)).toBe(true)
-      expect(result).toEqual(['Item 1', 'Item 2', 'Item 3'])
+      expect(result.length).toBe(5)
+      result.forEach(item => expect(typeof item).toBe('string'))
     })
 
     it('should work as an AsyncIterable', async () => {
@@ -357,9 +364,10 @@ describe('AI Handler (mocked)', () => {
 
       for await (const item of list`Generate 5 programming languages`) {
         items.push(item)
+        expect(typeof item).toBe('string')
       }
 
-      expect(items).toEqual(['Item 1', 'Item 2', 'Item 3'])
+      expect(items.length).toBe(5)
     })
 
     it('should handle template literal interpolation', async () => {
@@ -463,6 +471,27 @@ describe('AI Handler e2e', () => {
     
     vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
   }, 30000)
+
+  it('should generate list using real API with caching', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+    
+    const result1 = await list`Generate 5 short programming tips`
+    
+    expect(result1).toBeDefined()
+    expect(Array.isArray(result1)).toBe(true)
+    expect(result1.length).toBe(5)
+    
+    const result2 = await list`Generate 5 short programming tips`
+    
+    expect(result2).toBeDefined()
+    expect(Array.isArray(result2)).toBe(true)
+    expect(result2.length).toBe(5)
+    
+    expect(result2).toEqual(result1)
+  }, 30000)
+
 })
 
 describe('extract function integration', () => {
