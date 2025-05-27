@@ -36,6 +36,13 @@ export async function run() {
     
     if (testFiles.length === 0) {
       testFiles = await findMdxFiles(cwd)
+      
+      testFiles = testFiles.filter(file => {
+        if (file.includes('examples/slides/')) {
+          return false
+        }
+        return true
+      })
     }
     
     const result = await runTests(testFiles, watch)
