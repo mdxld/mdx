@@ -50,7 +50,10 @@ export interface AiFunction extends TemplateFn {
  */
 function stringifyValue(value: any): string {
   if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
-    return yaml.stringify(value).trim()
+    const yamlString = yaml.stringify(value)
+    return typeof yamlString === 'string' 
+      ? yamlString.trim() 
+      : (yamlString?.trim?.() || String(yamlString))
   }
   return String(value)
 }

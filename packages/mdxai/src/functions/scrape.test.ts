@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { scrape, scrapeMultiple } from './scrape'
+import fs from 'fs'
 
 // Mock FirecrawlApp
 vi.mock('@mendable/firecrawl-js', () => {
@@ -29,43 +30,36 @@ vi.mock('@mendable/firecrawl-js', () => {
   }
 })
 
-// Create a mock for fs
-vi.mock('fs', () => {
-  const mockReadFile = vi.fn().mockImplementation((path, options) => {
-    return Promise.resolve(JSON.stringify({ cached: true }))
-  })
-  
-  return {
-    promises: {
-      readFile: mockReadFile,
-      writeFile: vi.fn().mockImplementation((path, data, options) => {
-        return Promise.resolve()
-      }),
-      access: vi.fn().mockImplementation((path) => {
-        return Promise.resolve()
-      }),
-      mkdir: vi.fn().mockImplementation((path, options) => {
-        return Promise.resolve()
-      })
-    }
-  }
-})
-
+// Mock fs module using spyOn
 describe('scrape', () => {
   const originalEnv = { ...process.env }
-  let mockFs
 
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
     
-    // Get reference to the mocked fs module
-    mockFs = require('fs').promises
+    // Setup fs mocks using spyOn
+    vi.spyOn(fs.promises, 'readFile').mockImplementation(() => {
+      return Promise.resolve(JSON.stringify({ cached: true }))
+    })
+    
+    vi.spyOn(fs.promises, 'writeFile').mockImplementation(() => {
+      return Promise.resolve()
+    })
+    
+    vi.spyOn(fs.promises, 'access').mockImplementation(() => {
+      return Promise.resolve()
+    })
+    
+    vi.spyOn(fs.promises, 'mkdir').mockImplementation(() => {
+      return Promise.resolve()
+    })
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
+    vi.restoreAllMocks()
   })
 
   it('should scrape content from a URL', async () => {
@@ -82,7 +76,7 @@ describe('scrape', () => {
 
   it('should return cached result when available', async () => {
     // Setup mock to return cached content for the first call
-    mockFs.readFile.mockImplementationOnce(() => {
+    vi.spyOn(fs.promises, 'readFile').mockImplementationOnce(() => {
       return Promise.resolve(`---
 url: "https://example.com/cached"
 title: "Content from example.com"
@@ -125,6 +119,7 @@ describe('scrapeMultiple', () => {
 
   afterEach(() => {
     process.env = { ...originalEnv }
+    vi.restoreAllMocks()
   })
 
   it('should scrape multiple URLs', async () => {

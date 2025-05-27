@@ -4,31 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-// Mock fs module
-vi.mock('fs', () => {
-  const mockReadFile = vi.fn()
-  const mockWriteFile = vi.fn()
-  const mockAccess = vi.fn()
-  const mockMkdir = vi.fn()
-  
-  return {
-    promises: {
-      readFile: mockReadFile,
-      writeFile: mockWriteFile,
-      access: mockAccess,
-      mkdir: mockMkdir,
-    },
-    readFile: vi.fn(),
-    writeFile: vi.fn(),
-    access: vi.fn(),
-    mkdir: vi.fn(),
-    existsSync: vi.fn(),
-    createReadStream: vi.fn(),
-    createWriteStream: vi.fn(),
-  }
-})
-
-// Mock fetch
+// Mock fs module using spyOn
 vi.mock('node-fetch', () => {
   return {
     default: vi.fn().mockImplementation((url) => {
@@ -70,17 +46,38 @@ describe('video function', () => {
     process.env.GOOGLE_API_KEY = 'mock-google-api-key'
     vi.clearAllMocks()
     
-    // Setup fs mocks
-    const mockFs = require('fs').promises
+    // Setup fs mocks using spyOn
+    vi.spyOn(fs.promises, 'readFile').mockImplementation(() => {
+      return Promise.resolve(JSON.stringify({
+        videoUrl: 'https://example.com/cached-video.mp4',
+        operationName: 'cached_operation',
+        localPath: '/tmp/video/cached-video.mp4',
+      }))
+    })
     
-    // Default behavior for access - file exists
-    mockFs.access.mockImplementation(() => Promise.resolve())
+    vi.spyOn(fs.promises, 'writeFile').mockImplementation(() => {
+      return Promise.resolve()
+    })
     
-    // Default behavior for mkdir - success
-    mockFs.mkdir.mockImplementation(() => Promise.resolve())
+    vi.spyOn(fs.promises, 'access').mockImplementation(() => {
+      return Promise.resolve()
+    })
     
-    // Default behavior for writeFile - success
-    mockFs.writeFile.mockImplementation(() => Promise.resolve())
+    vi.spyOn(fs.promises, 'mkdir').mockImplementation(() => {
+      return Promise.resolve()
+    })
+    
+    vi.spyOn(fs, 'existsSync').mockImplementation(() => true)
+    vi.spyOn(fs, 'createWriteStream').mockImplementation(() => ({
+      write: vi.fn(),
+      end: vi.fn(),
+      on: vi.fn().mockImplementation((event, callback) => {
+        if (event === 'finish') {
+          callback()
+        }
+        return { on: vi.fn() }
+      })
+    }))
   })
   
   afterEach(() => {
@@ -127,14 +124,13 @@ describe('video function', () => {
       }
       
       // Setup fs.readFile to return cached result
-      const mockFs = require('fs').promises
-      mockFs.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
+      vi.spyOn(fs.promises, 'readFile').mockResolvedValueOnce(JSON.stringify(cachedResult))
       
       const result = await video`${prompt}`
       
       expect(result).toEqual(cachedResult)
-      expect(mockFs.readFile).toHaveBeenCalled()
-      expect(mockFs.access).toHaveBeenCalled()
+      expect(fs.promises.readFile).toHaveBeenCalled()
+      expect(fs.promises.access).toHaveBeenCalled()
     })
     
     it('should regenerate when cached files are missing', async () => {
@@ -146,18 +142,17 @@ describe('video function', () => {
       }
       
       // Setup fs.readFile to return cached result
-      const mockFs = require('fs').promises
-      mockFs.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
+      vi.spyOn(fs.promises, 'readFile').mockResolvedValueOnce(JSON.stringify(cachedResult))
       
       // But access throws error indicating file doesn't exist
-      mockFs.access.mockRejectedValueOnce(new Error('File not found'))
+      vi.spyOn(fs.promises, 'access').mockRejectedValueOnce(new Error('File not found'))
       
       const result = await video`${prompt}`
       
       expect(result).not.toEqual(cachedResult)
       expect(result.videoUrl).toBe('https://example.com/video.mp4')
-      expect(mockFs.readFile).toHaveBeenCalled()
-      expect(mockFs.access).toHaveBeenCalled()
+      expect(fs.promises.readFile).toHaveBeenCalled()
+      expect(fs.promises.access).toHaveBeenCalled()
     })
   })
   
