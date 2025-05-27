@@ -1,42 +1,32 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { scrape, scrapeMultiple, ScrapedContent } from './scrape'
-import { createCacheMiddleware } from '../cacheMiddleware'
+import { scrape, scrapeMultiple } from './scrape'
 
-// Mock FirecrawlApp at the top level
+// Mock FirecrawlApp
 vi.mock('@mendable/firecrawl-js', () => {
-  // Create a mock class
-  class MockFirecrawlApp {
-    scrape = vi.fn().mockImplementation(async (url) => {
-      if (url.includes('error')) {
-        throw new Error('Scraping failed')
-      }
-      
-      const domain = new URL(url).hostname
-      
-      return {
-        url,
-        title: `Content from ${domain}`,
-        description: `Description from ${domain}`,
-        image: 'https://example.com/image.png',
-        markdown: '# Test Markdown\nThis is test content',
-      }
-    })
+  return {
+    default: vi.fn().mockImplementation(() => ({
+      scrape: vi.fn().mockImplementation(async (url) => {
+        if (url.includes('error')) {
+          throw new Error('Scraping failed')
+        }
+        
+        const domain = new URL(url).hostname
+        
+        return {
+          url,
+          title: `Content from ${domain}`,
+          description: `Description from ${domain}`,
+          image: 'https://example.com/image.png',
+          markdown: '# Test Markdown\nThis is test content',
+        }
+      })
+    }))
   }
-
-  // Create the mock constructor function that returns an instance
-  const FirecrawlAppMock = vi.fn().mockImplementation(() => new MockFirecrawlApp())
-  
-  // Set default property to the constructor itself
-  FirecrawlAppMock.default = FirecrawlAppMock
-  
-  return { default: FirecrawlAppMock }
 })
 
 // Create a mock for fs
-vi.mock('fs', async () => {
-  const actual = await vi.importActual('fs')
+vi.mock('fs', () => {
   return {
-    ...actual,
     readFile: vi.fn().mockImplementation((path, options, callback) => {
       if (typeof options === 'function') {
         options(null, JSON.stringify({ cached: true }))
@@ -63,12 +53,13 @@ vi.mock('fs', async () => {
       }
       return Promise.resolve()
     }),
+    existsSync: vi.fn().mockReturnValue(true)
   }
 })
 
-const originalEnv = { ...process.env }
-
 describe('scrape', () => {
+  const originalEnv = { ...process.env }
+
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
@@ -108,10 +99,9 @@ describe('scrape', () => {
   it('should handle scraping errors gracefully', async () => {
     // Mock FirecrawlApp for this test
     const FirecrawlApp = (await import('@mendable/firecrawl-js')).default
-    const mockScrape = vi.fn().mockRejectedValueOnce(new Error('Scraping failed'))
-    
-    // Create a spy on the prototype's scrape method
-    vi.spyOn(FirecrawlApp.prototype, 'scrape').mockImplementationOnce(mockScrape)
+    FirecrawlApp.mockImplementationOnce(() => ({
+      scrape: vi.fn().mockRejectedValueOnce(new Error('Scraping failed'))
+    }))
 
     const result = await scrape('https://example.com/error')
     
@@ -165,30 +155,25 @@ describe('scrapeMultiple', () => {
     // Mock FirecrawlApp for this test
     const FirecrawlApp = (await import('@mendable/firecrawl-js')).default
     
-    // Create spies for each call
-    const mockScrape1 = vi.fn().mockResolvedValueOnce({
-      url: urls[0],
-      title: 'Content from example.com',
-      description: 'Description from example.com',
-      image: 'https://example.com/image.png',
-      markdown: '# Test Markdown\nThis is test content',
-    })
-    
-    const mockScrape2 = vi.fn().mockRejectedValueOnce(new Error('Scraping failed'))
-    
-    const mockScrape3 = vi.fn().mockResolvedValueOnce({
-      url: urls[2],
-      title: 'Content from example.org',
-      description: 'Description from example.org',
-      image: 'https://example.org/image.png',
-      markdown: '# Test Markdown\nThis is test content from example.org',
-    })
-    
-    // Create a spy on the prototype's scrape method
-    vi.spyOn(FirecrawlApp.prototype, 'scrape')
-      .mockImplementationOnce(mockScrape1)
-      .mockImplementationOnce(mockScrape2)
-      .mockImplementationOnce(mockScrape3)
+    // Create a mock implementation that handles the three URLs differently
+    FirecrawlApp.mockImplementationOnce(() => ({
+      scrape: vi.fn()
+        .mockResolvedValueOnce({
+          url: urls[0],
+          title: 'Content from example.com',
+          description: 'Description from example.com',
+          image: 'https://example.com/image.png',
+          markdown: '# Test Markdown\nThis is test content',
+        })
+        .mockRejectedValueOnce(new Error('Scraping failed'))
+        .mockResolvedValueOnce({
+          url: urls[2],
+          title: 'Content from example.org',
+          description: 'Description from example.org',
+          image: 'https://example.org/image.png',
+          markdown: '# Test Markdown\nThis is test content from example.org',
+        })
+    }))
     
     const results = await scrapeMultiple(urls)
     
