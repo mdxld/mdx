@@ -370,33 +370,13 @@ export function inferAndValidateOutput(outputSchema: any, result: any): any {
  */
 async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, void, unknown> {
   try {
-    const result = await generateListStream(prompt)
-    let buffer = ''
-    const seenItems = new Set<string>()
-
-    for await (const chunk of result.textStream) {
-      buffer += chunk
-
-      const lines = buffer.split('\n')
-      for (const line of lines) {
-        const trimmedLine = line.trim()
-        if (/^\d+\./.test(trimmedLine)) {
-          const item = trimmedLine.replace(/^\d+\.\s*/, '').trim()
-          if (item && !seenItems.has(item)) {
-            seenItems.add(item)
-
-            try {
-              const parsedItem = JSON.parse(item)
-              if (typeof parsedItem === 'object' && parsedItem !== null) {
-                yield stringifyValue(parsedItem)
-                continue
-              }
-            } catch (e) {}
-
-            yield item
-          }
-        }
-      }
+    const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
+    
+    const allItems = await generateCompleteList(prompt)
+    
+    // Only yield the requested number of items
+    for (let i = 0; i < Math.min(maxItems, allItems.length); i++) {
+      yield allItems[i]
     }
   } catch (error) {
     console.error('Error in list async iterator:', error)
@@ -409,6 +389,8 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
  */
 async function generateCompleteList(prompt: string): Promise<string[]> {
   try {
+    const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
+    
     const result = await generateListStream(prompt)
     let completeContent = ''
 
@@ -430,7 +412,7 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
         .map((line) => line.replace(/^[-*•]\s*/, '').trim())
     }
 
-    return items.map((item) => {
+    const processedItems = items.map((item) => {
       try {
         const parsedItem = JSON.parse(item)
         if (typeof parsedItem === 'object' && parsedItem !== null) {
@@ -440,7 +422,9 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       } catch (e) {
         return item
       }
-    })
+    }).slice(0, maxItems) // Limit to maxItems
+
+    return processedItems
   } catch (error) {
     console.error('Error in generateCompleteList:', error)
     throw error
@@ -459,22 +443,33 @@ export const list = new Proxy(function () {}, {
     if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...expressions] = args
       const prompt = String.raw({ raw: template }, ...expressions)
+      
+      const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
 
-      const listFunction: any = () => generateCompleteList(prompt)
+      const listFunction: any = async () => {
+        const allItems = await generateCompleteList(prompt)
+        // Ensure we only return the requested number of items
+        return allItems.slice(0, maxItems)
+      }
 
       listFunction.then = (resolve: any, reject: any) => {
-        return generateCompleteList(prompt).then(resolve, reject)
+        return listFunction().then(resolve, reject)
       }
 
       listFunction.catch = (reject: any) => {
-        return generateCompleteList(prompt).catch(reject)
+        return listFunction().catch(reject)
       }
 
       listFunction.finally = (callback: any) => {
-        return generateCompleteList(prompt).finally(callback)
+        return listFunction().finally(callback)
       }
 
-      listFunction[Symbol.asyncIterator] = () => createListAsyncIterator(prompt)
+      listFunction[Symbol.asyncIterator] = async function* () {
+        const allItems = await listFunction()
+        for (let i = 0; i < allItems.length; i++) {
+          yield allItems[i]
+        }
+      }
 
       return listFunction
     }
