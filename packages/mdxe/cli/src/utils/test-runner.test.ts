@@ -31,7 +31,7 @@ import path from 'node:path'
 import type { CodeBlock } from './mdx-parser'
 import fs from 'node:fs/promises'
 import { extractMdxCodeBlocks } from './mdx-parser'
-import { createTempTestFile, runTests, cleanupTempFiles } from './test-runner'
+import { createTempTestFile, runTestsWithVitest, cleanupTempFiles, bundleCodeForTesting } from './test-runner'
 import * as util from 'node:util'
 import { exec } from 'node:child_process'
 
@@ -52,8 +52,8 @@ describe('test-runner', () => {
     mockExecAsync.mockResolvedValue({ stdout: 'Test passed', stderr: '' })
   })
 
-  describe('createTempTestFile', () => {
-    it('creates a temporary test file from code blocks', async () => {
+  describe('bundleCodeForTesting', () => {
+    it('bundles code blocks for testing', async () => {
       const codeBlocks: CodeBlock[] = [
         { lang: 'typescript', meta: null, value: 'const a = 1;' },
         { lang: 'typescript', meta: null, value: 'const b = 2;' },
@@ -61,9 +61,21 @@ describe('test-runner', () => {
       const testBlocks: CodeBlock[] = [
         { lang: 'typescript', meta: 'test', value: 'test("example", () => { expect(1).toBe(1); });' },
       ]
+
+      const result = await bundleCodeForTesting(codeBlocks, testBlocks)
+
+      expect(result).toContain('const a = 1;')
+      expect(result).toContain('const b = 2;')
+      expect(result).toContain('test("example"')
+    })
+  })
+
+  describe('createTempTestFile', () => {
+    it('creates a temporary test file from bundled code', async () => {
+      const bundledCode = 'const a = 1;\nconst b = 2;\ntest("example", () => { expect(1).toBe(1); });'
       const fileName = 'example.mdx'
 
-      const result = await createTempTestFile(codeBlocks, testBlocks, fileName)
+      const result = await createTempTestFile(bundledCode, fileName)
 
       expect(fs.mkdir).toHaveBeenCalledWith(expect.stringContaining('.mdxe'), { recursive: true })
       expect(fs.writeFile).toHaveBeenCalledWith(
@@ -75,9 +87,11 @@ describe('test-runner', () => {
     })
   })
 
-  describe('runTests', () => {
+  describe('runTestsWithVitest', () => {
     it('runs tests using Vitest', async () => {
-      const result = await runTests(['test1.ts', 'test2.ts'])
+      const bundledCode = 'const test = () => {}'
+      const filePath = 'test1.ts'
+      const result = await runTestsWithVitest(bundledCode, filePath)
 
       expect(mockExecAsync).toHaveBeenCalledWith(
         expect.stringContaining('npx vitest run --globals')
@@ -88,15 +102,20 @@ describe('test-runner', () => {
 
     it('handles test failures', async () => {
       mockExecAsync.mockResolvedValue({ stdout: 'FAIL Test failed', stderr: '' })
-
-      const result = await runTests(['test1.ts'])
+      const bundledCode = 'const test = () => {}'
+      const filePath = 'test1.ts'
+      
+      const result = await runTestsWithVitest(bundledCode, filePath)
 
       expect(result.success).toBe(false)
       expect(result.output).toContain('FAIL')
     })
 
     it('supports watch mode', async () => {
-      await runTests(['test1.ts'], true)
+      const bundledCode = 'const test = () => {}'
+      const filePath = 'test1.ts'
+      
+      await runTestsWithVitest(bundledCode, filePath, true)
 
       expect(mockExecAsync).toHaveBeenCalledWith(
         expect.stringContaining('--watch')
@@ -109,22 +128,22 @@ describe('test-runner', () => {
       error.stderr = 'Error stderr'
       
       mockExecAsync.mockRejectedValue(error)
-
-      const result = await runTests(['test1.ts'])
+      
+      const bundledCode = 'const test = () => {}'
+      const filePath = 'test1.ts'
+      
+      const result = await runTestsWithVitest(bundledCode, filePath)
 
       expect(result.success).toBe(false)
       expect(result.output).toContain('Error stdout')
     })
     
-    it('processes MDX files and creates temporary test files', async () => {
-      vi.mocked(extractMdxCodeBlocks).mockResolvedValue({
-        testBlocks: [{ lang: 'typescript', meta: 'test', value: 'test("example", () => {});' }],
-        codeBlocks: [{ lang: 'typescript', meta: null, value: 'const x = 1;' }]
-      })
+    it('processes bundled code and creates temporary test files', async () => {
+      const bundledCode = 'test("example", () => {});'
+      const filePath = 'test.mdx'
       
-      const result = await runTests(['test.mdx'])
+      const result = await runTestsWithVitest(bundledCode, filePath)
       
-      expect(extractMdxCodeBlocks).toHaveBeenCalledWith('test.mdx')
       expect(mockExecAsync).toHaveBeenCalledWith(
         expect.stringContaining('npx vitest run')
       )
