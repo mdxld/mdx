@@ -1,6 +1,7 @@
 {
   "name": "mdx",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "turbo run build",
     "build:packages": "turbo run build --filter=\"./packages/**\"",

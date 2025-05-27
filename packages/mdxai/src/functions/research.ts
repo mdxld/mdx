@@ -80,7 +80,7 @@ export const research = async (query: string) => {
     markdown +=
       dedent`
       <details id="${citationNumber}">
-        <summary>${summary}</summary>
+        <summary>${citation.title ? `**${citation.title}**` : citation.url}${citation.description ? `\n\n${citation.description}` : ''}</summary>
         ${citation.error ? `Error: ${citation.error}` : citation.markdown || 'No content available'}
       </details>
     ` + '\n\n'
