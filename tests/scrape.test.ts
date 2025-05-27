@@ -23,7 +23,6 @@ describe('scrape e2e', () => {
     if (result1.error) {
       // If there's an error (like insufficient credits), just verify error handling works
       expect(result1.error).toBeDefined()
-      expect(result1.html).toBeUndefined()
       expect(result1.markdown).toBeUndefined()
     } else {
       // If successful, verify content properties exist (might be empty due to API limitations)
@@ -94,10 +93,8 @@ describe('scrape e2e', () => {
     // Content should match what was returned (whether success or error)
     if (result.error) {
       expect(cacheContent).toContain('error:')
-    } else if (result.html) {
-      // expect(cacheContent).toContain('html:')
     } else {
-      // If no error and no html, the API returned empty content (which is valid)
+      // If no error, the API returned content (which might be empty but valid)
       expect(cacheContent).toContain('url:')
       expect(cacheContent).toContain('cachedAt:')
     }
@@ -121,7 +118,6 @@ describe('scrape e2e', () => {
     expect(result.url).toBe(url)
     expect(result.error).toBeDefined()
     // Don't check cached status since errors can also be cached
-    expect(result.html).toBeUndefined()
     // Markdown might be empty string or undefined for errors
     expect(result.markdown === undefined || result.markdown === '').toBe(true)
   }, 30000)
@@ -181,4 +177,4 @@ describe('scrape e2e', () => {
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
   }, 90000)
-}, 300000) // 5 minute timeout for the entire suite 
+}, 300000) // 5 minute timeout for the entire suite      

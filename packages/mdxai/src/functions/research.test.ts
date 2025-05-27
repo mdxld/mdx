@@ -37,10 +37,12 @@ vi.mock('ai', () => ({
 
 vi.mock('./scrape', () => ({
   scrape: vi.fn().mockImplementation((url) => {
+    const domain = new URL(url).hostname
+    
     return Promise.resolve({
       url,
-      title: 'Test Title',
-      description: 'Test Description',
+      title: `Content from ${domain}`,
+      description: `Description from ${domain}`,
       image: 'https://example.com/image.png',
       markdown: '# Test Markdown\nThis is test content',
       cached: false
