@@ -26,6 +26,17 @@ describe('Collection API', () => {
     })
     
     await simulateVeliteBuild(fixture.testDir)
+    
+    const fs = require('fs').promises
+    const path = require('path')
+    const configPath = path.join(fixture.testDir, 'velite.config.js')
+    try {
+      await fs.access(configPath)
+    } catch (error) {
+      console.warn('velite.config.js not found, recreating...')
+      await simulateVeliteBuild(fixture.testDir)
+    }
+    
     await db.build()
   }, TEST_TIMEOUT)
 

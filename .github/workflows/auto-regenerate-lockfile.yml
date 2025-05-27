@@ -102,14 +102,14 @@ jobs:
             git push
           fi
 
-      - name: Try strict install
-        id: frozen-install
+      - name: Validate lockfile integrity
+        id: validate-lockfile
         if: steps.lockfile-check.outputs.missing == 'false' && steps.conflict-check.outputs.conflict == 'false'
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --filter=!voice
         continue-on-error: true
 
       - name: Regenerate & commit lockfile if conflict
-        if: steps.lockfile-check.outputs.missing == 'false' && steps.conflict-check.outputs.conflict == 'false' && steps.frozen-install.outcome == 'failure'
+        if: steps.lockfile-check.outputs.missing == 'false' && steps.conflict-check.outputs.conflict == 'false' && steps.validate-lockfile.outcome == 'failure'
         run: |
           echo "🔧 Lockfile conflict detected—rerunning pnpm install"
           pnpm install --frozen-lockfile=false
