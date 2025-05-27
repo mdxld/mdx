@@ -2,7 +2,7 @@
 
 We can follow a disciplined entrepreneurship process to go from an idea to a startup, testing hundreds of ideas in parallel:
 
-```typescript
+```typescript exec
 on('idea.captured', async (idea) => {
   for await (const market of list`10 possible market segments for ${idea}`) {
     const marketResearch = await research`${market} in the context of delivering ${idea}`
@@ -22,6 +22,12 @@ on('idea.captured', async (idea) => {
     }
   }
 })
+```
+
+And how it's used:
+
+```typescript test
+send('idea.captured', 'deep research AI Agent')
 ```
 
 ## AI Integration Task List
