@@ -70,20 +70,20 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
       if (colonIndex > 0) {
         const key = line.slice(0, colonIndex).trim()
         const value = line.slice(colonIndex + 1).trim()
-        // Remove quotes if present and handle empty values
+        // Remove quotes if present and preserve empty strings
         const cleanValue = value.replace(/^["']|["']$/g, '')
-        frontmatter[key] = cleanValue === '' ? undefined : cleanValue
+        frontmatter[key] = cleanValue
       }
     })
     
     const cached: ScrapedContent = {
       url: frontmatter.url || url,
-      title: frontmatter.title,
-      description: frontmatter.description,
-      image: frontmatter.image,
-      html: frontmatter.html,
-      error: frontmatter.error,
-      markdown: markdown.trim(),
+      title: frontmatter.title || undefined,
+      description: frontmatter.description || undefined,
+      image: frontmatter.image || undefined,
+      html: frontmatter.html || undefined,
+      error: frontmatter.error || undefined,
+      markdown: markdown.trim() || undefined,
       cachedAt: frontmatter.cachedAt,
     }
     
@@ -114,19 +114,19 @@ const saveToCache = async (url: string, content: ScrapedContent): Promise<void> 
     const frontmatterLines = ['---']
     frontmatterLines.push(`url: "${content.url}"`)
     
-    if (content.title) {
+    if (content.title !== undefined) {
       frontmatterLines.push(`title: "${content.title.replace(/"/g, '\\"')}"`)
     }
-    if (content.description) {
+    if (content.description !== undefined) {
       frontmatterLines.push(`description: "${content.description.replace(/"/g, '\\"')}"`)
     }
-    if (content.image) {
+    if (content.image !== undefined) {
       frontmatterLines.push(`image: "${content.image}"`)
     }
-    if (content.html) {
+    if (content.html !== undefined) {
       frontmatterLines.push(`html: "${content.html.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`)
     }
-    if (content.error) {
+    if (content.error !== undefined) {
       frontmatterLines.push(`error: "${content.error.replace(/"/g, '\\"')}"`)
     }
     
@@ -164,11 +164,11 @@ export const scrape = async (url: string): Promise<ScrapedContent> => {
 
     const scrapedContent: ScrapedContent = {
       url,
-      title: response.data?.metadata?.title || response.data?.metadata?.ogTitle || '',
-      description: response.data?.metadata?.description || response.data?.metadata?.ogDescription || '',
-      image: response.data?.metadata?.ogImage || '',
-      markdown: response.data?.markdown || '',
-      html: response.data?.html || '',
+      title: response.metadata?.title || response.metadata?.ogTitle || '',
+      description: response.metadata?.description || response.metadata?.ogDescription || '',
+      image: response.metadata?.ogImage || '',
+      markdown: response.markdown || '',
+      html: response.html || '',
       cached: false,
     }
 
