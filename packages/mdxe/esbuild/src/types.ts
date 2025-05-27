@@ -5,7 +5,16 @@
 import React from 'react'
 
 /**
- * Represents an MDX content item with frontmatter, raw markdown, and compiled component
+ * Represents a code block extracted from MDX content
+ */
+export interface CodeBlock {
+  lang: string
+  meta: string | null
+  value: string
+}
+
+/**
+ * Represents an MDX content item with frontmatter, raw markdown, compiled component, and executable code blocks
  */
 export interface MdxContentItem {
   /** Frontmatter data extracted from the MDX file */
@@ -14,6 +23,10 @@ export interface MdxContentItem {
   markdown: string
   /** Compiled React component */
   default: (props?: any) => React.ReactElement
+  /** Executable code blocks extracted from the MDX file */
+  code: CodeBlock[]
+  /** Test code blocks extracted from the MDX file */
+  test: CodeBlock[]
   /** Any other named exports from the MDX file */
   [key: string]: any
 }
@@ -39,4 +52,6 @@ export interface MdxeBuildOptions {
   rehypePlugins?: any[]
   /** Whether to watch for file changes */
   watch?: boolean
+  /** Whether to extract and bundle executable code blocks */
+  extractCodeBlocks?: boolean
 }

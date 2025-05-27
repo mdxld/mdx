@@ -8,9 +8,12 @@ An esbuild plugin that processes MDX files and exports them with frontmatter, ra
   - `data` (frontmatter)
   - `markdown` (raw source)
   - `default` (the compiled React component)
+  - `code` (executable TypeScript/JavaScript code blocks)
+  - `test` (test code blocks)
   - any other named exports
 - Aggregates them into one `dist/content.mjs` module under TitleCased keys
 - Uses Remark (with GFM and frontmatter plugins) and the `@mdx-js/esbuild` plugin
+- Extracts and categorizes code blocks for execution engines
 
 ## Installation
 
@@ -63,10 +66,10 @@ esbuild.build({
   bundle: true,
   outfile: 'dist/bundle.js',
   plugins: [
-    mdxePlugin({
-      contentDir: './content',
-      outFile: './dist/content.mjs',
-    }),
+      mdxePlugin({
+    contentDir: './content',
+    outFile: './dist/content.mjs',
+  }),
   ],
 })
 ```
@@ -113,6 +116,58 @@ if (!page) {
 }
 
 render(React.createElement(page.default))
+
+## Code Block Extraction
+
+By default, the plugin extracts and categorizes TypeScript/JavaScript code blocks from your MDX files:
+
+### Executable Code Blocks
+
+Code blocks marked with `exec`, `execute`, or no metadata are treated as executable:
+
+```mdx
+\`\`\`typescript exec
+on('idea.captured', async (idea) => {
+  console.log('Processing idea:', idea)
+})
+\`\`\`
+
+\`\`\`javascript
+// Default executable block
+function processData(data) {
+  return data.map(item => item.value)
+}
+\`\`\`
+```
+
+### Test Code Blocks
+
+Code blocks marked with `test` are categorized separately:
+
+```mdx
+\`\`\`typescript test
+send('idea.captured', 'test idea')
+expect(result).toBe('processed')
+\`\`\`
+```
+
+### Accessing Code Blocks
+
+```js
+import content from './dist/content.mjs'
+
+const page = content.MyPage
+
+// Access executable code blocks
+page.code.forEach(block => {
+  console.log(`${block.lang} block:`, block.value)
+})
+
+// Access test code blocks
+page.test.forEach(block => {
+  console.log(`Test block:`, block.value)
+})
+```
 ```
 
 ## API
@@ -128,6 +183,7 @@ Builds MDX content into a single ESM bundle.
 - `remarkPlugins` - Custom remark plugins to use in addition to the defaults
 - `rehypePlugins` - Custom rehype plugins to use
 - `watch` - Whether to watch for file changes (default: `false`)
+- `extractCodeBlocks` - Whether to extract and bundle executable code blocks (default: `true`)
 
 ### mdxePlugin(options)
 

@@ -1,4 +1,4 @@
-import { buildMdxContent } from '../../dist/index.js'
+import { buildMdxContent } from '@mdxe/esbuild'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 

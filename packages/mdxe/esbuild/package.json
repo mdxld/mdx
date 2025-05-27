@@ -9,7 +9,11 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0", 
     "remark-gfm": "^4.0.0",
-    "fast-glob": "^3.3.0"
+    "fast-glob": "^3.3.0",
+    "unified": "^11.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-mdx": "^3.0.0",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@repo/tsup-config": "workspace:*",
