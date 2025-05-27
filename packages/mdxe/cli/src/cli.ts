@@ -30,9 +30,14 @@ export async function run() {
   } else if (command === 'start') {
     return runStartCommand(cwd)
   } else if (command === 'test') {
-    const testFiles = args.slice(1).filter(arg => !arg.startsWith('--'))
+    let testFiles = args.slice(1).filter(arg => !arg.startsWith('--'))
     const watch = args.includes('--watch')
     const { runTests } = await import('./utils/test-runner')
+    
+    if (testFiles.length === 0) {
+      testFiles = await findMdxFiles(cwd)
+    }
+    
     const result = await runTests(testFiles, watch)
     if (!result.success) {
       console.error(result.output)
