@@ -9,7 +9,6 @@ export interface ScrapedContent {
   description?: string
   image?: string
   markdown?: string
-  // html?: string
   error?: string
   cached?: boolean
   cachedAt?: string
@@ -81,7 +80,6 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
       title: frontmatter.title || undefined,
       description: frontmatter.description || undefined,
       image: frontmatter.image || undefined,
-      // html: frontmatter.html || undefined,
       error: frontmatter.error || undefined,
       markdown: markdown.trim() || undefined,
       cachedAt: frontmatter.cachedAt,
@@ -123,9 +121,7 @@ const saveToCache = async (url: string, content: ScrapedContent): Promise<void> 
     if (content.image !== undefined) {
       frontmatterLines.push(`image: "${content.image}"`)
     }
-    // if (content.html !== undefined) {
-    //   frontmatterLines.push(`html: "${content.html.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`)
-    // }
+
     if (content.error !== undefined) {
       frontmatterLines.push(`error: "${content.error.replace(/"/g, '\\"')}"`)
     }
@@ -184,7 +180,6 @@ export const scrape = async (url: string): Promise<ScrapedContent> => {
       description: response.data?.metadata?.description || '',
       image: response.data?.metadata?.ogImage || '',
       markdown: response.data?.markdown || '',
-      // html: response.data?.html || '',
       cached: false,
     }
 
@@ -236,4 +231,4 @@ export const scrapeMultiple = async (
   }
 
   return results
-}                                                                                                                                                
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
