@@ -17,6 +17,7 @@ const cacheMiddleware = createCacheMiddleware({
   memoryCache: true,
 })
 
+// Create mock functions without using vi.mock or vi.spyOn
 const generateTextSpy = vi.fn().mockResolvedValue({
   text: 'This is a test response with citation [1] and another citation [2].',
   response: {
@@ -32,9 +33,11 @@ const generateTextSpy = vi.fn().mockResolvedValue({
     },
   },
 })
-vi.spyOn(ai, 'generateText').mockImplementation((...args) => generateTextSpy(...args))
 
+// Store original function
+const originalGenerateText = ai.generateText
 
+// Create mock functions without using vi.spyOn
 const scrapeSpy = vi.fn().mockImplementation((url) => {
   const domain = new URL(url).hostname
   
@@ -47,18 +50,28 @@ const scrapeSpy = vi.fn().mockImplementation((url) => {
     cached: false
   })
 })
-vi.spyOn(scrapeModule, 'scrape').mockImplementation((...args) => scrapeSpy(...args))
+
+// Store original function
+const originalScrape = scrapeModule.scrape
 
 describe('research (mocked)', () => {
   beforeEach(() => {
     process.env.AI_GATEWAY_TOKEN = 'mock-token'
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
+    
+    // Replace functions with mocks before each test
+    Object.defineProperty(ai, 'generateText', { value: generateTextSpy, writable: true, configurable: true })
+    Object.defineProperty(scrapeModule, 'scrape', { value: scrapeSpy, writable: true, configurable: true })
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
     vi.clearAllMocks()
+    
+    // Restore original functions after each test
+    Object.defineProperty(ai, 'generateText', { value: originalGenerateText, writable: true, configurable: true })
+    Object.defineProperty(scrapeModule, 'scrape', { value: originalScrape, writable: true, configurable: true })
   })
 
   it('should process citations and create enhanced markdown', async () => {
@@ -101,6 +114,10 @@ describe('research e2e', () => {
     
     process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
+    
+    // Restore original functions for e2e tests
+    Object.defineProperty(ai, 'generateText', { value: originalGenerateText, writable: true, configurable: true })
+    Object.defineProperty(scrapeModule, 'scrape', { value: originalScrape, writable: true, configurable: true })
   })
 
   afterEach(() => {
@@ -167,8 +184,10 @@ describe('research e2e', () => {
       return
     }
 
-    const originalSpy = generateTextSpy
+    // Store original function
+    const originalGenerateText = ai.generateText
     
+    // Create a custom mock for this test
     const customSpy = vi.fn().mockResolvedValueOnce({
       text: 'This is a test response with invalid citation [1].',
       response: {
@@ -185,7 +204,8 @@ describe('research e2e', () => {
       },
     } as any)
     
-    vi.spyOn(ai, 'generateText').mockImplementation(() => customSpy())
+    // Replace function with mock
+    Object.defineProperty(ai, 'generateText', { value: customSpy, writable: true, configurable: true })
     
     const query = 'Test with invalid citation URL'
     const result = await research(query)
@@ -199,6 +219,7 @@ describe('research e2e', () => {
     
     expect(Array.isArray(result.scrapedCitations)).toBe(true)
     
-    vi.spyOn(ai, 'generateText').mockImplementation(() => originalSpy())
+    // Restore original function
+    Object.defineProperty(ai, 'generateText', { value: originalGenerateText, writable: true, configurable: true })
   }, 30000)
 })

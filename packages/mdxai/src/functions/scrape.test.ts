@@ -146,11 +146,12 @@ This is test markdown content.`
     getCacheWarnings: vi.fn()
 })
 
+// Store original function
+const originalDefault = firecrawlModule.default
+
 const mockFirecrawl = vi.fn().mockImplementation((config) => {
   return createMockFirecrawlApp(config);
 });
-vi.spyOn(firecrawlModule, 'default').mockImplementation(mockFirecrawl);
-
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache')
 
@@ -172,6 +173,14 @@ describe('scrape', () => {
     // Ensure we're in test mode for mocked tests
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
+    
+    // Replace function with mock
+    Object.defineProperty(firecrawlModule, 'default', { value: mockFirecrawl, writable: true, configurable: true })
+  })
+  
+  afterEach(() => {
+    // Restore original function
+    Object.defineProperty(firecrawlModule, 'default', { value: originalDefault, writable: true, configurable: true })
   })
 
   it('should scrape a URL and return content', async () => {
@@ -201,23 +210,20 @@ describe('scrape', () => {
   })
 
   it('should handle scraping errors gracefully', async () => {
-    // Mock FirecrawlApp to return an error
-    const { default: FirecrawlApp } = await import('@mendable/firecrawl-js')
-    
     // Create a new mock that returns an error by reusing the same mock factory
     // but overriding the scrapeUrl method to return an error
-    vi.mocked(FirecrawlApp).mockImplementationOnce((config = {}) => {
-      // Get the base mock implementation
-      const mockApp = createMockFirecrawlApp(config);
-      
-      // Override the scrapeUrl method to return an error
-      mockApp.scrapeUrl = vi.fn().mockResolvedValue({
-        success: false,
-        error: 'Failed to scrape',
-      });
-      
-      return mockApp as any;
-    })
+    const errorMockApp = createMockFirecrawlApp();
+    
+    // Override the scrapeUrl method to return an error
+    errorMockApp.scrapeUrl = vi.fn().mockResolvedValue({
+      success: false,
+      error: 'Failed to scrape',
+    });
+    
+    const errorMockFirecrawl = vi.fn().mockReturnValueOnce(errorMockApp);
+    
+    // Replace function with error mock
+    Object.defineProperty(firecrawlModule, 'default', { value: errorMockFirecrawl, writable: true, configurable: true })
 
     const result = await scrape('https://example.com/error')
 
@@ -226,6 +232,9 @@ describe('scrape', () => {
       error: 'Failed to scrape: Failed to scrape',
       // Don't check cached status since errors can also be cached
     })
+    
+    // Restore normal mock
+    Object.defineProperty(firecrawlModule, 'default', { value: mockFirecrawl, writable: true, configurable: true })
   })
 
   it('should scrape multiple URLs', async () => {
@@ -284,6 +293,9 @@ describe('scrape e2e', () => {
     vi.resetModules()
     vi.doUnmock('@mendable/firecrawl-js')
     process.env.NODE_ENV = 'development'
+    
+    // Restore original function for e2e tests
+    Object.defineProperty(firecrawlModule, 'default', { value: originalDefault, writable: true, configurable: true })
     
     if (!process.env.FIRECRAWL_API_KEY) {
       console.log('Skipping scrape e2e test: FIRECRAWL_API_KEY not set')
@@ -421,4 +433,4 @@ describe('scrape e2e', () => {
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
   }, 90000)
-})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+})
