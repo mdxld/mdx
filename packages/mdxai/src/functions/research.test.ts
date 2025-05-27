@@ -35,29 +35,21 @@ vi.mock('ai', () => ({
   model: vi.fn().mockReturnValue('mock-model'),
 }))
 
-vi.mock('@mendable/firecrawl-js', () => {
-  return {
-    default: vi.fn().mockImplementation((config) => {
-      if (process.env.NODE_ENV === 'test') {
-        return {
-          scrapeUrl: vi.fn().mockResolvedValue({
-            success: true,
-            data: {
-              markdown: '# Test Markdown\nThis is test content',
-              html: '<h1>Test HTML</h1><p>This is test content</p>',
-              metadata: {
-                title: 'Test Title',
-                description: 'Test Description',
-                ogImage: 'https://example.com/image.png',
-              },
-            },
-          }),
-        };
-      }
-      return vi.importActual('@mendable/firecrawl-js').then((mod: any) => mod.default(config));
-    }),
-  }
-})
+vi.mock('./scrape', () => ({
+  scrape: vi.fn().mockImplementation((url) => {
+    const domain = new URL(url).hostname
+    
+    return Promise.resolve({
+      url,
+      title: `Content from ${domain}`,
+      description: `Description from ${domain}`,
+      image: 'https://example.com/image.png',
+      markdown: '# Test Markdown\nThis is test content',
+      cached: false
+    })
+  }),
+  ScrapedContent: class {}
+}))
 
 describe('research (mocked)', () => {
   beforeEach(() => {
