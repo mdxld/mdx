@@ -4,6 +4,14 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import * as aiModule from 'ai'
 import yaml from 'yaml'
+import { createCacheMiddleware } from './cacheMiddleware'
+
+const cacheMiddleware = createCacheMiddleware({
+  ttl: 24 * 60 * 60 * 1000, // 24 hours
+  maxSize: 100,
+  persistentCache: true,
+  memoryCache: true,
+})
 
 type MockGrayMatterFile = {
   data: Record<string, any>
@@ -129,7 +137,7 @@ vi.mock('yaml', () => {
   }
 })
 
-describe('AI Handler', () => {
+describe('AI Handler (mocked)', () => {
   const originalEnv = { ...process.env }
   const mockSystemPrompt = 'You are a helpful assistant. ${prompt}'
   const mockFrontmatter = {
@@ -389,6 +397,72 @@ describe('AI Handler', () => {
       expect(yaml.stringify).toBeDefined()
     })
   })
+})
+
+describe('AI Handler e2e', () => {
+  const originalEnv = { ...process.env }
+
+  beforeEach(() => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      console.log('Skipping AI Handler e2e test: OPENAI_API_KEY or AI_GATEWAY_TOKEN not set')
+      return
+    }
+    
+    process.env.NODE_ENV = 'development'
+    vi.clearAllMocks()
+    
+    vi.mocked(fs.readFileSync).mockReturnValue('mock file content')
+    vi.mocked(matter).mockImplementation(() => 
+      createMockGrayMatterFile({ output: 'string' }, 'You are a helpful assistant. ${prompt}')
+    )
+  })
+
+  afterEach(() => {
+    process.env = { ...originalEnv }
+  })
+
+  it('should generate text using real API with caching', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const originalStreamText = vi.mocked(aiModule.streamText)
+    vi.doUnmock('ai')
+    
+    const result1 = await ai`Write a short greeting`
+    
+    expect(result1).toBeDefined()
+    expect(typeof result1).toBe('string')
+    expect(result1.length).toBeGreaterThan(0)
+    
+    const result2 = await ai`Write a short greeting`
+    
+    expect(result2).toBeDefined()
+    expect(typeof result2).toBe('string')
+    expect(result2).toBe(result1)
+    
+    vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
+  }, 30000)
+
+  it('should handle errors gracefully with real API', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const originalStreamText = vi.mocked(aiModule.streamText)
+    vi.doUnmock('ai')
+    
+    try {
+      const result = await ai``
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    } catch (error: any) {
+      expect(error.message).toBeDefined()
+    }
+    
+    vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
+  }, 30000)
 })
 
 describe('extract function integration', () => {

@@ -1,5 +1,13 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { extract } from './extract'
+import { createCacheMiddleware } from '../cacheMiddleware'
+
+const cacheMiddleware = createCacheMiddleware({
+  ttl: 24 * 60 * 60 * 1000, // 24 hours
+  maxSize: 100,
+  persistentCache: true,
+  memoryCache: true,
+})
 
 vi.mock('../ai.js', () => ({
   model: vi.fn().mockReturnValue('mock-model'),
@@ -22,7 +30,7 @@ vi.mock('ai', () => ({
   }),
 }))
 
-describe('extract function', () => {
+describe('extract function (mocked)', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
@@ -143,4 +151,117 @@ describe('extract function', () => {
       expect(typeof result.finally).toBe('function')
     })
   })
+})
+
+describe('extract function e2e', () => {
+  const originalEnv = { ...process.env }
+
+  beforeEach(() => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      console.log('Skipping extract e2e test: OPENAI_API_KEY or AI_GATEWAY_TOKEN not set')
+      return
+    }
+    
+    process.env.NODE_ENV = 'development'
+    vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    process.env = { ...originalEnv }
+  })
+
+  it('should extract entities from text using real API with caching', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const text = 'Apple Inc. was founded by Steve Jobs in California'
+    
+    const result1 = await extract`Extract all entities from: ${text}`
+    
+    expect(Array.isArray(result1)).toBe(true)
+    expect(result1.length).toBeGreaterThan(0)
+    expect(result1).toContain('Apple Inc.')
+    expect(result1).toContain('Steve Jobs')
+    expect(result1).toContain('California')
+    
+    const result2 = await extract`Extract all entities from: ${text}`
+    
+    expect(Array.isArray(result2)).toBe(true)
+    expect(result2).toEqual(result1)
+  }, 30000)
+
+  it('should extract data according to schema using real API with caching', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const description = 'iPhone 15 Pro costs $999 with features like ProRAW and Cinematic mode'
+    
+    const result1 = await extract`Extract product details from: ${description}`.withSchema({
+      name: 'string',
+      price: 'number',
+      features: 'array',
+    })
+    
+    expect(typeof result1).toBe('object')
+    expect(result1).toHaveProperty('name')
+    expect(result1.name).toContain('iPhone')
+    expect(result1).toHaveProperty('price')
+    expect(typeof result1.price).toBe('number')
+    expect(result1).toHaveProperty('features')
+    expect(Array.isArray(result1.features)).toBe(true)
+    expect(result1.features.length).toBeGreaterThan(0)
+    
+    const result2 = await extract`Extract product details from: ${description}`.withSchema({
+      name: 'string',
+      price: 'number',
+      features: 'array',
+    })
+    
+    expect(result2).toEqual(result1)
+  }, 30000)
+
+  it('should handle errors gracefully with real API', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const text = ''
+    
+    try {
+      const result = await extract`Extract entities from: ${text}`
+      
+      if (Array.isArray(result)) {
+        expect(result.length).toBeLessThanOrEqual(1)
+      } else {
+        expect(typeof result).toBe('string')
+      }
+    } catch (error: any) {
+      expect(error.message).toContain('Failed to extract data')
+    }
+  }, 30000)
+
+  it('should extract different types of data using real API', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const text = 'The meeting with John Smith is on January 15th, 2024 at 3 PM. The budget is $5,000.'
+    
+    const dates = await extract`Extract all dates from: ${text}`.asType('date')
+    expect(Array.isArray(dates)).toBe(true)
+    expect(dates.length).toBeGreaterThan(0)
+    expect(dates.some((date: string) => date.includes('January') || date.includes('2024'))).toBe(true)
+    
+    const numbers = await extract`Extract all numbers from: ${text}`.asType('number')
+    expect(Array.isArray(numbers)).toBe(true)
+    expect(numbers.length).toBeGreaterThan(0)
+    expect(numbers.some((num: string) => num.includes('5,000') || num.includes('3'))).toBe(true)
+    
+    const entities = await extract`Extract all entities from: ${text}`.asType('entity')
+    expect(Array.isArray(entities)).toBe(true)
+    expect(entities.length).toBeGreaterThan(0)
+    expect(entities.some((entity: string) => entity.includes('John Smith'))).toBe(true)
+  }, 60000)
 })

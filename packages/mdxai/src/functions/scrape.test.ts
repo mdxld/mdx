@@ -125,7 +125,7 @@ const createMockFirecrawlApp = (config = {}) => ({
     getCacheWarnings: vi.fn()
 })
 
-// Mock FirecrawlApp
+// Mock FirecrawlApp for unit tests
 vi.mock('@mendable/firecrawl-js', () => {
   return {
     default: vi.fn().mockImplementation((config) => {
@@ -256,4 +256,127 @@ describe('scrape', () => {
     
     expect(cacheExists).toBe(true)
   })
-})                      
+})
+
+describe('scrape e2e', () => {
+  beforeEach(() => {
+    if (!process.env.FIRECRAWL_API_KEY) {
+      console.log('Skipping scrape e2e test: FIRECRAWL_API_KEY not set')
+      return
+    }
+  })
+
+  it('should scrape a real URL and cache the result', async () => {
+    if (!process.env.FIRECRAWL_API_KEY) {
+      return
+    }
+
+    const url = 'https://httpbin.org/html'
+    
+    // First scrape - might be cached from previous tests
+    const result1 = await scrape(url)
+    
+    expect(result1.url).toBe(url)
+    // Don't check cached status since it might be cached from previous tests
+    
+    if (result1.error) {
+      expect(result1.error).toBeDefined()
+      expect(result1.html).toBeUndefined()
+      expect(result1.markdown).toBeUndefined()
+    } else {
+      expect(result1).toHaveProperty('html')
+      expect(result1).toHaveProperty('markdown')
+      expect(result1.error).toBeUndefined()
+    }
+    
+    // Second scrape - should return cached content (whether success or error)
+    const result2 = await scrape(url)
+    
+    expect(result2.url).toBe(url)
+    expect(result2.cached).toBe(true)
+    expect(result2.html).toBe(result1.html)
+    expect(result2.markdown).toBe(result1.markdown)
+    expect(result2.error).toBe(result1.error)
+  }, 30000)
+
+  it('should handle multiple URLs with caching', async () => {
+    if (!process.env.FIRECRAWL_API_KEY) {
+      return
+    }
+
+    const urls = [
+      'https://httpbin.org/html',
+      'https://httpbin.org/json',
+    ]
+
+    const progressCalls: Array<{ index: number; url: string; cached: boolean }> = []
+    
+    // First batch - might be cached from previous tests
+    const results1 = await scrapeMultiple(urls, (index, url, result) => {
+      progressCalls.push({ index, url, cached: result.cached || false })
+    })
+
+    expect(results1).toHaveLength(2)
+    expect(progressCalls).toHaveLength(2)
+    // Don't check cached status since URLs might be cached from previous tests
+    
+    progressCalls.length = 0
+    
+    // Second batch - should return cached content
+    const results2 = await scrapeMultiple(urls, (index, url, result) => {
+      progressCalls.push({ index, url, cached: result.cached || false })
+    })
+
+    expect(results2).toHaveLength(2)
+    expect(progressCalls).toHaveLength(2)
+    expect(progressCalls.every(call => call.cached)).toBe(true)
+  }, 60000)
+
+  it('should handle scraping errors gracefully with real API', async () => {
+    if (!process.env.FIRECRAWL_API_KEY) {
+      return
+    }
+
+    const url = 'https://this-domain-should-not-exist-12345.com'
+    
+    const result = await scrape(url)
+    
+    expect(result.url).toBe(url)
+    expect(result.error).toBeDefined()
+    // Don't check cached status since errors can also be cached
+    expect(result.html).toBeUndefined()
+    expect(result.markdown === undefined || result.markdown === '').toBe(true)
+  }, 30000)
+
+  it('should respect cache TTL and refresh stale content', async () => {
+    if (!process.env.FIRECRAWL_API_KEY) {
+      return
+    }
+
+    const url = 'https://httpbin.org/html'
+    
+    // First scrape (might be cached from previous tests)
+    const result1 = await scrape(url)
+    
+    const cacheFile = path.join(testCacheDir, 'httpbin.org_html.md')
+    const cacheContent = await fs.readFile(cacheFile, 'utf-8')
+    
+    const oldTime = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString()
+    const updatedContent = cacheContent.replace(
+      /cachedAt: ".*"/,
+      `cachedAt: "${oldTime}"`
+    )
+    
+    await fs.writeFile(cacheFile, updatedContent)
+    
+    // Second scrape should refresh the cache
+    const result2 = await scrape(url)
+    expect(result2.cached).toBe(false) // Should be fresh, not cached
+    
+    // Verify cache was updated
+    const updatedCache = await fs.readFile(cacheFile, 'utf-8')
+    const cachedAtMatch = updatedCache.match(/cachedAt: "(.*)"/)?.[1]
+    expect(cachedAtMatch).toBeDefined()
+    expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
+  }, 90000)
+})                                            
