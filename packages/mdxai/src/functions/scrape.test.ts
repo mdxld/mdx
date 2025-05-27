@@ -18,7 +18,6 @@ url: "${url}"
 title: "Test Title"
 description: "Test Description"
 image: "https://example.com/image.jpg"
-html: "<h1>Test Content</h1><p>This is test HTML content.</p>"
 cachedAt: "${new Date().toISOString()}"
 ---
 
@@ -39,7 +38,6 @@ This is test markdown content.`
           ogImage: 'https://example.com/image.jpg',
         },
         markdown: '# Test Content\n\nThis is test markdown content.',
-        html: '<h1>Test Content</h1><p>This is test HTML content.</p>',
       })
     }),
     
@@ -270,7 +268,6 @@ url: "${url}"
 title: "Test Title"
 description: "Test Description"
 image: "https://example.com/image.jpg"
-html: "<h1>Test Content</h1><p>This is test HTML content.</p>"
 cachedAt: "${new Date().toISOString()}"
 ---
 
@@ -427,4 +424,4 @@ describe('scrape e2e', () => {
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
   }, 90000)
-})                                                                                                                                                                                                                                                                                                                    
+})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
