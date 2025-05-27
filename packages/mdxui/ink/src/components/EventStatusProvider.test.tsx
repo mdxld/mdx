@@ -2,16 +2,18 @@ import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { EventStatusProvider, useEventStatus } from './EventStatusProvider'
 
-const originalUseContext = React.useContext
-
-const useContextSpy = vi.fn().mockImplementation((context) => {
-  if (context.displayName === 'EventStatusContext') {
-    return undefined
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react')
+  return {
+    ...(actual as any),
+    useContext: vi.fn().mockImplementation((context) => {
+      if (context.displayName === 'EventStatusContext') {
+        throw new Error('useEventStatus must be used within an EventStatusProvider')
+      }
+      return (actual as any).useContext(context)
+    }),
   }
-  return originalUseContext(context)
 })
-
-vi.spyOn(React, 'useContext').mockImplementation(useContextSpy)
 
 const TestComponent = ({ triggerUpdate }: { triggerUpdate?: () => void }) => {
   const { addEvent } = useEventStatus()
