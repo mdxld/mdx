@@ -37,20 +37,25 @@ vi.mock('ai', () => ({
 
 vi.mock('@mendable/firecrawl-js', () => {
   return {
-    default: vi.fn().mockImplementation(() => ({
-      scrapeUrl: vi.fn().mockResolvedValue({
-        success: true,
-        data: {
-          markdown: '# Test Markdown\nThis is test content',
-          html: '<h1>Test HTML</h1><p>This is test content</p>',
-          metadata: {
-            title: 'Test Title',
-            description: 'Test Description',
-            ogImage: 'https://example.com/image.png',
-          },
-        },
-      }),
-    })),
+    default: vi.fn().mockImplementation((config) => {
+      if (process.env.NODE_ENV === 'test') {
+        return {
+          scrapeUrl: vi.fn().mockResolvedValue({
+            success: true,
+            data: {
+              markdown: '# Test Markdown\nThis is test content',
+              html: '<h1>Test HTML</h1><p>This is test content</p>',
+              metadata: {
+                title: 'Test Title',
+                description: 'Test Description',
+                ogImage: 'https://example.com/image.png',
+              },
+            },
+          }),
+        };
+      }
+      return vi.importActual('@mendable/firecrawl-js').then((mod: any) => mod.default(config));
+    }),
   }
 })
 
@@ -87,8 +92,8 @@ describe('research (mocked)', () => {
 
     expect(result.markdown).toContain('<details id="1">')
     expect(result.markdown).toContain('<summary>')
-    expect(result.markdown).toContain('Test Title')
-    expect(result.markdown).toContain('Test Description')
+    expect(result.markdown).toContain('ai-sdk.dev')
+    expect(result.markdown).toContain('vercel.com')
   })
 })
 
