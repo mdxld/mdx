@@ -27,24 +27,20 @@ vi.mock('ai', () => ({
   model: vi.fn().mockReturnValue('mock-model'),
 }))
 
-vi.mock('@mendable/firecrawl-js', () => {
-  return {
-    default: vi.fn().mockImplementation(() => ({
-      scrapeUrl: vi.fn().mockResolvedValue({
-        success: true,
-        data: {
-          markdown: '# Test Markdown\nThis is test content',
-          html: '<h1>Test HTML</h1><p>This is test content</p>',
-          metadata: {
-            title: 'Test Title',
-            description: 'Test Description',
-            ogImage: 'https://example.com/image.png',
-          },
-        },
-      }),
-    })),
-  }
-})
+vi.mock('./scrape', () => ({
+  scrape: vi.fn().mockImplementation((url) => {
+    return Promise.resolve({
+      url,
+      title: 'Test Title',
+      description: 'Test Description',
+      image: 'https://example.com/image.png',
+      markdown: '# Test Markdown\nThis is test content',
+      html: '<h1>Test HTML</h1><p>This is test content</p>',
+      cached: false
+    })
+  }),
+  ScrapedContent: class {}
+}))
 
 describe('research', () => {
   beforeEach(() => {
