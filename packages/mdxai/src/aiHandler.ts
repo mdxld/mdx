@@ -2,6 +2,9 @@ import { streamText, streamObject } from 'ai'
 import { z } from 'zod'
 import matter from 'gray-matter'
 import fs from 'fs'
+import path from 'path'
+import { GoogleGenAI } from '@google/genai'
+import wav from 'wav'
 import { model } from './ai.js'
 import { research as researchFunction } from './functions/research.js'
 import {
@@ -14,8 +17,10 @@ import {
   createAiFunctionVersion,
   listAiFunctionVersions,
   AI_FOLDER_STRUCTURE,
+  ensureDirectoryExists,
 } from './utils.js'
-import { generateListStream } from './llmService.js'
+import hash from 'object-hash'
+import { generateListStream, generateImageStream } from './llmService.js'
 import yaml from 'yaml'
 
 /**
@@ -584,5 +589,195 @@ export const research = new Proxy(researchFunction_, {
     }
 
     throw new Error('Research function must be called as a template literal')
+  },
+})
+
+/**
+ * Save audio buffer as WAV file
+ */
+async function saveWaveFile(
+  filename: string,
+  pcmData: Buffer,
+  channels = 1,
+  rate = 24000,
+  sampleWidth = 2,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const writer = new wav.FileWriter(filename, {
+      channels,
+      sampleRate: rate,
+      bitDepth: sampleWidth * 8,
+    })
+
+    writer.on('finish', () => resolve())
+    writer.on('error', (error) => reject(error))
+
+    writer.write(pcmData)
+    writer.end()
+  })
+}
+
+/**
+ * Generate audio using Google Gemini TTS
+ */
+async function generateSpeechAudio(text: string, options: { voiceName?: string; apiKey?: string } = {}): Promise<string> {
+  if (process.env.NODE_ENV === 'test') {
+    return 'mock-audio-file.wav'
+  }
+
+  const apiKey = options.apiKey || process.env.GEMINI_API_KEY
+  if (!apiKey) {
+    throw new Error('GEMINI_API_KEY environment variable is not set')
+  }
+
+  const ai = new GoogleGenAI({ apiKey })
+
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash-preview-tts",
+    contents: [{ parts: [{ text }] }],
+    config: {
+      responseModalities: ['AUDIO'],
+      speechConfig: {
+        voiceConfig: {
+          prebuiltVoiceConfig: { voiceName: options.voiceName || 'Kore' },
+        },
+      },
+    },
+  })
+
+  const data = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data
+  if (!data) {
+    throw new Error('No audio data received from Google GenAI')
+  }
+
+  const audioBuffer = Buffer.from(data, 'base64')
+  
+  const cacheKey = hash({ text, voiceName: options.voiceName || 'Kore' })
+  const cacheDir = path.join(process.cwd(), AI_FOLDER_STRUCTURE.ROOT, AI_FOLDER_STRUCTURE.CACHE)
+  ensureDirectoryExists(cacheDir)
+  
+  const fileName = path.join(cacheDir, `${cacheKey}.wav`)
+  await saveWaveFile(fileName, audioBuffer)
+  
+  return fileName
+}
+
+/**
+ * Say template literal function for text-to-speech generation
+ *
+ * Usage: await say`Say cheerfully: Have a wonderful day!`
+ */
+export type SayTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<string>
+
+const sayFunction_: SayTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
+  if (Array.isArray(template) && 'raw' in template) {
+    let text = ''
+
+    template.forEach((str, i) => {
+      text += str
+      if (i < values.length) {
+        text += stringifyValue(values[i])
+      }
+    })
+
+    return generateSpeechAudio(text)
+  }
+
+  throw new Error('Say function must be called as a template literal')
+}
+
+export const say = new Proxy(sayFunction_, {
+  get(target, prop) {
+    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+      return undefined
+    }
+
+    if (typeof prop === 'symbol') {
+      return Reflect.get(target, prop)
+    }
+
+    return target
+  },
+
+  apply(target, thisArg, args) {
+    if (Array.isArray(args[0]) && 'raw' in args[0]) {
+      const templateStrings = args[0] as TemplateStringsArray
+      let text = ''
+
+      templateStrings.forEach((str, i) => {
+        text += str
+        if (i < args.length - 1) {
+          text += stringifyValue(args[i + 1])
+        }
+      })
+
+      return generateSpeechAudio(text)
+    }
+
+    throw new Error('Say function must be called as a template literal')
+  },
+})
+
+/**
+ * Image template literal function for AI image generation
+ *
+ * Usage: await image`A salamander at sunrise in a forest pond in the Seychelles.`
+ */
+export type ImageTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
+
+const imageFunction_: ImageTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
+  if (Array.isArray(template) && 'raw' in template) {
+    let prompt = ''
+
+    template.forEach((str, i) => {
+      prompt += str
+      if (i < values.length) {
+        if (values[i] !== null && typeof values[i] === 'object') {
+          prompt += yaml.stringify(values[i])
+        } else {
+          prompt += values[i]
+        }
+      }
+    })
+
+    return generateImageStream(prompt)
+  }
+
+  throw new Error('Image function must be called as a template literal')
+}
+
+export const image = new Proxy(imageFunction_, {
+  get(target, prop) {
+    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+      return undefined
+    }
+
+    if (typeof prop === 'symbol') {
+      return Reflect.get(target, prop)
+    }
+
+    return target
+  },
+
+  apply(target, thisArg, args) {
+    if (Array.isArray(args[0]) && 'raw' in args[0]) {
+      const templateStrings = args[0] as TemplateStringsArray
+      let prompt = ''
+
+      templateStrings.forEach((str, i) => {
+        prompt += str
+        if (i < args.length - 1) {
+          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
+            prompt += yaml.stringify(args[i + 1])
+          } else {
+            prompt += args[i + 1]
+          }
+        }
+      })
+
+      return generateImageStream(prompt)
+    }
+
+    throw new Error('Image function must be called as a template literal')
   },
 })

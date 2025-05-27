@@ -2,7 +2,7 @@
 
 import { CoreMessage, StreamTextResult } from 'ai'
 import { openai } from '@ai-sdk/openai'
-import { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream } from './llmService.js'
+import { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, generateImageStream } from './llmService.js'
 
 export interface GenerateOptions {
   type?: 'title' | 'outline' | 'draft'
@@ -10,10 +10,12 @@ export interface GenerateOptions {
   modelId?: string
 }
 
-export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream }
+export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, generateImageStream }
 export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
-export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction } from './aiHandler.js'
+export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction, say, SayTemplateFn, image, ImageTemplateFn } from './aiHandler.js'
 export { extract, ExtractFunction, ExtractType, ExtractOptions } from './functions/extract.js'
+export { video, VideoConfig, VideoResult } from './functions/video.js'
+export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
 
 export {
   createAiFolderStructure,

@@ -1,133 +1,45 @@
-import { Slides as RevealSlides, Slide as RevealSlide } from '@mdxui/reveal';
-import { Slides as InkSlides, Slide as InkSlide } from '@mdxui/ink';
-
-{/* 
-  This example supports both web-based slides using Reveal.js and terminal-based slides using Ink.
-  When running with `mdxe dev` or in a browser, it will use Reveal.js.
-  When running with `mdxe` (terminal mode), it will use Ink.
-*/}
-
-{/* For web rendering with Reveal.js */}
-{typeof window !== 'undefined' && (
-  <RevealSlides>
-    <RevealSlide>
-      # Welcome to MDX Slides
-      
-      Create beautiful presentations with MDX and Reveal.js
-      
-      ---
-      
-      Built with [@mdxui/reveal](https://github.com/mdxld/mdx) and [@mdxui/ink](https://github.com/mdxld/mdx)
-    </RevealSlide>
-
-    <RevealSlide>
-      ## Features
-      
-      - Write slides in **Markdown**
-      - Use React components
-      - Code highlighting
-      - Speaker notes
-      - All Reveal.js features
-    </RevealSlide>
-
-    <RevealSlide>
-      ## Code Example
-      
-      ```js
-      // This code will be highlighted
-      function hello() {
-        console.log("Hello from Reveal.js in MDX!");
-        return "Hello, world!";
-      }
-      ```
-    </RevealSlide>
+<Slides>
+  <Slide>
+    # Welcome to MDX Slides
     
-    <RevealSlide>
-      ## Speaker Notes
-      
-      This slide has speaker notes!
-      
-      <aside className="notes">
-        These notes will only be visible in presenter view.
-        
-        - Remember to mention the Q&A at the end
-        - Demonstrate the presenter view
-      </aside>
-    </RevealSlide>
+    Create beautiful presentations with MDX
     
-    <RevealSlide>
-      ## Vertical Slides
-      
-      Press down to see more slides
-      
-      <RevealSlide>
-        ### Nested Slide 1
-        
-        This is a vertical slide
-      </RevealSlide>
-      
-      <RevealSlide>
-        ### Nested Slide 2
-        
-        Another vertical slide
-      </RevealSlide>
-    </RevealSlide>
+    ---
     
-    <RevealSlide>
-      ## Thank You!
-      
-      Check out the [documentation](https://github.com/mdxld/mdx) for more information
-    </RevealSlide>
-  </RevealSlides>
-)}
+    Built with [@mdxui/mdxui](https://github.com/mdxld/mdx)
+  </Slide>
 
-{/* For terminal rendering with Ink */}
-{typeof window === 'undefined' && (
-  <InkSlides options={{ slideNumber: true, showHelp: true }}>
-    <InkSlide>
-      # Welcome to MDX Slides
-      
-      Create beautiful presentations with MDX in the terminal
-      
-      ---
-      
-      Built with [@mdxui/ink](https://github.com/mdxld/mdx)
-    </InkSlide>
-
-    <InkSlide>
-      ## Features
-      
-      - Write slides in **Markdown**
-      - Use React components
-      - Terminal-based presentation
-      - Arrow key navigation
-      - Ink-powered rendering
-    </InkSlide>
-
-    <InkSlide>
-      ## Code Example
-      
-      ```js
-      // This code will be displayed in the terminal
-      function hello() {
-        console.log("Hello from Ink in MDX!");
-        return "Hello, world!";
-      }
-      ```
-    </InkSlide>
+  <Slide>
+    ## Features
     
-    <InkSlide>
-      ## Navigation
-      
-      Use left and right arrow keys to navigate between slides
-      
-      Press 'q' to exit the presentation
-    </InkSlide>
+    - Write slides in **Markdown**
+    - Use React components
+    - Cross-platform rendering
+    - Auto-detects environment
+  </Slide>
+
+  <Slide>
+    ## Code Example
     
-    <InkSlide>
-      ## Thank You!
-      
-      Check out the [documentation](https://github.com/mdxld/mdx) for more information
-    </InkSlide>
-  </InkSlides>
-)}
+    ```js
+    // This code will be highlighted
+    function hello() {
+      console.log("Hello from unified MDX slides!");
+      return "Hello, world!";
+    }
+    ```
+  </Slide>
+  
+  <Slide>
+    ## Navigation
+    
+    - **Browser**: Use arrow keys or click
+    - **Terminal**: Use ← → arrows, q to quit
+  </Slide>
+  
+  <Slide>
+    ## Thank You!
+    
+    Check out the [documentation](https://github.com/mdxld/mdx) for more information
+  </Slide>
+</Slides>

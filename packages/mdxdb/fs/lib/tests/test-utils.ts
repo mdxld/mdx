@@ -166,7 +166,11 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
   const blogDir = path.join(testDir, 'content/blog')
   const outputDir = path.join(testDir, '.velite')
 
-  await Promise.all([fs.mkdir(outputDir, { recursive: true }), fs.mkdir(postsDir, { recursive: true }), fs.mkdir(blogDir, { recursive: true })])
+  await fs.mkdir(testDir, { recursive: true })
+  await fs.mkdir(path.join(testDir, 'content'), { recursive: true })
+  await fs.mkdir(postsDir, { recursive: true })
+  await fs.mkdir(blogDir, { recursive: true })
+  await fs.mkdir(outputDir, { recursive: true })
 
   const veliteConfigPath = path.join(testDir, 'velite.config.js')
   const configContent = `
@@ -175,36 +179,54 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
       collections: {
         blog: {
           pattern: 'content/blog/**/*.mdx',
+          schema: {
+            title: { type: 'string', required: true },
+            date: { type: 'date', required: false },
+            body: { type: 'mdx', required: true }
+          }
         },
         posts: {
           pattern: 'content/posts/**/*.mdx',
+          schema: {
+            title: { type: 'string', required: true },
+            date: { type: 'date', required: false },
+            body: { type: 'mdx', required: true }
+          }
         },
       }
     };
   `
 
+  await fs.writeFile(veliteConfigPath, configContent)
+  
   // Process both directories in parallel
   const [posts, blogPosts] = await Promise.all([
-    fs.writeFile(veliteConfigPath, configContent).then(() => processDirectory(postsDir)),
+    processDirectory(postsDir),
     processDirectory(blogDir),
   ])
 
-  await Promise.all([
-    fs
-      .writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
-      .then(() => console.log('Created posts.json successfully'))
-      .catch((error) => {
-        console.error('Error creating posts.json:', error)
-        return fs.writeFile(path.join(outputDir, 'posts.json'), '[]').then(() => console.log('Created empty posts.json as fallback'))
-      }),
-    fs
-      .writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
-      .then(() => console.log('Created blog.json successfully'))
-      .catch((error) => {
-        console.error('Error creating blog.json:', error)
-        return fs.writeFile(path.join(outputDir, 'blog.json'), '[]').then(() => console.log('Created empty blog.json as fallback'))
-      }),
-  ])
+  // Ensure output directory still exists before writing JSON files
+  await fs.mkdir(outputDir, { recursive: true })
+  
+  try {
+    await fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+    console.log('Created posts.json successfully')
+  } catch (error) {
+    console.error('Error creating posts.json:', error)
+    await fs.mkdir(outputDir, { recursive: true })
+    await fs.writeFile(path.join(outputDir, 'posts.json'), '[]')
+    console.log('Created empty posts.json as fallback')
+  }
+  
+  try {
+    await fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
+    console.log('Created blog.json successfully')
+  } catch (error) {
+    console.error('Error creating blog.json:', error)
+    await fs.mkdir(outputDir, { recursive: true })
+    await fs.writeFile(path.join(outputDir, 'blog.json'), '[]')
+    console.log('Created empty blog.json as fallback')
+  }
 }
 
 /**

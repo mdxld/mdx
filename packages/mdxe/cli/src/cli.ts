@@ -10,6 +10,8 @@ import { runDevCommand } from './commands/dev'
 import { runBuildCommand } from './commands/build'
 import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
+import { runSendCommand } from './commands/send'
+import { runTestCommand } from './commands/test'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
@@ -30,28 +32,8 @@ export async function run() {
   } else if (command === 'start') {
     return runStartCommand(cwd)
   } else if (command === 'test') {
-    let testFiles = args.slice(1).filter(arg => !arg.startsWith('--'))
-    const watch = args.includes('--watch')
-    const { runTests } = await import('./utils/test-runner')
-    
-    if (testFiles.length === 0) {
-      testFiles = await findMdxFiles(cwd)
-      
-      testFiles = testFiles.filter(file => {
-        if (file.includes('examples/slides/')) {
-          return false
-        }
-        return true
-      })
-    }
-    
-    const result = await runTests(testFiles, watch)
-    if (!result.success) {
-      console.error(result.output)
-      process.exit(1)
-    }
-    console.log(result.output)
-    return
+    const watchFlag = args.includes('--watch')
+    return runTestCommand(cwd, watchFlag)
   } else if (command === 'lint') {
     console.log('Lint command not implemented yet')
     return
@@ -73,6 +55,12 @@ export async function run() {
     }
 
     return runExecCommand(filePath, { watch: watchFlag }, contextType)
+  } else if (command === 'send') {
+    const eventName = args[1]
+    const eventData = args[2]
+    const verboseFlag = args.includes('--verbose') || args.includes('-v')
+    
+    return runSendCommand(eventName, eventData, { verbose: verboseFlag })
   }
 
   let targetDir = cwd

@@ -2,130 +2,122 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
+import * as esbuild from 'esbuild'
 import type { CodeBlock } from './mdx-parser'
+import { createExecutionContext } from './execution-context'
 
 const execAsync = promisify(exec)
 
 /**
- * Create a temporary test file from extracted code blocks
+ * Bundle code blocks and test blocks for testing
  */
-export async function createTempTestFile(codeBlocks: CodeBlock[], testBlocks: CodeBlock[], fileName: string): Promise<string> {
+export async function bundleCodeForTesting(codeBlocks: CodeBlock[], testBlocks: CodeBlock[]): Promise<string> {
+  const context = createExecutionContext('test')
+  
+  const globalDeclarations = `
+const on = ${context.on.toString()};
+const send = ${context.send.toString()};
+const emit = ${context.emit.toString()};
+
+const ai = function(strings, ...values) {
+  const prompt = String.raw({ raw: strings }, ...values);
+  console.log('AI called with prompt:', prompt);
+  return \`AI response for: \${prompt}\`;
+};
+
+ai.leanCanvas = (params) => ({ title: 'Lean Canvas', ...params });
+ai.storyBrand = (params) => ({ title: 'Story Brand', ...params });
+ai.landingPage = (params) => ({ title: 'Landing Page', ...params });
+
+const db = {
+  blog: {
+    create: (title, content) => ({ id: 'test-id', title, content }),
+    get: (id) => ({ id, title: 'Test Post', content: 'Test Content' }),
+    list: () => [{ id: 'test-id', title: 'Test Post' }],
+    update: (id, data) => ({ id, ...data }),
+    delete: (id) => true
+  }
+};
+
+const list = ${context.list.toString()};
+const research = ${context.research.toString()};
+const extract = ${context.extract.toString()};
+`
+  
+  const combinedSource = [
+    globalDeclarations,
+    ...codeBlocks.map(block => block.value),
+    ...testBlocks.map(block => block.value)
+  ].join('\n\n')
+  
+  const result = await esbuild.transform(combinedSource, {
+    loader: 'ts',
+    target: 'es2020',
+    format: 'esm',
+  })
+  
+  return result.code
+}
+
+/**
+ * Create a temporary test file from bundled code
+ */
+export async function createTempTestFile(bundledCode: string, fileName: string): Promise<string> {
   const tempDir = path.join(process.cwd(), '.mdxe')
   await fs.mkdir(tempDir, { recursive: true })
 
   const testFileName = path.basename(fileName, path.extname(fileName)) + '.test.ts'
   const testFilePath = path.join(tempDir, testFileName)
 
-  let fileContent = `
-const on = (event, callback) => callback;
-const send = (event, data) => ({ event, data });
-const ai = new Proxy({}, {
-  apply: (_target, _thisArg, args) => \`AI response for: \${args[0]}\`,
-  get: (_target, prop) => (...args) => ({ function: prop, args })
-});
-const list = (strings, ...values) => {
-  const input = strings.reduce((acc, str, i) => 
-    acc + str + (values[i] !== undefined ? JSON.stringify(values[i]) : ''), '');
-  return {
-    [Symbol.asyncIterator]: async function* () {
-      for (let i = 1; i <= 3; i++) {
-        yield \`Item \${i} for \${input}\`;
-      }
-    }
-  };
-};
-const research = (strings, ...values) => {
-  const input = strings.reduce((acc, str, i) => 
-    acc + str + (values[i] !== undefined ? JSON.stringify(values[i]) : ''), '');
-  return \`Research results for: \${input}\`;
-};
-const extract = (strings, ...values) => {
-  const input = strings.reduce((acc, str, i) => 
-    acc + str + (values[i] !== undefined ? JSON.stringify(values[i]) : ''), '');
-  return {
-    [Symbol.asyncIterator]: async function* () {
-      for (let i = 1; i <= 3; i++) {
-        yield \`Extracted item \${i} from \${input}\`;
-      }
-    }
-  };
-};
-const db = new Proxy({}, {
-  get: (_target, collection) => ({
-    create: (title, content) => ({ collection, title, content }),
-    find: (query) => ({ collection, query })
-  })
-});
+  const testFileContent = `
+import { describe, it, expect, vi } from 'vitest'
 
+${bundledCode}
 `
 
-  codeBlocks.forEach((block) => {
-    fileContent += block.value + '\n\n'
-  })
-
-  testBlocks.forEach((block) => {
-    fileContent += block.value + '\n\n'
-  })
-
-  await fs.writeFile(testFilePath, fileContent, 'utf-8')
+  await fs.writeFile(testFilePath, testFileContent, 'utf-8')
   return testFilePath
 }
 
 /**
  * Run tests using Vitest
  */
-export async function runTests(
-  testFiles: string[],
+export async function runTestsWithVitest(
+  bundledCode: string,
+  filePath: string,
   watch = false,
 ): Promise<{
   success: boolean
   output: string
+  skipped?: number
 }> {
   try {
-    // Separate MDX files from regular test files
-    const mdxFiles = testFiles.filter(file => file.endsWith('.mdx') || file.endsWith('.md'))
-    const regularTestFiles = testFiles.filter(file => !file.endsWith('.mdx') && !file.endsWith('.md'))
-    
-    const tempTestFiles: string[] = []
-    
-    // Process MDX files - extract test blocks and create temporary test files
-    for (const mdxFile of mdxFiles) {
-      const { extractMdxCodeBlocks } = await import('./mdx-parser')
-      const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(mdxFile)
-      
-      if (testBlocks.length > 0) {
-        const tempFile = await createTempTestFile(codeBlocks, testBlocks, mdxFile)
-        tempTestFiles.push(tempFile)
-      }
-    }
-    
-    const allTestFiles = [...regularTestFiles, ...tempTestFiles]
-    
-    if (allTestFiles.length === 0) {
-      return {
-        success: false,
-        output: 'No test files or test blocks found'
-      }
-    }
+    const testFilePath = await createTempTestFile(bundledCode, filePath)
     
     const watchFlag = watch ? '--watch' : ''
-    await import('vitest/node')
+    const command = `npx vitest run --globals ${watchFlag} ${testFilePath}`
     
-    const command = `npx vitest run --globals ${watchFlag} ${allTestFiles.join(' ')}`
     const { stdout, stderr } = await execAsync(command)
     const output = stdout + stderr
     
-    const success = !output.includes('FAIL') && !output.includes('ERR_')
-    
-    if (!watch && tempTestFiles.length > 0) {
+    if (!watch) {
       await cleanupTempFiles()
     }
     
-    return { success, output }
+    const skippedMatch = output.match(/(\d+) skipped/i)
+    const skipped = skippedMatch ? parseInt(skippedMatch[1], 10) : 0
+    
+    const success = !output.includes('FAIL') && !output.includes('ERR_')
+    
+    return { success, output, skipped }
+
   } catch (error: any) {
+    await cleanupTempFiles()
+    
     return {
       success: false,
-      output: error.stdout + error.stderr,
+      output: error.stdout + error.stderr || String(error),
+      skipped: 0
     }
   }
 }

@@ -1,9 +1,15 @@
+import { config } from 'dotenv'
 import { defineConfig } from 'vitest/config'
+import path from 'path'
+
+// Load .env from the root directory
+config({ path: path.resolve(__dirname, '../.env') })
 
 export default defineConfig({
   test: {
-    environment: 'node',
     globals: true,
-    setupFiles: ['./vitest.setup.js'],
+    environment: 'node',
+    include: ['**/*.test.ts', '**/*.test.tsx'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/build/**'],
   },
 })
