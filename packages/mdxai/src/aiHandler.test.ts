@@ -10,7 +10,8 @@ vi.mock('gray-matter')
 // Mock yaml module with proper default export
 vi.mock('yaml', () => {
   const stringify = vi.fn().mockImplementation((obj) => {
-    return JSON.stringify(obj, null, 2)
+    const jsonString = JSON.stringify(obj, null, 2)
+    return jsonString
   })
   
   const parse = vi.fn().mockImplementation((str) => {
@@ -118,6 +119,12 @@ describe('AI Handler', () => {
     vi.spyOn(fs, 'readdirSync').mockReturnValue([])
     
     vi.mocked(matter).mockImplementation(() => createMockGrayMatterFile(mockFrontmatter, mockSystemPrompt))
+    
+    // Fix for yaml.stringify returning undefined
+    const yaml = require('yaml')
+    yaml.stringify.mockImplementation((obj) => {
+      return JSON.stringify(obj, null, 2)
+    })
   })
 
   afterEach(() => {
