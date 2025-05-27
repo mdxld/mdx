@@ -19,29 +19,23 @@ const getCacheFilePath = (url: string): string => {
   try {
     const urlObj = new URL(url)
     const domain = urlObj.hostname
-    const pathname = urlObj.pathname === '/' ? '/index' : urlObj.pathname
+    const pathname = urlObj.pathname === '/' ? '_index' : urlObj.pathname
     
-    // Clean up the pathname to be filesystem-safe
+    // Clean up the pathname to be filesystem-safe and replace / with _
     const safePath = pathname
       .replace(/[^a-zA-Z0-9\-_\/]/g, '_')
-      .replace(/\/+/g, '/')
-      .replace(/\/$/, '')
+      .replace(/\/+/g, '_')
+      .replace(/^_+|_+$/g, '') // Remove leading/trailing underscores
     
-    // Create cache path: .ai/cache/[domain]/[...path].json
-    const cacheDir = path.join(process.cwd(), '.ai', 'cache', domain)
+    // Create flat cache structure: .ai/cache/[domain]_[path].md
+    const cacheDir = path.join(process.cwd(), '.ai', 'cache')
+    const fileName = safePath === '' ? `${domain}_index.md` : `${domain}_${safePath}.md`
     
-    if (safePath === '') {
-      return path.join(cacheDir, 'index.json')
-    } else {
-      const pathParts = safePath.slice(1).split('/')
-      const fileName = `${pathParts.pop()}.json`
-      const nestedDir = path.join(cacheDir, ...pathParts)
-      return path.join(nestedDir, fileName)
-    }
+    return path.join(cacheDir, fileName)
   } catch (error) {
     // Fallback for invalid URLs
     const safeUrl = url.replace(/[^a-zA-Z0-9\-_]/g, '_')
-    return path.join(process.cwd(), '.ai', 'cache', 'invalid', `${safeUrl}.json`)
+    return path.join(process.cwd(), '.ai', 'cache', `invalid_${safeUrl}.md`)
   }
 }
 
@@ -58,7 +52,40 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
   try {
     const cacheFilePath = getCacheFilePath(url)
     const cacheData = await fs.readFile(cacheFilePath, 'utf-8')
-    const cached = JSON.parse(cacheData) as ScrapedContent
+    
+    // Parse frontmatter and content
+    const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/
+    const match = cacheData.match(frontmatterRegex)
+    
+    if (!match) {
+      return null
+    }
+    
+    const [, frontmatterText, markdown] = match
+    const frontmatter: any = {}
+    
+    // Parse simple YAML frontmatter
+    frontmatterText.split('\n').forEach(line => {
+      const colonIndex = line.indexOf(':')
+      if (colonIndex > 0) {
+        const key = line.slice(0, colonIndex).trim()
+        const value = line.slice(colonIndex + 1).trim()
+        // Remove quotes if present and preserve empty strings
+        const cleanValue = value.replace(/^["']|["']$/g, '')
+        frontmatter[key] = cleanValue
+      }
+    })
+    
+    const cached: ScrapedContent = {
+      url: frontmatter.url || url,
+      title: frontmatter.title || undefined,
+      description: frontmatter.description || undefined,
+      image: frontmatter.image || undefined,
+      html: frontmatter.html || undefined,
+      error: frontmatter.error || undefined,
+      markdown: markdown.trim() || undefined,
+      cachedAt: frontmatter.cachedAt,
+    }
     
     // Check if cache is less than 24 hours old
     if (cached.cachedAt) {
@@ -81,12 +108,38 @@ const saveToCache = async (url: string, content: ScrapedContent): Promise<void> 
     const cacheFilePath = getCacheFilePath(url)
     await ensureDirectoryExists(cacheFilePath)
     
-    const cacheData = {
-      ...content,
-      cachedAt: new Date().toISOString(),
+    const cachedAt = new Date().toISOString()
+    
+    // Create frontmatter
+    const frontmatterLines = ['---']
+    frontmatterLines.push(`url: "${content.url}"`)
+    
+    if (content.title !== undefined) {
+      frontmatterLines.push(`title: "${content.title.replace(/"/g, '\\"')}"`)
+    }
+    if (content.description !== undefined) {
+      frontmatterLines.push(`description: "${content.description.replace(/"/g, '\\"')}"`)
+    }
+    if (content.image !== undefined) {
+      frontmatterLines.push(`image: "${content.image}"`)
+    }
+    if (content.html !== undefined) {
+      frontmatterLines.push(`html: "${content.html.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`)
+    }
+    if (content.error !== undefined) {
+      frontmatterLines.push(`error: "${content.error.replace(/"/g, '\\"')}"`)
     }
     
-    await fs.writeFile(cacheFilePath, JSON.stringify(cacheData, null, 2), 'utf-8')
+    frontmatterLines.push(`cachedAt: "${cachedAt}"`)
+    frontmatterLines.push('---')
+    
+    const frontmatter = frontmatterLines.join('\n')
+    
+    // Combine frontmatter with markdown content
+    const markdownContent = content.markdown || ''
+    const fileContent = `${frontmatter}\n\n${markdownContent}`
+    
+    await fs.writeFile(cacheFilePath, fileContent, 'utf-8')
   } catch (error) {
     console.warn(`Failed to cache content for ${url}:`, error)
   }
@@ -111,11 +164,11 @@ export const scrape = async (url: string): Promise<ScrapedContent> => {
 
     const scrapedContent: ScrapedContent = {
       url,
-      title: response.data?.metadata?.title || response.data?.metadata?.ogTitle || '',
-      description: response.data?.metadata?.description || response.data?.metadata?.ogDescription || '',
-      image: response.data?.metadata?.ogImage || '',
-      markdown: response.data?.markdown || '',
-      html: response.data?.html || '',
+      title: response.metadata?.title || response.metadata?.ogTitle || '',
+      description: response.metadata?.description || response.metadata?.ogDescription || '',
+      image: response.metadata?.ogImage || '',
+      markdown: response.markdown || '',
+      html: response.html || '',
       cached: false,
     }
 
@@ -167,4 +220,4 @@ export const scrapeMultiple = async (
   }
 
   return results
-}  
+}        
