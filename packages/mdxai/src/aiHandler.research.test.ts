@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { research } from './aiHandler.research'
+import { research } from './aiHandler'
 import fs from 'fs'
 import matter from 'gray-matter'
 import yaml from 'yaml'
@@ -7,36 +7,46 @@ import * as aiModule from 'ai'
 
 // Mock modules at the top level
 vi.mock('gray-matter')
-vi.mock('yaml', () => ({
-  stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
-  parse: vi.fn().mockImplementation((str) => JSON.parse(str)),
-}))
 
-vi.mock('ai', () => ({
-  generateText: vi.fn().mockResolvedValue({
-    text: 'mock string response',
-    response: {
-      body: {
-        choices: [
-          {
-            message: {
-              content: 'mock string response',
+// Mock yaml module with proper default export
+vi.mock('yaml', () => {
+  return {
+    default: {
+      stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
+      parse: vi.fn().mockImplementation((str) => JSON.parse(str))
+    },
+    stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
+    parse: vi.fn().mockImplementation((str) => JSON.parse(str))
+  }
+})
+
+vi.mock('ai', () => {
+  return {
+    generateText: vi.fn().mockResolvedValue({
+      text: 'mock string response',
+      response: {
+        body: {
+          choices: [
+            {
+              message: {
+                content: 'mock string response',
+              },
             },
-          },
-        ],
+          ],
+        },
       },
-    },
-  }),
-  streamText: vi.fn().mockResolvedValue({
-    text: 'mock string response',
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'mock string response'
+    }),
+    streamText: vi.fn().mockResolvedValue({
+      text: 'mock string response',
+      textStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield 'mock string response'
+        },
       },
-    },
-  }),
-  model: vi.fn().mockReturnValue('mock-model'),
-}))
+    }),
+    model: vi.fn().mockReturnValue('mock-model'),
+  }
+})
 
 // Mock gray-matter file
 function createMockGrayMatterFile(data: Record<string, any>, content: string) {
@@ -75,13 +85,15 @@ describe('research template literal', () => {
     const result = await research`Research about ${topic}`
 
     expect(result).toBeDefined()
-    expect(typeof result).toBe('string')
-    expect(result).toContain('mock string response')
+    expect(result).toHaveProperty('text')
+    expect(result).toHaveProperty('markdown')
+    expect(result).toHaveProperty('citations')
+    expect(result).toHaveProperty('scrapedCitations')
   })
 
   it('should throw an error when not called as a template literal', () => {
     // @ts-ignore - Testing incorrect usage
-    expect(() => research('not a template literal')).toThrow('research function must be used as a template literal tag')
+    expect(() => research('not a template literal')).toThrow('Research function must be called as a template literal')
   })
 
   it('should stringify arrays to YAML format', async () => {
@@ -89,8 +101,8 @@ describe('research template literal', () => {
     const result = await research`Research these technologies: ${items}`
 
     expect(result).toBeDefined()
-    expect(typeof result).toBe('string')
-    expect(result).toContain('mock string response')
+    expect(result).toHaveProperty('text')
+    expect(result).toHaveProperty('markdown')
     expect(yaml.stringify).toHaveBeenCalledWith(items)
   })
 
@@ -102,8 +114,8 @@ describe('research template literal', () => {
     const result = await research`Research this project: ${project}`
 
     expect(result).toBeDefined()
-    expect(typeof result).toBe('string')
-    expect(result).toContain('mock string response')
+    expect(result).toHaveProperty('text')
+    expect(result).toHaveProperty('markdown')
     expect(yaml.stringify).toHaveBeenCalledWith(project)
   })
 })
