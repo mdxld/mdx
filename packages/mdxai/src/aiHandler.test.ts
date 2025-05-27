@@ -10,7 +10,12 @@ vi.mock('gray-matter')
 vi.mock('yaml', () => {
   // Create a string with trim method for stringify to return
   const mockYamlString = (obj) => {
-    return JSON.stringify(obj, null, 2)
+    const str = JSON.stringify(obj, null, 2)
+    return {
+      toString: () => str,
+      trim: () => str.trim(),
+      valueOf: () => str
+    }
   }
   
   const stringify = vi.fn().mockImplementation((obj) => {

@@ -10,9 +10,10 @@ export const research = async (query: string) => {
     prompt: `research ${query}`,
   })
 
-  const body = result.response.body as any
-  const citations = body.citations
-  const reasoning = body.choices[0]?.message.reasoning
+  // Handle potential undefined response property
+  const body = result?.response?.body as any || {}
+  const citations = body.citations || []
+  const reasoning = body.choices?.[0]?.message?.reasoning || ''
 
   const queue = new QueueManager(5) // Process 5 citations at a time
 

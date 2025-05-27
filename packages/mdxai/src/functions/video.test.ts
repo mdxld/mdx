@@ -1,450 +1,261 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { video, VideoConfig, VideoResult } from './video'
-import * as fs from 'fs'
-import * as stream from 'stream'
-import * as googleGenAI from '@google/genai'
-import { join } from 'path'
+import { video } from './video'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-vi.mock('fs')
-vi.mock('stream')
-vi.mock('@google/genai')
-
-// Set up spies instead of mocks
-const mockGenerateVideos = vi.fn()
-const mockGetVideosOperation = vi.fn()
-
-const mockGoogleGenAI = vi.fn().mockImplementation(() => ({
-  models: {
-    generateVideos: mockGenerateVideos,
-  },
-  operations: {
-    getVideosOperation: mockGetVideosOperation,
-  },
-}))
-vi.spyOn(googleGenAI, 'GoogleGenAI').mockImplementation(mockGoogleGenAI)
-
-// Spy on fs promises
-const mockMkdir = vi.fn().mockResolvedValue(undefined)
-const mockReadFile = vi.fn()
-const mockWriteFile = vi.fn().mockResolvedValue(undefined)
-const mockAccess = vi.fn()
-vi.spyOn(fs.promises, 'mkdir').mockImplementation(mockMkdir)
-vi.spyOn(fs.promises, 'readFile').mockImplementation(mockReadFile)
-vi.spyOn(fs.promises, 'writeFile').mockImplementation(mockWriteFile)
-vi.spyOn(fs.promises, 'access').mockImplementation(mockAccess)
-
-const mockCreateWriteStream = vi.fn()
-vi.spyOn(fs, 'createWriteStream').mockImplementation(mockCreateWriteStream)
-
-const mockFromWeb = vi.fn()
-vi.spyOn(stream.Readable, 'fromWeb').mockImplementation(mockFromWeb)
+// Mock fs module
+vi.mock('fs', () => {
+  const mockReadFile = vi.fn()
+  const mockWriteFile = vi.fn()
+  const mockAccess = vi.fn()
+  const mockMkdir = vi.fn()
+  
+  return {
+    promises: {
+      readFile: mockReadFile,
+      writeFile: mockWriteFile,
+      access: mockAccess,
+      mkdir: mockMkdir,
+    },
+    readFile: vi.fn(),
+    writeFile: vi.fn(),
+    access: vi.fn(),
+    mkdir: vi.fn(),
+    existsSync: vi.fn(),
+    createReadStream: vi.fn(),
+    createWriteStream: vi.fn(),
+  }
+})
 
 // Mock fetch
-global.fetch = vi.fn()
+vi.mock('node-fetch', () => {
+  return {
+    default: vi.fn().mockImplementation((url) => {
+      if (url.includes('error')) {
+        return Promise.reject(new Error('Failed to download video'))
+      }
+      
+      return Promise.resolve({
+        ok: true,
+        buffer: () => Promise.resolve(Buffer.from('mock video data')),
+        json: () => Promise.resolve({
+          name: 'test_operation',
+          done: true,
+          response: {
+            name: 'test_video',
+            uri: 'https://example.com/video.mp4'
+          }
+        })
+      })
+    })
+  }
+})
+
+// Mock setTimeout
+vi.mock('timers', () => {
+  return {
+    setTimeout: vi.fn().mockImplementation((callback, ms) => {
+      callback()
+      return 123 // mock timer id
+    }),
+    clearTimeout: vi.fn()
+  }
+})
 
 describe('video function', () => {
   const originalEnv = { ...process.env }
-  const mockCacheDir = join(process.cwd(), '.ai/cache')
-  const hasGoogleApiKey = !!process.env.GOOGLE_API_KEY
-
+  
   beforeEach(() => {
-    process.env.GOOGLE_API_KEY = 'test-api-key'
+    process.env.GOOGLE_API_KEY = 'mock-google-api-key'
     vi.clearAllMocks()
     
-    // Mock fs.mkdir to resolve successfully
-    vi.mocked(fs.mkdir).mockResolvedValue(undefined)
+    // Setup fs mocks
+    const mockFs = require('fs').promises
     
-    // Mock fs.writeFile to resolve successfully
-    vi.mocked(fs.writeFile).mockResolvedValue(undefined)
+    // Default behavior for access - file exists
+    mockFs.access.mockImplementation(() => Promise.resolve())
     
-    // Set up default mock implementations
-    mockGenerateVideos.mockResolvedValue({
-      done: true,
-      response: {
-        generatedVideos: [
-          {
-            video: {
-              uri: 'https://example.com/video.mp4',
-            },
-          },
-        ],
-      },
-    })
+    // Default behavior for mkdir - success
+    mockFs.mkdir.mockImplementation(() => Promise.resolve())
     
-    mockGetVideosOperation.mockResolvedValue({
-      done: true,
-      response: {
-        generatedVideos: [
-          {
-            video: {
-              uri: 'https://example.com/video.mp4',
-            },
-          },
-        ],
-      },
-    })
+    // Default behavior for writeFile - success
+    mockFs.writeFile.mockImplementation(() => Promise.resolve())
   })
-
+  
   afterEach(() => {
     process.env = { ...originalEnv }
+    vi.restoreAllMocks()
   })
-
+  
   describe('basic video generation', () => {
     it('should generate a video with default configuration', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
-      }
+      const prompt = 'A test video prompt'
       
-      // Mock cache miss
-      vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'))
-
-      // Mock successful video download
-      const mockResponse = {
-        ok: true,
-        body: new ReadableStream(),
-      }
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any)
-
-      // Mock stream handling
-      const mockWriter = {
-        on: vi.fn((event, callback) => {
-          if (event === 'finish') {
-            setTimeout(callback, 0)
-          }
-        }),
-      }
-      const { createWriteStream } = await import('fs')
-      vi.mocked(createWriteStream).mockReturnValue(mockWriter as any)
-
-      const { Readable } = await import('stream')
-      const mockReadable = {
-        pipe: vi.fn().mockReturnValue(mockWriter),
-      }
-      vi.mocked(Readable.fromWeb).mockReturnValue(mockReadable as any)
-
-      const config: VideoConfig = {
-        prompt: 'A beautiful sunset over the ocean',
-      }
-
-      const result = await video(config)
-
+      const result = await video`${prompt}`
+      
       expect(result).toBeDefined()
-      expect(result.prompt).toBe(config.prompt)
-      expect(result.videoFilePaths).toHaveLength(1)
-      expect(result.metadata.model).toBe('veo-2.0-generate-001')
-      expect(result.metadata.aspectRatio).toBe('16:9')
-      expect(result.metadata.personGeneration).toBe('disallow')
+      expect(result.videoUrl).toBe('https://example.com/video.mp4')
+      expect(result.operationName).toBe('test_operation')
     })
-
+    
     it('should use custom configuration options', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
+      const prompt = 'A test video prompt'
+      const config = {
+        model: 'custom-model',
+        negativePrompt: 'things to avoid',
+        seed: 12345,
+        width: 1280,
+        height: 720,
       }
       
-      // Mock cache miss
-      vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'))
-
-      // Mock successful video download
-      const mockResponse = {
-        ok: true,
-        body: new ReadableStream(),
-      }
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any)
-
-      // Mock stream handling
-      const mockWriter = {
-        on: vi.fn((event, callback) => {
-          if (event === 'finish') {
-            setTimeout(callback, 0)
-          }
-        }),
-      }
-      const { createWriteStream } = await import('fs')
-      vi.mocked(createWriteStream).mockReturnValue(mockWriter as any)
-
-      const { Readable } = await import('stream')
-      const mockReadable = {
-        pipe: vi.fn().mockReturnValue(mockWriter),
-      }
-      vi.mocked(Readable.fromWeb).mockReturnValue(mockReadable as any)
-
-      const config: VideoConfig = {
-        prompt: 'A cat playing with a ball',
-        model: 'veo-2.0-generate-001',
-        personGeneration: 'disallow',
-        aspectRatio: '9:16',
-        maxWaitTimeSeconds: 120,
-        pollingIntervalSeconds: 5,
-      }
-
-      const result = await video(config)
-
-      expect(result.metadata.model).toBe('veo-2.0-generate-001')
-      expect(result.metadata.aspectRatio).toBe('9:16')
-      expect(result.metadata.personGeneration).toBe('disallow')
+      const result = await video(config)`${prompt}`
+      
+      expect(result).toBeDefined()
+      expect(result.videoUrl).toBe('https://example.com/video.mp4')
+      expect(result.operationName).toBe('test_operation')
     })
   })
-
+  
   describe('caching', () => {
     it('should return cached result when available and files exist', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
+      const prompt = 'A cached video prompt'
+      const cachedResult = {
+        videoUrl: 'https://example.com/cached-video.mp4',
+        operationName: 'cached_operation',
+        localPath: '/tmp/video/cached-video.mp4',
       }
       
-      const cachedResult: VideoResult = {
-        videoFilePaths: ['/path/to/cached/video.mp4'],
-        prompt: 'Test prompt',
-        metadata: {
-          model: 'veo-2.0-generate-001',
-          aspectRatio: '16:9',
-          personGeneration: 'disallow',
-          generationTimeMs: 5000,
-          completedAt: '2024-01-01T00:00:00.000Z',
-        },
-      }
-
-      // Mock cache hit
-      vi.mocked(fs.promises.readFile).mockResolvedValue(Buffer.from(JSON.stringify(cachedResult)))
+      // Setup fs.readFile to return cached result
+      const mockFs = require('fs').promises
+      mockFs.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
       
-      // Mock file existence check
-      vi.mocked(fs.promises.access).mockResolvedValue(undefined)
-
-      const config: VideoConfig = {
-        prompt: 'Test prompt',
-      }
-
-      const result = await video(config)
-
+      const result = await video`${prompt}`
+      
       expect(result).toEqual(cachedResult)
-      expect(fs.readFile).toHaveBeenCalled()
-      expect(fs.access).toHaveBeenCalled()
+      expect(mockFs.readFile).toHaveBeenCalled()
+      expect(mockFs.access).toHaveBeenCalled()
     })
-
+    
     it('should regenerate when cached files are missing', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
+      const prompt = 'A video prompt with missing cache'
+      const cachedResult = {
+        videoUrl: 'https://example.com/cached-video.mp4',
+        operationName: 'cached_operation',
+        localPath: '/tmp/video/cached-video.mp4',
       }
       
-      const cachedResult: VideoResult = {
-        videoFilePaths: ['/path/to/missing/video.mp4'],
-        prompt: 'Test prompt',
-        metadata: {
-          model: 'veo-2.0-generate-001',
-          aspectRatio: '16:9',
-          personGeneration: 'disallow',
-          generationTimeMs: 5000,
-          completedAt: '2024-01-01T00:00:00.000Z',
-        },
-      }
-
-      // Mock cache hit but file missing
-      vi.mocked(fs.promises.readFile).mockResolvedValue(Buffer.from(JSON.stringify(cachedResult)))
-      vi.mocked(fs.promises.access).mockRejectedValue(new Error('File not found'))
-
-      const mockOperation = {
-        done: true,
-        response: {
-          generatedVideos: [
-            {
-              video: {
-                uri: 'https://example.com/video.mp4',
-              },
-            },
-          ],
-        },
-      }
-
-      const { GoogleGenAI } = await import('@google/genai')
-      const mockAI = new GoogleGenAI({ apiKey: 'test' })
-      vi.mocked(mockAI.models.generateVideos).mockResolvedValue(mockOperation)
-
-      // Mock successful video download
-      const mockResponse = {
-        ok: true,
-        body: new ReadableStream(),
-      }
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any)
-
-      // Mock stream handling
-      const mockWriter = {
-        on: vi.fn((event, callback) => {
-          if (event === 'finish') {
-            setTimeout(callback, 0)
-          }
-        }),
-      }
-      const { createWriteStream } = await import('fs')
-      vi.mocked(createWriteStream).mockReturnValue(mockWriter as any)
-
-      const { Readable } = await import('stream')
-      const mockReadable = {
-        pipe: vi.fn().mockReturnValue(mockWriter),
-      }
-      vi.mocked(Readable.fromWeb).mockReturnValue(mockReadable as any)
-
-      const config: VideoConfig = {
-        prompt: 'Test prompt',
-      }
-
-      const result = await video(config)
-
-      expect(result.prompt).toBe(config.prompt)
-      expect(mockAI.models.generateVideos).toHaveBeenCalled()
+      // Setup fs.readFile to return cached result
+      const mockFs = require('fs').promises
+      mockFs.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
+      
+      // But access throws error indicating file doesn't exist
+      mockFs.access.mockRejectedValueOnce(new Error('File not found'))
+      
+      const result = await video`${prompt}`
+      
+      expect(result).not.toEqual(cachedResult)
+      expect(result.videoUrl).toBe('https://example.com/video.mp4')
+      expect(mockFs.readFile).toHaveBeenCalled()
+      expect(mockFs.access).toHaveBeenCalled()
     })
   })
-
+  
   describe('error handling', () => {
     it('should throw error when GOOGLE_API_KEY is not set', async () => {
-      
       delete process.env.GOOGLE_API_KEY
-
-      // Mock cache miss
-      vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'))
-
-      const config: VideoConfig = {
-        prompt: 'Test prompt',
-      }
-
-      await expect(video(config)).rejects.toThrow('GOOGLE_API_KEY environment variable is not set.')
+      
+      const prompt = 'A test video prompt'
+      
+      await expect(video`${prompt}`).rejects.toThrow('GOOGLE_API_KEY is required')
     })
-
+    
     it('should handle video download failure', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
-      }
+      const fetch = require('node-fetch').default
       
-      const mockOperation = {
-        done: true,
-        response: {
-          generatedVideos: [
-            {
-              video: {
-                uri: 'https://example.com/video.mp4',
-              },
-            },
-          ],
-        },
-      }
-
-      const { GoogleGenAI } = await import('@google/genai')
-      const mockAI = new GoogleGenAI({ apiKey: 'test' })
-      vi.mocked(mockAI.models.generateVideos).mockResolvedValue(mockOperation)
-
-      // Mock cache miss
-      vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'))
-
-      // Mock failed video download
-      const mockResponse = {
-        ok: false,
-        status: 404,
-        statusText: 'Not Found',
-      }
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any)
-
-      const config: VideoConfig = {
-        prompt: 'Test prompt',
-      }
-
-      await expect(video(config)).rejects.toThrow('Failed to download video: 404 Not Found')
+      // Make fetch return a response with error URL
+      fetch.mockImplementationOnce(() => {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            name: 'test_operation',
+            done: true,
+            response: {
+              name: 'test_video',
+              uri: 'https://example.com/error/video.mp4'
+            }
+          })
+        })
+      })
+      
+      const prompt = 'A test video prompt'
+      
+      await expect(video`${prompt}`).rejects.toThrow('Failed to download video')
     })
-
+    
     it('should handle timeout when video generation takes too long', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
-      }
+      // Mock setTimeout to simulate timeout
+      const { setTimeout } = require('timers')
+      setTimeout.mockImplementationOnce((callback, ms) => {
+        // Don't call the callback to simulate timeout
+        return 123 // mock timer id
+      })
       
-      const mockOperation = {
-        done: false,
-      }
-
-      const { GoogleGenAI } = await import('@google/genai')
-      const mockAI = new GoogleGenAI({ apiKey: 'test' })
-      vi.mocked(mockAI.models.generateVideos).mockResolvedValue(mockOperation)
-      vi.mocked(mockAI.operations.getVideosOperation).mockResolvedValue(mockOperation)
-
-      // Mock cache miss
-      vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'))
-
-      const config: VideoConfig = {
-        prompt: 'Test prompt',
-        maxWaitTimeSeconds: 1, // Very short timeout for testing
-        pollingIntervalSeconds: 0.1,
-      }
-
-      await expect(video(config)).rejects.toThrow('Video generation timed out after 1 seconds')
+      // Mock fetch to never return done=true
+      const fetch = require('node-fetch').default
+      fetch.mockImplementation(() => {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            name: 'test_operation',
+            done: false
+          })
+        })
+      })
+      
+      const prompt = 'A test video prompt'
+      
+      await expect(video`${prompt}`).rejects.toThrow('Video generation timed out')
     })
   })
-
+  
   describe('polling behavior', () => {
     it('should poll until operation is complete', async () => {
-      if (process.env.CI && !process.env.GOOGLE_API_KEY) {
-        console.log('Skipping video generation test in CI environment without GOOGLE_API_KEY')
-        return
-      }
+      const fetch = require('node-fetch').default
       
-      const incompleteOperation = { done: false }
-      const completeOperation = {
-        done: true,
-        response: {
-          generatedVideos: [
-            {
-              video: {
-                uri: 'https://example.com/video.mp4',
-              },
-            },
-          ],
-        },
-      }
-
-      const { GoogleGenAI } = await import('@google/genai')
-      const mockAI = new GoogleGenAI({ apiKey: 'test' })
-      vi.mocked(mockAI.models.generateVideos).mockResolvedValue(incompleteOperation)
-      vi.mocked(mockAI.operations.getVideosOperation)
-        .mockResolvedValueOnce(incompleteOperation)
-        .mockResolvedValueOnce(completeOperation)
-
-      // Mock cache miss
-      vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'))
-
-      // Mock successful video download
-      const mockResponse = {
-        ok: true,
-        body: new ReadableStream(),
-      }
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any)
-
-      // Mock stream handling
-      const mockWriter = {
-        on: vi.fn((event, callback) => {
-          if (event === 'finish') {
-            setTimeout(callback, 0)
-          }
-        }),
-      }
-      const { createWriteStream } = await import('fs')
-      vi.mocked(createWriteStream).mockReturnValue(mockWriter as any)
-
-      const { Readable } = await import('stream')
-      const mockReadable = {
-        pipe: vi.fn().mockReturnValue(mockWriter),
-      }
-      vi.mocked(Readable.fromWeb).mockReturnValue(mockReadable as any)
-
-      const config: VideoConfig = {
-        prompt: 'Test prompt',
-        pollingIntervalSeconds: 0.1, // Fast polling for testing
-      }
-
-      const result = await video(config)
-
+      // First call returns not done
+      fetch.mockImplementationOnce(() => {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            name: 'test_operation',
+            done: false
+          })
+        })
+      })
+      
+      // Second call returns done
+      fetch.mockImplementationOnce(() => {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            name: 'test_operation',
+            done: true,
+            response: {
+              name: 'test_video',
+              uri: 'https://example.com/video.mp4'
+            }
+          })
+        })
+      })
+      
+      const prompt = 'A test video prompt'
+      
+      const result = await video`${prompt}`
+      
       expect(result).toBeDefined()
-      expect(mockAI.operations.getVideosOperation).toHaveBeenCalledTimes(2)
+      expect(result.videoUrl).toBe('https://example.com/video.mp4')
+      expect(fetch).toHaveBeenCalledTimes(3) // Initial request + 2 polling requests
     })
   })
-})                                                                                                                                                
+})

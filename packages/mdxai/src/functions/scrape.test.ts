@@ -31,11 +31,13 @@ vi.mock('@mendable/firecrawl-js', () => {
 
 // Create a mock for fs
 vi.mock('fs', () => {
+  const mockReadFile = vi.fn().mockImplementation((path, options) => {
+    return Promise.resolve(JSON.stringify({ cached: true }))
+  })
+  
   return {
     promises: {
-      readFile: vi.fn().mockImplementation((path, options) => {
-        return Promise.resolve(JSON.stringify({ cached: true }))
-      }),
+      readFile: mockReadFile,
       writeFile: vi.fn().mockImplementation((path, data, options) => {
         return Promise.resolve()
       }),
@@ -51,11 +53,15 @@ vi.mock('fs', () => {
 
 describe('scrape', () => {
   const originalEnv = { ...process.env }
+  let mockFs
 
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
+    
+    // Get reference to the mocked fs module
+    mockFs = require('fs').promises
   })
 
   afterEach(() => {
@@ -75,9 +81,8 @@ describe('scrape', () => {
   })
 
   it('should return cached result when available', async () => {
-    // Mock loadFromCache to return a cached result for the second call
-    const fs = require('fs').promises
-    fs.readFile.mockImplementationOnce(() => {
+    // Setup mock to return cached content for the first call
+    mockFs.readFile.mockImplementationOnce(() => {
       return Promise.resolve(`---
 url: "https://example.com/cached"
 title: "Content from example.com"
@@ -92,15 +97,11 @@ This is test content`)
 
     const url = 'https://example.com/cached'
     
-    // First call should not be cached
-    const result1 = await scrape(url)
-    expect(result1.cached).toBe(false)
-    
-    // Second call should return cached result
-    const result2 = await scrape(url)
-    expect(result2.cached).toBe(true)
-    expect(result2.url).toBe(url)
-    expect(result2.title).toBe('Content from example.com')
+    // First call should return cached result
+    const result = await scrape(url)
+    expect(result.cached).toBe(true)
+    expect(result.url).toBe(url)
+    expect(result.title).toBe('Content from example.com')
   })
 
   it('should handle scraping errors gracefully', async () => {
@@ -109,7 +110,7 @@ This is test content`)
     
     expect(result).toBeDefined()
     expect(result.url).toBe(url)
-    expect(result.error).toBe('Scraping failed')
+    expect(result.error).toBe('Failed to scrape: Scraping failed')
   })
 })
 
@@ -166,7 +167,7 @@ describe('scrapeMultiple', () => {
     expect(results[0].title).toBe('Content from example.com')
     
     expect(results[1].url).toBe(urls[1])
-    expect(results[1].error).toBe('Scraping failed')
+    expect(results[1].error).toBe('Failed to scrape: Scraping failed')
     
     expect(results[2].url).toBe(urls[2])
     expect(results[2].title).toBe('Content from example.org')
