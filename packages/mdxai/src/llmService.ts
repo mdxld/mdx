@@ -47,22 +47,18 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
 
 export async function generateListStream(prompt: string): Promise<StreamTextResult<never, string>> {
   if (process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-    const mockItems = [
-      '1. Item 1',
-      '2. Item 2',
-      '3. Item 3',
-      '4. Item 4',
-      '5. Item 5'
-    ];
-    const mockText = mockItems.join('\n');
+    const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
+    
+    const mockItems = Array.from({ length: maxItems }, (_, i) => `${i + 1}. Item ${i + 1}`)
+    const mockText = mockItems.join('\n')
     
     const mockResult = {
       text: Promise.resolve(mockText),
       textStream: {
         [Symbol.asyncIterator]: async function* () {
           for (const item of mockItems) {
-            yield item + '\n';
-            await new Promise(resolve => setTimeout(resolve, 10));
+            yield item + '\n'
+            await new Promise(resolve => setTimeout(resolve, 10))
           }
         }
       },
@@ -71,9 +67,9 @@ export async function generateListStream(prompt: string): Promise<StreamTextResu
       usage: {},
       sources: [],
       files: []
-    } as unknown as StreamTextResult<never, string>;
+    } as unknown as StreamTextResult<never, string>
     
-    return mockResult;
+    return mockResult
   }
 
   const systemMessage = 'Respond with a numbered markdown ordered list'
