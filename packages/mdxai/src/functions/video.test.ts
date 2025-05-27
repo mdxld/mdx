@@ -4,10 +4,27 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-// Mock fs module using spyOn
-vi.mock('node-fetch', () => {
-  return {
-    default: vi.fn().mockImplementation((url) => {
+// Mock node-fetch
+const mockFetch = vi.fn()
+vi.mock('node-fetch', () => ({
+  default: mockFetch
+}))
+
+// Mock timers
+vi.mock('timers', () => ({
+  setTimeout: vi.fn(),
+  clearTimeout: vi.fn()
+}))
+
+describe('video function', () => {
+  const originalEnv = { ...process.env }
+  
+  beforeEach(() => {
+    process.env.GOOGLE_API_KEY = 'mock-google-api-key'
+    vi.clearAllMocks()
+    
+    // Setup default fetch mock
+    mockFetch.mockImplementation((url) => {
       if (url.includes('error')) {
         return Promise.reject(new Error('Failed to download video'))
       }
@@ -25,26 +42,15 @@ vi.mock('node-fetch', () => {
         })
       })
     })
-  }
-})
-
-// Mock setTimeout
-vi.mock('timers', () => {
-  return {
-    setTimeout: vi.fn().mockImplementation((callback, ms) => {
-      callback()
+    
+    // Setup default setTimeout mock
+    const { setTimeout } = require('timers')
+    vi.mocked(setTimeout).mockImplementation((callback, ms) => {
+      if (typeof callback === 'function') {
+        callback()
+      }
       return 123 // mock timer id
-    }),
-    clearTimeout: vi.fn()
-  }
-})
-
-describe('video function', () => {
-  const originalEnv = { ...process.env }
-  
-  beforeEach(() => {
-    process.env.GOOGLE_API_KEY = 'mock-google-api-key'
-    vi.clearAllMocks()
+    })
     
     // Setup fs mocks using spyOn
     vi.spyOn(fs.promises, 'readFile').mockImplementation(() => {
@@ -166,10 +172,8 @@ describe('video function', () => {
     })
     
     it('should handle video download failure', async () => {
-      const fetch = require('node-fetch').default
-      
       // Make fetch return a response with error URL
-      fetch.mockImplementationOnce(() => {
+      mockFetch.mockImplementationOnce(() => {
         return Promise.resolve({
           ok: true,
           json: () => Promise.resolve({
@@ -191,14 +195,13 @@ describe('video function', () => {
     it('should handle timeout when video generation takes too long', async () => {
       // Mock setTimeout to simulate timeout
       const { setTimeout } = require('timers')
-      setTimeout.mockImplementationOnce((callback, ms) => {
+      vi.mocked(setTimeout).mockImplementationOnce((callback, ms) => {
         // Don't call the callback to simulate timeout
         return 123 // mock timer id
       })
       
       // Mock fetch to never return done=true
-      const fetch = require('node-fetch').default
-      fetch.mockImplementation(() => {
+      mockFetch.mockImplementation(() => {
         return Promise.resolve({
           ok: true,
           json: () => Promise.resolve({
@@ -216,10 +219,8 @@ describe('video function', () => {
   
   describe('polling behavior', () => {
     it('should poll until operation is complete', async () => {
-      const fetch = require('node-fetch').default
-      
       // First call returns not done
-      fetch.mockImplementationOnce(() => {
+      mockFetch.mockImplementationOnce(() => {
         return Promise.resolve({
           ok: true,
           json: () => Promise.resolve({
@@ -230,7 +231,7 @@ describe('video function', () => {
       })
       
       // Second call returns done
-      fetch.mockImplementationOnce(() => {
+      mockFetch.mockImplementationOnce(() => {
         return Promise.resolve({
           ok: true,
           json: () => Promise.resolve({
@@ -250,7 +251,7 @@ describe('video function', () => {
       
       expect(result).toBeDefined()
       expect(result.videoUrl).toBe('https://example.com/video.mp4')
-      expect(fetch).toHaveBeenCalledTimes(3) // Initial request + 2 polling requests
+      expect(mockFetch).toHaveBeenCalledTimes(3) // Initial request + 2 polling requests
     })
   })
 })
