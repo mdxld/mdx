@@ -1,12 +1,11 @@
 import path from 'node:path'
-import { findMdxFiles } from '../utils/mdx-parser'
-import { extractMdxCodeBlocks } from '../utils/mdx-parser'
-import { bundleCodeForTesting, runTestsWithVitest } from '../utils/test-runner'
+import { findMdxFiles, extractMdxCodeBlocks } from '../utils/mdx-parser'
+import { bundleCodeForTesting, runTestsWithVitest } from '../utils/test-runner-new'
 
 /**
  * Run tests for MDX files in the project
  */
-export async function runTestCommand(cwd: string = process.cwd(), watch: boolean = false) {
+export async function runTestCommand(cwd: string = process.cwd(), watch: boolean = false): Promise<void> {
   try {
     console.log('🧪 MDXE Test Runner')
     console.log(`📁 Current directory: ${cwd}`)

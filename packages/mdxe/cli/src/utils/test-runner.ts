@@ -1,9 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { exec } from 'node:child_process'
+import { promisify } from 'node:util'
 import * as esbuild from 'esbuild'
-import { startVitest } from 'vitest/node'
-import type { VitestRunMode, UserWorkspaceConfig } from 'vitest'
 import type { CodeBlock } from './mdx-parser'
+
+const execAsync = promisify(exec)
 
 /**
  * Bundle code blocks and test blocks for testing
@@ -24,7 +26,21 @@ export async function bundleCodeForTesting(codeBlocks: CodeBlock[], testBlocks: 
 }
 
 /**
- * Run tests using Vitest programmatic API
+ * Create a temporary test file from bundled code
+ */
+export async function createTempTestFile(bundledCode: string, fileName: string): Promise<string> {
+  const tempDir = path.join(process.cwd(), '.mdxe')
+  await fs.mkdir(tempDir, { recursive: true })
+
+  const testFileName = path.basename(fileName, path.extname(fileName)) + '.test.ts'
+  const testFilePath = path.join(tempDir, testFileName)
+
+  await fs.writeFile(testFilePath, bundledCode, 'utf-8')
+  return testFilePath
+}
+
+/**
+ * Run tests using Vitest
  */
 export async function runTestsWithVitest(
   bundledCode: string,
@@ -35,94 +51,39 @@ export async function runTestsWithVitest(
   output: string
 }> {
   try {
-    const virtualFilePath = `/virtual/${path.basename(filePath)}.test.js`
+    const testFilePath = await createTempTestFile(bundledCode, filePath)
     
-    const fileSystem = {
-      [virtualFilePath]: bundledCode
-    }
+    const watchFlag = watch ? '--watch' : ''
+    const command = `npx vitest run --globals ${watchFlag} ${testFilePath}`
     
-    let testOutput = ''
-    const originalConsoleLog = console.log
-    const originalConsoleError = console.error
-    
-    console.log = (...args) => {
-      testOutput += args.join(' ') + '\n'
-      originalConsoleLog(...args)
-    }
-    
-    console.error = (...args) => {
-      testOutput += args.join(' ') + '\n'
-      originalConsoleError(...args)
-    }
-    
-    const customFs = {
-      readFile: async (path: string) => {
-        if (fileSystem[path]) {
-          return fileSystem[path]
-        }
-        throw new Error(`File not found: ${path}`)
-      },
-      existsSync: (path: string) => {
-        return !!fileSystem[path]
-      },
-      statSync: (path: string) => {
-        if (fileSystem[path]) {
-          return {
-            isFile: () => true,
-            isDirectory: () => false,
-          }
-        }
-        throw new Error(`File not found: ${path}`)
-      }
-    }
-
-    const config: UserWorkspaceConfig = {
-      test: {
-        globals: true,
-        environment: 'node',
-        include: ['**/*.test.{js,ts}'],
-      }
-    }
-
-    const vitest = await startVitest(
-      watch ? 'watch' as VitestRunMode : 'run' as VitestRunMode,
-      [virtualFilePath],
-      config
-    )
-    
-    vitest.ctx.vitenode.fs = {
-      ...vitest.ctx.vitenode.fs,
-      ...customFs
-    }
-    
-    const testResults = await vitest.run()
-    
-    const testState = vitest.getState()
-    
-    console.log = originalConsoleLog
-    console.error = originalConsoleError
+    const { stdout, stderr } = await execAsync(command)
+    const output = stdout + stderr
     
     if (!watch) {
-      await vitest.close()
+      await cleanupTempFiles()
     }
     
-    const success = testState.getCountOfFailedTests() === 0
+    const success = !output.includes('FAIL') && !output.includes('ERR_')
     
-    return { 
-      success, 
-      output: testOutput 
-    }
+    return { success, output }
   } catch (error: any) {
+    await cleanupTempFiles()
+    
     return {
       success: false,
-      output: error.message || String(error),
+      output: error.stdout + error.stderr || String(error),
     }
   }
 }
 
 /**
- * Clean up temporary test files (legacy function kept for compatibility)
+ * Clean up temporary test files
  */
 export async function cleanupTempFiles(): Promise<void> {
-  return Promise.resolve()
+  const tempDir = path.join(process.cwd(), '.mdxe')
+  try {
+    await fs.rm(tempDir, { recursive: true, force: true })
+  } catch (error) {
+    console.error('Error cleaning up temporary files:', error)
+  }
 }
