@@ -89,15 +89,15 @@ mdxe dev
 
 And you can develop and deploy entire projects with `mdxe`:
 
-```json5
+```json
 // package.json
 {
-  scripts: {
-    dev: 'mdxe dev',
-    build: 'mdxe build',
-    start: 'mdxe start',
-    test: 'mdxe test',
-    lint: 'mdxe lint',
+  "scripts": {
+    "dev": "mdxe dev",
+    "build": "mdxe build",
+    "start": "mdxe start",
+    "test": "mdxe test",
+    "lint": "mdxe lint",
   },
 }
 ```
