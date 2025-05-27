@@ -15,7 +15,7 @@ import {
   listAiFunctionVersions,
   AI_FOLDER_STRUCTURE,
 } from './utils.js'
-import { generateListStream } from './llmService.js'
+import { generateListStream, generateImageStream } from './llmService.js'
 import yaml from 'yaml'
 
 /**
@@ -584,5 +584,69 @@ export const research = new Proxy(researchFunction_, {
     }
 
     throw new Error('Research function must be called as a template literal')
+  },
+})
+
+/**
+ * Image template literal function for AI image generation
+ *
+ * Usage: await image`A salamander at sunrise in a forest pond in the Seychelles.`
+ */
+export type ImageTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
+
+const imageFunction_: ImageTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
+  if (Array.isArray(template) && 'raw' in template) {
+    let prompt = ''
+
+    template.forEach((str, i) => {
+      prompt += str
+      if (i < values.length) {
+        if (values[i] !== null && typeof values[i] === 'object') {
+          prompt += yaml.stringify(values[i])
+        } else {
+          prompt += values[i]
+        }
+      }
+    })
+
+    return generateImageStream(prompt)
+  }
+
+  throw new Error('Image function must be called as a template literal')
+}
+
+export const image = new Proxy(imageFunction_, {
+  get(target, prop) {
+    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+      return undefined
+    }
+
+    if (typeof prop === 'symbol') {
+      return Reflect.get(target, prop)
+    }
+
+    return target
+  },
+
+  apply(target, thisArg, args) {
+    if (Array.isArray(args[0]) && 'raw' in args[0]) {
+      const templateStrings = args[0] as TemplateStringsArray
+      let prompt = ''
+
+      templateStrings.forEach((str, i) => {
+        prompt += str
+        if (i < args.length - 1) {
+          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
+            prompt += yaml.stringify(args[i + 1])
+          } else {
+            prompt += args[i + 1]
+          }
+        }
+      })
+
+      return generateImageStream(prompt)
+    }
+
+    throw new Error('Image function must be called as a template literal')
   },
 })
