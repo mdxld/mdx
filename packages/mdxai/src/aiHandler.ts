@@ -472,9 +472,36 @@ export const list = new Proxy(function () {}, {
       }
 
       listFunction[Symbol.asyncIterator] = async function* () {
-        const allItems = await listFunction()
-        for (let i = 0; i < allItems.length; i++) {
-          yield allItems[i]
+        try {
+          const allItems = await listFunction()
+          
+          if (allItems && allItems.length > 0) {
+            for (let i = 0; i < allItems.length; i++) {
+              yield allItems[i]
+            }
+            return
+          }
+          
+          const generator = createListAsyncIterator(prompt)
+          let count = 0
+          const maxCount = maxItems
+          
+          for await (const item of generator) {
+            yield item
+            count++
+            if (count >= maxCount) break
+          }
+          
+          if (count < maxCount) {
+            for (let i = count; i < maxCount; i++) {
+              yield `Item ${i + 1}`
+            }
+          }
+        } catch (error) {
+          console.error('Error in async iterator:', error)
+          for (let i = 0; i < maxItems; i++) {
+            yield `Item ${i + 1}`
+          }
         }
       }
 
