@@ -26,28 +26,32 @@ export async function runTestCommand(cwd: string = process.cwd(), watch: boolean
     let failureCount = 0
 
     for (const filePath of mdxFiles) {
-      const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(filePath)
-      
-      if (testBlocks.length === 0) {
-        continue
-      }
+      try {
+        const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(filePath)
+        
+        if (testBlocks.length === 0) {
+          continue
+        }
 
-      testFilesCount++
-      testBlocksCount += testBlocks.length
+        testFilesCount++
+        testBlocksCount += testBlocks.length
+        
+        console.log(`\n📝 Testing ${path.relative(cwd, filePath)} (${testBlocks.length} test blocks)`)
+        
+        const bundledCode = await bundleCodeForTesting(codeBlocks, testBlocks)
+        
+        const { success, output } = await runTestsWithVitest(bundledCode, filePath, watch)
       
-      console.log(`\n📝 Testing ${path.relative(cwd, filePath)} (${testBlocks.length} test blocks)`)
-      
-      const bundledCode = await bundleCodeForTesting(codeBlocks, testBlocks)
-      
-      const { success, output } = await runTestsWithVitest(bundledCode, filePath, watch)
-      
-      if (success) {
-        successCount++
-        console.log(`✅ Tests passed for ${path.relative(cwd, filePath)}`)
-      } else {
-        failureCount++
-        console.log(`❌ Tests failed for ${path.relative(cwd, filePath)}`)
-        console.log(output)
+        if (success) {
+          successCount++
+          console.log(`✅ Tests passed for ${path.relative(cwd, filePath)}`)
+        } else {
+          failureCount++
+          console.log(`❌ Tests failed for ${path.relative(cwd, filePath)}`)
+          console.log(output)
+        }
+      } catch (error) {
+        console.error(`Error testing ${path.relative(cwd, filePath)}:`, error)
       }
     }
 
