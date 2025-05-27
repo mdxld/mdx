@@ -33,13 +33,13 @@ export async function parseMdxFile(mdxPath: string): Promise<ParsedMdxDocument> 
  * Compile MDX content to a React component
  */
 export async function compileMdx(
-  mdxContent: string, 
+  mdxContent: string,
   scope: Record<string, any> = {},
-  options: { remarkPlugins?: any[]; rehypePlugins?: any[] } = {}
+  options: { remarkPlugins?: any[]; rehypePlugins?: any[] } = {},
 ): Promise<React.ComponentType<any>> {
   try {
-    const plugins = getPlugins(options);
-    
+    const plugins = getPlugins(options)
+
     const compiled = await compile(mdxContent, {
       outputFormat: 'function-body',
       development: process.env.NODE_ENV !== 'production',
@@ -99,20 +99,23 @@ export async function renderMdxCli(mdxPath: string, options: Partial<MdxPastelIn
     ...(options.components || {}),
   }
 
-  const processedComponents = Object.entries(mergedComponents).reduce((acc, [key, component]) => {
-    const isSvgComponent = 
-      typeof component === 'function' && 
-      key.match(/^[A-Z]/) && // Component names start with capital letter
-      !defaultComponents.hasOwnProperty(key); // Not one of our built-in components
-    
-    if (isSvgComponent) {
-      acc[key] = wrapSvgComponent(component as React.ComponentType<any>);
-    } else {
-      acc[key] = component;
-    }
-    
-    return acc;
-  }, {} as Record<string, any>);
+  const processedComponents = Object.entries(mergedComponents).reduce(
+    (acc, [key, component]) => {
+      const isSvgComponent =
+        typeof component === 'function' &&
+        key.match(/^[A-Z]/) && // Component names start with capital letter
+        !defaultComponents.hasOwnProperty(key) // Not one of our built-in components
+
+      if (isSvgComponent) {
+        acc[key] = wrapSvgComponent(component as React.ComponentType<any>)
+      } else {
+        acc[key] = component
+      }
+
+      return acc
+    },
+    {} as Record<string, any>,
+  )
 
   // Render the component with input values and processed components
   const { waitUntilExit } = render(<Content components={processedComponents} {...inputValues} />)

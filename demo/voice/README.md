@@ -1,6 +1,7 @@
 # Voice Example with OpenAI Realtime API
 
 This example demonstrates using React Ink to create a CLI application that:
+
 1. Captures audio from your microphone
 2. Streams it to OpenAI's Realtime API via WebSockets
 3. Displays the transcribed text in real-time
@@ -33,6 +34,7 @@ pnpm start
 ## How it Works
 
 The application uses:
+
 - `mic` to capture audio from your microphone
 - `ws` to establish a WebSocket connection to OpenAI's Realtime API
 - `speaker` to play back audio responses

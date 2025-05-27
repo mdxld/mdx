@@ -23,10 +23,7 @@ export interface ExtractResult extends Promise<any> {
 /**
  * Core extraction logic for different data types
  */
-async function extractData(
-  prompt: string, 
-  options: ExtractOptions = {}
-): Promise<any> {
+async function extractData(prompt: string, options: ExtractOptions = {}): Promise<any> {
   const { type = 'auto', schema, cache = true } = options
 
   if (process.env.NODE_ENV === 'test') {
@@ -183,19 +180,19 @@ async function extractAuto(prompt: string): Promise<any> {
 function parseListFromText(text: string): string[] {
   let items = text
     .split('\n')
-    .map(line => line.trim())
-    .filter(line => /^\d+\./.test(line))
-    .map(line => line.replace(/^\d+\.\s*/, '').trim())
+    .map((line) => line.trim())
+    .filter((line) => /^\d+\./.test(line))
+    .map((line) => line.replace(/^\d+\.\s*/, '').trim())
 
   if (items.length === 0) {
     items = text
       .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length > 0 && !line.startsWith('#'))
-      .map(line => line.replace(/^[-*•]\s*/, '').trim())
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && !line.startsWith('#'))
+      .map((line) => line.replace(/^[-*•]\s*/, '').trim())
   }
 
-  return items.filter(item => item.length > 0)
+  return items.filter((item) => item.length > 0)
 }
 
 /**
@@ -207,10 +204,10 @@ function generateMockExtractResult(type: ExtractType, schema?: Record<string, an
       return {
         name: 'Test Product',
         price: 99.99,
-        features: ['Feature 1', 'Feature 2']
+        features: ['Feature 1', 'Feature 2'],
       }
     }
-    
+
     const mockObject: Record<string, any> = {}
     for (const [key, value] of Object.entries(schema)) {
       if (typeof value === 'string') {

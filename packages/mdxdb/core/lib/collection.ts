@@ -6,7 +6,7 @@ import { MdxDbInterface, DocumentContent, CollectionInterface } from './types.js
 export class Collection implements CollectionInterface {
   constructor(
     private db: MdxDbInterface,
-    private collectionName: string
+    private collectionName: string,
   ) {}
 
   /**
@@ -16,14 +16,14 @@ export class Collection implements CollectionInterface {
     const slug = this.generateSlug(title)
     const documentContent: DocumentContent = {
       frontmatter: { title },
-      body: content.trim()
+      body: content.trim(),
     }
     await this.db.set(slug, documentContent, this.collectionName)
   }
 
   /**
    * Get a document by ID, slug, or title from this collection
-   * 
+   *
    * This method will:
    * 1. Try to find by exact ID/slug match
    * 2. Try to find by exact title match
@@ -31,19 +31,19 @@ export class Collection implements CollectionInterface {
    * 4. Try to find by slugified title
    */
   get(idOrTitle: string): any | undefined {
-    if (!idOrTitle) return undefined;
-    
+    if (!idOrTitle) return undefined
+
     let result = this.db.get(idOrTitle, this.collectionName)
     if (result) {
       console.log(`Found by direct ID/slug lookup: ${idOrTitle}`)
       return result
     }
-    
+
     const allItems = this.db.list(this.collectionName) || []
     console.log(`Collection.get: Looking for "${idOrTitle}" in ${allItems.length} items`)
-    
+
     const normalizedInput = String(idOrTitle).trim()
-    
+
     // Debug: Print all titles in collection
     console.log('All titles in collection:')
     for (const item of allItems) {
@@ -51,7 +51,7 @@ export class Collection implements CollectionInterface {
         console.log(`- "${item.title}" (${typeof item.title})`)
       }
     }
-    
+
     for (const item of allItems) {
       if (item && typeof item === 'object' && item.title) {
         const itemTitle = String(item.title).trim()
@@ -62,7 +62,7 @@ export class Collection implements CollectionInterface {
         }
       }
     }
-    
+
     // 2. Try case-insensitive title match
     const lowerInput = normalizedInput.toLowerCase()
     for (const item of allItems) {
@@ -74,7 +74,7 @@ export class Collection implements CollectionInterface {
         }
       }
     }
-    
+
     // 3. Try slugified title match
     if (idOrTitle.match(/[A-Z\s]/)) {
       const slug = this.generateSlug(idOrTitle)
@@ -85,7 +85,7 @@ export class Collection implements CollectionInterface {
         return result
       }
     }
-    
+
     return result
   }
 
@@ -102,7 +102,7 @@ export class Collection implements CollectionInterface {
   async update(id: string, title: string, content: string): Promise<void> {
     const documentContent: DocumentContent = {
       frontmatter: { title },
-      body: content.trim()
+      body: content.trim(),
     }
     await this.db.set(id, documentContent, this.collectionName)
   }

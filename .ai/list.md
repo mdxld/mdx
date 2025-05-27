@@ -1,5 +1,5 @@
 ---
-output: "array"
+output: 'array'
 ---
 
 You are a creative content strategist. Generate a list of items based on the prompt.

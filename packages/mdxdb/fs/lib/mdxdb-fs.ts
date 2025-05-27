@@ -4,15 +4,7 @@ import matter from 'gray-matter'
 import util from 'util'
 import path from 'path'
 import micromatch from 'micromatch'
-import { 
-  MdxDbBase, 
-  MdxDbConfig, 
-  VeliteData, 
-  DocumentContent, 
-  extractContentPath,
-  discoverSchemas,
-  SchemaDefinition
-} from '@mdxdb/core'
+import { MdxDbBase, MdxDbConfig, VeliteData, DocumentContent, extractContentPath, discoverSchemas, SchemaDefinition } from '@mdxdb/core'
 
 const execFilePromise = util.promisify(execFile)
 
@@ -67,22 +59,22 @@ export class MdxDbFs extends MdxDbBase {
     try {
       const dbFolderPath = path.join(this.packageDir, '.db')
       let discoveredSchemas: SchemaDefinition[] = []
-      
+
       try {
         discoveredSchemas = await discoverSchemas(dbFolderPath)
         console.log(`Discovered ${discoveredSchemas.length} schema definitions from .db folder`)
       } catch (error) {
         console.warn('Failed to discover schemas from .db folder:', error)
       }
-      
+
       const enhancedCollections = { ...(this.config.collections || {}) }
-      
+
       for (const schemaDef of discoveredSchemas) {
         if (!enhancedCollections[schemaDef.collectionName]) {
           enhancedCollections[schemaDef.collectionName] = {
             name: schemaDef.collectionName,
             pattern: `content/${schemaDef.collectionName}/**/*.{md,mdx}`,
-            schema: schemaDef.schema
+            schema: schemaDef.schema,
           }
           console.log(`Added collection '${schemaDef.collectionName}' from schema definition`)
         } else {
@@ -95,9 +87,9 @@ export class MdxDbFs extends MdxDbBase {
           }
         }
       }
-      
+
       const veliteConfigPath = path.join(this.packageDir, 'velite.config.js')
-      
+
       let shouldDeleteConfig = false
       try {
         await fs.access(veliteConfigPath)
@@ -229,14 +221,11 @@ export class MdxDbFs extends MdxDbBase {
 
           if (jsonFiles.length === 0) {
             console.log('No content directories found or processed, creating default empty collections')
-            
+
             const collections = Object.keys(enhancedCollections)
             if (collections.length > 0) {
               for (const collection of collections) {
-                await fs.writeFile(
-                  path.join(outputDir, `${collection}.json`), 
-                  '[]'
-                )
+                await fs.writeFile(path.join(outputDir, `${collection}.json`), '[]')
                 console.log(`Created empty collection file for '${collection}'`)
               }
               console.log(`Successfully created ${collections.length} default empty collection files.`)
@@ -249,7 +238,7 @@ export class MdxDbFs extends MdxDbBase {
 
           const finalFiles = await fs.readdir(outputDir)
           const finalJsonFiles = finalFiles.filter((file) => file.endsWith('.json'))
-          
+
           console.log(`Successfully built database using fallback method. Created ${finalJsonFiles.length} collection files.`)
         } catch (outputError) {
           console.error('Fallback build method failed to create any collection files:', outputError)

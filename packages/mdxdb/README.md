@@ -47,12 +47,14 @@ const readme = await db.get('readme')
 ```
 
 Options:
+
 - `-c, --collection <collection>`: Name of the collection (required)
 - `-n, --count <number>`: Number of documents to generate (default: 1)
 - `-d, --description <description>`: Description to guide document generation
 - `--ink`: Use React Ink for interactive UI
 
 Prerequisites:
+
 - Requires `OPENAI_API_KEY` environment variable to be set
 
 ## Setup and Configuration
@@ -108,36 +110,36 @@ import { MdxDbFs } from '@mdxdb/fs'
 async function main() {
   // Initialize the database
   const db = new MdxDbFs({ packageDir: process.cwd() })
-  
+
   // Build the database
   await db.build()
-  
+
   // List all posts
   const posts = db.list('posts')
   console.log(`Found ${posts.length} posts`)
-  
+
   // Get a specific post by slug
   const post = db.get('hello-world', 'posts')
-  
+
   // Create a new post
   await db.set(
     'new-post',
     {
-      frontmatter: { 
-        title: 'New Post', 
-        date: new Date().toISOString().split('T')[0] 
+      frontmatter: {
+        title: 'New Post',
+        date: new Date().toISOString().split('T')[0],
       },
-      body: '# Hello World\n\nThis is a new post.'
+      body: '# Hello World\n\nThis is a new post.',
     },
-    'posts'
+    'posts',
   )
-  
+
   // Delete a post
   await db.delete('old-post', 'posts')
-  
+
   // Start watching for changes
   await db.watch()
-  
+
   // Later, stop watching
   db.stopWatch()
 }
@@ -157,30 +159,30 @@ async function main() {
     packageDir: process.cwd(),
     veliteConfig: {
       // Your Velite configuration
-    }
+    },
   })
-  
+
   // Build the database
   await db.build()
-  
+
   // List all posts
   const posts = db.list('posts')
-  
+
   // Search for posts using vector embeddings
   const results = await db.search('react hooks tutorial', 'posts')
   console.log(`Found ${results.length} matching posts`)
-  
+
   // Create a new post
   await db.set(
     'vector-search-demo',
     {
-      frontmatter: { 
-        title: 'Vector Search Demo', 
-        date: new Date().toISOString().split('T')[0] 
+      frontmatter: {
+        title: 'Vector Search Demo',
+        date: new Date().toISOString().split('T')[0],
       },
-      body: '# Vector Search\n\nThis post demonstrates vector search capabilities.'
+      body: '# Vector Search\n\nThis post demonstrates vector search capabilities.',
     },
-    'posts'
+    'posts',
   )
 }
 

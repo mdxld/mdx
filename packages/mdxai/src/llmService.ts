@@ -6,7 +6,7 @@ const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
   maxSize: 100,
   persistentCache: true,
-  memoryCache: true
+  memoryCache: true,
 })
 
 interface LLMServiceParams {
@@ -28,10 +28,10 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
     // If a different provider instance is passed, it should also be pre-initialized.
     // The modelId is used to specify which model to use with that provider.
     const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
-    
+
     const wrappedModel = wrapLanguageModel({
       model: model,
-      middleware: cacheMiddleware
+      middleware: cacheMiddleware,
     })
 
     const result = await streamText({
@@ -77,11 +77,11 @@ export async function generateResearchStream(prompt: string): Promise<StreamText
   ]
 
   const researchProvider = createResearchProvider()
-  
+
   const model = researchProvider('perplexity/sonar-deep-research' as any)
   const wrappedModel = wrapLanguageModel({
     model: model,
-    middleware: cacheMiddleware
+    middleware: cacheMiddleware,
   })
 
   // Use streamText directly with the wrapped model
@@ -89,7 +89,7 @@ export async function generateResearchStream(prompt: string): Promise<StreamText
     model: wrappedModel,
     messages: messages,
   })
-  
+
   return result
 }
 
@@ -110,7 +110,7 @@ export async function generateDeepwikiStream(query: string): Promise<StreamTextR
   const model = openai('o4-mini')
   const wrappedModel = wrapLanguageModel({
     model: model,
-    middleware: cacheMiddleware
+    middleware: cacheMiddleware,
   })
 
   const result = await streamText({

@@ -20,13 +20,13 @@ export interface CodeBlock {
  * Extract execution context from code block metadata
  */
 export function extractExecutionContext(meta: string | null): ExecutionContextType {
-  if (!meta) return 'default';
-  
-  if (meta.includes('test')) return 'test';
-  if (meta.includes('dev')) return 'dev';
-  if (meta.includes('production')) return 'production';
-  
-  return 'default';
+  if (!meta) return 'default'
+
+  if (meta.includes('test')) return 'test'
+  if (meta.includes('dev')) return 'dev'
+  if (meta.includes('production')) return 'production'
+
+  return 'default'
 }
 
 /**

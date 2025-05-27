@@ -10,7 +10,7 @@ This is a simple test file to verify MDXE functionality.
 
 ```js
 // Example code block
-console.log('Hello from MDXE!');
+console.log('Hello from MDXE!')
 ```
 
 ## Interactive Component

@@ -4,16 +4,16 @@ import matter from 'gray-matter'
 import fs from 'fs'
 import { model } from './ai.js'
 import { research as researchFunction } from './functions/research.js'
-import { 
-  findAiFunction, 
-  findAiFunctionEnhanced, 
+import {
+  findAiFunction,
+  findAiFunctionEnhanced,
   ensureAiFunctionExists,
   createAiFolderStructure,
   writeAiFunction,
   findAiFunctionsInHierarchy,
   createAiFunctionVersion,
   listAiFunctionVersions,
-  AI_FOLDER_STRUCTURE
+  AI_FOLDER_STRUCTURE,
 } from './utils.js'
 import { generateListStream } from './llmService.js'
 import yaml from 'yaml'
@@ -34,8 +34,8 @@ export type ListFunction = {
  * Type for AI function with dynamic properties
  */
 export interface AiFunction extends TemplateFn {
-  [key: string | symbol]: any;
-  list?: ListFunction;
+  [key: string | symbol]: any
+  list?: ListFunction
 }
 
 /**
@@ -45,32 +45,32 @@ export interface AiFunction extends TemplateFn {
  */
 function stringifyValue(value: any): string {
   if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
-    return yaml.stringify(value).trim();
+    return yaml.stringify(value).trim()
   }
-  return String(value);
+  return String(value)
 }
 
 /**
  * Core AI template literal function for text generation
- * 
+ *
  * Usage: await ai`Write a blog post about ${topic}`
  */
 export async function generateAiText(prompt: string): Promise<string> {
   if (process.env.NODE_ENV === 'test') {
     return 'This is a mock string response for testing purposes. It simulates what would be returned from the AI model in a real environment.'
   }
-  
+
   try {
     const result = await streamText({
       model: model('gpt-4o'),
       prompt: prompt,
     })
-    
+
     let completeText = ''
     for await (const chunk of result.textStream) {
       completeText += chunk
     }
-    
+
     return completeText
   } catch (error) {
     console.error('Error in generateAiText:', error)
@@ -80,78 +80,78 @@ export async function generateAiText(prompt: string): Promise<string> {
 
 /**
  * AI object with template literal and dynamic function support
- * 
+ *
  * Usage:
  * - Template literal: ai`Write a blog post about ${topic}`
  * - Function with template: ai.list`Generate ${count} blog post titles about ${topic}`
  * - Function with object: ai.storyBrand({ brand: 'vercel' })
  */
-const aiFunction: AiFunction = function(template: TemplateStringsArray, ...values: any[]) {
+const aiFunction: AiFunction = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
-    let prompt = '';
-    
+    let prompt = ''
+
     template.forEach((str, i) => {
-      prompt += str;
+      prompt += str
       if (i < values.length) {
-        prompt += stringifyValue(values[i]);
+        prompt += stringifyValue(values[i])
       }
-    });
-    
-    return generateAiText(prompt);
+    })
+
+    return generateAiText(prompt)
   }
-  
-  return executeAiFunction('default', String(template));
-};
+
+  return executeAiFunction('default', String(template))
+}
 
 export const ai = new Proxy(aiFunction, {
   get(target, prop) {
     if (prop === 'then' || prop === 'catch' || prop === 'finally') {
       return undefined
     }
-    
+
     if (typeof prop === 'symbol') {
       return Reflect.get(target, prop)
     }
-    
+
     const propName = String(prop)
-    
-    return function(templateOrArgs: TemplateStringsArray | Record<string, any>, ...values: any[]) {
+
+    return function (templateOrArgs: TemplateStringsArray | Record<string, any>, ...values: any[]) {
       if (Array.isArray(templateOrArgs) && 'raw' in templateOrArgs) {
-        const templateStrings = templateOrArgs as TemplateStringsArray;
-        let prompt = '';
-        
+        const templateStrings = templateOrArgs as TemplateStringsArray
+        let prompt = ''
+
         templateStrings.forEach((str, i) => {
-          prompt += str;
+          prompt += str
           if (i < values.length) {
-            prompt += stringifyValue(values[i]);
+            prompt += stringifyValue(values[i])
           }
-        });
-        
-        return executeAiFunction(propName, prompt);
+        })
+
+        return executeAiFunction(propName, prompt)
       } else {
-        return executeAiFunction(propName, stringifyValue(templateOrArgs));
+        return executeAiFunction(propName, stringifyValue(templateOrArgs))
       }
     }
   },
-  
+
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const templateStrings = args[0] as TemplateStringsArray;
-      let prompt = '';
-      
+      const templateStrings = args[0] as TemplateStringsArray
+      let prompt = ''
+
       templateStrings.forEach((str, i) => {
-        prompt += str;
+        prompt += str
         if (i < args.length - 1) {
-          prompt += stringifyValue(args[i + 1]);
+          prompt += stringifyValue(args[i + 1])
         }
-      });
-      
-      return generateAiText(prompt);
+      })
+
+      return generateAiText(prompt)
     }
-    
-    throw new Error('AI object must be called as a template literal or with a property access');
-  }
-});
+
+    throw new Error('AI object must be called as a template literal or with a property access')
+  },
+})
 
 /**
  * Execute an AI function by name with the given prompt
@@ -161,7 +161,7 @@ export const ai = new Proxy(aiFunction, {
  */
 export async function executeAiFunction(functionName: string, prompt: string): Promise<any> {
   let aiFile = await findAiFunctionEnhanced(functionName)
-  
+
   if (!aiFile) {
     try {
       const createdPath = ensureAiFunctionExists(functionName)
@@ -174,12 +174,12 @@ export async function executeAiFunction(functionName: string, prompt: string): P
       throw new Error(`AI function '${functionName}' not found in .ai directory and could not be created: ${errorMessage}`)
     }
   }
-  
+
   const { data: frontmatter, content: template } = matter(aiFile.filePath ? fs.readFileSync(aiFile.filePath, 'utf-8') : aiFile.content)
   const systemPrompt = template.replace(/\$\{prompt\}/g, prompt)
-  
+
   const outputType = frontmatter.output
-  
+
   if (typeof outputType === 'string') {
     if (outputType === 'array') {
       return await handleArrayOutput(systemPrompt)
@@ -206,19 +206,19 @@ async function handleStringOutput(systemPrompt: string): Promise<string> {
     console.log('Using mock string output for testing')
     return 'This is a mock string response for testing purposes. It simulates what would be returned from the AI model in a real environment.'
   }
-  
+
   try {
     const result = await streamText({
       model: model('gpt-4o'),
       prompt: systemPrompt,
     })
-    
+
     let completeText = ''
     for await (const chunk of result.textStream) {
       process.stdout.write(chunk)
       completeText += chunk
     }
-    
+
     return completeText
   } catch (error) {
     console.error('Error in handleStringOutput:', error)
@@ -235,42 +235,42 @@ async function handleArrayOutput(systemPrompt: string): Promise<string[]> {
   if (process.env.NODE_ENV === 'test') {
     return ['Item 1', 'Item 2', 'Item 3']
   }
-  
+
   const listSystemPrompt = `${systemPrompt}\n\nRespond with a numbered markdown ordered list.`
-  
+
   try {
     const result = await streamText({
       model: model('gpt-4o'),
       prompt: listSystemPrompt,
     })
-    
+
     let completeText = ''
     for await (const chunk of result.textStream) {
       process.stdout.write(chunk)
       completeText += chunk
     }
-    
+
     let items = completeText
       .split('\n')
-      .map(line => line.trim())
-      .filter(line => /^\d+\./.test(line))
-      .map(line => line.replace(/^\d+\.\s*/, '').trim())
-    
+      .map((line) => line.trim())
+      .filter((line) => /^\d+\./.test(line))
+      .map((line) => line.replace(/^\d+\.\s*/, '').trim())
+
     if (items.length === 0) {
       items = completeText
         .split('\n')
-        .map(line => line.trim())
-        .filter(line => line.length > 0 && !line.startsWith('#'))
-        .map(line => line.replace(/^[-*•]\s*/, '').trim())
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0 && !line.startsWith('#'))
+        .map((line) => line.replace(/^[-*•]\s*/, '').trim())
     }
-    
+
     if (items.length === 0) {
       items = completeText
         .split('\n')
-        .map(line => line.trim())
-        .filter(line => line.length > 0)
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0)
     }
-    
+
     return items
   } catch (error) {
     console.error('Error in handleArrayOutput:', error)
@@ -287,7 +287,7 @@ async function handleArrayOutput(systemPrompt: string): Promise<string[]> {
 async function handleObjectOutput(systemPrompt: string, outputSchema: Record<string, any>): Promise<any> {
   if (process.env.NODE_ENV === 'test') {
     const mockObject: Record<string, any> = {}
-    
+
     for (const [key, value] of Object.entries(outputSchema)) {
       if (typeof value === 'string') {
         if (value.includes('|')) {
@@ -301,29 +301,29 @@ async function handleObjectOutput(systemPrompt: string, outputSchema: Record<str
         mockObject[key] = { mockNestedKey: 'Mock nested value' }
       }
     }
-    
+
     return mockObject
   }
-  
+
   try {
     const zodSchema = createZodSchemaFromObject(outputSchema)
-    
+
     const result = await streamObject({
       model: model('gpt-4o'),
       prompt: systemPrompt,
       schema: zodSchema,
     })
-    
+
     for await (const chunk of result.partialObjectStream) {
       process.stdout.write(JSON.stringify(chunk) + '\n')
     }
-    
+
     return result.object
   } catch (error) {
     console.error('Error in handleObjectOutput:', error)
-    
+
     const fallbackObject: Record<string, any> = {}
-    
+
     for (const [key, value] of Object.entries(outputSchema)) {
       if (typeof value === 'string') {
         if (value.includes('|')) {
@@ -337,7 +337,7 @@ async function handleObjectOutput(systemPrompt: string, outputSchema: Record<str
         fallbackObject[key] = {}
       }
     }
-    
+
     return fallbackObject
   }
 }
@@ -349,11 +349,11 @@ async function handleObjectOutput(systemPrompt: string, outputSchema: Record<str
  */
 export function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema {
   const schemaObj: Record<string, z.ZodTypeAny> = {}
-  
+
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === 'string') {
       if (value.includes('|')) {
-        const options = value.split('|').map(o => o.trim())
+        const options = value.split('|').map((o) => o.trim())
         schemaObj[key] = z.enum(options as [string, ...string[]])
       } else {
         schemaObj[key] = z.string().describe(value)
@@ -366,7 +366,7 @@ export function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema
       schemaObj[key] = z.string().describe(String(value))
     }
   }
-  
+
   return z.object(schemaObj)
 }
 
@@ -378,18 +378,18 @@ export function createZodSchemaFromObject(obj: Record<string, any>): z.ZodSchema
  */
 export function inferAndValidateOutput(outputSchema: any, result: any): any {
   if (!outputSchema) {
-    return result;
+    return result
   }
 
   try {
     if (typeof outputSchema === 'object' && !Array.isArray(outputSchema)) {
-      const zodSchema = createZodSchemaFromObject(outputSchema);
-      return zodSchema.parse(result);
+      const zodSchema = createZodSchemaFromObject(outputSchema)
+      return zodSchema.parse(result)
     }
-    return result;
+    return result
   } catch (error) {
-    console.warn('Type validation failed:', error);
-    return result; // Return original result if validation fails
+    console.warn('Type validation failed:', error)
+    return result // Return original result if validation fails
   }
 }
 
@@ -412,7 +412,7 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
 
     for await (const chunk of result.textStream) {
       buffer += chunk
-      
+
       const lines = buffer.split('\n')
       for (const line of lines) {
         const trimmedLine = line.trim()
@@ -420,16 +420,15 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
           const item = trimmedLine.replace(/^\d+\.\s*/, '').trim()
           if (item && !seenItems.has(item)) {
             seenItems.add(item)
-            
+
             try {
               const parsedItem = JSON.parse(item)
               if (typeof parsedItem === 'object' && parsedItem !== null) {
                 yield stringifyValue(parsedItem)
                 continue
               }
-            } catch (e) {
-            }
-            
+            } catch (e) {}
+
             yield item
           }
         }
@@ -459,19 +458,19 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
 
     let items = completeContent
       .split('\n')
-      .map(line => line.trim())
-      .filter(line => /^\d+\./.test(line))
-      .map(line => line.replace(/^\d+\.\s*/, '').trim())
+      .map((line) => line.trim())
+      .filter((line) => /^\d+\./.test(line))
+      .map((line) => line.replace(/^\d+\.\s*/, '').trim())
 
     if (items.length === 0) {
       items = completeContent
         .split('\n')
-        .map(line => line.trim())
-        .filter(line => line.length > 0 && !line.startsWith('#'))
-        .map(line => line.replace(/^[-*•]\s*/, '').trim())
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0 && !line.startsWith('#'))
+        .map((line) => line.replace(/^[-*•]\s*/, '').trim())
     }
 
-    return items.map(item => {
+    return items.map((item) => {
       try {
         const parsedItem = JSON.parse(item)
         if (typeof parsedItem === 'object' && parsedItem !== null) {
@@ -490,8 +489,8 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
 
 /**
  * List template literal function for generating arrays of items with async iterator support
- * 
- * Usage: 
+ *
+ * Usage:
  * - As Promise: const items = await list`10 ideas for ${topic}`
  * - As AsyncIterable: for await (const item of list`10 ideas for ${topic}`) { ... }
  */
@@ -502,15 +501,15 @@ export const list = new Proxy(function () {}, {
       const prompt = String.raw({ raw: template }, ...expressions)
 
       const listFunction: any = () => generateCompleteList(prompt)
-      
+
       listFunction.then = (resolve: any, reject: any) => {
         return generateCompleteList(prompt).then(resolve, reject)
       }
-      
+
       listFunction.catch = (reject: any) => {
         return generateCompleteList(prompt).catch(reject)
       }
-      
+
       listFunction.finally = (callback: any) => {
         return generateCompleteList(prompt).finally(callback)
       }
@@ -526,64 +525,64 @@ export const list = new Proxy(function () {}, {
 
 /**
  * Research template literal function for external data gathering
- * 
+ *
  * Usage: await research`${market} in the context of delivering ${idea}`
  */
 export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
 
-const researchFunction_: ResearchTemplateFn = function(template: TemplateStringsArray, ...values: any[]) {
+const researchFunction_: ResearchTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
-    let query = '';
-    
+    let query = ''
+
     template.forEach((str, i) => {
-      query += str;
+      query += str
       if (i < values.length) {
         if (values[i] !== null && typeof values[i] === 'object') {
-          query += yaml.stringify(values[i]);
+          query += yaml.stringify(values[i])
         } else {
-          query += values[i];
+          query += values[i]
         }
       }
-    });
-    
-    return researchFunction(query);
+    })
+
+    return researchFunction(query)
   }
-  
-  throw new Error('Research function must be called as a template literal');
-};
+
+  throw new Error('Research function must be called as a template literal')
+}
 
 export const research = new Proxy(researchFunction_, {
   get(target, prop) {
     if (prop === 'then' || prop === 'catch' || prop === 'finally') {
       return undefined
     }
-    
+
     if (typeof prop === 'symbol') {
       return Reflect.get(target, prop)
     }
-    
+
     return target
   },
-  
+
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const templateStrings = args[0] as TemplateStringsArray;
-      let query = '';
-      
+      const templateStrings = args[0] as TemplateStringsArray
+      let query = ''
+
       templateStrings.forEach((str, i) => {
-        query += str;
+        query += str
         if (i < args.length - 1) {
           if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
-            query += yaml.stringify(args[i + 1]);
+            query += yaml.stringify(args[i + 1])
           } else {
-            query += args[i + 1];
+            query += args[i + 1]
           }
         }
-      });
-      
-      return researchFunction(query);
+      })
+
+      return researchFunction(query)
     }
-    
-    throw new Error('Research function must be called as a template literal');
-  }
-});
+
+    throw new Error('Research function must be called as a template literal')
+  },
+})

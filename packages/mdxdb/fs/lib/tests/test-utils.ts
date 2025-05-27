@@ -32,9 +32,9 @@ export async function createTestFixture(): Promise<TestFixture> {
       fs.mkdir(contentDir, { recursive: true }),
       fs.mkdir(blogDir, { recursive: true }),
       fs.mkdir(veliteDir, { recursive: true }),
-      fs.mkdir(exportDir, { recursive: true })
+      fs.mkdir(exportDir, { recursive: true }),
     ])
-    
+
     console.log(`Created test directories at ${testDir}`)
 
     await Promise.all([
@@ -45,7 +45,7 @@ title: Sample Post 1
 date: 2023-01-01
 ---
 # Sample Post 1
-This is the content of post 1.`
+This is the content of post 1.`,
       ),
       fs.writeFile(
         path.join(contentDir, 'post-2.mdx'),
@@ -54,7 +54,7 @@ title: Sample Post 2
 date: 2023-01-02
 ---
 # Sample Post 2
-This is the content of post 2.`
+This is the content of post 2.`,
       ),
       fs.writeFile(
         path.join(blogDir, 'sample-blog.mdx'),
@@ -63,7 +63,7 @@ title: Sample Blog
 date: 2023-01-03
 ---
 # Sample Blog
-This is a sample blog post.`
+This is a sample blog post.`,
       ),
       fs.writeFile(
         path.join(testDir, 'velite.config.ts'),
@@ -103,7 +103,7 @@ export default defineConfig({
       }
     }
   }
-})`
+})`,
       ),
       fs.writeFile(
         path.join(veliteDir, 'posts.json'),
@@ -120,7 +120,7 @@ export default defineConfig({
             date: '2023-01-02',
             body: '# Sample Post 2\nThis is the content of post 2.',
           },
-        ])
+        ]),
       ),
       fs.writeFile(
         path.join(veliteDir, 'blog.json'),
@@ -131,26 +131,26 @@ export default defineConfig({
             date: '2023-01-03',
             body: '# Sample Blog\nThis is a sample blog post.',
           },
-        ])
-      )
+        ]),
+      ),
     ])
 
-  const cleanup = async () => {
-    try {
-      await fs.rm(testDir, { recursive: true, force: true })
-    } catch (error) {
-      console.error(`Failed to clean up test directory: ${error}`)
+    const cleanup = async () => {
+      try {
+        await fs.rm(testDir, { recursive: true, force: true })
+      } catch (error) {
+        console.error(`Failed to clean up test directory: ${error}`)
+      }
     }
-  }
 
-  return {
-    testDir,
-    contentDir,
-    blogDir,
-    veliteDir,
-    exportDir,
-    cleanup,
-  }
+    return {
+      testDir,
+      contentDir,
+      blogDir,
+      veliteDir,
+      exportDir,
+      cleanup,
+    }
   } catch (error) {
     console.error(`Error creating test fixture: ${error}`)
     throw error
@@ -166,11 +166,7 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
   const blogDir = path.join(testDir, 'content/blog')
   const outputDir = path.join(testDir, '.velite')
 
-  await Promise.all([
-    fs.mkdir(outputDir, { recursive: true }),
-    fs.mkdir(postsDir, { recursive: true }),
-    fs.mkdir(blogDir, { recursive: true })
-  ])
+  await Promise.all([fs.mkdir(outputDir, { recursive: true }), fs.mkdir(postsDir, { recursive: true }), fs.mkdir(blogDir, { recursive: true })])
 
   const veliteConfigPath = path.join(testDir, 'velite.config.js')
   const configContent = `
@@ -186,30 +182,28 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
       }
     };
   `
-  
+
   // Process both directories in parallel
   const [posts, blogPosts] = await Promise.all([
     fs.writeFile(veliteConfigPath, configContent).then(() => processDirectory(postsDir)),
-    processDirectory(blogDir)
+    processDirectory(blogDir),
   ])
 
   await Promise.all([
-    fs.writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts)).then(() => 
-      console.log('Created posts.json successfully')
-    ).catch(error => {
-      console.error('Error creating posts.json:', error)
-      return fs.writeFile(path.join(outputDir, 'posts.json'), '[]').then(() =>
-        console.log('Created empty posts.json as fallback')
-      )
-    }),
-    fs.writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts)).then(() =>
-      console.log('Created blog.json successfully')
-    ).catch(error => {
-      console.error('Error creating blog.json:', error)
-      return fs.writeFile(path.join(outputDir, 'blog.json'), '[]').then(() =>
-        console.log('Created empty blog.json as fallback')
-      )
-    })
+    fs
+      .writeFile(path.join(outputDir, 'posts.json'), JSON.stringify(posts))
+      .then(() => console.log('Created posts.json successfully'))
+      .catch((error) => {
+        console.error('Error creating posts.json:', error)
+        return fs.writeFile(path.join(outputDir, 'posts.json'), '[]').then(() => console.log('Created empty posts.json as fallback'))
+      }),
+    fs
+      .writeFile(path.join(outputDir, 'blog.json'), JSON.stringify(blogPosts))
+      .then(() => console.log('Created blog.json successfully'))
+      .catch((error) => {
+        console.error('Error creating blog.json:', error)
+        return fs.writeFile(path.join(outputDir, 'blog.json'), '[]').then(() => console.log('Created empty blog.json as fallback'))
+      }),
   ])
 }
 
@@ -218,10 +212,10 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
  */
 async function processDirectory(dir: string): Promise<any[]> {
   const results = []
-  
+
   try {
     const files = await fs.readdir(dir)
-    
+
     for (const file of files) {
       if (file.endsWith('.mdx')) {
         const filePath = path.join(dir, file)
@@ -251,7 +245,7 @@ async function processDirectory(dir: string): Promise<any[]> {
   } catch (error) {
     console.error(`Error processing directory ${dir}:`, error)
   }
-  
+
   return results
 }
 

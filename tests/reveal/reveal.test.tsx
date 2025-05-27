@@ -1,63 +1,63 @@
-import React from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { Slides, Slide } from '../../packages/mdxui/reveal/src/index.js';
+import React from 'react'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { Slides, Slide } from '../../packages/mdxui/reveal/src/index.js'
 
-const mockRevealFn = vi.fn();
-const mockInitialize = vi.fn();
-const mockDestroy = vi.fn();
-const mockRevealInstance = { destroy: mockDestroy };
+const mockRevealFn = vi.fn()
+const mockInitialize = vi.fn()
+const mockDestroy = vi.fn()
+const mockRevealInstance = { destroy: mockDestroy }
 
 vi.mock('reveal.js', async () => {
-  mockRevealFn.prototype.initialize = mockInitialize;
-  mockRevealFn.prototype.destroy = mockDestroy;
-  
+  mockRevealFn.prototype.initialize = mockInitialize
+  mockRevealFn.prototype.destroy = mockDestroy
+
   return {
-    default: mockRevealFn
-  };
-});
+    default: mockRevealFn,
+  }
+})
 
 beforeEach(() => {
   vi.stubGlobal('window', {
     addEventListener: vi.fn(),
-    removeEventListener: vi.fn()
-  });
-  
+    removeEventListener: vi.fn(),
+  })
+
   vi.stubGlobal('navigator', {
-    userAgent: 'node.js'
-  });
-  
+    userAgent: 'node.js',
+  })
+
   vi.stubGlobal('document', {
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    querySelector: vi.fn().mockReturnValue({})
-  });
-  
-  vi.clearAllMocks();
-});
+    querySelector: vi.fn().mockReturnValue({}),
+  })
+
+  vi.clearAllMocks()
+})
 
 afterEach(() => {
-  vi.unstubAllGlobals();
-});
+  vi.unstubAllGlobals()
+})
 
-vi.mock('reveal.js/dist/reveal.css', () => ({}));
-vi.mock('reveal.js/dist/theme/black.css', () => ({}));
+vi.mock('reveal.js/dist/reveal.css', () => ({}))
+vi.mock('reveal.js/dist/theme/black.css', () => ({}))
 
-vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }));
-vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }));
-vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }));
+vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }))
+vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }))
+vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }))
 
 // Mock render and screen
-const render = vi.fn().mockImplementation(() => ({ 
+const render = vi.fn().mockImplementation(() => ({
   unmount: vi.fn().mockImplementation(() => {
-    mockRevealInstance.destroy();
-  }) 
-}));
+    mockRevealInstance.destroy()
+  }),
+}))
 
 const screen = {
   getByText: vi.fn().mockReturnValue({ tagName: 'SECTION' }),
-  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION', className: 'custom-class' })
-};
-const cleanup = vi.fn();
+  getByTestId: vi.fn().mockReturnValue({ tagName: 'SECTION', className: 'custom-class' }),
+}
+const cleanup = vi.fn()
 
 describe('Slides', () => {
   it('renders children inside slides container', () => {
@@ -74,42 +74,39 @@ describe('Slides', () => {
     render(
       <Slides>
         <Slide>Test Slide</Slide>
-      </Slides>
-    );
-    
-    expect(mockRevealFn).toHaveBeenCalledTimes(1);
-    expect(mockInitialize).toHaveBeenCalledTimes(1);
-  });
+      </Slides>,
+    )
+
+    expect(mockRevealFn).toHaveBeenCalledTimes(1)
+    expect(mockInitialize).toHaveBeenCalledTimes(1)
+  })
 
   it.skip('destroys Reveal.js on unmount', () => {
     const { unmount } = render(
       <Slides>
         <Slide>Test Slide</Slide>
-      </Slides>
-    );
-    
+      </Slides>,
+    )
+
     // Manually trigger the mock behavior
-    mockRevealFn();
-    unmount();
-    
-    expect(mockDestroy).toHaveBeenCalledTimes(1);
-  });
+    mockRevealFn()
+    unmount()
+
+    expect(mockDestroy).toHaveBeenCalledTimes(1)
+  })
 
   it.skip('passes options to Reveal.js', () => {
-    const options = { controls: false, progress: false };
-    
+    const options = { controls: false, progress: false }
+
     render(
       <Slides options={options}>
         <Slide>Test Slide</Slide>
-      </Slides>
-    );
-    
-    expect(mockRevealFn).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.objectContaining(options)
-    );
-  });
-});
+      </Slides>,
+    )
+
+    expect(mockRevealFn).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(options))
+  })
+})
 
 describe('Slide', () => {
   it('renders a section element', () => {

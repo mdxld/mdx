@@ -1,141 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Text } from 'ink';
-import { parseFrontmatter, createSchemaFromFrontmatter, renderMdxCli, MdxFrontmatter } from '@mdxui/ink';
+import React, { useState, useEffect } from 'react'
+import { Box, Text } from 'ink'
+import { parseFrontmatter, createSchemaFromFrontmatter, renderMdxCli, MdxFrontmatter } from '@mdxui/ink'
 // @ts-ignore - Import directly from dist to avoid declaration file issues
-import Markdown from '../../../mdxui/ink/dist/markdown.js';
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import Markdown from '../../../mdxui/ink/dist/markdown.js'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
 interface NavigationAPI {
-  navigateTo?: (screen: any) => void;
-  navigateToFile?: (filePath: string, title?: string) => void;
-  navigateToRoute?: (routePath: string[]) => void;
-  goBack?: () => void;
-  goForward?: () => void;
+  navigateTo?: (screen: any) => void
+  navigateToFile?: (filePath: string, title?: string) => void
+  navigateToRoute?: (routePath: string[]) => void
+  goBack?: () => void
+  goForward?: () => void
 }
 
 interface MDXRendererProps {
-  content: string;
-  filePath: string;
-  components?: Record<string, React.ComponentType<any>>;
-  inputs?: Record<string, any>;
-  navigation?: NavigationAPI;
+  content: string
+  filePath: string
+  components?: Record<string, React.ComponentType<any>>
+  inputs?: Record<string, any>
+  navigation?: NavigationAPI
 }
 
-export const MDXRenderer: React.FC<MDXRendererProps> = ({ 
-  content, 
-  filePath,
-  components = {},
-  inputs = {},
-  navigation
-}) => {
-  const [compiledMDX, setCompiledMDX] = useState<string | null>(null);
-  const [frontmatter, setFrontmatter] = useState<MdxFrontmatter>({});
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export const MDXRenderer: React.FC<MDXRendererProps> = ({ content, filePath, components = {}, inputs = {}, navigation }) => {
+  const [compiledMDX, setCompiledMDX] = useState<string | null>(null)
+  const [frontmatter, setFrontmatter] = useState<MdxFrontmatter>({})
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const compileMDX = async () => {
       try {
-        setLoading(true);
-        
-        const { frontmatter: fm, mdxContent } = parseFrontmatter(content);
-        setFrontmatter(fm);
-        
+        setLoading(true)
+
+        const { frontmatter: fm, mdxContent } = parseFrontmatter(content)
+        setFrontmatter(fm)
+
         try {
           await renderMdxCli(content, {
             mdxPath: filePath,
             components: components as any,
             scope: {
               ...inputs,
-              navigation
-            }
-          });
-          
-          setCompiledMDX(mdxContent);
+              navigation,
+            },
+          })
+
+          setCompiledMDX(mdxContent)
         } catch (renderError) {
-          console.warn('Could not render MDX with renderMdxCli:', renderError);
-          setCompiledMDX(mdxContent);
+          console.warn('Could not render MDX with renderMdxCli:', renderError)
+          setCompiledMDX(mdxContent)
         }
       } catch (err) {
-        setError(`Error compiling MDX: ${err instanceof Error ? err.message : String(err)}`);
+        setError(`Error compiling MDX: ${err instanceof Error ? err.message : String(err)}`)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    compileMDX();
-  }, [content, filePath, components]);
+    compileMDX()
+  }, [content, filePath, components])
 
   if (loading) {
     return (
       <Box>
-        <Text color="yellow">Compiling MDX...</Text>
+        <Text color='yellow'>Compiling MDX...</Text>
       </Box>
-    );
+    )
   }
 
   if (error) {
     return (
-      <Box flexDirection="column">
-        <Text color="red">Error: {error}</Text>
+      <Box flexDirection='column'>
+        <Text color='red'>Error: {error}</Text>
       </Box>
-    );
+    )
   }
 
   return (
-    <Box flexDirection="column">
+    <Box flexDirection='column'>
       <FrontmatterDisplay frontmatter={frontmatter} />
       <Box marginY={1}>
         <Markdown>{compiledMDX || ''}</Markdown>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
 interface FrontmatterDisplayProps {
-  frontmatter: MdxFrontmatter;
+  frontmatter: MdxFrontmatter
 }
 
 const FrontmatterDisplay: React.FC<FrontmatterDisplayProps> = ({ frontmatter }) => {
   if (Object.keys(frontmatter).length === 0) {
-    return null;
+    return null
   }
 
-  const { inputSchema, outputSchema } = createSchemaFromFrontmatter(frontmatter);
+  const { inputSchema, outputSchema } = createSchemaFromFrontmatter(frontmatter)
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor="blue" padding={1} marginBottom={1}>
-      <Text bold color="blue">Frontmatter</Text>
+    <Box flexDirection='column' borderStyle='round' borderColor='blue' padding={1} marginBottom={1}>
+      <Text bold color='blue'>
+        Frontmatter
+      </Text>
       {Object.entries(frontmatter).map(([key, value]) => (
         <Text key={key}>
-          <Text color="green">{key}:</Text> {formatValue(value)}
+          <Text color='green'>{key}:</Text> {formatValue(value)}
         </Text>
       ))}
-      
+
       {inputSchema && (
         <Box marginTop={1}>
-          <Text color="cyan">Input schema defined</Text>
+          <Text color='cyan'>Input schema defined</Text>
         </Box>
       )}
-      
+
       {outputSchema && (
         <Box marginTop={1}>
-          <Text color="magenta">Output schema defined</Text>
+          <Text color='magenta'>Output schema defined</Text>
         </Box>
       )}
     </Box>
-  );
-};
+  )
+}
 
 function formatValue(value: any): string {
   if (value === null || value === undefined) {
-    return 'null';
+    return 'null'
   }
-  
+
   if (typeof value === 'object') {
-    return JSON.stringify(value);
+    return JSON.stringify(value)
   }
-  
-  return String(value);
+
+  return String(value)
 }

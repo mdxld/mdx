@@ -3,7 +3,7 @@
 We can follow a disciplined entrepreneurship process to go from an idea to a startup, testing hundreds of ideas in parallel:
 
 ```typescript
-on('idea.captured', async idea => {
+on('idea.captured', async (idea) => {
   for await (const market of list`10 possible market segments for ${idea}`) {
     const marketResearch = await research`${market} in the context of delivering ${idea}`
     for await (const icp of list`10 possible ideal customer profiles for ${{ idea, market, marketResearch }}`) {

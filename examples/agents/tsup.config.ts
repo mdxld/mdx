@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/reactInkChatCli.tsx', 'src/simpleCliDemo.tsx'],
@@ -11,8 +11,8 @@ export default defineConfig({
     if (format === 'esm') {
       return {
         js: '#!/usr/bin/env node',
-      };
+      }
     }
-    return {};
+    return {}
   },
-});
+})

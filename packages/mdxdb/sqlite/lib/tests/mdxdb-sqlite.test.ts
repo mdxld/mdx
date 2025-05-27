@@ -83,9 +83,9 @@ describe('MdxDbSqlite', () => {
     })
 
     const results = await db.search('artificial intelligence')
-    
+
     expect(results.length).toBeGreaterThan(0)
-    
+
     if (results.length > 0) {
       expect(results[0]).toHaveProperty('similarity')
       expect(results[0]).toHaveProperty('slug')

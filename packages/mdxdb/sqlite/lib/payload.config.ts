@@ -47,7 +47,7 @@ export const payloadConfig = buildConfig({
 
 export const getPayloadClient = async () => {
   let payload
-  
+
   try {
     const { getPayload } = await import('payload')
     payload = await getPayload({
@@ -57,6 +57,6 @@ export const getPayloadClient = async () => {
     console.error('Error initializing Payload:', error)
     throw new Error(`Failed to initialize Payload: ${(error as Error).message}`)
   }
-  
+
   return payload
 }

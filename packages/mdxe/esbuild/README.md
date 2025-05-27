@@ -32,16 +32,16 @@ Create a build script:
 
 ```js
 // build-mdx.js
-import { buildMdxContent } from '@mdxe/esbuild';
+import { buildMdxContent } from '@mdxe/esbuild'
 
 buildMdxContent({
   contentDir: './content',
   outFile: './dist/content.mjs',
-  watch: process.argv.includes('--watch')
-}).catch(err => {
-  console.error('Build failed:', err);
-  process.exit(1);
-});
+  watch: process.argv.includes('--watch'),
+}).catch((err) => {
+  console.error('Build failed:', err)
+  process.exit(1)
+})
 ```
 
 Run it:
@@ -55,8 +55,8 @@ node build-mdx.js --watch
 ### As an esbuild Plugin
 
 ```js
-import { mdxePlugin } from '@mdxe/esbuild';
-import * as esbuild from 'esbuild';
+import { mdxePlugin } from '@mdxe/esbuild'
+import * as esbuild from 'esbuild'
 
 esbuild.build({
   entryPoints: ['src/index.js'],
@@ -65,10 +65,10 @@ esbuild.build({
   plugins: [
     mdxePlugin({
       contentDir: './content',
-      outFile: './dist/content.mjs'
-    })
-  ]
-});
+      outFile: './dist/content.mjs',
+    }),
+  ],
+})
 ```
 
 ### Consuming the Bundle
@@ -77,23 +77,23 @@ esbuild.build({
 
 ```jsx
 // pages/[page].jsx
-import content from '../dist/content.mjs';
+import content from '../dist/content.mjs'
 
 export async function getStaticPaths() {
-  return { 
-    paths: Object.keys(content).map(slug => ({ params: { page: slug } })), 
-    fallback: false 
-  };
+  return {
+    paths: Object.keys(content).map((slug) => ({ params: { page: slug } })),
+    fallback: false,
+  }
 }
 
 export async function getStaticProps({ params }) {
-  const page = content[params.page];
-  return { props: { data: page.data } };
+  const page = content[params.page]
+  return { props: { data: page.data } }
 }
 
 export default function Page({ data }) {
-  const Component = content[data.slug].default;
-  return <Component />;
+  const Component = content[data.slug].default
+  return <Component />
 }
 ```
 
@@ -101,18 +101,18 @@ export default function Page({ data }) {
 
 ```js
 #!/usr/bin/env node
-import React from 'react';
-import { render } from 'ink';
-import content from './dist/content.mjs';
+import React from 'react'
+import { render } from 'ink'
+import content from './dist/content.mjs'
 
-const [,, pageName] = process.argv;
-const page = content[pageName];
+const [, , pageName] = process.argv
+const page = content[pageName]
 if (!page) {
-  console.error('Unknown page:', pageName);
-  process.exit(1);
+  console.error('Unknown page:', pageName)
+  process.exit(1)
 }
 
-render(React.createElement(page.default));
+render(React.createElement(page.default))
 ```
 
 ## API
@@ -139,17 +139,17 @@ Creates an esbuild plugin for processing MDX files. Takes the same options as `b
 // content.d.ts
 declare namespace ContentMap {
   interface Item {
-    data: Record<string, any>;
-    markdown: string;
-    default: (props?: any) => JSX.Element;
-    [key: string]: any;
+    data: Record<string, any>
+    markdown: string
+    default: (props?: any) => JSX.Element
+    [key: string]: any
   }
   interface DefaultExport {
-    [key: string]: Item;
+    [key: string]: Item
   }
 }
-declare const content: ContentMap.DefaultExport;
-export default content;
+declare const content: ContentMap.DefaultExport
+export default content
 ```
 
 ## Examples
@@ -161,4 +161,3 @@ Check out the [examples directory](./examples) for working examples:
 ## License
 
 MIT
-

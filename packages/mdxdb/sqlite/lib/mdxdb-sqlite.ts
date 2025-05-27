@@ -58,17 +58,17 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
       if (this.dbConfig.url) {
         process.env.DATABASE_URL = this.dbConfig.url
       }
-      
+
       if (this.dbConfig.authToken) {
         process.env.DATABASE_AUTH_TOKEN = this.dbConfig.authToken
       }
-      
+
       if (this.dbConfig.inMemory) {
         process.env.DATABASE_URL = ':memory:'
       }
 
       this.payload = await getPayloadClient()
-      
+
       this.initialized = true
       console.log('Payload CMS with SQLite adapter initialized successfully')
     } catch (error) {
@@ -335,9 +335,7 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
       // Generate embedding for the query
       const queryEmbedding = await generateEmbedding(query)
 
-      const whereCondition = collectionName 
-        ? { collection: { equals: collectionName } }
-        : undefined
+      const whereCondition = collectionName ? { collection: { equals: collectionName } } : undefined
 
       const embeddingsResult = await this.payload.find({
         collection: 'embeddings',
@@ -352,19 +350,17 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
       const scoredResults = embeddingsResult.docs.map((embedding: any) => {
         const vector = embedding.vector
         const similarity = this.cosineSimilarity(queryEmbedding, vector)
-        
+
         return {
           ...embedding,
           similarity,
         }
       })
 
-      const topResults = scoredResults
-        .sort((a, b) => b.similarity - a.similarity)
-        .slice(0, 10)
+      const topResults = scoredResults.sort((a, b) => b.similarity - a.similarity).slice(0, 10)
 
       const results = []
-      
+
       for (const result of topResults) {
         const file = await this.payload.findByID({
           collection: 'files',

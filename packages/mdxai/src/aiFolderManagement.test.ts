@@ -10,7 +10,7 @@ import {
   ensureAiFunctionExists,
   createAiFunctionVersion,
   listAiFunctionVersions,
-  AI_FOLDER_STRUCTURE
+  AI_FOLDER_STRUCTURE,
 } from './utils.js'
 
 describe('AI Folder Management', () => {
@@ -49,7 +49,7 @@ describe('AI Folder Management', () => {
         version: '1.0.0',
         defaultFormat: 'mdx',
         autoCreate: true,
-        versioning: true
+        versioning: true,
       })
     })
   })
@@ -84,7 +84,7 @@ describe('AI Folder Management', () => {
   describe('findAiFunctionsInHierarchy', () => {
     beforeEach(() => {
       createAiFolderStructure(testDir)
-      
+
       writeAiFunction('rootFunction', '---\noutput: string\n---\nRoot: ${prompt}', testDir)
       writeAiFunction('businessFunction', '---\noutput: object\n---\nBusiness: ${prompt}', testDir, { subfolder: 'business' })
       writeAiFunction('deepFunction', '---\noutput: array\n---\nDeep: ${prompt}', testDir, { subfolder: 'business/marketing' })
@@ -94,17 +94,17 @@ describe('AI Folder Management', () => {
       const functions = findAiFunctionsInHierarchy(testDir)
 
       expect(functions).toHaveLength(3)
-      expect(functions.map(f => f.name)).toContain('rootFunction')
-      expect(functions.map(f => f.name)).toContain('businessFunction')
-      expect(functions.map(f => f.name)).toContain('deepFunction')
+      expect(functions.map((f) => f.name)).toContain('rootFunction')
+      expect(functions.map((f) => f.name)).toContain('businessFunction')
+      expect(functions.map((f) => f.name)).toContain('deepFunction')
     })
 
     it('should include subfolder information', () => {
       const functions = findAiFunctionsInHierarchy(testDir)
-      
-      const businessFunc = functions.find(f => f.name === 'businessFunction')
-      const deepFunc = functions.find(f => f.name === 'deepFunction')
-      
+
+      const businessFunc = functions.find((f) => f.name === 'businessFunction')
+      const deepFunc = functions.find((f) => f.name === 'deepFunction')
+
       expect(businessFunc?.subfolder).toBe('business')
       expect(deepFunc?.subfolder).toBe('business/marketing')
     })
@@ -122,9 +122,9 @@ describe('AI Folder Management', () => {
 
     it('should return existing file path if function exists', () => {
       const originalPath = writeAiFunction('existingFunction', '---\noutput: string\n---\nExisting', testDir)
-      
+
       const returnedPath = ensureAiFunctionExists('existingFunction', testDir)
-      
+
       expect(returnedPath).toBe(originalPath)
     })
   })
@@ -138,10 +138,10 @@ describe('AI Folder Management', () => {
       createAiFunctionVersion('versionedFunction', content2, '2.0.0', testDir)
 
       const versions = listAiFunctionVersions('versionedFunction', testDir)
-      
+
       expect(versions).toHaveLength(2)
-      expect(versions.map(v => v.version)).toContain('1.0.0')
-      expect(versions.map(v => v.version)).toContain('2.0.0')
+      expect(versions.map((v) => v.version)).toContain('1.0.0')
+      expect(versions.map((v) => v.version)).toContain('2.0.0')
     })
   })
 })

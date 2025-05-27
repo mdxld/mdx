@@ -1,13 +1,13 @@
-import React from 'react';
-import { Series, useVideoConfig } from 'remotion';
-import { useNarrationAudio } from './hooks/useNarrationAudio';
-import { HighlightedCode } from 'codehike/code';
-import { ThemeColors, ThemeProvider } from './calculate-metadata/theme';
-import { CodeTransition } from './CodeTransition';
-import { AbsoluteFill } from 'remotion';
-import { ProgressBar } from './ProgressBar';
-import { verticalPadding } from './font';
-import { useMemo } from 'react';
+import React from "react";
+import { Series, useVideoConfig } from "remotion";
+import { useNarrationAudio } from "./hooks/useNarrationAudio";
+import { HighlightedCode } from "codehike/code";
+import { ThemeColors, ThemeProvider } from "./calculate-metadata/theme";
+import { CodeTransition } from "./CodeTransition";
+import { AbsoluteFill } from "remotion";
+import { ProgressBar } from "./ProgressBar";
+import { verticalPadding } from "./font";
+import { useMemo } from "react";
 
 const AbsoluteFillComponent = AbsoluteFill as any;
 const SeriesComponent = Series as any;
@@ -38,10 +38,13 @@ export const NarrationSequence: React.FC<NarrationSequenceProps> = ({
   transitionDuration = 30, // Default to 30 frames as in Main.tsx
 }) => {
   const { fps } = useVideoConfig();
-  const { audioSrc, audioDuration, isLoading, error } = useNarrationAudio(narrationText, {
-    voiceName,
-  });
-  
+  const { audioSrc, audioDuration, isLoading, error } = useNarrationAudio(
+    narrationText,
+    {
+      voiceName,
+    },
+  );
+
   if (!steps) {
     throw new Error("Steps are not defined");
   }
@@ -49,13 +52,16 @@ export const NarrationSequence: React.FC<NarrationSequenceProps> = ({
   if (!themeColors) {
     throw new Error("Theme colors are not defined");
   }
-  
-  const totalContentDuration = audioDuration || (fps * 10); // Default to 10 seconds if no audio
-  
+
+  const totalContentDuration = audioDuration || fps * 10; // Default to 10 seconds if no audio
+
   const totalTransitionDuration = (steps.length - 1) * transitionDuration;
-  const availableContentDuration = Math.max(totalContentDuration - totalTransitionDuration, 0);
+  const availableContentDuration = Math.max(
+    totalContentDuration - totalTransitionDuration,
+    0,
+  );
   const stepDuration = Math.ceil(availableContentDuration / steps.length);
-  
+
   const outerStyle: React.CSSProperties = useMemo(() => {
     return {
       backgroundColor: themeColors.background,
@@ -67,18 +73,16 @@ export const NarrationSequence: React.FC<NarrationSequenceProps> = ({
       padding: `${verticalPadding}px 0px`,
     };
   }, []);
-  
+
   if (isLoading) {
     return <div>Generating narration audio...</div>;
   }
-  
+
   if (error) {
-    console.error('Error generating narration:', error);
-    return (
-      <div>Error generating narration. Check console for details.</div>
-    );
+    console.error("Error generating narration:", error);
+    return <div>Error generating narration. Check console for details.</div>;
   }
-  
+
   return (
     <ThemeProvider themeColors={themeColors}>
       <AbsoluteFillComponent style={outerStyle}>
@@ -99,7 +103,7 @@ export const NarrationSequence: React.FC<NarrationSequenceProps> = ({
                   <audio src={audioSrc} />
                 </SeriesSequenceComponent>
               )}
-              
+
               {steps.map((step, index) => (
                 <SeriesSequenceComponent
                   key={index}

@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: [
-    'src/index.ts', 
+    'src/index.ts',
     'src/cli-workflow.ts',
     'src/frontmatter.ts',
     'src/workflow.ts',
@@ -15,7 +15,7 @@ export default defineConfig({
     'src/components.tsx',
     'src/LandingPage.tsx',
     'src/icons.ts',
-    'src/cli-bundler.ts'
+    'src/cli-bundler.ts',
   ],
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: false, // Temporarily disable declaration file generation to fix CI

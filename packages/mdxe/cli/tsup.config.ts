@@ -2,18 +2,18 @@ import { createCliConfig } from '@repo/tsup-config'
 
 export default createCliConfig(['src/cli.ts', 'src/cli-simple.ts'], {
   external: [
-    'react', 
-    'react-dom', 
-    'next', 
-    'commander', 
-    'vitest', 
-    'vitest/node', 
-    '@vitest/browser', 
+    'react',
+    'react-dom',
+    'next',
+    'commander',
+    'vitest',
+    'vitest/node',
+    '@vitest/browser',
     '@vitest/ui',
     'ink',
     'ink-markdown',
     'react-devtools-core',
-    'pastel'
+    'pastel',
   ],
   noExternal: [],
   dts: false, // Disable TypeScript declaration files to avoid type errors
@@ -22,7 +22,7 @@ export default createCliConfig(['src/cli.ts', 'src/cli-simple.ts'], {
   platform: 'node', // Specify node platform to handle built-in modules correctly
   clean: true, // Clean output directory before building
   esbuildOptions(options) {
-    options.jsx = 'automatic';
-    options.jsxImportSource = 'react';
-  }
+    options.jsx = 'automatic'
+    options.jsxImportSource = 'react'
+  },
 })

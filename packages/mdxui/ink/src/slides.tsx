@@ -1,33 +1,33 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { Box, Text, useInput } from 'ink';
-import BigText from 'ink-big-text';
-import Markdown from './markdown';
-import { Children, isValidElement, cloneElement } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react'
+import { Box, Text, useInput } from 'ink'
+import BigText from 'ink-big-text'
+import Markdown from './markdown'
+import { Children, isValidElement, cloneElement } from 'react'
 
 /**
  * Props for the Slides component
  */
 interface SlidesProps {
   /** Child slide components */
-  children: React.ReactNode;
+  children: React.ReactNode
   /** Optional configuration options */
   options?: {
     /** Whether to show slide numbers */
-    slideNumber?: boolean;
+    slideNumber?: boolean
     /** Whether to show navigation help */
-    showHelp?: boolean;
+    showHelp?: boolean
     /** Custom colors */
     colors?: {
       /** Color for slide titles */
-      title?: string;
+      title?: string
       /** Color for slide content */
-      content?: string;
+      content?: string
       /** Color for navigation help */
-      help?: string;
+      help?: string
       /** Color for slide numbers */
-      slideNumber?: string;
-    };
-  };
+      slideNumber?: string
+    }
+  }
 }
 
 /**
@@ -42,47 +42,45 @@ export function Slides({ children, options }: SlidesProps) {
       content: 'white',
       help: 'gray',
       slideNumber: 'yellow',
-    }
-  };
+    },
+  }
 
   const mergedOptions = {
     ...defaultOptions,
     ...options,
     colors: {
       ...defaultOptions.colors,
-      ...(options?.colors || {})
-    }
-  };
+      ...(options?.colors || {}),
+    },
+  }
 
-  const slides = Children.toArray(children).filter(
-    child => isValidElement(child) && child.type && (child.type as any).displayName === 'Slide'
-  );
+  const slides = Children.toArray(children).filter((child) => isValidElement(child) && child.type && (child.type as any).displayName === 'Slide')
 
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [exit, setExit] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+  const [exit, setExit] = useState(false)
 
   useInput((input, key) => {
     if (key.leftArrow) {
-      setCurrentSlideIndex(prev => Math.max(0, prev - 1));
+      setCurrentSlideIndex((prev) => Math.max(0, prev - 1))
     } else if (key.rightArrow) {
-      setCurrentSlideIndex(prev => Math.min(slides.length - 1, prev + 1));
+      setCurrentSlideIndex((prev) => Math.min(slides.length - 1, prev + 1))
     } else if (input === 'q' || key.escape) {
-      setExit(true);
+      setExit(true)
     }
-  });
+  })
 
   if (exit) {
-    return null;
+    return null
   }
 
-  const currentSlide = slides[currentSlideIndex];
+  const currentSlide = slides[currentSlideIndex]
 
   if (slides.length === 0) {
     return (
-      <Box flexDirection="column" padding={1}>
-        <Text color="red">No slides found. Make sure to use the Slide component.</Text>
+      <Box flexDirection='column' padding={1}>
+        <Text color='red'>No slides found. Make sure to use the Slide component.</Text>
       </Box>
-    );
+    )
   }
 
   const enhancedSlide = isValidElement(currentSlide)
@@ -90,10 +88,10 @@ export function Slides({ children, options }: SlidesProps) {
         index: currentSlideIndex,
         total: slides.length,
       })
-    : null;
+    : null
 
   return (
-    <Box flexDirection="column" padding={1}>
+    <Box flexDirection='column' padding={1}>
       {/* Render the current slide */}
       {enhancedSlide}
 
@@ -101,12 +99,10 @@ export function Slides({ children, options }: SlidesProps) {
       <Box marginTop={1}>
         {mergedOptions.showHelp && (
           <Box marginRight={2}>
-            <Text color={mergedOptions.colors.help}>
-              Use ← → arrows to navigate, q to quit
-            </Text>
+            <Text color={mergedOptions.colors.help}>Use ← → arrows to navigate, q to quit</Text>
           </Box>
         )}
-        
+
         {mergedOptions.slideNumber && (
           <Text color={mergedOptions.colors.slideNumber}>
             Slide {currentSlideIndex + 1} of {slides.length}
@@ -114,7 +110,7 @@ export function Slides({ children, options }: SlidesProps) {
         )}
       </Box>
     </Box>
-  );
+  )
 }
 
-Slides.displayName = 'Slides';
+Slides.displayName = 'Slides'

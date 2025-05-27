@@ -9,12 +9,14 @@ export async function generateEmbedding(text: string): Promise<number[]> {
   try {
     // Deterministic mock implementation
     const hash = text.split('').reduce((acc, char) => {
-      return acc + char.charCodeAt(0);
-    }, 0);
-    
-    return Array(1536).fill(0).map((_, i) => {
-      return Math.cos(hash * (i + 1) * 0.001) * 0.5 + 0.5;
-    });
+      return acc + char.charCodeAt(0)
+    }, 0)
+
+    return Array(1536)
+      .fill(0)
+      .map((_, i) => {
+        return Math.cos(hash * (i + 1) * 0.001) * 0.5 + 0.5
+      })
   } catch (error) {
     console.error('Error generating embedding:', error)
     throw new Error(`Failed to generate embedding: ${(error as Error).message}`)

@@ -10,7 +10,7 @@ export { list, get }
  */
 export class MdxDb extends MdxDbFs {
   [collectionName: string]: CollectionInterface | any
-  
+
   constructor(packageDir: string = '.') {
     super({ packageDir })
     return createProxyDb(this) as this

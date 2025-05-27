@@ -1,43 +1,43 @@
 /**
  * @fileoverview Component loading and registration system for MDX to Ink component mapping.
- * 
+ *
  * This module provides a flexible system for mapping MDX elements to Ink terminal UI components.
  * It supports both file-based component discovery and programmatic component registration.
  */
-import fs from 'fs/promises';
-import path from 'path';
-import React from 'react';
-import { defaultComponents } from './components';
+import fs from 'fs/promises'
+import path from 'path'
+import React from 'react'
+import { defaultComponents } from './components'
 
 /**
  * Possible file extensions for mdx-components files
  */
-const EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js'];
+const EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js']
 
 /**
  * Possible locations for mdx-components files
  */
-const LOCATIONS = ['', 'src/'];
+const LOCATIONS = ['', 'src/']
 
 /**
  * Type for MDX component mapping
  */
-export type MDXComponents = Record<string, React.ComponentType<any>>;
+export type MDXComponents = Record<string, React.ComponentType<any>>
 
 /**
  * Type for useMDXComponents function
  */
-export type UseMDXComponents = (components: MDXComponents) => MDXComponents;
+export type UseMDXComponents = (components: MDXComponents) => MDXComponents
 
 /**
  * Check if a file exists at the given path
  */
 async function fileExists(filePath: string): Promise<boolean> {
   try {
-    await fs.access(filePath);
-    return true;
+    await fs.access(filePath)
+    return true
   } catch {
-    return false;
+    return false
   }
 }
 
@@ -46,80 +46,77 @@ async function fileExists(filePath: string): Promise<boolean> {
  * Searches in the project root and src/ directory with various extensions
  */
 export async function findMdxComponentsFile(cwd = process.cwd()): Promise<string | null> {
-  const customPath = process.env.INK_MDX_COMPONENTS;
+  const customPath = process.env.INK_MDX_COMPONENTS
   if (customPath) {
-    const resolvedPath = path.resolve(cwd, customPath);
+    const resolvedPath = path.resolve(cwd, customPath)
     if (await fileExists(resolvedPath)) {
-      return resolvedPath;
+      return resolvedPath
     }
-    console.warn(`INK_MDX_COMPONENTS path not found: ${customPath}`);
+    console.warn(`INK_MDX_COMPONENTS path not found: ${customPath}`)
   }
 
   for (const location of LOCATIONS) {
     for (const ext of EXTENSIONS) {
-      const filePath = path.join(cwd, location, `mdx-components${ext}`);
+      const filePath = path.join(cwd, location, `mdx-components${ext}`)
       if (await fileExists(filePath)) {
-        return filePath;
+        return filePath
       }
     }
   }
 
-  return null;
+  return null
 }
 
 /**
  * Load the mdx-components file and get the component mapping
  */
 export async function loadMdxComponents(): Promise<MDXComponents> {
-  const componentsFilePath = await findMdxComponentsFile();
-  
+  const componentsFilePath = await findMdxComponentsFile()
+
   if (!componentsFilePath) {
-    return defaultComponents;
+    return defaultComponents
   }
 
   try {
-    const userComponents = await import(componentsFilePath);
-    
+    const userComponents = await import(componentsFilePath)
+
     if (typeof userComponents.useMDXComponents === 'function') {
-      return userComponents.useMDXComponents(defaultComponents);
+      return userComponents.useMDXComponents(defaultComponents)
     }
-    
+
     if (userComponents.default) {
-      return { ...defaultComponents, ...userComponents.default };
+      return { ...defaultComponents, ...userComponents.default }
     }
-    
-    const componentMapping = { ...defaultComponents };
-    
+
+    const componentMapping = { ...defaultComponents }
+
     for (const [key, value] of Object.entries(userComponents)) {
       if (key !== 'useMDXComponents' && typeof value === 'function') {
         // Use proper type assertion for component mapping
-        (componentMapping as any)[key] = value as React.ComponentType<any>;
+        ;(componentMapping as any)[key] = value as React.ComponentType<any>
       }
     }
-    
-    return componentMapping;
+
+    return componentMapping
   } catch (error) {
-    console.error(`Error loading MDX components from ${componentsFilePath}:`, error);
-    return defaultComponents;
+    console.error(`Error loading MDX components from ${componentsFilePath}:`, error)
+    return defaultComponents
   }
 }
 
 /**
  * Merge component mappings with user overrides taking precedence
  */
-export function mergeComponents(
-  defaults: MDXComponents,
-  overrides?: MDXComponents
-): MDXComponents {
+export function mergeComponents(defaults: MDXComponents, overrides?: MDXComponents): MDXComponents {
   if (!overrides) {
-    return defaults;
+    return defaults
   }
-  
-  return { ...defaults, ...overrides };
+
+  return { ...defaults, ...overrides }
 }
 
 declare global {
-  var __mdxComponentRegistry: Record<string, React.ComponentType<any>> | undefined;
+  var __mdxComponentRegistry: Record<string, React.ComponentType<any>> | undefined
 }
 
 /**
@@ -127,12 +124,12 @@ declare global {
  */
 export function registerComponent(name: string, component: React.ComponentType<any>): void {
   if (typeof component !== 'function') {
-    throw new Error(`Component for "${name}" must be a React component function`);
+    throw new Error(`Component for "${name}" must be a React component function`)
   }
   if (!globalThis.__mdxComponentRegistry) {
-    globalThis.__mdxComponentRegistry = {};
+    globalThis.__mdxComponentRegistry = {}
   }
-  globalThis.__mdxComponentRegistry[name] = component;
+  globalThis.__mdxComponentRegistry[name] = component
 }
 
 /**
@@ -140,7 +137,7 @@ export function registerComponent(name: string, component: React.ComponentType<a
  */
 export function registerComponents(components: MDXComponents): void {
   for (const [name, component] of Object.entries(components)) {
-    registerComponent(name, component);
+    registerComponent(name, component)
   }
 }
 
@@ -148,7 +145,7 @@ export function registerComponents(components: MDXComponents): void {
  * Get all registered components (including programmatically registered ones)
  */
 export async function getAllComponents(): Promise<MDXComponents> {
-  const fileComponents = await loadMdxComponents();
-  const registryComponents = globalThis.__mdxComponentRegistry || {};
-  return mergeComponents(fileComponents, registryComponents);
+  const fileComponents = await loadMdxComponents()
+  const registryComponents = globalThis.__mdxComponentRegistry || {}
+  return mergeComponents(fileComponents, registryComponents)
 }

@@ -44,20 +44,24 @@ pnpm dev
 The example implements a complete workflow with the following steps:
 
 1. **Initial Idea Input**
+
    - Collect the startup idea, industry, and target market
    - This information forms the foundation for all generated content
 
 2. **Market Analysis**
+
    - AI-generated problem statement and supporting statistics
    - Market size estimation and segmentation
    - Growth projections for the industry
 
 3. **Solution Definition**
+
    - AI-generated solution statement and value propositions
    - Product description and key features
    - Unique selling points
 
 4. **Business Model**
+
    - Revenue model and pricing strategy
    - Go-to-market approach
    - Competitive analysis and advantages
@@ -82,13 +86,13 @@ The example implements a wrapper around the mdxai package that supports three ma
 
 ```jsx
 // Generate a single piece of content
-const tagline = await ai.generate(`Create a tagline for ${companyName}`);
+const tagline = await ai.generate(`Create a tagline for ${companyName}`)
 
 // Generate a list of items
-const features = await ai.list`4 key features for a product focused on ${idea}`;
+const features = await ai.list`4 key features for a product focused on ${idea}`
 
 // Use template literals directly
-const description = await ai`Describe a product that solves ${problem}`;
+const description = await ai`Describe a product that solves ${problem}`
 ```
 
 ## Customization

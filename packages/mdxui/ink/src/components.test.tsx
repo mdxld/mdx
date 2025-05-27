@@ -5,17 +5,23 @@ import { Image, ImageProps } from './components'
 import * as ReactDOMServer from 'react-dom/server'
 
 vi.mock('ink-table', () => ({
-  default: ({ data }: { data: any[] }) => <div data-testid="table">{JSON.stringify(data)}</div>
+  default: ({ data }: { data: any[] }) => <div data-testid='table'>{JSON.stringify(data)}</div>,
 }))
 
 vi.mock('ink-link', () => ({
-  default: ({ url, children }: { url: string; children: React.ReactNode }) => 
-    <div data-testid="link" data-url={url}>{children}</div>
+  default: ({ url, children }: { url: string; children: React.ReactNode }) => (
+    <div data-testid='link' data-url={url}>
+      {children}
+    </div>
+  ),
 }))
 
 vi.mock('ink-syntax-highlight', () => ({
-  default: ({ code, language }: { code: string; language: string }) => 
-    <div data-testid="syntax-highlight" data-language={language}>{code}</div>
+  default: ({ code, language }: { code: string; language: string }) => (
+    <div data-testid='syntax-highlight' data-language={language}>
+      {code}
+    </div>
+  ),
 }))
 
 vi.mock('react-dom/server', () => ({
@@ -27,7 +33,7 @@ vi.mock('react-dom/server', () => ({
 const mockAsciify = vi.fn()
 vi.mock('asciify-image', () => ({
   default: mockAsciify,
-  __esModule: true
+  __esModule: true,
 }))
 
 const MockIcon = (props: any) => <div {...props} />

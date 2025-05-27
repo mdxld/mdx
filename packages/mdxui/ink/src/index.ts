@@ -34,16 +34,16 @@ import * as components from './components'
 import { Slides } from './slides'
 import { Slide } from './slide'
 
-import { InkMDXRenderer } from './InkMDXRenderer';
+import { InkMDXRenderer } from './InkMDXRenderer'
 
 const Ink: {
-  renderMdxCli: typeof render.renderMdxCli;
-  Slides: typeof Slides;
-  Slide: typeof Slide;
-  Markdown: typeof MarkdownDefault;
-  Ascii: typeof AsciiDefault;
-  InkMDXRenderer: typeof InkMDXRenderer;
-  [key: string]: any;
+  renderMdxCli: typeof render.renderMdxCli
+  Slides: typeof Slides
+  Slide: typeof Slide
+  Markdown: typeof MarkdownDefault
+  Ascii: typeof AsciiDefault
+  InkMDXRenderer: typeof InkMDXRenderer
+  [key: string]: any
 } = {
   ...types,
   ...render,
@@ -54,7 +54,7 @@ const Ink: {
   Slide,
   Markdown: MarkdownDefault,
   Ascii: AsciiDefault,
-  InkMDXRenderer
+  InkMDXRenderer,
 }
 
 export default Ink

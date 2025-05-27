@@ -1,7 +1,7 @@
-import * as esbuild from 'esbuild';
-import fs from 'fs/promises';
-import path from 'path';
-import { getPlugins, MDXPluginOptions } from './mdx-plugins';
+import * as esbuild from 'esbuild'
+import fs from 'fs/promises'
+import path from 'path'
+import { getPlugins, MDXPluginOptions } from './mdx-plugins'
 
 /**
  * Options for bundling MDX files
@@ -10,65 +10,49 @@ export interface BundleOptions extends MDXPluginOptions {
   /**
    * Input files or globs to bundle
    */
-  input: string | string[];
-  
+  input: string | string[]
+
   /**
    * Output directory for bundled files
    */
-  outDir: string;
-  
+  outDir: string
+
   /**
    * External packages that should not be bundled
    */
-  external?: string[];
-  
+  external?: string[]
+
   /**
    * Working directory for resolving imports
    */
-  cwd?: string;
-  
+  cwd?: string
+
   /**
    * Whether to generate source maps
    */
-  sourcemap?: boolean;
-  
+  sourcemap?: boolean
+
   /**
    * Whether to minify the output
    */
-  minify?: boolean;
+  minify?: boolean
 }
 
 /**
  * Default external packages that should not be bundled
  */
-const DEFAULT_EXTERNALS = [
-  'react',
-  'react-dom',
-  'ink',
-  'ink-big-text',
-  'ink-table',
-  'ink-link',
-  'ink-syntax-highlight',
-  'ink-task-list',
-];
+const DEFAULT_EXTERNALS = ['react', 'react-dom', 'ink', 'ink-big-text', 'ink-table', 'ink-link', 'ink-syntax-highlight', 'ink-task-list']
 
 /**
  * Bundle MDX files using esbuild
  */
 export async function bundleMdx(options: BundleOptions): Promise<void> {
-  const {
-    input,
-    outDir,
-    external = DEFAULT_EXTERNALS,
-    cwd = process.cwd(),
-    sourcemap = true,
-    minify = false,
-  } = options;
-  
-  await fs.mkdir(outDir, { recursive: true });
-  
-  const plugins = getPlugins(options);
-  
+  const { input, outDir, external = DEFAULT_EXTERNALS, cwd = process.cwd(), sourcemap = true, minify = false } = options
+
+  await fs.mkdir(outDir, { recursive: true })
+
+  const plugins = getPlugins(options)
+
   const result = await esbuild.build({
     entryPoints: Array.isArray(input) ? input : [input],
     outdir: outDir,
@@ -88,9 +72,8 @@ export async function bundleMdx(options: BundleOptions): Promise<void> {
         name: 'mdx-plugin',
         setup(build) {
           build.onLoad({ filter: /\.(md|mdx)$/ }, async (args) => {
-            const content = await fs.readFile(args.path, 'utf8');
-            
-            
+            const content = await fs.readFile(args.path, 'utf8')
+
             return {
               contents: `
                 import React from 'react';
@@ -110,31 +93,27 @@ export async function bundleMdx(options: BundleOptions): Promise<void> {
                 }
               `,
               loader: 'jsx',
-            };
-          });
+            }
+          })
         },
       },
     ],
-  });
-  
-  return;
+  })
+
+  return
 }
 
 /**
  * Transform MDX content in memory using esbuild
  */
-export async function transformMdx(
-  content: string,
-  options: MDXPluginOptions = {}
-): Promise<string> {
-  const plugins = getPlugins(options);
-  
-  
+export async function transformMdx(content: string, options: MDXPluginOptions = {}): Promise<string> {
+  const plugins = getPlugins(options)
+
   const result = await esbuild.transform(content, {
     loader: 'jsx',
     format: 'esm',
     target: 'es2020',
-  });
-  
-  return result.code;
+  })
+
+  return result.code
 }

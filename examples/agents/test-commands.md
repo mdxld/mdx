@@ -5,7 +5,7 @@ The chat CLI now uses slash commands instead of single keystrokes to avoid confl
 ## Available Commands:
 
 1. `/web` - Toggle web search
-2. `/reasoning` or `/r` - Toggle reasoning display  
+2. `/reasoning` or `/r` - Toggle reasoning display
 3. `/mcp` or `/m` - Toggle MCP source manager
 4. `/tools` or `/t` - Toggle MCP tools
 5. `/help` or `/h` - Show help message
@@ -23,4 +23,4 @@ The chat CLI now uses slash commands instead of single keystrokes to avoid confl
 - Letters like 'w', 'r', 'm', 't' should NOT trigger commands when typing normally
 - Only commands prefixed with '/' should trigger special actions
 - Ctrl+C should still exit the application
-- Normal chat messages should work as before 
+- Normal chat messages should work as before

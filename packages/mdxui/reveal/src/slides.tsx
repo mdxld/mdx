@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
 declare global {
-  interface Window {
-  }
+  interface Window {}
 }
 
 interface RevealOptions {

@@ -1,7 +1,4 @@
-import { 
-  LanguageModelV1Middleware, 
-  LanguageModelV1StreamPart
-} from 'ai'
+import { LanguageModelV1Middleware, LanguageModelV1StreamPart } from 'ai'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 import hash from 'object-hash'
@@ -28,14 +25,14 @@ export interface CacheConfig {
 }
 
 interface CachedData {
-  text: string;
-  finishReason?: string;
+  text: string
+  finishReason?: string
   usage?: {
-    promptTokens: number;
-    completionTokens: number;
-  };
-  rawCall?: any;
-  timestamp: number; // Add timestamp for TTL validation
+    promptTokens: number
+    completionTokens: number
+  }
+  rawCall?: any
+  timestamp: number // Add timestamp for TTL validation
 }
 
 /**
@@ -45,18 +42,17 @@ const cleanupExpiredFiles = async (cacheDir: string, ttl: number) => {
   try {
     const files = await fs.readdir(cacheDir)
     const now = Date.now()
-    
+
     for (const file of files) {
       if (file.endsWith('.json')) {
         const filePath = join(cacheDir, file)
         try {
           const stat = await fs.stat(filePath)
-          
+
           if (now - stat.mtime.getTime() > ttl) {
             await fs.unlink(filePath)
           }
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     }
   } catch (error) {
@@ -74,25 +70,30 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
     maxSize = 100,
     persistentCache = true,
     memoryCache = true,
-    compression = false
+    compression = false,
   } = config
 
   if (!enabled) {
-    return { 
-      wrapGenerate: async ({ doGenerate }) => doGenerate(), 
-      wrapStream: async ({ doStream }) => doStream() 
+    return {
+      wrapGenerate: async ({ doGenerate }) => doGenerate(),
+      wrapStream: async ({ doStream }) => doStream(),
     }
   }
 
-  const lruCache = memoryCache ? new LRUCache<string, any>({ 
-    max: maxSize,
-    ttl: ttl 
-  }) : null
+  const lruCache = memoryCache
+    ? new LRUCache<string, any>({
+        max: maxSize,
+        ttl: ttl,
+      })
+    : null
 
   if (persistentCache && ttl > 0) {
-    setInterval(() => {
-      cleanupExpiredFiles(CACHE_DIR, ttl).catch(() => {})
-    }, Math.min(ttl, 24 * 60 * 60 * 1000)) // Run at least once per day
+    setInterval(
+      () => {
+        cleanupExpiredFiles(CACHE_DIR, ttl).catch(() => {})
+      },
+      Math.min(ttl, 24 * 60 * 60 * 1000),
+    ) // Run at least once per day
   }
 
   return {
@@ -113,18 +114,18 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
         try {
           const cachedData = await fs.readFile(cacheFilePath, 'utf-8')
           const cachedResult = JSON.parse(cachedData)
-          
+
           if (cachedResult.timestamp && now - cachedResult.timestamp > ttl) {
             console.log(`Cache expired for key: ${cacheKey}`)
             throw new Error('Cache expired')
           }
-          
+
           console.log(`File cache hit for key: ${cacheKey}`)
-          
+
           if (memoryCache && lruCache) {
             lruCache.set(cacheKey, cachedResult)
           }
-          
+
           return cachedResult
         } catch (error) {
           console.log(`File cache miss for key: ${cacheKey}`)
@@ -132,10 +133,10 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
       }
 
       const result = await doGenerate()
-      
+
       const resultWithTimestamp = {
         ...result,
-        timestamp: now
+        timestamp: now,
       }
 
       if (memoryCache && lruCache) {
@@ -145,12 +146,7 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
       if (persistentCache) {
         try {
           await fs.mkdir(CACHE_DIR, { recursive: true })
-          await fs.writeFile(
-            cacheFilePath, 
-            compression 
-              ? JSON.stringify(resultWithTimestamp) 
-              : JSON.stringify(resultWithTimestamp, null, 2)
-          )
+          await fs.writeFile(cacheFilePath, compression ? JSON.stringify(resultWithTimestamp) : JSON.stringify(resultWithTimestamp, null, 2))
           console.log(`Cached result for key: ${cacheKey}`)
         } catch (error) {
           console.warn(`Failed to cache result: ${error}`)
@@ -169,34 +165,34 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
         const cachedResult = lruCache.get(cacheKey) as CachedData | undefined
         if (cachedResult) {
           console.log(`Memory cache hit for streaming key: ${cacheKey}`)
-          
+
           const text = cachedResult.text || ''
           const stream = new ReadableStream<LanguageModelV1StreamPart>({
             start(controller) {
               for (const char of text) {
-                controller.enqueue({ 
-                  type: 'text-delta' as const, 
-                  textDelta: char 
+                controller.enqueue({
+                  type: 'text-delta' as const,
+                  textDelta: char,
                 })
               }
-              controller.enqueue({ 
+              controller.enqueue({
                 type: 'finish' as const,
                 finishReason: 'stop' as const,
                 usage: cachedResult.usage || {
                   promptTokens: 0,
-                  completionTokens: 0
-                }
+                  completionTokens: 0,
+                },
               })
               controller.close()
-            }
+            },
           })
 
           return {
             stream,
-            rawCall: cachedResult.rawCall || { 
-              rawPrompt: {}, 
-              rawSettings: {} 
-            }
+            rawCall: cachedResult.rawCall || {
+              rawPrompt: {},
+              rawSettings: {},
+            },
           }
         }
       }
@@ -205,45 +201,45 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
         try {
           const cachedData = await fs.readFile(cacheFilePath, 'utf-8')
           const cachedResult = JSON.parse(cachedData) as CachedData
-          
+
           if (cachedResult.timestamp && now - cachedResult.timestamp > ttl) {
             console.log(`Cache expired for streaming key: ${cacheKey}`)
             throw new Error('Cache expired')
           }
-          
+
           console.log(`File cache hit for streaming key: ${cacheKey}`)
-          
+
           if (memoryCache && lruCache) {
             lruCache.set(cacheKey, cachedResult)
           }
-          
+
           const text = cachedResult.text || ''
           const stream = new ReadableStream<LanguageModelV1StreamPart>({
             start(controller) {
               for (const char of text) {
-                controller.enqueue({ 
-                  type: 'text-delta' as const, 
-                  textDelta: char 
+                controller.enqueue({
+                  type: 'text-delta' as const,
+                  textDelta: char,
                 })
               }
-              controller.enqueue({ 
+              controller.enqueue({
                 type: 'finish' as const,
                 finishReason: 'stop' as const,
                 usage: cachedResult.usage || {
                   promptTokens: 0,
-                  completionTokens: 0
-                }
+                  completionTokens: 0,
+                },
               })
               controller.close()
-            }
+            },
           })
 
           return {
             stream,
-            rawCall: cachedResult.rawCall || { 
-              rawPrompt: {}, 
-              rawSettings: {} 
-            }
+            rawCall: cachedResult.rawCall || {
+              rawPrompt: {},
+              rawSettings: {},
+            },
           }
         } catch (error) {
           console.log(`File cache miss for streaming key: ${cacheKey}`)
@@ -255,11 +251,8 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
       let fullText = ''
       let finishReason: string | undefined
       let usage: { promptTokens: number; completionTokens: number } | undefined
-      
-      const transformStream = new TransformStream<
-        LanguageModelV1StreamPart,
-        LanguageModelV1StreamPart
-      >({
+
+      const transformStream = new TransformStream<LanguageModelV1StreamPart, LanguageModelV1StreamPart>({
         transform(chunk, controller) {
           if (chunk.type === 'text-delta') {
             fullText += chunk.textDelta
@@ -275,34 +268,29 @@ export const createCacheMiddleware = (config: CacheConfig = {}): LanguageModelV1
             finishReason,
             usage,
             rawCall: result.rawCall,
-            timestamp: now
+            timestamp: now,
           }
-          
+
           if (memoryCache && lruCache) {
             lruCache.set(cacheKey, cacheData)
           }
-          
+
           if (persistentCache) {
             try {
               await fs.mkdir(CACHE_DIR, { recursive: true })
-              await fs.writeFile(
-                cacheFilePath, 
-                compression 
-                  ? JSON.stringify(cacheData) 
-                  : JSON.stringify(cacheData, null, 2)
-              )
+              await fs.writeFile(cacheFilePath, compression ? JSON.stringify(cacheData) : JSON.stringify(cacheData, null, 2))
               console.log(`Cached streaming result for key: ${cacheKey}`)
             } catch (error) {
               console.warn(`Failed to cache streaming result: ${error}`)
             }
           }
-        }
+        },
       })
 
       return {
         stream: stream.pipeThrough(transformStream),
-        rawCall: result.rawCall
+        rawCall: result.rawCall,
       }
-    }
+    },
   }
 }

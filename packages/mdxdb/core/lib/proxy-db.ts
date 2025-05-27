@@ -10,9 +10,11 @@ export function createProxyDb(db: MdxDbInterface): MdxDbInterface & Record<strin
   return new Proxy(db, {
     get(target, prop, receiver) {
       if (prop === 'inspect' || prop === 'toString' || prop === Symbol.toPrimitive) {
-        return function() { return '[MdxDb Proxy]'; };
+        return function () {
+          return '[MdxDb Proxy]'
+        }
       }
-      
+
       if (prop in target) {
         const value = Reflect.get(target, prop, receiver)
         return typeof value === 'function' ? value.bind(target) : value
@@ -40,6 +42,6 @@ export function createProxyDb(db: MdxDbInterface): MdxDbInterface & Record<strin
 
     getOwnPropertyDescriptor(target, prop) {
       return Reflect.getOwnPropertyDescriptor(target, prop)
-    }
+    },
   }) as MdxDbInterface & Record<string, Collection>
 }

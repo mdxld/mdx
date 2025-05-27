@@ -27,14 +27,14 @@ async function buildSchemaOrgFiles(sourceDir: string, outputDir: string) {
         const yamlContent = match[1]
         try {
           const frontmatter = parse(yamlContent)
-          
+
           try {
             JSON.stringify(frontmatter)
           } catch (jsonError) {
             console.error(`Error: Frontmatter in ${file} cannot be serialized to JSON:`, jsonError)
             continue // Skip this file
           }
-          
+
           const id = frontmatter.$id || basename(file, '.mdx')
           result[id] = {
             id: frontmatter.$id,
@@ -92,10 +92,10 @@ export async function build(options: { sourceDir?: string; outputDir?: string; c
 
   try {
     const resultJson = JSON.stringify(result, null, 2)
-    
+
     const indexJs = `export const mdx = ${resultJson};`
     const indexDts = `export declare const mdx: any;`
-    
+
     fs.writeFileSync(join(outputDir, 'index.js'), indexJs)
     fs.writeFileSync(join(outputDir, 'index.d.ts'), indexDts)
     fs.writeFileSync(join(outputDir, 'mdx.json'), resultJson)

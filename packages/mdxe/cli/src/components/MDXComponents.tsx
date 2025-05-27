@@ -1,57 +1,57 @@
-import React from 'react';
-import { Box, Text } from 'ink';
-import { landingPageComponents } from '@mdxui/ink';
+import React from 'react'
+import { Box, Text } from 'ink'
+import { landingPageComponents } from '@mdxui/ink'
 // @ts-ignore - Import directly from dist to avoid declaration file issues
-import Markdown from '../../../mdxui/ink/dist/markdown.js';
+import Markdown from '../../../mdxui/ink/dist/markdown.js'
 
 /**
  * MDX components for rendering in the terminal
  */
 export const MDXComponents = {
-  h1: (props: any) => <Text bold color="blue" {...props} />,
-  h2: (props: any) => <Text bold color="cyan" {...props} />,
-  h3: (props: any) => <Text bold color="green" {...props} />,
+  h1: (props: any) => <Text bold color='blue' {...props} />,
+  h2: (props: any) => <Text bold color='cyan' {...props} />,
+  h3: (props: any) => <Text bold color='green' {...props} />,
   h4: (props: any) => <Text bold {...props} />,
   h5: (props: any) => <Text bold {...props} />,
   h6: (props: any) => <Text bold {...props} />,
-  
+
   p: (props: any) => <Text {...props} />,
   blockquote: (props: any) => (
-    <Box borderStyle="single" borderColor="yellow" paddingX={1} marginY={1}>
-      <Text italic color="yellow" {...props} />
+    <Box borderStyle='single' borderColor='yellow' paddingX={1} marginY={1}>
+      <Text italic color='yellow' {...props} />
     </Box>
   ),
-  ul: (props: any) => <Box flexDirection="column" marginLeft={2} {...props} />,
-  ol: (props: any) => <Box flexDirection="column" marginLeft={2} {...props} />,
+  ul: (props: any) => <Box flexDirection='column' marginLeft={2} {...props} />,
+  ol: (props: any) => <Box flexDirection='column' marginLeft={2} {...props} />,
   li: (props: any) => <Text>• {props.children}</Text>,
-  
-  a: (props: any) => <Text color="blue" underline {...props} />,
+
+  a: (props: any) => <Text color='blue' underline {...props} />,
   strong: (props: any) => <Text bold {...props} />,
   em: (props: any) => <Text italic {...props} />,
-  code: (props: any) => <Text color="yellow" {...props} />,
+  code: (props: any) => <Text color='yellow' {...props} />,
   pre: (props: any) => (
-    <Box borderStyle="round" borderColor="gray" padding={1} marginY={1}>
+    <Box borderStyle='round' borderColor='gray' padding={1} marginY={1}>
       {props.children}
     </Box>
   ),
-  
+
   hr: () => (
     <Box marginY={1}>
-      <Text color="gray">───────────────────────────────────────</Text>
+      <Text color='gray'>───────────────────────────────────────</Text>
     </Box>
   ),
-  
-  table: (props: any) => <Box flexDirection="column" marginY={1} {...props} />,
+
+  table: (props: any) => <Box flexDirection='column' marginY={1} {...props} />,
   thead: (props: any) => <Box {...props} />,
-  tbody: (props: any) => <Box flexDirection="column" {...props} />,
+  tbody: (props: any) => <Box flexDirection='column' {...props} />,
   tr: (props: any) => <Box {...props} />,
   th: (props: any) => <Text bold underline marginRight={2} {...props} />,
   td: (props: any) => <Text marginRight={2} {...props} />,
-  
+
   Markdown: (props: any) => <Markdown>{props.children}</Markdown>,
-  
-  ...landingPageComponents
-};
+
+  ...landingPageComponents,
+}
 
 /**
  * Create a custom MDX components object with additional components
@@ -59,6 +59,6 @@ export const MDXComponents = {
 export function createMDXComponents(customComponents = {}) {
   return {
     ...MDXComponents,
-    ...customComponents
-  };
+    ...customComponents,
+  }
 }

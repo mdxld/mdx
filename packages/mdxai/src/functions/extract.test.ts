@@ -2,7 +2,7 @@ import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { extract } from './extract'
 
 vi.mock('../ai.js', () => ({
-  model: vi.fn().mockReturnValue('mock-model')
+  model: vi.fn().mockReturnValue('mock-model'),
 }))
 
 vi.mock('ai', () => ({
@@ -17,9 +17,9 @@ vi.mock('ai', () => ({
     object: {
       name: 'Test Product',
       price: 99.99,
-      features: ['Feature 1', 'Feature 2']
-    }
-  })
+      features: ['Feature 1', 'Feature 2'],
+    },
+  }),
 }))
 
 describe('extract function', () => {
@@ -80,12 +80,11 @@ describe('extract function', () => {
   describe('schema-based extraction', () => {
     it('should extract data according to provided schema', async () => {
       const description = 'iPhone 15 Pro costs $999 with features like ProRAW and Cinematic mode'
-      const result = await extract`Extract product details from: ${description}`
-        .withSchema({
-          name: 'string',
-          price: 'number',
-          features: 'array'
-        })
+      const result = await extract`Extract product details from: ${description}`.withSchema({
+        name: 'string',
+        price: 'number',
+        features: 'array',
+      })
 
       expect(typeof result).toBe('object')
       expect(result).toHaveProperty('name', 'Test Product')
@@ -96,17 +95,16 @@ describe('extract function', () => {
 
     it('should support complex nested schemas', async () => {
       const text = 'Complex product information'
-      const result = await extract`Extract from: ${text}`
-        .withSchema({
-          product: {
-            name: 'string',
-            specs: {
-              cpu: 'string',
-              ram: 'string'
-            }
+      const result = await extract`Extract from: ${text}`.withSchema({
+        product: {
+          name: 'string',
+          specs: {
+            cpu: 'string',
+            ram: 'string',
           },
-          availability: 'in_stock|out_of_stock|pre_order'
-        })
+        },
+        availability: 'in_stock|out_of_stock|pre_order',
+      })
 
       expect(typeof result).toBe('object')
       expect(result).toHaveProperty('product')
@@ -116,18 +114,14 @@ describe('extract function', () => {
   describe('method chaining', () => {
     it('should support chaining asType after withSchema', async () => {
       const text = 'Sample text'
-      const result = await extract`Extract from: ${text}`
-        .withSchema({ name: 'string' })
-        .asType('object')
+      const result = await extract`Extract from: ${text}`.withSchema({ name: 'string' }).asType('object')
 
       expect(typeof result).toBe('object')
     })
 
     it('should support chaining withSchema after asType', async () => {
       const text = 'Sample text'
-      const result = await extract`Extract from: ${text}`
-        .asType('object')
-        .withSchema({ name: 'string' })
+      const result = await extract`Extract from: ${text}`.asType('object').withSchema({ name: 'string' })
 
       expect(typeof result).toBe('object')
     })

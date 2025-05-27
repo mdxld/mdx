@@ -1,67 +1,67 @@
-import React from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { EventStatusProvider, useEventStatus } from './EventStatusProvider';
+import React from 'react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { EventStatusProvider, useEventStatus } from './EventStatusProvider'
 
 vi.mock('react', async () => {
-  const actual = await vi.importActual('react');
+  const actual = await vi.importActual('react')
   return {
-    ...actual as any,
+    ...(actual as any),
     useContext: vi.fn().mockImplementation((context) => {
       if (context.displayName === 'EventStatusContext') {
-        return undefined;
+        return undefined
       }
-      return (actual as any).useContext(context);
-    })
-  };
-});
+      return (actual as any).useContext(context)
+    }),
+  }
+})
 
 const TestComponent = ({ triggerUpdate }: { triggerUpdate?: () => void }) => {
-  const { addEvent } = useEventStatus();
-  
+  const { addEvent } = useEventStatus()
+
   React.useEffect(() => {
     if (triggerUpdate) {
-      triggerUpdate();
+      triggerUpdate()
     }
-    addEvent({ id: 'test-event', name: 'Test Event', status: 'pending' });
-  }, [addEvent, triggerUpdate]);
-  
-  return null;
-};
+    addEvent({ id: 'test-event', name: 'Test Event', status: 'pending' })
+  }, [addEvent, triggerUpdate])
+
+  return null
+}
 
 describe('EventStatusProvider', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-  });
+    vi.clearAllMocks()
+  })
 
   it('provides event status context to children', () => {
     const TestHook = () => {
       try {
-        useEventStatus();
-        return null;
+        useEventStatus()
+        return null
       } catch (e) {
-        throw e;
+        throw e
       }
-    };
+    }
 
     expect(() => {
-      <EventStatusProvider>
+      ;<EventStatusProvider>
         <TestHook />
       </EventStatusProvider>
-    }).not.toThrow();
-  });
+    }).not.toThrow()
+  })
 
   it('throws error when useEventStatus is used outside provider', () => {
     try {
-      useEventStatus();
+      useEventStatus()
     } catch (error: any) {
-      expect(error.message).toBe('useEventStatus must be used within an EventStatusProvider');
-      return;
+      expect(error.message).toBe('useEventStatus must be used within an EventStatusProvider')
+      return
     }
-    
-    expect(true).toBe(false);
-  });
+
+    expect(true).toBe(false)
+  })
 
   it('calls onEventUpdate when events change', () => {
-    expect(true).toBe(true);
-  });
-});
+    expect(true).toBe(true)
+  })
+})

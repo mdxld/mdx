@@ -1,14 +1,14 @@
-import React from 'react';
-import { Box, Text } from 'ink';
+import React from 'react'
+import { Box, Text } from 'ink'
 
 interface ChatMessageProps {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
+  role: 'user' | 'assistant' | 'system'
+  content: string
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ role, content }) => {
   return (
-    <Box flexDirection="column" marginY={1}>
+    <Box flexDirection='column' marginY={1}>
       <Text bold color={role === 'user' ? 'green' : 'blue'}>
         {role === 'user' ? 'You' : 'Assistant'}:
       </Text>
@@ -16,5 +16,5 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ role, content }) => {
         <Text>{content}</Text>
       </Box>
     </Box>
-  );
-};
+  )
+}

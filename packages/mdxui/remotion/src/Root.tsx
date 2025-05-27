@@ -38,7 +38,7 @@ export const RemotionRoot = () => {
           },
           narrationText: "This is a sample narration text for the sequence.",
           voiceName: "Kore",
-          transitionDuration: 30
+          transitionDuration: 30,
         }}
         fps={30}
         height={1080}

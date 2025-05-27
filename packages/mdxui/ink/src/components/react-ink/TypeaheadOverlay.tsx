@@ -1,58 +1,47 @@
-import SelectInput from "./SelectInput";
-import TextInput from "./TextInput";
-import { Box, Text, useInput } from "ink";
-import React, { useState } from "react";
+import SelectInput from './SelectInput'
+import TextInput from './TextInput'
+import { Box, Text, useInput } from 'ink'
+import React, { useState } from 'react'
 
-export type TypeaheadItem = { label: string; value: string };
+export type TypeaheadItem = { label: string; value: string }
 
 type Props = {
-  title: string;
-  description?: React.ReactNode;
-  initialItems: Array<TypeaheadItem>;
-  currentValue?: string;
-  limit?: number;
-  onSelect: (value: string) => void;
-  onExit: () => void;
-};
+  title: string
+  description?: React.ReactNode
+  initialItems: Array<TypeaheadItem>
+  currentValue?: string
+  limit?: number
+  onSelect: (value: string) => void
+  onExit: () => void
+}
 
 /**
  * Generic overlay that combines a TextInput with a filtered SelectInput.
  * It is intentionally dependency‑free so it can be re‑used by multiple
  * overlays (model picker, command picker, …).
  */
-export default function TypeaheadOverlay({
-  title,
-  description,
-  initialItems,
-  currentValue,
-  limit = 10,
-  onSelect,
-  onExit,
-}: Props): JSX.Element {
-  const [value, setValue] = useState("");
-  const [items, setItems] = useState<Array<TypeaheadItem>>(initialItems);
+export default function TypeaheadOverlay({ title, description, initialItems, currentValue, limit = 10, onSelect, onExit }: Props): JSX.Element {
+  const [value, setValue] = useState('')
+  const [items, setItems] = useState<Array<TypeaheadItem>>(initialItems)
 
   React.useEffect(() => {
-    setItems(initialItems);
-  }, [initialItems]);
+    setItems(initialItems)
+  }, [initialItems])
 
   /* ------------------------------------------------------------------ */
   /* Exit on ESC                                                         */
   /* ------------------------------------------------------------------ */
   useInput((_input: string, key: any) => {
     if (key.escape) {
-      onExit();
+      onExit()
     }
-  });
+  })
 
   /* ------------------------------------------------------------------ */
   /* Filtering & Ranking                                                 */
   /* ------------------------------------------------------------------ */
-  const q = value.toLowerCase();
-  const filtered =
-    q.length === 0
-      ? items
-      : items.filter((i: TypeaheadItem) => i.label.toLowerCase().includes(q));
+  const q = value.toLowerCase()
+  const filtered = q.length === 0 ? items : items.filter((i: TypeaheadItem) => i.label.toLowerCase().includes(q))
 
   /*
    * Sort logic:
@@ -71,65 +60,56 @@ export default function TypeaheadOverlay({
 
   const ranked = filtered.sort((a: TypeaheadItem, b: TypeaheadItem) => {
     if (a.value === currentValue) {
-      return -1;
+      return -1
     }
     if (b.value === currentValue) {
-      return 1;
+      return 1
     }
 
     if (q.length === 0) {
-      return 0;
+      return 0
     }
 
-    const ia = a.label.toLowerCase().indexOf(q);
-    const ib = b.label.toLowerCase().indexOf(q);
+    const ia = a.label.toLowerCase().indexOf(q)
+    const ib = b.label.toLowerCase().indexOf(q)
     if (ia !== ib) {
-      return ia - ib;
+      return ia - ib
     }
-    return a.label.localeCompare(b.label);
-  });
+    return a.label.localeCompare(b.label)
+  })
 
-  const selectItems = ranked;
+  const selectItems = ranked
 
-  if (
-    typeof process !== 'undefined' && 
-    (process.env["DEBUG_TYPEAHEAD"] === "1" ||
-    process.env["DEBUG_TYPEAHEAD"] === "true")
-  ) {
+  if (typeof process !== 'undefined' && (process.env['DEBUG_TYPEAHEAD'] === '1' || process.env['DEBUG_TYPEAHEAD'] === 'true')) {
     console.log(
-      "[TypeaheadOverlay] value=",
+      '[TypeaheadOverlay] value=',
       value,
-      "items=",
+      'items=',
       items.length,
-      "visible=",
+      'visible=',
       selectItems.map((i: TypeaheadItem) => i.label),
-    );
+    )
   }
-  const initialIndex = selectItems.findIndex((i: TypeaheadItem) => i.value === currentValue);
+  const initialIndex = selectItems.findIndex((i: TypeaheadItem) => i.value === currentValue)
 
   return (
-    <Box
-      flexDirection="column"
-      borderStyle="round"
-      borderColor="gray"
-      width={80}
-    >
+    <Box flexDirection='column' borderStyle='round' borderColor='gray' width={80}>
       <Box paddingX={1}>
         <Text bold>{title}</Text>
       </Box>
 
-      <Box flexDirection="column" paddingX={1} gap={1}>
+      <Box flexDirection='column' paddingX={1} gap={1}>
         {description}
         <TextInput
           value={value}
           onChange={setValue}
           onSubmit={(submitted: string) => {
             if (selectItems.length === 0) {
-              const target = submitted.trim();
+              const target = submitted.trim()
               if (target) {
-                onSelect(target);
+                onSelect(target)
               } else {
-                onExit();
+                onExit()
               }
             }
           }}
@@ -142,7 +122,7 @@ export default function TypeaheadOverlay({
             isFocused
             onSelect={(item: TypeaheadItem) => {
               if (item.value) {
-                onSelect(item.value);
+                onSelect(item.value)
               }
             }}
           />
@@ -154,5 +134,5 @@ export default function TypeaheadOverlay({
         <Text dimColor>type to search · enter to confirm · esc to cancel</Text>
       </Box>
     </Box>
-  );
+  )
 }

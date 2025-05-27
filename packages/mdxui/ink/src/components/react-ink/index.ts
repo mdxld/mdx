@@ -1,10 +1,10 @@
-export { default as TextInput } from './TextInput';
-export { default as SelectInput } from './SelectInput'; 
-export { default as Indicator } from './Indicator';
-export { default as Item } from './Item';
-export { default as TypeaheadOverlay } from './TypeaheadOverlay';
-export { default as Spinner } from './Spinner';
+export { default as TextInput } from './TextInput'
+export { default as SelectInput } from './SelectInput'
+export { default as Indicator } from './Indicator'
+export { default as Item } from './Item'
+export { default as TypeaheadOverlay } from './TypeaheadOverlay'
+export { default as Spinner } from './Spinner'
 
-export type { TextInputProps } from './TextInput';
-export type { Item as SelectInputItem } from './SelectInput';
-export type { TypeaheadItem } from './TypeaheadOverlay';
+export type { TextInputProps } from './TextInput'
+export type { Item as SelectInputItem } from './SelectInput'
+export type { TypeaheadItem } from './TypeaheadOverlay'

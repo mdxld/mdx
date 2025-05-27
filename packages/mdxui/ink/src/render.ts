@@ -1,55 +1,55 @@
 #!/usr/bin/env node
-import React from 'react';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types';
-import { createWorkflowFromFrontmatter } from './workflow';
+import React from 'react'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+import type { WorkflowFrontmatter, MdxPastelInkOptions } from './types'
+import { createWorkflowFromFrontmatter } from './workflow'
 
-import { compile, evaluate, type UseMdxComponents } from '@mdx-js/mdx';
-import { VFile } from 'vfile';
-import * as runtime from 'react/jsx-runtime';
-import { parseFrontmatter } from './frontmatter';
-import { defaultComponents } from './components';
-import { landingPageComponents } from './LandingPage';
-import { loadMdxComponents, type MDXComponents } from './component-loader';
+import { compile, evaluate, type UseMdxComponents } from '@mdx-js/mdx'
+import { VFile } from 'vfile'
+import * as runtime from 'react/jsx-runtime'
+import { parseFrontmatter } from './frontmatter'
+import { defaultComponents } from './components'
+import { landingPageComponents } from './LandingPage'
+import { loadMdxComponents, type MDXComponents } from './component-loader'
 
 /**
  * Compile MDX content to a React component
  */
 export async function compileMdx(
-  mdxContent: string, 
+  mdxContent: string,
   scope: Record<string, any> = {},
-  options: { remarkPlugins?: any[]; rehypePlugins?: any[]; components?: Record<string, React.ComponentType<any>> } = {}
+  options: { remarkPlugins?: any[]; rehypePlugins?: any[]; components?: Record<string, React.ComponentType<any>> } = {},
 ): Promise<React.ComponentType<any>> {
   try {
     // Parse frontmatter
-    const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent);
-    
+    const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent)
+
     const result = await compile(new VFile(contentWithoutFrontmatter), {
       jsx: true,
       jsxImportSource: 'react',
       remarkPlugins: options.remarkPlugins,
-      rehypePlugins: options.rehypePlugins
-    });
-    
+      rehypePlugins: options.rehypePlugins,
+    })
+
     const components = {
       ...defaultComponents,
       ...landingPageComponents,
-      ...options.components
-    };
-    
+      ...options.components,
+    }
+
     // Use the correct type for useMDXComponents
-    const useMDXComponents: UseMdxComponents = () => components as MDXComponents;
+    const useMDXComponents: UseMdxComponents = () => components as MDXComponents
     const { default: Component } = await evaluate(result, {
       ...runtime,
       ...scope,
-      useMDXComponents
-    });
-    
-    return Component;
+      useMDXComponents,
+    })
+
+    return Component
   } catch (error) {
-    console.error('Error compiling MDX:', error);
-    return () => null;
+    console.error('Error compiling MDX:', error)
+    return () => null
   }
 }
 
@@ -60,51 +60,49 @@ export async function compileMdx(
  * @returns Object containing Component, frontmatter, and optional workflow
  */
 export async function renderMdxCli(
-  mdxContentOrPath: string, 
-  options: Partial<MdxPastelInkOptions & { executeCode?: boolean }> = {}
+  mdxContentOrPath: string,
+  options: Partial<MdxPastelInkOptions & { executeCode?: boolean }> = {},
 ): Promise<{
-  Component: React.ComponentType<any>;
-  frontmatter: Record<string, any>;
-  workflow?: ReturnType<typeof createWorkflowFromFrontmatter>;
+  Component: React.ComponentType<any>
+  frontmatter: Record<string, any>
+  workflow?: ReturnType<typeof createWorkflowFromFrontmatter>
 }> {
-  let mdxContent: string;
+  let mdxContent: string
   try {
     if (options.mdxPath || (mdxContentOrPath.includes('/') && !mdxContentOrPath.includes('\n'))) {
-      const filePath = options.mdxPath || mdxContentOrPath;
-      const resolvedPath = resolve(process.cwd(), filePath);
-      
+      const filePath = options.mdxPath || mdxContentOrPath
+      const resolvedPath = resolve(process.cwd(), filePath)
+
       try {
-        mdxContent = readFileSync(resolvedPath, 'utf8');
+        mdxContent = readFileSync(resolvedPath, 'utf8')
       } catch (error) {
-        console.error(`Error reading MDX file: ${resolvedPath}`, error);
-        throw error;
+        console.error(`Error reading MDX file: ${resolvedPath}`, error)
+        throw error
       }
     } else {
-      mdxContent = mdxContentOrPath;
+      mdxContent = mdxContentOrPath
     }
-    
+
     // Parse frontmatter
-    const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent);
-    
-    const loadedComponents = await loadMdxComponents();
+    const { frontmatter, mdxContent: contentWithoutFrontmatter } = parseFrontmatter(mdxContent)
+
+    const loadedComponents = await loadMdxComponents()
     const Component = await compileMdx(contentWithoutFrontmatter, options.scope, {
       remarkPlugins: [],
       rehypePlugins: [],
-      components: loadedComponents
-    });
-    
+      components: loadedComponents,
+    })
+
     // Check for workflow in frontmatter
-    if ((frontmatter as WorkflowFrontmatter).workflow || 
-        (frontmatter as WorkflowFrontmatter).steps || 
-        (frontmatter as WorkflowFrontmatter).screens) {
-      const workflow = createWorkflowFromFrontmatter(frontmatter as WorkflowFrontmatter);
-      return { Component, frontmatter, workflow };
+    if ((frontmatter as WorkflowFrontmatter).workflow || (frontmatter as WorkflowFrontmatter).steps || (frontmatter as WorkflowFrontmatter).screens) {
+      const workflow = createWorkflowFromFrontmatter(frontmatter as WorkflowFrontmatter)
+      return { Component, frontmatter, workflow }
     }
-    
-    return { Component, frontmatter };
+
+    return { Component, frontmatter }
   } catch (error) {
-    console.error('Error processing MDX:', error);
-    throw error;
+    console.error('Error processing MDX:', error)
+    throw error
   }
 }
 

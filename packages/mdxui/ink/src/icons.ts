@@ -1,11 +1,11 @@
-import { IconType } from 'react-icons';
+import { IconType } from 'react-icons'
 
 /**
  * Icon library mappings
  */
 export const ICON_LIBRARIES = {
   Io: 'react-icons/io',
-  Io5: 'react-icons/io5', 
+  Io5: 'react-icons/io5',
   Fa: 'react-icons/fa',
   Fa6: 'react-icons/fa6',
   Md: 'react-icons/md',
@@ -35,13 +35,13 @@ export const ICON_LIBRARIES = {
   Cg: 'react-icons/cg',
   Ci: 'react-icons/ci',
   Lia: 'react-icons/lia',
-} as const;
+} as const
 
 /**
  * Template literal types for all react-icons libraries
  * This provides type safety while supporting all icons without hardcoding
  */
-export type IconName = 
+export type IconName =
   | `Io${string}` // react-icons/io (Ionicons 4)
   | `Io5${string}` // react-icons/io5 (Ionicons 5)
   | `Fa${string}` // react-icons/fa (Font Awesome 5)
@@ -72,18 +72,18 @@ export type IconName =
   | `Rx${string}` // react-icons/rx (Radix UI)
   | `Cg${string}` // react-icons/cg (css.gg)
   | `Ci${string}` // react-icons/ci (Circum Icons)
-  | `Lia${string}`; // react-icons/lia (Line Awesome)
+  | `Lia${string}` // react-icons/lia (Line Awesome)
 
 /**
  * Helper function to determine which library an icon belongs to
  */
 export function getIconLibrary(iconName: string): keyof typeof ICON_LIBRARIES | null {
-  const sortedPrefixes = Object.keys(ICON_LIBRARIES).sort((a, b) => b.length - a.length);
-  
+  const sortedPrefixes = Object.keys(ICON_LIBRARIES).sort((a, b) => b.length - a.length)
+
   for (const prefix of sortedPrefixes) {
     if (iconName.startsWith(prefix)) {
-      return prefix as keyof typeof ICON_LIBRARIES;
+      return prefix as keyof typeof ICON_LIBRARIES
     }
   }
-  return null;
+  return null
 }

@@ -340,25 +340,25 @@ export function parseHeadingsWithYaml(mdxContent: string): HeadingYamlPair[] {
   try {
     const processor = unified().use(remarkParse).use(remarkMdx)
     const tree = processor.parse(mdxContent)
-    
+
     const results: HeadingYamlPair[] = []
     let currentHeading: { text: string; level: number } | null = null
-    
+
     visit(tree, ['heading', 'code'], (node: any) => {
       if (node.type === 'heading') {
         currentHeading = {
           text: node.children?.map((child: any) => child.value || '').join('') || '',
-          level: node.depth
+          level: node.depth,
         }
       } else if (node.type === 'code' && node.lang === 'yaml' && currentHeading) {
         results.push({
           headingText: currentHeading.text,
           headingLevel: currentHeading.level,
-          yamlContent: node.value
+          yamlContent: node.value,
         })
       }
     })
-    
+
     return results
   } catch (e: any) {
     console.error(`Error parsing headings with YAML: ${e.message}`)

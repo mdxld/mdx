@@ -81,7 +81,7 @@ function parseYaml(yamlContent: string): any {
     if (colonIndex > 0) {
       const key = trimmedLine.substring(0, colonIndex).trim()
       const value = trimmedLine.substring(colonIndex + 1).trim()
-      
+
       if (value === 'true') {
         result[key] = true
       } else if (value === 'false') {
@@ -106,30 +106,30 @@ function parseYaml(yamlContent: string): any {
  */
 function parseHeadingsWithYaml(mdxContent: string): HeadingYamlPair[] {
   const results: HeadingYamlPair[] = []
-  
+
   const headingRegex = /^(#{1,6})\s+(.+)$/gm
   const codeBlockRegex = /```yaml\n([\s\S]*?)```/gm
-  
+
   let match
   let currentHeading: { text: string; level: number } | null = null
-  
+
   while ((match = headingRegex.exec(mdxContent)) !== null) {
     const level = match[1].length
     const text = match[2].trim()
     currentHeading = { text, level }
-    
+
     codeBlockRegex.lastIndex = match.index + match[0].length
     const codeMatch = codeBlockRegex.exec(mdxContent)
-    
+
     if (codeMatch && codeMatch.index < mdxContent.indexOf('\n#', match.index + match[0].length)) {
       results.push({
         headingText: currentHeading.text,
         headingLevel: currentHeading.level,
-        yamlContent: codeMatch[1]
+        yamlContent: codeMatch[1],
       })
     }
   }
-  
+
   return results
 }
 
@@ -140,35 +140,41 @@ function parseHeadingsWithYaml(mdxContent: string): HeadingYamlPair[] {
  */
 function createSchemaFromDescription(yamlDescription: Record<string, any>): any {
   const schemaObj: Record<string, any> = {}
-  
+
   Object.entries(yamlDescription).forEach(([key, description]) => {
     if (typeof description !== 'string') {
       schemaObj[key] = { type: 'string', description: String(description) }
       return
     }
-    
+
     const typeAnnotationMatch = description.match(/\(([^)]+)\)$/)
     const enumMatch = description.match(/\(([^)]*\|[^)]*)\)$/) || description.match(/([^(]*\|[^(]*)$/)
-    
+
     let baseDescription = description
     let type = 'string'
-    
+
     if (enumMatch) {
-      const enumValues = enumMatch[1].split('|').map(v => v.trim()).filter(Boolean)
+      const enumValues = enumMatch[1]
+        .split('|')
+        .map((v) => v.trim())
+        .filter(Boolean)
       if (enumValues.length >= 1) {
         type = 'enum'
-        baseDescription = description.replace(/\([^)]*\|[^)]*\)$/, '').replace(/[^(]*\|[^(]*$/, '').trim()
-        schemaObj[key] = { 
-          type, 
+        baseDescription = description
+          .replace(/\([^)]*\|[^)]*\)$/, '')
+          .replace(/[^(]*\|[^(]*$/, '')
+          .trim()
+        schemaObj[key] = {
+          type,
           description: baseDescription,
-          enum: enumValues
+          enum: enumValues,
         }
         return
       }
     } else if (typeAnnotationMatch) {
       const typeAnnotation = typeAnnotationMatch[1].toLowerCase()
       baseDescription = description.replace(/\([^)]*\)$/, '').trim()
-      
+
       switch (typeAnnotation) {
         case 'bool':
         case 'boolean':
@@ -190,10 +196,10 @@ function createSchemaFromDescription(yamlDescription: Record<string, any>): any 
           break
       }
     }
-    
+
     schemaObj[key] = { type, description: baseDescription }
   })
-  
+
   return schemaObj
 }
 
@@ -204,24 +210,22 @@ function createSchemaFromDescription(yamlDescription: Record<string, any>): any 
  */
 export async function discoverSchemas(dbFolderPath: string): Promise<SchemaDefinition[]> {
   const schemaDefinitions: SchemaDefinition[] = []
-  
+
   try {
     await fs.access(dbFolderPath)
   } catch {
     return schemaDefinitions
   }
-  
+
   try {
     // Find all MDX files in the .db folder
     const files = await fs.readdir(dbFolderPath, { recursive: true })
-    const mdxFiles = files.filter(file => 
-      typeof file === 'string' && (file.endsWith('.md') || file.endsWith('.mdx'))
-    )
-    
+    const mdxFiles = files.filter((file) => typeof file === 'string' && (file.endsWith('.md') || file.endsWith('.mdx')))
+
     for (const file of mdxFiles) {
       const filePath = path.join(dbFolderPath, file as string)
       const content = await fs.readFile(filePath, 'utf-8')
-      
+
       const frontmatterResult = parseFrontmatter(content)
       if (frontmatterResult.frontmatter && frontmatterResult.frontmatter.collections) {
         Object.entries(frontmatterResult.frontmatter.collections).forEach(([name, yamlSchema]) => {
@@ -230,14 +234,14 @@ export async function discoverSchemas(dbFolderPath: string): Promise<SchemaDefin
             schemaDefinitions.push({
               collectionName: name,
               schema,
-              source: 'frontmatter'
+              source: 'frontmatter',
             })
           } catch (error) {
             console.warn(`Failed to parse frontmatter schema for collection ${name}:`, error)
           }
         })
       }
-      
+
       const headingSchemas = parseHeadingsWithYaml(content)
       for (const headingSchema of headingSchemas) {
         try {
@@ -246,7 +250,7 @@ export async function discoverSchemas(dbFolderPath: string): Promise<SchemaDefin
           schemaDefinitions.push({
             collectionName: headingSchema.headingText.toLowerCase().replace(/\s+/g, '-'),
             schema,
-            source: 'heading'
+            source: 'heading',
           })
         } catch (error) {
           console.warn(`Failed to parse heading schema for ${headingSchema.headingText}:`, error)
@@ -256,6 +260,6 @@ export async function discoverSchemas(dbFolderPath: string): Promise<SchemaDefin
   } catch (error) {
     console.error('Error discovering schemas:', error)
   }
-  
+
   return schemaDefinitions
 }

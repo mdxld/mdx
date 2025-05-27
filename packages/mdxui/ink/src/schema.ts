@@ -80,29 +80,35 @@ export function createZodType(type: string): z.ZodTypeAny {
  */
 export function createSchemaFromDescription(yamlDescription: Record<string, any>): z.ZodObject<any> {
   const schemaObj: Record<string, z.ZodTypeAny> = {}
-  
+
   Object.entries(yamlDescription).forEach(([key, description]) => {
     if (typeof description !== 'string') {
       schemaObj[key] = z.string().describe(String(description))
       return
     }
-    
+
     const typeAnnotationMatch = description.match(/\(([^)]+)\)$/)
     const enumMatch = description.match(/\(([^)]*\|[^)]*)\)$/) || description.match(/([^(]*\|[^(]*)$/)
-    
+
     let baseDescription = description
     let zodType: z.ZodTypeAny = z.string()
-    
+
     if (enumMatch) {
-      const enumValues = enumMatch[1].split('|').map(v => v.trim()).filter(Boolean)
+      const enumValues = enumMatch[1]
+        .split('|')
+        .map((v) => v.trim())
+        .filter(Boolean)
       if (enumValues.length >= 1) {
         zodType = z.enum(enumValues as [string, ...string[]])
-        baseDescription = description.replace(/\([^)]*\|[^)]*\)$/, '').replace(/[^(]*\|[^(]*$/, '').trim()
+        baseDescription = description
+          .replace(/\([^)]*\|[^)]*\)$/, '')
+          .replace(/[^(]*\|[^(]*$/, '')
+          .trim()
       }
     } else if (typeAnnotationMatch) {
       const typeAnnotation = typeAnnotationMatch[1].toLowerCase()
       baseDescription = description.replace(/\([^)]*\)$/, '').trim()
-      
+
       switch (typeAnnotation) {
         case 'bool':
         case 'boolean':
@@ -126,9 +132,9 @@ export function createSchemaFromDescription(yamlDescription: Record<string, any>
           zodType = z.string()
       }
     }
-    
+
     schemaObj[key] = zodType.describe(baseDescription)
   })
-  
+
   return z.object(schemaObj)
 }
