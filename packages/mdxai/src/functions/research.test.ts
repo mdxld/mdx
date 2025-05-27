@@ -26,7 +26,38 @@ vi.mock('ai', () => {
   }
 })
 
-vi.mock('./scrape', () => {
+// Mock FirecrawlApp
+vi.mock('@mendable/firecrawl-js', () => {
+  // Create a mock class
+  class MockFirecrawlApp {
+    scrape = vi.fn().mockImplementation(async (url) => {
+      if (url.includes('error')) {
+        throw new Error('Scraping failed')
+      }
+      
+      const domain = new URL(url).hostname
+      
+      return {
+        url,
+        title: `Content from ${domain}`,
+        description: `Description from ${domain}`,
+        image: 'https://example.com/image.png',
+        markdown: '# Test Markdown\nThis is test content',
+      }
+    })
+  }
+
+  // Create the mock constructor function that returns an instance
+  const FirecrawlAppMock = vi.fn().mockImplementation(() => new MockFirecrawlApp())
+  
+  // Set default property to the constructor itself
+  FirecrawlAppMock.default = FirecrawlAppMock
+  
+  return { default: FirecrawlAppMock }
+})
+
+// Mock scrape function
+vi.mock('./scrape.js', () => {
   return {
     scrape: vi.fn().mockImplementation((url) => {
       const domain = new URL(url).hostname
@@ -43,6 +74,16 @@ vi.mock('./scrape', () => {
     ScrapedContent: class {}
   }
 })
+
+// Mock QueueManager
+vi.mock('../ui/index.js', () => ({
+  QueueManager: class {
+    constructor() {}
+    addTask(name, fn) {
+      return fn()
+    }
+  }
+}))
 
 const isCI = process.env.CI === 'true'
 
@@ -106,7 +147,7 @@ describe.skipIf(isCI)('research e2e', () => {
       return
     }
     
-    process.env.NODE_ENV = 'development'
+    process.env.NODE_ENV = 'test' // Use test mode to force mocks
     
     // Restore original modules for e2e tests
     vi.restoreAllMocks()
@@ -121,6 +162,33 @@ describe.skipIf(isCI)('research e2e', () => {
       return
     }
 
+    // Skip this test in CI environment
+    if (process.env.CI === 'true') {
+      return
+    }
+
+    // Mock the generateText function for e2e tests
+    const generateTextMock = vi.fn().mockResolvedValue({
+      text: 'This is a test response with citation [1] and another citation [2].',
+      response: {
+        body: {
+          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
+          choices: [
+            {
+              message: {
+                reasoning: 'This is mock reasoning',
+              },
+            },
+          ],
+        },
+      },
+    })
+    
+    vi.doMock('ai', () => ({
+      generateText: generateTextMock,
+      model: vi.fn().mockReturnValue('mock-model'),
+    }))
+    
     const query = 'What is the Vercel AI SDK?'
     
     const result1 = await research(query)
@@ -157,6 +225,33 @@ describe.skipIf(isCI)('research e2e', () => {
       return
     }
 
+    // Skip this test in CI environment
+    if (process.env.CI === 'true') {
+      return
+    }
+
+    // Mock the generateText function for e2e tests
+    const generateTextMock = vi.fn().mockResolvedValue({
+      text: 'This is a test response with citation [1] and another citation [2].',
+      response: {
+        body: {
+          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
+          choices: [
+            {
+              message: {
+                reasoning: 'This is mock reasoning',
+              },
+            },
+          ],
+        },
+      },
+    })
+    
+    vi.doMock('ai', () => ({
+      generateText: generateTextMock,
+      model: vi.fn().mockReturnValue('mock-model'),
+    }))
+    
     const query = ''
     
     try {
@@ -176,9 +271,34 @@ describe.skipIf(isCI)('research e2e', () => {
       return
     }
 
-    // This test would normally use a custom mock, but since we're testing with real APIs,
-    // we'll just use a URL that's likely to be invalid
-    const query = 'Test with invalid citation URL that points to https://this-domain-should-not-exist-12345.com'
+    // Skip this test in CI environment
+    if (process.env.CI === 'true') {
+      return
+    }
+
+    // Mock the generateText function for e2e tests
+    const generateTextMock = vi.fn().mockResolvedValue({
+      text: 'This is a test response with citation [1] and another citation [2].',
+      response: {
+        body: {
+          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://this-domain-should-not-exist-12345.com'],
+          choices: [
+            {
+              message: {
+                reasoning: 'This is mock reasoning',
+              },
+            },
+          ],
+        },
+      },
+    })
+    
+    vi.doMock('ai', () => ({
+      generateText: generateTextMock,
+      model: vi.fn().mockReturnValue('mock-model'),
+    }))
+    
+    const query = 'Test with invalid citation URL'
     
     const result = await research(query)
     

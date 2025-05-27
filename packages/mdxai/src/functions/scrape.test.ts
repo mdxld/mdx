@@ -5,8 +5,9 @@ import { createCacheMiddleware } from '../cacheMiddleware'
 
 // Mock FirecrawlApp at the top level
 vi.mock('@mendable/firecrawl-js', () => {
-  const mockFirecrawl = vi.fn().mockImplementation(() => ({
-    scrape: vi.fn().mockImplementation(async (url) => {
+  // Create a mock class
+  class MockFirecrawlApp {
+    scrape = vi.fn().mockImplementation(async (url) => {
       if (url.includes('error')) {
         throw new Error('Scraping failed')
       }
@@ -20,12 +21,16 @@ vi.mock('@mendable/firecrawl-js', () => {
         image: 'https://example.com/image.png',
         markdown: '# Test Markdown\nThis is test content',
       }
-    }),
-  }))
+    })
+  }
+
+  // Create the mock constructor function that returns an instance
+  const FirecrawlAppMock = vi.fn().mockImplementation(() => new MockFirecrawlApp())
   
-  // Add a default property to the function
-  mockFirecrawl.default = mockFirecrawl
-  return mockFirecrawl
+  // Set default property to the constructor itself
+  FirecrawlAppMock.default = FirecrawlAppMock
+  
+  return { default: FirecrawlAppMock }
 })
 
 // Create a mock for fs
@@ -33,7 +38,16 @@ vi.mock('fs', async () => {
   const actual = await vi.importActual('fs')
   return {
     ...actual,
-    readFile: vi.fn(),
+    readFile: vi.fn().mockImplementation((path, options, callback) => {
+      if (typeof options === 'function') {
+        options(null, JSON.stringify({ cached: true }))
+        return
+      }
+      if (callback) {
+        callback(null, JSON.stringify({ cached: true }))
+      }
+      return Promise.resolve(JSON.stringify({ cached: true }))
+    }),
     writeFile: vi.fn().mockImplementation((path, data, callback) => {
       if (callback) callback(null)
       return Promise.resolve()
