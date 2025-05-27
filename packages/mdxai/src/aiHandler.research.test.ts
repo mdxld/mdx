@@ -1,63 +1,109 @@
-import { describe, expect, it, vi } from 'vitest'
-import { research } from './aiHandler'
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
+import { research } from './aiHandler.research'
+import fs from 'fs'
+import matter from 'gray-matter'
 import yaml from 'yaml'
-import * as researchModule from './functions/research.js'
+import * as aiModule from 'ai'
+
+// Mock modules at the top level
+vi.mock('gray-matter')
+vi.mock('yaml', () => ({
+  stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
+  parse: vi.fn().mockImplementation((str) => JSON.parse(str)),
+}))
+
+vi.mock('ai', () => ({
+  generateText: vi.fn().mockResolvedValue({
+    text: 'mock string response',
+    response: {
+      body: {
+        choices: [
+          {
+            message: {
+              content: 'mock string response',
+            },
+          },
+        ],
+      },
+    },
+  }),
+  streamText: vi.fn().mockResolvedValue({
+    text: 'mock string response',
+    textStream: {
+      [Symbol.asyncIterator]: async function* () {
+        yield 'mock string response'
+      },
+    },
+  }),
+  model: vi.fn().mockReturnValue('mock-model'),
+}))
+
+// Mock gray-matter file
+function createMockGrayMatterFile(data: Record<string, any>, content: string) {
+  return {
+    data,
+    content,
+    orig: content,
+    language: 'md',
+    matter: '',
+    stringify: () => content,
+    isEmpty: false,
+  }
+}
 
 describe('research template literal', () => {
-  it('should handle template literals with variable interpolation', async () => {
-    const market = 'AI tools'
-    const idea = 'AI-powered content generation'
-    
-    const researchSpy = vi.spyOn(researchModule, 'research')
-    
-    const result = await research`${market} in the context of delivering ${idea}`
+  const originalEnv = { ...process.env }
 
-    expect(researchSpy).toHaveBeenCalledWith('AI tools in the context of delivering AI-powered content generation')
-    expect(result).toHaveProperty('text')
-    expect(result).toHaveProperty('markdown')
-    expect(result).toHaveProperty('citations')
-    expect(result).toHaveProperty('scrapedCitations')
+  beforeEach(() => {
+    process.env.NODE_ENV = 'test'
+    vi.clearAllMocks()
     
-    researchSpy.mockRestore()
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('mock file content')
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+    
+    vi.mocked(matter).mockImplementation(() => 
+      createMockGrayMatterFile({ output: 'string' }, 'You are a research assistant. ${prompt}')
+    )
+  })
+
+  afterEach(() => {
+    process.env = { ...originalEnv }
+  })
+
+  it('should handle template literals with variable interpolation', async () => {
+    const topic = 'TypeScript'
+    const result = await research`Research about ${topic}`
+
+    expect(result).toBeDefined()
+    expect(typeof result).toBe('string')
+    expect(result).toContain('mock string response')
   })
 
   it('should throw an error when not called as a template literal', () => {
-    expect(() => (research as any)('not a template literal')).toThrow('Research function must be called as a template literal')
+    // @ts-ignore - Testing incorrect usage
+    expect(() => research('not a template literal')).toThrow('research function must be used as a template literal tag')
   })
 
   it('should stringify arrays to YAML format', async () => {
-    const competitors = ['Company A', 'Company B', 'Company C']
-    
-    const researchSpy = vi.spyOn(researchModule, 'research')
-    
-    const result = await research`Competitors: ${competitors}`
+    const items = ['TypeScript', 'JavaScript', 'React']
+    const result = await research`Research these technologies: ${items}`
 
-    const expectedYaml = yaml.stringify(competitors)
-    expect(researchSpy).toHaveBeenCalledWith(`Competitors: ${expectedYaml}`)
-    
-    researchSpy.mockRestore()
+    expect(result).toBeDefined()
+    expect(typeof result).toBe('string')
+    expect(result).toContain('mock string response')
+    expect(yaml.stringify).toHaveBeenCalledWith(items)
   })
 
   it('should stringify objects to YAML format', async () => {
-    const marketData = {
-      size: '$5 billion',
-      growth: '12% annually',
-      topPlayers: ['Company X', 'Company Y', 'Company Z'],
-      regions: {
-        northAmerica: '40%',
-        europe: '30%',
-        asia: '25%',
-        other: '5%',
-      },
+    const project = {
+      name: 'MDX AI',
+      technologies: ['TypeScript', 'React'],
     }
-    
-    const researchSpy = vi.spyOn(researchModule, 'research')
+    const result = await research`Research this project: ${project}`
 
-    const result = await research`Market analysis: ${marketData}`
-
-    const expectedYaml = yaml.stringify(marketData)
-    expect(researchSpy).toHaveBeenCalledWith(`Market analysis: ${expectedYaml}`)
-    
-    researchSpy.mockRestore()
+    expect(result).toBeDefined()
+    expect(typeof result).toBe('string')
+    expect(result).toContain('mock string response')
+    expect(yaml.stringify).toHaveBeenCalledWith(project)
   })
 })

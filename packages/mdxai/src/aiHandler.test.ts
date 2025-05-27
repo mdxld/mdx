@@ -9,7 +9,38 @@ import * as utils from './utils'
 import * as llmService from './llmService'
 import * as aiSdk from './ai'
 
+// Mock modules at the top level
 vi.mock('gray-matter')
+vi.mock('yaml', () => ({
+  stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
+  parse: vi.fn().mockImplementation((str) => JSON.parse(str)),
+}))
+
+vi.mock('ai', () => ({
+  generateText: vi.fn().mockResolvedValue({
+    text: 'mock string response',
+    response: {
+      body: {
+        choices: [
+          {
+            message: {
+              content: 'mock string response',
+            },
+          },
+        ],
+      },
+    },
+  }),
+  streamText: vi.fn().mockResolvedValue({
+    text: 'mock string response',
+    textStream: {
+      [Symbol.asyncIterator]: async function* () {
+        yield 'mock string response'
+      },
+    },
+  }),
+  model: vi.fn().mockReturnValue('mock-model'),
+}))
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -307,7 +338,8 @@ describe('AI Handler', () => {
   })
 })
 
-describe('AI Handler e2e', () => {
+// Skip e2e tests in CI environment
+describe.skipIf(process.env.CI === 'true')('AI Handler e2e', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
@@ -319,7 +351,8 @@ describe('AI Handler e2e', () => {
     process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
     
-    vi.mocked(fs.readFileSync).mockReturnValue('mock file content')
+    // Use spyOn instead of mocked
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('mock file content')
     vi.mocked(matter).mockImplementation(() => 
       createMockGrayMatterFile({ output: 'string' }, 'You are a helpful assistant. ${prompt}')
     )
@@ -334,8 +367,13 @@ describe('AI Handler e2e', () => {
       return
     }
 
-    const originalStreamText = vi.mocked(aiModule.streamText)
-    vi.doUnmock('ai')
+    // Skip this test in CI environment
+    if (process.env.CI === 'true') {
+      return
+    }
+
+    // Restore original modules for e2e tests
+    vi.restoreAllMocks()
     
     const result1 = await ai`Write a short greeting`
     
@@ -348,8 +386,6 @@ describe('AI Handler e2e', () => {
     expect(result2).toBeDefined()
     expect(typeof result2).toBe('string')
     expect(result2).toBe(result1)
-    
-    vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
   }, 30000)
 
   it('should handle errors gracefully with real API', async () => {
@@ -357,8 +393,13 @@ describe('AI Handler e2e', () => {
       return
     }
 
-    const originalStreamText = vi.mocked(aiModule.streamText)
-    vi.doUnmock('ai')
+    // Skip this test in CI environment
+    if (process.env.CI === 'true') {
+      return
+    }
+
+    // Restore original modules for e2e tests
+    vi.restoreAllMocks()
     
     try {
       const result = await ai``
@@ -368,8 +409,6 @@ describe('AI Handler e2e', () => {
     } catch (error: any) {
       expect(error.message).toBeDefined()
     }
-    
-    vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
   }, 30000)
 })
 
