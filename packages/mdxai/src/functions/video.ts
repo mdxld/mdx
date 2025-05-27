@@ -20,8 +20,8 @@ export interface VideoConfig {
   prompt: string
   /** The model to use for video generation */
   model?: string
-  /** Whether to allow person generation in the video */
-  personGeneration?: 'allow' | 'dont_allow'
+  /** Whether to allow person generation in the video (deprecated - no longer supported by the API) */
+  personGeneration?: 'allow_adult' | 'disallow'
   /** The aspect ratio of the video */
   aspectRatio?: '16:9' | '9:16' | '1:1' | '4:3'
   /** The maximum number of seconds to wait for the video generation to complete */
@@ -60,7 +60,7 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
   const {
     prompt,
     model = 'veo-2.0-generate-001',
-    personGeneration = 'allow',
+    personGeneration, // Deprecated parameter, no longer used
     aspectRatio = '16:9',
     maxWaitTimeSeconds = 300, // 5 minutes max wait time
     pollingIntervalSeconds = 10,
@@ -69,7 +69,6 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
   const cacheKey = hash({
     prompt,
     model,
-    personGeneration,
     aspectRatio,
   })
   
@@ -117,7 +116,6 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
       model,
       prompt,
       config: {
-        personGeneration,
         aspectRatio,
       },
     })
@@ -176,7 +174,7 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
       metadata: {
         model,
         aspectRatio,
-        personGeneration,
+        personGeneration: personGeneration || 'disallow', // Default value since API no longer supports this parameter
         generationTimeMs,
         completedAt: new Date().toISOString(),
       }

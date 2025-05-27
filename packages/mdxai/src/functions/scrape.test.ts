@@ -1,25 +1,136 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { scrape, scrapeMultiple, ScrapedContent } from './scrape'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+// Create a complete mock implementation with all required methods
+const createMockFirecrawlApp = (config = {}) => ({
+    apiKey: 'mock-api-key',
+    apiUrl: 'https://api.example.com',
+    version: '1.0.0',
+    isCloudService: true,
+    
+    scrapeUrl: vi.fn().mockResolvedValue({
+      success: true,
+      data: {
+        metadata: {
+          title: 'Test Title',
+          description: 'Test Description',
+          ogImage: 'https://example.com/image.jpg',
+        },
+        markdown: '# Test Content\n\nThis is test markdown content.',
+        html: '<h1>Test Content</h1><p>This is test HTML content.</p>',
+      },
+    }),
+    
+    fetch: vi.fn(),
+    fetchWithRetry: vi.fn(),
+    request: vi.fn(),
+    requestWithRetry: vi.fn(),
+    
+    getVersion: vi.fn(),
+    init: vi.fn(),
+    search: vi.fn(),
+    crawlUrl: vi.fn(),
+    
+    crawlUrlAndWatch: vi.fn(),
+    mapUrl: vi.fn(),
+    batchScrapeUrls: vi.fn(),
+    asyncBatchScrapeUrls: vi.fn(),
+    
+    asyncCrawlUrl: vi.fn(),
+    checkCrawlStatus: vi.fn(),
+    checkCrawlErrors: vi.fn(),
+    cancelCrawl: vi.fn(),
+    
+    extractContent: vi.fn(),
+    extractMetadata: vi.fn(),
+    extractText: vi.fn(),
+    
+    generateSummary: vi.fn(),
+    generateTitle: vi.fn(),
+    generateKeywords: vi.fn(),
+    generateTags: vi.fn(),
+    generateCategories: vi.fn(),
+    generateDescription: vi.fn(),
+    generateImage: vi.fn(),
+    generateAudio: vi.fn(),
+    generateVideo: vi.fn(),
+    generateTranscript: vi.fn(),
+    generateSubtitles: vi.fn(),
+    generateCaptions: vi.fn(),
+    generateTimestamps: vi.fn(),
+    generateChapters: vi.fn(),
+    generateOutline: vi.fn(),
+    generateTableOfContents: vi.fn(),
+    generateFAQs: vi.fn(),
+    generateQuestions: vi.fn(),
+    generateAnswers: vi.fn(),
+    generateQuiz: vi.fn(),
+    generateFlashcards: vi.fn(),
+    generateNotes: vi.fn(),
+    generateHighlights: vi.fn(),
+    generateAnnotations: vi.fn(),
+    generateComments: vi.fn(),
+    generateReviews: vi.fn(),
+    generateRatings: vi.fn(),
+    
+    getApiKey: vi.fn(),
+    setApiKey: vi.fn(),
+    getApiUrl: vi.fn(),
+    setApiUrl: vi.fn(),
+    isInitialized: vi.fn(),
+    reset: vi.fn(),
+    configure: vi.fn(),
+    getConfig: vi.fn(),
+    setConfig: vi.fn(),
+    getOptions: vi.fn(),
+    setOptions: vi.fn(),
+    getHeaders: vi.fn(),
+    setHeaders: vi.fn(),
+    getTimeout: vi.fn(),
+    setTimeout: vi.fn(),
+    getRetries: vi.fn(),
+    setRetries: vi.fn(),
+    getDelay: vi.fn(),
+    setDelay: vi.fn(),
+    getBackoff: vi.fn(),
+    setBackoff: vi.fn(),
+    getMaxRetries: vi.fn(),
+    setMaxRetries: vi.fn(),
+    getMaxDelay: vi.fn(),
+    setMaxDelay: vi.fn(),
+    getMaxTimeout: vi.fn(),
+    setMaxTimeout: vi.fn(),
+    
+    getCache: vi.fn(),
+    setCache: vi.fn(),
+    clearCache: vi.fn(),
+    getCacheKey: vi.fn(),
+    setCacheKey: vi.fn(),
+    getCacheTTL: vi.fn(),
+    setCacheTTL: vi.fn(),
+    isCacheEnabled: vi.fn(),
+    enableCache: vi.fn(),
+    disableCache: vi.fn(),
+    getCacheSize: vi.fn(),
+    setCacheSize: vi.fn(),
+    getCacheStats: vi.fn(),
+    resetCacheStats: vi.fn(),
+    getCacheHits: vi.fn(),
+    getCacheMisses: vi.fn(),
+    getCacheRatio: vi.fn(),
+    getCacheExpired: vi.fn(),
+    getCacheErrors: vi.fn(),
+    getCacheWarnings: vi.fn()
+})
+
 // Mock FirecrawlApp
 vi.mock('@mendable/firecrawl-js', () => {
   return {
-    default: vi.fn().mockImplementation(() => ({
-      scrapeUrl: vi.fn().mockResolvedValue({
-        success: true,
-        data: {
-          metadata: {
-            title: 'Test Title',
-            description: 'Test Description',
-            ogImage: 'https://example.com/image.jpg',
-          },
-          markdown: '# Test Content\n\nThis is test markdown content.',
-          html: '<h1>Test Content</h1><p>This is test HTML content.</p>',
-        },
-      }),
-    })),
+    default: vi.fn().mockImplementation((config) => {
+      return createMockFirecrawlApp(config) as any;
+    }),
   }
 })
 
@@ -75,13 +186,20 @@ describe('scrape', () => {
     // Mock FirecrawlApp to return an error
     const { default: FirecrawlApp } = await import('@mendable/firecrawl-js')
     
-    // Create a new mock that returns an error
-    vi.mocked(FirecrawlApp).mockImplementationOnce(() => ({
-      scrapeUrl: vi.fn().mockResolvedValue({
+    // Create a new mock that returns an error by reusing the same mock factory
+    // but overriding the scrapeUrl method to return an error
+    vi.mocked(FirecrawlApp).mockImplementationOnce((config = {}) => {
+      // Get the base mock implementation
+      const mockApp = createMockFirecrawlApp(config);
+      
+      // Override the scrapeUrl method to return an error
+      mockApp.scrapeUrl = vi.fn().mockResolvedValue({
         success: false,
         error: 'Failed to scrape',
-      }),
-    }))
+      });
+      
+      return mockApp as any;
+    })
 
     const result = await scrape('https://example.com/error')
 
@@ -129,4 +247,4 @@ describe('scrape', () => {
     
     expect(cacheExists).toBe(true)
   })
-}) 
+})                      

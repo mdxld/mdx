@@ -30,7 +30,7 @@ describe('video e2e', () => {
     expect(result1.videoFilePaths.length).toBeGreaterThan(0)
     expect(result1.metadata.model).toBe('veo-2.0-generate-001')
     expect(result1.metadata.aspectRatio).toBe('16:9')
-    expect(result1.metadata.personGeneration).toBe('allow')
+    expect(result1.metadata.personGeneration).toBe('disallow')
     expect(result1.metadata.generationTimeMs).toBeGreaterThan(0)
     expect(result1.metadata.completedAt).toBeDefined()
 
@@ -68,14 +68,14 @@ describe('video e2e', () => {
     const config1: VideoConfig = {
       prompt: 'A red circle moving from left to right',
       aspectRatio: '16:9',
-      personGeneration: 'dont_allow',
+      personGeneration: 'disallow',
       maxWaitTimeSeconds: 120,
     }
 
     const config2: VideoConfig = {
       prompt: 'A blue square rotating clockwise',
       aspectRatio: '9:16',
-      personGeneration: 'allow',
+      personGeneration: 'disallow',
       maxWaitTimeSeconds: 120,
     }
 
@@ -90,8 +90,8 @@ describe('video e2e', () => {
     expect(result1.videoFilePaths).not.toEqual(result2.videoFilePaths)
     expect(result1.metadata.aspectRatio).toBe('16:9')
     expect(result2.metadata.aspectRatio).toBe('9:16')
-    expect(result1.metadata.personGeneration).toBe('dont_allow')
-    expect(result2.metadata.personGeneration).toBe('allow')
+    expect(result1.metadata.personGeneration).toBe('disallow')
+    expect(result2.metadata.personGeneration).toBe('disallow')
 
     // Both should have valid video files
     for (const videoPath of [...result1.videoFilePaths, ...result2.videoFilePaths]) {

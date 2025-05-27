@@ -9,15 +9,15 @@ export const deepwiki = async (prompt: string) => {
     },
   })
 
-  const tools = await mcpClient.tools()
+  const deepwikiTools = await mcpClient.tools()
 
-  console.log(tools)
-  console.log(tools.read_wiki_structure)
+  console.log(deepwikiTools)
+  console.log(deepwikiTools.read_wiki_structure)
 
   const result = await generateText({
     model: model('openai/gpt-4.1'),
     system: 'Use the deepwiki tools to get current information about github repos',
-    tools,
+    tools: deepwikiTools,
     toolChoice: 'required',
     prompt,
   })
