@@ -1,4 +1,4 @@
-import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel } from 'ai'
+import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel, experimental_generateImage as generateImage } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 import { createCacheMiddleware } from './cacheMiddleware'
 
@@ -125,4 +125,28 @@ export async function generateDeepwikiStream(query: string): Promise<StreamTextR
   })
 
   return result
+}
+
+export async function generateImageStream(prompt: string, options: any = {}) {
+  const {
+    model = 'gpt-image-1',
+    quality = 'high',
+    ...otherOptions
+  } = options
+
+  try {
+    const result = await generateImage({
+      model: openai.image(model as any),
+      prompt: prompt,
+      providerOptions: {
+        openai: { quality },
+      },
+      ...otherOptions
+    })
+
+    return result
+  } catch (error) {
+    console.error('Error calling image generation service:', error)
+    throw error
+  }
 }

@@ -1,3 +1,7 @@
+---
+$type: Slides
+---
+
 # Dynamic Pitch Deck Generator with AI
 
 This example demonstrates how to create a dynamic pitch deck using MDX, Reveal.js, and AI-powered content generation. The pitch deck content is generated based on a startup idea input by the user, leveraging the mdxai package for intelligent content creation.

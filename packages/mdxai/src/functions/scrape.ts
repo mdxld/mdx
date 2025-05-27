@@ -1,0 +1,164 @@
+import FirecrawlApp from '@mendable/firecrawl-js'
+import { promises as fs } from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+export interface ScrapedContent {
+  url: string
+  title?: string
+  description?: string
+  image?: string
+  markdown?: string
+  html?: string
+  error?: string
+  cached?: boolean
+  cachedAt?: string
+}
+
+const getCacheFilePath = (url: string): string => {
+  try {
+    const urlObj = new URL(url)
+    const domain = urlObj.hostname
+    const pathname = urlObj.pathname === '/' ? '/index' : urlObj.pathname
+    
+    // Clean up the pathname to be filesystem-safe
+    const safePath = pathname
+      .replace(/[^a-zA-Z0-9\-_\/]/g, '_')
+      .replace(/\/+/g, '/')
+      .replace(/\/$/, '')
+    
+    // Create cache path: .ai/cache/[domain]/[...path].json
+    const cacheDir = path.join(process.cwd(), '.ai', 'cache', domain)
+    const fileName = safePath === '' ? 'index.json' : `${safePath.slice(1)}.json`
+    
+    return path.join(cacheDir, fileName)
+  } catch (error) {
+    // Fallback for invalid URLs
+    const safeUrl = url.replace(/[^a-zA-Z0-9\-_]/g, '_')
+    return path.join(process.cwd(), '.ai', 'cache', 'invalid', `${safeUrl}.json`)
+  }
+}
+
+const ensureDirectoryExists = async (filePath: string): Promise<void> => {
+  const dir = path.dirname(filePath)
+  try {
+    await fs.access(dir)
+  } catch {
+    await fs.mkdir(dir, { recursive: true })
+  }
+}
+
+const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
+  try {
+    const cacheFilePath = getCacheFilePath(url)
+    const cacheData = await fs.readFile(cacheFilePath, 'utf-8')
+    const cached = JSON.parse(cacheData) as ScrapedContent
+    
+    // Check if cache is less than 24 hours old
+    if (cached.cachedAt) {
+      const cacheAge = Date.now() - new Date(cached.cachedAt).getTime()
+      const maxAge = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+      
+      if (cacheAge < maxAge) {
+        return { ...cached, cached: true }
+      }
+    }
+    
+    return null
+  } catch {
+    return null
+  }
+}
+
+const saveToCache = async (url: string, content: ScrapedContent): Promise<void> => {
+  try {
+    const cacheFilePath = getCacheFilePath(url)
+    await ensureDirectoryExists(cacheFilePath)
+    
+    const cacheData = {
+      ...content,
+      cachedAt: new Date().toISOString(),
+    }
+    
+    await fs.writeFile(cacheFilePath, JSON.stringify(cacheData, null, 2), 'utf-8')
+  } catch (error) {
+    console.warn(`Failed to cache content for ${url}:`, error)
+  }
+}
+
+export const scrape = async (url: string): Promise<ScrapedContent> => {
+  // Try to load from cache first
+  const cached = await loadFromCache(url)
+  if (cached) {
+    return cached
+  }
+
+  // If not cached or cache is stale, scrape fresh content
+  try {
+    const app = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY })
+    
+    const response = (await app.scrapeUrl(url, { formats: ['markdown', 'html'] })) as any
+
+    if (!response.success) {
+      throw new Error(`Failed to scrape: ${response.error || 'Unknown error'}`)
+    }
+
+    const scrapedContent: ScrapedContent = {
+      url,
+      title: response.data?.metadata?.title || response.data?.metadata?.ogTitle || '',
+      description: response.data?.metadata?.description || response.data?.metadata?.ogDescription || '',
+      image: response.data?.metadata?.ogImage || '',
+      markdown: response.data?.markdown || '',
+      html: response.data?.html || '',
+      cached: false,
+    }
+
+    // Save to cache
+    await saveToCache(url, scrapedContent)
+
+    return scrapedContent
+  } catch (error) {
+    const errorContent: ScrapedContent = {
+      url,
+      error: error instanceof Error ? error.message : String(error),
+      cached: false,
+    }
+
+    // Cache errors too (with shorter TTL handled by the cache check)
+    await saveToCache(url, errorContent)
+
+    return errorContent
+  }
+}
+
+export const scrapeMultiple = async (
+  urls: string[],
+  onProgress?: (index: number, url: string, result: ScrapedContent) => void
+): Promise<ScrapedContent[]> => {
+  const results: ScrapedContent[] = []
+
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i]
+    try {
+      const result = await scrape(url)
+      results.push(result)
+      
+      if (onProgress) {
+        onProgress(i, url, result)
+      }
+    } catch (error) {
+      const errorResult: ScrapedContent = {
+        url,
+        error: error instanceof Error ? error.message : String(error),
+        cached: false,
+      }
+      results.push(errorResult)
+      
+      if (onProgress) {
+        onProgress(i, url, errorResult)
+      }
+    }
+  }
+
+  return results
+} 
