@@ -9,27 +9,33 @@ import * as aiModule from 'ai'
 vi.mock('gray-matter')
 
 // Mock yaml module with proper default export
-vi.mock('yaml', () => {
+vi.mock('yaml', async () => {
+  const stringify = vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2))
+  const parse = vi.fn().mockImplementation((str) => JSON.parse(str))
+  
   return {
     default: {
-      stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
-      parse: vi.fn().mockImplementation((str) => JSON.parse(str))
+      stringify,
+      parse
     },
-    stringify: vi.fn().mockImplementation((obj) => JSON.stringify(obj, null, 2)),
-    parse: vi.fn().mockImplementation((str) => JSON.parse(str))
+    stringify,
+    parse
   }
 })
 
+// Mock ai module with proper response structure
 vi.mock('ai', () => {
   return {
     generateText: vi.fn().mockResolvedValue({
-      text: 'mock string response',
+      text: 'This is a test response with citation [1] and another citation [2].',
       response: {
         body: {
+          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
           choices: [
             {
               message: {
-                content: 'mock string response',
+                reasoning: 'This is mock reasoning',
+                content: 'mock string response'
               },
             },
           ],
@@ -48,8 +54,32 @@ vi.mock('ai', () => {
   }
 })
 
+// Mock QueueManager
+vi.mock('./ui/index.js', () => ({
+  QueueManager: class {
+    constructor() {}
+    addTask(name, fn) {
+      return fn()
+    }
+  }
+}))
+
+// Mock scrape function
+vi.mock('./functions/scrape.js', () => ({
+  scrape: vi.fn().mockImplementation((url) => {
+    return {
+      url,
+      title: `Content from ${new URL(url).hostname}`,
+      description: `Description from ${new URL(url).hostname}`,
+      markdown: '# Test Markdown\nThis is test content',
+      cached: false
+    }
+  }),
+  ScrapedContent: class {}
+}))
+
 // Mock gray-matter file
-function createMockGrayMatterFile(data: Record<string, any>, content: string) {
+function createMockGrayMatterFile(data, content) {
   return {
     data,
     content,
