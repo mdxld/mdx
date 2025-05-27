@@ -1,45 +1,46 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import path from 'node:path'
-import type { CodeBlock } from './mdx-parser'
 
-// Mock modules with proper structure
 vi.mock('node:fs/promises', async () => {
-  return {
-    default: {
-      mkdir: vi.fn().mockResolvedValue(undefined),
-      writeFile: vi.fn().mockResolvedValue(undefined),
-      rm: vi.fn().mockResolvedValue(undefined)
-    },
+  const mockFunctions = {
     mkdir: vi.fn().mockResolvedValue(undefined),
     writeFile: vi.fn().mockResolvedValue(undefined),
     rm: vi.fn().mockResolvedValue(undefined)
   }
+  return {
+    default: mockFunctions,
+    ...mockFunctions
+  }
 })
 
-// Create a mock execAsync function
-const mockExecResult = { stdout: 'Test passed', stderr: '' }
-const mockExecAsync = vi.fn().mockResolvedValue(mockExecResult)
-
-// Mock util.promisify to return our mockExecAsync
-vi.mock('node:util', () => ({
-  promisify: vi.fn().mockReturnValue(mockExecAsync)
+vi.mock('node:child_process', () => ({
+  exec: vi.fn()
 }))
 
-// Mock mdx-parser
+vi.mock('node:util', () => {
+  const mockExecAsync = vi.fn().mockResolvedValue({ stdout: 'Test passed', stderr: '' })
+  return {
+    promisify: vi.fn().mockReturnValue(mockExecAsync)
+  }
+})
+
 vi.mock('./mdx-parser', () => ({
   extractMdxCodeBlocks: vi.fn().mockResolvedValue({ testBlocks: [], codeBlocks: [] })
 }))
 
-// Import after mocking
+import path from 'node:path'
+import type { CodeBlock } from './mdx-parser'
 import fs from 'node:fs/promises'
 import { extractMdxCodeBlocks } from './mdx-parser'
 import { createTempTestFile, runTests, cleanupTempFiles } from './test-runner'
+import * as util from 'node:util'
+import { exec } from 'node:child_process'
+
+const mockExecAsync = vi.mocked(util.promisify)(exec) as unknown as jest.Mock
 
 describe('test-runner', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     
-    // Reset mock implementations
     vi.mocked(fs.mkdir).mockResolvedValue(undefined)
     vi.mocked(fs.writeFile).mockResolvedValue(undefined)
     vi.mocked(fs.rm).mockResolvedValue(undefined)
@@ -48,7 +49,6 @@ describe('test-runner', () => {
       codeBlocks: [] 
     })
     
-    // Reset exec mock to default success case
     mockExecAsync.mockResolvedValue({ stdout: 'Test passed', stderr: '' })
   })
 
