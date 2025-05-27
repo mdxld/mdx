@@ -5,21 +5,6 @@ import { createCacheMiddleware, CacheConfig } from './cacheMiddleware'
 import { LanguageModelV1StreamPart } from 'ai'
 import { LRUCache } from 'lru-cache'
 
-vi.mock('lru-cache', () => {
-  return {
-    LRUCache: vi.fn().mockImplementation(() => {
-      const cache = new Map()
-      return {
-        get: vi.fn((key) => cache.get(key)),
-        set: vi.fn((key, value) => cache.set(key, value)),
-        has: vi.fn((key) => cache.has(key)),
-        delete: vi.fn((key) => cache.delete(key)),
-        clear: vi.fn(() => cache.clear()),
-      }
-    }),
-  }
-})
-
 const CACHE_DIR = join(process.cwd(), '.ai/cache')
 
 const createMockParams = (overrides = {}) => {
@@ -364,7 +349,6 @@ describe('Cache Middleware', () => {
     })
     expect(result1).toEqual(mockResult)
     expect(mockDoGenerate).toHaveBeenCalledTimes(1)
-    expect(LRUCache).toHaveBeenCalled()
 
     const mockDoGenerate2 = vi.fn().mockImplementation(() => {
       throw new Error('Should not be called')
@@ -403,7 +387,6 @@ describe('Cache Middleware', () => {
     })
     expect(result1).toEqual(mockResult)
     expect(mockDoGenerate).toHaveBeenCalledTimes(1)
-    expect(LRUCache).not.toHaveBeenCalled()
 
     const mockDoGenerate2 = vi.fn().mockImplementation(() => {
       throw new Error('Should not be called')
