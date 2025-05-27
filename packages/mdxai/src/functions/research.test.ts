@@ -1,14 +1,22 @@
-import 'dotenv/config'
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { research } from './research'
-import FirecrawlApp from '@mendable/firecrawl-js'
-import { createCacheMiddleware } from '../cacheMiddleware'
-
-// Mock modules at the top level
-const mockGenerateText = vi.fn()
+// Mock modules at the top level before imports
 vi.mock('ai', () => {
   return {
-    generateText: mockGenerateText,
+    generateText: vi.fn().mockResolvedValue({
+      text: 'This is a test response with citation [1] and another citation [2].',
+      response: {
+        body: {
+          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
+          choices: [
+            {
+              message: {
+                reasoning: 'This is mock reasoning',
+                content: 'mock string response'
+              },
+            },
+          ],
+        },
+      },
+    }),
     model: vi.fn().mockReturnValue('mock-model'),
   }
 })
@@ -70,34 +78,23 @@ vi.mock('../ui/index.js', () => ({
   }
 }))
 
+import 'dotenv/config'
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
+import { research } from './research'
+import FirecrawlApp from '@mendable/firecrawl-js'
+import { createCacheMiddleware } from '../cacheMiddleware'
+
 const isCI = process.env.CI === 'true'
 
 describe('research (mocked)', () => {
   const originalEnv = { ...process.env }
+  const mockGenerateText = vi.mocked(require('ai').generateText)
 
   beforeEach(() => {
     process.env.AI_GATEWAY_TOKEN = 'mock-token'
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
-    
-    // Setup default mock response
-    mockGenerateText.mockResolvedValue({
-      text: 'This is a test response with citation [1] and another citation [2].',
-      response: {
-        body: {
-          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
-          choices: [
-            {
-              message: {
-                reasoning: 'This is mock reasoning',
-                content: 'mock string response'
-              },
-            },
-          ],
-        },
-      },
-    })
   })
 
   afterEach(() => {
@@ -149,24 +146,6 @@ describe.skipIf(isCI)('research e2e', () => {
     
     // Restore original modules for e2e tests
     vi.restoreAllMocks()
-    
-    // Setup mock for e2e tests
-    mockGenerateText.mockResolvedValue({
-      text: 'This is a test response with citation [1] and another citation [2].',
-      response: {
-        body: {
-          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
-          choices: [
-            {
-              message: {
-                reasoning: 'This is mock reasoning',
-                content: 'mock string response'
-              },
-            },
-          ],
-        },
-      },
-    })
   })
 
   afterEach(() => {

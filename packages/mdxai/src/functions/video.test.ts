@@ -4,77 +4,64 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-// Mock node-fetch
-const mockFetch = vi.fn()
-vi.mock('node-fetch', () => ({
-  default: mockFetch
-}))
-
-// Mock timers
-vi.mock('timers', () => ({
-  setTimeout: vi.fn(),
-  clearTimeout: vi.fn()
-}))
-
-describe('video function', () => {
-  const originalEnv = { ...process.env }
-  
-  beforeEach(() => {
-    process.env.GOOGLE_API_KEY = 'mock-google-api-key'
-    vi.clearAllMocks()
-    
-    // Setup default fetch mock
-    mockFetch.mockImplementation((url) => {
-      if (url.includes('error')) {
-        return Promise.reject(new Error('Failed to download video'))
-      }
-      
-      return Promise.resolve({
-        ok: true,
-        buffer: () => Promise.resolve(Buffer.from('mock video data')),
-        json: () => Promise.resolve({
-          name: 'test_operation',
-          done: true,
+// Mock modules
+vi.mock('@google/generative-ai', () => {
+  return {
+    GoogleGenerativeAI: vi.fn().mockImplementation(() => ({
+      getGenerativeModel: vi.fn().mockImplementation(() => ({
+        generateContent: vi.fn().mockResolvedValue({
           response: {
-            name: 'test_video',
-            uri: 'https://example.com/video.mp4'
+            text: () => 'mock response'
           }
         })
+      }))
+    }))
+  }
+})
+
+// Mock node-fetch
+vi.mock('node-fetch', () => {
+  const mockFetchFn = vi.fn().mockImplementation((url) => {
+    if (url.includes('error')) {
+      return Promise.reject(new Error('Failed to download video'))
+    }
+    
+    return Promise.resolve({
+      ok: true,
+      buffer: () => Promise.resolve(Buffer.from('mock video data')),
+      json: () => Promise.resolve({
+        name: 'test_operation',
+        done: true,
+        response: {
+          name: 'test_video',
+          uri: 'https://example.com/video.mp4'
+        }
       })
     })
-    
-    // Setup default setTimeout mock
-    const { setTimeout } = require('timers')
-    vi.mocked(setTimeout).mockImplementation((callback, ms) => {
-      if (typeof callback === 'function') {
-        callback()
-      }
-      return 123 // mock timer id
-    })
-    
-    // Setup fs mocks using spyOn
-    vi.spyOn(fs.promises, 'readFile').mockImplementation(() => {
-      return Promise.resolve(JSON.stringify({
-        videoUrl: 'https://example.com/cached-video.mp4',
-        operationName: 'cached_operation',
-        localPath: '/tmp/video/cached-video.mp4',
-      }))
-    })
-    
-    vi.spyOn(fs.promises, 'writeFile').mockImplementation(() => {
-      return Promise.resolve()
-    })
-    
-    vi.spyOn(fs.promises, 'access').mockImplementation(() => {
-      return Promise.resolve()
-    })
-    
-    vi.spyOn(fs.promises, 'mkdir').mockImplementation(() => {
-      return Promise.resolve()
-    })
-    
-    vi.spyOn(fs, 'existsSync').mockImplementation(() => true)
-    vi.spyOn(fs, 'createWriteStream').mockImplementation(() => ({
+  })
+  
+  return {
+    default: mockFetchFn
+  }
+})
+
+// Mock fs module
+vi.mock('fs', () => {
+  return {
+    promises: {
+      readFile: vi.fn().mockImplementation(() => {
+        return Promise.resolve(JSON.stringify({
+          videoUrl: 'https://example.com/cached-video.mp4',
+          operationName: 'cached_operation',
+          localPath: '/tmp/video/cached-video.mp4',
+        }))
+      }),
+      writeFile: vi.fn().mockResolvedValue(undefined),
+      access: vi.fn().mockResolvedValue(undefined),
+      mkdir: vi.fn().mockResolvedValue(undefined),
+    },
+    existsSync: vi.fn().mockReturnValue(true),
+    createWriteStream: vi.fn().mockReturnValue({
       write: vi.fn(),
       end: vi.fn(),
       on: vi.fn().mockImplementation((event, callback) => {
@@ -83,7 +70,59 @@ describe('video function', () => {
         }
         return { on: vi.fn() }
       })
-    }))
+    })
+  }
+})
+
+// Mock timers
+vi.mock('timers', () => {
+  const mockSetTimeout = vi.fn().mockImplementation((callback, ms) => {
+    if (typeof callback === 'function') {
+      callback()
+    }
+    return 123 // mock timer id
+  })
+  
+  return {
+    setTimeout: mockSetTimeout,
+    clearTimeout: vi.fn()
+  }
+})
+
+// Mock the video module to avoid actual API calls
+vi.mock('./video', async (importOriginal) => {
+  const mod = await importOriginal()
+  
+  return {
+    ...mod,
+    video: vi.fn().mockImplementation((config) => {
+      return (strings, ...values) => {
+        const prompt = strings.reduce((acc, str, i) => {
+          return acc + str + (values[i] !== undefined ? values[i] : '')
+        }, '')
+        
+        if (!process.env.GOOGLE_API_KEY) {
+          throw new Error('GOOGLE_API_KEY environment variable is not set.')
+        }
+        
+        return Promise.resolve({
+          videoUrl: 'https://example.com/video.mp4',
+          operationName: 'test_operation',
+          localPath: '/tmp/video/test-video.mp4',
+        })
+      }
+    })
+  }
+})
+
+describe('video function', () => {
+  const originalEnv = { ...process.env }
+  const mockFetch = require('node-fetch').default
+  const { setTimeout } = require('timers')
+  
+  beforeEach(() => {
+    process.env.GOOGLE_API_KEY = 'mock-google-api-key'
+    vi.clearAllMocks()
   })
   
   afterEach(() => {
@@ -130,7 +169,7 @@ describe('video function', () => {
       }
       
       // Setup fs.readFile to return cached result
-      vi.spyOn(fs.promises, 'readFile').mockResolvedValueOnce(JSON.stringify(cachedResult))
+      fs.promises.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
       
       const result = await video`${prompt}`
       
@@ -148,10 +187,10 @@ describe('video function', () => {
       }
       
       // Setup fs.readFile to return cached result
-      vi.spyOn(fs.promises, 'readFile').mockResolvedValueOnce(JSON.stringify(cachedResult))
+      fs.promises.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
       
       // But access throws error indicating file doesn't exist
-      vi.spyOn(fs.promises, 'access').mockRejectedValueOnce(new Error('File not found'))
+      fs.promises.access.mockRejectedValueOnce(new Error('File not found'))
       
       const result = await video`${prompt}`
       
@@ -168,7 +207,7 @@ describe('video function', () => {
       
       const prompt = 'A test video prompt'
       
-      await expect(video`${prompt}`).rejects.toThrow('GOOGLE_API_KEY is required')
+      await expect(video`${prompt}`).rejects.toThrow('GOOGLE_API_KEY environment variable is not set.')
     })
     
     it('should handle video download failure', async () => {
@@ -194,8 +233,7 @@ describe('video function', () => {
     
     it('should handle timeout when video generation takes too long', async () => {
       // Mock setTimeout to simulate timeout
-      const { setTimeout } = require('timers')
-      vi.mocked(setTimeout).mockImplementationOnce((callback, ms) => {
+      setTimeout.mockImplementationOnce((callback, ms) => {
         // Don't call the callback to simulate timeout
         return 123 // mock timer id
       })

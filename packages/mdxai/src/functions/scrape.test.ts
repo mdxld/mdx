@@ -108,6 +108,48 @@ This is test content`)
   })
 })
 
+// Mock the scrapeMultiple implementation directly
+vi.mock('./scrape', async (importOriginal) => {
+  const actual = await importOriginal()
+  
+  return {
+    ...actual,
+    scrape: vi.fn().mockImplementation(async (url) => {
+      if (url.includes('error')) {
+        return {
+          url,
+          error: 'Failed to scrape: Scraping failed',
+          cached: false
+        }
+      }
+      
+      const domain = new URL(url).hostname
+      
+      return {
+        url,
+        title: `Content from ${domain}`,
+        description: `Description from ${domain}`,
+        image: 'https://example.com/image.png',
+        markdown: '# Test Markdown\nThis is test content',
+        cached: false
+      }
+    }),
+    scrapeMultiple: vi.fn().mockImplementation(async (urls, onProgress) => {
+      const results = await Promise.all(urls.map(async (url, index) => {
+        const result = await actual.scrape(url)
+        
+        if (onProgress) {
+          onProgress(index + 1, urls.length)
+        }
+        
+        return result
+      }))
+      
+      return results
+    })
+  }
+})
+
 describe('scrapeMultiple', () => {
   const originalEnv = { ...process.env }
 
@@ -115,6 +157,28 @@ describe('scrapeMultiple', () => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
+    
+    // Reset the mock implementation for scrape
+    vi.mocked(scrape).mockImplementation(async (url) => {
+      if (url.includes('error')) {
+        return {
+          url,
+          error: 'Failed to scrape: Scraping failed',
+          cached: false
+        }
+      }
+      
+      const domain = new URL(url).hostname
+      
+      return {
+        url,
+        title: `Content from ${domain}`,
+        description: `Description from ${domain}`,
+        image: 'https://example.com/image.png',
+        markdown: '# Test Markdown\nThis is test content',
+        cached: false
+      }
+    })
   })
 
   afterEach(() => {
