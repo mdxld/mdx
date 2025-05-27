@@ -663,13 +663,13 @@ async function generateSpeechAudio(text: string, options: { voiceName?: string; 
 }
 
 /**
- * Speak template literal function for text-to-speech generation
+ * Say template literal function for text-to-speech generation
  *
- * Usage: await speak`Say cheerfully: Have a wonderful day!`
+ * Usage: await say`Say cheerfully: Have a wonderful day!`
  */
-export type SpeakTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<string>
+export type SayTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<string>
 
-const speakFunction_: SpeakTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
+const sayFunction_: SayTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
     let text = ''
 
@@ -683,10 +683,10 @@ const speakFunction_: SpeakTemplateFn = function (template: TemplateStringsArray
     return generateSpeechAudio(text)
   }
 
-  throw new Error('Speak function must be called as a template literal')
+  throw new Error('Say function must be called as a template literal')
 }
 
-export const speak = new Proxy(speakFunction_, {
+export const say = new Proxy(sayFunction_, {
   get(target, prop) {
     if (prop === 'then' || prop === 'catch' || prop === 'finally') {
       return undefined
@@ -714,6 +714,6 @@ export const speak = new Proxy(speakFunction_, {
       return generateSpeechAudio(text)
     }
 
-    throw new Error('Speak function must be called as a template literal')
+    throw new Error('Say function must be called as a template literal')
   },
 })

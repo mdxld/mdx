@@ -12,7 +12,7 @@ export interface GenerateOptions {
 
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream }
 export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
-export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction, speak, SpeakTemplateFn } from './aiHandler.js'
+export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction, say, SayTemplateFn } from './aiHandler.js'
 export { extract, ExtractFunction, ExtractType, ExtractOptions } from './functions/extract.js'
 
 export {
