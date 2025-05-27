@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { findMdxFiles, extractMdxCodeBlocks } from '../utils/mdx-parser'
-import { bundleCodeForTesting, runTestsWithVitest } from '../utils/test-runner-new'
+import { bundleCodeForTesting, runTestsWithVitest } from '../utils/test-runner'
 
 /**
  * Run tests for MDX files in the project

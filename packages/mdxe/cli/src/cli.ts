@@ -11,7 +11,7 @@ import { runBuildCommand } from './commands/build'
 import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
 import { runSendCommand } from './commands/send'
-import { runTestCommand } from './commands/test-new'
+import { runTestCommand } from './commands/test'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
