@@ -5,19 +5,24 @@ import { scrape, scrapeMultiple } from './scrape'
 vi.mock('@mendable/firecrawl-js', () => {
   return {
     default: vi.fn().mockImplementation(() => ({
-      scrape: vi.fn().mockImplementation(async (url) => {
+      scrapeUrl: vi.fn().mockImplementation(async (url, options) => {
         if (url.includes('error')) {
-          throw new Error('Scraping failed')
+          return { success: false, error: 'Scraping failed' }
         }
         
         const domain = new URL(url).hostname
         
         return {
-          url,
-          title: `Content from ${domain}`,
-          description: `Description from ${domain}`,
-          image: 'https://example.com/image.png',
-          markdown: '# Test Markdown\nThis is test content',
+          success: true,
+          data: {
+            metadata: {
+              title: `Content from ${domain}`,
+              description: `Description from ${domain}`,
+              ogImage: 'https://example.com/image.png',
+            },
+            markdown: '# Test Markdown\nThis is test content',
+            html: '<h1>Test Markdown</h1><p>This is test content</p>'
+          }
         }
       })
     }))
@@ -27,33 +32,20 @@ vi.mock('@mendable/firecrawl-js', () => {
 // Create a mock for fs
 vi.mock('fs', () => {
   return {
-    readFile: vi.fn().mockImplementation((path, options, callback) => {
-      if (typeof options === 'function') {
-        options(null, JSON.stringify({ cached: true }))
-        return
-      }
-      if (callback) {
-        callback(null, JSON.stringify({ cached: true }))
-      }
-      return Promise.resolve(JSON.stringify({ cached: true }))
-    }),
-    writeFile: vi.fn().mockImplementation((path, data, callback) => {
-      if (callback) callback(null)
-      return Promise.resolve()
-    }),
-    access: vi.fn().mockImplementation((path, callback) => {
-      if (callback) callback(null)
-      return Promise.resolve()
-    }),
-    mkdir: vi.fn().mockImplementation((path, options, callback) => {
-      if (typeof options === 'function') {
-        options(null)
-      } else if (callback) {
-        callback(null)
-      }
-      return Promise.resolve()
-    }),
-    existsSync: vi.fn().mockReturnValue(true)
+    promises: {
+      readFile: vi.fn().mockImplementation((path, options) => {
+        return Promise.resolve(JSON.stringify({ cached: true }))
+      }),
+      writeFile: vi.fn().mockImplementation((path, data, options) => {
+        return Promise.resolve()
+      }),
+      access: vi.fn().mockImplementation((path) => {
+        return Promise.resolve()
+      }),
+      mkdir: vi.fn().mockImplementation((path, options) => {
+        return Promise.resolve()
+      })
+    }
   }
 })
 
@@ -83,9 +75,24 @@ describe('scrape', () => {
   })
 
   it('should return cached result when available', async () => {
+    // Mock loadFromCache to return a cached result for the second call
+    const fs = require('fs').promises
+    fs.readFile.mockImplementationOnce(() => {
+      return Promise.resolve(`---
+url: "https://example.com/cached"
+title: "Content from example.com"
+description: "Description from example.com"
+image: "https://example.com/image.png"
+cachedAt: "${new Date().toISOString()}"
+---
+
+# Test Markdown
+This is test content`)
+    })
+
     const url = 'https://example.com/cached'
     
-    // First call to cache the result
+    // First call should not be cached
     const result1 = await scrape(url)
     expect(result1.cached).toBe(false)
     
@@ -97,21 +104,18 @@ describe('scrape', () => {
   })
 
   it('should handle scraping errors gracefully', async () => {
-    // Mock FirecrawlApp for this test
-    const FirecrawlApp = (await import('@mendable/firecrawl-js')).default
-    FirecrawlApp.mockImplementationOnce(() => ({
-      scrape: vi.fn().mockRejectedValueOnce(new Error('Scraping failed'))
-    }))
-
-    const result = await scrape('https://example.com/error')
+    const url = 'https://example.com/error'
+    const result = await scrape(url)
     
     expect(result).toBeDefined()
-    expect(result.url).toBe('https://example.com/error')
+    expect(result.url).toBe(url)
     expect(result.error).toBe('Scraping failed')
   })
 })
 
 describe('scrapeMultiple', () => {
+  const originalEnv = { ...process.env }
+
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
@@ -152,29 +156,6 @@ describe('scrapeMultiple', () => {
       'https://example.org/3',
     ]
     
-    // Mock FirecrawlApp for this test
-    const FirecrawlApp = (await import('@mendable/firecrawl-js')).default
-    
-    // Create a mock implementation that handles the three URLs differently
-    FirecrawlApp.mockImplementationOnce(() => ({
-      scrape: vi.fn()
-        .mockResolvedValueOnce({
-          url: urls[0],
-          title: 'Content from example.com',
-          description: 'Description from example.com',
-          image: 'https://example.com/image.png',
-          markdown: '# Test Markdown\nThis is test content',
-        })
-        .mockRejectedValueOnce(new Error('Scraping failed'))
-        .mockResolvedValueOnce({
-          url: urls[2],
-          title: 'Content from example.org',
-          description: 'Description from example.org',
-          image: 'https://example.org/image.png',
-          markdown: '# Test Markdown\nThis is test content from example.org',
-        })
-    }))
-    
     const results = await scrapeMultiple(urls)
     
     expect(results).toBeDefined()
@@ -194,7 +175,10 @@ describe('scrapeMultiple', () => {
   it('should process URLs in parallel with concurrency limit', async () => {
     const urls = Array.from({ length: 10 }, (_, i) => `https://example.com/${i}`)
     
-    const results = await scrapeMultiple(urls, 3) // Concurrency of 3
+    // Mock onProgress function
+    const onProgress = vi.fn()
+    
+    const results = await scrapeMultiple(urls, onProgress)
     
     expect(results).toBeDefined()
     expect(Array.isArray(results)).toBe(true)
@@ -204,5 +188,8 @@ describe('scrapeMultiple', () => {
       expect(results[i].url).toBe(urls[i])
       expect(results[i].title).toBe('Content from example.com')
     }
+    
+    // Check that onProgress was called for each URL
+    expect(onProgress).toHaveBeenCalledTimes(urls.length)
   })
 })

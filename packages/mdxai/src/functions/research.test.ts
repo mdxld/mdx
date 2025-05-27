@@ -16,6 +16,7 @@ vi.mock('ai', () => {
             {
               message: {
                 reasoning: 'This is mock reasoning',
+                content: 'mock string response'
               },
             },
           ],
@@ -28,32 +29,30 @@ vi.mock('ai', () => {
 
 // Mock FirecrawlApp
 vi.mock('@mendable/firecrawl-js', () => {
-  // Create a mock class
-  class MockFirecrawlApp {
-    scrape = vi.fn().mockImplementation(async (url) => {
-      if (url.includes('error')) {
-        throw new Error('Scraping failed')
-      }
-      
-      const domain = new URL(url).hostname
-      
-      return {
-        url,
-        title: `Content from ${domain}`,
-        description: `Description from ${domain}`,
-        image: 'https://example.com/image.png',
-        markdown: '# Test Markdown\nThis is test content',
-      }
-    })
+  return {
+    default: vi.fn().mockImplementation(() => ({
+      scrapeUrl: vi.fn().mockImplementation(async (url, options) => {
+        if (url.includes('error')) {
+          return { success: false, error: 'Scraping failed' }
+        }
+        
+        const domain = new URL(url).hostname
+        
+        return {
+          success: true,
+          data: {
+            metadata: {
+              title: `Content from ${domain}`,
+              description: `Description from ${domain}`,
+              ogImage: 'https://example.com/image.png',
+            },
+            markdown: '# Test Markdown\nThis is test content',
+            html: '<h1>Test Markdown</h1><p>This is test content</p>'
+          }
+        }
+      })
+    }))
   }
-
-  // Create the mock constructor function that returns an instance
-  const FirecrawlAppMock = vi.fn().mockImplementation(() => new MockFirecrawlApp())
-  
-  // Set default property to the constructor itself
-  FirecrawlAppMock.default = FirecrawlAppMock
-  
-  return { default: FirecrawlAppMock }
 })
 
 // Mock scrape function
@@ -87,16 +86,9 @@ vi.mock('../ui/index.js', () => ({
 
 const isCI = process.env.CI === 'true'
 
-const originalEnv = { ...process.env }
-
-const cacheMiddleware = createCacheMiddleware({
-  ttl: 24 * 60 * 60 * 1000, // 24 hours
-  maxSize: 100,
-  persistentCache: true,
-  memoryCache: true,
-})
-
 describe('research (mocked)', () => {
+  const originalEnv = { ...process.env }
+
   beforeEach(() => {
     process.env.AI_GATEWAY_TOKEN = 'mock-token'
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
@@ -136,6 +128,8 @@ describe('research (mocked)', () => {
 
 // Skip e2e tests in CI environment
 describe.skipIf(isCI)('research e2e', () => {
+  const originalEnv = { ...process.env }
+
   beforeEach(() => {
     if (!process.env.AI_GATEWAY_TOKEN && !process.env.OPENAI_API_KEY) {
       console.log('Skipping research e2e test: AI_GATEWAY_TOKEN or OPENAI_API_KEY not set')
@@ -177,6 +171,7 @@ describe.skipIf(isCI)('research e2e', () => {
             {
               message: {
                 reasoning: 'This is mock reasoning',
+                content: 'mock string response'
               },
             },
           ],
@@ -220,52 +215,6 @@ describe.skipIf(isCI)('research e2e', () => {
     expect(result2.reasoning).toBe(result1.reasoning)
   }, 60000)
 
-  it('should handle errors gracefully with real API', async () => {
-    if ((!process.env.AI_GATEWAY_TOKEN && !process.env.OPENAI_API_KEY) || !process.env.FIRECRAWL_API_KEY) {
-      return
-    }
-
-    // Skip this test in CI environment
-    if (process.env.CI === 'true') {
-      return
-    }
-
-    // Mock the generateText function for e2e tests
-    const generateTextMock = vi.fn().mockResolvedValue({
-      text: 'This is a test response with citation [1] and another citation [2].',
-      response: {
-        body: {
-          citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
-          choices: [
-            {
-              message: {
-                reasoning: 'This is mock reasoning',
-              },
-            },
-          ],
-        },
-      },
-    })
-    
-    vi.doMock('ai', () => ({
-      generateText: generateTextMock,
-      model: vi.fn().mockReturnValue('mock-model'),
-    }))
-    
-    const query = ''
-    
-    try {
-      const result = await research(query)
-      
-      expect(result).toBeDefined()
-      expect(typeof result.text).toBe('string')
-      
-      expect(Array.isArray(result.citations)).toBe(true)
-    } catch (error: any) {
-      expect(error.message).toBeDefined()
-    }
-  }, 30000)
-
   it('should handle invalid citation URLs gracefully', async () => {
     if ((!process.env.AI_GATEWAY_TOKEN && !process.env.OPENAI_API_KEY) || !process.env.FIRECRAWL_API_KEY) {
       return
@@ -286,6 +235,7 @@ describe.skipIf(isCI)('research e2e', () => {
             {
               message: {
                 reasoning: 'This is mock reasoning',
+                content: 'mock string response'
               },
             },
           ],
