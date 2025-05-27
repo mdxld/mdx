@@ -27,6 +27,10 @@ vi.mock('./mdx-parser', () => ({
   extractMdxCodeBlocks: vi.fn().mockResolvedValue({ testBlocks: [], codeBlocks: [] })
 }))
 
+vi.mock('esbuild', () => ({
+  transform: vi.fn().mockResolvedValue({ code: 'const a = 1;\nconst b = 2;\ntest("example", () => {});' })
+}))
+
 import path from 'node:path'
 import type { CodeBlock } from './mdx-parser'
 import fs from 'node:fs/promises'
