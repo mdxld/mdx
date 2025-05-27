@@ -5,6 +5,11 @@ import matter from 'gray-matter'
 import * as aiModule from 'ai'
 import yaml from 'yaml'
 import { createCacheMiddleware } from './cacheMiddleware'
+import * as utils from './utils'
+import * as llmService from './llmService'
+import * as aiSdk from './ai'
+
+vi.mock('gray-matter')
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -36,108 +41,7 @@ function createMockGrayMatterFile(data: Record<string, any>, content: string): M
   }
 }
 
-vi.mock('fs', async () => {
-  return {
-    default: {
-      readFileSync: vi.fn(),
-      existsSync: vi.fn().mockReturnValue(true),
-      readdirSync: vi.fn().mockReturnValue([]),
-    },
-    readFileSync: vi.fn(),
-    existsSync: vi.fn().mockReturnValue(true),
-    readdirSync: vi.fn().mockReturnValue([]),
-  }
-})
-
-vi.mock('gray-matter', () => ({
-  default: vi.fn(),
-}))
-
-vi.mock('ai', () => ({
-  streamText: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock string response'
-      },
-    },
-  }),
-  streamObject: vi.fn().mockResolvedValue({
-    object: {
-      name: 'Mock Brand name',
-      description: 'Mock Brand description',
-      tone: 'formal',
-      status: 'draft',
-    },
-    partialObjectStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield { name: 'Mock Brand name' }
-        yield { description: 'Mock Brand description' }
-      },
-    },
-  }),
-  model: vi.fn().mockReturnValue('mock-model'),
-  wrapLanguageModel: vi.fn().mockReturnValue({
-    generateContent: vi.fn().mockResolvedValue({
-      content: 'Mock content',
-    }),
-  }),
-}))
-
-vi.mock('./utils', () => ({
-  findAiFunction: vi.fn().mockResolvedValue({
-    filePath: '/path/to/mock/file.md',
-    content: '',
-  }),
-  findAiFunctionEnhanced: vi.fn().mockResolvedValue({
-    filePath: '/path/to/mock/file.md',
-    content: '',
-  }),
-  ensureAiFunctionExists: vi.fn().mockReturnValue('/path/to/mock/file.md'),
-  createAiFolderStructure: vi.fn(),
-  writeAiFunction: vi.fn(),
-  findAiFunctionsInHierarchy: vi.fn().mockReturnValue([]),
-  createAiFunctionVersion: vi.fn(),
-  listAiFunctionVersions: vi.fn(),
-  AI_FOLDER_STRUCTURE: {
-    ROOT: '.ai',
-    FUNCTIONS: 'functions',
-    TEMPLATES: 'templates',
-    VERSIONS: 'versions',
-    CACHE: 'cache',
-  },
-}))
-
-vi.mock('./llmService', () => ({
-  generateListStream: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock list response'
-      },
-    },
-  }),
-}))
-
-vi.mock('yaml', () => {
-  return {
-    default: {
-      stringify: vi.fn().mockImplementation((value) => {
-        if (Array.isArray(value)) {
-          return `- ${value.join('\n- ')}\n`
-        }
-        if (typeof value === 'object' && value !== null) {
-          return (
-            Object.entries(value)
-              .map(([k, v]) => `${k}: ${v}`)
-              .join('\n') + '\n'
-          )
-        }
-        return String(value)
-      }),
-    },
-  }
-})
-
-describe('AI Handler (mocked)', () => {
+describe('AI Handler', () => {
   const originalEnv = { ...process.env }
   const mockSystemPrompt = 'You are a helpful assistant. ${prompt}'
   const mockFrontmatter = {
@@ -146,15 +50,19 @@ describe('AI Handler (mocked)', () => {
 
   beforeEach(() => {
     process.env.NODE_ENV = 'test'
+    process.env.USE_CACHE = 'true' // Enable caching for tests
     vi.clearAllMocks()
-
+    
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('mock file content')
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+    vi.spyOn(fs, 'readdirSync').mockReturnValue([])
+    
     vi.mocked(matter).mockImplementation(() => createMockGrayMatterFile(mockFrontmatter, mockSystemPrompt))
-
-    vi.mocked(fs.readFileSync).mockReturnValue('mock file content')
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
+    vi.restoreAllMocks()
   })
 
   describe('ai template literal', () => {

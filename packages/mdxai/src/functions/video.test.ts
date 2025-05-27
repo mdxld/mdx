@@ -1,40 +1,43 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { video, VideoConfig, VideoResult } from './video'
-import { promises as fs } from 'fs'
+import * as fs from 'fs'
+import * as stream from 'stream'
+import * as googleGenAI from '@google/genai'
 import { join } from 'path'
 
-// Mock the GoogleGenAI module
+vi.mock('fs')
+vi.mock('stream')
+vi.mock('@google/genai')
+
+// Set up spies instead of mocks
 const mockGenerateVideos = vi.fn()
 const mockGetVideosOperation = vi.fn()
 
-vi.mock('@google/genai', () => ({
-  GoogleGenAI: vi.fn().mockImplementation(() => ({
-    models: {
-      generateVideos: mockGenerateVideos,
-    },
-    operations: {
-      getVideosOperation: mockGetVideosOperation,
-    },
-  })),
-}))
-
-// Mock fs promises
-vi.mock('fs', () => ({
-  promises: {
-    mkdir: vi.fn(),
-    readFile: vi.fn(),
-    writeFile: vi.fn(),
-    access: vi.fn(),
+const mockGoogleGenAI = vi.fn().mockImplementation(() => ({
+  models: {
+    generateVideos: mockGenerateVideos,
   },
-  createWriteStream: vi.fn(),
-}))
-
-// Mock stream
-vi.mock('stream', () => ({
-  Readable: {
-    fromWeb: vi.fn(),
+  operations: {
+    getVideosOperation: mockGetVideosOperation,
   },
 }))
+vi.spyOn(googleGenAI, 'GoogleGenAI').mockImplementation(mockGoogleGenAI)
+
+// Spy on fs promises
+const mockMkdir = vi.fn().mockResolvedValue(undefined)
+const mockReadFile = vi.fn()
+const mockWriteFile = vi.fn().mockResolvedValue(undefined)
+const mockAccess = vi.fn()
+vi.spyOn(fs.promises, 'mkdir').mockImplementation(mockMkdir)
+vi.spyOn(fs.promises, 'readFile').mockImplementation(mockReadFile)
+vi.spyOn(fs.promises, 'writeFile').mockImplementation(mockWriteFile)
+vi.spyOn(fs.promises, 'access').mockImplementation(mockAccess)
+
+const mockCreateWriteStream = vi.fn()
+vi.spyOn(fs, 'createWriteStream').mockImplementation(mockCreateWriteStream)
+
+const mockFromWeb = vi.fn()
+vi.spyOn(stream.Readable, 'fromWeb').mockImplementation(mockFromWeb)
 
 // Mock fetch
 global.fetch = vi.fn()
@@ -204,10 +207,10 @@ describe('video function', () => {
       }
 
       // Mock cache hit
-      vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify(cachedResult))
+      vi.mocked(fs.promises.readFile).mockResolvedValue(Buffer.from(JSON.stringify(cachedResult)))
       
       // Mock file existence check
-      vi.mocked(fs.access).mockResolvedValue(undefined)
+      vi.mocked(fs.promises.access).mockResolvedValue(undefined)
 
       const config: VideoConfig = {
         prompt: 'Test prompt',
@@ -239,8 +242,8 @@ describe('video function', () => {
       }
 
       // Mock cache hit but file missing
-      vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify(cachedResult))
-      vi.mocked(fs.access).mockRejectedValue(new Error('File not found'))
+      vi.mocked(fs.promises.readFile).mockResolvedValue(Buffer.from(JSON.stringify(cachedResult)))
+      vi.mocked(fs.promises.access).mockRejectedValue(new Error('File not found'))
 
       const mockOperation = {
         done: true,
@@ -444,4 +447,4 @@ describe('video function', () => {
       expect(mockAI.operations.getVideosOperation).toHaveBeenCalledTimes(2)
     })
   })
-})                  
+})                                                                                                                                                

@@ -6,6 +6,29 @@ import { renderToString } from 'react-dom/server'
 import TurndownService from 'turndown'
 import * as mdx from '@mdx-js/mdx'
 
+vi.mock('@mdx-js/mdx', () => {
+  return {
+    compile: vi.fn().mockResolvedValue('compiled-mdx-content'),
+    evaluate: vi.fn().mockResolvedValue({
+      default: () => React.createElement('div', null, 'Mocked MDX Component')
+    })
+  }
+})
+
+vi.mock('turndown', () => {
+  return {
+    default: vi.fn().mockImplementation(() => ({
+      turndown: vi.fn().mockReturnValue('Rendered markdown content')
+    }))
+  }
+})
+
+vi.mock('react-dom/server', () => {
+  return {
+    renderToString: vi.fn().mockReturnValue('<div>Mocked MDX Component</div>')
+  }
+})
+
 describe('render', () => {
   it('should render MDX content to markdown', async () => {
     const mdxContent = dedent`
@@ -68,8 +91,7 @@ describe('render', () => {
   })
 
   it('should throw an error when MDX compilation fails', async () => {
-    const compileSpy = vi.spyOn(mdx, 'compile')
-    compileSpy.mockRejectedValueOnce(new Error('Compilation error'))
+    vi.mocked(mdx.compile).mockRejectedValueOnce(new Error('Compilation error'))
 
     const mdxContent = dedent`
       # Invalid MDX
@@ -78,7 +100,5 @@ describe('render', () => {
     `
 
     await expect(render(mdxContent)).rejects.toThrow('Failed to render MDX: Compilation error')
-    
-    compileSpy.mockRestore()
   })
 })

@@ -1,6 +1,11 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { extract } from './extract'
+import * as aiModule from 'ai'
+import * as aiJsModule from '../ai.js'
 import { createCacheMiddleware } from '../cacheMiddleware'
+
+vi.mock('ai')
+vi.mock('../ai.js')
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -9,32 +14,29 @@ const cacheMiddleware = createCacheMiddleware({
   memoryCache: true,
 })
 
-vi.mock('../ai.js', () => ({
-  model: vi.fn().mockReturnValue('mock-model'),
-}))
+const modelSpy = vi.fn().mockReturnValue('mock-model')
+vi.spyOn(aiJsModule, 'model').mockImplementation(() => modelSpy())
 
-vi.mock('ai', () => {
-  const mockStreamText = vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield '1. John Doe\n2. Microsoft\n3. New York'
-      },
-    },
-  });
-  
-  const mockStreamObject = vi.fn().mockResolvedValue({
-    object: {
-      name: 'Test Product',
-      price: 99.99,
-      features: ['Feature 1', 'Feature 2'],
-    },
-  });
-  
-  return {
-    streamText: process.env.NODE_ENV === 'test' ? mockStreamText : vi.importActual('ai').then((mod: any) => mod.streamText),
-    streamObject: process.env.NODE_ENV === 'test' ? mockStreamObject : vi.importActual('ai').then((mod: any) => mod.streamObject),
-  };
+const mockStreamTextGenerator = async function* () {
+  yield '1. John Doe\n2. Microsoft\n3. New York'
+}
+
+const mockStreamText = vi.fn().mockResolvedValue({
+  textStream: {
+    [Symbol.asyncIterator]: mockStreamTextGenerator,
+  },
 })
+
+const mockStreamObject = vi.fn().mockResolvedValue({
+  object: {
+    name: 'Test Product',
+    price: 99.99,
+    features: ['Feature 1', 'Feature 2'],
+  },
+})
+
+vi.spyOn(aiModule, 'streamText').mockImplementation((...args) => mockStreamText(...args))
+vi.spyOn(aiModule, 'streamObject').mockImplementation((...args) => mockStreamObject(...args))
 
 describe('extract function (mocked)', () => {
   const originalEnv = { ...process.env }

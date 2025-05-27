@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { scrape, scrapeMultiple, ScrapedContent } from './scrape'
 import { promises as fs } from 'fs'
 import path from 'path'
+import * as firecrawlModule from '@mendable/firecrawl-js'
 
 // Create a complete mock implementation with all required methods
 const createMockFirecrawlApp = (config = {}) => ({
@@ -145,17 +146,10 @@ This is test markdown content.`
     getCacheWarnings: vi.fn()
 })
 
-// Mock FirecrawlApp for unit tests
-vi.mock('@mendable/firecrawl-js', () => {
-  // Create a mock implementation that returns our mock app in test mode
-  const mockFirecrawl = vi.fn().mockImplementation((config) => {
-    return createMockFirecrawlApp(config);
-  });
-  
-  return {
-    default: mockFirecrawl,
-  }
-})
+const mockFirecrawl = vi.fn().mockImplementation((config) => {
+  return createMockFirecrawlApp(config);
+});
+vi.spyOn(firecrawlModule, 'default').mockImplementation(mockFirecrawl);
 
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache')
@@ -427,4 +421,4 @@ describe('scrape e2e', () => {
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
   }, 90000)
-})                                                                                                                                                                                                                                                                                                                    
+})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                

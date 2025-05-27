@@ -1,28 +1,34 @@
 import 'dotenv/config'
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { deepwiki } from './deepwiki'
+import * as ai from 'ai'
+
+vi.mock('ai')
 
 const isCI = process.env.CI === 'true'
 
 const originalEnv = { ...process.env }
 
-vi.mock('ai', () => {
-  return {
-    generateText: vi.fn().mockResolvedValue({
-      text: 'This is a test response for deepwiki',
-      response: {
-        body: {},
-      },
-    }),
-    model: vi.fn().mockReturnValue('mock-model'),
-    experimental_createMCPClient: vi.fn().mockResolvedValue({
-      tools: vi.fn().mockResolvedValue({
-        read_wiki_structure: vi.fn(),
-        read_wiki_page: vi.fn(),
-      }),
-    }),
-  }
+const generateTextSpy = vi.fn().mockResolvedValue({
+  text: 'This is a test response for deepwiki',
+  response: {
+    body: {},
+  },
 })
+vi.spyOn(ai, 'generateText').mockImplementation((...args) => generateTextSpy(...args))
+
+const modelSpy = vi.fn().mockReturnValue('mock-model')
+
+const mockMCPClient = {
+  tools: vi.fn().mockResolvedValue({
+    read_wiki_structure: vi.fn(),
+    read_wiki_page: vi.fn(),
+  }),
+}
+const createMCPClientSpy = vi.fn().mockResolvedValue(mockMCPClient)
+if ('experimental_createMCPClient' in ai) {
+  vi.spyOn(ai, 'experimental_createMCPClient').mockImplementation(() => createMCPClientSpy())
+}
 
 describe('deepwiki', () => {
   beforeEach(() => {

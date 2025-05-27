@@ -2,7 +2,8 @@ import 'dotenv/config'
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { research } from './research'
 import FirecrawlApp from '@mendable/firecrawl-js'
-import { generateText } from 'ai'
+import * as ai from 'ai'
+import * as scrapeModule from './scrape'
 import { createCacheMiddleware } from '../cacheMiddleware'
 
 const isCI = process.env.CI === 'true'
@@ -16,40 +17,37 @@ const cacheMiddleware = createCacheMiddleware({
   memoryCache: true,
 })
 
-vi.mock('ai', () => ({
-  generateText: vi.fn().mockResolvedValue({
-    text: 'This is a test response with citation [1] and another citation [2].',
-    response: {
-      body: {
-        citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
-        choices: [
-          {
-            message: {
-              reasoning: 'This is mock reasoning',
-            },
+const generateTextSpy = vi.fn().mockResolvedValue({
+  text: 'This is a test response with citation [1] and another citation [2].',
+  response: {
+    body: {
+      citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
+      choices: [
+        {
+          message: {
+            reasoning: 'This is mock reasoning',
           },
-        ],
-      },
+        },
+      ],
     },
-  }),
-  model: vi.fn().mockReturnValue('mock-model'),
-}))
+  },
+})
+vi.spyOn(ai, 'generateText').mockImplementation((...args) => generateTextSpy(...args))
 
-vi.mock('./scrape', () => ({
-  scrape: vi.fn().mockImplementation((url) => {
-    const domain = new URL(url).hostname
-    
-    return Promise.resolve({
-      url,
-      title: `Content from ${domain}`,
-      description: `Description from ${domain}`,
-      image: 'https://example.com/image.png',
-      markdown: '# Test Markdown\nThis is test content',
-      cached: false
-    })
-  }),
-  ScrapedContent: class {}
-}))
+
+const scrapeSpy = vi.fn().mockImplementation((url) => {
+  const domain = new URL(url).hostname
+  
+  return Promise.resolve({
+    url,
+    title: `Content from ${domain}`,
+    description: `Description from ${domain}`,
+    image: 'https://example.com/image.png',
+    markdown: '# Test Markdown\nThis is test content',
+    cached: false
+  })
+})
+vi.spyOn(scrapeModule, 'scrape').mockImplementation((...args) => scrapeSpy(...args))
 
 describe('research (mocked)', () => {
   beforeEach(() => {
@@ -169,8 +167,9 @@ describe('research e2e', () => {
       return
     }
 
-    const originalGenerateText = generateText
-    vi.mocked(generateText).mockResolvedValueOnce({
+    const originalSpy = generateTextSpy
+    
+    const customSpy = vi.fn().mockResolvedValueOnce({
       text: 'This is a test response with invalid citation [1].',
       response: {
         body: {
@@ -186,6 +185,8 @@ describe('research e2e', () => {
       },
     } as any)
     
+    vi.spyOn(ai, 'generateText').mockImplementation(() => customSpy())
+    
     const query = 'Test with invalid citation URL'
     const result = await research(query)
     
@@ -198,6 +199,6 @@ describe('research e2e', () => {
     
     expect(Array.isArray(result.scrapedCitations)).toBe(true)
     
-    vi.mocked(generateText).mockImplementation(originalGenerateText)
+    vi.spyOn(ai, 'generateText').mockImplementation(() => originalSpy())
   }, 30000)
 })
