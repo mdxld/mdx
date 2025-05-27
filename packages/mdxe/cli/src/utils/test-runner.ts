@@ -41,17 +41,45 @@ export async function runTests(
   output: string
 }> {
   try {
+    // Separate MDX files from regular test files
+    const mdxFiles = testFiles.filter(file => file.endsWith('.mdx') || file.endsWith('.md'))
+    const regularTestFiles = testFiles.filter(file => !file.endsWith('.mdx') && !file.endsWith('.md'))
+    
+    const tempTestFiles: string[] = []
+    
+    // Process MDX files - extract test blocks and create temporary test files
+    for (const mdxFile of mdxFiles) {
+      const { extractMdxCodeBlocks } = await import('./mdx-parser')
+      const { testBlocks, codeBlocks } = await extractMdxCodeBlocks(mdxFile)
+      
+      if (testBlocks.length > 0) {
+        const tempFile = await createTempTestFile(codeBlocks, testBlocks, mdxFile)
+        tempTestFiles.push(tempFile)
+      }
+    }
+    
+    const allTestFiles = [...regularTestFiles, ...tempTestFiles]
+    
+    if (allTestFiles.length === 0) {
+      return {
+        success: false,
+        output: 'No test files or test blocks found'
+      }
+    }
+    
     const watchFlag = watch ? '--watch' : ''
-
     await import('vitest/node')
-
-    const command = `npx vitest run --globals ${watchFlag} ${testFiles.join(' ')}`
-
+    
+    const command = `npx vitest run --globals ${watchFlag} ${allTestFiles.join(' ')}`
     const { stdout, stderr } = await execAsync(command)
     const output = stdout + stderr
-
+    
     const success = !output.includes('FAIL') && !output.includes('ERR_')
-
+    
+    if (!watch && tempTestFiles.length > 0) {
+      await cleanupTempFiles()
+    }
+    
     return { success, output }
   } catch (error: any) {
     return {
