@@ -1,12 +1,11 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { scrape, scrapeMultiple } from './scrape'
-import fs from 'fs'
 
 // Mock FirecrawlApp
 vi.mock('@mendable/firecrawl-js', () => {
   return {
-    default: vi.fn().mockImplementation(() => ({
-      scrapeUrl: vi.fn().mockImplementation(async (url, options) => {
+    default: vi.fn(() => ({
+      scrapeUrl: vi.fn(async (url) => {
         if (url.includes('error')) {
           return { success: false, error: 'Scraping failed' }
         }
@@ -30,31 +29,56 @@ vi.mock('@mendable/firecrawl-js', () => {
   }
 })
 
-// Mock fs module using spyOn
+// Mock fs module
+vi.mock('fs', () => {
+  return {
+    promises: {
+      readFile: vi.fn(() => Promise.resolve(JSON.stringify({ cached: true }))),
+      writeFile: vi.fn(() => Promise.resolve()),
+      access: vi.fn(() => Promise.resolve()),
+      mkdir: vi.fn(() => Promise.resolve()),
+    }
+  }
+})
+
+// Mock the scrape function for scrapeMultiple tests
+vi.mock('./scrape', async (importOriginal) => {
+  const mod = await importOriginal()
+  
+  return {
+    ...mod,
+    scrape: vi.fn(async (url) => {
+      if (url.includes('error')) {
+        return {
+          url,
+          error: 'Failed to scrape: Scraping failed',
+          cached: false
+        }
+      }
+      
+      const domain = new URL(url).hostname
+      
+      return {
+        url,
+        title: `Content from ${domain}`,
+        description: `Description from ${domain}`,
+        image: 'https://example.com/image.png',
+        markdown: '# Test Markdown\nThis is test content',
+        cached: false
+      }
+    }),
+    scrapeMultiple: mod.scrapeMultiple
+  }
+})
+
 describe('scrape', () => {
   const originalEnv = { ...process.env }
+  const fs = require('fs')
 
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
-    
-    // Setup fs mocks using spyOn
-    vi.spyOn(fs.promises, 'readFile').mockImplementation(() => {
-      return Promise.resolve(JSON.stringify({ cached: true }))
-    })
-    
-    vi.spyOn(fs.promises, 'writeFile').mockImplementation(() => {
-      return Promise.resolve()
-    })
-    
-    vi.spyOn(fs.promises, 'access').mockImplementation(() => {
-      return Promise.resolve()
-    })
-    
-    vi.spyOn(fs.promises, 'mkdir').mockImplementation(() => {
-      return Promise.resolve()
-    })
   })
 
   afterEach(() => {
@@ -76,8 +100,7 @@ describe('scrape', () => {
 
   it('should return cached result when available', async () => {
     // Setup mock to return cached content for the first call
-    vi.spyOn(fs.promises, 'readFile').mockImplementationOnce(() => {
-      return Promise.resolve(`---
+    fs.promises.readFile.mockReturnValueOnce(Promise.resolve(`---
 url: "https://example.com/cached"
 title: "Content from example.com"
 description: "Description from example.com"
@@ -86,8 +109,7 @@ cachedAt: "${new Date().toISOString()}"
 ---
 
 # Test Markdown
-This is test content`)
-    })
+This is test content`))
 
     const url = 'https://example.com/cached'
     
@@ -108,77 +130,14 @@ This is test content`)
   })
 })
 
-// Mock the scrapeMultiple implementation directly
-vi.mock('./scrape', async (importOriginal) => {
-  const actual = await importOriginal()
-  
-  return {
-    ...actual,
-    scrape: vi.fn().mockImplementation(async (url) => {
-      if (url.includes('error')) {
-        return {
-          url,
-          error: 'Failed to scrape: Scraping failed',
-          cached: false
-        }
-      }
-      
-      const domain = new URL(url).hostname
-      
-      return {
-        url,
-        title: `Content from ${domain}`,
-        description: `Description from ${domain}`,
-        image: 'https://example.com/image.png',
-        markdown: '# Test Markdown\nThis is test content',
-        cached: false
-      }
-    }),
-    scrapeMultiple: vi.fn().mockImplementation(async (urls, onProgress) => {
-      const results = await Promise.all(urls.map(async (url, index) => {
-        const result = await actual.scrape(url)
-        
-        if (onProgress) {
-          onProgress(index + 1, urls.length)
-        }
-        
-        return result
-      }))
-      
-      return results
-    })
-  }
-})
-
 describe('scrapeMultiple', () => {
   const originalEnv = { ...process.env }
+  const mockScrape = vi.mocked(scrape)
 
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
-    
-    // Reset the mock implementation for scrape
-    vi.mocked(scrape).mockImplementation(async (url) => {
-      if (url.includes('error')) {
-        return {
-          url,
-          error: 'Failed to scrape: Scraping failed',
-          cached: false
-        }
-      }
-      
-      const domain = new URL(url).hostname
-      
-      return {
-        url,
-        title: `Content from ${domain}`,
-        description: `Description from ${domain}`,
-        image: 'https://example.com/image.png',
-        markdown: '# Test Markdown\nThis is test content',
-        cached: false
-      }
-    })
   })
 
   afterEach(() => {

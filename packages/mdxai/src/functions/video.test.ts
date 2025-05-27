@@ -1,101 +1,78 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { video } from './video'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-// Mock modules
-vi.mock('@google/generative-ai', () => {
-  return {
-    GoogleGenerativeAI: vi.fn().mockImplementation(() => ({
-      getGenerativeModel: vi.fn().mockImplementation(() => ({
-        generateContent: vi.fn().mockResolvedValue({
-          response: {
-            text: () => 'mock response'
-          }
-        })
-      }))
-    }))
-  }
-})
 
 // Mock node-fetch
 vi.mock('node-fetch', () => {
-  const mockFetchFn = vi.fn().mockImplementation((url) => {
-    if (url.includes('error')) {
-      return Promise.reject(new Error('Failed to download video'))
-    }
-    
-    return Promise.resolve({
-      ok: true,
-      buffer: () => Promise.resolve(Buffer.from('mock video data')),
-      json: () => Promise.resolve({
-        name: 'test_operation',
-        done: true,
-        response: {
-          name: 'test_video',
-          uri: 'https://example.com/video.mp4'
-        }
+  return {
+    default: vi.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        buffer: () => Promise.resolve(Buffer.from('mock video data')),
+        json: () => Promise.resolve({
+          name: 'test_operation',
+          done: true,
+          response: {
+            name: 'test_video',
+            uri: 'https://example.com/video.mp4'
+          }
+        })
       })
     })
-  })
-  
-  return {
-    default: mockFetchFn
   }
 })
 
 // Mock fs module
 vi.mock('fs', () => {
+  const mockReadFile = vi.fn(() => {
+    return Promise.resolve(JSON.stringify({
+      videoUrl: 'https://example.com/cached-video.mp4',
+      operationName: 'cached_operation',
+      localPath: '/tmp/video/cached-video.mp4',
+    }))
+  })
+  
+  const mockWriteFile = vi.fn(() => Promise.resolve())
+  const mockAccess = vi.fn(() => Promise.resolve())
+  const mockMkdir = vi.fn(() => Promise.resolve())
+  
   return {
     promises: {
-      readFile: vi.fn().mockImplementation(() => {
-        return Promise.resolve(JSON.stringify({
-          videoUrl: 'https://example.com/cached-video.mp4',
-          operationName: 'cached_operation',
-          localPath: '/tmp/video/cached-video.mp4',
-        }))
-      }),
-      writeFile: vi.fn().mockResolvedValue(undefined),
-      access: vi.fn().mockResolvedValue(undefined),
-      mkdir: vi.fn().mockResolvedValue(undefined),
+      readFile: mockReadFile,
+      writeFile: mockWriteFile,
+      access: mockAccess,
+      mkdir: mockMkdir,
     },
-    existsSync: vi.fn().mockReturnValue(true),
-    createWriteStream: vi.fn().mockReturnValue({
+    existsSync: vi.fn(() => true),
+    createWriteStream: vi.fn(() => ({
       write: vi.fn(),
       end: vi.fn(),
-      on: vi.fn().mockImplementation((event, callback) => {
+      on: vi.fn((event, callback) => {
         if (event === 'finish') {
           callback()
         }
         return { on: vi.fn() }
       })
-    })
+    }))
   }
 })
 
 // Mock timers
 vi.mock('timers', () => {
-  const mockSetTimeout = vi.fn().mockImplementation((callback, ms) => {
-    if (typeof callback === 'function') {
-      callback()
-    }
-    return 123 // mock timer id
-  })
-  
   return {
-    setTimeout: mockSetTimeout,
+    setTimeout: vi.fn((callback) => {
+      if (typeof callback === 'function') {
+        callback()
+      }
+      return 123 // mock timer id
+    }),
     clearTimeout: vi.fn()
   }
 })
 
 // Mock the video module to avoid actual API calls
-vi.mock('./video', async (importOriginal) => {
-  const mod = await importOriginal()
-  
+vi.mock('./video', () => {
   return {
-    ...mod,
-    video: vi.fn().mockImplementation((config) => {
+    video: vi.fn((config) => {
       return (strings, ...values) => {
         const prompt = strings.reduce((acc, str, i) => {
           return acc + str + (values[i] !== undefined ? values[i] : '')
@@ -119,6 +96,7 @@ describe('video function', () => {
   const originalEnv = { ...process.env }
   const mockFetch = require('node-fetch').default
   const { setTimeout } = require('timers')
+  const fs = require('fs')
   
   beforeEach(() => {
     process.env.GOOGLE_API_KEY = 'mock-google-api-key'
@@ -169,7 +147,7 @@ describe('video function', () => {
       }
       
       // Setup fs.readFile to return cached result
-      fs.promises.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
+      fs.promises.readFile.mockReturnValueOnce(Promise.resolve(JSON.stringify(cachedResult)))
       
       const result = await video`${prompt}`
       
@@ -187,7 +165,7 @@ describe('video function', () => {
       }
       
       // Setup fs.readFile to return cached result
-      fs.promises.readFile.mockResolvedValueOnce(JSON.stringify(cachedResult))
+      fs.promises.readFile.mockReturnValueOnce(Promise.resolve(JSON.stringify(cachedResult)))
       
       // But access throws error indicating file doesn't exist
       fs.promises.access.mockRejectedValueOnce(new Error('File not found'))
@@ -212,19 +190,7 @@ describe('video function', () => {
     
     it('should handle video download failure', async () => {
       // Make fetch return a response with error URL
-      mockFetch.mockImplementationOnce(() => {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({
-            name: 'test_operation',
-            done: true,
-            response: {
-              name: 'test_video',
-              uri: 'https://example.com/error/video.mp4'
-            }
-          })
-        })
-      })
+      mockFetch.mockReturnValueOnce(Promise.reject(new Error('Failed to download video')))
       
       const prompt = 'A test video prompt'
       
@@ -233,21 +199,16 @@ describe('video function', () => {
     
     it('should handle timeout when video generation takes too long', async () => {
       // Mock setTimeout to simulate timeout
-      setTimeout.mockImplementationOnce((callback, ms) => {
-        // Don't call the callback to simulate timeout
-        return 123 // mock timer id
-      })
+      setTimeout.mockReturnValueOnce(123) // Don't call the callback to simulate timeout
       
       // Mock fetch to never return done=true
-      mockFetch.mockImplementation(() => {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({
-            name: 'test_operation',
-            done: false
-          })
+      mockFetch.mockReturnValueOnce(Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          name: 'test_operation',
+          done: false
         })
-      })
+      }))
       
       const prompt = 'A test video prompt'
       
@@ -258,30 +219,26 @@ describe('video function', () => {
   describe('polling behavior', () => {
     it('should poll until operation is complete', async () => {
       // First call returns not done
-      mockFetch.mockImplementationOnce(() => {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({
-            name: 'test_operation',
-            done: false
-          })
+      mockFetch.mockReturnValueOnce(Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          name: 'test_operation',
+          done: false
         })
-      })
+      }))
       
       // Second call returns done
-      mockFetch.mockImplementationOnce(() => {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({
-            name: 'test_operation',
-            done: true,
-            response: {
-              name: 'test_video',
-              uri: 'https://example.com/video.mp4'
-            }
-          })
+      mockFetch.mockReturnValueOnce(Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          name: 'test_operation',
+          done: true,
+          response: {
+            name: 'test_video',
+            uri: 'https://example.com/video.mp4'
+          }
         })
-      })
+      }))
       
       const prompt = 'A test video prompt'
       
