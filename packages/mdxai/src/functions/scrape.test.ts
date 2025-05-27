@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { scrape, scrapeMultiple, ScrapedContent } from './scrape'
 import { promises as fs } from 'fs'
 import path from 'path'
-import * as firecrawlModule from '@mendable/firecrawl-js'
 
 // Create a complete mock implementation with all required methods
 const createMockFirecrawlApp = (config = {}) => ({
@@ -146,12 +145,14 @@ This is test markdown content.`
     getCacheWarnings: vi.fn()
 })
 
-// Store original function
-const originalDefault = firecrawlModule.default
-
-const mockFirecrawl = vi.fn().mockImplementation((config) => {
-  return createMockFirecrawlApp(config);
-});
+// Mock the FirecrawlApp module at the top level
+vi.mock('@mendable/firecrawl-js', () => {
+  return {
+    default: vi.fn().mockImplementation((config) => {
+      return createMockFirecrawlApp(config);
+    })
+  }
+})
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache')
 
@@ -173,14 +174,6 @@ describe('scrape', () => {
     // Ensure we're in test mode for mocked tests
     process.env.NODE_ENV = 'test'
     vi.clearAllMocks()
-    
-    // Replace function with mock
-    Object.defineProperty(firecrawlModule, 'default', { value: mockFirecrawl, writable: true, configurable: true })
-  })
-  
-  afterEach(() => {
-    // Restore original function
-    Object.defineProperty(firecrawlModule, 'default', { value: originalDefault, writable: true, configurable: true })
   })
 
   it('should scrape a URL and return content', async () => {
@@ -210,20 +203,19 @@ describe('scrape', () => {
   })
 
   it('should handle scraping errors gracefully', async () => {
-    // Create a new mock that returns an error by reusing the same mock factory
-    // but overriding the scrapeUrl method to return an error
-    const errorMockApp = createMockFirecrawlApp();
-    
-    // Override the scrapeUrl method to return an error
-    errorMockApp.scrapeUrl = vi.fn().mockResolvedValue({
-      success: false,
-      error: 'Failed to scrape',
+    // Create a new mock that returns an error
+    const mockFirecrawlWithError = vi.fn().mockImplementationOnce(() => {
+      const mockApp = createMockFirecrawlApp();
+      mockApp.scrapeUrl = vi.fn().mockResolvedValue({
+        success: false,
+        error: 'Failed to scrape',
+      });
+      return mockApp;
     });
     
-    const errorMockFirecrawl = vi.fn().mockReturnValueOnce(errorMockApp);
-    
-    // Replace function with error mock
-    Object.defineProperty(firecrawlModule, 'default', { value: errorMockFirecrawl, writable: true, configurable: true })
+    // Replace the mock implementation temporarily
+    const originalMock = vi.mocked(require('@mendable/firecrawl-js').default);
+    vi.mocked(require('@mendable/firecrawl-js').default).mockImplementation(mockFirecrawlWithError);
 
     const result = await scrape('https://example.com/error')
 
@@ -233,8 +225,8 @@ describe('scrape', () => {
       // Don't check cached status since errors can also be cached
     })
     
-    // Restore normal mock
-    Object.defineProperty(firecrawlModule, 'default', { value: mockFirecrawl, writable: true, configurable: true })
+    // Restore the original mock
+    vi.mocked(require('@mendable/firecrawl-js').default).mockImplementation(originalMock);
   })
 
   it('should scrape multiple URLs', async () => {
@@ -288,14 +280,11 @@ This is test markdown content.`
   })
 })
 
-describe('scrape e2e', () => {
+describe.skipIf(process.env.CI === 'true')('scrape e2e', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.doUnmock('@mendable/firecrawl-js')
     process.env.NODE_ENV = 'development'
-    
-    // Restore original function for e2e tests
-    Object.defineProperty(firecrawlModule, 'default', { value: originalDefault, writable: true, configurable: true })
     
     if (!process.env.FIRECRAWL_API_KEY) {
       console.log('Skipping scrape e2e test: FIRECRAWL_API_KEY not set')
