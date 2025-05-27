@@ -51,14 +51,9 @@ describe('EventStatusProvider', () => {
   })
 
   it('throws error when useEventStatus is used outside provider', () => {
-    try {
+    expect(() => {
       useEventStatus()
-    } catch (error: any) {
-      expect(error.message).toBe('useEventStatus must be used within an EventStatusProvider')
-      return
-    }
-
-    expect(true).toBe(false)
+    }).toThrow('useEventStatus must be used within an EventStatusProvider')
   })
 
   it('calls onEventUpdate when events change', () => {

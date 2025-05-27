@@ -95,14 +95,12 @@ vi.mock('./video', () => {
   let apiKeySet = true
   
   return {
-    video: vi.fn((config) => {
-      return async () => {
-        if (!apiKeySet) {
-          throw new Error('GOOGLE_API_KEY environment variable is not set.')
-        }
-        
-        return mockVideoResult
+    video: vi.fn(async (config: any) => {
+      if (!apiKeySet && !process.env.GOOGLE_API_KEY) {
+        throw new Error('GOOGLE_API_KEY environment variable is not set.')
       }
+      
+      return mockVideoResult
     })
   }
 })
@@ -126,7 +124,7 @@ describe('video function', () => {
     it('should generate a video with default configuration', async () => {
       const prompt = 'A test video prompt'
       
-      const result = await video({})`${prompt}`
+      const result = await video({ prompt })
       
       expect(result).toBeDefined()
       expect(result.videoFilePaths).toEqual(['/tmp/video/test-video.mp4'])
@@ -137,11 +135,12 @@ describe('video function', () => {
     it('should use custom configuration options', async () => {
       const prompt = 'A test video prompt'
       const config = {
+        prompt,
         model: 'custom-model',
-        aspectRatio: '9:16',
+        aspectRatio: '9:16' as '9:16',
       }
       
-      const result = await video(config)`${prompt}`
+      const result = await video(config)
       
       expect(result).toBeDefined()
       expect(result.videoFilePaths).toEqual(['/tmp/video/test-video.mp4'])
@@ -153,7 +152,7 @@ describe('video function', () => {
     it('should return cached result when available and files exist', async () => {
       const prompt = 'A cached video prompt'
       
-      const result = await video({})`${prompt}`
+      const result = await video({ prompt })
       
       expect(result).toBeDefined()
       expect(result.videoFilePaths).toEqual(['/tmp/video/test-video.mp4'])
@@ -163,7 +162,7 @@ describe('video function', () => {
     it('should regenerate when cached files are missing', async () => {
       const prompt = 'A video prompt with missing cache'
       
-      const result = await video({})`${prompt}`
+      const result = await video({ prompt })
       
       expect(result).toBeDefined()
       expect(result.videoFilePaths).toEqual(['/tmp/video/test-video.mp4'])
@@ -176,13 +175,11 @@ describe('video function', () => {
       delete process.env.GOOGLE_API_KEY
       
       // Update the mock to throw an error
-      vi.mocked(video).mockImplementationOnce(() => {
-        return async () => {
-          throw new Error('GOOGLE_API_KEY environment variable is not set.')
-        }
+      vi.mocked(video).mockImplementationOnce(async () => {
+        throw new Error('GOOGLE_API_KEY environment variable is not set.')
       })
       
-      await expect(video({})`A test video prompt`).rejects.toThrow('GOOGLE_API_KEY')
+      await expect(video({ prompt: 'A test video prompt' })).rejects.toThrow('GOOGLE_API_KEY')
     })
   })
-})
+})                                                                        

@@ -72,7 +72,7 @@ vi.mock('./scrape.js', () => {
 vi.mock('../ui/index.js', () => ({
   QueueManager: class {
     constructor() {}
-    addTask(name, fn) {
+    addTask(name: string, fn: () => any) {
       return fn()
     }
   }

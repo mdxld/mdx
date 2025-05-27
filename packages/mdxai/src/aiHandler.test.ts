@@ -9,7 +9,7 @@ vi.mock('gray-matter')
 // Mock yaml module with proper default export
 vi.mock('yaml', () => {
   // Create a string with trim method for stringify to return
-  const mockYamlString = (obj) => {
+  const mockYamlString = (obj: any) => {
     const str = JSON.stringify(obj, null, 2)
     return {
       toString: () => str,
@@ -70,7 +70,7 @@ vi.mock('ai', () => {
 vi.mock('./ui/index.js', () => ({
   QueueManager: class {
     constructor() {}
-    addTask(name, fn) {
+    addTask(name: string, fn: () => any) {
       return fn()
     }
   }

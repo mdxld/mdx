@@ -1,8 +1,3 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import React from 'react'
-import { render } from 'ink-testing-library'
-import { Image, ImageProps } from './components'
-
 vi.mock('asciify-image', () => {
   return {
     default: vi.fn().mockImplementation(async (input, options) => {
@@ -19,6 +14,10 @@ vi.mock('react-dom/server', () => {
   }
 })
 
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import React from 'react'
+import { render } from 'ink-testing-library'
+import { Image, ImageProps } from './components'
 import asciifyImage from 'asciify-image'
 import * as ReactDOMServer from 'react-dom/server'
 

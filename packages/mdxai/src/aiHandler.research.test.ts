@@ -58,7 +58,7 @@ vi.mock('ai', () => {
 vi.mock('./ui/index.js', () => ({
   QueueManager: class {
     constructor() {}
-    addTask(name, fn) {
+    addTask(name: string, fn: () => any) {
       return fn()
     }
   }
@@ -79,7 +79,7 @@ vi.mock('./functions/scrape.js', () => ({
 }))
 
 // Mock gray-matter file
-function createMockGrayMatterFile(data, content) {
+function createMockGrayMatterFile(data: Record<string, any>, content: string) {
   return {
     data,
     content,

@@ -39,8 +39,20 @@ vi.mocked(llmService.generateResearchStream).mockResolvedValue({
     [Symbol.asyncIterator]: async function* () {
       yield 'This is a test research response'
     }
-  } as any
-})
+  },
+  warnings: [],
+  usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+  sources: [],
+  files: [],
+  text: 'This is a test research response',
+  response: {
+    id: 'mock-id',
+    object: 'chat.completion',
+    created: Date.now(),
+    model: 'mock-model',
+    choices: [{ index: 0, message: { content: 'This is a test research response', role: 'assistant' }, finish_reason: 'stop' }]
+  }
+} as any)
 
 vi.mocked(appUI.renderApp).mockReturnValue(() => {})
 
