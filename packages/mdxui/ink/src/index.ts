@@ -14,6 +14,8 @@ export type { WorkflowFrontmatter } from './types'
 export * from './LandingPage'
 export * from './slides'
 export * from './slide'
+export * from './button'
+export * from './card'
 export * from './InkMDXRenderer'
 export * from './component-loader'
 export { registerComponent, registerComponents, getAllComponents } from './component-loader'
@@ -33,6 +35,8 @@ import * as frontmatter from './frontmatter'
 import * as components from './components'
 import { Slides } from './slides'
 import { Slide } from './slide'
+import { Button } from './button'
+import { Card } from './card'
 
 import { InkMDXRenderer } from './InkMDXRenderer'
 
@@ -40,6 +44,8 @@ const Ink: {
   renderMdxCli: typeof render.renderMdxCli
   Slides: typeof Slides
   Slide: typeof Slide
+  Button: typeof Button
+  Card: typeof Card
   Markdown: typeof MarkdownDefault
   Ascii: typeof AsciiDefault
   InkMDXRenderer: typeof InkMDXRenderer
@@ -52,6 +58,8 @@ const Ink: {
   ...components,
   Slides,
   Slide,
+  Button,
+  Card,
   Markdown: MarkdownDefault,
   Ascii: AsciiDefault,
   InkMDXRenderer,
