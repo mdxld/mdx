@@ -179,9 +179,19 @@ export async function simulateVeliteBuild(testDir: string): Promise<void> {
       collections: {
         blog: {
           pattern: 'content/blog/**/*.mdx',
+          schema: {
+            title: { type: 'string', required: true },
+            date: { type: 'date', required: false },
+            body: { type: 'mdx', required: true }
+          }
         },
         posts: {
           pattern: 'content/posts/**/*.mdx',
+          schema: {
+            title: { type: 'string', required: true },
+            date: { type: 'date', required: false },
+            body: { type: 'mdx', required: true }
+          }
         },
       }
     };
