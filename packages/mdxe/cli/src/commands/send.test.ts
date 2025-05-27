@@ -102,6 +102,6 @@ describe('send command', () => {
     await runSendCommand('test-event', JSON.stringify(testData), { verbose: true })
 
     expect(console.log).toHaveBeenCalledWith('Data:', JSON.stringify(testData, null, 2))
-    expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Results:'))
+    expect(console.log).toHaveBeenCalledWith('Results:', ['result1'])
   })
 })
