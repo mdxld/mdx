@@ -15,7 +15,7 @@ const cacheMiddleware = createCacheMiddleware({
   memoryCache: true,
 })
 
-export interface VideoGenerationConfig {
+export interface VideoConfig {
   /** The prompt to generate the video from */
   prompt: string
   /** The model to use for video generation */
@@ -30,7 +30,7 @@ export interface VideoGenerationConfig {
   pollingIntervalSeconds?: number
 }
 
-export interface VideoGenerationResult {
+export interface VideoResult {
   /** Array of video file paths that were generated */
   videoFilePaths: string[]
   /** The original prompt used to generate the videos */
@@ -56,11 +56,11 @@ export interface VideoGenerationResult {
  * @param config - Configuration options for video generation
  * @returns Promise with the generated video file paths and metadata
  */
-export async function generateVideo(config: VideoGenerationConfig): Promise<VideoGenerationResult> {
+export async function video(config: VideoConfig): Promise<VideoResult> {
   const {
     prompt,
     model = 'veo-2.0-generate-001',
-    personGeneration = 'dont_allow',
+    personGeneration = 'allow',
     aspectRatio = '16:9',
     maxWaitTimeSeconds = 300, // 5 minutes max wait time
     pollingIntervalSeconds = 10,
@@ -170,7 +170,7 @@ export async function generateVideo(config: VideoGenerationConfig): Promise<Vide
     const endTime = Date.now()
     const generationTimeMs = endTime - startTime
     
-    const result: VideoGenerationResult = {
+    const result: VideoResult = {
       videoFilePaths,
       prompt,
       metadata: {
