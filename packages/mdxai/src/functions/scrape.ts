@@ -29,9 +29,15 @@ const getCacheFilePath = (url: string): string => {
     
     // Create cache path: .ai/cache/[domain]/[...path].json
     const cacheDir = path.join(process.cwd(), '.ai', 'cache', domain)
-    const fileName = safePath === '' ? 'index.json' : `${safePath.slice(1)}.json`
     
-    return path.join(cacheDir, fileName)
+    if (safePath === '') {
+      return path.join(cacheDir, 'index.json')
+    } else {
+      const pathParts = safePath.slice(1).split('/')
+      const fileName = `${pathParts.pop()}.json`
+      const nestedDir = path.join(cacheDir, ...pathParts)
+      return path.join(nestedDir, fileName)
+    }
   } catch (error) {
     // Fallback for invalid URLs
     const safeUrl = url.replace(/[^a-zA-Z0-9\-_]/g, '_')
@@ -161,4 +167,4 @@ export const scrapeMultiple = async (
   }
 
   return results
-} 
+}  

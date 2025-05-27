@@ -5,22 +5,87 @@ import path from 'path'
 
 // Mock FirecrawlApp
 vi.mock('@mendable/firecrawl-js', () => {
-  return {
-    default: vi.fn().mockImplementation(() => ({
-      scrapeUrl: vi.fn().mockResolvedValue({
-        success: true,
-        data: {
-          metadata: {
-            title: 'Test Title',
-            description: 'Test Description',
-            ogImage: 'https://example.com/image.jpg',
-          },
-          markdown: '# Test Content\n\nThis is test markdown content.',
-          html: '<h1>Test Content</h1><p>This is test HTML content.</p>',
-        },
-      }),
-    })),
+  // Create a mock class that matches the FirecrawlApp interface
+  const mockScrapeUrl = vi.fn().mockResolvedValue({
+    success: true,
+    data: {
+      metadata: {
+        title: 'Test Title',
+        description: 'Test Description',
+        ogImage: 'https://example.com/image.jpg',
+      },
+      markdown: '# Test Content\n\nThis is test markdown content.',
+      html: '<h1>Test Content</h1><p>This is test HTML content.</p>',
+    },
+  });
+  
+  // Create a mock class that matches the FirecrawlApp interface
+  class MockFirecrawlApp {
+    apiKey: string;
+    apiUrl: string;
+    version: string;
+    
+    constructor({ apiKey, apiUrl }: { apiKey?: string | null, apiUrl?: string | null }) {
+      this.apiKey = apiKey || 'mock-api-key';
+      this.apiUrl = apiUrl || 'https://api.firecrawl.dev';
+      this.version = '1.0.0';
+    }
+    
+    scrapeUrl = mockScrapeUrl;
+    search = vi.fn();
+    crawlUrl = vi.fn();
+    asyncCrawlUrl = vi.fn();
+    checkCrawlStatus = vi.fn();
+    checkCrawlErrors = vi.fn();
+    cancelCrawl = vi.fn();
+    crawlUrlAndWatch = vi.fn();
+    mapUrl = vi.fn();
+    batchScrapeUrls = vi.fn();
+    asyncBatchScrapeUrls = vi.fn();
+    batchScrapeUrlsAndWatch = vi.fn();
+    checkBatchScrapeStatus = vi.fn();
+    checkBatchScrapeErrors = vi.fn();
+    extract = vi.fn();
+    asyncExtract = vi.fn();
+    getExtractStatus = vi.fn();
+    prepareHeaders = vi.fn();
+    postRequest = vi.fn();
+    getRequest = vi.fn();
+    deleteRequest = vi.fn();
+    monitorJobStatus = vi.fn();
+    handleError = vi.fn();
+    deepResearch = vi.fn();
+    asyncDeepResearch = vi.fn();
+    __deepResearch = vi.fn();
+    __asyncDeepResearch = vi.fn();
+    checkDeepResearchStatus = vi.fn();
+    __checkDeepResearchStatus = vi.fn();
+    generateLLMsText = vi.fn();
+    asyncGenerateLLMsText = vi.fn();
+    checkGenerateLLMsTextStatus = vi.fn();
+    agent = vi.fn();
+    checkAgentStatus = vi.fn();
+    getAgentSession = vi.fn();
+    createAgentSession = vi.fn();
+    deleteAgentSession = vi.fn();
+    listAgentSessions = vi.fn();
+    agentChat = vi.fn();
+    checkAgentChatStatus = vi.fn();
+    getAgentChatHistory = vi.fn();
+    clearAgentChatHistory = vi.fn();
+    getAgentChatMessage = vi.fn();
+    deleteAgentChatMessage = vi.fn();
+    getAgentChatMessages = vi.fn();
+    getAgentChatMessagesBatch = vi.fn();
+    getAgentChatMessagesStream = vi.fn();
+    getAgentChatMessagesStreamBatch = vi.fn();
+    getAgentChatMessagesStreamAll = vi.fn();
+    getAgentChatMessagesStreamAllBatch = vi.fn();
   }
+  
+  return {
+    default: vi.fn().mockImplementation((config) => new MockFirecrawlApp(config))
+  };
 })
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache', 'example.com')
@@ -75,13 +140,16 @@ describe('scrape', () => {
     // Mock FirecrawlApp to return an error
     const { default: FirecrawlApp } = await import('@mendable/firecrawl-js')
     
-    // Create a new mock that returns an error
-    vi.mocked(FirecrawlApp).mockImplementationOnce(() => ({
-      scrapeUrl: vi.fn().mockResolvedValue({
+    // Create a mock implementation that returns an error for scrapeUrl
+    vi.mocked(FirecrawlApp).mockImplementationOnce((config) => {
+      const mockApp = new (FirecrawlApp as any)(config);
+      // Override the scrapeUrl method to return an error
+      mockApp.scrapeUrl = vi.fn().mockResolvedValue({
         success: false,
         error: 'Failed to scrape',
-      }),
-    }))
+      });
+      return mockApp;
+    });
 
     const result = await scrape('https://example.com/error')
 
@@ -129,4 +197,4 @@ describe('scrape', () => {
     
     expect(cacheExists).toBe(true)
   })
-}) 
+})                
