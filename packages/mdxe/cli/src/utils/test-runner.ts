@@ -16,7 +16,48 @@ export async function createTempTestFile(codeBlocks: CodeBlock[], testBlocks: Co
   const testFileName = path.basename(fileName, path.extname(fileName)) + '.test.ts'
   const testFilePath = path.join(tempDir, testFileName)
 
-  let fileContent = ''
+  let fileContent = `
+const on = (event, callback) => callback;
+const send = (event, data) => ({ event, data });
+const ai = new Proxy({}, {
+  apply: (_target, _thisArg, args) => \`AI response for: \${args[0]}\`,
+  get: (_target, prop) => (...args) => ({ function: prop, args })
+});
+const list = (strings, ...values) => {
+  const input = strings.reduce((acc, str, i) => 
+    acc + str + (values[i] !== undefined ? JSON.stringify(values[i]) : ''), '');
+  return {
+    [Symbol.asyncIterator]: async function* () {
+      for (let i = 1; i <= 3; i++) {
+        yield \`Item \${i} for \${input}\`;
+      }
+    }
+  };
+};
+const research = (strings, ...values) => {
+  const input = strings.reduce((acc, str, i) => 
+    acc + str + (values[i] !== undefined ? JSON.stringify(values[i]) : ''), '');
+  return \`Research results for: \${input}\`;
+};
+const extract = (strings, ...values) => {
+  const input = strings.reduce((acc, str, i) => 
+    acc + str + (values[i] !== undefined ? JSON.stringify(values[i]) : ''), '');
+  return {
+    [Symbol.asyncIterator]: async function* () {
+      for (let i = 1; i <= 3; i++) {
+        yield \`Extracted item \${i} from \${input}\`;
+      }
+    }
+  };
+};
+const db = new Proxy({}, {
+  get: (_target, collection) => ({
+    create: (title, content) => ({ collection, title, content }),
+    find: (query) => ({ collection, query })
+  })
+});
+
+`
 
   codeBlocks.forEach((block) => {
     fileContent += block.value + '\n\n'
