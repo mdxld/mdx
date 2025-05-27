@@ -3,9 +3,8 @@ import { createExecutionContext } from './execution-context'
 import { clearEvents, emit } from './event-system'
 import * as inputPrompt from './input-prompt'
 
-vi.mock('./input-prompt', () => ({
-  renderInputPrompt: vi.fn(),
-}))
+const renderInputPromptSpy = vi.fn()
+vi.spyOn(inputPrompt, 'renderInputPrompt').mockImplementation(renderInputPromptSpy)
 
 describe('execution-context', () => {
   beforeEach(() => {

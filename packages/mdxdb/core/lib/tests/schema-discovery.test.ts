@@ -1,16 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { promises as fs } from 'fs'
+import * as fs from 'fs'
 import path from 'path'
 import { discoverSchemas, SchemaDefinition, HeadingYamlPair } from '../schema-discovery'
 
-vi.mock('fs', () => ({
-  promises: {
-    access: vi.fn(),
-    readdir: vi.fn(),
-    readFile: vi.fn(),
-    mkdir: vi.fn(),
-  },
-}))
+const mockAccess = vi.fn()
+const mockReaddir = vi.fn()
+const mockReadFile = vi.fn()
+const mockMkdir = vi.fn()
+
+vi.spyOn(fs.promises, 'access').mockImplementation(mockAccess)
+vi.spyOn(fs.promises, 'readdir').mockImplementation(mockReaddir)
+vi.spyOn(fs.promises, 'readFile').mockImplementation(mockReadFile)
+vi.spyOn(fs.promises, 'mkdir').mockImplementation(mockMkdir)
 
 describe('Schema Discovery', () => {
   const mockDbFolderPath = '/test/.db'

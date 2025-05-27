@@ -3,55 +3,50 @@ import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { Command } from 'commander'
+import * as fs from 'fs'
+import * as research from './functions/research'
+import * as llmService from './llmService'
+import * as appUI from './ui/app'
+import * as utils from './utils'
 
-const fsMocks = vi.hoisted(() => {
-  return {
-    writeFileSync: vi.fn().mockImplementation(() => undefined),
-    existsSync: vi.fn().mockReturnValue(true),
-    mkdirSync: vi.fn().mockImplementation(() => undefined),
-  }
+vi.mock('fs', () => ({
+  writeFileSync: vi.fn(),
+  existsSync: vi.fn().mockReturnValue(true),
+  mkdirSync: vi.fn(),
+}))
+vi.mock('./functions/research')
+vi.mock('./llmService')
+vi.mock('./ui/app')
+vi.mock('./utils')
+
+vi.mocked(research.research).mockResolvedValue({
+  text: 'This is a test research response',
+  markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
+  citations: ['https://example.com/citation1'],
+  reasoning: 'This is mock reasoning',
+  scrapedCitations: [
+    {
+      url: 'https://example.com/citation1',
+      title: 'Test Citation',
+      description: 'Test Description',
+      markdown: '# Test Citation\n\nThis is test content',
+    },
+  ],
 })
 
-vi.mock('fs', () => fsMocks)
+vi.mocked(llmService.generateResearchStream).mockResolvedValue({
+  textStream: {
+    [Symbol.asyncIterator]: async function* () {
+      yield 'This is a test research response'
+    }
+  } as any
+})
 
-import * as fs from 'fs'
+vi.mocked(appUI.renderApp).mockReturnValue(() => {})
 
-vi.mock('./functions/research', () => ({
-  research: vi.fn().mockResolvedValue({
-    text: 'This is a test research response',
-    markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
-    citations: ['https://example.com/citation1'],
-    reasoning: 'This is mock reasoning',
-    scrapedCitations: [
-      {
-        url: 'https://example.com/citation1',
-        title: 'Test Citation',
-        description: 'Test Description',
-        markdown: '# Test Citation\n\nThis is test content',
-      },
-    ],
-  }),
-}))
-
-vi.mock('./llmService.js', () => ({
-  generateResearchStream: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a test research response'
-      },
-    },
-  }),
-}))
-
-vi.mock('./ui/app.js', () => ({
-  renderApp: vi.fn().mockReturnValue(() => {}),
-}))
-
-vi.mock('./utils.js', () => ({
-  extractH1Title: vi.fn().mockReturnValue('Test Title'),
-  slugifyString: vi.fn().mockReturnValue('test-title'),
-  ensureDirectoryExists: vi.fn(),
-}))
+vi.mocked(utils.extractH1Title).mockReturnValue('Test Title')
+vi.mocked(utils.slugifyString).mockReturnValue('test-title')
+vi.mocked(utils.ensureDirectoryExists)
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -86,15 +81,13 @@ describe('CLI research command', () => {
         }
 
         if (options.ink) {
-          const { renderApp } = await import('./ui/app.js')
-          renderApp('research', {
+          appUI.renderApp('research', {
             prompt,
             output: options.output,
             format: options.format,
           })
         } else {
-          const { research } = await import('./functions/research')
-          await research(prompt)
+          await research.research(prompt)
 
           let content = '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)'
           if (options.format === 'frontmatter') {
@@ -134,8 +127,7 @@ describe('CLI research command', () => {
         expect.anything(),
       )
 
-      const { research } = await import('./functions/research')
-      expect(research).toHaveBeenCalledWith('How do I use AI?')
+      expect(research.research).toHaveBeenCalledWith('How do I use AI?')
 
       expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.mdx', expect.stringContaining('# Research Results'), 'utf-8')
 
@@ -157,15 +149,13 @@ describe('CLI research command', () => {
         expect.anything(),
       )
 
-      const { renderApp } = await import('./ui/app.js')
-      expect(renderApp).toHaveBeenCalledWith('research', {
+      expect(appUI.renderApp).toHaveBeenCalledWith('research', {
         prompt: 'How do I use AI?',
         output: 'research.mdx',
         format: 'markdown',
       })
 
-      const { research } = await import('./functions/research')
-      expect(research).not.toHaveBeenCalled()
+      expect(research.research).not.toHaveBeenCalled()
     })
 
     it('should handle different output formats', async () => {

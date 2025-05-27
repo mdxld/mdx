@@ -1,23 +1,34 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import React from 'react'
+import * as components from '../src/components'
+import * as io5Icons from 'react-icons/io5'
+import * as faIcons from 'react-icons/fa'
+import * as mdIcons from 'react-icons/md'
 
-vi.mock('../src/components', () => ({
-  Icon: vi.fn(({ name }) => `Icon: ${name}`),
-}))
+const IconSpy = vi.fn(({ name }) => `Icon: ${name}`)
+vi.spyOn(components, 'Icon').mockImplementation(IconSpy)
 
-vi.mock('react-icons/io5', () => ({
-  IoRocketSharp: vi.fn(),
-}))
+const IoRocketSharpSpy = vi.fn()
+vi.spyOn(io5Icons, 'IoRocketSharp').mockImplementation(IoRocketSharpSpy)
 
-vi.mock('react-icons/fa', () => ({
-  FaHeart: vi.fn(),
-}))
+const FaHeartSpy = vi.fn()
+vi.spyOn(faIcons, 'FaHeart').mockImplementation(FaHeartSpy)
 
-vi.mock('react-icons/md', () => ({
-  MdHome: vi.fn(),
-}))
+const MdHomeSpy = vi.fn()
+vi.spyOn(mdIcons, 'MdHome').mockImplementation(MdHomeSpy)
 
 describe('Icon Component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('should pass basic test', () => {
     expect(true).toBe(true)
   })
-})
+  
+  it('should render icons correctly', () => {
+    const icon = components.Icon({ name: 'rocket' })
+    expect(icon).toBe('Icon: rocket')
+    expect(IconSpy).toHaveBeenCalledWith({ name: 'rocket' })
+  })
+}
