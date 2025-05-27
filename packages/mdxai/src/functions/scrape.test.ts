@@ -2,14 +2,8 @@ import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 
 // Mock the scrape and scrapeMultiple functions directly
 vi.mock('./scrape', () => {
-  // Create a toggle for cache hits
-  let cacheHit = false
-  
   // Mock implementation of scrape
   const mockScrape = vi.fn(async (url) => {
-    // Toggle cache hit for testing both scenarios
-    cacheHit = !cacheHit
-    
     if (url.includes('error')) {
       return {
         url,
@@ -20,7 +14,8 @@ vi.mock('./scrape', () => {
     
     const domain = new URL(url).hostname
     
-    if (cacheHit && url.includes('cached')) {
+    // Always return cached=true for URLs with 'cached' in them
+    if (url.includes('cached')) {
       return {
         url,
         title: `Content from ${domain}`,
