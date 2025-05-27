@@ -7,6 +7,7 @@
 - [ ] `plan` tests
 - [ ] `db` tests
 
+
 ### Backlog
 
 - [ ] `do` tests
@@ -15,6 +16,11 @@
 
 ### In Progress
 
-- [ ] `ai` tests
+
+### Assigned
+
+- [ ] `ai` tests to get passing
+- [ ] .ai/config.json should be config.mdx with yaml frontmatter
+- [ ] The default ai function if it is a called object should have `output: object`, and no other settings
 
 ### Completed ✓
