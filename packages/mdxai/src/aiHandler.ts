@@ -61,10 +61,6 @@ function stringifyValue(value: any): string {
  * Usage: await ai`Write a blog post about ${topic}`
  */
 export async function generateAiText(prompt: string): Promise<string> {
-  if (process.env.NODE_ENV === 'test') {
-    return 'This is a mock string response for testing purposes. It simulates what would be returned from the AI model in a real environment.'
-  }
-
   try {
     const result = await streamText({
       model: model('gpt-4o'),
@@ -207,11 +203,6 @@ export async function executeAiFunction(functionName: string, prompt: string): P
  * @returns A string result
  */
 async function handleStringOutput(systemPrompt: string): Promise<string> {
-  if (process.env.NODE_ENV === 'test') {
-    console.log('Using mock string output for testing')
-    return 'This is a mock string response for testing purposes. It simulates what would be returned from the AI model in a real environment.'
-  }
-
   try {
     const result = await streamText({
       model: model('gpt-4o'),
@@ -237,10 +228,6 @@ async function handleStringOutput(systemPrompt: string): Promise<string> {
  * @returns An array of strings
  */
 async function handleArrayOutput(systemPrompt: string): Promise<string[]> {
-  if (process.env.NODE_ENV === 'test') {
-    return ['Item 1', 'Item 2', 'Item 3']
-  }
-
   const listSystemPrompt = `${systemPrompt}\n\nRespond with a numbered markdown ordered list.`
 
   try {
@@ -290,26 +277,6 @@ async function handleArrayOutput(systemPrompt: string): Promise<string[]> {
  * @returns An object result
  */
 async function handleObjectOutput(systemPrompt: string, outputSchema: Record<string, any>): Promise<any> {
-  if (process.env.NODE_ENV === 'test') {
-    const mockObject: Record<string, any> = {}
-
-    for (const [key, value] of Object.entries(outputSchema)) {
-      if (typeof value === 'string') {
-        if (value.includes('|')) {
-          mockObject[key] = value.split('|')[0].trim()
-        } else {
-          mockObject[key] = `Mock ${key}`
-        }
-      } else if (Array.isArray(value)) {
-        mockObject[key] = [`Mock ${key} item 1`, `Mock ${key} item 2`]
-      } else if (typeof value === 'object') {
-        mockObject[key] = { mockNestedKey: 'Mock nested value' }
-      }
-    }
-
-    return mockObject
-  }
-
   try {
     const zodSchema = createZodSchemaFromObject(outputSchema)
 
@@ -402,14 +369,6 @@ export function inferAndValidateOutput(outputSchema: any, result: any): any {
  * Create async iterator that yields list items as they're parsed from the stream
  */
 async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, void, unknown> {
-  if (process.env.NODE_ENV === 'test') {
-    const mockItems = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']
-    for (const item of mockItems) {
-      yield item
-    }
-    return
-  }
-
   try {
     const result = await generateListStream(prompt)
     let buffer = ''
@@ -449,10 +408,6 @@ async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, 
  * Generate complete list as Promise<string[]>
  */
 async function generateCompleteList(prompt: string): Promise<string[]> {
-  if (process.env.NODE_ENV === 'test') {
-    return ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']
-  }
-
   try {
     const result = await generateListStream(prompt)
     let completeContent = ''
