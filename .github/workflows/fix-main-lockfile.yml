@@ -53,20 +53,46 @@ jobs:
             echo "corrupted=true" >> $GITHUB_OUTPUT
             echo "🔧 pnpm-lock.yaml is corrupted or has conflicts"
           fi
+          
+          # Always output the status for debugging
+          echo "Lockfile status:"
+          echo "- Missing: ${missing:-false}"
+          echo "- Valid: ${valid:-false}"
+          echo "- Corrupted: ${corrupted:-false}"
 
       - name: Regenerate corrupted lockfile
         if: steps.lockfile-check.outputs.missing == 'true' || steps.lockfile-check.outputs.corrupted == 'true'
         run: |
           echo "🔧 Regenerating pnpm-lock.yaml from scratch"
           rm -f pnpm-lock.yaml
-          pnpm install --no-frozen-lockfile --filter=!voice
+          
+          # Try to regenerate the lockfile with increased verbosity for better debugging
+          echo "Running pnpm install to regenerate lockfile..."
+          pnpm install --no-frozen-lockfile --filter=!voice || {
+            echo "::error::Failed to regenerate lockfile with standard install"
+            echo "Trying with more verbose output..."
+            pnpm install --no-frozen-lockfile --filter=!voice --loglevel=debug
+          }
+          
+          # Verify the lockfile was created successfully
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "::error::Failed to generate pnpm-lock.yaml"
+            exit 1
+          fi
           
           # Commit the fixed lockfile
-          if [ -f pnpm-lock.yaml ]; then
-            echo "✏️ Committing fixed pnpm-lock.yaml"
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add pnpm-lock.yaml
-            git commit -m "🔒 fix corrupted pnpm-lock.yaml on main branch"
-            git push
+          echo "✏️ Committing fixed pnpm-lock.yaml"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml
+          
+          # Create a more descriptive commit message
+          if [ "${{ steps.lockfile-check.outputs.missing }}" == "true" ]; then
+            git commit -m "🔒 fix: regenerate missing pnpm-lock.yaml on main branch"
+          else
+            git commit -m "🔒 fix: resolve conflicts in pnpm-lock.yaml on main branch"
           fi
+          
+          # Push changes
+          echo "Pushing changes to main branch..."
+          git push

@@ -1,0 +1,14 @@
+{
+  "videoFilePaths": [
+    "/Users/nathanclevenger/Projects/mdx/tests/.ai/cache/10bdd63c1314ad7595312f1ab2de3886e22fd5b6_1.mp4",
+    "/Users/nathanclevenger/Projects/mdx/tests/.ai/cache/10bdd63c1314ad7595312f1ab2de3886e22fd5b6_0.mp4"
+  ],
+  "prompt": "A simple animation of a bouncing ball on a white background",
+  "metadata": {
+    "model": "veo-2.0-generate-001",
+    "aspectRatio": "16:9",
+    "personGeneration": "disallow",
+    "generationTimeMs": 43225,
+    "completedAt": "2025-05-27T11:38:00.837Z"
+  }
+}
