@@ -60,7 +60,10 @@ export async function generateListStream(prompt: string): Promise<StreamTextResu
       text: Promise.resolve(mockText),
       textStream: {
         [Symbol.asyncIterator]: async function* () {
-          yield mockText;
+          for (const item of mockItems) {
+            yield item + '\n';
+            await new Promise(resolve => setTimeout(resolve, 10));
+          }
         }
       },
       response: undefined,
