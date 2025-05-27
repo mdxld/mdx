@@ -1,6 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { scrape, scrapeMultiple, ScrapedContent } from './scrape'
-import FirecrawlApp from '@mendable/firecrawl-js'
 import { createCacheMiddleware } from '../cacheMiddleware'
 
 // Mock FirecrawlApp at the top level
@@ -69,13 +68,6 @@ vi.mock('fs', async () => {
 
 const originalEnv = { ...process.env }
 
-const cacheMiddleware = createCacheMiddleware({
-  ttl: 24 * 60 * 60 * 1000, // 24 hours
-  maxSize: 100,
-  persistentCache: true,
-  memoryCache: true,
-})
-
 describe('scrape', () => {
   beforeEach(() => {
     process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
@@ -114,18 +106,18 @@ describe('scrape', () => {
   })
 
   it('should handle scraping errors gracefully', async () => {
-    // Use spyOn to temporarily replace the implementation
-    const firecrawlMock = vi.spyOn(FirecrawlApp.prototype, 'scrape')
-    firecrawlMock.mockRejectedValueOnce(new Error('Scraping failed'))
+    // Mock FirecrawlApp for this test
+    const FirecrawlApp = (await import('@mendable/firecrawl-js')).default
+    const mockScrape = vi.fn().mockRejectedValueOnce(new Error('Scraping failed'))
+    
+    // Create a spy on the prototype's scrape method
+    vi.spyOn(FirecrawlApp.prototype, 'scrape').mockImplementationOnce(mockScrape)
 
     const result = await scrape('https://example.com/error')
     
     expect(result).toBeDefined()
     expect(result.url).toBe('https://example.com/error')
     expect(result.error).toBe('Scraping failed')
-    
-    // Restore the original implementation
-    firecrawlMock.mockRestore()
   })
 })
 
@@ -170,31 +162,33 @@ describe('scrapeMultiple', () => {
       'https://example.org/3',
     ]
     
-    // Use spyOn to temporarily replace the implementation for the second URL
-    const firecrawlMock = vi.spyOn(FirecrawlApp.prototype, 'scrape')
-    firecrawlMock.mockImplementationOnce(async (url) => {
-      if (url === urls[0]) {
-        return {
-          url,
-          title: 'Content from example.com',
-          description: 'Description from example.com',
-          image: 'https://example.com/image.png',
-          markdown: '# Test Markdown\nThis is test content',
-        }
-      }
+    // Mock FirecrawlApp for this test
+    const FirecrawlApp = (await import('@mendable/firecrawl-js')).default
+    
+    // Create spies for each call
+    const mockScrape1 = vi.fn().mockResolvedValueOnce({
+      url: urls[0],
+      title: 'Content from example.com',
+      description: 'Description from example.com',
+      image: 'https://example.com/image.png',
+      markdown: '# Test Markdown\nThis is test content',
     })
     
-    firecrawlMock.mockRejectedValueOnce(new Error('Scraping failed'))
+    const mockScrape2 = vi.fn().mockRejectedValueOnce(new Error('Scraping failed'))
     
-    firecrawlMock.mockImplementationOnce(async (url) => {
-      return {
-        url,
-        title: 'Content from example.org',
-        description: 'Description from example.org',
-        image: 'https://example.org/image.png',
-        markdown: '# Test Markdown\nThis is test content from example.org',
-      }
+    const mockScrape3 = vi.fn().mockResolvedValueOnce({
+      url: urls[2],
+      title: 'Content from example.org',
+      description: 'Description from example.org',
+      image: 'https://example.org/image.png',
+      markdown: '# Test Markdown\nThis is test content from example.org',
     })
+    
+    // Create a spy on the prototype's scrape method
+    vi.spyOn(FirecrawlApp.prototype, 'scrape')
+      .mockImplementationOnce(mockScrape1)
+      .mockImplementationOnce(mockScrape2)
+      .mockImplementationOnce(mockScrape3)
     
     const results = await scrapeMultiple(urls)
     
@@ -210,9 +204,6 @@ describe('scrapeMultiple', () => {
     
     expect(results[2].url).toBe(urls[2])
     expect(results[2].title).toBe('Content from example.org')
-    
-    // Restore the original implementation
-    firecrawlMock.mockRestore()
   })
 
   it('should process URLs in parallel with concurrency limit', async () => {
