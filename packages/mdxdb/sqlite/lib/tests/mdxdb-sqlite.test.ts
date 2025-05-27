@@ -7,8 +7,10 @@ import * as ai from 'ai'
 const createClientSpy = vi.fn().mockReturnValue({})
 vi.spyOn(libsql, 'createClient').mockImplementation(() => createClientSpy())
 
-const embedSpy = vi.fn().mockResolvedValue([0.1, 0.2, 0.3])
-vi.spyOn(ai, 'embed').mockImplementation(() => embedSpy())
+vi.mock('ai', () => ({
+  ...vi.importActual('ai'),
+  embed: vi.fn().mockResolvedValue([0.1, 0.2, 0.3])
+}))
 
 describe('MdxDbSqlite', () => {
   it('should initialize with default config', () => {

@@ -1,17 +1,20 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import * as fs from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
 import { discoverSchemas, SchemaDefinition, HeadingYamlPair } from '../schema-discovery'
 
-const mockAccess = vi.fn()
-const mockReaddir = vi.fn()
-const mockReadFile = vi.fn()
-const mockMkdir = vi.fn()
-
-vi.spyOn(fs.promises, 'access').mockImplementation(mockAccess)
-vi.spyOn(fs.promises, 'readdir').mockImplementation(mockReaddir)
-vi.spyOn(fs.promises, 'readFile').mockImplementation(mockReadFile)
-vi.spyOn(fs.promises, 'mkdir').mockImplementation(mockMkdir)
+vi.mock('fs', async () => {
+  const actual = await vi.importActual('fs')
+  return {
+    ...actual,
+    promises: {
+      access: vi.fn(),
+      readdir: vi.fn(),
+      readFile: vi.fn().mockImplementation(() => Promise.resolve(Buffer.from(''))),
+      mkdir: vi.fn(),
+    }
+  }
+})
 
 describe('Schema Discovery', () => {
   const mockDbFolderPath = '/test/.db'
@@ -38,7 +41,7 @@ describe('Schema Discovery', () => {
 
     it('should discover schemas from frontmatter in MDX files', async () => {
       vi.mocked(fs.readdir).mockResolvedValueOnce(['schema.md', 'other.txt'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(`---
+      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`---
 collections:
   users:
     name: User name
@@ -51,7 +54,7 @@ collections:
 # User Schema
 
 This file defines the user schema.
-`)
+`))
 
       const result = await discoverSchemas(mockDbFolderPath)
 
@@ -73,7 +76,7 @@ This file defines the user schema.
 
     it('should discover schemas from YAML codeblocks under headings', async () => {
       vi.mocked(fs.readdir).mockResolvedValueOnce(['schema.md', 'other.txt'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(`# Product Schema
+      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Product Schema
 
 \`\`\`yaml
 name: Product name
@@ -86,7 +89,7 @@ category: Product category (electronics | clothing | food)
 ## Other Section
 
 Some other content.
-`)
+`))
 
       const result = await discoverSchemas(mockDbFolderPath)
 
@@ -108,7 +111,7 @@ Some other content.
 
     it('should handle multiple schema definitions in the same file', async () => {
       vi.mocked(fs.readdir).mockResolvedValueOnce(['schemas.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(`---
+      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`---
 collections:
   users:
     name: User name
@@ -129,7 +132,7 @@ id: Order ID
 items: Order items (array)
 total: Order total (number)
 \`\`\`
-`)
+`))
 
       const result = await discoverSchemas(mockDbFolderPath)
 
@@ -150,7 +153,7 @@ total: Order total (number)
 
     it('should handle case-insensitive type annotations', async () => {
       vi.mocked(fs.readdir).mockResolvedValueOnce(['types.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(`# Types Test
+      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Types Test
 
 \`\`\`yaml
 field1: Test field (BOOL)
@@ -158,7 +161,7 @@ field2: Test field (Number)
 field3: Test field (Boolean)
 field4: Test field (DATE)
 \`\`\`
-`)
+`))
 
       const result = await discoverSchemas(mockDbFolderPath)
 
@@ -173,13 +176,13 @@ field4: Test field (DATE)
 
     it('should handle both inline and standalone enum formats', async () => {
       vi.mocked(fs.readdir).mockResolvedValueOnce(['enums.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(`# Enum Test
+      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Enum Test
 
 \`\`\`yaml
 inlineEnum: Status description (active | inactive | pending)
 standaloneEnum: active | inactive | pending
 \`\`\`
-`)
+`))
 
       const result = await discoverSchemas(mockDbFolderPath)
 
@@ -202,12 +205,12 @@ standaloneEnum: active | inactive | pending
       const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
       vi.mocked(fs.readdir).mockResolvedValueOnce(['invalid.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(`# Invalid Schema
+      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Invalid Schema
 
 \`\`\`yaml
 invalid: yaml: :
 \`\`\`
-`)
+`))
 
       const result = await discoverSchemas(mockDbFolderPath)
 
