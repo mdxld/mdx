@@ -220,4 +220,4 @@ export const scrapeMultiple = async (
   }
 
   return results
-} 
+}        

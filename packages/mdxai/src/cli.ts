@@ -492,4 +492,113 @@ program
     }
   })
 
-program.parse(process.argv)
+program
+  .command('say <text>')
+  .description('Generate speech audio from text and play it')
+  .option('-o, --output <filepath>', 'Specify output file path for the audio')
+  .option('-v, --voice <voice>', 'Specify the voice to use', 'Kore')
+  .option('-p, --play', 'Play the audio after generating it', true)
+  .action(async (text: string, options: { output?: string; voice: string; play: boolean }) => {
+    const { json } = program.opts<{ json: boolean }>()
+    try {
+      // Ensure GEMINI_API_KEY is set
+      if (!process.env.GEMINI_API_KEY) {
+        const msg = 'GEMINI_API_KEY environment variable is not set.'
+        if (json) {
+          console.error(JSON.stringify({ status: 'error', message: msg }))
+        } else {
+          console.error(msg)
+        }
+        process.exit(1)
+      }
+
+      const { say } = await import('./aiHandler.js')
+      
+      const audioFilePath = await say`${text}`
+      
+      if (options.output) {
+        const outputPath = path.resolve(options.output)
+        fs.copyFileSync(audioFilePath, outputPath)
+        
+        if (json) {
+          console.log(JSON.stringify({ status: 'success', audioFile: outputPath }))
+        } else {
+          console.log(`Audio successfully saved to ${outputPath}`)
+        }
+      } else if (json) {
+        console.log(JSON.stringify({ status: 'success', audioFile: audioFilePath }))
+      } else {
+        console.log(`Audio successfully generated at ${audioFilePath}`)
+      }
+      
+      if (options.play) {
+        try {
+          // Check if we're on Linux
+          if (process.platform === 'linux') {
+            const { spawn } = await import('child_process')
+            const player = spawn('aplay', [audioFilePath])
+            
+            player.on('error', (err) => {
+              console.error('Failed to play audio with aplay:', err.message)
+              console.log('You can manually play the audio file at:', audioFilePath)
+            })
+            
+            await new Promise<void>((resolve) => {
+              player.on('close', () => resolve())
+            })
+          } 
+          // Check if we're on macOS
+          else if (process.platform === 'darwin') {
+            const { spawn } = await import('child_process')
+            const player = spawn('afplay', [audioFilePath])
+            
+            player.on('error', (err) => {
+              console.error('Failed to play audio with afplay:', err.message)
+              console.log('You can manually play the audio file at:', audioFilePath)
+            })
+            
+            await new Promise<void>((resolve) => {
+              player.on('close', () => resolve())
+            })
+          }
+          // Check if we're on Windows
+          else if (process.platform === 'win32') {
+            const { spawn } = await import('child_process')
+            const player = spawn('powershell', [
+              '-c',
+              `(New-Object System.Media.SoundPlayer "${audioFilePath}").PlaySync()`
+            ])
+            
+            player.on('error', (err) => {
+              console.error('Failed to play audio with PowerShell:', err.message)
+              console.log('You can manually play the audio file at:', audioFilePath)
+            })
+            
+            await new Promise<void>((resolve) => {
+              player.on('close', () => resolve())
+            })
+          }
+          else {
+            console.log('Audio playback not supported on this platform.')
+            console.log('You can manually play the audio file at:', audioFilePath)
+          }
+        } catch (error) {
+          console.error('Error playing audio:', error)
+          console.log('You can manually play the audio file at:', audioFilePath)
+        }
+      }
+    } catch (error) {
+      if (json) {
+        console.error(JSON.stringify({ status: 'error', message: String(error) }))
+      } else {
+        console.error('Error during speech generation:', error)
+      }
+      process.exit(1)
+    }
+  })
+
+export { program }
+
+if (require.main === module) {
+  program.parse(process.argv)
+}
