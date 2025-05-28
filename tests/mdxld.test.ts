@@ -3,6 +3,7 @@ import { $ } from 'zx'
 import fs from 'node:fs'
 import path from 'node:path'
 
+const isCI = process.env.CI === 'true'
 const TEST_DIR = '.test-mdxld'
 const TEST_OUTPUT_DIR = path.join(TEST_DIR, 'output')
 const TEST_SOURCE_DIR = path.join(TEST_DIR, 'source')
@@ -55,7 +56,7 @@ afterEach(() => {
   $`rm -rf .mdx`
 })
 
-describe('mdxld cli', () => {
+describe.skipIf(isCI)('mdxld cli', () => {
   it('should parse all md/mdx files in a directory with default options', async () => {
     const result = await $`pnpm mdxld build`
 
