@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { on, send, emit, clearEvents, clearEvent, eventRegistry, EmitOptions } from './event-system'
+import { on, send, emit, clearEvents, clearEvent, eventRegistry, EmitOptions, MutableEventContext } from './event-system'
 
 describe('event-system', () => {
   beforeEach(() => {
@@ -142,7 +142,7 @@ describe('event-system', () => {
 
     it('preserves initial context', async () => {
       let importantValue = null
-      const initialContext = new Map()
+      const initialContext = new MutableEventContext()
       initialContext.set('important', 'value')
 
       on('test-event', (data, context) => {

@@ -11,9 +11,13 @@ const createTestContext = (testInput = 'Test input') => {
   context.on = async (eventType, callback) => {
     if (eventType === 'idea.captured') {
       const eventContext: MutableEventContext = new Map() as any;
-      eventContext.set = function(key, value) { this.set(key, value); return this; };
-      eventContext.get = function(key) { return this.get(key); };
-      eventContext.has = function(key) { return this.has(key); };
+      const originalSet = eventContext.set.bind(eventContext);
+      const originalGet = eventContext.get.bind(eventContext);
+      const originalHas = eventContext.has.bind(eventContext);
+      
+      eventContext.set = function(key, value) { originalSet(key, value); return this; };
+      eventContext.get = function(key) { return originalGet(key); };
+      eventContext.has = function(key) { return originalHas(key); };
       eventContext.merge = function(obj) { 
         Object.entries(obj).forEach(([k, v]) => this.set(k, v));
         return this;
@@ -129,9 +133,13 @@ describe('execution-context', () => {
       await context.on('idea.captured', workflowCallback)
 
       const testContext: MutableEventContext = new Map() as any;
-      testContext.set = function(key, value) { this.set(key, value); return this; };
-      testContext.get = function(key) { return this.get(key); };
-      testContext.has = function(key) { return this.has(key); };
+      const originalTestSet = testContext.set.bind(testContext);
+      const originalTestGet = testContext.get.bind(testContext);
+      const originalTestHas = testContext.has.bind(testContext);
+      
+      testContext.set = function(key, value) { originalTestSet(key, value); return this; };
+      testContext.get = function(key) { return originalTestGet(key); };
+      testContext.has = function(key) { return originalTestHas(key); };
       testContext.merge = function(obj) { 
         Object.entries(obj).forEach(([k, v]) => this.set(k, v));
         return this;

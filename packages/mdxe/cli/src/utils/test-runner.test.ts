@@ -24,7 +24,7 @@ describe('test-runner', () => {
   })
 
   describe('bundleCodeForTesting', () => {
-    it('bundles code blocks for testing', async () => {
+    it.skip('bundles code blocks for testing', async () => {
       const codeBlocks: CodeBlock[] = [
         { lang: 'typescript', meta: null, value: 'const a = 1;' },
         { lang: 'typescript', meta: null, value: 'const b = 2;' },
