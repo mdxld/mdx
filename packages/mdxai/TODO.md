@@ -82,7 +82,7 @@ This phase focuses on ensuring `mdxai` works seamlessly within the broader `mdx*
 ## Ongoing Tasks
 
 - [ ] **Documentation:** Maintain comprehensive documentation for all features and CLI commands.
-- [ ] **Testing:** Develop a robust test suite, including unit tests, integration tests for CLI commands, and potentially tests with mock LLM interactions.
+- [ ] **Testing:** Develop a robust test suite, including unit tests and integration tests for CLI commands.
 - [ ] **Refinement:** Continuously refine prompts and AI interaction strategies for better quality results and user experience.
 
 ---

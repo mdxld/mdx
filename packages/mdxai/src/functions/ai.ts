@@ -36,7 +36,7 @@ export async function generateAiText(prompt: string): Promise<string> {
     } else if (result && result.text) {
       completeText = await result.text
     } else {
-      completeText = 'mock string response'
+      throw new Error('No valid response received from AI service')
     }
 
     return completeText

@@ -42,10 +42,6 @@ async function saveWaveFile(
  * Generate audio using Google Gemini TTS
  */
 async function generateSpeechAudio(text: string, options: { voiceName?: string; apiKey?: string } = {}): Promise<string> {
-  if (process.env.NODE_ENV === 'test') {
-    return 'mock-audio-file.wav'
-  }
-
   const apiKey = options.apiKey || process.env.GEMINI_API_KEY
   if (!apiKey) {
     throw new Error('GEMINI_API_KEY environment variable is not set')

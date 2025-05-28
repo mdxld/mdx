@@ -17,6 +17,7 @@ export const deepwiki = async (prompt: string) => {
     tools: deepwikiTools,
     toolChoice: 'required',
     prompt,
+    maxSteps: 3,
   })
 
   return result.text

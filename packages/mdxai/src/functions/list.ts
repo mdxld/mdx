@@ -49,8 +49,7 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       } else if (result && result.text) {
         completeContent = await result.text
       } else {
-        const mockItems = Array.from({ length: maxItems }, (_, i) => `${i + 1}. Item ${i + 1}`)
-        return mockItems.map((item: string) => item.replace(/^\d+\.\s*/, '').trim())
+        throw new Error('No valid response received from LLM service')
       }
       
       items = completeContent
@@ -68,8 +67,7 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       }
     } catch (error) {
       console.error('Error fetching list stream:', error)
-      const mockItems = Array.from({ length: maxItems }, (_, i) => `Item ${i + 1}`)
-      return mockItems
+      throw new Error('Failed to generate list from LLM service')
     }
 
     // Ensure we have at least maxItems items
