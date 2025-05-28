@@ -6,6 +6,7 @@ export { extract, type ExtractFunction, type ExtractResult, type ExtractType } f
 export { is } from './functions/is.js'
 export { say, type SayTemplateFn } from './functions/say.js'
 export { image, type ImageTemplateFn } from './functions/image.js'
+export { markdown, type MarkdownTemplateFn, type MarkdownResult } from './functions/markdown.js'
 export { video } from './functions/video.js'
 
 // Re-export utilities

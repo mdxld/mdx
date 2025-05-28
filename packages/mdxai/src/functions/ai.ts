@@ -1,7 +1,7 @@
 import { streamText } from 'ai'
-import { model } from '../ai.js'
-import { parseTemplate, stringifyValue, TemplateFunction } from '../utils/template.js'
-import { executeAiFunction } from '../utils/ai-execution.js'
+import { model } from '../ai'
+import { parseTemplate, stringifyValue, TemplateFunction } from '../utils/template'
+import { executeAiFunction } from '../utils/ai-execution'
 
 /**
  * Type for template literal function
@@ -23,7 +23,7 @@ export interface AiFunction extends TemplateFn {
 export async function generateAiText(prompt: string): Promise<string> {
   try {
     const result = await streamText({
-      model: model('gpt-4o'),
+      model: model('google/gemini-2.5-pro-preview'),
       prompt: prompt,
     })
 
