@@ -19,19 +19,27 @@ vi.mock('./llmService')
 vi.mock('./ui/app')
 vi.mock('./utils')
 
-vi.mocked(research.research).mockResolvedValue({
-  text: 'This is a test research response',
-  markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
-  citations: ['https://example.com/citation1'],
-  reasoning: 'This is mock reasoning',
-  scrapedCitations: [
-    {
-      url: 'https://example.com/citation1',
-      title: 'Test Citation',
-      description: 'Test Description',
-      markdown: '# Test Citation\n\nThis is test content',
-    },
-  ],
+vi.mock('./functions/research', () => {
+  const mockResearchResult = {
+    text: 'This is a test research response',
+    markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
+    citations: ['https://example.com/citation1'],
+    reasoning: 'This is mock reasoning',
+    scrapedCitations: [
+      {
+        url: 'https://example.com/citation1',
+        title: 'Test Citation',
+        description: 'Test Description',
+        markdown: '# Test Citation\n\nThis is test content',
+      },
+    ],
+  }
+
+  return {
+    research: vi.fn().mockImplementation((queryOrTemplate, ...values) => {
+      return Promise.resolve(mockResearchResult)
+    })
+  }
 })
 
 vi.mocked(llmService.generateResearchStream).mockResolvedValue({

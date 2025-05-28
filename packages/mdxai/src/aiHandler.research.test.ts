@@ -123,7 +123,7 @@ describe('research template literal', () => {
 
   it('should throw an error when not called as a template literal', () => {
     // @ts-ignore - Testing incorrect usage
-    expect(() => research('not a template literal')).toThrow('Research function must be called as a template literal')
+    expect(() => research('not a template literal')).toThrow('Research function must be called with a string or as a template literal')
   })
 
   it('should stringify arrays to YAML format', async () => {
