@@ -49,7 +49,11 @@ export async function render(mdxContent: string, options: RenderOptions = {}): P
       jsxImportSource: 'react',
       remarkPlugins: [remarkGfm],
       rehypePlugins: [],
-      development: process.env.NODE_ENV !== 'production'
+      development: process.env.NODE_ENV !== 'production',
+      format: 'mdx',
+      recmaPlugins: [],
+      mdExtensions: ['.md', '.mdx'],
+      elementAttributeNameCase: 'html'
     })
 
     const { default: Component } = await evaluate(compiled, {
