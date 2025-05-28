@@ -6,7 +6,7 @@ export const code: TemplateFunction<Promise<string>> = async (template: Template
   const requirements = parseTemplate(template, values)
 
   const result = await generateText({
-    model: model('anthropic/claude-opus-4'),
+    model: model('openai/gpt-4o'),
     system: `You are a senior software engineer. Respond only in TypeScript with JSDoc comments. Single quotes, no semicolons.`,
     prompt: `Code ${requirements}`,
   })
