@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { ai, executeAiFunction, inferAndValidateOutput, list } from './aiHandler'
 import fs from 'fs'
-import matter from 'gray-matter'
+import * as matterModule from 'gray-matter'
 import * as aiModule from 'ai'
 import * as YAML from 'yaml'
 
@@ -33,7 +33,7 @@ describe('AI Handler', () => {
     vi.spyOn(fs, 'existsSync').mockReturnValue(true)
     vi.spyOn(fs, 'readdirSync').mockReturnValue([])
     
-    vi.spyOn(matter as any, 'default').mockImplementation(() => createGrayMatterFile(frontmatter, systemPrompt))
+    vi.spyOn(matterModule, 'default').mockImplementation(() => createGrayMatterFile(frontmatter, systemPrompt))
   })
 
   afterEach(() => {
@@ -216,7 +216,7 @@ describe('AI Handler e2e', () => {
     vi.clearAllMocks()
     
     vi.spyOn(fs, 'readFileSync').mockReturnValue('file content')
-    vi.spyOn(matter as any, 'default').mockImplementation(() => 
+    vi.spyOn(matterModule, 'default').mockImplementation(() => 
       createGrayMatterFile({ output: 'string' }, 'You are a helpful assistant. ${prompt}')
     )
   })

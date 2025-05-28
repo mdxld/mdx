@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { research } from './aiHandler'
 import fs from 'fs'
-import matter from 'gray-matter'
+import * as matterModule from 'gray-matter'
 import yaml from 'yaml'
 import * as aiModule from 'ai'
 
@@ -27,7 +27,7 @@ describe('research template literal', () => {
     vi.spyOn(fs, 'readFileSync').mockReturnValue('file content')
     vi.spyOn(fs, 'existsSync').mockReturnValue(true)
     
-    vi.spyOn(matter as any, 'default').mockImplementation(() => 
+    vi.spyOn(matterModule, 'default').mockImplementation(() => 
       createGrayMatterFile({ output: 'string' }, 'You are a research assistant. ${prompt}')
     )
   })
