@@ -141,3 +141,71 @@ export const plan: TemplateFunction<Promise<PlanResult>> = async (template: Temp
     markdown
   }
 }
+
+/**
+ * Serializes a single task item to markdown format
+ * @param task - The task item to serialize
+ * @param indentLevel - The indentation level (0 = no indent, 1 = 2 spaces, etc.)
+ * @returns Markdown string representation of the task
+ */
+export const serializeTaskItem = (task: TaskItem, indentLevel: number = 0): string => {
+  const indent = '  '.repeat(indentLevel)
+  const checkbox = task.checked ? '[x]' : '[ ]'
+  let result = `${indent}- ${checkbox} ${task.text}\n`
+  
+  if (task.subtasks && task.subtasks.length > 0) {
+    for (const subtask of task.subtasks) {
+      result += serializeTaskItem(subtask, indentLevel + 1)
+    }
+  }
+  
+  return result
+}
+
+/**
+ * Serializes a task list to markdown format
+ * @param taskList - The task list to serialize
+ * @returns Markdown string representation of the task list
+ */
+export const serializeTaskList = (taskList: TaskList): string => {
+  let result = ''
+  
+  if (taskList.heading) {
+    result += `# ${taskList.heading}\n`
+  }
+  
+  for (const task of taskList.tasks) {
+    result += serializeTaskItem(task)
+  }
+  
+  return result
+}
+
+/**
+ * Serializes an array of task lists to complete markdown format
+ * @param taskLists - Array of task lists to serialize
+ * @returns Complete markdown string with all task lists
+ */
+export const serializeTaskLists = (taskLists: TaskList[]): string => {
+  let result = ''
+  
+  for (let i = 0; i < taskLists.length; i++) {
+    result += serializeTaskList(taskLists[i])
+    
+    // Add spacing between sections (except after the last one)
+    if (i < taskLists.length - 1) {
+      result += '\n'
+    }
+  }
+  
+  return result
+}
+
+/**
+ * Serializes a PlanResult back to markdown format
+ * @param planResult - The plan result to serialize
+ * @returns Markdown string representation
+ */
+export const serializePlanResult = (planResult: PlanResult): string => {
+  return serializeTaskLists(planResult.tasks)
+}

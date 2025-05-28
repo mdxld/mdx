@@ -16,6 +16,17 @@ export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput
 export { extract, ExtractFunction, ExtractType, ExtractOptions } from './functions/extract.js'
 export { video, VideoConfig, VideoResult } from './functions/video.js'
 export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
+export { 
+  plan, 
+  parseTaskLists, 
+  serializeTaskItem, 
+  serializeTaskList, 
+  serializeTaskLists, 
+  serializePlanResult,
+  TaskItem, 
+  TaskList, 
+  PlanResult 
+} from './functions/plan.js'
 
 export {
   createAiFolderStructure,
