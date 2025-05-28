@@ -23,6 +23,7 @@ describe('scrape e2e', () => {
     if (result1.error) {
       // If there's an error (like insufficient credits), just verify error handling works
       expect(result1.error).toBeDefined()
+      // expect(result1.html).toBeUndefined()
       expect(result1.markdown).toBeUndefined()
     } else {
       // If successful, verify content properties exist (might be empty due to API limitations)
@@ -50,7 +51,7 @@ describe('scrape e2e', () => {
     const progressCalls: Array<{ index: number; url: string; cached: boolean }> = []
     
     // First batch - might be cached from previous tests
-    const results1 = await scrapeMultiple(urls, (index, url, result) => {
+    const results1 = await scrapeMultiple(urls, (index: number, url: string, result: any) => {
       progressCalls.push({ index, url, cached: result.cached || false })
     })
 
@@ -62,7 +63,7 @@ describe('scrape e2e', () => {
     progressCalls.length = 0
     
     // Second batch - should return cached content
-    const results2 = await scrapeMultiple(urls, (index, url, result) => {
+    const results2 = await scrapeMultiple(urls, (index: number, url: string, result: any) => {
       progressCalls.push({ index, url, cached: result.cached || false })
     })
 
@@ -94,7 +95,10 @@ describe('scrape e2e', () => {
     if (result.error) {
       expect(cacheContent).toContain('error:')
     } else {
-      // If no error, the API returned content (which might be empty but valid)
+      // else if (result.html) {
+      //   expect(cacheContent).toContain('html:')
+      // } else {
+      // If no error and no html, the API returned empty content (which is valid)
       expect(cacheContent).toContain('url:')
       expect(cacheContent).toContain('cachedAt:')
     }
@@ -118,6 +122,7 @@ describe('scrape e2e', () => {
     expect(result.url).toBe(url)
     expect(result.error).toBeDefined()
     // Don't check cached status since errors can also be cached
+    // expect(result.html).toBeUndefined()
     // Markdown might be empty string or undefined for errors
     expect(result.markdown === undefined || result.markdown === '').toBe(true)
   }, 30000)
@@ -177,4 +182,4 @@ describe('scrape e2e', () => {
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
   }, 90000)
-}, 300000) // 5 minute timeout for the entire suite      
+}, 300000) // 5 minute timeout for the entire suite
