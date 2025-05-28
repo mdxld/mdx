@@ -12,7 +12,8 @@ tags: ["mdx", "test"]
 
 # Hello World
 
-This is a test.`
+This is a test.
+`
 
     const result = await render(mdxContent)
 
@@ -27,7 +28,8 @@ This is a test.`
   it('should handle MDX content without frontmatter', async () => {
     const mdxContent = `# Hello World
 
-Plain text only.`
+Plain text only.
+`
 
     const result = await render(mdxContent)
 
@@ -41,7 +43,7 @@ Plain text only.`
       # Hello World
       
       This is a simple paragraph.
-    `
+    ` + '\n'  // Add trailing newline for MDX v3 compatibility
 
     const customComponents = {
       h1: (props) => React.createElement('h1', props, props.children),
@@ -65,7 +67,7 @@ Plain text only.`
     const mdxContent = dedent`
       # Invalid MDX
       
-      <Component with syntax error
+      <Component with syntax error />
     `
 
     await expect(render(mdxContent)).rejects.toThrow()
