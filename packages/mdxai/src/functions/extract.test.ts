@@ -38,11 +38,14 @@ const mockStreamObject = vi.fn().mockResolvedValue({
 vi.spyOn(aiModule, 'streamText').mockImplementation((...args) => mockStreamText(...args))
 vi.spyOn(aiModule, 'streamObject').mockImplementation((...args) => mockStreamObject(...args))
 
-describe('extract function (mocked)', () => {
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.OPENAI_API_KEY || process.env.AI_GATEWAY_TOKEN
+
+describe.skipIf(isCI || !hasApiKey)('extract function', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'test'
+    process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
   })
 

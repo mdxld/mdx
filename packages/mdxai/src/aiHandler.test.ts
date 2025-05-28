@@ -112,7 +112,10 @@ function createMockGrayMatterFile(data: Record<string, any>, content: string): M
   }
 }
 
-describe('AI Handler', () => {
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.OPENAI_API_KEY || process.env.AI_GATEWAY_TOKEN
+
+describe.skipIf(isCI || !hasApiKey)('AI Handler', () => {
   const originalEnv = { ...process.env }
   const mockSystemPrompt = 'You are a helpful assistant. ${prompt}'
   const mockFrontmatter = {
@@ -120,7 +123,7 @@ describe('AI Handler', () => {
   }
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'test'
+    process.env.NODE_ENV = 'development'
     process.env.USE_CACHE = 'true' // Enable caching for tests
     vi.clearAllMocks()
     
@@ -271,15 +274,10 @@ describe('AI Handler', () => {
   })
 })
 
-describe('AI Handler e2e', () => {
+describe.skipIf(isCI || !hasApiKey)('AI Handler e2e', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
-    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-      console.log('Skipping AI Handler e2e test: OPENAI_API_KEY or AI_GATEWAY_TOKEN not set')
-      return
-    }
-    
     process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
     
@@ -337,7 +335,7 @@ describe('AI Handler e2e', () => {
   }, 30000)
 })
 
-describe('extract function integration', () => {
+describe.skipIf(isCI || !hasApiKey)('extract function integration', () => {
   it('should be available as import from aiHandler', async () => {
     const { extract } = await import('./functions/extract')
 

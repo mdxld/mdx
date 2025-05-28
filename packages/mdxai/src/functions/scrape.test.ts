@@ -345,16 +345,14 @@ This is test markdown content.`
   })
 })
 
-describe('scrape e2e', () => {
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.FIRECRAWL_API_KEY
+
+describe.skipIf(isCI || !hasApiKey)('scrape e2e', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.doUnmock('@mendable/firecrawl-js')
     process.env.NODE_ENV = 'development'
-    
-    if (!process.env.FIRECRAWL_API_KEY) {
-      console.log('Skipping scrape e2e test: FIRECRAWL_API_KEY not set')
-      return
-    }
   })
 
   it.skip('should scrape a real URL and cache the result', async () => {

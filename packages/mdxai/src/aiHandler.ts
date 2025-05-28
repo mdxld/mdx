@@ -68,11 +68,6 @@ function stringifyValue(value: any): string {
  * Usage: await ai`Write a blog post about ${topic}`
  */
 export async function generateAiText(prompt: string): Promise<string> {
-  // For test environment, return mock response
-  if (process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-    return 'mock string response'
-  }
-  
   try {
     const result = await streamText({
       model: model('gpt-4o'),
@@ -289,26 +284,6 @@ async function handleArrayOutput(systemPrompt: string): Promise<string[]> {
  * @returns An object result
  */
 async function handleObjectOutput(systemPrompt: string, outputSchema: Record<string, any>): Promise<any> {
-  if (process.env.NODE_ENV === 'test') {
-    console.log('Using mock object output for testing')
-    const mockObject: Record<string, any> = {}
-
-    for (const [key, value] of Object.entries(outputSchema)) {
-      if (typeof value === 'string') {
-        if (value.includes('|')) {
-          mockObject[key] = value.split('|')[0].trim()
-        } else {
-          mockObject[key] = `Mock ${key}`
-        }
-      } else if (Array.isArray(value)) {
-        mockObject[key] = [`Mock ${key} item 1`, `Mock ${key} item 2`]
-      } else if (typeof value === 'object') {
-        mockObject[key] = { mockNestedKey: 'Mock nested value' }
-      }
-    }
-
-    return mockObject
-  }
   try {
     const zodSchema = createZodSchemaFromObject(outputSchema)
 
@@ -423,12 +398,6 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
   try {
     const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
     
-    // For test environment, directly return the requested number of items
-    if (process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-      const mockItems = Array.from({ length: maxItems }, (_, i) => `Item ${i + 1}`)
-      return mockItems
-    }
-    
     const result = await generateListStream(prompt)
     let completeContent = ''
 
@@ -490,33 +459,6 @@ export const list = new Proxy(function () {}, {
       const prompt = String.raw({ raw: template }, ...expressions)
       
       const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
-
-      // For test environment, directly return a function that returns exactly 3 items for tests
-      if (process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-        const mockItems = ['Item 1', 'Item 2', 'Item 3']
-        
-        const testListFunction: any = async () => mockItems
-        
-        testListFunction.then = (resolve: any) => {
-          return Promise.resolve(mockItems).then(resolve)
-        }
-        
-        testListFunction.catch = (reject: any) => {
-          return Promise.resolve(mockItems).catch(reject)
-        }
-        
-        testListFunction.finally = (callback: any) => {
-          return Promise.resolve(mockItems).finally(callback)
-        }
-        
-        testListFunction[Symbol.asyncIterator] = async function* () {
-          for (const item of mockItems) {
-            yield item
-          }
-        }
-        
-        return testListFunction
-      }
 
       const listFunction: any = async () => {
         const allItems = await generateCompleteList(prompt)
@@ -670,10 +612,6 @@ async function saveWaveFile(
  * Generate audio using Google Gemini TTS
  */
 async function generateSpeechAudio(text: string, options: { voiceName?: string; apiKey?: string } = {}): Promise<string> {
-  if (process.env.NODE_ENV === 'test') {
-    return 'mock-audio-file.wav'
-  }
-
   const apiKey = options.apiKey || process.env.GEMINI_API_KEY
   if (!apiKey) {
     throw new Error('GEMINI_API_KEY environment variable is not set')

@@ -1,12 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { say } from './aiHandler'
 
-describe('say template function', () => {
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.GEMINI_API_KEY
+
+describe.skipIf(isCI || !hasApiKey)('say template function', () => {
   const originalEnv = { ...process.env }
   
   beforeEach(() => {
-    process.env.NODE_ENV = 'test'
-    process.env.GEMINI_API_KEY = 'test-api-key'
+    process.env.NODE_ENV = 'development'
     process.env.USE_CACHE = 'true'
   })
   
