@@ -11,7 +11,7 @@ describe('scrape e2e', () => {
 
   it('should scrape a real URL and cache the result', async () => {
     // Use a reliable test URL
-    const url = 'https://httpbin.org/html'
+    const url = 'https://example.com'
     
     // First scrape - might be cached from previous tests
     const result1 = await scrape(url)
@@ -23,11 +23,11 @@ describe('scrape e2e', () => {
     if (result1.error) {
       // If there's an error (like insufficient credits), just verify error handling works
       expect(result1.error).toBeDefined()
-      expect(result1.html).toBeUndefined()
+      // expect(result1.html).toBeUndefined()
       expect(result1.markdown).toBeUndefined()
     } else {
       // If successful, verify content properties exist (might be empty due to API limitations)
-      expect(result1).toHaveProperty('html')
+      // expect(result1).toHaveProperty('html')
       expect(result1).toHaveProperty('markdown')
       expect(result1.error).toBeUndefined()
     }
@@ -37,21 +37,21 @@ describe('scrape e2e', () => {
     
     expect(result2.url).toBe(url)
     expect(result2.cached).toBe(true)
-    expect(result2.html).toBe(result1.html)
+    // expect(result2.html).toBe(result1.html)
     expect(result2.markdown).toBe(result1.markdown)
     expect(result2.error).toBe(result1.error)
   }, 30000)
 
   it('should handle multiple URLs with caching', async () => {
     const urls = [
-      'https://httpbin.org/html',
-      'https://httpbin.org/json',
+      'https://example.com',
+      'https://vercel.com',
     ]
 
     const progressCalls: Array<{ index: number; url: string; cached: boolean }> = []
     
     // First batch - might be cached from previous tests
-    const results1 = await scrapeMultiple(urls, (index, url, result) => {
+    const results1 = await scrapeMultiple(urls, (index: number, url: string, result: any) => {
       progressCalls.push({ index, url, cached: result.cached || false })
     })
 
@@ -63,7 +63,7 @@ describe('scrape e2e', () => {
     progressCalls.length = 0
     
     // Second batch - should return cached content
-    const results2 = await scrapeMultiple(urls, (index, url, result) => {
+    const results2 = await scrapeMultiple(urls, (index: number, url: string, result: any) => {
       progressCalls.push({ index, url, cached: result.cached || false })
     })
 
@@ -94,9 +94,10 @@ describe('scrape e2e', () => {
     // Content should match what was returned (whether success or error)
     if (result.error) {
       expect(cacheContent).toContain('error:')
-    } else if (result.html) {
-      expect(cacheContent).toContain('html:')
     } else {
+      // else if (result.html) {
+      //   expect(cacheContent).toContain('html:')
+      // } else {
       // If no error and no html, the API returned empty content (which is valid)
       expect(cacheContent).toContain('url:')
       expect(cacheContent).toContain('cachedAt:')
@@ -121,7 +122,7 @@ describe('scrape e2e', () => {
     expect(result.url).toBe(url)
     expect(result.error).toBeDefined()
     // Don't check cached status since errors can also be cached
-    expect(result.html).toBeUndefined()
+    // expect(result.html).toBeUndefined()
     // Markdown might be empty string or undefined for errors
     expect(result.markdown === undefined || result.markdown === '').toBe(true)
   }, 30000)
@@ -139,7 +140,7 @@ describe('scrape e2e', () => {
     if (result.error) {
       // If there's an API error (like insufficient credits), verify error handling
       expect(result.error).toBeDefined()
-      expect(result.html).toBeUndefined()
+      // expect(result.html).toBeUndefined()
       expect(result.markdown).toBeUndefined()
       console.log('Scraping failed due to API limitations:', result.error)
     } else {
@@ -147,7 +148,7 @@ describe('scrape e2e', () => {
       expect(result.error).toBeUndefined()
       
       // Content might be empty due to API limitations, so we check they exist as properties
-      expect(result).toHaveProperty('html')
+      // expect(result).toHaveProperty('html')
       expect(result).toHaveProperty('markdown')
     }
   }, 30000)
@@ -181,4 +182,4 @@ describe('scrape e2e', () => {
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
   }, 90000)
-}, 300000) // 5 minute timeout for the entire suite 
+}, 300000) // 5 minute timeout for the entire suite

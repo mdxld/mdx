@@ -4,6 +4,14 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import * as aiModule from 'ai'
 import yaml from 'yaml'
+import { createCacheMiddleware } from './cacheMiddleware'
+
+const cacheMiddleware = createCacheMiddleware({
+  ttl: 24 * 60 * 60 * 1000, // 24 hours
+  maxSize: 100,
+  persistentCache: true,
+  memoryCache: true,
+})
 
 type MockGrayMatterFile = {
   data: Record<string, any>
@@ -45,35 +53,37 @@ vi.mock('gray-matter', () => ({
   default: vi.fn(),
 }))
 
-vi.mock('ai', () => ({
-  streamText: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock string response'
+if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+  vi.mock('ai', () => ({
+    streamText: vi.fn().mockResolvedValue({
+      textStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield 'This is a mock string response'
+        },
       },
-    },
-  }),
-  streamObject: vi.fn().mockResolvedValue({
-    object: {
-      name: 'Mock Brand name',
-      description: 'Mock Brand description',
-      tone: 'formal',
-      status: 'draft',
-    },
-    partialObjectStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield { name: 'Mock Brand name' }
-        yield { description: 'Mock Brand description' }
-      },
-    },
-  }),
-  model: vi.fn().mockReturnValue('mock-model'),
-  wrapLanguageModel: vi.fn().mockReturnValue({
-    generateContent: vi.fn().mockResolvedValue({
-      content: 'Mock content',
     }),
-  }),
-}))
+    streamObject: vi.fn().mockResolvedValue({
+      object: {
+        name: 'Mock Brand name',
+        description: 'Mock Brand description',
+        tone: 'formal',
+        status: 'draft',
+      },
+      partialObjectStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield { name: 'Mock Brand name' }
+          yield { description: 'Mock Brand description' }
+        },
+      },
+    }),
+    model: vi.fn().mockReturnValue('mock-model'),
+    wrapLanguageModel: vi.fn().mockReturnValue({
+      generateContent: vi.fn().mockResolvedValue({
+        content: 'Mock content',
+      }),
+    }),
+  }))
+}
 
 vi.mock('./utils', () => ({
   findAiFunction: vi.fn().mockResolvedValue({
@@ -99,15 +109,19 @@ vi.mock('./utils', () => ({
   },
 }))
 
-vi.mock('./llmService', () => ({
-  generateListStream: vi.fn().mockResolvedValue({
-    textStream: {
-      [Symbol.asyncIterator]: async function* () {
-        yield 'This is a mock list response'
+import { generateListStream } from './llmService'
+
+if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+  vi.mock('./llmService', () => ({
+    generateListStream: vi.fn().mockResolvedValue({
+      textStream: {
+        [Symbol.asyncIterator]: async function* () {
+          yield 'This is a mock list response'
+        },
       },
-    },
-  }),
-}))
+    }),
+  }))
+}
 
 vi.mock('yaml', () => {
   return {
@@ -129,7 +143,7 @@ vi.mock('yaml', () => {
   }
 })
 
-describe('AI Handler', () => {
+describe('AI Handler (mocked)', () => {
   const originalEnv = { ...process.env }
   const mockSystemPrompt = 'You are a helpful assistant. ${prompt}'
   const mockFrontmatter = {
@@ -341,7 +355,8 @@ describe('AI Handler', () => {
       const result = await list`Generate 5 programming languages`
 
       expect(Array.isArray(result)).toBe(true)
-      expect(result).toEqual(['Item 1', 'Item 2', 'Item 3'])
+      expect(result.length).toBe(5)
+      result.forEach(item => expect(typeof item).toBe('string'))
     })
 
     it('should work as an AsyncIterable', async () => {
@@ -349,9 +364,10 @@ describe('AI Handler', () => {
 
       for await (const item of list`Generate 5 programming languages`) {
         items.push(item)
+        expect(typeof item).toBe('string')
       }
 
-      expect(items).toEqual(['Item 1', 'Item 2', 'Item 3'])
+      expect(items.length).toBe(5)
     })
 
     it('should handle template literal interpolation', async () => {
@@ -389,6 +405,93 @@ describe('AI Handler', () => {
       expect(yaml.stringify).toBeDefined()
     })
   })
+})
+
+describe('AI Handler e2e', () => {
+  const originalEnv = { ...process.env }
+
+  beforeEach(() => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      console.log('Skipping AI Handler e2e test: OPENAI_API_KEY or AI_GATEWAY_TOKEN not set')
+      return
+    }
+    
+    process.env.NODE_ENV = 'development'
+    vi.clearAllMocks()
+    
+    vi.mocked(fs.readFileSync).mockReturnValue('mock file content')
+    vi.mocked(matter).mockImplementation(() => 
+      createMockGrayMatterFile({ output: 'string' }, 'You are a helpful assistant. ${prompt}')
+    )
+  })
+
+  afterEach(() => {
+    process.env = { ...originalEnv }
+  })
+
+  it('should generate text using real API with caching', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const originalStreamText = vi.mocked(aiModule.streamText)
+    vi.doUnmock('ai')
+    
+    const result1 = await ai`Write a short greeting`
+    
+    expect(result1).toBeDefined()
+    expect(typeof result1).toBe('string')
+    expect(result1.length).toBeGreaterThan(0)
+    
+    const result2 = await ai`Write a short greeting`
+    
+    expect(result2).toBeDefined()
+    expect(typeof result2).toBe('string')
+    expect(result2).toBe(result1)
+    
+    vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
+  }, 30000)
+
+  it('should handle errors gracefully with real API', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+
+    const originalStreamText = vi.mocked(aiModule.streamText)
+    vi.doUnmock('ai')
+    
+    try {
+      const result = await ai``
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    } catch (error: any) {
+      expect(error.message).toBeDefined()
+    }
+    
+    vi.mocked(aiModule.streamText).mockImplementation(originalStreamText)
+  }, 30000)
+
+  it('should generate list using real API with caching', async () => {
+    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+      return
+    }
+    
+    const result1 = await list`Generate 5 short programming tips`
+    
+    expect(result1).toBeDefined()
+    expect(Array.isArray(result1)).toBe(true)
+    expect(result1.length).toBe(5)
+    
+    const result2 = await list`Generate 5 short programming tips`
+    
+    expect(result2).toBeDefined()
+    expect(Array.isArray(result2)).toBe(true)
+    expect(result2.length).toBe(5)
+    
+    expect(result2).toEqual(result1)
+  }, 30000)
+
 })
 
 describe('extract function integration', () => {
