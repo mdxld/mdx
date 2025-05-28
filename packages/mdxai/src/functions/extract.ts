@@ -26,10 +26,6 @@ export interface ExtractResult extends Promise<any> {
 async function extractData(prompt: string, options: ExtractOptions = {}): Promise<any> {
   const { type = 'auto', schema, cache = true } = options
 
-  if (process.env.NODE_ENV === 'test') {
-    return generateMockExtractResult(type, schema)
-  }
-
   try {
     if (schema) {
       return await extractWithSchema(prompt, schema)
@@ -195,50 +191,6 @@ function parseListFromText(text: string): string[] {
   return items.filter((item) => item.length > 0)
 }
 
-/**
- * Generate mock results for testing
- */
-function generateMockExtractResult(type: ExtractType, schema?: Record<string, any>): any {
-  if (process.env.NODE_ENV === 'test' && !schema && type === 'auto' && 
-      new Error().stack?.includes('aiHandler.test.ts')) {
-    return 'mock string response'
-  }
-  
-  if (schema) {
-    if (schema.name === 'string' && schema.price === 'number' && schema.features === 'array') {
-      return {
-        name: 'Test Product',
-        price: 99.99,
-        features: ['Feature 1', 'Feature 2'],
-      }
-    }
-
-    const mockObject: Record<string, any> = {}
-    for (const [key, value] of Object.entries(schema)) {
-      if (typeof value === 'string') {
-        mockObject[key] = `Mock ${key}`
-      } else if (Array.isArray(value)) {
-        mockObject[key] = [`Mock ${key} item`]
-      } else {
-        mockObject[key] = `Mock ${key}`
-      }
-    }
-    return mockObject
-  }
-
-  switch (type) {
-    case 'entity':
-      return ['John Doe', 'Microsoft', 'New York']
-    case 'date':
-      return ['2024-01-01', 'January 15th']
-    case 'number':
-      return ['42', '3.14', '$1,000']
-    case 'object':
-      return [{ name: 'Mock Object', value: 'Mock Value' }]
-    default:
-      return ['John Doe', 'Microsoft', 'New York'] // Default to entity extraction for tests
-  }
-}
 
 /**
  * Create extract result with chaining methods
