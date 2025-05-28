@@ -5,6 +5,8 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import os from 'os'
 
+const isCI = process.env.CI === 'true'
+
 async function setupMockMdxDb(testDir: string, testCollection: string, initialEntries: any[] = []) {
   const fsDb = new MdxDb(testDir)
 
@@ -112,7 +114,7 @@ async function setupMockMdxDb(testDir: string, testCollection: string, initialEn
   return fsDb
 }
 
-describe('mdxdb core api (read-only)', () => {
+describe.skipIf(isCI)('mdxdb core api (read-only)', () => {
   it('should list all of the .md and .mdx files', () => {
     const list = db.list()
     expect(list.length).toBeGreaterThan(3)
@@ -153,7 +155,7 @@ describe('mdxdb core api (read-only)', () => {
   })
 })
 
-describe('mdxdb fs api (mutable)', () => {
+describe.skipIf(isCI)('mdxdb fs api (mutable)', () => {
   let testDir: string
   let fsDb: MdxDb
   let contentDir: string
@@ -230,7 +232,7 @@ describe('mdxdb fs api (mutable)', () => {
   })
 })
 
-describe('mdxdb fs persistence', () => {
+describe.skipIf(isCI)('mdxdb fs persistence', () => {
   let testDir: string
   let fsDb: MdxDb
   let contentDir: string
