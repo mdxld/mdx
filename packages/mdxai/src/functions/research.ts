@@ -12,6 +12,9 @@ import { parseTemplate } from '../utils/template.js'
  */
 export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
 
+
+const queue = new QueueManager(25) // Process 25 citations at a time
+
 /**
  * Core research function that takes a query string and returns research results
  */
@@ -26,7 +29,6 @@ async function researchCore(query: string) {
   const citations = body.citations || []
   const reasoning = body.choices?.[0]?.message?.reasoning || ''
 
-  const queue = new QueueManager(5) // Process 5 citations at a time
 
   const scrapedCitations: ScrapedContent[] = await Promise.all(
     citations.map(async (url: string, index: number) => {
@@ -89,13 +91,13 @@ async function researchCore(query: string) {
       summary += `\n\n![${citation.title || 'Citation image'}](${citation.image})`
     }
 
-    markdown +=
-      dedent`
-      <details id="${citationNumber}">
-        <summary>${citation.title ? `**${citation.title}**` : citation.url}${citation.description ? `\n\n${citation.description}` : ''}</summary>
-        ${citation.error ? `Error: ${citation.error}` : citation.markdown || 'No content available'}
-      </details>
-    ` + '\n\n'
+    // markdown +=
+    //   dedent`
+    //   <details id="${citationNumber}">
+    //     <summary>${citation.title ? `**${citation.title}**` : citation.url}${citation.description ? `\n\n${citation.description}` : ''}</summary>
+    //     ${citation.error ? `Error: ${citation.error}` : citation.markdown || 'No content available'}
+    //   </details>
+    // ` + '\n\n'
   })
 
   if (reasoning) {
