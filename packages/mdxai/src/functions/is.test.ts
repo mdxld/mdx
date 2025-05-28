@@ -2,6 +2,19 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { is } from './is'
 import * as aiModule from 'ai'
 
+vi.mock('ai', () => {
+  return {
+    generateObject: vi.fn().mockImplementation(({ prompt }) => {
+      const isTrue = prompt.includes('2 + 2 = 4')
+      return Promise.resolve({
+        object: {
+          answer: isTrue
+        }
+      })
+    }),
+    model: vi.fn().mockReturnValue('mock-model')
+  }
+})
 
 describe('is', () => {
   beforeEach(() => {
@@ -13,26 +26,12 @@ describe('is', () => {
   })
 
   it('should return true if the question is true', async () => {
-    try {
-      const result = await is`2 + 2 = 4?`
-      expect(typeof result).toBe('boolean')
-      if (result !== undefined) {
-        expect(result).toBe(true)
-      }
-    } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
-    }
+    const result = await is`2 + 2 = 4?`
+    expect(result).toBe(true)
   })
 
   it('should return false if the question is false', async () => {
-    try {
-      const result = await is`TypeScript from Google?`
-      expect(typeof result).toBe('boolean')
-      if (result !== undefined) {
-        expect(result).toBe(false)
-      }
-    } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
-    }
+    const result = await is`TypeScript from Google?`
+    expect(result).toBe(false)
   })
 })
