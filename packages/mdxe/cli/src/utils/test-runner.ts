@@ -110,6 +110,7 @@ export async function runTestsWithVitest(
     const success = !output.includes('FAIL') && !output.includes('ERR_')
     
     return { success, output, skipped }
+
   } catch (error: any) {
     await cleanupTempFiles()
     

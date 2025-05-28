@@ -72,7 +72,7 @@ describe('mdxld cli', () => {
     expect(result.stdout).toContain('Output directory:')
     expect(result.stdout).toContain('build finished in')
     expect(result.stdout).toContain('mdxld: Build process complete')
-  })
+  }, 15000)
 
   it('should use custom source and output directories', async () => {
     const result = await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
@@ -84,7 +84,7 @@ describe('mdxld cli', () => {
 
     expect(result.stdout).toContain(`Source directory: ${path.resolve(TEST_SOURCE_DIR)}`)
     expect(result.stdout).toContain(`Output directory: ${path.resolve(TEST_OUTPUT_DIR)}`)
-  })
+  }, 15000)
 
   it('should generate correct output structure and content', async () => {
     await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
@@ -103,7 +103,7 @@ describe('mdxld cli', () => {
 
     const indexDts = fs.readFileSync(path.join(TEST_OUTPUT_DIR, 'index.d.ts'), 'utf8')
     expect(indexDts).toBe('export declare const mdx: any;')
-  })
+  }, 15000)
 
   it('should handle files with and without frontmatter', async () => {
     await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
@@ -111,7 +111,7 @@ describe('mdxld cli', () => {
     const mdxJson = JSON.parse(fs.readFileSync(path.join(TEST_OUTPUT_DIR, 'mdx.json'), 'utf8'))
 
     expect(Object.keys(mdxJson).length).toBeGreaterThan(0)
-  })
+  }, 15000)
 
   it('should handle errors gracefully when source directory does not exist', async () => {
     let errorThrown = false

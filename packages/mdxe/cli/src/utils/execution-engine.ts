@@ -8,6 +8,8 @@ import { createExecutionContext, ExecutionContextType } from './execution-contex
 import type { CodeBlock } from './mdx-parser'
 import { extractExecutionContext } from './mdx-parser'
 
+const sharedBlockState = new Map<string, Map<string, any>>()
+
 export interface CapturedOutput {
   type: 'log' | 'error' | 'warn' | 'info'
   args: any[]
@@ -26,6 +28,7 @@ export interface ExecutionOptions {
   context?: Record<string, any>
   timeout?: number
   executionContext?: ExecutionContextType
+  fileId?: string
 }
 
 /**
@@ -70,6 +73,12 @@ function captureConsoleOutputs(fn: () => Promise<any>): Promise<{ result: any; o
 export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionOptions = {}): Promise<ExecutionResult> {
   const startTime = Date.now()
   const originalEnv = { ...process.env }
+  const fileId = options.fileId || 'default'
+  
+  if (!sharedBlockState.has(fileId)) {
+    sharedBlockState.set(fileId, new Map())
+  }
+  const fileState = sharedBlockState.get(fileId)!
 
   try {
     // Only execute TypeScript/JavaScript code blocks
@@ -95,7 +104,7 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
       process.env[key] = value as string
     })
 
-    // Create full context with environment variables
+    // Create full context with environment variables and shared state
     const fullContext = {
       ...executionContext,
       ...customContext,
@@ -105,6 +114,9 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
           ...process.env,
         },
       },
+      __state: fileState,
+      exportVar: (key: string, value: any) => fileState.set(key, value),
+      importVar: (key: string) => fileState.get(key),
     }
 
     // No special case handling - let the normal execution path handle all code blocks
