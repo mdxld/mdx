@@ -1,6 +1,5 @@
-import { generateObject, generateText } from 'ai'
+import { generateText } from 'ai'
 import { model } from '../ai'
-import { z } from 'zod'
 import { parseTemplate, TemplateFunction } from '../utils/template'
 
 export const code: TemplateFunction<Promise<string>> = async (template: TemplateStringsArray, ...values: any[]) => {
