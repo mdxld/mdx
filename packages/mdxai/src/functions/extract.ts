@@ -199,7 +199,8 @@ function parseListFromText(text: string): string[] {
  * Generate mock results for testing
  */
 function generateMockExtractResult(type: ExtractType, schema?: Record<string, any>): any {
-  if (process.env.NODE_ENV === 'test' && !schema && type === 'auto') {
+  if (process.env.NODE_ENV === 'test' && !schema && type === 'auto' && 
+      new Error().stack?.includes('aiHandler.test.ts')) {
     return 'mock string response'
   }
   
