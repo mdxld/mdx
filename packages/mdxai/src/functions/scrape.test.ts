@@ -83,10 +83,11 @@ cachedAt: "${new Date().toISOString()}"
       
       const result = await scrape(url)
       
-      expect(result).toMatchObject({
-        url: url,
-        error: expect.stringContaining('Failed to scrape')
-      })
+      // Check that the result has the expected properties
+      expect(result.url).toBe(url)
+      expect(result.error).toBeDefined()
+      expect(typeof result.error).toBe('string')
+      expect(result.error).toContain('Failed to scrape')
     } catch (error) {
       expect((error as Error).message).toBeDefined()
     }

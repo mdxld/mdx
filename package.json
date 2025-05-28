@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
+    "@dotenvx/dotenvx": "^1.44.1",
     "@types/ink": "^2.0.3",
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.5",

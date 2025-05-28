@@ -208,7 +208,7 @@ describe('extract function e2e', () => {
     } catch (error) {
       expect(error).toBeDefined()
     }
-  }, 60000) // Increase timeout for real API calls
+  }, 300000) // Increase timeout for agentic API calls
 
   it.skip('should extract data according to schema using real API with caching', async () => {
     try {
@@ -238,7 +238,7 @@ describe('extract function e2e', () => {
     } catch (error) {
       expect(error).toBeDefined()
     }
-  }, 120000) // Increase timeout for real API calls
+  }, 300000) // Increase timeout for agentic API calls
 
   it('should handle errors gracefully with real API', async () => {
     try {
@@ -257,7 +257,7 @@ describe('extract function e2e', () => {
       expect(error.message).toBeDefined()
       expect(error.message).toMatch(/API key|not valid|unauthorized|Bad Request|empty input/i)
     }
-  }, 30000)
+  }, 300000)
 
   it('should extract different types of data using real API', async () => {
     try {
@@ -314,5 +314,5 @@ describe('extract function e2e', () => {
     } catch (error) {
       expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
-  }, 60000)
+  }, 300000)
 })
