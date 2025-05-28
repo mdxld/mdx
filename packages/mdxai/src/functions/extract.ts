@@ -11,8 +11,8 @@ const schema = z.object({
   })),
   relationships: z.array(z.object({
     from: z.string(),
-    to: z.string(),
     type: z.string(),
+    to: z.string(),
   })),
 })
 
