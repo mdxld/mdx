@@ -1,48 +1,49 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { ai, executeAiFunction, inferAndValidateOutput, list } from './aiHandler'
 import fs from 'fs'
-import * as matterModule from 'gray-matter'
+import matter from 'gray-matter'
 import * as aiModule from 'ai'
 import * as YAML from 'yaml'
-
-function createGrayMatterFile(data: Record<string, any>, content: string) {
-  return {
-    data,
-    content,
-    orig: content,
-    language: 'md',
-    matter: '',
-    stringify: () => content,
-    isEmpty: false,
-  }
-}
+import path from 'path'
 
 describe('AI Handler', () => {
   const originalEnv = { ...process.env }
-  const systemPrompt = 'You are a helpful assistant. ${prompt}'
-  const frontmatter = {
-    output: 'string',
-  }
-
+  
   beforeEach(() => {
     process.env.NODE_ENV = 'test'
     process.env.USE_CACHE = 'true' // Enable caching for tests
     vi.clearAllMocks()
-    
-    vi.spyOn(fs, 'readFileSync').mockReturnValue('file content')
-    vi.spyOn(fs, 'existsSync').mockReturnValue(true)
-    vi.spyOn(fs, 'readdirSync').mockReturnValue([])
-    
-    vi.spyOn(matterModule, 'default').mockImplementation(() => createGrayMatterFile(frontmatter, systemPrompt))
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
     vi.restoreAllMocks()
   })
+  
+  const createTestFile = (content: string, metadata: Record<string, any> = { output: 'string' }) => {
+    const tempDir = path.join(process.cwd(), '.ai', 'test')
+    const tempFile = path.join(tempDir, `test-${Date.now()}.md`)
+    
+    fs.mkdirSync(tempDir, { recursive: true })
+    
+    const frontmatter = `---\n${Object.entries(metadata).map(([key, value]) => `${key}: ${value}`).join('\n')}\n---\n\n${content}`
+    
+    fs.writeFileSync(tempFile, frontmatter)
+    
+    return tempFile
+  }
 
   describe('ai template literal', () => {
     it('should handle string output with template literals', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const result = await ai`Write about JavaScript`
 
@@ -51,10 +52,22 @@ describe('AI Handler', () => {
         expect(result.length).toBeGreaterThan(0)
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
 
     it('should handle variable interpolation in template literals', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const topic = 'TypeScript'
         const result = await ai`Write a blog post about ${topic}`
@@ -64,10 +77,22 @@ describe('AI Handler', () => {
         expect(result.length).toBeGreaterThan(0)
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
 
     it('should stringify arrays to YAML in template literals', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const items = ['TypeScript', 'JavaScript', 'React']
         const result = await ai`Write a blog post about these technologies: ${items}`
@@ -77,10 +102,22 @@ describe('AI Handler', () => {
         expect(result.length).toBeGreaterThan(0)
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
 
     it('should stringify objects to YAML in template literals', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const project = {
           name: 'MDX AI',
@@ -97,12 +134,24 @@ describe('AI Handler', () => {
         expect(result.length).toBeGreaterThan(0)
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
   })
 
   describe('AI Handler e2e', () => {
     it('should handle complex objects in template literals', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const complexContext = {
           idea: 'AI startup',
@@ -116,8 +165,11 @@ describe('AI Handler', () => {
         expect(result.length).toBeGreaterThan(0)
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
   })
 
   describe('type inference and validation', () => {
@@ -136,6 +188,15 @@ describe('AI Handler', () => {
 
   describe('list function', () => {
     it('should work as a Promise returning string array', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const result = await list`Generate 5 programming languages`
 
@@ -146,10 +207,22 @@ describe('AI Handler', () => {
         }
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
 
     it('should work as an AsyncIterable', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const items: string[] = []
 
@@ -164,10 +237,22 @@ describe('AI Handler', () => {
         }
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
 
     it('should handle template literal interpolation', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       try {
         const topic = 'TypeScript'
         const count = 5
@@ -177,21 +262,48 @@ describe('AI Handler', () => {
         expect(result.length).toBeGreaterThan(0)
       } catch (error) {
         expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
+      } finally {
+        readFileSyncSpy.mockRestore()
+        fs.unlinkSync(testFile)
       }
-    })
+    }, 60000)
 
     it('should support Promise methods', async () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       const result = list`Generate ideas`
 
       expect(typeof result.then).toBe('function')
       expect(typeof result.catch).toBe('function')
       expect(typeof result.finally).toBe('function')
+      
+      readFileSyncSpy.mockRestore()
+      fs.unlinkSync(testFile)
     })
 
     it('should support async iterator protocol', () => {
+      const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+      
+      const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+        if (typeof path === 'string' && path.includes('.ai/prompts')) {
+          return fs.readFileSync(testFile, 'utf-8')
+        }
+        return fs.readFileSync(path as string)
+      })
+      
       const result = list`Generate ideas`
 
       expect(typeof result[Symbol.asyncIterator]).toBe('function')
+      
+      readFileSyncSpy.mockRestore()
+      fs.unlinkSync(testFile)
     })
 
     it('should throw error when not used as template literal', () => {
@@ -210,15 +322,23 @@ describe('AI Handler', () => {
 
 describe('AI Handler e2e', () => {
   const originalEnv = { ...process.env }
+  
+  const createTestFile = (content: string, metadata: Record<string, any> = { output: 'string' }) => {
+    const tempDir = path.join(process.cwd(), '.ai', 'test')
+    const tempFile = path.join(tempDir, `test-${Date.now()}.md`)
+    
+    fs.mkdirSync(tempDir, { recursive: true })
+    
+    const frontmatter = `---\n${Object.entries(metadata).map(([key, value]) => `${key}: ${value}`).join('\n')}\n---\n\n${content}`
+    
+    fs.writeFileSync(tempFile, frontmatter)
+    
+    return tempFile
+  }
 
   beforeEach(() => {
     process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
-    
-    vi.spyOn(fs, 'readFileSync').mockReturnValue('file content')
-    vi.spyOn(matterModule, 'default').mockImplementation(() => 
-      createGrayMatterFile({ output: 'string' }, 'You are a helpful assistant. ${prompt}')
-    )
   })
 
   afterEach(() => {
@@ -226,7 +346,14 @@ describe('AI Handler e2e', () => {
   })
 
   it('should generate text using real API with caching', async () => {
-
+    const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+    
+    const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+      if (typeof path === 'string' && path.includes('.ai/prompts')) {
+        return fs.readFileSync(testFile, 'utf-8')
+      }
+      return fs.readFileSync(path as string)
+    })
     
     try {
       const result1 = await ai`Write a short greeting`
@@ -242,11 +369,21 @@ describe('AI Handler e2e', () => {
       expect(result2).toBe(result1) // Check that caching works
     } catch (error) {
       expect(error).toBeDefined()
+    } finally {
+      readFileSyncSpy.mockRestore()
+      fs.unlinkSync(testFile)
     }
   }, 60000) // Increase timeout for real API calls
 
   it('should handle errors gracefully with real API', async () => {
-
+    const testFile = createTestFile('You are a helpful assistant. ${prompt}')
+    
+    const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+      if (typeof path === 'string' && path.includes('.ai/prompts')) {
+        return fs.readFileSync(testFile, 'utf-8')
+      }
+      return fs.readFileSync(path as string)
+    })
     
     try {
       const result = await ai``
@@ -255,6 +392,9 @@ describe('AI Handler e2e', () => {
       expect(typeof result).toBe('string')
     } catch (error: any) {
       expect(error.message).toBeDefined()
+    } finally {
+      readFileSyncSpy.mockRestore()
+      fs.unlinkSync(testFile)
     }
   }, 60000) // Increase timeout for real API calls
 })

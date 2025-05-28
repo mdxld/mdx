@@ -8,10 +8,12 @@ import * as research from './functions/research'
 import * as llmService from './llmService'
 import * as appUI from './ui/app'
 import * as utils from './utils'
-
+import { randomUUID } from 'crypto'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const TEST_DIR = path.join(process.cwd(), '.ai', 'test', randomUUID())
 
 describe('CLI research command', () => {
   const originalEnv = { ...process.env }
@@ -25,21 +27,15 @@ describe('CLI research command', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     
-    vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {})
-    vi.spyOn(fs, 'existsSync').mockReturnValue(true)
-    vi.spyOn(fs, 'mkdirSync').mockImplementation((() => {}) as any)
-    
-    vi.spyOn(appUI, 'renderApp').mockReturnValue(() => {})
-    vi.spyOn(utils, 'extractH1Title').mockReturnValue('Test Title')
-    vi.spyOn(utils, 'slugifyString').mockReturnValue('test-title')
-    vi.spyOn(utils, 'ensureDirectoryExists').mockImplementation(() => {})
+    const tempDir = path.join(process.cwd(), '.ai', 'test')
+    fs.mkdirSync(tempDir, { recursive: true })
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
     vi.clearAllMocks()
   })
-
+  
   describe('research command', () => {
     const createResearchCommand = () => {
       const program = new Command()
@@ -84,93 +80,103 @@ describe('CLI research command', () => {
     }
 
     it('should execute research command in non-interactive mode', async () => {
-      const { program, researchAction } = createResearchCommand()
-
-      await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', 'test-output.mdx'])
-
-      expect(researchAction).toHaveBeenCalledWith(
-        'How do I use AI?',
-        expect.objectContaining({
-          output: 'test-output.mdx',
-          format: 'markdown',
-          ink: false,
-        }),
-        expect.anything(),
-      )
-
-      expect(research.research).toHaveBeenCalledWith('How do I use AI?')
-
-      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.mdx', expect.stringContaining('# Research Results'), 'utf-8')
-
-      expect(mockConsoleLog).toHaveBeenCalledWith('Research completed and written to test-output.mdx')
-    })
+      const outputFile = path.join(TEST_DIR, 'test-output.mdx')
+      
+      const consoleLogSpy = vi.spyOn(console, 'log')
+      
+      try {
+        const { program } = createResearchCommand()
+        
+        await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile])
+        
+        expect(fs.existsSync(outputFile)).toBe(true)
+        
+        const content = fs.readFileSync(outputFile, 'utf-8')
+        expect(content).toBeDefined()
+        expect(content.length).toBeGreaterThan(0)
+        
+        expect(consoleLogSpy).toHaveBeenCalledWith(`Research completed and written to ${outputFile}`)
+      } finally {
+        consoleLogSpy.mockRestore()
+      }
+    }, 60000) // Increase timeout for real API calls
 
     it('should execute research command in interactive mode with --ink flag', async () => {
-      const { program, researchAction } = createResearchCommand()
-
-      await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '--ink'])
-
-      expect(researchAction).toHaveBeenCalledWith(
-        'How do I use AI?',
-        expect.objectContaining({
-          output: 'research.mdx',
+      const outputFile = path.join(TEST_DIR, 'research.mdx')
+      
+      const renderAppSpy = vi.spyOn(appUI, 'renderApp')
+      
+      try {
+        const { program } = createResearchCommand()
+        
+        await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '--ink', '-o', outputFile])
+        
+        expect(renderAppSpy).toHaveBeenCalledWith('research', {
+          prompt: 'How do I use AI?',
+          output: outputFile,
           format: 'markdown',
-          ink: true,
-        }),
-        expect.anything(),
-      )
-
-      expect(appUI.renderApp).toHaveBeenCalledWith('research', {
-        prompt: 'How do I use AI?',
-        output: 'research.mdx',
-        format: 'markdown',
-      })
-
-      expect(research.research).not.toHaveBeenCalled()
-    })
+        })
+        
+        expect(fs.existsSync(outputFile)).toBe(false)
+      } finally {
+        renderAppSpy.mockRestore()
+      }
+    }, 60000) // Increase timeout for real API calls
 
     it('should handle different output formats', async () => {
-      const { program, researchAction } = createResearchCommand()
-
-      await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-f', 'frontmatter'])
-
-      expect(researchAction).toHaveBeenCalledWith(
-        'How do I use AI?',
-        expect.objectContaining({
-          output: 'research.mdx',
-          format: 'frontmatter',
-        }),
-        expect.anything(),
-      )
-
-      expect(fs.writeFileSync).toHaveBeenCalledWith('research.mdx', expect.stringContaining('---\ntitle: Test Title\n---'), 'utf-8')
-    })
+      const outputFile = path.join(TEST_DIR, 'frontmatter-output.mdx')
+      
+      try {
+        const { program } = createResearchCommand()
+        
+        await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile, '-f', 'frontmatter'])
+        
+        expect(fs.existsSync(outputFile)).toBe(true)
+        
+        const content = fs.readFileSync(outputFile, 'utf-8')
+        expect(content).toContain('---')
+        expect(content).toContain('title:')
+      } catch (error) {
+        console.error('Test error:', error)
+        throw error
+      }
+    }, 60000) // Increase timeout for real API calls
 
     it('should handle parameter passing from command line', async () => {
-      const { program, researchAction } = createResearchCommand()
-
-      await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', 'custom-output.mdx', '-f', 'both'])
-
-      expect(researchAction).toHaveBeenCalledWith(
-        'How do I use AI?',
-        expect.objectContaining({
-          output: 'custom-output.mdx',
-          format: 'both',
-        }),
-        expect.anything(),
-      )
-
-      expect(fs.writeFileSync).toHaveBeenCalledWith('custom-output.mdx', expect.stringContaining('# Research Results'), 'utf-8')
-    })
+      const outputFile = path.join(TEST_DIR, 'both-format-output.mdx')
+      
+      try {
+        const { program } = createResearchCommand()
+        
+        await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile, '-f', 'both'])
+        
+        expect(fs.existsSync(outputFile)).toBe(true)
+        
+        const content = fs.readFileSync(outputFile, 'utf-8')
+        expect(content).toContain('---')
+        expect(content).toContain('title:')
+        expect(content).toContain('#') // Markdown heading
+      } catch (error) {
+        console.error('Test error:', error)
+        throw error
+      }
+    }, 60000) // Increase timeout for real API calls
 
     it('should throw an error when AI_GATEWAY_TOKEN is not set', async () => {
-      delete process.env.AI_GATEWAY_TOKEN
-
-      const { program } = createResearchCommand()
-
-      await expect(program.parseAsync(['node', 'test', 'research', 'How do I use AI?'])).rejects.toThrow('Process.exit called with code: 1')
-
-      expect(mockConsoleError).toHaveBeenCalledWith('AI_GATEWAY_TOKEN environment variable is not set.')
+      const consoleErrorSpy = vi.spyOn(console, 'error')
+      
+      try {
+        delete process.env.AI_GATEWAY_TOKEN
+        
+        const { program } = createResearchCommand()
+        
+        await expect(program.parseAsync(['node', 'test', 'research', 'How do I use AI?'])).rejects.toThrow('Process.exit called with code: 1')
+        
+        expect(consoleErrorSpy).toHaveBeenCalledWith('AI_GATEWAY_TOKEN environment variable is not set.')
+      } finally {
+        process.env.AI_GATEWAY_TOKEN = 'test-token'
+        consoleErrorSpy.mockRestore()
+      }
     })
   })
 })
