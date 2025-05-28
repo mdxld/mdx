@@ -10,7 +10,7 @@ export { markdown, type MarkdownTemplateFn, type MarkdownResult } from './functi
 export { video } from './functions/video.js'
 
 // Re-export utilities
-export { parseTemplate, stringifyValue, type TemplateFunction } from './utils/template.js'
+export { parseTemplate, stringifyValue, type TemplateFunction, createUnifiedFunction } from './utils/template.js'
 export { executeAiFunction, createZodSchemaFromObject, inferAndValidateOutput } from './utils/ai-execution.js'
 export { handleStringOutput, handleArrayOutput, handleObjectOutput } from './utils/output-handlers.js'
 

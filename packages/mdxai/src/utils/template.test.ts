@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { stringifyValue, parseTemplate } from './template'
+import { describe, it, expect, vi } from 'vitest'
+import { stringifyValue, parseTemplate, createUnifiedFunction } from './template'
 
 describe('template utilities', () => {
   describe('stringifyValue', () => {
@@ -64,4 +64,45 @@ describe('template utilities', () => {
       expect(result).toContain('Items: - apple')
     })
   })
-}) 
+  
+  describe('createUnifiedFunction', () => {
+    it('should handle tagged template literals (Pattern 1)', () => {
+      const mockCallback = vi.fn().mockReturnValue('result')
+      const testFunction = createUnifiedFunction(mockCallback)
+      
+      const result = testFunction`Hello ${'world'}`
+      
+      expect(mockCallback).toHaveBeenCalledWith('Hello world', {})
+      expect(result).toBe('result')
+    })
+    
+    it('should handle curried tagged template with options (Pattern 2)', () => {
+      const mockCallback = vi.fn().mockReturnValue('result')
+      const testFunction = createUnifiedFunction(mockCallback)
+      
+      const result = (testFunction as any).customProp`Hello ${'world'}`({ model: 'test-model' })
+      
+      expect(mockCallback).toHaveBeenCalledWith('Hello world', { model: 'test-model' })
+      expect(result).toBe('result')
+    })
+    
+    it('should handle normal function calls (Pattern 3)', () => {
+      const mockCallback = vi.fn().mockReturnValue('result')
+      const testFunction = createUnifiedFunction(mockCallback)
+      
+      const options = { model: 'test-model' }
+      const result = testFunction('Hello world', options)
+      
+      expect(mockCallback).toHaveBeenCalledWith('Hello world', options)
+      expect(result).toBe('result')
+    })
+    
+    it('should throw error for invalid call patterns', () => {
+      const mockCallback = vi.fn()
+      const testFunction = createUnifiedFunction(mockCallback)
+      
+      // Using type assertion to test with invalid argument type
+      expect(() => (testFunction as any)(123)).toThrow('Function must be called as a template literal or with string and options')
+    })
+  })
+})      
