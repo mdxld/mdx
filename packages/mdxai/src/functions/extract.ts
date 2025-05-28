@@ -199,6 +199,10 @@ function parseListFromText(text: string): string[] {
  * Generate mock results for testing
  */
 function generateMockExtractResult(type: ExtractType, schema?: Record<string, any>): any {
+  if (process.env.NODE_ENV === 'test' && !schema && type === 'auto') {
+    return 'mock string response'
+  }
+  
   if (schema) {
     if (schema.name === 'string' && schema.price === 'number' && schema.features === 'array') {
       return {
