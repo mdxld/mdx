@@ -6,7 +6,14 @@ import yaml from 'yaml'
  */
 export function stringifyValue(value: any): string {
   if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
-    return yaml.stringify(value).trim()
+    const yamlString = yaml.stringify(value)
+    if (typeof yamlString === 'string') {
+      return yamlString.trim()
+    } else if (yamlString === undefined || yamlString === null) {
+      return String(value)
+    } else {
+      return String(yamlString)
+    }
   }
   return String(value)
 }
@@ -31,4 +38,4 @@ export function parseTemplate(template: TemplateStringsArray, values: any[]): st
 /**
  * Type definition for tagged template literal functions
  */
-export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...values: any[]) => T 
+export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...values: any[]) => T  

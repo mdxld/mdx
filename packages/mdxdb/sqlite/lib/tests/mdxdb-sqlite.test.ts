@@ -1,13 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MdxDbSqlite } from '../mdxdb-sqlite.js'
 import { DocumentContent } from '@mdxdb/core'
+import * as libsql from '@libsql/client'
+import * as ai from 'ai'
 
-vi.mock('@libsql/client', () => ({
-  createClient: vi.fn().mockReturnValue({}),
-}))
+const createClientSpy = vi.fn().mockReturnValue({})
+vi.spyOn(libsql, 'createClient').mockImplementation(() => createClientSpy())
 
 vi.mock('ai', () => ({
-  embed: vi.fn().mockResolvedValue([0.1, 0.2, 0.3]),
+  ...vi.importActual('ai'),
+  embed: vi.fn().mockResolvedValue([0.1, 0.2, 0.3])
 }))
 
 describe('MdxDbSqlite', () => {

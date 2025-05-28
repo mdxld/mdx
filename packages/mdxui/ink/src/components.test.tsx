@@ -1,40 +1,28 @@
+vi.mock('asciify-image', () => {
+  return {
+    default: vi.fn().mockImplementation(async (input, options) => {
+      return '  ###\n #####\n#######'
+    })
+  }
+})
+
+vi.mock('react-dom/server', () => {
+  return {
+    renderToStaticMarkup: vi.fn().mockImplementation(() => {
+      return '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
+    })
+  }
+})
+
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import React from 'react'
 import { render } from 'ink-testing-library'
 import { Image, ImageProps } from './components'
+import asciifyImage from 'asciify-image'
 import * as ReactDOMServer from 'react-dom/server'
 
-vi.mock('ink-table', () => ({
-  default: ({ data }: { data: any[] }) => <div data-testid='table'>{JSON.stringify(data)}</div>,
-}))
-
-vi.mock('ink-link', () => ({
-  default: ({ url, children }: { url: string; children: React.ReactNode }) => (
-    <div data-testid='link' data-url={url}>
-      {children}
-    </div>
-  ),
-}))
-
-vi.mock('ink-syntax-highlight', () => ({
-  default: ({ code, language }: { code: string; language: string }) => (
-    <div data-testid='syntax-highlight' data-language={language}>
-      {code}
-    </div>
-  ),
-}))
-
-vi.mock('react-dom/server', () => ({
-  renderToStaticMarkup: vi.fn().mockImplementation((component) => {
-    return '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
-  }),
-}))
-
-const mockAsciify = vi.fn()
-vi.mock('asciify-image', () => ({
-  default: mockAsciify,
-  __esModule: true,
-}))
+// Fix for InkElement type compatibility
+const renderWithTypeWorkaround = (element: any) => render(element as any)
 
 const MockIcon = (props: any) => <div {...props} />
 
@@ -52,20 +40,17 @@ const waitForCondition = async (condition: () => boolean, timeout = 2000, interv
 describe('Image component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAsciify.mockReset()
   })
 
   it('should render loading state initially', () => {
-    mockAsciify.mockResolvedValue('')
-    const { lastFrame } = render(<Image icon={MockIcon} />)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} />)
     expect(lastFrame()).toContain('[Loading image...]')
   })
 
   it('should convert SVG to ASCII art', async () => {
     const asciiArt = '  ###\n #####\n#######'
-    mockAsciify.mockResolvedValue(asciiArt)
-
-    const { lastFrame } = render(<Image icon={MockIcon} width={20} />)
+    
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} width={20} />)
 
     await waitForCondition(() => !lastFrame().includes('[Loading image...]'))
 
@@ -73,7 +58,7 @@ describe('Image component', () => {
     expect(lastFrame()).toContain(asciiArt.split('\n')[1])
     expect(lastFrame()).toContain(asciiArt.split('\n')[2])
 
-    expect(mockAsciify).toHaveBeenCalledWith(
+    expect(asciifyImage).toHaveBeenCalledWith(
       expect.stringContaining('data:image/svg+xml;base64,'),
       expect.objectContaining({
         width: 20,
@@ -85,9 +70,9 @@ describe('Image component', () => {
 
   it('should handle array output from asciify', async () => {
     const asciiArt = ['  ###', ' #####', '#######']
-    mockAsciify.mockResolvedValue(asciiArt)
+    vi.mocked(asciifyImage).mockResolvedValueOnce(asciiArt as any)
 
-    const { lastFrame } = render(<Image icon={MockIcon} />)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} />)
 
     await waitForCondition(() => !lastFrame().includes('[Loading image...]'))
 
@@ -99,22 +84,20 @@ describe('Image component', () => {
   it('should handle errors in SVG rendering', async () => {
     const ErrorIcon: React.FC = () => <div>Error Icon</div>
 
-    const originalMock = vi.mocked(ReactDOMServer.renderToStaticMarkup).getMockImplementation()
-
     vi.mocked(ReactDOMServer.renderToStaticMarkup).mockImplementationOnce(() => {
       throw new Error('SVG rendering error')
     })
 
-    const { lastFrame } = render(<Image icon={ErrorIcon} />)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={ErrorIcon} />)
 
     expect(lastFrame()).toContain('[Image Error: Failed to render icon: SVG rendering error]')
-    expect(mockAsciify).not.toHaveBeenCalled()
+    expect(asciifyImage).not.toHaveBeenCalled()
   })
 
   it('should handle errors in ASCII conversion', async () => {
-    mockAsciify.mockRejectedValue(new Error('ASCII conversion error'))
+    vi.mocked(asciifyImage).mockRejectedValueOnce(new Error('ASCII conversion error'))
 
-    const { lastFrame } = render(<Image icon={MockIcon} />)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} />)
 
     await waitForCondition(() => lastFrame().includes('[Image Error:'))
 
@@ -123,37 +106,30 @@ describe('Image component', () => {
 
   it('should accept direct SVG string input', async () => {
     const asciiArt = '  ###\n #####\n#######'
-    mockAsciify.mockResolvedValue(asciiArt)
-
+    
     const svgString = '<svg><circle cx="50" cy="50" r="40" /></svg>'
-    const { lastFrame } = render(<Image svg={svgString} />)
+    const { lastFrame } = renderWithTypeWorkaround(<Image svg={svgString} />)
 
     await waitForCondition(() => !lastFrame().includes('[Loading image...]'))
 
     expect(lastFrame()).toContain(asciiArt.split('\n')[0])
-    expect(mockAsciify).toHaveBeenCalledWith(expect.stringContaining('data:image/svg+xml;base64,'), expect.anything())
+    expect(asciifyImage).toHaveBeenCalledWith(expect.stringContaining('data:image/svg+xml;base64,'), expect.anything())
   })
 
   it('should apply color to the ASCII art', async () => {
-    const asciiArt = '  ###\n #####\n#######'
-    mockAsciify.mockResolvedValue(asciiArt)
-
-    const { lastFrame } = render(<Image icon={MockIcon} color='green' />)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} color='green' />)
 
     await waitForCondition(() => !lastFrame().includes('[Loading image...]'))
 
-    expect(mockAsciify).toHaveBeenCalled()
+    expect(asciifyImage).toHaveBeenCalled()
   })
 
   it('should respect width and height props', async () => {
-    const asciiArt = '  ###\n #####\n#######'
-    mockAsciify.mockResolvedValue(asciiArt)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} width={30} height={15} />)
 
-    const { lastFrame } = render(<Image icon={MockIcon} width={30} height={15} />)
+    await waitForCondition(() => !lastFrame().includes('[Loading image...]'))
 
-    await waitForCondition(() => mockAsciify.mock.calls.length > 0)
-
-    expect(mockAsciify).toHaveBeenCalledWith(
+    expect(asciifyImage).toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining({
         width: 30,
@@ -163,14 +139,11 @@ describe('Image component', () => {
   })
 
   it('should use width for height if height is not provided', async () => {
-    const asciiArt = '  ###\n #####\n#######'
-    mockAsciify.mockResolvedValue(asciiArt)
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={MockIcon} width={25} />)
 
-    const { lastFrame } = render(<Image icon={MockIcon} width={25} />)
+    await waitForCondition(() => !lastFrame().includes('[Loading image...]'))
 
-    await waitForCondition(() => mockAsciify.mock.calls.length > 0)
-
-    expect(mockAsciify).toHaveBeenCalledWith(
+    expect(asciifyImage).toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining({
         width: 25,

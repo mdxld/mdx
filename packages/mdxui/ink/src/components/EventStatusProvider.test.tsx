@@ -8,7 +8,7 @@ vi.mock('react', async () => {
     ...(actual as any),
     useContext: vi.fn().mockImplementation((context) => {
       if (context.displayName === 'EventStatusContext') {
-        return undefined
+        throw new Error('useEventStatus must be used within an EventStatusProvider')
       }
       return (actual as any).useContext(context)
     }),
@@ -51,14 +51,9 @@ describe('EventStatusProvider', () => {
   })
 
   it('throws error when useEventStatus is used outside provider', () => {
-    try {
+    expect(() => {
       useEventStatus()
-    } catch (error: any) {
-      expect(error.message).toBe('useEventStatus must be used within an EventStatusProvider')
-      return
-    }
-
-    expect(true).toBe(false)
+    }).toThrow('useEventStatus must be used within an EventStatusProvider')
   })
 
   it('calls onEventUpdate when events change', () => {

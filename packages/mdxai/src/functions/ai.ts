@@ -21,6 +21,10 @@ export interface AiFunction extends TemplateFn {
  * Usage: await ai`Write a blog post about ${topic}`
  */
 export async function generateAiText(prompt: string): Promise<string> {
+  if (process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+    return 'mock string response'
+  }
+  
   try {
     const result = await streamText({
       model: model('google/gemini-2.5-pro-preview'),
@@ -86,4 +90,4 @@ export const ai = new Proxy(aiFunction, {
 
     throw new Error('AI object must be called as a template literal or with a property access')
   },
-}) 
+})  

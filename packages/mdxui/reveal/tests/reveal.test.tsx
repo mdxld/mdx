@@ -1,6 +1,7 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { Slides, Slide } from '../src/index.js'
+import Reveal from 'reveal.js'
 
 beforeEach(() => {
   vi.stubGlobal('window', {
@@ -27,21 +28,12 @@ afterEach(() => {
 const mockInitialize = vi.fn()
 const mockDestroy = vi.fn()
 
-vi.mock('reveal.js', () => {
-  const RevealMock = vi.fn().mockImplementation(() => ({
-    initialize: mockInitialize,
-    destroy: mockDestroy,
-  }))
+class RevealMock {
+  initialize = mockInitialize
+  destroy = mockDestroy
+}
 
-  return { default: RevealMock }
-})
-
-vi.mock('reveal.js/dist/reveal.css', () => ({}))
-vi.mock('reveal.js/dist/theme/black.css', () => ({}))
-
-vi.mock('reveal.js/plugin/markdown/markdown.esm.js', () => ({ default: {} }))
-vi.mock('reveal.js/plugin/highlight/highlight.esm.js', () => ({ default: {} }))
-vi.mock('reveal.js/plugin/notes/notes.esm.js', () => ({ default: {} }))
+vi.stubGlobal('Reveal', RevealMock)
 
 const unmountMock = vi.fn()
 const render = vi.fn().mockImplementation(() => ({
