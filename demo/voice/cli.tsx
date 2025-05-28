@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { render, Box, Text, useApp } from 'ink'
 import WebSocket from 'ws'
 // @ts-ignore
