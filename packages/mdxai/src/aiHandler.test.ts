@@ -56,13 +56,15 @@ vi.mock('ai', () => {
         },
       },
     }),
-    streamText: vi.fn().mockResolvedValue({
-      text: 'mock string response',
-      textStream: {
-        [Symbol.asyncIterator]: async function* () {
-          yield 'mock string response'
+    streamText: vi.fn().mockImplementation(() => {
+      return Promise.resolve({
+        text: 'mock string response',
+        textStream: {
+          [Symbol.asyncIterator]: async function* () {
+            yield 'mock string response'
+          },
         },
-      },
+      })
     }),
     model: vi.fn().mockReturnValue('mock-model'),
   }
