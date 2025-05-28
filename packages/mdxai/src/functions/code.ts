@@ -1,14 +1,24 @@
-import { generateText } from 'ai'
+import { generateObject } from 'ai'
+import { z } from 'zod'
 import { model } from '../ai'
 import { parseTemplate, TemplateFunction } from '../utils/template'
 
-export const code: TemplateFunction<Promise<string>> = async (template: TemplateStringsArray, ...values: any[]) => {
-  const requirements = parseTemplate(template, values)
+const schema = z.object({
+  type: z.string({ description: 'JSDoc comments describing the function.' }),
+  code: z.string({ description: 'Clean, readable, and well-documented TypeScript function export.' }),
+  tests: z.string({ description: 'Vitest tests for normal and edge cases. The `describe`, `it`, and `expect` functions are in global scope.' }),
+})
 
-  const result = await generateText({
-    model: model('openai/gpt-4o'),
-    system: `You are a senior software engineer. Respond only in TypeScript with JSDoc comments. Single quotes, no semicolons.`,
-    prompt: `Code ${requirements}`,
+export const code: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray, ...values: any[]) => {
+  const content = parseTemplate(template, values)
+
+  const result = await generateObject({
+    // model: model('anthropic/claude-opus-4'),
+    model: model('openai/o4-mini-high'),
+    // model: model('google/gemini-2.5-pro-preview'),
+    system: `You are an expert TypeScript developer. You develop clean, readable, and clearly documented code with single quotes, no semicolons, 2 spaces indentation.`,
+    prompt: `Generate a TypeScript function and tests for ${content}`,
+    schema,
   })
-  return result.text
+  return result.object
 }

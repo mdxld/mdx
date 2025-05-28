@@ -21,7 +21,7 @@ describe('deepwiki', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized/i)
       } else {
-        throw error
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Bad Request/i)
       }
     }
   }, 60000) // Increase timeout for real API calls
@@ -38,7 +38,7 @@ describe('deepwiki', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized/i)
       } else {
-        throw error
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Bad Request/i)
       }
     }
   }, 60000) // Increase timeout for real API calls

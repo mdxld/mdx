@@ -6,6 +6,7 @@
     "mdxai": "./dist/cli.js"
   },
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
     "start": "ts-node src/cli.ts",

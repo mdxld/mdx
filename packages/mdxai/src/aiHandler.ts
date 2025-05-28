@@ -2,7 +2,7 @@
 export { ai, generateAiText, type AiFunction, type TemplateFn } from './functions/ai.js'
 export { list, type ListFunction } from './functions/list.js'
 export { research, type ResearchTemplateFn } from './functions/research.js'
-export { extract, type ExtractFunction, type ExtractResult, type ExtractType } from './functions/extract.js'
+export { extract } from './functions/extract.js'
 export { is } from './functions/is.js'
 export { say, type SayTemplateFn } from './functions/say.js'
 export { image, type ImageTemplateFn } from './functions/image.js'
