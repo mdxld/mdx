@@ -1,24 +1,7 @@
 import dedent from 'dedent'
 import { render } from './render'
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import React from 'react'
-import { renderToString } from 'react-dom/server'
-import TurndownService from 'turndown'
-import * as mdx from '@mdx-js/mdx'
-
-vi.mock('@mdx-js/mdx', () => {
-  return {
-    compile: vi.fn().mockImplementation((content) => {
-      if (content.value && content.value.includes('<Component with syntax error')) {
-        return Promise.reject(new Error('Could not parse expression with acorn'));
-      }
-      return Promise.resolve('compiled-mdx-content');
-    }),
-    evaluate: vi.fn().mockResolvedValue({
-      default: () => React.createElement('div', null, 'Test MDX Content')
-    })
-  }
-})
 
 describe('render', () => {
   it('should render MDX content to markdown', async () => {
