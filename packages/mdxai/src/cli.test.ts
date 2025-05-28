@@ -54,19 +54,19 @@ describe('CLI say command', () => {
       value: 'linux'
     })
     
-    // Track spawn calls without actually spawning processes
-    vi.spyOn(childProcess, 'spawn').mockImplementation((command, args) => {
+    // Create a wrapper for spawn to track calls without mocking
+    const originalSpawn = childProcess.spawn
+    childProcess.spawn = function trackingSpawn(command: string, args: any[]) {
       spawnCalls.push({ command, args })
-      const mockProcess = {
+      return {
         on: (event: string, callback: Function) => {
           if (event === 'close') {
             setTimeout(() => callback(0), 10)
           }
-          return mockProcess
+          return this
         }
-      }
-      return mockProcess as any
-    })
+      } as any
+    }
     
     // Mock aiHandler.say to return test audio path
     vi.spyOn(aiHandler, 'say').mockImplementation(() => {
@@ -113,11 +113,14 @@ describe('CLI say command', () => {
     console.log = originalConsoleLog
     console.error = originalConsoleError
     
-    // Restore all mocks
-    vi.restoreAllMocks()
+    // Restore original spawn function
+    childProcess.spawn = originalSpawn
     
     // Reset spawn calls
     spawnCalls = []
+    
+    // Restore all mocks
+    vi.restoreAllMocks()
     
     // Clean up test files
     try {
