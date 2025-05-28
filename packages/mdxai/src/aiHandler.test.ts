@@ -226,10 +226,7 @@ describe('AI Handler e2e', () => {
   })
 
   it('should generate text using real API with caching', async () => {
-    // Skip this test in CI environment or without API keys
-    if (process.env.CI === 'true' || (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN)) {
-      return
-    }
+
     
     try {
       const result1 = await ai`Write a short greeting`
@@ -249,10 +246,7 @@ describe('AI Handler e2e', () => {
   }, 60000) // Increase timeout for real API calls
 
   it('should handle errors gracefully with real API', async () => {
-    // Skip this test in CI environment or without API keys
-    if (process.env.CI === 'true' || (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN)) {
-      return
-    }
+
     
     try {
       const result = await ai``

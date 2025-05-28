@@ -13,42 +13,6 @@ vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {})
 vi.spyOn(fs, 'existsSync').mockReturnValue(true)
 vi.spyOn(fs, 'mkdirSync').mockImplementation((() => {}) as any)
 
-vi.spyOn(research, 'research').mockImplementation(async () => {
-  return {
-    text: 'This is a test research response',
-    markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
-    citations: ['https://example.com/citation1'],
-    reasoning: 'This is mock reasoning',
-    scrapedCitations: [
-      {
-        url: 'https://example.com/citation1',
-        title: 'Test Citation',
-        description: 'Test Description',
-        markdown: '# Test Citation\n\nThis is test content',
-      },
-    ],
-  }
-})
-
-vi.spyOn(llmService, 'generateResearchStream').mockResolvedValue({
-  textStream: {
-    [Symbol.asyncIterator]: async function* () {
-      yield 'This is a test research response'
-    }
-  },
-  warnings: [],
-  usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
-  sources: [],
-  files: [],
-  text: 'This is a test research response',
-  response: {
-    id: 'mock-id',
-    object: 'chat.completion',
-    created: Date.now(),
-    model: 'mock-model',
-    choices: [{ index: 0, message: { content: 'This is a test research response', role: 'assistant' }, finish_reason: 'stop' }]
-  }
-} as any)
 
 vi.spyOn(appUI, 'renderApp').mockReturnValue(() => {})
 vi.spyOn(utils, 'extractH1Title').mockReturnValue('Test Title')
@@ -68,8 +32,6 @@ describe('CLI research command', () => {
   const mockStdoutWrite = vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
 
   beforeEach(() => {
-    process.env.AI_GATEWAY_TOKEN = 'mock-token'
-    process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
     vi.clearAllMocks()
   })
 
@@ -81,7 +43,7 @@ describe('CLI research command', () => {
   describe('research command', () => {
     const createResearchCommand = () => {
       const program = new Command()
-      const researchAction = vi.fn().mockImplementation(async (prompt, options) => {
+      const researchAction = async (prompt: string, options: { ink?: boolean; output: string; format?: string }): Promise<void> => {
         if (!process.env.AI_GATEWAY_TOKEN) {
           console.error('AI_GATEWAY_TOKEN environment variable is not set.')
           process.exit(1)
@@ -94,19 +56,21 @@ describe('CLI research command', () => {
             format: options.format,
           })
         } else {
-          await research.research(prompt)
+          const result = await research.research(prompt)
 
-          let content = '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)'
+          let content = result.markdown
           if (options.format === 'frontmatter') {
-            content = `---\ntitle: Test Title\n---\n\n${content}`
+            const title = utils.extractH1Title(content) || 'Research Results'
+            content = `---\ntitle: ${title}\n---\n\n${content}`
           } else if (options.format === 'both') {
-            content = `---\ntitle: Test Title\n---\n\n${content}`
+            const title = utils.extractH1Title(content) || 'Research Results'
+            content = `---\ntitle: ${title}\n---\n\n${content}`
           }
 
           fs.writeFileSync(options.output, content, 'utf-8')
           console.log(`Research completed and written to ${options.output}`)
         }
-      })
+      }
 
       program
         .command('research')
