@@ -54,6 +54,38 @@ vi.mock('ai', () => {
   }
 })
 
+vi.mock('./functions/research.js', () => {
+  const mockResearchResult = {
+    text: 'This is a test research response',
+    markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
+    citations: ['https://example.com/citation1'],
+    reasoning: 'This is mock reasoning',
+    scrapedCitations: [
+      {
+        url: 'https://example.com/citation1',
+        title: 'Test Citation',
+        description: 'Test Description',
+        markdown: '# Test Citation\n\nThis is test content',
+      },
+    ],
+  }
+
+  const researchFunction = (queryOrTemplate, ...values) => {
+    if (typeof queryOrTemplate === 'string') {
+      throw new Error('Research function must be called with a string or as a template literal')
+    }
+    return Promise.resolve(mockResearchResult)
+  }
+
+  return {
+    research: new Proxy(researchFunction, {
+      apply(target, thisArg, args) {
+        return target(...args)
+      }
+    })
+  }
+})
+
 // Mock QueueManager
 vi.mock('./ui/index.js', () => ({
   QueueManager: class {
