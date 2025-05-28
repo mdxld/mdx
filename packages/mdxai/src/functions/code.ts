@@ -13,7 +13,9 @@ export const code: TemplateFunction<Promise<z.infer<typeof schema>>> = async (te
   const content = parseTemplate(template, values)
 
   const result = await generateObject({
-    model: model('anthropic/claude-opus-4'),
+    // model: model('anthropic/claude-opus-4'),
+    model: model('openai/o4-mini-high'),
+    // model: model('google/gemini-2.5-pro-preview'),
     system: `You are an expert TypeScript developer. You develop clean, readable, and clearly documented code with single quotes, no semicolons, 2 spaces indentation.`,
     prompt: `Generate a TypeScript function and tests for ${content}`,
     schema,
