@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import React from 'react'
 import { registerComponent, registerComponents, getAllComponents, mergeComponents } from './component-loader'
 
@@ -45,22 +45,13 @@ describe('Component Loader', () => {
 
   describe('getAllComponents', () => {
     it('should merge file-based and programmatically registered components', async () => {
-      const originalLoadMdxComponents = await import('./component-loader').then((m) => m.loadMdxComponents)
-
-      const mockLoadMdxComponents = vi.fn().mockResolvedValue({
-        fileComponent: () => React.createElement('div', null, 'File Component'),
-      })
-
-      vi.spyOn(await import('./component-loader'), 'loadMdxComponents').mockImplementation(mockLoadMdxComponents)
-
       const ProgrammaticComponent = () => React.createElement('div', null, 'Programmatic')
       registerComponent('programmatic', ProgrammaticComponent)
 
       const components = await getAllComponents()
 
       expect(components.programmatic).toBe(ProgrammaticComponent)
-
-      vi.mocked(await import('./component-loader')).loadMdxComponents.mockRestore()
+      
     })
   })
 

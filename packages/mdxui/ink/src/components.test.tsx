@@ -1,8 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import React from 'react'
 import { render } from 'ink-testing-library'
 import { Image, ImageProps } from './components'
-// import asciifyImage from 'asciify-image'
 import * as ReactDOMServer from 'react-dom/server'
 
 // Fix for InkElement type compatibility
@@ -23,7 +22,6 @@ const waitForCondition = async (condition: () => boolean, timeout = 2000, interv
 
 describe('Image component', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
   })
 
   it('should render loading state initially', () => {
@@ -32,34 +30,31 @@ describe('Image component', () => {
   })
 
   it('should convert SVG to ASCII art', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    // Test with real SVG conversion
+    const SimpleIcon = () => <div>Simple SVG</div>
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={SimpleIcon} />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 
   it('should handle array output from asciify', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    const ArrayIcon = () => <div><span>Line 1</span><span>Line 2</span></div>
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={ArrayIcon} />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 
   it('should handle errors in SVG rendering', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    const ErrorIcon = () => <div data-testid="error-svg">Invalid SVG</div>
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={ErrorIcon} />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 
   it('should handle errors in ASCII conversion', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
-    
     const ErrorIcon = () => <div style={{ fill: "invalid-color-value" }}>Invalid SVG</div>
     
     const { lastFrame } = renderWithTypeWorkaround(<Image icon={ErrorIcon} />)
@@ -68,39 +63,39 @@ describe('Image component', () => {
       await waitForCondition(() => lastFrame().includes('[Image Error:'), 5000)
       expect(lastFrame()).toContain('[Image Error:')
     } catch (error) {
-      expect(true).toBe(true)
+      expect(lastFrame()).toBeTruthy()
     }
   }, 60000) // Increase timeout for real conversion
 
   it('should accept direct SVG string input', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    const svgString = '<svg width="10" height="10"><circle cx="5" cy="5" r="4" /></svg>'
+    const { lastFrame } = renderWithTypeWorkaround(<Image svg={svgString} />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 
   it('should apply color to the ASCII art', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    const ColorIcon = () => <div>Color SVG</div>
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={ColorIcon} color="red" />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 
   it('should respect width and height props', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    const SizedIcon = () => <div>Sized SVG</div>
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={SizedIcon} width={20} height={10} />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 
   it('should use width for height if height is not provided', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
+    const WidthIcon = () => <div>Width SVG</div>
+    const { lastFrame } = renderWithTypeWorkaround(<Image icon={WidthIcon} width={15} />)
     
-    expect(true).toBe(true)
+    await wait(100)
+    expect(lastFrame()).toBeTruthy()
   }, 60000) // Increase timeout for real API calls
 })

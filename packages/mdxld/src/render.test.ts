@@ -1,42 +1,84 @@
 import { render } from './render'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import React from 'react'
+import * as mdx from '@mdx-js/mdx'
+import * as ReactDOMServer from 'react-dom/server'
+import TurndownService from 'turndown'
+
+vi.mock('@mdx-js/mdx', () => {
+  const mockCompile = vi.fn().mockResolvedValue('compiled-mdx-content')
+  const mockEvaluate = vi.fn().mockImplementation(() => {
+    return Promise.resolve({
+      default: () => React.createElement('div', null, 'Mocked MDX Component')
+    })
+  })
+  
+  return {
+    compile: mockCompile,
+    evaluate: mockEvaluate
+  }
+})
+
+vi.mock('react-dom/server', () => {
+  return {
+    renderToString: vi.fn().mockReturnValue('<div>Mocked MDX Component</div>')
+  }
+})
+
+vi.mock('turndown', () => {
+  return {
+    default: vi.fn().mockImplementation(() => ({
+      turndown: vi.fn().mockReturnValue('Rendered markdown content')
+    }))
+  }
+})
 
 describe('render', () => {
-  it('should render simple MDX content to markdown', async () => {
-    // Use extremely simple MDX content
-    const mdxContent = '# Hello World'
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
 
-    const result = await render(mdxContent)
-
-    expect(result.markdown).toBeTruthy()
-    expect(typeof result.markdown).toBe('string')
-    expect(result.frontmatter).toEqual({})
-  }, 60000) // Increase timeout for real compilation
-
-  it('should handle frontmatter in MDX content', async () => {
-    // Use extremely simple MDX content with frontmatter
+  it('should render MDX content to markdown', async () => {
     const mdxContent = `---
 title: Test Document
+tags: ["mdx", "test"]
 ---
 
-# Hello World`
+# Hello World
+
+This is a test document.`
 
     const result = await render(mdxContent)
 
-    expect(result.markdown).toBeTruthy()
-    expect(typeof result.markdown).toBe('string')
+    expect(result.markdown).toBe('Rendered markdown content')
     expect(result.frontmatter).toEqual({
-      title: 'Test Document'
+      title: 'Test Document',
+      tags: ['mdx', 'test'],
     })
-  }, 60000) // Increase timeout for real compilation
+    expect(mdx.compile).toHaveBeenCalled()
+    expect(mdx.evaluate).toHaveBeenCalled()
+    expect(ReactDOMServer.renderToString).toHaveBeenCalled()
+  })
+
+  it('should handle MDX content without frontmatter', async () => {
+    const mdxContent = `# Hello World
+
+This is a test document without frontmatter.`
+
+    const result = await render(mdxContent)
+
+    expect(result.markdown).toBe('Rendered markdown content')
+    expect(result.frontmatter).toEqual({})
+    expect(mdx.compile).toHaveBeenCalled()
+  })
 
   it('should pass components and scope to MDX rendering', async () => {
-    // Use extremely simple MDX content
-    const mdxContent = '# Hello World'
+    const mdxContent = `# Hello World
+
+<CustomComponent />`
 
     const customComponents = {
-      h1: (props) => React.createElement('h1', props, props.children),
+      CustomComponent: () => React.createElement('div', null, 'Custom content'),
     }
 
     const customScope = {
@@ -48,14 +90,26 @@ title: Test Document
       scope: customScope,
     })
 
-    expect(result.markdown).toBeTruthy()
-    expect(typeof result.markdown).toBe('string')
-  }, 60000) // Increase timeout for real compilation
+    expect(result.markdown).toBe('Rendered markdown content')
+    expect(mdx.evaluate).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+      ...customScope
+    }))
+    expect(ReactDOMServer.renderToString).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          components: customComponents
+        })
+      })
+    )
+  })
 
   it('should throw an error when MDX compilation fails', async () => {
-    // Use intentionally invalid MDX content
-    const mdxContent = '<Component>'
+    vi.mocked(mdx.compile).mockRejectedValueOnce(new Error('Compilation error'))
 
-    await expect(render(mdxContent)).rejects.toThrow()
-  }, 60000) // Increase timeout for real compilation
+    const mdxContent = `# Invalid MDX
+
+<Component with syntax error />`
+
+    await expect(render(mdxContent)).rejects.toThrow('Failed to render MDX: Compilation error')
+  })
 })
