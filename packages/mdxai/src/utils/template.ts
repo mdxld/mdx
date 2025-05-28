@@ -51,13 +51,16 @@ export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...valu
  */
 export function createUnifiedFunction<T>(
   callback: (parsedTemplate: string, options: Record<string, any>) => T
-) {
-  const unifiedFunction = function(...args: any[]) {
+): any {
+  // This function handles both normal function calls and tagged template literals
+  function unifiedFunction(...args: any[]): any {
+    // Pattern 3: Normal function call - code('fizzBuzz', { model: 'openai/o3' })
     if (typeof args[0] === 'string') {
       const [template, options = {}] = args
       return callback(template, options)
     }
     
+    // Pattern 1: Tagged template literal - code`fizzBuzz`
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...values] = args
       const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
@@ -67,26 +70,33 @@ export function createUnifiedFunction<T>(
     throw new Error('Function must be called as a template literal or with string and options')
   }
 
-  // Create a proxy that supports all three calling patterns
+  // Create a proxy to handle the curried pattern
   return new Proxy(unifiedFunction, {
+    // Handle direct function calls (Pattern 1 and 3)
     apply(target, thisArg, args) {
-      return target(...args)
+      return target.apply(thisArg, args)
     },
     
-    get(target, prop, receiver) {
+    // Handle property access for curried calls (Pattern 2)
+    get(target, prop) {
+      // Prevent Promise-like behavior
       if (prop === 'then' || prop === 'catch' || prop === 'finally') {
         return undefined
       }
       
+      // Handle symbol properties
       if (typeof prop === 'symbol') {
-        return Reflect.get(target, prop, receiver)
+        return Reflect.get(target, prop)
       }
       
-      return function(...args: any[]) {
-        if (Array.isArray(args[0]) && 'raw' in args[0]) {
-          const [template, ...values] = args
+      // Return a function that handles the template literal part of Pattern 2
+      return function(...templateArgs: any[]) {
+        // Ensure we're dealing with a template literal
+        if (Array.isArray(templateArgs[0]) && 'raw' in templateArgs[0]) {
+          const [template, ...values] = templateArgs
           const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
           
+          // Return a function that accepts options
           return function(options: Record<string, any> = {}) {
             return callback(parsedTemplate, options)
           }
@@ -96,4 +106,4 @@ export function createUnifiedFunction<T>(
       }
     }
   })
-}        
+}    
