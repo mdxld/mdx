@@ -80,8 +80,7 @@ describe('template utilities', () => {
       const mockCallback = vi.fn().mockReturnValue('result')
       const testFunction = createUnifiedFunction(mockCallback)
       
-      // @ts-expect-error - Accessing a property that doesn't exist on Function
-      const result = testFunction.customProp`Hello ${'world'}`({ model: 'test-model' })
+      const result = (testFunction as any).customProp`Hello ${'world'}`({ model: 'test-model' })
       
       expect(mockCallback).toHaveBeenCalledWith('Hello world', { model: 'test-model' })
       expect(result).toBe('result')
@@ -102,8 +101,8 @@ describe('template utilities', () => {
       const mockCallback = vi.fn()
       const testFunction = createUnifiedFunction(mockCallback)
       
-      // @ts-expect-error - Testing with invalid argument type
-      expect(() => testFunction(123)).toThrow('Function must be called as a template literal or with string and options')
+      // Using type assertion to test with invalid argument type
+      expect(() => (testFunction as any)(123)).toThrow('Function must be called as a template literal or with string and options')
     })
   })
-})  
+})      
