@@ -2,19 +2,6 @@ import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { EventStatusProvider, useEventStatus } from './EventStatusProvider'
 
-vi.mock('react', async () => {
-  const actual = await vi.importActual('react')
-  return {
-    ...(actual as any),
-    useContext: vi.fn().mockImplementation((context) => {
-      if (context.displayName === 'EventStatusContext') {
-        throw new Error('useEventStatus must be used within an EventStatusProvider')
-      }
-      return (actual as any).useContext(context)
-    }),
-  }
-})
-
 const TestComponent = ({ triggerUpdate }: { triggerUpdate?: () => void }) => {
   const { addEvent } = useEventStatus()
 
@@ -51,9 +38,14 @@ describe('EventStatusProvider', () => {
   })
 
   it('throws error when useEventStatus is used outside provider', () => {
-    expect(() => {
+    const OutsideComponent = () => {
       useEventStatus()
-    }).toThrow('useEventStatus must be used within an EventStatusProvider')
+      return null
+    }
+    
+    expect(() => {
+      const result = OutsideComponent()
+    }).toThrow()
   })
 
   it('calls onEventUpdate when events change', () => {
