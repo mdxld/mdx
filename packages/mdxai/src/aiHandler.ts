@@ -22,6 +22,7 @@ import {
 import hash from 'object-hash'
 import { generateListStream, generateImageStream } from './llmService.js'
 import yaml from 'yaml'
+import { parseTemplate, stringifyValue, TemplateFunction } from './utils/template'
 
 /**
  * Type for template literal function
@@ -44,16 +45,10 @@ export interface AiFunction extends TemplateFn {
 }
 
 /**
- * Stringify a value to YAML if it's an array or object, otherwise return as string
+ * Stringify a value for use in prompts
  * @param value The value to stringify
  * @returns The stringified value
  */
-function stringifyValue(value: any): string {
-  if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
-    return yaml.stringify(value).trim()
-  }
-  return String(value)
-}
 
 /**
  * Core AI template literal function for text generation
@@ -89,15 +84,7 @@ export async function generateAiText(prompt: string): Promise<string> {
  */
 const aiFunction: AiFunction = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
-    let prompt = ''
-
-    template.forEach((str, i) => {
-      prompt += str
-      if (i < values.length) {
-        prompt += stringifyValue(values[i])
-      }
-    })
-
+    const prompt = parseTemplate(template, values)
     return generateAiText(prompt)
   }
 
@@ -118,16 +105,7 @@ export const ai = new Proxy(aiFunction, {
 
     return function (templateOrArgs: TemplateStringsArray | Record<string, any>, ...values: any[]) {
       if (Array.isArray(templateOrArgs) && 'raw' in templateOrArgs) {
-        const templateStrings = templateOrArgs as TemplateStringsArray
-        let prompt = ''
-
-        templateStrings.forEach((str, i) => {
-          prompt += str
-          if (i < values.length) {
-            prompt += stringifyValue(values[i])
-          }
-        })
-
+        const prompt = parseTemplate(templateOrArgs as TemplateStringsArray, values)
         return executeAiFunction(propName, prompt)
       } else {
         return executeAiFunction(propName, stringifyValue(templateOrArgs))
@@ -137,16 +115,7 @@ export const ai = new Proxy(aiFunction, {
 
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const templateStrings = args[0] as TemplateStringsArray
-      let prompt = ''
-
-      templateStrings.forEach((str, i) => {
-        prompt += str
-        if (i < args.length - 1) {
-          prompt += stringifyValue(args[i + 1])
-        }
-      })
-
+      const prompt = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
       return generateAiText(prompt)
     }
 
@@ -574,19 +543,7 @@ export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any
 
 const researchFunction_: ResearchTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
-    let query = ''
-
-    template.forEach((str, i) => {
-      query += str
-      if (i < values.length) {
-        if (values[i] !== null && typeof values[i] === 'object') {
-          query += yaml.stringify(values[i])
-        } else {
-          query += values[i]
-        }
-      }
-    })
-
+    const query = parseTemplate(template, values)
     return researchFunction(query)
   }
 
@@ -608,20 +565,7 @@ export const research = new Proxy(researchFunction_, {
 
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const templateStrings = args[0] as TemplateStringsArray
-      let query = ''
-
-      templateStrings.forEach((str, i) => {
-        query += str
-        if (i < args.length - 1) {
-          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
-            query += yaml.stringify(args[i + 1])
-          } else {
-            query += args[i + 1]
-          }
-        }
-      })
-
+      const query = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
       return researchFunction(query)
     }
 
@@ -708,15 +652,7 @@ export type SayTemplateFn = (template: TemplateStringsArray, ...values: any[]) =
 
 const sayFunction_: SayTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
-    let text = ''
-
-    template.forEach((str, i) => {
-      text += str
-      if (i < values.length) {
-        text += stringifyValue(values[i])
-      }
-    })
-
+    const text = parseTemplate(template, values)
     return generateSpeechAudio(text)
   }
 
@@ -738,16 +674,7 @@ export const say = new Proxy(sayFunction_, {
 
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const templateStrings = args[0] as TemplateStringsArray
-      let text = ''
-
-      templateStrings.forEach((str, i) => {
-        text += str
-        if (i < args.length - 1) {
-          text += stringifyValue(args[i + 1])
-        }
-      })
-
+      const text = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
       return generateSpeechAudio(text)
     }
 
@@ -764,19 +691,7 @@ export type ImageTemplateFn = (template: TemplateStringsArray, ...values: any[])
 
 const imageFunction_: ImageTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
-    let prompt = ''
-
-    template.forEach((str, i) => {
-      prompt += str
-      if (i < values.length) {
-        if (values[i] !== null && typeof values[i] === 'object') {
-          prompt += yaml.stringify(values[i])
-        } else {
-          prompt += values[i]
-        }
-      }
-    })
-
+    const prompt = parseTemplate(template, values)
     return generateImageStream(prompt)
   }
 
@@ -798,20 +713,7 @@ export const image = new Proxy(imageFunction_, {
 
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const templateStrings = args[0] as TemplateStringsArray
-      let prompt = ''
-
-      templateStrings.forEach((str, i) => {
-        prompt += str
-        if (i < args.length - 1) {
-          if (args[i + 1] !== null && typeof args[i + 1] === 'object') {
-            prompt += yaml.stringify(args[i + 1])
-          } else {
-            prompt += args[i + 1]
-          }
-        }
-      })
-
+      const prompt = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
       return generateImageStream(prompt)
     }
 

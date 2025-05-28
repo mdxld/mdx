@@ -2,6 +2,7 @@ import { streamText, streamObject } from 'ai'
 import { z } from 'zod'
 import { model } from '../ai.js'
 import { createZodSchemaFromObject } from '../aiHandler.js'
+import { parseTemplate } from '../utils/template.js'
 
 export type ExtractType = 'entity' | 'date' | 'number' | 'object' | 'auto'
 
@@ -275,7 +276,7 @@ export const extract = new Proxy(function () {}, {
   apply: (target: any, thisArg: any, args: any[]) => {
     if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...expressions] = args
-      const prompt = String.raw({ raw: template }, ...expressions)
+      const prompt = parseTemplate(template as TemplateStringsArray, expressions)
 
       return createExtractResult(prompt)
     }
