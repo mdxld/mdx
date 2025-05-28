@@ -24,7 +24,7 @@ vi.mock('ai', () => {
 vi.mock('./research', async (importOriginal) => {
   const mockResearchResult = {
     text: 'This is a test research response',
-    markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1) and [ ² ](#2)',
+    markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1) and [ ² ](#2)\n\n<details id="1">\n<summary>Content from ai-sdk.dev</summary>\n\n# Test Markdown\nThis is test content\n\n</details>\n\n<details id="2">\n<summary>Content from vercel.com</summary>\n\n# Test Markdown\nThis is test content\n\n</details>',
     citations: ['https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data', 'https://vercel.com/docs/ai-sdk'],
     reasoning: 'This is mock reasoning',
     scrapedCitations: [
