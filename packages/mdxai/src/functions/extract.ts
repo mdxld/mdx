@@ -1,242 +1,29 @@
-import { streamText, streamObject } from 'ai'
+import { generateObject } from 'ai'
 import { z } from 'zod'
-import { model } from '../ai.js'
-import { createZodSchemaFromObject } from '../aiHandler.js'
-import { parseTemplate } from '../utils/template.js'
+import { model } from '../ai'
+import { parseTemplate, TemplateFunction } from '../utils/template'
 
-export type ExtractType = 'entity' | 'date' | 'number' | 'object' | 'auto'
+const schema = z.object({
+  entities: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    observations: z.array(z.string()),
+  })),
+  relationships: z.array(z.object({
+    from: z.string(),
+    to: z.string(),
+    type: z.string(),
+  })),
+})
 
-export interface ExtractOptions {
-  type?: ExtractType
-  schema?: Record<string, any>
-  cache?: boolean
-}
+export const extract: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray, ...values: any[]) => {
+  const content = parseTemplate(template, values)
 
-export interface ExtractFunction {
-  (strings: TemplateStringsArray, ...values: any[]): ExtractResult
-}
-
-export interface ExtractResult extends Promise<any> {
-  withSchema(schema: Record<string, any>): ExtractResult
-  asType(type: ExtractType): ExtractResult
-}
-
-/**
- * Core extraction logic for different data types
- */
-async function extractData(prompt: string, options: ExtractOptions = {}): Promise<any> {
-  const { type = 'auto', schema, cache = true } = options
-
-  try {
-    if (schema) {
-      return await extractWithSchema(prompt, schema)
-    }
-
-    switch (type) {
-      case 'entity':
-        return await extractEntities(prompt)
-      case 'date':
-        return await extractDates(prompt)
-      case 'number':
-        return await extractNumbers(prompt)
-      case 'object':
-        return await extractObjects(prompt)
-      case 'auto':
-      default:
-        return await extractAuto(prompt)
-    }
-  } catch (error) {
-    console.error('Error in extractData:', error)
-    throw new Error('Failed to extract data from text')
-  }
-}
-
-/**
- * Extract data using a provided schema
- */
-async function extractWithSchema(prompt: string, schema: Record<string, any>): Promise<any> {
-  const zodSchema = createZodSchemaFromObject(schema)
-  const systemPrompt = `Extract structured data from the following text according to the specified schema. Return the data as JSON.\n\n${prompt}`
-
-  const result = await streamObject({
-    model: model('gpt-4o'),
-    prompt: systemPrompt,
-    schema: zodSchema,
+  const result = await generateObject({
+    model: model('google/gemini-2.5-flash-preview-05-20'),
+    system: `You are an expert in extracting entities and relationships from unstructured text.`,
+    prompt: `Extract ${content}`,
+    schema,
   })
-
   return result.object
 }
-
-/**
- * Extract entities (people, organizations, locations)
- */
-async function extractEntities(prompt: string): Promise<string[]> {
-  const systemPrompt = `Extract all entities (people, organizations, locations) from the following text. Return as a numbered list.\n\n${prompt}`
-
-  const result = await streamText({
-    model: model('gpt-4o'),
-    prompt: systemPrompt,
-  })
-
-  let completeText = ''
-  for await (const chunk of result.textStream) {
-    completeText += chunk
-  }
-
-  return parseListFromText(completeText)
-}
-
-/**
- * Extract dates and times
- */
-async function extractDates(prompt: string): Promise<string[]> {
-  const systemPrompt = `Extract all dates and times mentioned in the following text. Return as a numbered list.\n\n${prompt}`
-
-  const result = await streamText({
-    model: model('gpt-4o'),
-    prompt: systemPrompt,
-  })
-
-  let completeText = ''
-  for await (const chunk of result.textStream) {
-    completeText += chunk
-  }
-
-  return parseListFromText(completeText)
-}
-
-/**
- * Extract numbers and measurements
- */
-async function extractNumbers(prompt: string): Promise<string[]> {
-  const systemPrompt = `Extract all numbers and measurements from the following text. Return as a numbered list.\n\n${prompt}`
-
-  const result = await streamText({
-    model: model('gpt-4o'),
-    prompt: systemPrompt,
-  })
-
-  let completeText = ''
-  for await (const chunk of result.textStream) {
-    completeText += chunk
-  }
-
-  return parseListFromText(completeText)
-}
-
-/**
- * Extract structured objects without a specific schema
- */
-async function extractObjects(prompt: string): Promise<any[]> {
-  const systemPrompt = `Extract structured data objects from the following text. Return as JSON array.\n\n${prompt}`
-
-  const result = await streamText({
-    model: model('gpt-4o'),
-    prompt: systemPrompt,
-  })
-
-  let completeText = ''
-  for await (const chunk of result.textStream) {
-    completeText += chunk
-  }
-
-  try {
-    return JSON.parse(completeText)
-  } catch {
-    return [completeText.trim()]
-  }
-}
-
-/**
- * Auto-detect and extract the most relevant data
- */
-async function extractAuto(prompt: string): Promise<any> {
-  const systemPrompt = `Analyze the following text and extract the most relevant structured information. If there are clear entities, dates, or numbers, extract those. Otherwise, extract any structured data. Return the data in the most appropriate format.\n\n${prompt}`
-
-  const result = await streamText({
-    model: model('gpt-4o'),
-    prompt: systemPrompt,
-  })
-
-  let completeText = ''
-  for await (const chunk of result.textStream) {
-    completeText += chunk
-  }
-
-  try {
-    return JSON.parse(completeText)
-  } catch {
-    const listItems = parseListFromText(completeText)
-    return listItems.length > 1 ? listItems : completeText.trim()
-  }
-}
-
-/**
- * Parse numbered list from text
- */
-function parseListFromText(text: string): string[] {
-  let items = text
-    .split('\n')
-    .map((line) => line.trim())
-    .filter((line) => /^\d+\./.test(line))
-    .map((line) => line.replace(/^\d+\.\s*/, '').trim())
-
-  if (items.length === 0) {
-    items = text
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0 && !line.startsWith('#'))
-      .map((line) => line.replace(/^[-*•]\s*/, '').trim())
-  }
-
-  return items.filter((item) => item.length > 0)
-}
-
-/**
- * Create extract result with chaining methods
- */
-function createExtractResult(prompt: string, initialOptions: ExtractOptions = {}): ExtractResult {
-  let options = { ...initialOptions }
-
-  const executeExtract = () => extractData(prompt, options)
-
-  const result: any = executeExtract()
-
-  result.then = (resolve: any, reject: any) => {
-    return executeExtract().then(resolve, reject)
-  }
-
-  result.catch = (reject: any) => {
-    return executeExtract().catch(reject)
-  }
-
-  result.finally = (callback: any) => {
-    return executeExtract().finally(callback)
-  }
-
-  result.withSchema = (schema: Record<string, any>) => {
-    return createExtractResult(prompt, { ...options, schema })
-  }
-
-  result.asType = (type: ExtractType) => {
-    return createExtractResult(prompt, { ...options, type })
-  }
-
-  return result as ExtractResult
-}
-
-/**
- * Extract template literal function
- */
-export const extract = new Proxy(function () {}, {
-  apply: (target: any, thisArg: any, args: any[]) => {
-    if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-      const [template, ...expressions] = args
-      const prompt = parseTemplate(template as TemplateStringsArray, expressions)
-
-      return createExtractResult(prompt)
-    }
-
-    throw new Error('extract function must be used as a template literal tag')
-  },
-}) as ExtractFunction

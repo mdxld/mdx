@@ -13,7 +13,7 @@ export interface GenerateOptions {
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, generateImageStream }
 export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
 export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction, say, SayTemplateFn, image, ImageTemplateFn } from './aiHandler.js'
-export { extract, ExtractFunction, ExtractType, ExtractOptions } from './functions/extract.js'
+export { extract } from './functions/extract.js'
 export { video, VideoConfig, VideoResult } from './functions/video.js'
 export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
 export { 
