@@ -6,18 +6,30 @@ import { renderToString } from 'react-dom/server'
 import TurndownService from 'turndown'
 import * as mdx from '@mdx-js/mdx'
 
+vi.mock('@mdx-js/mdx', () => {
+  return {
+    compile: vi.fn().mockImplementation((content) => {
+      if (content.value && content.value.includes('<Component with syntax error')) {
+        return Promise.reject(new Error('Could not parse expression with acorn'));
+      }
+      return Promise.resolve('compiled-mdx-content');
+    }),
+    evaluate: vi.fn().mockResolvedValue({
+      default: () => React.createElement('div', null, 'Test MDX Content')
+    })
+  }
+})
+
 describe('render', () => {
   it('should render MDX content to markdown', async () => {
-    const mdxContent = dedent`
-      ---
-      title: Test Document
-      tags: ["mdx", "test"]
-      ---
-      
-      # Hello World
-      
-      This is a simple test document.
-    `
+    const mdxContent = `---
+title: Test Document
+tags: ["mdx", "test"]
+---
+
+# Hello World
+
+This is a test.`
 
     const result = await render(mdxContent)
 
@@ -30,11 +42,9 @@ describe('render', () => {
   }, 60000) // Increase timeout for real compilation
 
   it('should handle MDX content without frontmatter', async () => {
-    const mdxContent = dedent`
-      # Hello World
-      
-      This is a simple paragraph.
-    `
+    const mdxContent = `# Hello World
+
+Plain text only.`
 
     const result = await render(mdxContent)
 

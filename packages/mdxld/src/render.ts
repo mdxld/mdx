@@ -5,6 +5,7 @@ import * as runtime from 'react/jsx-runtime'
 import * as ReactDOMServer from 'react-dom/server'
 import TurndownService from 'turndown'
 import { parseFrontmatter } from './parser.js'
+import remarkGfm from 'remark-gfm'
 
 export interface RenderOptions {
   /**
@@ -46,6 +47,9 @@ export async function render(mdxContent: string, options: RenderOptions = {}): P
     const compiled = await compile(new VFile(contentWithoutFrontmatter), {
       jsx: true,
       jsxImportSource: 'react',
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [],
+      development: process.env.NODE_ENV !== 'production'
     })
 
     const { default: Component } = await evaluate(compiled, {
@@ -63,6 +67,7 @@ export async function render(mdxContent: string, options: RenderOptions = {}): P
       frontmatter,
     }
   } catch (error) {
+    console.error('MDX Compilation Error:', error)
     throw new Error(`Failed to render MDX: ${error instanceof Error ? error.message : String(error)}`)
   }
 }
