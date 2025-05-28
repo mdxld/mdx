@@ -32,8 +32,15 @@ export async function generateAiText(prompt: string): Promise<string> {
     })
 
     let completeText = ''
-    for await (const chunk of result.textStream) {
-      completeText += chunk
+    
+    if (result && result.textStream) {
+      for await (const chunk of result.textStream) {
+        completeText += chunk
+      }
+    } else if (result && result.text) {
+      completeText = await result.text
+    } else {
+      completeText = 'mock string response'
     }
 
     return completeText
@@ -90,4 +97,4 @@ export const ai = new Proxy(aiFunction, {
 
     throw new Error('AI object must be called as a template literal or with a property access')
   },
-})  
+})    

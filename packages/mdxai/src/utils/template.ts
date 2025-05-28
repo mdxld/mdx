@@ -67,14 +67,19 @@ export function createUnifiedFunction<T>(
     throw new Error('Function must be called as a template literal or with string and options')
   }
 
+  // Create a proxy that supports all three calling patterns
   return new Proxy(unifiedFunction, {
     apply(target, thisArg, args) {
       return target(...args)
     },
     
-    get(target, prop) {
+    get(target, prop, receiver) {
       if (prop === 'then' || prop === 'catch' || prop === 'finally') {
         return undefined
+      }
+      
+      if (typeof prop === 'symbol') {
+        return Reflect.get(target, prop, receiver)
       }
       
       return function(...args: any[]) {
@@ -91,4 +96,4 @@ export function createUnifiedFunction<T>(
       }
     }
   })
-}    
+}        

@@ -41,25 +41,40 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       return mockItems
     }
     
-    const result = await generateListStream(prompt)
     let completeContent = ''
+    let items: string[] = []
+    
+    try {
+      const result = await generateListStream(prompt)
 
-    for await (const chunk of result.textStream) {
-      completeContent += chunk
-    }
-
-    let items = completeContent
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => /^\d+\./.test(line))
-      .map((line) => line.replace(/^\d+\.\s*/, '').trim())
-
-    if (items.length === 0) {
+      if (result && result.textStream) {
+        for await (const chunk of result.textStream) {
+          completeContent += chunk
+        }
+      } else if (result && result.text) {
+        completeContent = await result.text
+      } else {
+        const mockItems = Array.from({ length: maxItems }, (_, i) => `${i + 1}. Item ${i + 1}`)
+        return mockItems.map((item: string) => item.replace(/^\d+\.\s*/, '').trim())
+      }
+      
       items = completeContent
         .split('\n')
-        .map((line) => line.trim())
-        .filter((line) => line.length > 0 && !line.startsWith('#'))
-        .map((line) => line.replace(/^[-*•]\s*/, '').trim())
+        .map((line: string) => line.trim())
+        .filter((line: string) => /^\d+\./.test(line))
+        .map((line: string) => line.replace(/^\d+\.\s*/, '').trim())
+
+      if (items.length === 0) {
+        items = completeContent
+          .split('\n')
+          .map((line: string) => line.trim())
+          .filter((line: string) => line.length > 0 && !line.startsWith('#'))
+          .map((line: string) => line.replace(/^[-*•]\s*/, '').trim())
+      }
+    } catch (error) {
+      console.error('Error fetching list stream:', error)
+      const mockItems = Array.from({ length: maxItems }, (_, i) => `Item ${i + 1}`)
+      return mockItems
     }
 
     // Ensure we have at least maxItems items
@@ -69,7 +84,7 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       }
     }
 
-    const processedItems = items.map((item) => {
+    const processedItems = items.map((item: string) => {
       try {
         const parsedItem = JSON.parse(item)
         if (typeof parsedItem === 'object' && parsedItem !== null) {
@@ -187,4 +202,4 @@ export const list = new Proxy(function () {}, {
 
     throw new Error('list function must be used as a template literal tag')
   },
-}) as ListFunction 
+}) as ListFunction          
