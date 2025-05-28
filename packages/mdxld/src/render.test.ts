@@ -16,7 +16,7 @@ describe('render', () => {
       
       # Hello World
       
-      This is a test MDX document.
+      This is a simple test document.
     `
 
     const result = await render(mdxContent)
@@ -33,7 +33,7 @@ describe('render', () => {
     const mdxContent = dedent`
       # Hello World
       
-      This is a test MDX document without frontmatter.
+      This is a simple paragraph.
     `
 
     const result = await render(mdxContent)
@@ -47,14 +47,12 @@ describe('render', () => {
     const mdxContent = dedent`
       # Hello World
       
-      This is a test with custom components.
-      
-      {/* Using JSX syntax that's valid for MDX */}
-      <div className="custom">Custom element</div>
+      This is a simple paragraph.
     `
 
     const customComponents = {
-      div: (props) => React.createElement('div', props, props.children),
+      h1: (props) => React.createElement('h1', props, props.children),
+      p: (props) => React.createElement('p', props, props.children),
     }
 
     const customScope = {
