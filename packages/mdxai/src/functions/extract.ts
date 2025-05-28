@@ -21,7 +21,7 @@ export const extract: TemplateFunction<Promise<z.infer<typeof schema>>> = async 
 
   const result = await generateObject({
     model: model('google/gemini-2.5-flash-preview-05-20'),
-    system: `You are an expert in extracting entities and relationships from unstructured text.`,
+    system: `You are an expert in extracting entities and relationships from unstructured content.`,
     prompt: `Extract ${content}`,
     schema,
   })
