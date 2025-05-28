@@ -3,8 +3,19 @@ import { model } from '../ai'
 import dedent from 'dedent'
 import { QueueManager } from '../ui/index.js'
 import { scrape, ScrapedContent } from './scrape.js'
+import { parseTemplate } from '../utils/template.js'
 
-export const research = async (query: string) => {
+/**
+ * Research template literal function for external data gathering
+ *
+ * Usage: await research`${market} in the context of delivering ${idea}`
+ */
+export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
+
+/**
+ * Core research function that takes a query string and returns research results
+ */
+async function researchCore(query: string) {
   const result = await generateText({
     model: model('perplexity/sonar-deep-research'),
     prompt: `research ${query}`,
@@ -104,3 +115,38 @@ export const research = async (query: string) => {
     scrapedCitations,
   }
 }
+
+// Create a function that supports both string parameters and template literals
+function researchFunction(queryOrTemplate: string | TemplateStringsArray, ...values: any[]): Promise<any> {
+  // If first argument is a string, use the original interface
+  if (typeof queryOrTemplate === 'string') {
+    return researchCore(queryOrTemplate)
+  }
+  
+  // If first argument is a TemplateStringsArray, use template literal interface
+  if (Array.isArray(queryOrTemplate) && 'raw' in queryOrTemplate) {
+    const query = parseTemplate(queryOrTemplate as TemplateStringsArray, values)
+    return researchCore(query)
+  }
+  
+  throw new Error('Research function must be called with a string or as a template literal')
+}
+
+export const research = new Proxy(researchFunction, {
+  get(target, prop) {
+    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+      return undefined
+    }
+
+    if (typeof prop === 'symbol') {
+      return Reflect.get(target, prop)
+    }
+
+    return target
+  },
+
+  apply(target, thisArg, args: any[]) {
+    const [first, ...rest] = args
+    return target(first, ...rest)
+  },
+})

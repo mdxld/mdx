@@ -31,10 +31,10 @@ export async function run() {
     return runBuildCommand(cwd)
   } else if (command === 'start') {
     return runStartCommand(cwd)
-  }  else if (command === 'test') {
+  } else if (command === 'test') {
     const watchFlag = args.includes('--watch')
     return runTestCommand(cwd, watchFlag)
-  }else if (command === 'lint') {
+  } else if (command === 'lint') {
     console.log('Lint command not implemented yet')
     return
   } else if (command === 'exec') {

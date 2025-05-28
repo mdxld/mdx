@@ -104,7 +104,9 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
 const saveToCache = async (url: string, content: ScrapedContent): Promise<void> => {
   try {
     const cacheFilePath = getCacheFilePath(url)
-    await ensureDirectoryExists(cacheFilePath)
+    
+    const cacheDir = path.dirname(cacheFilePath)
+    await fs.mkdir(cacheDir, { recursive: true, mode: 0o777 })
     
     const cachedAt = new Date().toISOString()
     
@@ -135,7 +137,9 @@ const saveToCache = async (url: string, content: ScrapedContent): Promise<void> 
     const markdownContent = content.markdown || ''
     const fileContent = `${frontmatter}\n\n${markdownContent}`
     
-    await fs.writeFile(cacheFilePath, fileContent, 'utf-8')
+    await fs.writeFile(cacheFilePath, fileContent, { encoding: 'utf-8', mode: 0o666 })
+    
+    await fs.access(cacheFilePath)
   } catch (error) {
     console.warn(`Failed to cache content for ${url}:`, error)
   }
@@ -145,7 +149,7 @@ export const scrape = async (url: string): Promise<ScrapedContent> => {
   // Try to load from cache first
   const cached = await loadFromCache(url)
   if (cached) {
-    return cached
+    return { ...cached, cached: true }
   }
   
   if (url === 'https://example.com/test') {
