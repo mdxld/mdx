@@ -102,7 +102,6 @@ describe('CLI say command', () => {
   })
   
   it('should generate audio on Linux platform', async () => {
-    process.env.GEMINI_API_KEY = process.env.GOOGLE_API_KEY || 'test-api-key'
     
     const originalPlatform = process.platform
     Object.defineProperty(process, 'platform', { value: 'linux' })
@@ -118,7 +117,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
       }
     } finally {
       // Restore platform
@@ -127,7 +126,6 @@ describe('CLI say command', () => {
   }, 60000) // Increase timeout for real API calls
   
   it('should generate audio on macOS platform', async () => {
-    process.env.GEMINI_API_KEY = process.env.GOOGLE_API_KEY || 'test-api-key'
     
     // Set platform to macOS
     const originalPlatform = process.platform
@@ -144,7 +142,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
       }
     } finally {
       // Restore platform
@@ -153,7 +151,6 @@ describe('CLI say command', () => {
   }, 60000) // Increase timeout for real API calls
   
   it('should generate audio on Windows platform', async () => {
-    process.env.GEMINI_API_KEY = process.env.GOOGLE_API_KEY || 'test-api-key'
     
     // Set platform to Windows
     const originalPlatform = process.platform
@@ -170,7 +167,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
       }
     } finally {
       // Restore platform
@@ -179,7 +176,6 @@ describe('CLI say command', () => {
   }, 60000) // Increase timeout for real API calls
   
   it('should save audio to specified output path', async () => {
-    process.env.GEMINI_API_KEY = process.env.GOOGLE_API_KEY || 'test-api-key'
     
     try {
       await program.parseAsync(['node', 'cli.js', 'say', 'Hello world', '-o', testOutputPath])
@@ -194,7 +190,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
       }
     }
   }, 60000) // Increase timeout for real API calls

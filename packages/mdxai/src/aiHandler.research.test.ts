@@ -39,8 +39,6 @@ describe('research template literal', () => {
 
   beforeEach(() => {
     process.env.NODE_ENV = 'test'
-    process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-    process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
     createTestPrompt('Respond briefly to: ${prompt}')
   })
 

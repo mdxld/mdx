@@ -5,8 +5,6 @@ import { extract } from './extract'
 describe('extract', () => {
   it('should extract entities and relationships', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-      process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
       
       const result = await extract`facts: ${'John Doe is an amazing software engineer at Microsoft. He lives and works at the office in New York City.'}`
       
@@ -70,8 +68,6 @@ describe('extract', () => {
 describe('extract function basic usage', () => {
   it('should extract entities and relationships from text', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-      process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
       
       const text = 'John Doe works at Microsoft in New York'
       
@@ -100,8 +96,6 @@ describe('extract function basic usage', () => {
 
   it('should handle variable interpolation', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-      process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
       
       const document = 'Sample document with data'
       
@@ -134,8 +128,6 @@ describe('extract function error handling', () => {
   })
 
   it('should support Promise methods', async () => {
-    process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-    process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
     
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('API request timed out')), 10000)
@@ -155,8 +147,6 @@ describe('extract function error handling', () => {
 describe('extract function e2e', () => {
   it('should extract entities from text using real API with caching', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-      process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
       
       const text = 'Apple Inc. was founded by Steve Jobs in California'
       
@@ -194,8 +184,6 @@ describe('extract function e2e', () => {
 
   it('should handle errors gracefully with real API', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
-      process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
       
       const text = ''
       

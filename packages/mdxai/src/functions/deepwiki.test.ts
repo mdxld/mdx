@@ -5,7 +5,6 @@ import { deepwiki } from './deepwiki'
 describe('deepwiki', () => {
   it('should process deepwiki queries and use MCP tools', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
       
       const result = await deepwiki('How do I use structured outputs with the Vercel AI SDK?')
       
@@ -28,7 +27,6 @@ describe('deepwiki', () => {
 
   it('should handle different types of queries', async () => {
     try {
-      process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
       
       const result = await deepwiki('What is the latest version of React?')
       expect(result).toBeDefined()

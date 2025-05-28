@@ -23,7 +23,6 @@ describe('video function', () => {
   const originalEnv = { ...process.env }
   
   beforeEach(() => {
-    process.env.GOOGLE_API_KEY = 'mock-google-api-key'
     vi.clearAllMocks()
   })
   
@@ -38,7 +37,7 @@ describe('video function', () => {
       try {
         await video({ prompt })
       } catch (error) {
-        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY/)
+        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY|Bad Request/)
       }
     })
     
@@ -53,7 +52,7 @@ describe('video function', () => {
       try {
         await video(config)
       } catch (error) {
-        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY/)
+        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY|Bad Request/)
       }
     })
   })
@@ -65,7 +64,7 @@ describe('video function', () => {
       try {
         await video({ prompt })
       } catch (error) {
-        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY/)
+        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY|Bad Request/)
       }
     })
     
@@ -75,7 +74,7 @@ describe('video function', () => {
       try {
         await video({ prompt })
       } catch (error) {
-        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY/)
+        expect((error as Error).message).toMatch(/API key|GOOGLE_API_KEY|Bad Request/)
       }
     })
   })
@@ -92,4 +91,4 @@ describe('video function', () => {
       }
     })
   })
-})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                

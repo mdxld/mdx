@@ -112,8 +112,6 @@ describe('CLI research command', () => {
       const outputFile = path.join(TEST_DIR, 'test-output.mdx')
       
       try {
-        process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
-        process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
         
         const { program } = createResearchCommand()
         
@@ -139,8 +137,6 @@ describe('CLI research command', () => {
       const outputFile = path.join(TEST_DIR, 'research.mdx')
       
       try {
-        process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
-        process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
         
         let renderAppCalled = false
         let renderAppParams: any = null
@@ -190,8 +186,6 @@ describe('CLI research command', () => {
       const outputFile = path.join(TEST_DIR, 'frontmatter-output.mdx')
       
       try {
-        process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
-        process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
         
         const { program } = createResearchCommand()
         
@@ -215,8 +209,6 @@ describe('CLI research command', () => {
       const outputFile = path.join(TEST_DIR, 'both-format-output.mdx')
       
       try {
-        process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
-        process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
         
         const { program } = createResearchCommand()
         
