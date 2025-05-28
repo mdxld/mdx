@@ -9,15 +9,6 @@ import * as llmService from './llmService'
 import * as appUI from './ui/app'
 import * as utils from './utils'
 
-vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {})
-vi.spyOn(fs, 'existsSync').mockReturnValue(true)
-vi.spyOn(fs, 'mkdirSync').mockImplementation((() => {}) as any)
-
-
-vi.spyOn(appUI, 'renderApp').mockReturnValue(() => {})
-vi.spyOn(utils, 'extractH1Title').mockReturnValue('Test Title')
-vi.spyOn(utils, 'slugifyString').mockReturnValue('test-title')
-vi.spyOn(utils, 'ensureDirectoryExists').mockImplementation(() => {})
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -33,6 +24,15 @@ describe('CLI research command', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    
+    vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {})
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+    vi.spyOn(fs, 'mkdirSync').mockImplementation((() => {}) as any)
+    
+    vi.spyOn(appUI, 'renderApp').mockReturnValue(() => {})
+    vi.spyOn(utils, 'extractH1Title').mockReturnValue('Test Title')
+    vi.spyOn(utils, 'slugifyString').mockReturnValue('test-title')
+    vi.spyOn(utils, 'ensureDirectoryExists').mockImplementation(() => {})
   })
 
   afterEach(() => {
