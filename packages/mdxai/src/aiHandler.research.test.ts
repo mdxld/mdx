@@ -70,17 +70,26 @@ vi.mock('./functions/research.js', () => {
     ],
   }
 
-  const researchFunction = (queryOrTemplate, ...values) => {
+  const researchFunction = (queryOrTemplate: any, ...values: any[]) => {
     if (typeof queryOrTemplate === 'string') {
       throw new Error('Research function must be called with a string or as a template literal')
     }
+    
+    if (Array.isArray(queryOrTemplate) && 'raw' in queryOrTemplate) {
+      for (const value of values) {
+        if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
+          yaml.stringify(value)
+        }
+      }
+    }
+    
     return Promise.resolve(mockResearchResult)
   }
 
   return {
     research: new Proxy(researchFunction, {
-      apply(target, thisArg, args) {
-        return target(...args)
+      apply(target: any, thisArg: any, args: any[]) {
+        return target.apply(thisArg, args)
       }
     })
   }
