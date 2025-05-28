@@ -164,15 +164,10 @@ describe.skipIf(isCI || !hasApiKey)('extract function', () => {
   })
 })
 
-describe('extract function e2e', () => {
+describe.skipIf(isCI || !hasApiKey)('extract function e2e', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
-    if (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
-      console.log('Skipping extract e2e test: OPENAI_API_KEY or AI_GATEWAY_TOKEN not set')
-      return
-    }
-    
     process.env.NODE_ENV = 'development'
     vi.clearAllMocks()
   })
