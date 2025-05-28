@@ -9,18 +9,12 @@ import * as llmService from './llmService'
 import * as appUI from './ui/app'
 import * as utils from './utils'
 
-vi.mock('fs', () => ({
-  writeFileSync: vi.fn(),
-  existsSync: vi.fn().mockReturnValue(true),
-  mkdirSync: vi.fn(),
-}))
-vi.mock('./functions/research')
-vi.mock('./llmService')
-vi.mock('./ui/app')
-vi.mock('./utils')
+vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {})
+vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+vi.spyOn(fs, 'mkdirSync').mockImplementation((() => {}) as any)
 
-vi.mock('./functions/research', () => {
-  const mockResearchResult = {
+vi.spyOn(research, 'research').mockImplementation(async () => {
+  return {
     text: 'This is a test research response',
     markdown: '# Research Results\n\nThis is a test research response with citations [ ¹ ](#1)',
     citations: ['https://example.com/citation1'],
@@ -34,15 +28,9 @@ vi.mock('./functions/research', () => {
       },
     ],
   }
-
-  return {
-    research: vi.fn().mockImplementation((queryOrTemplate, ...values) => {
-      return Promise.resolve(mockResearchResult)
-    })
-  }
 })
 
-vi.mocked(llmService.generateResearchStream).mockResolvedValue({
+vi.spyOn(llmService, 'generateResearchStream').mockResolvedValue({
   textStream: {
     [Symbol.asyncIterator]: async function* () {
       yield 'This is a test research response'
@@ -62,11 +50,10 @@ vi.mocked(llmService.generateResearchStream).mockResolvedValue({
   }
 } as any)
 
-vi.mocked(appUI.renderApp).mockReturnValue(() => {})
-
-vi.mocked(utils.extractH1Title).mockReturnValue('Test Title')
-vi.mocked(utils.slugifyString).mockReturnValue('test-title')
-vi.mocked(utils.ensureDirectoryExists)
+vi.spyOn(appUI, 'renderApp').mockReturnValue(() => {})
+vi.spyOn(utils, 'extractH1Title').mockReturnValue('Test Title')
+vi.spyOn(utils, 'slugifyString').mockReturnValue('test-title')
+vi.spyOn(utils, 'ensureDirectoryExists').mockImplementation(() => {})
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

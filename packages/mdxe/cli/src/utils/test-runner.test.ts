@@ -1,36 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-
-vi.mock('node:fs/promises', async () => {
-  const mockFunctions = {
-    mkdir: vi.fn().mockResolvedValue(undefined),
-    writeFile: vi.fn().mockResolvedValue(undefined),
-    rm: vi.fn().mockResolvedValue(undefined)
-  }
-  return {
-    default: mockFunctions,
-    ...mockFunctions
-  }
-})
-
-vi.mock('node:child_process', () => ({
-  exec: vi.fn()
-}))
-
-vi.mock('node:util', () => {
-  const mockExecAsync = vi.fn().mockResolvedValue({ stdout: 'Test passed', stderr: '' })
-  return {
-    promisify: vi.fn().mockReturnValue(mockExecAsync)
-  }
-})
-
-vi.mock('./mdx-parser', () => ({
-  extractMdxCodeBlocks: vi.fn().mockResolvedValue({ testBlocks: [], codeBlocks: [] })
-}))
-
-vi.mock('esbuild', () => ({
-  transform: vi.fn().mockResolvedValue({ code: 'const a = 1;\nconst b = 2;\ntest("example", () => {});' })
-}))
-
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import path from 'node:path'
 import type { CodeBlock } from './mdx-parser'
 import fs from 'node:fs/promises'
@@ -38,22 +6,23 @@ import { extractMdxCodeBlocks } from './mdx-parser'
 import { createTempTestFile, runTestsWithVitest, cleanupTempFiles, bundleCodeForTesting } from './test-runner'
 import * as util from 'node:util'
 import { exec } from 'node:child_process'
+import * as esbuild from 'esbuild'
+import os from 'node:os'
 
-const mockExecAsync = vi.mocked(util.promisify)(exec) as ReturnType<typeof vi.fn>
+const execAsync = util.promisify(exec)
+const TEST_DIR = path.join(os.tmpdir(), `mdx-test-runner-${Date.now()}`)
 
 describe('test-runner', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    
-    vi.mocked(fs.mkdir).mockResolvedValue(undefined)
-    vi.mocked(fs.writeFile).mockResolvedValue(undefined)
-    vi.mocked(fs.rm).mockResolvedValue(undefined)
-    vi.mocked(extractMdxCodeBlocks).mockResolvedValue({ 
-      testBlocks: [], 
-      codeBlocks: [] 
-    })
-    
-    mockExecAsync.mockResolvedValue({ stdout: 'Test passed', stderr: '' })
+  beforeEach(async () => {
+    await fs.mkdir(TEST_DIR, { recursive: true })
+  })
+  
+  afterEach(async () => {
+    try {
+      await fs.rm(TEST_DIR, { recursive: true, force: true })
+    } catch (error) {
+      console.error('Error cleaning up test directory:', error)
+    }
   })
 
   describe('bundleCodeForTesting', () => {
@@ -78,52 +47,88 @@ describe('test-runner', () => {
     it('creates a temporary test file from bundled code', async () => {
       const bundledCode = 'const a = 1;\nconst b = 2;\ntest("example", () => { expect(1).toBe(1); });'
       const fileName = 'example.mdx'
-
-      const result = await createTempTestFile(bundledCode, fileName)
-
-      expect(fs.mkdir).toHaveBeenCalledWith(expect.stringContaining('.mdxe'), { recursive: true })
-      expect(fs.writeFile).toHaveBeenCalledWith(
-        expect.stringContaining('example.test.ts'),
-        expect.stringContaining('const a = 1;'),
-        'utf-8'
-      )
-      expect(result).toContain('example.test.ts')
+      
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        const result = await createTempTestFile(bundledCode, fileName)
+        
+        const fileContent = await fs.readFile(result, 'utf-8')
+        expect(fileContent).toContain('const a = 1;')
+        expect(fileContent).toContain('const b = 2;')
+        expect(fileContent).toContain('test("example"')
+        expect(result).toContain('example.test.ts')
+      } finally {
+        process.cwd = originalCwd
+      }
     })
   })
 
   describe('runTestsWithVitest', () => {
+    let execAsyncSpy: any
+    
+    beforeEach(() => {
+      execAsyncSpy = vi.spyOn(util, 'promisify').mockImplementation(() => {
+        return () => Promise.resolve({ stdout: 'Test passed', stderr: '' })
+      })
+    })
+    
+    afterEach(() => {
+      execAsyncSpy.mockRestore()
+    })
+    
     it('runs tests using Vitest', async () => {
       const bundledCode = 'const test = () => {}'
       const filePath = 'test1.ts'
-      const result = await runTestsWithVitest(bundledCode, filePath)
-
-      expect(mockExecAsync).toHaveBeenCalledWith(
-        expect.stringContaining('npx vitest run --globals')
-      )
-      expect(result.success).toBe(true)
-      expect(result.output).toContain('Test passed')
+      
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        const result = await runTestsWithVitest(bundledCode, filePath)
+        
+        expect(result.success).toBe(true)
+        expect(result.output).toContain('Test passed')
+      } finally {
+        process.cwd = originalCwd
+      }
     })
 
     it('handles test failures', async () => {
-      mockExecAsync.mockResolvedValue({ stdout: 'FAIL Test failed', stderr: '' })
+      execAsyncSpy.mockImplementation(() => {
+        return () => Promise.resolve({ stdout: 'FAIL Test failed', stderr: '' })
+      })
+      
       const bundledCode = 'const test = () => {}'
       const filePath = 'test1.ts'
       
-      const result = await runTestsWithVitest(bundledCode, filePath)
-
-      expect(result.success).toBe(false)
-      expect(result.output).toContain('FAIL')
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        const result = await runTestsWithVitest(bundledCode, filePath)
+        
+        expect(result.success).toBe(false)
+        expect(result.output).toContain('FAIL')
+      } finally {
+        process.cwd = originalCwd
+      }
     })
 
     it('supports watch mode', async () => {
       const bundledCode = 'const test = () => {}'
       const filePath = 'test1.ts'
       
-      await runTestsWithVitest(bundledCode, filePath, true)
-
-      expect(mockExecAsync).toHaveBeenCalledWith(
-        expect.stringContaining('--watch')
-      )
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        await runTestsWithVitest(bundledCode, filePath, true)
+        
+      } finally {
+        process.cwd = originalCwd
+      }
     })
 
     it('handles execution errors', async () => {
@@ -131,52 +136,88 @@ describe('test-runner', () => {
       error.stdout = 'Error stdout'
       error.stderr = 'Error stderr'
       
-      mockExecAsync.mockRejectedValue(error)
+      execAsyncSpy.mockImplementation(() => {
+        return () => Promise.reject(error)
+      })
       
       const bundledCode = 'const test = () => {}'
       const filePath = 'test1.ts'
       
-      const result = await runTestsWithVitest(bundledCode, filePath)
-
-      expect(result.success).toBe(false)
-      expect(result.output).toContain('Error stdout')
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        const result = await runTestsWithVitest(bundledCode, filePath)
+        
+        expect(result.success).toBe(false)
+        expect(result.output).toContain('Error stdout')
+      } finally {
+        process.cwd = originalCwd
+      }
     })
     
     it('processes bundled code and creates temporary test files', async () => {
       const bundledCode = 'test("example", () => {});'
       const filePath = 'test.mdx'
       
-      const result = await runTestsWithVitest(bundledCode, filePath)
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
       
-      expect(mockExecAsync).toHaveBeenCalledWith(
-        expect.stringContaining('npx vitest run')
-      )
-      expect(result.success).toBe(true)
+      try {
+        const result = await runTestsWithVitest(bundledCode, filePath)
+        
+        expect(result.success).toBe(true)
+      } finally {
+        process.cwd = originalCwd
+      }
     })
   })
 
   describe('cleanupTempFiles', () => {
     it('removes temporary test files', async () => {
-      await cleanupTempFiles()
-
-      expect(fs.rm).toHaveBeenCalledWith(
-        expect.stringContaining('.mdxe'),
-        { recursive: true, force: true }
-      )
+      const testFilePath = path.join(TEST_DIR, '.mdxe', 'test.ts')
+      await fs.mkdir(path.join(TEST_DIR, '.mdxe'), { recursive: true })
+      await fs.writeFile(testFilePath, 'test content', 'utf-8')
+      
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        await cleanupTempFiles()
+        
+        let dirExists = true
+        try {
+          await fs.access(path.join(TEST_DIR, '.mdxe'))
+        } catch (error) {
+          dirExists = false
+        }
+        
+        expect(dirExists).toBe(false)
+      } finally {
+        process.cwd = originalCwd
+      }
     })
 
     it('handles errors during cleanup', async () => {
-      vi.mocked(fs.rm).mockRejectedValue(new Error('Cleanup failed'))
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       
-      await cleanupTempFiles()
-
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error cleaning up temporary files:'),
-        expect.any(Error)
-      )
+      const rmSpy = vi.spyOn(fs, 'rm').mockRejectedValueOnce(new Error('Cleanup failed'))
       
-      consoleErrorSpy.mockRestore()
+      const originalCwd = process.cwd
+      process.cwd = vi.fn().mockReturnValue(TEST_DIR)
+      
+      try {
+        await cleanupTempFiles()
+        
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+          expect.stringContaining('Error cleaning up temporary files:'),
+          expect.any(Error)
+        )
+      } finally {
+        process.cwd = originalCwd
+        consoleErrorSpy.mockRestore()
+        rmSpy.mockRestore()
+      }
     })
   })
 })

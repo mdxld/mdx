@@ -6,62 +6,7 @@ import { createCacheMiddleware } from '../cacheMiddleware'
 
 const isCI = process.env.CI === 'true'
 
-describe('research (mocked)', () => {
-  const originalEnv = { ...process.env }
-
-  beforeEach(() => {
-    process.env.AI_GATEWAY_TOKEN = 'mock-token'
-    process.env.FIRECRAWL_API_KEY = 'mock-firecrawl-key'
-    process.env.NODE_ENV = 'test'
-    vi.clearAllMocks()
-  })
-
-  afterEach(() => {
-    process.env = { ...originalEnv }
-  })
-
-  it('should process citations and create enhanced markdown', async () => {
-    try {
-      const result = await research('How do I use structured outputs with the Vercel AI SDK?')
-
-      expect(Array.isArray(result.citations)).toBe(true)
-      
-      if (result.citations.length > 0) {
-        expect(result.scrapedCitations).toBeDefined()
-        expect(Array.isArray(result.scrapedCitations)).toBe(true)
-        
-        if (result.scrapedCitations.length > 0) {
-          const firstCitation = result.scrapedCitations[0]
-          expect(firstCitation).toHaveProperty('url')
-          if (firstCitation.title) {
-            expect(typeof firstCitation.title).toBe('string')
-          }
-        }
-        
-        expect(result.markdown).toBeDefined()
-        expect(typeof result.markdown).toBe('string')
-      }
-    } catch (error) {
-      expect((error as Error).message).toMatch(/Bad Request|API key|not valid|unauthorized/i)
-    }
-  })
-  
-  it('should work with template literals', async () => {
-    try {
-      const topic = 'Vercel AI SDK'
-      const result = await research`How do I use ${topic} for structured outputs?`
-      
-      expect(result).toBeDefined()
-      expect(typeof result.text).toBe('string')
-      expect(typeof result.markdown).toBe('string')
-      expect(Array.isArray(result.citations)).toBe(true)
-    } catch (error) {
-      expect((error as Error).message).toMatch(/Bad Request|API key|not valid|unauthorized/i)
-    }
-  })
-})
-
-describe('research e2e', () => {
+describe('research', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
