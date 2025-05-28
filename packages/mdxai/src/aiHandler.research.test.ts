@@ -1,8 +1,9 @@
-import { describe, expect, it, beforeEach, afterEach } from 'vitest'
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { research } from './aiHandler'
 import fs from 'fs'
 import path from 'path'
 import { randomUUID } from 'crypto'
+import * as aiModule from 'ai'
 
 describe('research template literal', () => {
   const originalEnv = { ...process.env }
@@ -27,10 +28,23 @@ describe('research template literal', () => {
     process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-api-key'
     process.env.AI_GATEWAY_TOKEN = process.env.AI_GATEWAY_TOKEN || 'test-api-key'
     createTestPrompt('Respond briefly to: ${prompt}')
+    
+    vi.spyOn(aiModule, 'generateText').mockImplementation(async () => {
+      return {
+        text: 'Sample research text',
+        response: {
+          body: {
+            citations: ['https://example.com'],
+            choices: [{ message: { reasoning: 'Sample reasoning' } }]
+          }
+        }
+      } as any
+    })
   })
 
   afterEach(() => {
     process.env = { ...originalEnv }
+    vi.restoreAllMocks()
     
     try {
       if (fs.existsSync(testDir)) {
@@ -44,29 +58,20 @@ describe('research template literal', () => {
   it('should handle template literals with variable interpolation', async () => {
     const topic = 'TypeScript'
     
-    try {
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result = await Promise.race([
-        research`Research about ${topic}`,
-        timeoutPromise
-      ]) as any
+    const result = await research`Research about ${topic}`
 
-      expect(result).toBeDefined()
-      expect(result).toHaveProperty('text')
-      expect(result).toHaveProperty('markdown')
-      expect(result).toHaveProperty('citations')
-      expect(result).toHaveProperty('scrapedCitations')
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|timed out|too many tokens/i)
-      } else {
-        throw error
-      }
-    }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+    expect(result).toBeDefined()
+    expect(result).toHaveProperty('text')
+    expect(result).toHaveProperty('markdown')
+    expect(result).toHaveProperty('citations')
+    expect(result).toHaveProperty('scrapedCitations')
+    
+    expect(aiModule.generateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.stringContaining('TypeScript')
+      })
+    )
+  })
 
   it('should throw an error when not called as a template literal', () => {
     // @ts-ignore - Testing incorrect usage
@@ -76,27 +81,18 @@ describe('research template literal', () => {
   it('should stringify arrays to YAML format', async () => {
     const items = ['TypeScript', 'JavaScript', 'React']
     
-    try {
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result = await Promise.race([
-        research`Research these technologies: ${items}`,
-        timeoutPromise
-      ]) as any
+    const result = await research`Research these technologies: ${items}`
 
-      expect(result).toBeDefined()
-      expect(result).toHaveProperty('text')
-      expect(result).toHaveProperty('markdown')
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|timed out|too many tokens/i)
-      } else {
-        throw error
-      }
-    }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+    expect(result).toBeDefined()
+    expect(result).toHaveProperty('text')
+    expect(result).toHaveProperty('markdown')
+    
+    expect(aiModule.generateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.stringMatching(/TypeScript.*JavaScript.*React/s)
+      })
+    )
+  })
 
   it('should stringify objects to YAML format', async () => {
     const project = {
@@ -104,25 +100,16 @@ describe('research template literal', () => {
       technologies: ['TypeScript', 'React'],
     }
     
-    try {
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result = await Promise.race([
-        research`Research this project: ${project}`,
-        timeoutPromise
-      ]) as any
+    const result = await research`Research this project: ${project}`
 
-      expect(result).toBeDefined()
-      expect(result).toHaveProperty('text')
-      expect(result).toHaveProperty('markdown')
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|timed out|too many tokens/i)
-      } else {
-        throw error
-      }
-    }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+    expect(result).toBeDefined()
+    expect(result).toHaveProperty('text')
+    expect(result).toHaveProperty('markdown')
+    
+    expect(aiModule.generateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.stringMatching(/MDX AI.*TypeScript.*React/s)
+      })
+    )
+  })
 })
