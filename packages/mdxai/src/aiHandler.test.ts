@@ -42,19 +42,21 @@ vi.mock('yaml', () => {
 // Mock ai module
 vi.mock('ai', () => {
   return {
-    generateText: vi.fn().mockResolvedValue({
-      text: 'mock string response',
-      response: {
-        body: {
-          choices: [
-            {
-              message: {
-                content: 'mock string response',
+    generateText: vi.fn().mockImplementation(() => {
+      return Promise.resolve({
+        text: 'mock string response',
+        response: {
+          body: {
+            choices: [
+              {
+                message: {
+                  content: 'mock string response',
+                },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
+      })
     }),
     streamText: vi.fn().mockImplementation(() => {
       return Promise.resolve({
@@ -64,6 +66,11 @@ vi.mock('ai', () => {
             yield 'mock string response'
           },
         },
+      })
+    }),
+    generateObject: vi.fn().mockImplementation(() => {
+      return Promise.resolve({
+        object: { result: 'mock object response' }
       })
     }),
     model: vi.fn().mockReturnValue('mock-model'),
