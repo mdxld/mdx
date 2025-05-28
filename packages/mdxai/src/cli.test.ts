@@ -62,8 +62,8 @@ describe('CLI say command', () => {
       .option('-v, --voice <voice>', 'Specify the voice to use', 'Kore')
       .option('-p, --play', 'Play the audio after generating it', true)
       .action(async (text: string, options: { output?: string; voice: string; play: boolean }) => {
-        if (!process.env.GEMINI_API_KEY) {
-          console.error('GEMINI_API_KEY environment variable is not set.')
+        if (!process.env.GOOGLE_API_KEY) {
+          console.error('GOOGLE_API_KEY environment variable is not set.')
           process.exit(1)
           return
         }
@@ -116,7 +116,7 @@ describe('CLI say command', () => {
       expect(consoleOutput[1]).toContain('Would play audio on linux platform')
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
         throw error; // In CI, we expect the test to pass with real API keys
       }
@@ -142,7 +142,7 @@ describe('CLI say command', () => {
       expect(consoleOutput[1]).toContain('Would play audio on darwin platform')
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
         throw error; // In CI, we expect the test to pass with real API keys
       }
@@ -168,7 +168,7 @@ describe('CLI say command', () => {
       expect(consoleOutput[1]).toContain('Would play audio on win32 platform')
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
         throw error; // In CI, we expect the test to pass with real API keys
       }
@@ -192,35 +192,30 @@ describe('CLI say command', () => {
       expect(consoleOutput[0]).toContain(`Audio successfully saved to ${testOutputPath}`)
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
         throw error; // In CI, we expect the test to pass with real API keys
       }
     }
   }, 60000) // Increase timeout for real API calls
   
-  it('should handle missing GEMINI_API_KEY', async () => {
+  it('should handle missing GOOGLE_API_KEY', async () => {
     // Ensure environment variable is not set
-    const originalApiKey = process.env.GEMINI_API_KEY
-    const originalGoogleApiKey = process.env.GOOGLE_API_KEY
-    delete process.env.GEMINI_API_KEY
+    const originalApiKey = process.env.GOOGLE_API_KEY
     delete process.env.GOOGLE_API_KEY
     
     try {
       await program.parseAsync(['node', 'cli.js', 'say', 'Hello world'])
       
-      expect(true).toBe(false) // Expected an error to be thrown when GEMINI_API_KEY is missing
+      expect(true).toBe(false) // Expected an error to be thrown when GOOGLE_API_KEY is missing
     } catch (error) {
       // Check console error output
       expect(consoleErrorOutput.length).toBeGreaterThan(0)
-      expect(consoleErrorOutput[0]).toContain('GEMINI_API_KEY environment variable is not set')
+      expect(consoleErrorOutput[0]).toContain('GOOGLE_API_KEY environment variable is not set')
     } finally {
-      // Restore API keys
+      // Restore API key
       if (originalApiKey) {
-        process.env.GEMINI_API_KEY = originalApiKey
-      }
-      if (originalGoogleApiKey) {
-        process.env.GOOGLE_API_KEY = originalGoogleApiKey
+        process.env.GOOGLE_API_KEY = originalApiKey
       }
     }
   }, 60000) // Increase timeout for real API calls
