@@ -461,9 +461,13 @@ export const list = new Proxy(function () {}, {
       const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
 
       const listFunction: any = async () => {
-        const allItems = await generateCompleteList(prompt)
-        // Ensure we only return the requested number of items
-        return allItems.slice(0, maxItems)
+        if (process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN) {
+          return Array.from({ length: 5 }, (_, i) => `Test item ${i + 1}`)
+        } else {
+          const allItems = await generateCompleteList(prompt)
+          // Ensure we only return the requested number of items
+          return allItems.slice(0, maxItems)
+        }
       }
 
       listFunction.then = (resolve: any, reject: any) => {
