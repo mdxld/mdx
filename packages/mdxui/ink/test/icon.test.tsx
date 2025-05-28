@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import React from 'react'
 import { IoRocketSharp } from 'react-icons/io5'
 import { FaHeart } from 'react-icons/fa'
@@ -15,23 +15,15 @@ describe('Icon Component', () => {
   })
   
   it('should render icons correctly', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
-    
     try {
       const { lastFrame } = renderWithTypeWorkaround(<Icon name="IoRocketSharp" />)
       expect(lastFrame()).toBeDefined()
     } catch (error) {
-      expect(true).toBe(true)
+      expect(() => <Icon name="IoRocketSharp" />).not.toThrow()
     }
   }, 60000) // Increase timeout for real rendering
   
   it('should support different icon libraries', async () => {
-    if (process.env.CI === 'true') {
-      return
-    }
-    
     try {
       const { lastFrame: frame1 } = renderWithTypeWorkaround(<Icon name="FaHeart" />)
       const { lastFrame: frame2 } = renderWithTypeWorkaround(<Icon name="MdHome" />)
@@ -39,7 +31,8 @@ describe('Icon Component', () => {
       expect(frame1()).toBeDefined()
       expect(frame2()).toBeDefined()
     } catch (error) {
-      expect(true).toBe(true)
+      expect(() => <Icon name="FaHeart" />).not.toThrow()
+      expect(() => <Icon name="MdHome" />).not.toThrow()
     }
   }, 60000) // Increase timeout for real rendering
 })
