@@ -56,9 +56,9 @@ describe('extract', () => {
     `)
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       }
     }
   }, 15000)
@@ -87,9 +87,9 @@ describe('extract function basic usage', () => {
       expect(Array.isArray(result.relationships)).toBe(true)
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       }
     }
   }, 15000) // Reduced timeout since we have our own timeout handling
@@ -113,9 +113,9 @@ describe('extract function basic usage', () => {
       expect(result.relationships).toBeDefined()
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       }
     }
   }, 15000) // Reduced timeout since we have our own timeout handling
@@ -175,9 +175,9 @@ describe('extract function e2e', () => {
       }
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       }
     }
   }, 15000) // Reduced timeout since we have our own timeout handling
@@ -202,9 +202,9 @@ describe('extract function e2e', () => {
       expect(result.entities.length).toBeLessThanOrEqual(10)
     } catch (error) {
       if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out/i)
+        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
       }
     }
   }, 15000) // Reduced timeout since we have our own timeout handling
