@@ -25,7 +25,7 @@ describe('research template literal', () => {
   beforeEach(() => {
     process.env.NODE_ENV = 'test'
     
-    createTestPrompt('You are a research assistant. ${prompt}')
+    createTestPrompt('Respond briefly to: ${prompt}')
   })
 
   afterEach(() => {
