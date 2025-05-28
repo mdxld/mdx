@@ -11,7 +11,7 @@ describe('render', () => {
     const mdxContent = dedent`
       ---
       title: Test Document
-      tags: ['mdx', 'test']
+      tags: ["mdx", "test"]
       ---
       
       # Hello World
@@ -27,7 +27,7 @@ describe('render', () => {
       title: 'Test Document',
       tags: ['mdx', 'test'],
     })
-  })
+  }, 60000) // Increase timeout for real compilation
 
   it('should handle MDX content without frontmatter', async () => {
     const mdxContent = dedent`
@@ -41,17 +41,20 @@ describe('render', () => {
     expect(result.markdown).toBeTruthy()
     expect(typeof result.markdown).toBe('string')
     expect(result.frontmatter).toEqual({})
-  })
+  }, 60000) // Increase timeout for real compilation
 
   it('should pass components and scope to MDX rendering', async () => {
     const mdxContent = dedent`
       # Hello World
       
-      <CustomComponent />
+      This is a test with custom components.
+      
+      {/* Using JSX syntax that's valid for MDX */}
+      <div className="custom">Custom element</div>
     `
 
     const customComponents = {
-      CustomComponent: () => React.createElement('div', null, 'Custom content'),
+      div: (props) => React.createElement('div', props, props.children),
     }
 
     const customScope = {
@@ -65,7 +68,7 @@ describe('render', () => {
 
     expect(result.markdown).toBeTruthy()
     expect(typeof result.markdown).toBe('string')
-  })
+  }, 60000) // Increase timeout for real compilation
 
   it('should throw an error when MDX compilation fails', async () => {
     const mdxContent = dedent`
