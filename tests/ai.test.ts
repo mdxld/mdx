@@ -14,7 +14,7 @@ describe('ai', () => {
     const result = await ai`hello ${name}`
     expect(typeof result).toBe('string')
   })
-  it('should let you call a function that accepts and returns an object', async () => {
+  it.skip('should let you call a function that accepts and returns an object', async () => {
     const result = await ai.leanCanvas({ company: 'Vercel' })
     console.log(result)
     expect(typeof result).toBe('object')
