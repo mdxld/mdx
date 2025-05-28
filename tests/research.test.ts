@@ -5,9 +5,7 @@ describe('research', () => {
   const company = 'Vercel'
   
   it('should interpolate a string', async () => {
-    if (process.env.CI === 'true' || (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN)) {
-      return
-    }
+
     
     const result = await research`the origin story of ${company}`
     expect(result.text).toBeDefined()
@@ -15,9 +13,7 @@ describe('research', () => {
   }, 300_000)
   
   it('should return citations', async () => {
-    if (process.env.CI === 'true' || (!process.env.OPENAI_API_KEY && !process.env.AI_GATEWAY_TOKEN)) {
-      return
-    }
+
     
     const result = await research`the origin story of ${company}`
     expect(result.citations).toBeDefined()
