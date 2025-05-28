@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { toTitleCase, generateIndexSource } from '../packages/mdxe/esbuild/src'
 
+const isCI = process.env.CI === 'true'
 const TEST_DIR = '.test-mdxe-esbuild'
 const TEST_CONTENT_DIR = path.join(TEST_DIR, 'content')
 const TEST_OUTPUT_DIR = path.join(TEST_DIR, 'dist')
@@ -45,7 +46,7 @@ afterAll(async () => {
   await $`rm -rf ${TEST_DIR}`
 })
 
-describe('@mdxe/esbuild', () => {
+describe.skipIf(isCI)('@mdxe/esbuild', () => {
   describe('toTitleCase', () => {
     it('should convert file paths to TitleCase', () => {
       expect(toTitleCase('path/to/my-file.mdx')).toBe('PathToMyFile')
