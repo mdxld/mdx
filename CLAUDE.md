@@ -66,7 +66,7 @@ After building packages, these CLIs are available:
 
 - `apps/mdx.org.ai` (port 3001) - Main documentation
 - `apps/mdxld.org` (port 3002) - Linked data docs
-- `apps/io.mw` (port 3003) - Additional docs
+- `apps/io.mw` (port 3003) - Hosted mdxe with dynamic subdomains
 - All use Pagefind for search functionality
 
 ### Generated Schema
@@ -130,6 +130,6 @@ When running multiple apps simultaneously:
 The `mdxai` package provides template literal syntax for AI operations:
 
 ```ts
-const titles = await ai.list`100 blog post titles about ${topic}`
+const titles = await list`100 blog post titles about ${topic}`
 const content = await ai`Write a blog post about ${title}`
 ```
