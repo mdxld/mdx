@@ -4,8 +4,10 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache')
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.FIRECRAWL_API_KEY
 
-describe('scrape e2e', () => {
+describe.skipIf(isCI || !hasApiKey)('scrape e2e', () => {
   // Note: We don't clear cache between tests to avoid repeated API calls
   // The cache helps us avoid hitting API rate limits and reduces test execution time
 

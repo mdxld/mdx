@@ -4,17 +4,14 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache')
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.GOOGLE_API_KEY
 
-describe('video e2e', () => {
+describe.skipIf(isCI || !hasApiKey)('video e2e', () => {
   // Note: We don't clear the cache as that's the whole point of having it
   // Tests should be designed to work with existing cache or handle cache misses gracefully
 
   it('should generate a video and cache the result', async () => {
-    // Skip test if no API key is available
-    if (!process.env.GOOGLE_API_KEY) {
-      console.log('Skipping video e2e test: GOOGLE_API_KEY not set')
-      return
-    }
 
     const config: VideoConfig = {
       prompt: 'A simple animation of a bouncing ball on a white background',
@@ -258,4 +255,4 @@ describe('video e2e', () => {
 //     }
 //   }, 300000)
 
-}, 600000) // 10 minute timeout for the entire suite 
+}, 600000) // 10 minute timeout for the entire suite  

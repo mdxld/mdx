@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { ai } from 'mdxai'
 
-describe('ai', () => {
+const isCI = process.env.CI === 'true'
+const hasApiKey = process.env.OPENAI_API_KEY || process.env.AI_GATEWAY_TOKEN
+
+describe.skipIf(isCI || !hasApiKey)('ai', () => {
   it('should be defined', () => {
     expect(ai).toBeDefined()
   })
