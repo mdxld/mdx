@@ -117,7 +117,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code|GOOGLE_API_KEY environment variable is not set/i)
       }
     } finally {
       // Restore platform
@@ -142,7 +142,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code|GOOGLE_API_KEY environment variable is not set/i)
       }
     } finally {
       // Restore platform
@@ -167,7 +167,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code|GOOGLE_API_KEY environment variable is not set/i)
       }
     } finally {
       // Restore platform
@@ -190,7 +190,7 @@ describe('CLI say command', () => {
       if (!process.env.CI) {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests/i)
       } else {
-        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code/i)
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code|GOOGLE_API_KEY environment variable is not set/i)
       }
     }
   }, 60000) // Increase timeout for real API calls
