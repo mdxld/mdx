@@ -6,7 +6,26 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['**/*.test.ts', '**/*.test.tsx'],
-    exclude: ['**/node_modules/**', '**/dist/**', '**/build/**'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/.next/**',
+      '**/.turbo/**',
+      '**/coverage/**',
+      '**/.git/**',
+      '**/examples/**/node_modules/**',
+      // Exclude deeply nested paths that cause ENAMETOOLONG
+      '**/node_modules/.pnpm/node_modules/**',
+      '**/examples/minimal/node_modules/**',
+    ],
     testTimeout: 90000, // 90 seconds
+    // Run tests sequentially to avoid race conditions
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
   },
 })

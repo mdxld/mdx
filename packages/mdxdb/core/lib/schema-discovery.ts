@@ -77,10 +77,10 @@ function parseFrontmatter(mdxContent: string): ParseFrontmatterResult {
 function parseYaml(yamlContent: string): any {
   try {
     const result = parse(yamlContent)
-    return result || {}
+    return result || null
   } catch (e: any) {
     console.warn(`Error parsing YAML: ${e.message}`)
-    return {}
+    return null
   }
 }
 
@@ -232,6 +232,10 @@ export async function discoverSchemas(dbFolderPath: string): Promise<SchemaDefin
       for (const headingSchema of headingSchemas) {
         try {
           const yamlData = parseYaml(headingSchema.yamlContent)
+          // Skip if the parsed YAML is empty (likely due to parsing error)
+          if (!yamlData || Object.keys(yamlData).length === 0) {
+            continue
+          }
           const schema = createSchemaFromDescription(yamlData)
           schemaDefinitions.push({
             collectionName: headingSchema.headingText.toLowerCase().replace(/\s+/g, '-'),

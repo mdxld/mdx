@@ -53,7 +53,8 @@ export const EmbeddingsCollection: CollectionConfig = {
   fields: [
     {
       name: 'fileId',
-      type: 'text',
+      type: 'relationship',
+      relationTo: 'files',
       required: true,
     },
     {
