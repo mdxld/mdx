@@ -47,7 +47,7 @@ describe('research', () => {
     
     expect(result2).toBeDefined()
     expect(typeof result2.text).toBe('string')
-  }),
+  })
 
   it('should handle invalid citation URLs gracefully', async () => {
     const query = 'Test with invalid citation URL'
