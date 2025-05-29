@@ -16,6 +16,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
     "@google/genai": "^1.1.0",
+    "@mdxe/test": "workspace:*",
     "@mendable/firecrawl-js": "^1.25.1",
     "ai": "^4.3.16",
     "commander": "^12.1.0",

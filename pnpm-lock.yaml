@@ -521,6 +521,9 @@ importers:
       '@google/genai':
         specifier: ^1.1.0
         version: 1.2.0(@modelcontextprotocol/sdk@1.12.0)
+      '@mdxe/test':
+        specifier: workspace:*
+        version: link:../mdxe/test
       '@mendable/firecrawl-js':
         specifier: ^1.25.1
         version: 1.25.2
@@ -911,6 +914,46 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+
+  packages/mdxe/test:
+    dependencies:
+      acorn:
+        specifier: ^8.x
+        version: 8.14.1
+      acorn-jsx:
+        specifier: ^5.x
+        version: 5.3.2(acorn@8.14.1)
+      esbuild:
+        specifier: ^0.20.1
+        version: 0.20.2
+      remark-mdx:
+        specifier: ^3.0.1
+        version: 3.1.0
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      typescript:
+        specifier: ^5.5.3
+        version: 5.8.3
+      unified:
+        specifier: ^11.0.4
+        version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/node@20.17.52)(tsx@4.19.4)
+    devDependencies:
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../../config/tsup-config
+      '@types/node':
+        specifier: ^20.14.10
+        version: 20.17.52
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
 
   packages/mdxld:
     dependencies:
@@ -18825,7 +18868,6 @@ packages:
       - terser
       - tsx
       - yaml
-    dev: true
 
   /vite-node@3.1.4(@types/node@20.17.52)(tsx@4.19.4)(yaml@2.8.0):
     resolution: {integrity: sha512-6enNwYnpyDo4hEgytbmc6mYWHXDHYEn0D1/rw4Q+tnHUGtKTJsn8T1YkX6Q18wI5LCrS8CTYlBaiCqxOy2kvUA==}
@@ -19139,7 +19181,6 @@ packages:
       - terser
       - tsx
       - yaml
-    dev: true
 
   /vitest@3.1.4(@types/node@20.17.52)(tsx@4.19.4)(yaml@2.8.0):
     resolution: {integrity: sha512-Ta56rT7uWxCSJXlBtKgIlApJnT6e6IGmTYxYcmxjJ4ujuZDI59GUQgVDObXXJujOmPDBYXHK1qmaGtneu6TNIQ==}
