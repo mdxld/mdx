@@ -211,7 +211,7 @@ describe('CLI say command', () => {
     } finally {
       // Restore API key
       if (originalApiKey) {
-        process.env.GOOGLE_API_KEY = originalApiKey
+        vi.stubEnv('GOOGLE_API_KEY', originalApiKey)
       }
     }
   }, 60000) // Increase timeout for real API calls

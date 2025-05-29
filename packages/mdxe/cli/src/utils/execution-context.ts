@@ -258,9 +258,6 @@ export const EXECUTION_CONTEXTS: Record<ExecutionContextType, ContextConfig> = {
 export function createExecutionContext(contextType: ExecutionContextType = 'default') {
   const contextConfig = EXECUTION_CONTEXTS[contextType]
 
-  Object.entries(contextConfig.env).forEach(([key, value]) => {
-    process.env[key] = value
-  })
 
   createAiFolderStructure().catch((err) => {
     console.error('Failed to create AI folder structure:', err)

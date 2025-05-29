@@ -41,13 +41,13 @@ async function saveWaveFile(
 /**
  * Generate audio using Google Gemini TTS
  */
-async function generateSpeechAudio(text: string, options: { voiceName?: string; apiKey?: string } = {}): Promise<string> {
+async function generateSpeechAudio(text: string, options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}): Promise<string> {
   const apiKey = options.apiKey || process.env.GOOGLE_API_KEY
   if (!apiKey) {
-    throw new Error('GOOGLE_API_KEY environment variable is not set')
+    throw new Error('GOOGLE_API_KEY must be provided via apiKey parameter or GOOGLE_API_KEY environment variable.')
   }
 
-  const baseUrl = process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
+  const baseUrl = options.baseURL || process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
   const ai = new GoogleGenAI({ apiKey, httpOptions: { baseUrl } })
 
   const response = await ai.models.generateContent({
@@ -83,7 +83,13 @@ async function generateSpeechAudio(text: string, options: { voiceName?: string; 
 const sayFunction_: SayTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
     const text = parseTemplate(template, values)
-    return generateSpeechAudio(text)
+    
+    let options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}
+    if (values.length > 0 && typeof values[values.length - 1] === 'object' && !(values[values.length - 1] instanceof Array)) {
+      options = values.pop() as { voiceName?: string; apiKey?: string; baseURL?: string }
+    }
+    
+    return generateSpeechAudio(text, options)
   }
 
   throw new Error('Say function must be called as a template literal')
@@ -105,9 +111,15 @@ export const say = new Proxy(sayFunction_, {
   apply(target, thisArg, args) {
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
       const text = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
-      return generateSpeechAudio(text)
+      
+      let options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}
+      if (args.length > 1 && typeof args[args.length - 1] === 'object' && !(args[args.length - 1] instanceof Array)) {
+        options = args[args.length - 1] as { voiceName?: string; apiKey?: string; baseURL?: string }
+      }
+      
+      return generateSpeechAudio(text, options)
     }
 
     throw new Error('Say function must be called as a template literal')
   },
-})  
+})            

@@ -38,12 +38,12 @@ describe('research template literal', () => {
   }
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'test'
+    vi.stubEnv('NODE_ENV', 'test')
     createTestPrompt('Respond briefly to: ${prompt}')
   })
 
   afterEach(() => {
-    process.env = { ...originalEnv }
+    vi.unstubAllEnvs()
     
     try {
       if (fs.existsSync(testDir)) {

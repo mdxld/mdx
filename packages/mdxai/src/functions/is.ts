@@ -1,11 +1,13 @@
 import { generateObject } from 'ai'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 import { z } from 'zod'
 import { parseTemplate } from '../utils/template'
 
 interface IsOptions {
   model?: string
   temperature?: number
+  apiKey?: string
+  baseURL?: string
 }
 
 // Enhanced result with debug info
@@ -18,9 +20,10 @@ interface IsResult {
 // Core implementation function
 async function isCore(question: string, options: IsOptions = {}): Promise<IsResult> {
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
+  const aiModel = createAIModel(options.apiKey, options.baseURL)
 
   const result = await generateObject({
-    model: model(selectedModel, { structuredOutputs: true }),
+    model: aiModel(selectedModel, { structuredOutputs: true }),
     prompt: `Is ${question}`,
     schema: z.object({
       thoughts: z.array(z.string()),

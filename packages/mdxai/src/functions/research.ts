@@ -1,5 +1,5 @@
 import { generateText } from 'ai'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 import dedent from 'dedent'
 import { QueueManager } from '../ui/index.js'
 import { scrape, ScrapedContent } from './scrape.js'
@@ -18,9 +18,10 @@ const queue = new QueueManager(25) // Process 25 citations at a time
 /**
  * Core research function that takes a query string and returns research results
  */
-async function researchCore(query: string) {
+async function researchCore(query: string, apiKey?: string, baseURL?: string) {
+  const aiModel = createAIModel(apiKey, baseURL)
   const result = await generateText({
-    model: model('perplexity/sonar-deep-research'),
+    model: aiModel('perplexity/sonar-deep-research'),
     prompt: `research ${query}`,
   })
 
@@ -120,15 +121,30 @@ async function researchCore(query: string) {
 
 // Create a function that supports both string parameters and template literals
 function researchFunction(queryOrTemplate: string | TemplateStringsArray, ...values: any[]): Promise<any> {
+  let apiKey: string | undefined
+  let baseURL: string | undefined
+  
+  if (values.length > 0 && typeof values[values.length - 1] === 'object') {
+    const options = values[values.length - 1]
+    if ('apiKey' in options) {
+      apiKey = options.apiKey
+      values = values.slice(0, -1) // Remove options from values
+    }
+    if ('baseURL' in options) {
+      baseURL = options.baseURL
+      values = values.slice(0, -1) // Remove options from values if not already removed
+    }
+  }
+  
   // If first argument is a string, use the original interface
   if (typeof queryOrTemplate === 'string') {
-    return researchCore(queryOrTemplate)
+    return researchCore(queryOrTemplate, apiKey, baseURL)
   }
   
   // If first argument is a TemplateStringsArray, use template literal interface
   if (Array.isArray(queryOrTemplate) && 'raw' in queryOrTemplate) {
     const query = parseTemplate(queryOrTemplate as TemplateStringsArray, values)
-    return researchCore(query)
+    return researchCore(query, apiKey, baseURL)
   }
   
   throw new Error('Research function must be called with a string or as a template literal')

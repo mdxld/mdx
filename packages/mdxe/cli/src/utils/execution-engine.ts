@@ -72,7 +72,6 @@ function captureConsoleOutputs(fn: () => Promise<any>): Promise<{ result: any; o
  */
 export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionOptions = {}): Promise<ExecutionResult> {
   const startTime = Date.now()
-  const originalEnv = { ...process.env }
   const fileId = options.fileId || 'default'
   
   if (!sharedBlockState.has(fileId)) {
@@ -100,11 +99,8 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
     const { EXECUTION_CONTEXTS } = await import('./execution-context.js')
     const contextEnv = EXECUTION_CONTEXTS[contextType]?.env || {}
 
-    Object.entries(contextEnv).forEach(([key, value]) => {
-      process.env[key] = value as string
-    })
-
     // Create full context with environment variables and shared state
+    // Don't modify global process.env, instead provide context env in the execution context
     const fullContext = {
       ...executionContext,
       ...customContext,
@@ -112,6 +108,7 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
       process: {
         env: {
           ...process.env,
+          ...contextEnv, // Make context env available in process.env within execution context
         },
       },
       __state: fileState,
@@ -188,14 +185,6 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
       duration: Date.now() - startTime,
       outputs: [],
     }
-  } finally {
-    Object.keys(process.env).forEach((key) => {
-      if (originalEnv[key] !== undefined) {
-        process.env[key] = originalEnv[key]
-      } else {
-        delete process.env[key]
-      }
-    })
   }
 }
 

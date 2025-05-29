@@ -20,13 +20,13 @@ const vector = customType<{
   },
 })
 
-export const payloadConfig = buildConfig({
+export const createPayloadConfig = (dbUrl?: string, authToken?: string, secret?: string) => buildConfig({
   collections: [FilesCollection, EmbeddingsCollection] as any,
-  secret: process.env.PAYLOAD_SECRET || 'mdxdb-secret-key',
+  secret: secret || process.env.PAYLOAD_SECRET || 'mdxdb-secret-key',
   db: sqliteAdapter({
     client: {
-      url: process.env.DATABASE_URL || 'file:mdxdb.db',
-      authToken: process.env.DATABASE_AUTH_TOKEN,
+      url: dbUrl || process.env.DATABASE_URL || 'file:mdxdb.db',
+      authToken: authToken || process.env.DATABASE_AUTH_TOKEN,
     },
     afterSchemaInit: [
       ({ schema, extendTable }) => {
@@ -45,13 +45,15 @@ export const payloadConfig = buildConfig({
   }),
 })
 
-export const getPayloadClient = async () => {
+export const payloadConfig = createPayloadConfig()
+
+export const getPayloadClient = async (dbUrl?: string, authToken?: string, secret?: string) => {
   let payload
 
   try {
     const { getPayload } = await import('payload')
     payload = await getPayload({
-      config: payloadConfig,
+      config: createPayloadConfig(dbUrl, authToken, secret),
     })
   } catch (error) {
     console.error('Error initializing Payload:', error)

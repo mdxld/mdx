@@ -54,20 +54,10 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
     if (this.initialized) return
 
     try {
-      // Set environment variables for Payload configuration
-      if (this.dbConfig.url) {
-        process.env.DATABASE_URL = this.dbConfig.url
-      }
-
-      if (this.dbConfig.authToken) {
-        process.env.DATABASE_AUTH_TOKEN = this.dbConfig.authToken
-      }
-
-      if (this.dbConfig.inMemory) {
-        process.env.DATABASE_URL = ':memory:'
-      }
-
-      this.payload = await getPayloadClient()
+      const dbUrl = this.dbConfig.inMemory ? ':memory:' : this.dbConfig.url
+      const authToken = this.dbConfig.authToken
+      
+      this.payload = await getPayloadClient(dbUrl, authToken)
 
       this.initialized = true
       console.log('Payload CMS with SQLite adapter initialized successfully')

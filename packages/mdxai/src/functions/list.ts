@@ -1,6 +1,6 @@
 import { parseTemplate, stringifyValue } from '../utils/template.js'
 import { streamText } from 'ai'
-import { model } from '../ai.js'
+import { createAIModel } from '../ai.js'
 
 /**
  * Return type that supports both Promise and AsyncIterable
@@ -29,8 +29,9 @@ async function generateCompleteList(prompt: string, options: Record<string, any>
     let items: string[] = []
     
     try {
+      const aiModel = createAIModel(options.apiKey, options.baseURL)
       const result = await streamText({
-        model: model(modelName, { structuredOutputs: true }),
+        model: aiModel(modelName, { structuredOutputs: true }),
         prompt: `${prompt}\n\nRespond with a numbered markdown ordered list.`,
       })
 

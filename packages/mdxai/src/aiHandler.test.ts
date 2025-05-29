@@ -10,13 +10,13 @@ describe('AI Handler', () => {
   const originalEnv = { ...process.env }
   
   beforeEach(() => {
-    process.env.NODE_ENV = 'test'
-    process.env.USE_CACHE = 'true' // Enable caching for tests
+    vi.stubEnv('NODE_ENV', 'test')
+    vi.stubEnv('USE_CACHE', 'true') // Enable caching for tests
     vi.clearAllMocks()
   })
 
   afterEach(() => {
-    process.env = { ...originalEnv }
+    vi.unstubAllEnvs()
     vi.restoreAllMocks()
   })
   
@@ -305,12 +305,12 @@ describe('AI Handler e2e', () => {
   }
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'development'
+    vi.stubEnv('NODE_ENV', 'development')
     vi.clearAllMocks()
   })
 
   afterEach(() => {
-    process.env = { ...originalEnv }
+    vi.unstubAllEnvs()
   })
 
   it('should generate text using real API with caching', async () => {

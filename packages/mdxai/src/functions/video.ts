@@ -28,6 +28,10 @@ export interface VideoConfig {
   maxWaitTimeSeconds?: number
   /** The polling interval in seconds */
   pollingIntervalSeconds?: number
+  /** Optional API key for Google AI */
+  apiKey?: string
+  /** Optional base URL for API gateway */
+  baseURL?: string
 }
 
 export interface VideoResult {
@@ -104,14 +108,16 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
     
     const startTime = Date.now()
     
-    const baseUrl = process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
+    const baseUrl = config.baseURL || process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
+    const apiKey = config.apiKey || process.env.GOOGLE_API_KEY || ''
+    
     const ai = new GoogleGenAI({ 
-      apiKey: process.env.GOOGLE_API_KEY || '',
+      apiKey,
       httpOptions: { baseUrl }
     })
     
-    if (!process.env.GOOGLE_API_KEY) {
-      throw new Error('GOOGLE_API_KEY environment variable is not set.')
+    if (!apiKey) {
+      throw new Error('GOOGLE_API_KEY must be provided via apiKey parameter or GOOGLE_API_KEY environment variable.')
     }
 
     
@@ -145,7 +151,7 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
             const videoFileName = `${cacheKey}_${index}.mp4`
             const videoFilePath = join(CACHE_DIR, videoFileName)
             
-            const resp = await fetch(`${generatedVideo.video.uri}&key=${process.env.GOOGLE_API_KEY}`)
+            const resp = await fetch(`${generatedVideo.video.uri}&key=${apiKey}`)
             
             if (!resp.ok) {
               throw new Error(`Failed to download video: ${resp.status} ${resp.statusText}`)
