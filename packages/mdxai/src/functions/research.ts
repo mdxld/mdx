@@ -31,24 +31,24 @@ async function researchCore(query: string, apiKey?: string, baseURL?: string) {
   const reasoning = body.choices?.[0]?.message?.reasoning || ''
 
 
-  const scrapedCitations: ScrapedContent[] = await Promise.all(
-    citations.map(async (url: string, index: number) => {
-      try {
-        const scrapeResult = await queue.addTask(`Scraping citation ${index + 1}: ${url}`, async () => {
-          return await scrape(url, apiKey)
-        })
+  // const scrapedCitations: ScrapedContent[] = await Promise.all(
+  //   citations.map(async (url: string, index: number) => {
+  //     try {
+  //       const scrapeResult = await queue.addTask(`Scraping citation ${index + 1}: ${url}`, async () => {
+  //         return await scrape(url)
+  //       })
 
-        return scrapeResult
-      } catch (error) {
-        console.error(`Error processing citation ${index + 1}:`, error)
-        return { 
-          url, 
-          error: error instanceof Error ? error.message : String(error),
-          cached: false 
-        } as ScrapedContent
-      }
-    }),
-  )
+  //       return scrapeResult
+  //     } catch (error) {
+  //       console.error(`Error processing citation ${index + 1}:`, error)
+  //       return { 
+  //         url, 
+  //         error: error instanceof Error ? error.message : String(error),
+  //         cached: false 
+  //       } as ScrapedContent
+  //     }
+  //   }),
+  // )
 
   let text = result?.text || ''
 
@@ -81,25 +81,25 @@ async function researchCore(query: string, apiKey?: string, baseURL?: string) {
 
   let markdown = text + '\n\n'
 
-  scrapedCitations.forEach((citation, index) => {
-    const citationNumber = index + 1
+  // scrapedCitations.forEach((citation, index) => {
+  //   const citationNumber = index + 1
 
-    let summary = citation.title ? `**${citation.title}**` : citation.url
-    if (citation.description) {
-      summary += `\n\n${citation.description}`
-    }
-    if (citation.image) {
-      summary += `\n\n![${citation.title || 'Citation image'}](${citation.image})`
-    }
+  //   let summary = citation.title ? `**${citation.title}**` : citation.url
+  //   if (citation.description) {
+  //     summary += `\n\n${citation.description}`
+  //   }
+  //   if (citation.image) {
+  //     summary += `\n\n![${citation.title || 'Citation image'}](${citation.image})`
+  //   }
 
-    // markdown +=
-    //   dedent`
-    //   <details id="${citationNumber}">
-    //     <summary>${citation.title ? `**${citation.title}**` : citation.url}${citation.description ? `\n\n${citation.description}` : ''}</summary>
-    //     ${citation.error ? `Error: ${citation.error}` : citation.markdown || 'No content available'}
-    //   </details>
-    // ` + '\n\n'
-  })
+  //   // markdown +=
+  //   //   dedent`
+  //   //   <details id="${citationNumber}">
+  //   //     <summary>${citation.title ? `**${citation.title}**` : citation.url}${citation.description ? `\n\n${citation.description}` : ''}</summary>
+  //   //     ${citation.error ? `Error: ${citation.error}` : citation.markdown || 'No content available'}
+  //   //   </details>
+  //   // ` + '\n\n'
+  // })
 
   if (reasoning) {
     markdown += dedent`
@@ -115,7 +115,7 @@ async function researchCore(query: string, apiKey?: string, baseURL?: string) {
     markdown,
     citations,
     reasoning,
-    scrapedCitations,
+    // scrapedCitations,
   }
 }
 
