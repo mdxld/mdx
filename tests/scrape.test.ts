@@ -70,7 +70,7 @@ describe('scrape e2e', () => {
     expect(results2).toHaveLength(2)
     expect(progressCalls).toHaveLength(2)
     expect(progressCalls.every(call => call.cached)).toBe(true)
-  }, 60000)
+  })
 
   it('should create proper cache directory structure', async () => {
     const url = 'https://httpbin.org/html'
@@ -102,7 +102,7 @@ describe('scrape e2e', () => {
       expect(cacheContent).toContain('url:')
       expect(cacheContent).toContain('cachedAt:')
     }
-  }, 30000)
+  })
 
   it('should handle root URL caching correctly', async () => {
     const url = 'https://httpbin.org/'
@@ -111,7 +111,7 @@ describe('scrape e2e', () => {
     const expectedCacheFile = path.join(testCacheDir, 'httpbin.org_index.md')
     const fileExists = await fs.access(expectedCacheFile).then(() => true).catch(() => false)
     expect(fileExists).toBe(true)
-  }, 30000)
+  })
 
   it('should handle scraping errors gracefully', async () => {
     // Use an invalid URL that should fail
@@ -125,7 +125,7 @@ describe('scrape e2e', () => {
     // expect(result.html).toBeUndefined()
     // Markdown might be empty string or undefined for errors
     expect(result.markdown === undefined || result.markdown === '').toBe(true)
-  }, 30000)
+  })
 
   it('should extract meaningful content from a real webpage', async () => {
     // Use a simple test URL
@@ -151,7 +151,7 @@ describe('scrape e2e', () => {
       // expect(result).toHaveProperty('html')
       expect(result).toHaveProperty('markdown')
     }
-  }, 30000)
+  })
 
   it('should respect cache TTL and refresh stale content', async () => {
     const url = 'https://httpbin.org/html'
@@ -181,5 +181,5 @@ describe('scrape e2e', () => {
     const cachedAtMatch = updatedCache.match(/cachedAt: "(.*)"/)?.[1]
     expect(cachedAtMatch).toBeDefined()
     expect(new Date(cachedAtMatch!).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
-  }, 90000)
-}, 300000) // 5 minute timeout for the entire suite
+  })
+}) // 5 minute timeout for the entire suite
