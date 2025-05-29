@@ -6,7 +6,26 @@ import path from 'path'
 // Helper for creating cache files for testing
 const createTestCacheFile = async (url: string, content: string) => {
   const cacheFilePath = path.join(process.cwd(), '.ai', 'cache', url.replace(/[^a-zA-Z0-9]/g, '_') + '.md')
-  await fs.mkdir(path.dirname(cacheFilePath), { recursive: true })
+  const dir = path.dirname(cacheFilePath)
+  
+  // Check if directory exists first
+  try {
+    await fs.access(dir)
+  } catch {
+    // Directory doesn't exist, create it
+    try {
+      await fs.mkdir(dir, { recursive: true })
+    } catch (mkdirError) {
+      // If mkdir fails, it might be because another test created it concurrently
+      // Try to access it again
+      try {
+        await fs.access(dir)
+      } catch {
+        throw mkdirError
+      }
+    }
+  }
+  
   await fs.writeFile(cacheFilePath, content, 'utf-8')
   return cacheFilePath
 }
