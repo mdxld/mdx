@@ -52,19 +52,16 @@ export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...valu
 export function createUnifiedFunction<T>(
   callback: (parsedTemplate: string, options: Record<string, any>) => T
 ): any {
-  // This function handles both normal function calls and tagged template literals
   function unifiedFunction(...args: any[]): any {
     if (args.length === 0 || args[0] === undefined) {
       throw new Error('Function must be called as a template literal or with string and options')
     }
     
-    // Pattern 3: Normal function call - fn('template', { option: 'value' })
     if (typeof args[0] === 'string') {
       const [template, options = {}] = args
       return callback(template, options)
     }
     
-    // Pattern 1: Tagged template literal - fn`template`
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...values] = args
       const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
@@ -74,9 +71,7 @@ export function createUnifiedFunction<T>(
     throw new Error('Function must be called as a template literal or with string and options')
   }
 
-  // Create a proxy to handle the curried pattern
   return new Proxy(unifiedFunction, {
-    // Handle direct function calls (Pattern 1 and 3)
     apply(target, thisArg, args) {
       if (args.length === 0 || args[0] === undefined) {
         throw new Error('Function must be called as a template literal or with string and options')
@@ -92,32 +87,24 @@ export function createUnifiedFunction<T>(
       }
     },
     
-    // Handle property access for curried calls (Pattern 2)
     get(target, prop) {
       if (prop === 'then' || prop === 'catch' || prop === 'finally') {
         return undefined
       }
       
-      // Handle Symbol.asyncIterator specially
-      if (prop === Symbol.asyncIterator) {
-        return undefined
-      }
-      
-      // Return a function that handles the template literal part of Pattern 2
       return function(...templateArgs: any[]) {
-        // Ensure we're dealing with a template literal
         if (Array.isArray(templateArgs[0]) && 'raw' in templateArgs[0]) {
           const [template, ...values] = templateArgs
           const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
           
-          // Create a function that handles the options part of Pattern 2
           const optionsHandler: any = function(options: Record<string, any> = {}) {
-            const result = callback(parsedTemplate, options)
-            return result
+            return callback(parsedTemplate, options)
           }
           
           optionsHandler[Symbol.asyncIterator] = function() {
-            const result = callback(parsedTemplate, this) as any
+            const options = this === optionsHandler ? {} : this
+            
+            const result = callback(parsedTemplate, options)
             
             if (result && typeof result === 'object' && Symbol.asyncIterator in result) {
               return result[Symbol.asyncIterator]()
@@ -133,4 +120,4 @@ export function createUnifiedFunction<T>(
       }
     }
   })
-}                                                                                        
+}

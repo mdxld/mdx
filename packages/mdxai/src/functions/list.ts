@@ -1,4 +1,4 @@
-import { createUnifiedFunction, stringifyValue } from '../utils/template.js'
+import { parseTemplate, stringifyValue } from '../utils/template.js'
 import { streamText } from 'ai'
 import { model } from '../ai.js'
 
@@ -57,7 +57,6 @@ async function generateCompleteList(prompt: string, options: Record<string, any>
       throw new Error('Failed to generate list from AI service')
     }
 
-    // Ensure we have at least maxItems items
     if (items.length < maxItems) {
       while (items.length < maxItems) {
         items.push(`Item ${items.length + 1}`)
@@ -84,18 +83,16 @@ async function generateCompleteList(prompt: string, options: Record<string, any>
 }
 
 /**
- * Create a list function that supports both Promise and AsyncIterable patterns
+ * Create a list result that supports both Promise and AsyncIterable patterns
  */
-function listImpl(template: string, options: Record<string, any> = {}): any {
+function createListResult(template: string, options: Record<string, any> = {}): any {
   const maxItems = parseInt(template.match(/^\d+/)?.[0] || '5', 10)
   
-  // Create the base async function that returns the list
   const listFn = async () => {
     const items = await generateCompleteList(template, options)
     return items.slice(0, maxItems)
   }
   
-  // Create a result object that is both Promise-like and AsyncIterable
   const result: any = listFn
   
   result.then = (resolve: any, reject: any) => {
@@ -110,7 +107,6 @@ function listImpl(template: string, options: Record<string, any> = {}): any {
     return listFn().finally(callback)
   }
   
-  // Add async iterator support
   result[Symbol.asyncIterator] = async function* () {
     try {
       const items = await listFn()
@@ -129,12 +125,35 @@ function listImpl(template: string, options: Record<string, any> = {}): any {
 }
 
 /**
- * List template literal function for generating arrays of items with async iterator support
- *
- * Usage:
- * - As Promise: const items = await list`10 ideas for ${topic}`
- * - As AsyncIterable: for await (const item of list`10 ideas for ${topic}`) { ... }
- * - With options: const items = await list`10 ideas for ${topic}`({ model: 'openai/gpt-4.1-nano' })
- * - As function: const items = await list('10 ideas for topic', { model: 'openai/gpt-4.1-nano' })
+ * List function implementation that supports all calling patterns
  */
-export const list = createUnifiedFunction(listImpl) as ListFunction   
+export const list: ListFunction = function(...args: any[]): any {
+  if (typeof args[0] === 'string') {
+    const [template, options = {}] = args
+    return createListResult(template, options)
+  }
+  
+  if (Array.isArray(args[0]) && 'raw' in args[0]) {
+    const [template, ...values] = args
+    const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
+    
+    const result = createListResult(parsedTemplate, {})
+    
+    const originalThen = result.then
+    
+    Object.defineProperty(result, 'then', {
+      get() {
+        return originalThen
+      }
+    })
+    
+    return new Proxy(result, {
+      apply(target, thisArg, args) {
+        const options = args[0] || {}
+        return createListResult(parsedTemplate, options)
+      }
+    })
+  }
+  
+  throw new Error('Function must be called as a template literal or with string and options')
+} as any
