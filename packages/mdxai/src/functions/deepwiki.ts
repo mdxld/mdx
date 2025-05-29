@@ -1,24 +1,58 @@
 import { experimental_createMCPClient as createMCPClient, generateText } from 'ai'
 import { model } from '../ai'
 
-export const deepwiki = async (prompt: string) => {
-  const mcpClient = await createMCPClient({
-    transport: {
-      type: 'sse',
-      url: 'https://mcp.deepwiki.com/sse',
-    },
-  })
+export const deepwikiMcpClient = await createMCPClient({
+  transport: {
+    type: 'sse',
+    url: 'https://mcp.deepwiki.com/sse',
+  },
+})
 
-  const deepwikiTools = await mcpClient.tools()
+export const tools = await deepwikiMcpClient.tools()
 
-  const result = await generateText({
-    model: model('openai/gpt-4.1'),
-    system: 'Use the deepwiki tools to get current information about github repos',
-    tools: deepwikiTools,
-    toolChoice: 'required',
-    prompt,
-    maxSteps: 3,
-  })
-
-  return result.text
+export type Repo = {
+  /**
+   * GitHub repository: owner/repo (e.g. "facebook/react")
+   */
+  repoName: string
 }
+
+export type DeepWikiQuestion = Repo & {
+  /**
+   * The question to ask about the repository
+   */
+  question: string
+}
+
+const options = { messages: [], toolCallId: '' }
+
+export const deepwiki = {
+  readWikiStructure: ({ repoName }: Repo) => tools.read_wiki_structure.execute({ repoName }, options),
+  readWikiContents: ({ repoName }: Repo) => tools.read_wiki_contents.execute({ repoName }, options),
+  askQuestion: ({ repoName, question }: DeepWikiQuestion) => tools.ask_question.execute({ repoName, question }, options),
+}
+
+// read_wiki_structure: {
+//   description: 'Get a list of documentation topics for a GitHub repository'
+// read_wiki_contents: {
+//   description: 'View documentation about a GitHub repository',
+// ask_question: {
+//   description: 'Ask any question about a GitHub repository',
+  
+  //   const deepwikiTools = await mcpClient.tools()
+  
+  //   return deepwikiTools
+
+// export const deepwiki = async (prompt: string) => {
+//   const mcpClient = await createMCPClient({
+//     transport: {
+//       type: 'sse',
+//       url: 'https://mcp.deepwiki.com/sse',
+//     },
+//   })
+
+//   const deepwikiTools = await mcpClient.tools()
+
+//   return deepwikiTools
+
+// }
