@@ -1,6 +1,7 @@
 import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel, experimental_generateImage as generateImage } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 import { createCacheMiddleware } from './cacheMiddleware'
+import { model } from './ai'
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -19,7 +20,7 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
   // Changed to StreamTextResult<never, string>
   const {
     modelProvider = openai, // Default to imported openai instance
-    modelId = 'gpt-4o', // Default model
+    modelId = 'google/gemini-2.5-flash-preview-05-20', // Default model
     messages,
   } = params
 
@@ -27,10 +28,10 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
     // The modelProvider is already an initialized OpenAI client if it's the default 'openai'
     // If a different provider instance is passed, it should also be pre-initialized.
     // The modelId is used to specify which model to use with that provider.
-    const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
+    // const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
 
     const wrappedModel = wrapLanguageModel({
-      model: model,
+      model: model('google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
       middleware: cacheMiddleware,
     })
 
