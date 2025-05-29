@@ -21,14 +21,6 @@ export interface ValidationResult {
     valid: boolean;
     errors: string[];
   };
-  valid?: boolean;
-  error?: string;
-  estree?: any;
-  tests?: {
-    success: boolean;
-    output: string;
-    skipped?: number;
-  };
 }
 
 /**
@@ -66,11 +58,7 @@ export async function validateCode(
       errors: tsValidation.errors,
       diagnostics: tsValidation.diagnostics
     },
-    syntax: syntaxValidation,
-    valid: tsValidation.valid && jsdocValidation.valid && syntaxValidation.valid,
-    error: tsValidation.error,
-    estree: tsValidation.estree,
-    tests: testResult
+    syntax: syntaxValidation
   }
 }
 

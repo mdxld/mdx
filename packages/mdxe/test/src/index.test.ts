@@ -9,9 +9,8 @@ export function add(a: number, b: number): number {
 }
 `
     const result = await validateCode(code)
-    expect(result.valid).toBe(true)
-    expect(result.error).toBeUndefined()
-    expect(result.estree).toBeDefined()
+    expect(result.typescript.valid).toBe(true)
+    expect(result.typescript.errors.length).toBe(0)
   })
 
   it('should validate TypeScript code with JSDoc', async () => {
@@ -27,9 +26,9 @@ export function add(a: number, b: number): number {
 }
 `
     const result = await validateCode(code)
-    expect(result.valid).toBe(true)
+    expect(result.typescript.valid).toBe(true)
     expect(result.jsdoc).toBeDefined()
-    expect(result.jsdoc?.valid).toBe(true)
+    expect(result.jsdoc.valid).toBe(true)
   })
 
   it('should validate TypeScript code with tests', async () => {
@@ -46,7 +45,7 @@ describe('add function', () => {
 })
 `
     const result = await validateCode(code, tests, { runTests: true })
-    expect(result.valid).toBe(true)
-    expect(result.tests).toBeDefined()
+    expect(result.typescript.valid).toBe(true)
+    expect(result.syntax.valid).toBe(true)
   })
 })
