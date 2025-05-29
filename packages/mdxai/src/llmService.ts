@@ -61,9 +61,14 @@ export async function generateListStream(prompt: string): Promise<StreamTextResu
 }
 
 export function createResearchProvider(apiKey?: string, baseURL: string = 'https://api.llm.do') {
+  const finalApiKey = apiKey || process.env.AI_GATEWAY_TOKEN
+  if (!finalApiKey) {
+    throw new Error('AI_GATEWAY_TOKEN must be provided via apiKey parameter or AI_GATEWAY_TOKEN environment variable.')
+  }
+  
   return createOpenAI({
     baseURL: baseURL,
-    apiKey: apiKey || process.env.AI_GATEWAY_TOKEN,
+    apiKey: finalApiKey,
   })
 }
 
