@@ -13,7 +13,7 @@
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
     "version": "changeset version",
     "release": "turbo run build && changeset publish",
-    "postinstall": "npm run build:packages"
+    "postinstall": "npm run build:packages && mkdir -p node_modules/.bin && ln -sf ../packages/mdxld/bin/mdxld.js node_modules/.bin/mdxld && chmod +x packages/mdxld/bin/mdxld.js"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
