@@ -1,47 +1,38 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { promises as fs } from 'fs'
 import path from 'path'
+import os from 'os'
+import { randomUUID } from 'crypto'
 import { discoverSchemas, SchemaDefinition, HeadingYamlPair } from '../schema-discovery'
 
-vi.mock('fs', async () => {
-  const actual = await vi.importActual('fs')
-  return {
-    ...actual,
-    promises: {
-      access: vi.fn(),
-      readdir: vi.fn(),
-      readFile: vi.fn().mockImplementation(() => Promise.resolve(Buffer.from(''))),
-      mkdir: vi.fn(),
-    }
-  }
-})
-
 describe('Schema Discovery', () => {
-  const mockDbFolderPath = '/test/.db'
+  const testId = randomUUID()
+  const testDir = path.join(os.tmpdir(), `mdx-schema-discovery-${testId}`)
+  const testDbDir = path.join(testDir, '.db')
 
-  beforeEach(() => {
-    vi.resetAllMocks()
-    vi.mocked(fs.access).mockResolvedValue(undefined)
+  beforeEach(async () => {
+    await fs.mkdir(testDbDir, { recursive: true })
   })
 
-  afterEach(() => {
-    vi.clearAllMocks()
+  afterEach(async () => {
+    try {
+      await fs.rm(testDir, { recursive: true, force: true })
+    } catch (error) {
+      console.error('Error cleaning up test directory:', error)
+    }
   })
 
   describe('discoverSchemas', () => {
     it('should return empty array if .db folder does not exist', async () => {
-      vi.mocked(fs.access).mockRejectedValueOnce(new Error('ENOENT'))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+      const nonExistentPath = path.join(testDir, 'non-existent-folder')
+      
+      const result = await discoverSchemas(nonExistentPath)
 
       expect(result).toEqual([])
-      expect(fs.access).toHaveBeenCalledWith(mockDbFolderPath)
-      expect(fs.readdir).not.toHaveBeenCalled()
     })
 
     it('should discover schemas from frontmatter in MDX files', async () => {
-      vi.mocked(fs.readdir).mockResolvedValueOnce(['schema.md', 'other.txt'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`---
+      const schemaContent = `---
 collections:
   users:
     name: User name
@@ -54,9 +45,11 @@ collections:
 # User Schema
 
 This file defines the user schema.
-`))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+`
+      await fs.writeFile(path.join(testDbDir, 'schema.md'), schemaContent)
+      await fs.writeFile(path.join(testDbDir, 'other.txt'), 'Not a schema file')
+      
+      const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
       expect(result[0].collectionName).toBe('users')
@@ -75,8 +68,7 @@ This file defines the user schema.
     })
 
     it('should discover schemas from YAML codeblocks under headings', async () => {
-      vi.mocked(fs.readdir).mockResolvedValueOnce(['schema.md', 'other.txt'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Product Schema
+      const schemaContent = `# Product Schema
 
 \`\`\`yaml
 name: Product name
@@ -89,9 +81,10 @@ category: Product category (electronics | clothing | food)
 ## Other Section
 
 Some other content.
-`))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+`
+      await fs.writeFile(path.join(testDbDir, 'product-schema.md'), schemaContent)
+      
+      const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
       expect(result[0].collectionName).toBe('product-schema')
@@ -110,8 +103,7 @@ Some other content.
     })
 
     it('should handle multiple schema definitions in the same file', async () => {
-      vi.mocked(fs.readdir).mockResolvedValueOnce(['schemas.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`---
+      const schemaContent = `---
 collections:
   users:
     name: User name
@@ -132,9 +124,10 @@ id: Order ID
 items: Order items (array)
 total: Order total (number)
 \`\`\`
-`))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+`
+      await fs.writeFile(path.join(testDbDir, 'schemas.md'), schemaContent)
+      
+      const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(3)
 
@@ -152,8 +145,7 @@ total: Order total (number)
     })
 
     it('should handle case-insensitive type annotations', async () => {
-      vi.mocked(fs.readdir).mockResolvedValueOnce(['types.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Types Test
+      const schemaContent = `# Types Test
 
 \`\`\`yaml
 field1: Test field (BOOL)
@@ -161,9 +153,10 @@ field2: Test field (Number)
 field3: Test field (Boolean)
 field4: Test field (DATE)
 \`\`\`
-`))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+`
+      await fs.writeFile(path.join(testDbDir, 'types.md'), schemaContent)
+      
+      const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
       expect(result[0].schema).toMatchObject({
@@ -175,16 +168,16 @@ field4: Test field (DATE)
     })
 
     it('should handle both inline and standalone enum formats', async () => {
-      vi.mocked(fs.readdir).mockResolvedValueOnce(['enums.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Enum Test
+      const schemaContent = `# Enum Test
 
 \`\`\`yaml
 inlineEnum: Status description (active | inactive | pending)
 standaloneEnum: active | inactive | pending
 \`\`\`
-`))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+`
+      await fs.writeFile(path.join(testDbDir, 'enums.md'), schemaContent)
+      
+      const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
       expect(result[0].schema).toMatchObject({
@@ -204,15 +197,15 @@ standaloneEnum: active | inactive | pending
     it('should handle errors gracefully', async () => {
       const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      vi.mocked(fs.readdir).mockResolvedValueOnce(['invalid.md'] as any)
-      vi.mocked(fs.readFile).mockResolvedValueOnce(Buffer.from(`# Invalid Schema
+      const invalidContent = `# Invalid Schema
 
 \`\`\`yaml
 invalid: yaml: :
 \`\`\`
-`))
-
-      const result = await discoverSchemas(mockDbFolderPath)
+`
+      await fs.writeFile(path.join(testDbDir, 'invalid.md'), invalidContent)
+      
+      const result = await discoverSchemas(testDbDir)
 
       expect(result).toEqual([])
       expect(consoleWarnSpy).toHaveBeenCalled()

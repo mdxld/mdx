@@ -42,9 +42,9 @@ async function saveWaveFile(
  * Generate audio using Google Gemini TTS
  */
 async function generateSpeechAudio(text: string, options: { voiceName?: string; apiKey?: string } = {}): Promise<string> {
-  const apiKey = options.apiKey || process.env.GEMINI_API_KEY
+  const apiKey = options.apiKey || process.env.GOOGLE_API_KEY
   if (!apiKey) {
-    throw new Error('GEMINI_API_KEY environment variable is not set')
+    throw new Error('GOOGLE_API_KEY environment variable is not set')
   }
 
   const ai = new GoogleGenAI({ apiKey })
@@ -109,4 +109,4 @@ export const say = new Proxy(sayFunction_, {
 
     throw new Error('Say function must be called as a template literal')
   },
-}) 
+})  

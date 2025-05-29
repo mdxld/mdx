@@ -4,14 +4,6 @@ import { DocumentContent } from '@mdxdb/core'
 import * as libsql from '@libsql/client'
 import * as ai from 'ai'
 
-const createClientSpy = vi.fn().mockReturnValue({})
-vi.spyOn(libsql, 'createClient').mockImplementation(() => createClientSpy())
-
-vi.mock('ai', () => ({
-  ...vi.importActual('ai'),
-  embed: vi.fn().mockResolvedValue([0.1, 0.2, 0.3])
-}))
-
 describe('MdxDbSqlite', () => {
   it('should initialize with default config', () => {
     const db = new MdxDbSqlite()
@@ -80,9 +72,6 @@ describe('MdxDbSqlite', () => {
     await db.set('test-doc-2', content2, 'posts')
     await db.set('test-doc-3', content3, 'posts')
 
-    vi.spyOn(db as any, 'cosineSimilarity').mockImplementation((vecA: any, vecB: any) => {
-      return 0.85 // Return a high similarity score for testing
-    })
 
     const results = await db.search('artificial intelligence')
 

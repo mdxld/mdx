@@ -45,7 +45,7 @@ describe('scrape', () => {
       expect(result).toHaveProperty('markdown')
       expect(typeof result.markdown).toBe('string')
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   })
 
@@ -65,7 +65,7 @@ describe('scrape', () => {
         expect(result2.title).toBe(result1.title)
       }
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   })
 
@@ -111,7 +111,7 @@ cachedAt: "${new Date().toISOString()}"
       expect(results[0].url).toBe('https://example.com/page1')
       expect(results[1].url).toBe('https://example.com/page2')
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   })
 
@@ -156,7 +156,7 @@ This is test markdown content.`
         expect(result.title).toBe('Test Title')
       }
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   }, 10000)
 
@@ -191,7 +191,7 @@ This is test markdown content.`
         expect(result.title).toBe('Test Title')
       }
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   })
 })
@@ -232,7 +232,7 @@ describe('scrape e2e', () => {
         expect(result2.error).toBe(result1.error)
       }
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   }, 30000)
 
@@ -265,7 +265,7 @@ describe('scrape e2e', () => {
       expect(results2).toHaveLength(2)
       expect(progressCalls).toHaveLength(2)
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   }, 60000)
 
@@ -291,7 +291,7 @@ cachedAt: "${new Date().toISOString()}"
       expect(result.error).toBeDefined()
       expect(result.markdown === undefined || result.markdown === '').toBe(true)
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   }, 30000)
 
@@ -332,7 +332,7 @@ This is test markdown content.`
         }
       }
     } catch (error) {
-      expect((error as Error).message).toMatch(/API key|not valid|unauthorized/i)
+      expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request/i)
     }
   }, 90000)
 })

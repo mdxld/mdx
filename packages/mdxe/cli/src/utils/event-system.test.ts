@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { on, send, emit, clearEvents, clearEvent, eventRegistry, EmitOptions } from './event-system'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { on, send, emit, clearEvents, clearEvent, eventRegistry, EmitOptions, MutableEventContext } from './event-system'
 
 describe('event-system', () => {
   beforeEach(() => {
@@ -8,7 +8,8 @@ describe('event-system', () => {
 
   describe('on', () => {
     it('registers an event handler', () => {
-      const callback = vi.fn()
+      let handlerCalled = false
+      const callback = () => { handlerCalled = true }
       on('test-event', callback)
 
       const handlers = eventRegistry['handlers'].get('test-event')
@@ -19,8 +20,8 @@ describe('event-system', () => {
     })
 
     it('allows registering multiple handlers for the same event', () => {
-      const callback1 = vi.fn()
-      const callback2 = vi.fn()
+      const callback1 = () => 'result1'
+      const callback2 = () => 'result2'
 
       on('test-event', callback1)
       on('test-event', callback2)
@@ -36,26 +37,38 @@ describe('event-system', () => {
 
   describe('send', () => {
     it('calls registered handlers with data', async () => {
-      const callback = vi.fn()
+      let receivedData = null
       const testData = { message: 'test' }
 
-      on('test-event', callback)
+      on('test-event', (data) => {
+        receivedData = data
+        return 'handler called'
+      })
+      
       await send('test-event', testData)
 
-      expect(callback).toHaveBeenCalledWith(testData, expect.any(Object))
+      expect(receivedData).toEqual(testData)
     })
 
     it('calls multiple handlers for the same event', async () => {
-      const callback1 = vi.fn()
-      const callback2 = vi.fn()
+      const calledHandlers: string[] = []
       const testData = { message: 'test' }
 
-      on('test-event', callback1)
-      on('test-event', callback2)
+      on('test-event', (data) => {
+        calledHandlers.push('handler1')
+        return 'result1'
+      })
+      
+      on('test-event', (data) => {
+        calledHandlers.push('handler2')
+        return 'result2'
+      })
+      
       await send('test-event', testData)
 
-      expect(callback1).toHaveBeenCalledWith(testData, expect.any(Object))
-      expect(callback2).toHaveBeenCalledWith(testData, expect.any(Object))
+      expect(calledHandlers).toContain('handler1')
+      expect(calledHandlers).toContain('handler2')
+      expect(calledHandlers.length).toBe(2)
     })
 
     it('returns results and context from handlers', async () => {
@@ -80,59 +93,73 @@ describe('event-system', () => {
     })
 
     it('catches errors in handlers and continues execution', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const errorMessages: string[] = []
+      const originalConsoleError = console.error
+      console.error = (...args) => {
+        errorMessages.push(args.join(' '))
+      }
 
-      on('test-event', () => {
-        throw new Error('Test error')
-      })
-      on('test-event', () => 'success')
+      try {
+        on('test-event', () => {
+          throw new Error('Test error')
+        })
+        on('test-event', () => 'success')
 
-      const response = await send('test-event')
+        const response = await send('test-event')
 
-      expect(consoleSpy).toHaveBeenCalled()
-      expect(response.results).toEqual([null, 'success'])
-      const errors = response.context.get('errors')
-      expect(errors).toBeDefined()
-      expect(errors.length).toBe(1)
-
-      consoleSpy.mockRestore()
+        expect(errorMessages.length).toBeGreaterThan(0)
+        expect(errorMessages[0]).toContain('Test error')
+        expect(response.results).toEqual([null, 'success'])
+        const errors = response.context.get('errors')
+        expect(errors).toBeDefined()
+        expect(errors.length).toBe(1)
+      } finally {
+        console.error = originalConsoleError
+      }
     })
 
     it('propagates context between handlers', async () => {
+      let firstRanValue = false
+      let secondRanValue = false
+      
       on('test-event', (data, context) => {
-        return {
-          result: 'first handler',
-          context: { ...context, firstRan: true },
-        }
+        context?.set('firstRan', true)
+        return 'first handler'
       })
 
       on('test-event', (data, context) => {
-        expect(context?.firstRan).toBe(true)
-        return {
-          result: 'second handler',
-          context: { ...(context || {}), secondRan: true },
-        }
+        firstRanValue = context?.get('firstRan') === true
+        context?.set('secondRan', true)
+        return 'second handler'
       })
 
       const response = await send('test-event', { initial: 'data' })
 
-      expect(response.context.firstRan).toBe(true)
-      expect(response.context.secondRan).toBe(true)
+      secondRanValue = response.context.get('secondRan') === true
+      expect(firstRanValue).toBe(true)
+      expect(secondRanValue).toBe(true)
     })
 
     it('preserves initial context', async () => {
-      const initialContext = { important: 'value' }
+      let importantValue = null
+      const initialContext = new MutableEventContext()
+      initialContext.set('important', 'value')
 
       on('test-event', (data, context) => {
-        expect(context?.important).toBe('value')
+        importantValue = context?.get('important')
         return 'result'
       })
 
       const response = await send('test-event', 'data', initialContext)
 
-      expect(response.context.important).toBe('value')
+      expect(importantValue).toBe('value')
+      expect(response.context.get('important')).toBe('value')
     })
+    
     it('supports direct context modification with helper methods', async () => {
+      let step1Value = null
+      let hasProcessed = false
+      
       on('test-event', (data, context) => {
         context?.set('step1', 'completed')
         context?.merge({ processed: { step1: true } })
@@ -140,14 +167,16 @@ describe('event-system', () => {
       })
 
       on('test-event', (data, context) => {
-        expect(context?.get('step1')).toBe('completed')
-        expect(context?.has('processed')).toBe(true)
+        step1Value = context?.get('step1')
+        hasProcessed = context?.has('processed') || false
         context?.set('step2', 'completed')
         return 'result2'
       })
 
       const response = await send('test-event', { test: 'data' })
 
+      expect(step1Value).toBe('completed')
+      expect(hasProcessed).toBe(true)
       expect(response.context.get('step1')).toBe('completed')
       expect(response.context.get('step2')).toBe('completed')
       expect(response.context.processed.step1).toBe(true)
@@ -181,6 +210,8 @@ describe('event-system', () => {
     })
 
     it('maintains backward compatibility with return-based context', async () => {
+      let legacyStyleValue = false
+      
       on('test-event', (data, context) => {
         return {
           result: 'legacy',
@@ -189,13 +220,14 @@ describe('event-system', () => {
       })
 
       on('test-event', (data, context) => {
-        expect(context?.get('legacyStyle')).toBe(true)
+        legacyStyleValue = context?.get('legacyStyle') === true
         context?.set('modernStyle', true)
         return 'modern'
       })
 
       const response = await send('test-event')
 
+      expect(legacyStyleValue).toBe(true)
       expect(response.context.get('legacyStyle')).toBe(true)
       expect(response.context.get('modernStyle')).toBe(true)
     })
@@ -203,97 +235,125 @@ describe('event-system', () => {
 
   describe('enhanced async error handling', () => {
     it('provides detailed error context for async handler failures', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const errorMessages = []
+      const originalConsoleError = console.error
+      console.error = (...args) => {
+        errorMessages.push(args.join(' '))
+      }
 
-      on('test-event', async () => {
-        throw new Error('Async handler error')
-      })
+      try {
+        on('test-event', async () => {
+          throw new Error('Async handler error')
+        })
 
-      const response = await send('test-event', { testData: 'value' })
+        const response = await send('test-event', { testData: 'value' })
 
-      const errors = response.context.get('errors')
-      expect(errors).toBeDefined()
-      expect(errors.length).toBe(1)
+        expect(errorMessages.length).toBeGreaterThan(0)
+        const errors = response.context.get('errors')
+        expect(errors).toBeDefined()
+        expect(errors.length).toBe(1)
 
-      const error = errors[0]
-      expect(error.event).toBe('test-event')
-      expect(error.handlerIndex).toBe(0)
-      expect(error.error.message).toBe('Async handler error')
-      expect(error.error.stack).toBeDefined()
-      expect(error.timestamp).toBeDefined()
-      expect(error.data).toBeDefined()
-
-      consoleSpy.mockRestore()
+        const error = errors[0]
+        expect(error.event).toBe('test-event')
+        expect(error.handlerIndex).toBe(0)
+        expect(error.error.message).toBe('Async handler error')
+        expect(error.error.stack).toBeDefined()
+        expect(error.timestamp).toBeDefined()
+        expect(error.data).toBeDefined()
+      } finally {
+        console.error = originalConsoleError
+      }
     })
 
     it('emits error events for centralized error handling', async () => {
-      const errorHandler = vi.fn()
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      let errorHandlerCalled = false
+      let errorEventData: any = null
+      
+      const errorMessages: string[] = []
+      const originalConsoleError = console.error
+      console.error = (...args) => {
+        errorMessages.push(args.join(' '))
+      }
 
-      on('handler.error', errorHandler)
-      on('test-event', async () => {
-        throw new Error('Test error for centralized handling')
-      })
+      try {
+        on('handler.error', (data) => {
+          errorHandlerCalled = true
+          errorEventData = data
+        })
+        
+        on('test-event', async () => {
+          throw new Error('Test error for centralized handling')
+        })
 
-      await send('test-event')
+        await send('test-event')
 
-      expect(errorHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          event: 'test-event',
-          error: expect.objectContaining({
-            message: 'Test error for centralized handling',
-          }),
-        }),
-        expect.any(Object),
-      )
-
-      consoleSpy.mockRestore()
+        expect(errorHandlerCalled).toBe(true)
+        expect(errorEventData).toBeDefined()
+        expect(errorEventData.event).toBe('test-event')
+        expect(errorEventData.error.message).toBe('Test error for centralized handling')
+      } finally {
+        console.error = originalConsoleError
+      }
     })
 
     it('handles nested async operations with proper error isolation', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const errorMessages = []
+      const originalConsoleError = console.error
+      console.error = (...args) => {
+        errorMessages.push(args.join(' '))
+      }
 
-      on('test-event', async () => {
-        for (let i = 0; i < 3; i++) {
-          await new Promise((resolve) => setTimeout(resolve, 1))
-          if (i === 1) {
-            throw new Error(`Nested error at iteration ${i}`)
+      try {
+        on('test-event', async () => {
+          for (let i = 0; i < 3; i++) {
+            await new Promise((resolve) => setTimeout(resolve, 1))
+            if (i === 1) {
+              throw new Error(`Nested error at iteration ${i}`)
+            }
           }
-        }
-        return 'should not reach here'
-      })
+          return 'should not reach here'
+        })
 
-      on('test-event', async () => {
-        return 'second handler success'
-      })
+        on('test-event', async () => {
+          return 'second handler success'
+        })
 
-      const response = await send('test-event')
+        const response = await send('test-event')
 
-      expect(response.results).toEqual([null, 'second handler success'])
-      const errors = response.context.get('errors')
-      expect(errors.length).toBe(1)
-      expect(errors[0].error.message).toBe('Nested error at iteration 1')
-
-      consoleSpy.mockRestore()
+        expect(errorMessages.length).toBeGreaterThan(0)
+        expect(response.results).toEqual([null, 'second handler success'])
+        const errors = response.context.get('errors')
+        expect(errors.length).toBe(1)
+        expect(errors[0].error.message).toBe('Nested error at iteration 1')
+      } finally {
+        console.error = originalConsoleError
+      }
     })
 
     it('supports handler timeouts', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const errorMessages = []
+      const originalConsoleError = console.error
+      console.error = (...args) => {
+        errorMessages.push(args.join(' '))
+      }
 
-      on('test-event', async () => {
-        await new Promise((resolve) => setTimeout(resolve, 50))
-        return 'slow handler'
-      })
+      try {
+        on('test-event', async () => {
+          await new Promise((resolve) => setTimeout(resolve, 50))
+          return 'slow handler'
+        })
 
-      const options: EmitOptions = { timeout: 10 }
-      const response = await send('test-event', null, {}, options)
+        const options: EmitOptions = { timeout: 10 }
+        const response = await send('test-event', null, {}, options)
 
-      expect(response.results).toEqual([null])
-      const errors = response.context.get('errors')
-      expect(errors.length).toBe(1)
-      expect(errors[0].error.message).toContain('timeout')
-
-      consoleSpy.mockRestore()
+        expect(errorMessages.length).toBeGreaterThan(0)
+        expect(response.results).toEqual([null])
+        const errors = response.context.get('errors')
+        expect(errors.length).toBe(1)
+        expect(errors[0].error.message).toContain('timeout')
+      } finally {
+        console.error = originalConsoleError
+      }
     })
 
     it('supports parallel execution of handlers', async () => {
@@ -324,32 +384,39 @@ describe('event-system', () => {
     })
 
     it('handles errors in parallel execution', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const errorMessages = []
+      const originalConsoleError = console.error
+      console.error = (...args) => {
+        errorMessages.push(args.join(' '))
+      }
 
-      on('test-event', async () => {
-        throw new Error('Error in first handler')
-      })
+      try {
+        on('test-event', async () => {
+          throw new Error('Error in first handler')
+        })
 
-      on('test-event', async () => {
-        return 'second handler success'
-      })
+        on('test-event', async () => {
+          return 'second handler success'
+        })
 
-      const options: EmitOptions = { parallel: true }
-      const response = await send('test-event', null, {}, options)
+        const options: EmitOptions = { parallel: true }
+        const response = await send('test-event', null, {}, options)
 
-      expect(response.results).toEqual([null, 'second handler success'])
-      const errors = response.context.get('errors')
-      expect(errors.length).toBe(1)
-      expect(errors[0].error.message).toBe('Error in first handler')
-
-      consoleSpy.mockRestore()
+        expect(errorMessages.length).toBeGreaterThan(0)
+        expect(response.results).toEqual([null, 'second handler success'])
+        const errors = response.context.get('errors')
+        expect(errors.length).toBe(1)
+        expect(errors[0].error.message).toBe('Error in first handler')
+      } finally {
+        console.error = originalConsoleError
+      }
     })
   })
 
   describe('clearEvents', () => {
     it('clears all event handlers', () => {
-      on('event1', vi.fn())
-      on('event2', vi.fn())
+      on('event1', () => 'result1')
+      on('event2', () => 'result2')
 
       clearEvents()
 
@@ -359,8 +426,8 @@ describe('event-system', () => {
 
   describe('clearEvent', () => {
     it('clears handlers for a specific event', () => {
-      on('event1', vi.fn())
-      on('event2', vi.fn())
+      on('event1', () => 'result1')
+      on('event2', () => 'result2')
 
       clearEvent('event1')
 
@@ -382,12 +449,19 @@ describe('event-system', () => {
       const { createExecutionContext } = await import('./execution-context')
       const context = createExecutionContext()
 
-      const callback = vi.fn()
-      context.on('test-event', callback)
+      let callbackCalled = false
+      let receivedData = null
+      
+      context.on('test-event', (data) => {
+        callbackCalled = true
+        receivedData = data
+        return 'callback result'
+      })
 
       await context.send('test-event', { message: 'test data' })
 
-      expect(callback).toHaveBeenCalledWith({ message: 'test data' }, expect.any(Object))
+      expect(callbackCalled).toBe(true)
+      expect(receivedData).toEqual({ message: 'test data' })
     })
 
     it('supports async callbacks through execution context', async () => {

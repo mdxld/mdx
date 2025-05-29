@@ -16,7 +16,11 @@ const schema = z.object({
   })),
 })
 
-export const extract: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray, ...values: any[]) => {
+export const extract: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray | string, ...values: any[]) => {
+  if (typeof template === 'string' || !('raw' in template)) {
+    throw new Error('extract function must be used as a template literal tag')
+  }
+  
   const content = parseTemplate(template, values)
 
   const result = await generateObject({

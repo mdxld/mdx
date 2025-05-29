@@ -25,9 +25,9 @@ const ai = function(strings, ...values) {
   return \`AI response for: \${prompt}\`;
 };
 
-ai.leanCanvas = (params) => ({ title: 'Lean Canvas', ...params });
-ai.storyBrand = (params) => ({ title: 'Story Brand', ...params });
-ai.landingPage = (params) => ({ title: 'Landing Page', ...params });
+ai.leanCanvas = function(params) { return { title: 'Lean Canvas', ...params }; };
+ai.storyBrand = function(params) { return { title: 'Story Brand', ...params }; };
+ai.landingPage = function(params) { return { title: 'Landing Page', ...params }; };
 
 const db = {
   blog: {
@@ -39,9 +39,16 @@ const db = {
   }
 };
 
-const list = ${context.list.toString()};
-const research = ${context.research.toString()};
-const extract = ${context.extract.toString()};
+const list = function*(strings, ...values) { 
+  yield "Test item 1"; 
+  yield "Test item 2";
+};
+const research = function(strings, ...values) {
+  return "Research result";
+};
+const extract = function(strings, ...values) {
+  return ["Extracted item 1", "Extracted item 2"];
+};
 `
   
   const combinedSource = [
