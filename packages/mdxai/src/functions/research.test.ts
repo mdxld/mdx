@@ -10,12 +10,12 @@ describe('research', () => {
   const originalEnv = { ...process.env }
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'development'
+    vi.stubEnv('NODE_ENV', 'development')
     vi.clearAllMocks()
   })
 
   afterEach(() => {
-    process.env = { ...originalEnv }
+    vi.unstubAllEnvs()
   })
 
   it('should generate research with real API and cache the result', async () => {

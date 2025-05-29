@@ -53,7 +53,7 @@ describe('CLI research command', () => {
   })
 
   afterEach(() => {
-    process.env = { ...originalEnv }
+    vi.unstubAllEnvs()
     console.log = originalConsoleLog
     console.error = originalConsoleError
     process.exit = originalProcessExit
@@ -232,7 +232,7 @@ describe('CLI research command', () => {
     it('should throw an error when AI_GATEWAY_TOKEN is not set', async () => {
       try {
         const originalToken = process.env.AI_GATEWAY_TOKEN
-        delete process.env.AI_GATEWAY_TOKEN
+        vi.stubEnv('AI_GATEWAY_TOKEN', undefined)
         
         try {
           const { program } = createResearchCommand()
@@ -242,7 +242,7 @@ describe('CLI research command', () => {
           expect(consoleErrors.some(error => error.includes('AI_GATEWAY_TOKEN environment variable is not set'))).toBe(true)
         } finally {
           if (originalToken) {
-            process.env.AI_GATEWAY_TOKEN = originalToken
+            vi.stubEnv('AI_GATEWAY_TOKEN', originalToken)
           }
         }
       } catch (error) {
