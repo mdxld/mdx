@@ -57,7 +57,7 @@ afterEach(() => {
 
 describe('mdxld cli', () => {
   it('should parse all md/mdx files in a directory with default options', async () => {
-    const result = await $`pnpm mdxld build`
+    const result = await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build`
 
     // Check for generated files
     expect(fs.existsSync('./.mdx/index.d.ts')).toBe(true)
@@ -75,7 +75,7 @@ describe('mdxld cli', () => {
   }, 15000)
 
   it('should use custom source and output directories', async () => {
-    const result = await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
+    const result = await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
 
     // Check for generated files in custom output directory
     expect(fs.existsSync(path.join(TEST_OUTPUT_DIR, 'index.d.ts'))).toBe(true)
@@ -87,7 +87,7 @@ describe('mdxld cli', () => {
   }, 15000)
 
   it('should generate correct output structure and content', async () => {
-    await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
+    await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
 
     expect(fs.existsSync(path.join(TEST_OUTPUT_DIR, 'index.js'))).toBe(true)
     expect(fs.existsSync(path.join(TEST_OUTPUT_DIR, 'index.d.ts'))).toBe(true)
@@ -106,7 +106,7 @@ describe('mdxld cli', () => {
   }, 15000)
 
   it('should handle files with and without frontmatter', async () => {
-    await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
+    await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
 
     const mdxJson = JSON.parse(fs.readFileSync(path.join(TEST_OUTPUT_DIR, 'mdx.json'), 'utf8'))
 
@@ -116,7 +116,7 @@ describe('mdxld cli', () => {
   it('should handle errors gracefully when source directory does not exist', async () => {
     let errorThrown = false
     try {
-      await $`pnpm mdxld build -s ${INVALID_DIR} -o ${TEST_OUTPUT_DIR}`
+      await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build -s ${INVALID_DIR} -o ${TEST_OUTPUT_DIR}`
       expect(true).toBe(false) // Force test to fail if no error is thrown
     } catch (error: any) {
       errorThrown = true
@@ -140,7 +140,7 @@ describe('mdxld cli', () => {
   })
 
   it('should process files with JSON-LD frontmatter correctly', async () => {
-    await $`pnpm mdxld build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
+    await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build -s ${TEST_SOURCE_DIR} -o ${TEST_OUTPUT_DIR}`
 
     const mdxJson = JSON.parse(fs.readFileSync(path.join(TEST_OUTPUT_DIR, 'mdx.json'), 'utf8'))
 
@@ -149,7 +149,7 @@ describe('mdxld cli', () => {
   })
 
   it('should verify the CLI accepts the --watch option', async () => {
-    const result = await $`pnpm mdxld build --help`
+    const result = await $`node ${path.resolve('packages/mdxld/dist/cli.js')} build --help`
 
     expect(result.stdout).toContain('--watch')
   })
