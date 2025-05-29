@@ -3,12 +3,17 @@ import { streamText } from 'ai'
 import { model } from '../ai.js'
 
 /**
+ * Return type that supports both Promise and AsyncIterable
+ */
+type ListResult = Promise<string[]> & AsyncIterable<string> & {
+  (options: Record<string, any>): Promise<string[]> & AsyncIterable<string>
+}
+
+/**
  * Type definition for the list function that supports both Promise and AsyncIterable
  */
 export type ListFunction = {
-  (strings: TemplateStringsArray, ...values: any[]): Promise<string[]> & AsyncIterable<string> & {
-    (options: Record<string, any>): Promise<string[]> & AsyncIterable<string>
-  }
+  (strings: TemplateStringsArray, ...values: any[]): ListResult
   (text: string, options?: Record<string, any>): Promise<string[]> & AsyncIterable<string>
 }
 
@@ -156,4 +161,4 @@ export const list: ListFunction = function(...args: any[]): any {
   }
   
   throw new Error('Function must be called as a template literal or with string and options')
-} as any
+}
