@@ -26,7 +26,7 @@ describe('say template function', () => {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|GOOGLE_API_KEY environment variable is not set/i)
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
   
   it('should handle variable interpolation', async () => {
     try {
@@ -42,7 +42,7 @@ describe('say template function', () => {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|GOOGLE_API_KEY environment variable is not set/i)
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
   
   it('should throw error when not used as template literal', () => {
     const incorrectUsage = new Function('say', 'return say("not a template literal")')
@@ -70,5 +70,5 @@ describe('say template function', () => {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|GOOGLE_API_KEY environment variable is not set/i)
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
 })

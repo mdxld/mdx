@@ -131,7 +131,7 @@ describe('CLI research command', () => {
           expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
         }
       }
-    }, 60000) // Increase timeout for real API calls
+    })
 
     it('should execute research command in interactive mode with --ink flag', async () => {
       const outputFile = path.join(TEST_DIR, 'research.mdx')
@@ -180,7 +180,7 @@ describe('CLI research command', () => {
           expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
         }
       }
-    }, 60000) // Increase timeout for real API calls
+    })
 
     it('should handle different output formats', async () => {
       const outputFile = path.join(TEST_DIR, 'frontmatter-output.mdx')
@@ -203,7 +203,7 @@ describe('CLI research command', () => {
           expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
         }
       }
-    }, 60000) // Increase timeout for real API calls
+    })
 
     it('should handle parameter passing from command line', async () => {
       const outputFile = path.join(TEST_DIR, 'both-format-output.mdx')
@@ -227,7 +227,7 @@ describe('CLI research command', () => {
           expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
         }
       }
-    }, 60000) // Increase timeout for real API calls
+    })
 
     it('should throw an error when AI_GATEWAY_TOKEN is not set', async () => {
       try {

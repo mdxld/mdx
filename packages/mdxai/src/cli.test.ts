@@ -123,7 +123,7 @@ describe('CLI say command', () => {
       // Restore platform
       Object.defineProperty(process, 'platform', { value: originalPlatform })
     }
-  }, 60000) // Increase timeout for real API calls
+  })
   
   it('should generate audio on macOS platform', async () => {
     
@@ -148,7 +148,7 @@ describe('CLI say command', () => {
       // Restore platform
       Object.defineProperty(process, 'platform', { value: originalPlatform })
     }
-  }, 60000) // Increase timeout for real API calls
+  })
   
   it('should generate audio on Windows platform', async () => {
     
@@ -173,7 +173,7 @@ describe('CLI say command', () => {
       // Restore platform
       Object.defineProperty(process, 'platform', { value: originalPlatform })
     }
-  }, 60000) // Increase timeout for real API calls
+  })
   
   it('should save audio to specified output path', async () => {
     
@@ -193,7 +193,7 @@ describe('CLI say command', () => {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|quota|exceeded|Too Many Requests|Bad Request|Process exited with code|GOOGLE_API_KEY environment variable is not set/i)
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
   
   it('should handle missing GOOGLE_API_KEY', async () => {
     // Ensure environment variable is not set
@@ -214,5 +214,5 @@ describe('CLI say command', () => {
         process.env.GOOGLE_API_KEY = originalApiKey
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
 })

@@ -235,7 +235,7 @@ describe('Cache Middleware', () => {
 
     const cachedStreamContent = await readStream(result2.stream)
     expect(cachedStreamContent).toBe('Hello')
-  }, 10000)
+  })
 
   it('should respect the enabled configuration option', async () => {
     const middleware = createCacheMiddleware({ enabled: false })
