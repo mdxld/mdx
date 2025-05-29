@@ -10,4 +10,9 @@ export default defineConfig({
   external: ['yaml', 'next-mdx-remote-client', 'schema-dts'],
   noExternal: [],
   dts: false, // Disable TypeScript declaration files to avoid type errors
+  onSuccess: async () => {
+    const { chmod } = await import('node:fs/promises');
+    await chmod('./dist/cli.js', 0o755);
+    console.log('Made CLI executable');
+  }
 })
