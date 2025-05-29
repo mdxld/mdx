@@ -5,7 +5,6 @@ export default createMixedConfig(
     index: 'src/index.ts',
     cli: 'src/cli.ts',
     'functions/code': 'src/functions/code.ts',
-    'functions/code-validator-simple': 'src/functions/code-validator-simple.ts',
   },
   {
     esbuildOptions: (options) => {
