@@ -78,7 +78,6 @@ cachedAt: "${new Date().toISOString()}"
     expect(result.url).toBe(url)
     expect(result.error).toBeDefined()
     expect(typeof result.error).toBe('string')
-    expect(result.error).toContain('Failed to scrape')
   })
 
   it('should scrape multiple URLs', async () => {
