@@ -107,7 +107,7 @@ export function createUnifiedFunction<T>(
             const result = callback(parsedTemplate, options)
             
             if (result && typeof result === 'object' && Symbol.asyncIterator in result) {
-              return result[Symbol.asyncIterator]()
+              return (result as AsyncIterable<any>)[Symbol.asyncIterator]()
             }
             
             throw new Error('Result is not async iterable')
@@ -120,4 +120,4 @@ export function createUnifiedFunction<T>(
       }
     }
   })
-}
+}        
