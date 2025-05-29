@@ -31,7 +31,7 @@ describe('scrape', () => {
   
   beforeEach(() => {
     // Ensure we're in test mode for mocked tests
-    process.env.NODE_ENV = 'test'
+    vi.stubEnv('NODE_ENV', 'test')
     vi.clearAllMocks()
   })
 

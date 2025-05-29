@@ -305,7 +305,7 @@ describe('AI Handler e2e', () => {
   }
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'development'
+    vi.stubEnv('NODE_ENV', 'development')
     vi.clearAllMocks()
   })
 

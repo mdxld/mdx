@@ -2,15 +2,13 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { say } from './aiHandler'
 
 describe('say template function', () => {
-  const originalEnv = { ...process.env }
-  
   beforeEach(() => {
-    process.env.NODE_ENV = 'test'
-    process.env.USE_CACHE = 'true'
+    vi.stubEnv('NODE_ENV', 'test')
+    vi.stubEnv('USE_CACHE', 'true')
   })
   
   afterEach(() => {
-    process.env = { ...originalEnv }
+    vi.unstubAllEnvs()
   })
   
   it('should work as a template literal function', async () => {

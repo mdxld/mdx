@@ -1,7 +1,7 @@
 import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel, experimental_generateImage as generateImage } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 import { createCacheMiddleware } from './cacheMiddleware'
-import { model } from './ai'
+import { createAIModel } from './ai'
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -30,8 +30,9 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
     // The modelId is used to specify which model to use with that provider.
     // const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
 
+    const aiModel = createAIModel()
     const wrappedModel = wrapLanguageModel({
-      model: model('google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
+      model: aiModel('google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
       middleware: cacheMiddleware,
     })
 
@@ -57,18 +58,14 @@ export async function generateListStream(prompt: string): Promise<StreamTextResu
   return generateContentStream({ messages })
 }
 
-export function createResearchProvider() {
-  if (!process.env.AI_GATEWAY_TOKEN) {
-    throw new Error('AI_GATEWAY_TOKEN environment variable is not set.')
-  }
-
+export function createResearchProvider(apiKey?: string, baseURL: string = 'https://api.llm.do') {
   return createOpenAI({
-    baseURL: 'https://api.llm.do',
-    apiKey: process.env.AI_GATEWAY_TOKEN,
+    baseURL: baseURL,
+    apiKey: apiKey || process.env.AI_GATEWAY_TOKEN,
   })
 }
 
-export async function generateResearchStream(prompt: string): Promise<StreamTextResult<never, string>> {
+export async function generateResearchStream(prompt: string, apiKey?: string, baseURL?: string): Promise<StreamTextResult<never, string>> {
   const systemMessage =
     'Respond with thorough research including citations and references. Be comprehensive and include multiple perspectives when appropriate.'
 
@@ -77,7 +74,7 @@ export async function generateResearchStream(prompt: string): Promise<StreamText
     { role: 'user', content: prompt },
   ]
 
-  const researchProvider = createResearchProvider()
+  const researchProvider = createResearchProvider(apiKey, baseURL)
 
   const model = researchProvider('perplexity/sonar-deep-research' as any)
   const wrappedModel = wrapLanguageModel({
@@ -94,11 +91,7 @@ export async function generateResearchStream(prompt: string): Promise<StreamText
   return result
 }
 
-export async function generateDeepwikiStream(query: string): Promise<StreamTextResult<never, string>> {
-  if (!process.env.AI_GATEWAY_TOKEN) {
-    throw new Error('AI_GATEWAY_TOKEN environment variable is not set.')
-  }
-
+export async function generateDeepwikiStream(query: string, apiKey?: string): Promise<StreamTextResult<never, string>> {
   const client = await experimental_createMCPClient({
     transport: {
       type: 'sse',
