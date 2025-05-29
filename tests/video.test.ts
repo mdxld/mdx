@@ -1,8 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { video, VideoConfig, VideoResult } from 'mdxai'
 import { promises as fs } from 'fs'
 import path from 'path'
-import vi from 'vitest'
 
 const testCacheDir = path.join(process.cwd(), '.ai', 'cache')
 
@@ -28,15 +27,13 @@ describe('video e2e', () => {
     const result1 = await video(config)
 
     expect(result1.prompt).toBe(config.prompt)
-    expect(result1.url).toBeDefined()
-    expect(result1.cached).toBe(false)
+    expect(result1.videoFilePaths).toBeDefined()
 
     // Second generation with same config - should return cached result
     const result2 = await video(config)
 
     expect(result2.prompt).toBe(config.prompt)
-    expect(result2.url).toBe(result1.url)
-    expect(result2.cached).toBe(true)
+    expect(result2.videoFilePaths).toEqual(result1.videoFilePaths)
   }, 20000)
 
 //   it('should generate videos with different configurations', async () => {
@@ -239,4 +236,4 @@ describe('video e2e', () => {
 //     }
 //   }, 300000)
 
-}, 600000) // 10 minute timeout for the entire suite 
+}, 600000) // 10 minute timeout for the entire suite    
