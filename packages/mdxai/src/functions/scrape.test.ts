@@ -205,7 +205,7 @@ describe('scrape e2e', () => {
     if (result1.error !== undefined && result2.error !== undefined) {
       expect(result2.error).toBe(result1.error)
     }
-  }),
+  })
 
   it('should handle multiple URLs with caching', async () => {
     const urls = [
@@ -234,7 +234,7 @@ describe('scrape e2e', () => {
 
     expect(results2).toHaveLength(2)
     expect(progressCalls).toHaveLength(2)
-  }),
+  })
 
   it('should handle scraping errors gracefully with real API', async () => {
     const url = 'https://this-domain-should-not-exist-12345.com'
@@ -256,7 +256,7 @@ cachedAt: "${new Date().toISOString()}"
     expect(result.url).toBe(url)
     expect(result.error).toBeDefined()
     expect(result.markdown === undefined || result.markdown === '').toBe(true)
-  }),
+  })
 
   it('should respect cache TTL and refresh stale content', async () => {
     const url = 'https://example.com'
