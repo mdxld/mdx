@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.2.0",
   "bin": {
-    "mdxld": "./bin/mdxld.js"
+    "mdxld": "./dist/cli.js"
   },
   "main": "./dist/index.js",
   "dependencies": {
@@ -44,8 +44,7 @@
     "vitest": "^3.1.4"
   },
   "files": [
-    "dist",
-    "bin"
+    "dist"
   ],
   "exports": {
     ".": {
