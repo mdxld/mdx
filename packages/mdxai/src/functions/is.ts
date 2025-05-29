@@ -3,44 +3,20 @@ import { model } from '../ai'
 import { z } from 'zod'
 import { parseTemplate } from '../utils/template'
 
-// Custom object that behaves as boolean but exposes additional properties
-class BooleanResult {
-  public answer: boolean
-  public thoughts: string[]
-  public confidence: number
-
-  constructor(answer: boolean, thoughts: string[], confidence: number) {
-    this.answer = answer
-    this.thoughts = thoughts
-    this.confidence = confidence
-  }
-
-  // This makes the object behave as a boolean in conditional contexts
-  valueOf(): boolean {
-    return this.answer
-  }
-
-  // This makes it display nicely in console.log
-  toString(): string {
-    return `${this.answer} (confidence: ${this.confidence}%)`
-  }
-
-  // This makes JSON.stringify work properly
-  toJSON() {
-    return {
-      answer: this.answer,
-      thoughts: this.thoughts,
-      confidence: this.confidence
-    }
-  }
-}
-
 interface IsOptions {
   model?: string
+  temperature?: number
+}
+
+// Enhanced result with debug info
+interface IsResult {
+  answer: boolean
+  thoughts: string[]
+  confidence: number
 }
 
 // Core implementation function
-async function isCore(question: string, options: IsOptions = {}): Promise<BooleanResult> {
+async function isCore(question: string, options: IsOptions = {}): Promise<IsResult> {
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
 
   const result = await generateObject({
@@ -53,43 +29,63 @@ async function isCore(question: string, options: IsOptions = {}): Promise<Boolea
     }),
   })
   
-  return new BooleanResult(result.object.answer, result.object.thoughts, result.object.confidence)
+  return result.object
 }
 
-// Create a custom function that supports all three patterns
-function createIsFunction() {
+// Function overload types
+interface IsFunction {
+  // Template literal pattern - returns primitive boolean
+  (template: TemplateStringsArray, ...values: any[]): Promise<boolean> & {
+    // Callable for enhanced result with options
+    (options?: IsOptions): Promise<IsResult>
+  }
+  
+  // Regular function pattern
+  (question: string, options?: IsOptions): Promise<boolean | IsResult>
+}
+
+// Create the enhanced function
+function createIsFunction(): IsFunction {
   function isFunction(...args: any[]): any {
     // Pattern 1: Normal function call - is('question', options)
     if (typeof args[0] === 'string') {
       const [question, options = {}] = args
-      return isCore(question, options)
+      
+      // If options provided, return enhanced result
+      if (Object.keys(options).length > 0) {
+        return isCore(question, options)
+      }
+      
+      // Otherwise return primitive boolean
+      return isCore(question, {}).then(result => result.answer)
     }
     
-    // Pattern 2 & 3: Template literal patterns
+    // Pattern 2: Template literal - is`question`
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...values] = args
       const question = parseTemplate(template as TemplateStringsArray, values)
       
-      // Create a result that can be either awaited directly or called with options
-      const directResult = isCore(question, {})
+      // Create a promise that resolves to primitive boolean
+      const primitivePromise = isCore(question, {}).then(result => result.answer)
       
-      // Add a function call capability for curried options
-      const callableResult = function(options: IsOptions = {}) {
+      // Add callable functionality for enhanced result
+      const callablePromise = function(options: IsOptions = {}) {
         return isCore(question, options)
       }
       
-      // Copy Promise methods to the callable result
-      callableResult.then = directResult.then.bind(directResult)
-      callableResult.catch = directResult.catch.bind(directResult)
-      callableResult.finally = directResult.finally.bind(directResult)
+      // Copy Promise methods to make it awaitable
+      callablePromise.then = primitivePromise.then.bind(primitivePromise)
+      callablePromise.catch = primitivePromise.catch.bind(primitivePromise)
+      callablePromise.finally = primitivePromise.finally.bind(primitivePromise)
       
-      return callableResult
+      return callablePromise
     }
     
     throw new Error('is function must be called as a template literal or with string and options')
   }
   
-  return isFunction
+  return isFunction as IsFunction
 }
 
 export const is = createIsFunction()
+export type { IsOptions, IsResult }
