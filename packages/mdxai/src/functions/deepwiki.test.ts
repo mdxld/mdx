@@ -23,7 +23,7 @@ describe('deepwiki', () => {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Bad Request/i)
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
 
   it('should handle different types of queries', async () => {
     try {
@@ -39,5 +39,5 @@ describe('deepwiki', () => {
         expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Bad Request/i)
       }
     }
-  }, 60000) // Increase timeout for real API calls
+  })
 })
