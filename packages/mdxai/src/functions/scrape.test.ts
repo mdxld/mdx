@@ -206,7 +206,7 @@ describe('scrape e2e', () => {
     if (result1.error !== undefined && result2.error !== undefined) {
       expect(result2.error).toBe(result1.error)
     }
-  },
+  }),
 
   it('should handle multiple URLs with caching', async () => {
     const urls = [
@@ -295,4 +295,4 @@ This is test markdown content.`
       }
     }
   })
-});
+})

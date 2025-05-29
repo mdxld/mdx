@@ -61,4 +61,4 @@ describe('research', () => {
     expect(Array.isArray(result.citations)).toBe(true)
     expect(Array.isArray(result.scrapedCitations)).toBe(true)
   })
-});
+})
