@@ -1,46 +1,33 @@
-import { parseTemplate } from '../utils/template.js'
-import { generateListStream } from '../llmService.js'
-import { stringifyValue } from '../utils/template.js'
+import { createUnifiedFunction, stringifyValue } from '../utils/template.js'
+import { streamText } from 'ai'
+import { model } from '../ai.js'
 
 /**
  * Type definition for the list function that supports both Promise and AsyncIterable
  */
 export type ListFunction = {
-  (strings: TemplateStringsArray, ...values: any[]): Promise<string[]> & AsyncIterable<string>
-}
-
-/**
- * Create async iterator that yields list items as they're parsed from the stream
- */
-async function* createListAsyncIterator(prompt: string): AsyncGenerator<string, void, unknown> {
-  try {
-    const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
-    
-    const allItems = await generateCompleteList(prompt)
-    
-    // Only yield the requested number of items
-    for (let i = 0; i < Math.min(maxItems, allItems.length); i++) {
-      yield allItems[i]
-    }
-  } catch (error) {
-    console.error('Error in list async iterator:', error)
-    throw error
+  (strings: TemplateStringsArray, ...values: any[]): Promise<string[]> & AsyncIterable<string> & {
+    (options: Record<string, any>): Promise<string[]> & AsyncIterable<string>
   }
+  (text: string, options?: Record<string, any>): Promise<string[]> & AsyncIterable<string>
 }
 
 /**
  * Generate complete list as Promise<string[]>
  */
-async function generateCompleteList(prompt: string): Promise<string[]> {
+async function generateCompleteList(prompt: string, options: Record<string, any> = {}): Promise<string[]> {
   try {
     const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
-    
+    const modelName = options.model || 'google/gemini-2.5-flash-preview-05-20'
     
     let completeContent = ''
     let items: string[] = []
     
     try {
-      const result = await generateListStream(prompt)
+      const result = await streamText({
+        model: model(modelName, { structuredOutputs: true }),
+        prompt: `${prompt}\n\nRespond with a numbered markdown ordered list.`,
+      })
 
       if (result && result.textStream) {
         for await (const chunk of result.textStream) {
@@ -49,7 +36,7 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       } else if (result && result.text) {
         completeContent = await result.text
       } else {
-        throw new Error('No valid response received from LLM service')
+        throw new Error('No valid response received from AI service')
       }
       
       items = completeContent
@@ -67,7 +54,7 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
       }
     } catch (error) {
       console.error('Error fetching list stream:', error)
-      throw new Error('Failed to generate list from LLM service')
+      throw new Error('Failed to generate list from AI service')
     }
 
     // Ensure we have at least maxItems items
@@ -97,76 +84,57 @@ async function generateCompleteList(prompt: string): Promise<string[]> {
 }
 
 /**
+ * Create a list function that supports both Promise and AsyncIterable patterns
+ */
+function listImpl(template: string, options: Record<string, any> = {}): any {
+  const maxItems = parseInt(template.match(/^\d+/)?.[0] || '5', 10)
+  
+  // Create the base async function that returns the list
+  const listFn = async () => {
+    const items = await generateCompleteList(template, options)
+    return items.slice(0, maxItems)
+  }
+  
+  // Create a result object that is both Promise-like and AsyncIterable
+  const result: any = listFn
+  
+  result.then = (resolve: any, reject: any) => {
+    return listFn().then(resolve, reject)
+  }
+  
+  result.catch = (reject: any) => {
+    return listFn().catch(reject)
+  }
+  
+  result.finally = (callback: any) => {
+    return listFn().finally(callback)
+  }
+  
+  // Add async iterator support
+  result[Symbol.asyncIterator] = async function* () {
+    try {
+      const items = await listFn()
+      for (let i = 0; i < Math.min(maxItems, items.length); i++) {
+        yield items[i]
+      }
+    } catch (error) {
+      console.error('Error in async iterator:', error)
+      for (let i = 0; i < maxItems; i++) {
+        yield `Item ${i + 1}`
+      }
+    }
+  }
+  
+  return result
+}
+
+/**
  * List template literal function for generating arrays of items with async iterator support
  *
  * Usage:
  * - As Promise: const items = await list`10 ideas for ${topic}`
  * - As AsyncIterable: for await (const item of list`10 ideas for ${topic}`) { ... }
+ * - With options: const items = await list`10 ideas for ${topic}`({ model: 'openai/gpt-4.1-nano' })
+ * - As function: const items = await list('10 ideas for topic', { model: 'openai/gpt-4.1-nano' })
  */
-export const list = new Proxy(function () {}, {
-  apply: (target: any, thisArg: any, args: any[]) => {
-    if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-      const [template, ...expressions] = args
-      const prompt = parseTemplate(template as TemplateStringsArray, expressions)
-      
-      const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
-
-
-      const listFunction: any = async () => {
-        const allItems = await generateCompleteList(prompt)
-        // Ensure we only return the requested number of items
-        return allItems.slice(0, maxItems)
-      }
-
-      listFunction.then = (resolve: any, reject: any) => {
-        return listFunction().then(resolve, reject)
-      }
-
-      listFunction.catch = (reject: any) => {
-        return listFunction().catch(reject)
-      }
-
-      listFunction.finally = (callback: any) => {
-        return listFunction().finally(callback)
-      }
-
-      listFunction[Symbol.asyncIterator] = async function* () {
-        try {
-          const allItems = await listFunction()
-          
-          if (allItems && allItems.length > 0) {
-            for (let i = 0; i < allItems.length; i++) {
-              yield allItems[i]
-            }
-            return
-          }
-          
-          const generator = createListAsyncIterator(prompt)
-          let count = 0
-          const maxCount = maxItems
-          
-          for await (const item of generator) {
-            yield item
-            count++
-            if (count >= maxCount) break
-          }
-          
-          if (count < maxCount) {
-            for (let i = count; i < maxCount; i++) {
-              yield `Item ${i + 1}`
-            }
-          }
-        } catch (error) {
-          console.error('Error in async iterator:', error)
-          for (let i = 0; i < maxItems; i++) {
-            yield `Item ${i + 1}`
-          }
-        }
-      }
-
-      return listFunction
-    }
-
-    throw new Error('list function must be used as a template literal tag')
-  },
-}) as ListFunction 
+export const list = createUnifiedFunction(listImpl) as ListFunction   

@@ -42,9 +42,9 @@ export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...valu
 
 /**
  * Creates a unified function that supports three calling patterns:
- * 1. Tagged template literals: `result = await code\`fizzBuzz\``
- * 2. Curried tagged template with options: `result = await code\`fizzBuzz\`({ model: 'openai/o3' })`
- * 3. Normal function calls: `result = await code('fizzBuzz', { model: 'openai/o3' })`
+ * 1. Tagged template literals: `result = await fn\`template\``
+ * 2. Curried tagged template with options: `result = await fn\`template\`({ option: 'value' })`
+ * 3. Normal function calls: `result = await fn('template', { option: 'value' })`
  * 
  * @param callback Function that receives the parsed template and options
  * @returns A unified function supporting all three calling patterns
@@ -54,13 +54,17 @@ export function createUnifiedFunction<T>(
 ): any {
   // This function handles both normal function calls and tagged template literals
   function unifiedFunction(...args: any[]): any {
-    // Pattern 3: Normal function call - code('fizzBuzz', { model: 'openai/o3' })
+    if (args.length === 0 || args[0] === undefined) {
+      throw new Error('Function must be called as a template literal or with string and options')
+    }
+    
+    // Pattern 3: Normal function call - fn('template', { option: 'value' })
     if (typeof args[0] === 'string') {
       const [template, options = {}] = args
       return callback(template, options)
     }
     
-    // Pattern 1: Tagged template literal - code`fizzBuzz`
+    // Pattern 1: Tagged template literal - fn`template`
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...values] = args
       const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
@@ -74,19 +78,29 @@ export function createUnifiedFunction<T>(
   return new Proxy(unifiedFunction, {
     // Handle direct function calls (Pattern 1 and 3)
     apply(target, thisArg, args) {
-      return target.apply(thisArg, args)
+      if (args.length === 0 || args[0] === undefined) {
+        throw new Error('Function must be called as a template literal or with string and options')
+      }
+      
+      try {
+        return target.apply(thisArg, args)
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error
+        }
+        throw new Error('Function must be called as a template literal or with string and options')
+      }
     },
     
     // Handle property access for curried calls (Pattern 2)
     get(target, prop) {
-      // Prevent Promise-like behavior
       if (prop === 'then' || prop === 'catch' || prop === 'finally') {
         return undefined
       }
       
-      // Handle symbol properties
-      if (typeof prop === 'symbol') {
-        return Reflect.get(target, prop)
+      // Handle Symbol.asyncIterator specially
+      if (prop === Symbol.asyncIterator) {
+        return undefined
       }
       
       // Return a function that handles the template literal part of Pattern 2
@@ -96,14 +110,27 @@ export function createUnifiedFunction<T>(
           const [template, ...values] = templateArgs
           const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
           
-          // Return a function that accepts options
-          return function(options: Record<string, any> = {}) {
-            return callback(parsedTemplate, options)
+          // Create a function that handles the options part of Pattern 2
+          const optionsHandler: any = function(options: Record<string, any> = {}) {
+            const result = callback(parsedTemplate, options)
+            return result
           }
+          
+          optionsHandler[Symbol.asyncIterator] = function() {
+            const result = callback(parsedTemplate, this) as any
+            
+            if (result && typeof result === 'object' && Symbol.asyncIterator in result) {
+              return result[Symbol.asyncIterator]()
+            }
+            
+            throw new Error('Result is not async iterable')
+          }
+          
+          return optionsHandler
         }
         
-        throw new Error('Invalid call pattern')
+        throw new Error('Function must be called as a template literal or with string and options')
       }
     }
   })
-}    
+}                                                                                        
