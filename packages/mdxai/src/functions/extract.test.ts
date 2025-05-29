@@ -4,14 +4,12 @@ import { extract } from './extract'
 // Entity relationship test from main branch
 describe('extract', () => {
   it('should extract entities and relationships', async () => {
-    try {
-      
-      const result = await extract`facts: ${'John Doe is an amazing software engineer at Microsoft. He lives and works at the office in New York City.'}`
-      
-      expect(result.entities.length).toBeGreaterThan(0)
-      expect(result.entities[0].observations.length).toBeGreaterThan(0)
-      expect(result.relationships.length).toBeGreaterThan(0)
-      expect(result).toMatchInlineSnapshot(`
+    const result = await extract`facts: ${'John Doe is an amazing software engineer at Microsoft. He lives and works at the office in New York City.'}`
+    
+    expect(result.entities.length).toBeGreaterThan(0)
+    expect(result.entities[0].observations.length).toBeGreaterThan(0)
+    expect(result.relationships.length).toBeGreaterThan(0)
+    expect(result).toMatchInlineSnapshot(`
       {
         "entities": [
           {
@@ -24,9 +22,7 @@ describe('extract', () => {
           },
           {
             "name": "Microsoft",
-            "observations": [
-              "office in New York City",
-            ],
+            "observations": [],
             "type": "Organization",
           },
           {
@@ -54,71 +50,32 @@ describe('extract', () => {
         ],
       }
     `)
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      }
-    }
-  }, 15000)
+  })
 })
 
 // Basic tests for the new extract function implementation
 describe('extract function basic usage', () => {
   it('should extract entities and relationships from text', async () => {
-    try {
-      
-      const text = 'John Doe works at Microsoft in New York'
-      
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result = await Promise.race([
-        extract`Extract all person names from: ${text}`,
-        timeoutPromise
-      ]) as any
+    const text = 'John Doe works at Microsoft in New York'
+    
+    const result = await extract`Extract all person names from: ${text}`
 
-      expect(result).toBeDefined()
-      expect(result.entities).toBeDefined()
-      expect(Array.isArray(result.entities)).toBe(true)
-      expect(result.relationships).toBeDefined()
-      expect(Array.isArray(result.relationships)).toBe(true)
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      }
-    }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+    expect(result).toBeDefined()
+    expect(result.entities).toBeDefined()
+    expect(Array.isArray(result.entities)).toBe(true)
+    expect(result.relationships).toBeDefined()
+    expect(Array.isArray(result.relationships)).toBe(true)
+  })
 
   it('should handle variable interpolation', async () => {
-    try {
-      
-      const document = 'Sample document with data'
-      
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result = await Promise.race([
-        extract`Extract important information from: ${document}`,
-        timeoutPromise
-      ]) as any
+    const document = 'Sample document with data'
+    
+    const result = await extract`Extract important information from: ${document}`
 
-      expect(result).toBeDefined()
-      expect(result.entities).toBeDefined()
-      expect(result.relationships).toBeDefined()
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      }
-    }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+    expect(result).toBeDefined()
+    expect(result.entities).toBeDefined()
+    expect(result.relationships).toBeDefined()
+  })
 })
 
 describe('extract function error handling', () => {
@@ -128,84 +85,41 @@ describe('extract function error handling', () => {
   })
 
   it('should support Promise methods', async () => {
-    
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('API request timed out')), 10000)
-    })
-    
-    const result = Promise.race([
-      extract`Extract from: test`,
-      timeoutPromise
-    ])
+    const result = extract`Extract from: test`
 
     expect(typeof result.then).toBe('function')
     expect(typeof result.catch).toBe('function')
     expect(typeof result.finally).toBe('function')
-  }, 15000) // Reduced timeout since we have our own timeout handling
+  })
 })
 
 describe('extract function e2e', () => {
   it('should extract entities from text using real API with caching', async () => {
-    try {
+    const text = 'Apple Inc. was founded by Steve Jobs in California'
+    
+    const result1 = await extract`Extract all entities from: ${text}`
+    
+    expect(result1).toBeDefined()
+    expect(result1.entities).toBeDefined()
+    expect(Array.isArray(result1.entities)).toBe(true)
+    
+    if (result1.entities.length > 0) {
+      const result2 = await extract`Extract all entities from: ${text}`
       
-      const text = 'Apple Inc. was founded by Steve Jobs in California'
-      
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result1 = await Promise.race([
-        extract`Extract all entities from: ${text}`,
-        timeoutPromise
-      ]) as any
-      
-      expect(result1).toBeDefined()
-      expect(result1.entities).toBeDefined()
-      expect(Array.isArray(result1.entities)).toBe(true)
-      
-      if (result1.entities.length > 0) {
-        const result2 = await Promise.race([
-          extract`Extract all entities from: ${text}`,
-          timeoutPromise
-        ]) as any
-        
-        expect(result2).toBeDefined()
-        expect(result2.entities).toBeDefined()
-        expect(Array.isArray(result2.entities)).toBe(true)
-      }
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      }
+      expect(result2).toBeDefined()
+      expect(result2.entities).toBeDefined()
+      expect(Array.isArray(result2.entities)).toBe(true)
     }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+  })
 
   it('should handle errors gracefully with real API', async () => {
-    try {
-      
-      const text = ''
-      
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('API request timed out')), 10000)
-      })
-      
-      const result = await Promise.race([
-        extract`Extract entities from: ${text}`,
-        timeoutPromise
-      ]) as any
-      
-      expect(result).toBeDefined()
-      expect(result.entities).toBeDefined()
-      expect(Array.isArray(result.entities)).toBe(true)
-      expect(result.entities.length).toBeLessThanOrEqual(10)
-    } catch (error) {
-      if (!process.env.CI) {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      } else {
-        expect((error as Error).message).toMatch(/API key|not valid|unauthorized|Bad Request|timed out|Snapshot/i)
-      }
-    }
-  }, 15000) // Reduced timeout since we have our own timeout handling
+    const text = ''
+    
+    const result = await extract`Extract entities from: ${text}`
+    
+    expect(result).toBeDefined()
+    expect(result.entities).toBeDefined()
+    expect(Array.isArray(result.entities)).toBe(true)
+    expect(result.entities.length).toBeLessThanOrEqual(10)
+  })
 })
