@@ -17,7 +17,7 @@ export function validateTestSyntax(testCode: string): { valid: boolean; errors: 
     
     const tsResult = validateTypeScript(testCode)
     if (!tsResult.valid) {
-      errors.push(...(tsResult.error ? [tsResult.error] : []))
+      errors.push(...tsResult.errors)
     }
     
     return {
