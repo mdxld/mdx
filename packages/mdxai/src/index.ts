@@ -8,6 +8,8 @@ export interface GenerateOptions {
   type?: 'title' | 'outline' | 'draft'
   modelProvider?: typeof openai
   modelId?: string
+  apiKey?: string
+  baseURL?: string
 }
 
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, generateImageStream }
@@ -47,9 +49,6 @@ export {
  * @returns A Promise with the generated content as string and the streaming content
  */
 export async function generate(prompt: string, options: GenerateOptions = {}) {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('OPENAI_API_KEY environment variable is not set.')
-  }
 
   let systemMessage: string
   switch (options.type?.toLowerCase() || 'draft') {
@@ -74,6 +73,8 @@ export async function generate(prompt: string, options: GenerateOptions = {}) {
     messages,
     modelProvider: options.modelProvider,
     modelId: options.modelId,
+    apiKey: options.apiKey,
+    baseURL: options.baseURL
   })
 
   return {

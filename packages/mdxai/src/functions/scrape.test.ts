@@ -174,7 +174,7 @@ This is test markdown content.`
 describe('scrape e2e', () => {
   beforeEach(() => {
     vi.resetModules()
-    process.env.NODE_ENV = 'development'
+    vi.stubEnv('NODE_ENV', 'development')
   })
 
   it('should scrape a real URL and cache the result', async () => {

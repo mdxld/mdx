@@ -14,6 +14,8 @@ interface LLMServiceParams {
   modelProvider?: typeof openai // Changed to typeof openai
   modelId?: string
   messages: CoreMessage[]
+  apiKey?: string
+  baseURL?: string
 }
 
 export async function generateContentStream(params: LLMServiceParams): Promise<StreamTextResult<never, string>> {
@@ -30,9 +32,9 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
     // The modelId is used to specify which model to use with that provider.
     // const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
 
-    const aiModel = createAIModel()
+    const aiModel = createAIModel(params.apiKey, params.baseURL)
     const wrappedModel = wrapLanguageModel({
-      model: aiModel('google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
+      model: aiModel(params.modelId || 'google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
       middleware: cacheMiddleware,
     })
 
