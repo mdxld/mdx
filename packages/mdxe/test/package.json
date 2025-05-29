@@ -1,0 +1,28 @@
+{
+  "name": "@mdxe/test",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "acorn": "^8.x",
+    "acorn-jsx": "^5.x",
+    "esbuild": "^0.20.1",
+    "vitest": "^3.1.4",
+    "typescript": "^5.5.3",
+    "unified": "^11.0.4",
+    "remark-parse": "^11.0.0",
+    "remark-mdx": "^3.0.1",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@types/node": "^20.14.10",
+    "tsup": "^8.0.2"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "check-types": "tsc --noEmit"
+  }
+}

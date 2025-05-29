@@ -2,7 +2,7 @@ import { generateObject } from 'ai'
 import { z } from 'zod'
 import { model } from '../ai'
 import { parseTemplate, TemplateFunction } from '../utils/template'
-import { validateCodeResult, type CodeValidationResult } from './code-validator-simple'
+import { validateCode, type ValidationResult } from '@mdxe/test'
 
 const schema = z.object({
   functionName: z.string({ description: 'The name of the function to be exported.' }),
@@ -13,7 +13,7 @@ const schema = z.object({
 })
 
 export interface CodeResult extends z.infer<typeof schema> {
-  validation?: CodeValidationResult
+  validation?: ValidationResult
 }
 
 export const code: TemplateFunction<Promise<CodeResult>> = async (template: TemplateStringsArray, ...values: any[]) => {
@@ -37,8 +37,12 @@ export const code: TemplateFunction<Promise<CodeResult>> = async (template: Temp
 export const codeWithValidation: TemplateFunction<Promise<CodeResult>> = async (template: TemplateStringsArray, ...values: any[]) => {
   const codeResult = await code(template, ...values)
   
-  // Validate the generated code
-  const validation = validateCodeResult(codeResult)
+  // Validate the generated code using the new @mdxe/test package
+  const validation = await validateCode(
+    codeResult.code,
+    codeResult.tests,
+    { runTests: true }
+  )
   
   return {
     ...codeResult,
