@@ -62,6 +62,7 @@
     "build": "tsup",
     "test": "vitest run",
     "check-types": "tsc --noEmit",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "postinstall": "node -e \"try { require('fs').chmodSync('./bin/mdxld.js', '0755') } catch (e) {}\""
   }
 }
