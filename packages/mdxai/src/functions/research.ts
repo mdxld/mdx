@@ -34,7 +34,7 @@ async function researchCore(query: string) {
     citations.map(async (url: string, index: number) => {
       try {
         const scrapeResult = await queue.addTask(`Scraping citation ${index + 1}: ${url}`, async () => {
-          return await scrape(url)
+          return await scrape(url, process.env.FIRECRAWL_API_KEY)
         })
 
         return scrapeResult
