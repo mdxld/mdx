@@ -1,16 +1,29 @@
 import { validateTypeScript } from './validator'
 import { parseJSDoc } from './jsdoc-parser'
 import { bundleCodeForTesting, runTestsWithVitest, CodeBlock } from './test-runner'
+import { validateTestSyntax } from './test-syntax-validator'
 
+/**
+ * Result of code validation, matching the expected CodeValidationResult structure
+ */
 export interface ValidationResult {
-  valid: boolean;
-  error?: string;
-  estree?: any;
-  jsdoc?: {
+  jsdoc: {
     valid: boolean;
     errors: string[];
     parsed?: any;
   };
+  typescript: {
+    valid: boolean;
+    errors: string[];
+    diagnostics?: any;
+  };
+  syntax: {
+    valid: boolean;
+    errors: string[];
+  };
+  valid?: boolean;
+  error?: string;
+  estree?: any;
   tests?: {
     success: boolean;
     output: string;
@@ -26,11 +39,15 @@ export async function validateCode(
   tests?: string,
   options?: { runTests?: boolean }
 ): Promise<ValidationResult> {
-  const validationResult = validateTypeScript(code)
+  const tsValidation = validateTypeScript(code)
   
-  let jsdocResult: { valid: boolean; errors: string[]; parsed?: any } | undefined = undefined
-  if (validationResult.valid) {
-    jsdocResult = parseJSDoc(code)
+  const jsdocValidation = parseJSDoc(code)
+  
+  let syntaxValidation: { valid: boolean; errors: string[] }
+  if (tests) {
+    syntaxValidation = validateTestSyntax(tests)
+  } else {
+    syntaxValidation = { valid: true, errors: [] }
   }
   
   let testResult: { success: boolean; output: string; skipped?: number } | undefined = undefined
@@ -43,13 +60,22 @@ export async function validateCode(
   }
   
   return {
-    ...validationResult,
-    jsdoc: jsdocResult,
+    jsdoc: jsdocValidation,
+    typescript: {
+      valid: tsValidation.valid,
+      errors: tsValidation.errors,
+      diagnostics: tsValidation.diagnostics
+    },
+    syntax: syntaxValidation,
+    valid: tsValidation.valid && jsdocValidation.valid && syntaxValidation.valid,
+    error: tsValidation.error,
+    estree: tsValidation.estree,
     tests: testResult
   }
 }
 
 export { validateTypeScript } from './validator'
 export { parseJSDoc } from './jsdoc-parser'
+export { validateTestSyntax } from './test-syntax-validator'
 export { bundleCodeForTesting, runTestsWithVitest } from './test-runner'
 export type { CodeBlock } from './test-runner'

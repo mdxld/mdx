@@ -5,7 +5,9 @@ import * as ts from 'typescript'
  */
 export function validateTypeScript(code: string): { 
   valid: boolean;
-  error?: string;
+  errors: string[];
+  diagnostics?: ts.Diagnostic[];
+  error?: string; // For backward compatibility
   estree?: any;
 } {
   try {
@@ -18,7 +20,7 @@ export function validateTypeScript(code: string): {
 
     const syntaxDiagnostics: ts.Diagnostic[] = (sourceFile as any).parseDiagnostics || []
     if (syntaxDiagnostics.length > 0) {
-      const errors = syntaxDiagnostics.map((diagnostic: ts.Diagnostic) => {
+      const errorMessages = syntaxDiagnostics.map((diagnostic: ts.Diagnostic) => {
         const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')
         if (diagnostic.file && diagnostic.start !== undefined) {
           const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
@@ -26,7 +28,13 @@ export function validateTypeScript(code: string): {
         }
         return message
       })
-      return { valid: false, error: errors.join('\n') }
+      const errorString = errorMessages.join('\n')
+      return { 
+        valid: false, 
+        errors: errorMessages,
+        diagnostics: syntaxDiagnostics,
+        error: errorString 
+      }
     }
     
     const estree = {
@@ -42,8 +50,18 @@ export function validateTypeScript(code: string): {
       }
     }
     
-    return { valid: true, estree }
+    return { 
+      valid: true, 
+      errors: [],
+      diagnostics: [],
+      estree 
+    }
   } catch (e: any) {
-    return { valid: false, error: `TypeScript validation error: ${e.message}` }
+    const errorMessage = `TypeScript validation error: ${e.message}`
+    return { 
+      valid: false, 
+      errors: [errorMessage],
+      error: errorMessage 
+    }
   }
 }
