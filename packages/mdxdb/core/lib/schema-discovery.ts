@@ -1,5 +1,10 @@
 import { promises as fs } from 'fs'
 import path from 'path'
+import { parse } from 'yaml'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkMdx from 'remark-mdx'
+import { visit } from 'unist-util-visit'
 
 /**
  * Schema definition with collection name and schema
@@ -65,72 +70,53 @@ function parseFrontmatter(mdxContent: string): ParseFrontmatterResult {
 }
 
 /**
- * Simple YAML parser
+ * YAML parser using the yaml package
  * @param yamlContent YAML content to parse
  * @returns Parsed YAML object
  */
 function parseYaml(yamlContent: string): any {
-  const lines = yamlContent.split('\n')
-  const result: Record<string, any> = {}
-
-  for (const line of lines) {
-    const trimmedLine = line.trim()
-    if (!trimmedLine || trimmedLine.startsWith('#')) continue
-
-    const colonIndex = trimmedLine.indexOf(':')
-    if (colonIndex > 0) {
-      const key = trimmedLine.substring(0, colonIndex).trim()
-      const value = trimmedLine.substring(colonIndex + 1).trim()
-
-      if (value === 'true') {
-        result[key] = true
-      } else if (value === 'false') {
-        result[key] = false
-      } else if (/^-?\d+$/.test(value)) {
-        result[key] = parseInt(value, 10)
-      } else if (/^-?\d+\.\d+$/.test(value)) {
-        result[key] = parseFloat(value)
-      } else {
-        result[key] = value
-      }
-    }
+  try {
+    const result = parse(yamlContent)
+    return result || {}
+  } catch (e: any) {
+    console.warn(`Error parsing YAML: ${e.message}`)
+    return {}
   }
-
-  return result
 }
 
 /**
- * Extract YAML codeblocks associated with headings from MDX content
+ * Extract YAML codeblocks associated with headings from MDX content using unified/remark
  * @param mdxContent MDX content to parse
  * @returns Array of heading-YAML pairs for schema definitions
  */
 function parseHeadingsWithYaml(mdxContent: string): HeadingYamlPair[] {
-  const results: HeadingYamlPair[] = []
+  try {
+    const processor = unified().use(remarkParse).use(remarkMdx)
+    const tree = processor.parse(mdxContent)
 
-  const headingRegex = /^(#{1,6})\s+(.+)$/gm
-  const codeBlockRegex = /```yaml\n([\s\S]*?)```/gm
+    const results: HeadingYamlPair[] = []
+    let currentHeading: { text: string; level: number } | null = null
 
-  let match
-  let currentHeading: { text: string; level: number } | null = null
+    visit(tree, ['heading', 'code'], (node: any) => {
+      if (node.type === 'heading') {
+        currentHeading = {
+          text: node.children?.map((child: any) => child.value || '').join('') || '',
+          level: node.depth,
+        }
+      } else if (node.type === 'code' && node.lang === 'yaml' && currentHeading) {
+        results.push({
+          headingText: currentHeading.text,
+          headingLevel: currentHeading.level,
+          yamlContent: node.value,
+        })
+      }
+    })
 
-  while ((match = headingRegex.exec(mdxContent)) !== null) {
-    const level = match[1].length
-    const text = match[2].trim()
-    currentHeading = { text, level }
-
-    codeBlockRegex.lastIndex = match.index + match[0].length
-    const codeMatch = codeBlockRegex.exec(mdxContent)
-
-    if (codeMatch && codeMatch.index < mdxContent.indexOf('\n#', match.index + match[0].length)) {
-      results.push({
-        headingText: currentHeading.text,
-        headingLevel: currentHeading.level,
-        yamlContent: codeMatch[1],
-      })
-    }
+    return results
+  } catch (e: any) {
+    console.error(`Error parsing headings with YAML: ${e.message}`)
+    return []
   }
-
-  return results
 }
 
 /**
