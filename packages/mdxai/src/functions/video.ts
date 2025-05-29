@@ -104,13 +104,16 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
     
     const startTime = Date.now()
     
+    const baseUrl = process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
     const ai = new GoogleGenAI({ 
-      apiKey: process.env.GOOGLE_API_KEY || '' 
+      apiKey: process.env.GOOGLE_API_KEY || '',
+      httpOptions: { baseUrl }
     })
     
     if (!process.env.GOOGLE_API_KEY) {
       throw new Error('GOOGLE_API_KEY environment variable is not set.')
     }
+
     
     let operation = await ai.models.generateVideos({
       model,

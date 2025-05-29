@@ -47,7 +47,8 @@ async function generateSpeechAudio(text: string, options: { voiceName?: string; 
     throw new Error('GOOGLE_API_KEY environment variable is not set')
   }
 
-  const ai = new GoogleGenAI({ apiKey })
+  const baseUrl = process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
+  const ai = new GoogleGenAI({ apiKey, httpOptions: { baseUrl } })
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash-preview-tts",
