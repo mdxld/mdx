@@ -79,9 +79,11 @@ describe('extract function basic usage', () => {
 })
 
 describe('extract function error handling', () => {
-  it('should throw error when not used as template literal', async () => {
-    // @ts-expect-error - intentionally testing runtime error when used incorrectly
-    await expect(extract('not a template literal')).rejects.toThrow('extract function must be used as a template literal tag')
+  it('should support string parameter usage', async () => {
+    const result = await extract('Extract entities from: test string')
+    expect(result).toBeDefined()
+    expect(result.entities).toBeDefined()
+    expect(Array.isArray(result.entities)).toBe(true)
   })
 
   it('should support Promise methods', async () => {

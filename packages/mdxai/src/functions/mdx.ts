@@ -1,12 +1,10 @@
 import { generateText } from 'ai'
 import { z } from 'zod'
 import { model } from '../ai'
-import { parseTemplate, TemplateFunction } from '../utils/template'
+import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 import dedent from 'dedent'
 
-export const mdx: TemplateFunction<Promise<string>> = async (template: TemplateStringsArray, ...values: any[]) => {
-  const prompt = parseTemplate(template, values)
-
+async function mdxCore(prompt: string, options: Record<string, any> = {}): Promise<string> {
   const result = await generateText({
     // model: model('anthropic/claude-opus-4'),
     // model: model('openai/o4-mini-high'),
@@ -46,3 +44,9 @@ export const mdx: TemplateFunction<Promise<string>> = async (template: TemplateS
   })
   return result.text
 }
+
+export const mdx = createUnifiedFunction<Promise<string>>(
+  (prompt: string, options: Record<string, any>) => {
+    return mdxCore(prompt, options);
+  }
+);
