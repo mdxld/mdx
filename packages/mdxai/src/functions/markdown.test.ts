@@ -67,7 +67,7 @@ describe('markdown function', () => {
   it('should throw error for invalid arguments', async () => {
     // Test with invalid arguments (not string or template literal)
     await expect(async () => {
-      // @ts-expect-error - Testing invalid usage
+      // @ts-ignore - Testing invalid usage
       await markdown(123)
     }).rejects.toThrow('Function must be called as a template literal or with string and options')
   })
