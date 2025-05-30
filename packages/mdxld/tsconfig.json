@@ -12,6 +12,6 @@
     "composite": true,
     "baseUrl": "."
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

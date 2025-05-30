@@ -9,7 +9,7 @@ export default defineConfig({
   clean: true,
   external: ['yaml', 'next-mdx-remote-client', 'schema-dts', 'acorn', 'vfile'],
   noExternal: [],
-  dts: false, // Disable automatic TypeScript declaration files due to build issues
+  dts: true, // Enable TypeScript declaration files for proper exports
   onSuccess: async () => {
     const { chmod } = await import('node:fs/promises');
     await chmod('./dist/cli.js', 0o755);
