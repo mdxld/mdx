@@ -1,6 +1,6 @@
 import { streamText } from 'ai'
 import { model } from '../ai'
-import { parseTemplate, stringifyValue, TemplateFunction } from '../utils/template'
+import { parseTemplate, stringifyValue, TemplateFunction, createUnifiedFunction } from '../utils/template'
 import { executeAiFunction } from '../utils/ai-execution'
 
 /**
@@ -54,7 +54,15 @@ export async function generateAiText(prompt: string): Promise<string> {
  * - Function with template: ai.list`Generate ${count} blog post titles about ${topic}`
  * - Function with object: ai.storyBrand({ brand: 'vercel' })
  */
-const aiFunction: AiFunction = function (template: TemplateStringsArray, ...values: any[]) {
+const aiCore = (prompt: string, options: Record<string, any> = {}): Promise<string> => {
+  return generateAiText(prompt);
+};
+
+const aiFunction: AiFunction = function (template: TemplateStringsArray | string, ...values: any[]) {
+  if (typeof template === 'string') {
+    return executeAiFunction('default', template);
+  }
+  
   if (Array.isArray(template) && 'raw' in template) {
     const prompt = parseTemplate(template, values)
     return generateAiText(prompt)
@@ -75,7 +83,11 @@ export const ai = new Proxy(aiFunction, {
 
     const propName = String(prop)
 
-    return function (templateOrArgs: TemplateStringsArray | Record<string, any>, ...values: any[]) {
+    return function (templateOrArgs: TemplateStringsArray | Record<string, any> | string, ...values: any[]) {
+      if (typeof templateOrArgs === 'string') {
+        return executeAiFunction(propName, templateOrArgs);
+      }
+      
       if (Array.isArray(templateOrArgs) && 'raw' in templateOrArgs) {
         const prompt = parseTemplate(templateOrArgs as TemplateStringsArray, values)
         return executeAiFunction(propName, prompt)
@@ -86,11 +98,17 @@ export const ai = new Proxy(aiFunction, {
   },
 
   apply(target, thisArg, args) {
-    if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const prompt = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
+    const [first, ...rest] = args;
+    
+    if (typeof first === 'string') {
+      return generateAiText(first);
+    }
+    
+    if (Array.isArray(first) && 'raw' in first) {
+      const prompt = parseTemplate(first as TemplateStringsArray, rest)
       return generateAiText(prompt)
     }
 
-    throw new Error('AI object must be called as a template literal or with a property access')
+    throw new Error('AI object must be called as a template literal, with a string, or with a property access')
   },
-})    
+})            

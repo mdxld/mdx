@@ -2,7 +2,7 @@ import { generateText } from 'ai'
 import { model } from '../ai'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import { parseTemplate } from '../utils/template.js'
+import { parseTemplate, createUnifiedFunction } from '../utils/template.js'
 
 /**
  * Markdown template literal function for generating markdown content with AI
@@ -43,37 +43,8 @@ async function markdownCore(prompt: string): Promise<MarkdownResult> {
   }
 }
 
-// Create a function that supports both string parameters and template literals
-function markdownFunction(promptOrTemplate: string | TemplateStringsArray, ...values: any[]): Promise<MarkdownResult> {
-  // If first argument is a string, use the original interface
-  if (typeof promptOrTemplate === 'string') {
-    return markdownCore(promptOrTemplate)
+export const markdown = createUnifiedFunction<Promise<MarkdownResult>>(
+  (prompt: string, options: Record<string, any>) => {
+    return markdownCore(prompt);
   }
-  
-  // If first argument is a TemplateStringsArray, use template literal interface
-  if (Array.isArray(promptOrTemplate) && 'raw' in promptOrTemplate) {
-    const prompt = parseTemplate(promptOrTemplate as TemplateStringsArray, values)
-    return markdownCore(prompt)
-  }
-  
-  throw new Error('Markdown function must be called with a string or as a template literal')
-}
-
-export const markdown = new Proxy(markdownFunction, {
-  get(target, prop) {
-    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
-      return undefined
-    }
-
-    if (typeof prop === 'symbol') {
-      return Reflect.get(target, prop)
-    }
-
-    return target
-  },
-
-  apply(target, thisArg, args: any[]) {
-    const [first, ...rest] = args
-    return target(first, ...rest)
-  },
-}) 
+); 

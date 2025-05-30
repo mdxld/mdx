@@ -1,7 +1,7 @@
 import { generateObject } from 'ai'
 import { z } from 'zod'
 import { model } from '../ai'
-import { parseTemplate, TemplateFunction } from '../utils/template'
+import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 
 const schema = z.object({
   props: z.string({ description: 'Typescript Type export for Props describing the props for the component.' }),
@@ -10,9 +10,7 @@ const schema = z.object({
   // tests: z.string({ description: 'Vitest tests for normal and edge cases. The `describe`, `it`, and `expect` functions are in global scope.' }),
 })
 
-export const ui: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray, ...values: any[]) => {
-  const description = parseTemplate(template, values)
-
+async function uiCore(description: string, options: Record<string, any> = {}): Promise<z.infer<typeof schema>> {
   const result = await generateObject({
     // model: model('anthropic/claude-opus-4'),
     // model: model('openai/o4-mini-high', { structuredOutputs: true}),
@@ -23,6 +21,12 @@ export const ui: TemplateFunction<Promise<z.infer<typeof schema>>> = async (temp
   })
   return result.object
 }
+
+export const ui = createUnifiedFunction<Promise<z.infer<typeof schema>>>(
+  (description: string, options: Record<string, any>) => {
+    return uiCore(description, options);
+  }
+);
 
 // /**
 //  * @typedef {Object} Props

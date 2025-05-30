@@ -1,7 +1,7 @@
 import { generateObject } from 'ai'
 import { z } from 'zod'
 import { model } from '../ai'
-import { parseTemplate, TemplateFunction } from '../utils/template'
+import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 import { validateCode, type ValidationResult } from '@mdxe/test'
 
 const schema = z.object({
@@ -16,9 +16,7 @@ export interface CodeResult extends z.infer<typeof schema> {
   validation?: ValidationResult
 }
 
-export const code: TemplateFunction<Promise<CodeResult>> = async (template: TemplateStringsArray, ...values: any[]) => {
-  const content = parseTemplate(template, values)
-
+async function codeCore(content: string, options: Record<string, any> = {}): Promise<CodeResult> {
   const result = await generateObject({
     // model: model('anthropic/claude-opus-4'),
     // model: model('openai/o4-mini-high', { structuredOutputs: true}),
@@ -31,23 +29,31 @@ export const code: TemplateFunction<Promise<CodeResult>> = async (template: Temp
   return result.object
 }
 
+export const code = createUnifiedFunction<Promise<CodeResult>>(
+  (content: string, options: Record<string, any>) => {
+    return codeCore(content, options);
+  }
+);
+
 /**
  * Generate and validate code with JSDoc, TypeScript, and test syntax validation
  */
-export const codeWithValidation: TemplateFunction<Promise<CodeResult>> = async (template: TemplateStringsArray, ...values: any[]) => {
-  const codeResult = await code(template, ...values)
-  
-  // Validate the generated code using the new @mdxe/test package
-  const validation = await validateCode(
-    codeResult.code,
-    codeResult.tests,
-    { runTests: true }
-  )
-  
-  return {
-    ...codeResult,
-    validation
+export const codeWithValidation = createUnifiedFunction<Promise<CodeResult>>(
+  async (content: string, options: Record<string, any>) => {
+    const codeResult = await code(content, options);
+    
+    // Validate the generated code using the new @mdxe/test package
+    const validation = await validateCode(
+      codeResult.code,
+      codeResult.tests,
+      { runTests: true }
+    );
+    
+    return {
+      ...codeResult,
+      validation
+    };
   }
-}
+);
 
 export { schema }

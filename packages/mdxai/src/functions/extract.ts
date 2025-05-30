@@ -1,7 +1,7 @@
 import { generateObject } from 'ai'
 import { z } from 'zod'
 import { createAIModel } from '../ai'
-import { parseTemplate, TemplateFunction } from '../utils/template'
+import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 
 const schema = z.object({
   entities: z.array(z.object({
@@ -36,17 +36,8 @@ async function extractCore(content: string, options: ExtractOptions = {}): Promi
   return result.object
 }
 
-export const extract: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray | string, ...values: any[]) => {
-  if (typeof template === 'string' || !('raw' in template)) {
-    throw new Error('extract function must be used as a template literal tag')
+export const extract = createUnifiedFunction<Promise<z.infer<typeof schema>>>(
+  (content: string, options: Record<string, any>) => {
+    return extractCore(content, options as ExtractOptions);
   }
-  
-  const content = parseTemplate(template, values)
-  
-  let options: ExtractOptions = {}
-  if (values.length > 0 && typeof values[values.length - 1] === 'object' && !(values[values.length - 1] instanceof Array)) {
-    options = values.pop() as ExtractOptions
-  }
-  
-  return extractCore(content, options)
-}
+);
