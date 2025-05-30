@@ -1,7 +1,7 @@
 import { generateObject } from 'ai'
 import { createAIModel } from '../ai'
 import { z } from 'zod'
-import { parseTemplate } from '../utils/template'
+import { parseTemplate, createUnifiedFunction } from '../utils/template'
 
 interface IsOptions {
   model?: string
@@ -48,48 +48,27 @@ interface IsFunction {
   (question: string, options?: IsOptions): Promise<boolean | IsResult>
 }
 
-// Create the enhanced function
-function createIsFunction(): IsFunction {
-  function isFunction(...args: any[]): any {
-    // Pattern 1: Normal function call - is('question', options)
-    if (typeof args[0] === 'string') {
-      const [question, options = {}] = args
-      
-      // If options provided, return enhanced result
-      if (Object.keys(options).length > 0) {
-        return isCore(question, options)
-      }
-      
-      // Otherwise return primitive boolean
-      return isCore(question, {}).then(result => result.answer)
-    }
-    
-    // Pattern 2: Template literal - is`question`
-    if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const [template, ...values] = args
-      const question = parseTemplate(template as TemplateStringsArray, values)
-      
-      // Create a promise that resolves to primitive boolean
-      const primitivePromise = isCore(question, {}).then(result => result.answer)
-      
-      // Add callable functionality for enhanced result
-      const callablePromise = function(options: IsOptions = {}) {
-        return isCore(question, options)
-      }
-      
-      // Copy Promise methods to make it awaitable
-      callablePromise.then = primitivePromise.then.bind(primitivePromise)
-      callablePromise.catch = primitivePromise.catch.bind(primitivePromise)
-      callablePromise.finally = primitivePromise.finally.bind(primitivePromise)
-      
-      return callablePromise
-    }
-    
-    throw new Error('is function must be called as a template literal or with string and options')
+function isWrapper(question: string, options: Record<string, any> = {}): any {
+  // If options provided, return enhanced result
+  if (Object.keys(options).length > 0) {
+    return isCore(question, options as IsOptions)
   }
   
-  return isFunction as IsFunction
+  // Otherwise return primitive boolean
+  const primitivePromise = isCore(question, {}).then(result => result.answer)
+  
+  const callablePromise = function(callOptions: IsOptions = {}) {
+    return isCore(question, callOptions)
+  }
+  
+  // Copy Promise methods to make it awaitable
+  callablePromise.then = primitivePromise.then.bind(primitivePromise)
+  callablePromise.catch = primitivePromise.catch.bind(primitivePromise)
+  callablePromise.finally = primitivePromise.finally.bind(primitivePromise)
+  
+  return callablePromise
 }
 
-export const is = createIsFunction()
+// Create the enhanced function using createUnifiedFunction
+export const is: IsFunction = createUnifiedFunction<any>(isWrapper)
 export type { IsOptions, IsResult }
