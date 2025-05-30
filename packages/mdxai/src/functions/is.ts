@@ -30,6 +30,7 @@ async function isCore(question: string, options: IsOptions = {}): Promise<IsResu
       answer: z.boolean(),
       confidence: z.number({ description: 'The percent confidence in the answer, between 0 and 100'}),
     }),
+    temperature: options.temperature || 0,
   })
   
   return result.object
