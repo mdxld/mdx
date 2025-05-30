@@ -5,12 +5,19 @@ import { QueueManager } from '../ui/index.js'
 import { scrape, ScrapedContent } from './scrape.js'
 import { parseTemplate } from '../utils/template.js'
 
+export type ResearchResult = {
+  text: string
+  markdown: string
+  citations: string[]
+  reasoning: string
+}
+
 /**
  * Research template literal function for external data gathering
  *
  * Usage: await research`${market} in the context of delivering ${idea}`
  */
-export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<any>
+export type ResearchTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<ResearchResult>
 
 
 const queue = new QueueManager(25) // Process 25 citations at a time
@@ -18,18 +25,20 @@ const queue = new QueueManager(25) // Process 25 citations at a time
 /**
  * Core research function that takes a query string and returns research results
  */
-async function researchCore(query: string, apiKey?: string, baseURL?: string) {
+async function researchCore(query: string, apiKey?: string, baseURL?: string): Promise<ResearchResult> {
   const aiModel = createAIModel(apiKey, baseURL)
   const result = await generateText({
     model: aiModel('perplexity/sonar-deep-research'),
-    prompt: `research ${query}`,
+    prompt: `Research ${query}`,
   })
+
 
   // Handle potential undefined response property
   const body = result?.response?.body as any || {}
   const citations = body.citations || []
   const reasoning = body.choices?.[0]?.message?.reasoning || ''
 
+  console.log(body.choices?.[0]?.message)
 
   // const scrapedCitations: ScrapedContent[] = await Promise.all(
   //   citations.map(async (url: string, index: number) => {
@@ -120,7 +129,7 @@ async function researchCore(query: string, apiKey?: string, baseURL?: string) {
 }
 
 // Create a function that supports both string parameters and template literals
-function researchFunction(queryOrTemplate: string | TemplateStringsArray, ...values: any[]): Promise<any> {
+function researchFunction(queryOrTemplate: string | TemplateStringsArray, ...values: any[]): Promise<ResearchResult> {
   let apiKey: string | undefined
   let baseURL: string | undefined
   
