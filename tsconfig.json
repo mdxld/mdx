@@ -13,7 +13,9 @@
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "mdxld": ["./packages/mdxld/src/index.ts"],
+      "mdxld/*": ["./packages/mdxld/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", ".mdx"]

@@ -19,3 +19,5 @@ export { render, RenderOptions, RenderResult } from './render.js'
 
 export * from '@mdxld/schema'
 export * from './cli.js'
+
+export { TaskItem as DetailedTaskItem, TaskList, parseTaskLists, serializeTaskItem, serializeTaskList, serializeTaskLists, serializePlanResult } from './task-lists.js'
