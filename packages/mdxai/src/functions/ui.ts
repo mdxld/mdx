@@ -4,9 +4,10 @@ import { model } from '../ai'
 import { parseTemplate, TemplateFunction } from '../utils/template'
 
 const schema = z.object({
-  props: z.string({ description: 'JSDoc comments describing the props for the component.' }),
-  component: z.string({ description: 'Clean, readable, and well-documented TypeScript component export.' }),
-  tests: z.string({ description: 'Vitest tests for normal and edge cases. The `describe`, `it`, and `expect` functions are in global scope.' }),
+  props: z.string({ description: 'Typescript Type export for Props describing the props for the component.' }),
+  component: z.string({ description: 'Clean, simple, and readable TypeScript React component named default function export.' }),
+  stories: z.string({ description: 'Storybook Stories for the component.  Use the @storybook/react library to write stories.' }),
+  // tests: z.string({ description: 'Vitest tests for normal and edge cases. The `describe`, `it`, and `expect` functions are in global scope.' }),
 })
 
 export const ui: TemplateFunction<Promise<z.infer<typeof schema>>> = async (template: TemplateStringsArray, ...values: any[]) => {
@@ -22,3 +23,10 @@ export const ui: TemplateFunction<Promise<z.infer<typeof schema>>> = async (temp
   })
   return result.object
 }
+
+// /**
+//  * @typedef {Object} Props
+//  * @property {string} title
+//  */
+
+// /** @type {(props: Props) => JSX.Element} */
