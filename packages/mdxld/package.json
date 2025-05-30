@@ -6,6 +6,7 @@
     "mdxld": "./bin/mdxld.js"
   },
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@mdx-js/esbuild": "^3.0.0",
