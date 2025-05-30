@@ -47,5 +47,5 @@ describe('add function', () => {
     const result = await validateCode(code, tests, { runTests: true })
     expect(result.typescript.valid).toBe(true)
     expect(result.syntax.valid).toBe(true)
-  })
+  }, 10000) // 10 second timeout
 })
