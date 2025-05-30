@@ -3,7 +3,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import { model } from '../ai'
-import { parseTemplate, TemplateFunction } from '../utils/template'
+import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 
 /**
  * Represents a single task item in a task list
@@ -124,9 +124,7 @@ export const parseTaskLists = (markdown: string): TaskList[] => {
   return tasks
 }
 
-export const plan: TemplateFunction<Promise<PlanResult>> = async (template: TemplateStringsArray, ...values: any[]) => {
-  const requirements = parseTemplate(template, values)
-
+async function planCore(requirements: string, options: Record<string, any> = {}): Promise<PlanResult> {
   const result = await generateText({
     model: model('google/gemini-2.5-pro-preview'),
     system: `You are a CTO. Respond only in GitHub Flavored Markdown with task lists. Use headings to organize different sections of the plan. If needed, tasks can have subtasks.`,
@@ -141,6 +139,12 @@ export const plan: TemplateFunction<Promise<PlanResult>> = async (template: Temp
     markdown
   }
 }
+
+export const plan = createUnifiedFunction<Promise<PlanResult>>(
+  (requirements: string, options: Record<string, any>) => {
+    return planCore(requirements, options);
+  }
+);
 
 /**
  * Serializes a single task item to markdown format

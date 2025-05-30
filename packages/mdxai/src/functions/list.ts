@@ -1,4 +1,4 @@
-import { parseTemplate, stringifyValue } from '../utils/template.js'
+import { parseTemplate, stringifyValue, createUnifiedFunction } from '../utils/template.js'
 import { streamText } from 'ai'
 import { createAIModel } from '../ai.js'
 
@@ -131,35 +131,32 @@ function createListResult(template: string, options: Record<string, any> = {}): 
 }
 
 /**
+ * Core function for list generation that handles both string content and options
+ */
+function listCore(content: string, options: Record<string, any> = {}): any {
+  const result = createListResult(content, options)
+  
+  const originalThen = result.then
+  
+  Object.defineProperty(result, 'then', {
+    get() {
+      return originalThen
+    }
+  })
+  
+  return new Proxy(result, {
+    apply(target, thisArg, args) {
+      const newOptions = args[0] || {}
+      return createListResult(content, newOptions)
+    }
+  })
+}
+
+/**
  * List function implementation that supports all calling patterns
  */
-export const list: ListFunction = function(...args: any[]): any {
-  if (typeof args[0] === 'string') {
-    const [template, options = {}] = args
-    return createListResult(template, options)
+export const list: ListFunction = createUnifiedFunction<any>(
+  (content: string, options: Record<string, any>) => {
+    return listCore(content, options)
   }
-  
-  if (Array.isArray(args[0]) && 'raw' in args[0]) {
-    const [template, ...values] = args
-    const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
-    
-    const result = createListResult(parsedTemplate, {})
-    
-    const originalThen = result.then
-    
-    Object.defineProperty(result, 'then', {
-      get() {
-        return originalThen
-      }
-    })
-    
-    return new Proxy(result, {
-      apply(target, thisArg, args) {
-        const options = args[0] || {}
-        return createListResult(parsedTemplate, options)
-      }
-    })
-  }
-  
-  throw new Error('Function must be called as a template literal or with string and options')
-}
+)

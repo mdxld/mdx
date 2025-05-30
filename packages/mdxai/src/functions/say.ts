@@ -80,6 +80,9 @@ async function generateSpeechAudio(text: string, options: { voiceName?: string; 
   return fileName
 }
 
+/**
+ * Create the say function with the original implementation to maintain compatibility with tests
+ */
 const sayFunction_: SayTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
   if (Array.isArray(template) && 'raw' in template) {
     const text = parseTemplate(template, values)
@@ -122,4 +125,4 @@ export const say = new Proxy(sayFunction_, {
 
     throw new Error('Say function must be called as a template literal')
   },
-})            
+})                                                                                    
