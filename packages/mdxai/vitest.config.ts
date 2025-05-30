@@ -6,5 +6,8 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     testTimeout: 300000,
+    deps: {
+      inline: ['mdxld', 'zod', '@google/genai', '@mendable/firecrawl-js', 'object-hash'],
+    },
   },
 })
