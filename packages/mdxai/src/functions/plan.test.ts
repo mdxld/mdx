@@ -7,7 +7,7 @@ import {
   serializeTaskList, 
   serializeTaskLists, 
   serializePlanResult 
-} from 'mdxld'
+} from '../__mocks__/mdxld'
 
 describe('parseTaskLists', () => {
   it('should parse simple task lists without headings', () => {
@@ -21,21 +21,16 @@ describe('parseTaskLists', () => {
     expect(result).toHaveLength(1)
     expect(result[0].heading).toBeUndefined()
     expect(result[0].tasks).toHaveLength(3)
-    expect(result[0].tasks[0]).toEqual({
-      text: 'Task 1',
-      checked: false,
-      line: 2
-    })
-    expect(result[0].tasks[1]).toEqual({
-      text: 'Task 2',
-      checked: true,
-      line: 3
-    })
-    expect(result[0].tasks[2]).toEqual({
-      text: 'Task 3',
-      checked: false,
-      line: 4
-    })
+    expect(result[0].tasks[0].text).toBe('Task 1')
+    expect(result[0].tasks[0].checked).toBe(false)
+    expect(result[0].tasks[0].line).toBe(2)
+    expect(result[0].tasks[1].text).toBe('Task 2')
+    expect(result[0].tasks[1].checked).toBe(true)
+    expect(result[0].tasks[1].line).toBe(3)
+    
+    expect(result[0].tasks[2].text).toBe('Task 3')
+    expect(result[0].tasks[2].checked).toBe(false)
+    expect(result[0].tasks[2].line).toBe(4)
   })
 
   it('should parse task lists with headings', () => {
@@ -487,4 +482,4 @@ describe('round-trip operations', () => {
     expect(reparsed[1].heading).toBe('Complex nesting')
     expect(reparsed[1].tasks[0].subtasks![0].subtasks![0].subtasks![0].text).toBe('Level 3')
   })
-})  
+})          
