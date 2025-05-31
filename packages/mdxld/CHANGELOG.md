@@ -1,5 +1,11 @@
 # mdxld
 
+## 1.2.1
+
+### Patch Changes
+
+- 1af71d8: Fix mdxld CLI binary linking to ensure tests can find and execute the command. Added executable bin/mdxld.js file that imports from dist/cli.js.
+
 ## 1.2.0
 
 ### Minor Changes
