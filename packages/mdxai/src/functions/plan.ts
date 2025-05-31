@@ -1,13 +1,10 @@
 import { generateText } from 'ai'
 import { 
-  TaskItem, 
-  TaskList, 
   PlanResult,
-  parseTaskLists,
-  serializeTaskLists
+  parseTaskLists
 } from 'mdxld'
 import { model } from '../ai'
-import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
+import { parseTemplate, TemplateFunction } from '../utils/template'
 
 export const plan: TemplateFunction<Promise<PlanResult>> = async (template: TemplateStringsArray, ...values: any[]) => {
   const requirements = parseTemplate(template, values)

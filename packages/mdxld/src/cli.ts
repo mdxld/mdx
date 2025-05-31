@@ -217,4 +217,7 @@ async function processMdxFile(filePath: string, options: any) {
   }
 }
 
-program.parse(process.argv)
+if (import.meta.url.startsWith('file:') && 
+    process.argv[1] === fileURLToPath(import.meta.url)) {
+  program.parse(process.argv)
+}

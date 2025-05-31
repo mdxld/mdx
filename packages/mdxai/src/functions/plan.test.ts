@@ -7,7 +7,7 @@ import {
   serializeTaskList, 
   serializeTaskLists, 
   serializePlanResult 
-} from '../../../mdxld/src/task-list'
+} from 'mdxld'
 
 describe('parseTaskLists', () => {
   it('should parse simple task lists without headings', () => {
@@ -482,4 +482,4 @@ describe('round-trip operations', () => {
     expect(reparsed[1].heading).toBe('Complex nesting')
     expect(reparsed[1].tasks[0].subtasks![0].subtasks![0].subtasks![0].text).toBe('Level 3')
   })
-})                              
+})                                      
