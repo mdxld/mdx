@@ -31,10 +31,10 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-          version: 8.15.6
+          version: 9.15.1
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile --filter=!voice
+        run: pnpm install --frozen-lockfile
 
       - name: Publish to NPM
         run: pnpm run release

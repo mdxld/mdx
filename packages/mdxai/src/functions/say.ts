@@ -3,7 +3,7 @@ import path from 'path'
 import { GoogleGenAI } from '@google/genai'
 import wav from 'wav'
 import hash from 'object-hash'
-import { parseTemplate } from '../utils/template.js'
+import { parseTemplate, createUnifiedFunction } from '../utils/template.js'
 import { AI_FOLDER_STRUCTURE, ensureDirectoryExists } from '../utils.js'
 
 /**
@@ -80,49 +80,7 @@ async function generateSpeechAudio(text: string, options: { voiceName?: string; 
   return fileName
 }
 
-/**
- * Create the say function with the original implementation to maintain compatibility with tests
- */
-const sayFunction_: SayTemplateFn = function (template: TemplateStringsArray, ...values: any[]) {
-  if (Array.isArray(template) && 'raw' in template) {
-    const text = parseTemplate(template, values)
-    
-    let options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}
-    if (values.length > 0 && typeof values[values.length - 1] === 'object' && !(values[values.length - 1] instanceof Array)) {
-      options = values.pop() as { voiceName?: string; apiKey?: string; baseURL?: string }
-    }
-    
-    return generateSpeechAudio(text, options)
-  }
-
-  throw new Error('Say function must be called as a template literal')
-}
-
-export const say = new Proxy(sayFunction_, {
-  get(target, prop) {
-    if (prop === 'then' || prop === 'catch' || prop === 'finally') {
-      return undefined
-    }
-
-    if (typeof prop === 'symbol') {
-      return Reflect.get(target, prop)
-    }
-
-    return target
-  },
-
-  apply(target, thisArg, args) {
-    if (Array.isArray(args[0]) && 'raw' in args[0]) {
-      const text = parseTemplate(args[0] as TemplateStringsArray, args.slice(1))
-      
-      let options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}
-      if (args.length > 1 && typeof args[args.length - 1] === 'object' && !(args[args.length - 1] instanceof Array)) {
-        options = args[args.length - 1] as { voiceName?: string; apiKey?: string; baseURL?: string }
-      }
-      
-      return generateSpeechAudio(text, options)
-    }
-
-    throw new Error('Say function must be called as a template literal')
-  },
+export const say = createUnifiedFunction<Promise<string>>(async (text, options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}) => {
+  console.log('say', text, options)
+  return generateSpeechAudio(text, options)
 })                                                                                    

@@ -41,7 +41,7 @@ jobs:
       - name: Install with frozen lockfile
         id: frozen-install
         if: steps.check-lockfile.outputs.exists == 'true'
-        run: pnpm install --frozen-lockfile --filter=!voice
+        run: pnpm install --frozen-lockfile
         continue-on-error: true
         
       # Fallback to regenerating lockfile if missing or frozen install fails
@@ -49,7 +49,7 @@ jobs:
         if: steps.check-lockfile.outputs.exists == 'false' || steps.frozen-install.outcome == 'failure'
         run: |
           echo "🔧 Regenerating lockfile and installing dependencies"
-          pnpm install --no-frozen-lockfile --filter=!voice
+          pnpm install --no-frozen-lockfile
           
       # Build step
       - run: pnpm run build

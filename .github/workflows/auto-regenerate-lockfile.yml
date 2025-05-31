@@ -1,8 +1,8 @@
 name: 🔄 Auto-Regenerate pnpm lockfile on conflict
 
 on:
-  pull_request:
-    types: [synchronize, opened, reopened]
+  # pull_request:
+  #   types: [synchronize, opened, reopened]
   workflow_dispatch:
     inputs:
       pr_branch:

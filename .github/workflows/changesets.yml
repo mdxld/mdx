@@ -39,10 +39,10 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-          version: 8.15.6
+          version: 9.15.1
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile --filter=!voice
+        run: pnpm install --frozen-lockfile
 
       - name: Create Release Pull Request
         id: changesets
@@ -71,10 +71,10 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-          version: 8.15.6
+          version: 9.15.1
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile --filter=!voice
+        run: pnpm install --frozen-lockfile
 
       - name: Check for Changeset
         run: echo "Skipping changeset check in PR workflow"
