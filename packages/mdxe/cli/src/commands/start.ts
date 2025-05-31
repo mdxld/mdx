@@ -1,6 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
+import { getNextjsTemplatesDir } from '../utils/template-paths.js'
 
 /**
  * Start the production server for the MDXE project

@@ -1,6 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
+import { getNextjsTemplatesDir } from '../utils/template-paths.js'
 import { findMdxFiles } from '../utils/mdx-parser'
 import { findIndexFile, fileExists } from '../utils/file-utils'
 
@@ -60,97 +61,44 @@ async function isNextJsProject(dir: string): Promise<boolean> {
  * Create a basic Next.js setup for MDXE
  */
 export async function createBasicNextSetup(dir: string) {
-  const pagesDir = path.join(dir, 'pages')
-  await fs.mkdir(pagesDir, { recursive: true })
-
-  const appJsPath = path.join(pagesDir, '_app.js')
-  await fs.writeFile(
-    appJsPath,
-    `
-import '../styles/globals.css';
-
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
-}
-
-export default MyApp;
-  `,
-  )
-
-  const stylesDir = path.join(dir, 'styles')
-  await fs.mkdir(stylesDir, { recursive: true })
-
-  const globalsCssPath = path.join(stylesDir, 'globals.css')
-  await fs.writeFile(
-    globalsCssPath,
-    `
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-  `,
-  )
-
-  const nextConfigPath = path.join(dir, 'next.config.js')
-  await fs.writeFile(
-    nextConfigPath,
-    `
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
-}
-
-module.exports = nextConfig
-  `,
-  )
-
-  const gitignorePath = path.join(dir, '.gitignore')
-  if (!(await fileExists(gitignorePath))) {
-    await fs.writeFile(
-      gitignorePath,
-      `
-# next.js
-/.next/
-/out/
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# local env files
-.env*.local
-
-# vercel
-.vercel
-    `,
-    )
+  console.log('✅ Using internal Next.js templates from mdxe package')
+  
+  const packageJsonPath = path.join(dir, 'package.json')
+  const packageJsonExists = await fileExists(packageJsonPath)
+  
+  if (!packageJsonExists) {
+    const packageJson = {
+      name: 'mdxe-app',
+      version: '1.0.0',
+      dependencies: {
+        next: '^15.3.0',
+        react: '^18.2.0',
+        'react-dom': '^18.2.0'
+      }
+    }
+    await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
+    
+    console.log('📦 Installing Next.js dependencies...')
+    const { spawn } = await import('node:child_process')
+    await new Promise<void>((resolve, reject) => {
+      const installProcess = spawn('pnpm', ['install'], {
+        cwd: dir,
+        stdio: 'inherit',
+        shell: true,
+      })
+      
+      installProcess.on('close', (code) => {
+        if (code === 0) {
+          console.log('✅ Dependencies installed successfully')
+          resolve()
+        } else {
+          reject(new Error(`Installation failed with code ${code}`))
+        }
+      })
+      
+      installProcess.on('error', reject)
+    })
   }
-
-  console.log('✅ Basic Next.js setup created')
 }
 
 /**
@@ -204,11 +152,12 @@ async function listMdxFiles(cwd: string) {
 function startNextDevServer(cwd: string) {
   return new Promise<void>((resolve, reject) => {
     const nextBin = path.join(cwd, 'node_modules', '.bin', 'next')
+    const templatesDir = getNextjsTemplatesDir()
 
     fs.access(nextBin)
       .then(() => {
-        console.log('📦 Starting Next.js development server...')
-        const nextProcess = spawn(nextBin, ['dev'], {
+        console.log('📦 Starting Next.js development server with mdxe templates...')
+        const nextProcess = spawn(nextBin, ['dev', '--dir', templatesDir], {
           cwd,
           stdio: 'inherit',
           shell: true,
