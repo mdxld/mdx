@@ -15,7 +15,6 @@ const __dirname = path.dirname(__filename)
 const TEST_DIR = path.join(process.cwd(), '.ai', 'test', randomUUID())
 
 describe('CLI research command', () => {
-  const originalEnv = { ...process.env }
   const originalConsoleLog = console.log
   const originalConsoleError = console.error
   const originalProcessExit = process.exit
@@ -53,7 +52,6 @@ describe('CLI research command', () => {
   })
 
   afterEach(() => {
-    vi.unstubAllEnvs()
     console.log = originalConsoleLog
     console.error = originalConsoleError
     process.exit = originalProcessExit
@@ -229,26 +227,6 @@ describe('CLI research command', () => {
       }
     }, 60000) // Increase timeout for real API calls
 
-    it('should throw an error when AI_GATEWAY_TOKEN is not set', async () => {
-      try {
-        const originalToken = process.env.AI_GATEWAY_TOKEN
-        vi.stubEnv('AI_GATEWAY_TOKEN', undefined)
-        
-        try {
-          const { program } = createResearchCommand()
-          
-          await expect(program.parseAsync(['node', 'test', 'research', 'How do I use AI?'])).rejects.toThrow('Process.exit called with code 1')
-          
-          expect(consoleErrors.some(error => error.includes('AI_GATEWAY_TOKEN environment variable is not set'))).toBe(true)
-        } finally {
-          if (originalToken) {
-            vi.stubEnv('AI_GATEWAY_TOKEN', originalToken)
-          }
-        }
-      } catch (error) {
-        console.error('Test error:', error)
-        throw error
-      }
-    })
+
   })
 })

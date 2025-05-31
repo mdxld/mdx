@@ -7,16 +7,11 @@ import * as YAML from 'yaml'
 import path from 'path'
 
 describe('AI Handler', () => {
-  const originalEnv = { ...process.env }
-  
   beforeEach(() => {
-    vi.stubEnv('NODE_ENV', 'test')
-    vi.stubEnv('USE_CACHE', 'true') // Enable caching for tests
     vi.clearAllMocks()
   })
 
   afterEach(() => {
-    vi.unstubAllEnvs()
     vi.restoreAllMocks()
   })
   
@@ -289,8 +284,6 @@ describe('AI Handler', () => {
 })
 
 describe('AI Handler e2e', () => {
-  const originalEnv = { ...process.env }
-  
   const createTestFile = (content: string, metadata: Record<string, any> = { output: 'string' }) => {
     const tempDir = path.join(process.cwd(), '.ai', 'test')
     const tempFile = path.join(tempDir, `test-${Date.now()}.md`)
@@ -305,12 +298,7 @@ describe('AI Handler e2e', () => {
   }
 
   beforeEach(() => {
-    vi.stubEnv('NODE_ENV', 'development')
     vi.clearAllMocks()
-  })
-
-  afterEach(() => {
-    vi.unstubAllEnvs()
   })
 
   it('should generate text using real API with caching', async () => {
