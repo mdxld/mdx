@@ -1,16 +1,16 @@
 name: 🔒 Fix lockfile conflicts on main
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'pnpm-lock.yaml'
-      - 'package.json'
-      - '**/package.json'
-  schedule:
-    # Run daily at midnight UTC to ensure lockfile exists and is valid
-    - cron: '0 0 * * *'
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'pnpm-lock.yaml'
+  #     - 'package.json'
+  #     - '**/package.json'
+  # schedule:
+  #   # Run daily at midnight UTC to ensure lockfile exists and is valid
+  #   - cron: '0 0 * * *'
   workflow_dispatch:
     # Allow manual triggering
 
@@ -21,7 +21,7 @@ jobs:
   fix-lockfile:
     runs-on: ubuntu-latest
     # Skip if this is a bot commit from the lockfile fix itself
-    if: ${{ !contains(github.event.head_commit.message, '🔒') }}
+    # if: ${{ !contains(github.event.head_commit.message, '🔒') }}
     
     steps:
       - name: Checkout main branch
@@ -43,10 +43,10 @@ jobs:
       - name: Check lockfile integrity
         id: lockfile-check
         run: |
-          if [ ! -f pnpm-lock.yaml ]; then
+          if [ ! -f pnpm-lock.yaml ]; then  
             echo "missing=true" >> $GITHUB_OUTPUT
             echo "❌ pnpm-lock.yaml is missing"
-          elif pnpm install --frozen-lockfile --filter=!voice &>/dev/null; then
+          elif pnpm install --frozen-lockfile &>/dev/null; then
             echo "valid=true" >> $GITHUB_OUTPUT
             echo "✅ pnpm-lock.yaml is valid"
           else
