@@ -7,7 +7,7 @@ export default defineConfig({
     environment: 'node',
     testTimeout: 300000,
     env: {
-      OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+      OPENAI_API_KEY: process.env.AI_GATEWAY_TOKEN || process.env.OPENAI_API_KEY,
       AI_GATEWAY_TOKEN: process.env.AI_GATEWAY_TOKEN,
       AI_GATEWAY_URL: process.env.AI_GATEWAY_URL,
       GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
