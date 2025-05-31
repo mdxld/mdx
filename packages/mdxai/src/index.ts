@@ -18,8 +18,8 @@ export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput
 export { extract } from './functions/extract.js'
 export { video, VideoConfig, VideoResult } from './functions/video.js'
 export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
-export { 
-  plan, 
+export { plan } from './functions/plan.js'
+export {
   parseTaskLists, 
   serializeTaskItem, 
   serializeTaskList, 
@@ -28,7 +28,7 @@ export {
   TaskItem, 
   TaskList, 
   PlanResult 
-} from './functions/plan.js'
+} from 'mdxld'
 
 export {
   createAiFolderStructure,
