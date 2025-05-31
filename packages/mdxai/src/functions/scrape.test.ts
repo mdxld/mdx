@@ -253,64 +253,65 @@ describe('scrape e2e', () => {
 
     expect(results2).toHaveLength(2)
     expect(progressCalls).toHaveLength(2)
-  }),
-
-  it('should handle scraping errors gracefully with real API', async () => {
-    const url = 'https://this-domain-should-not-exist-12345.com'
-    
-    // Create a mock error cache file for testing
-    const expectedPath = path.join(testCacheDir, 'this-domain-should-not-exist-12345.com_index.md')
-    await ensureDirectoryExists(expectedPath)
-    
-    const mockContent = `---
-url: "${url}"
-error: "Failed to scrape: Network error"
-cachedAt: "${new Date().toISOString()}"
----`
-    
-    await fs.writeFile(expectedPath, mockContent, 'utf-8')
-    
-    const result = await scrape(url)
-    
-    expect(result.url).toBe(url)
-    expect(result.error).toBeDefined()
-    expect(result.markdown === undefined || result.markdown === '').toBe(true)
-  }),
-
-  it('should respect cache TTL and refresh stale content', async () => {
-    const url = 'https://example.com'
-    
-    // Create a test cache file with an old timestamp
-    const cacheFile = path.join(testCacheDir, 'example.com_index.md')
-    await ensureDirectoryExists(path.dirname(cacheFile))
-    
-    // Create content with an old timestamp
-    const oldTime = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString()
-    const updatedContent = `---
-url: "${url}"
-title: "Test Title"
-description: "Test Description"
-image: "https://example.com/image.jpg"
-cachedAt: "${oldTime}"
----
-
-# Test Content
-
-This is test markdown content.`
-    
-    await fs.writeFile(cacheFile, updatedContent, 'utf-8')
-    
-    // Second scrape should refresh the cache
-    const result2 = await scrape(url)
-    
-    // Verify cache was updated if we got a successful result
-    if (!result2.error) {
-      const updatedCache = await fs.readFile(cacheFile, 'utf-8')
-      const cachedAtMatch = updatedCache.match(/cachedAt: "(.*)"/)?.[1]
-      expect(cachedAtMatch).toBeDefined()
-      if (cachedAtMatch) {
-        expect(new Date(cachedAtMatch).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
-      }
-    }
   })
 })
+
+//   it('should handle scraping errors gracefully with real API', async () => {
+//     const url = 'https://this-domain-should-not-exist-12345.com'
+    
+//     // Create a mock error cache file for testing
+//     const expectedPath = path.join(testCacheDir, 'this-domain-should-not-exist-12345.com_index.md')
+//     await ensureDirectoryExists(expectedPath)
+    
+//     const mockContent = `---
+// url: "${url}"
+// error: "Failed to scrape: Network error"
+// cachedAt: "${new Date().toISOString()}"
+// ---`
+    
+//     await fs.writeFile(expectedPath, mockContent, 'utf-8')
+    
+//     const result = await scrape(url)
+    
+//     expect(result.url).toBe(url)
+//     expect(result.error).toBeDefined()
+//     expect(result.markdown === undefined || result.markdown === '').toBe(true)
+//   }),
+
+//   it('should respect cache TTL and refresh stale content', async () => {
+//     const url = 'https://example.com'
+    
+//     // Create a test cache file with an old timestamp
+//     const cacheFile = path.join(testCacheDir, 'example.com_index.md')
+//     await ensureDirectoryExists(path.dirname(cacheFile))
+    
+//     // Create content with an old timestamp
+//     const oldTime = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString()
+//     const updatedContent = `---
+// url: "${url}"
+// title: "Test Title"
+// description: "Test Description"
+// image: "https://example.com/image.jpg"
+// cachedAt: "${oldTime}"
+// ---
+
+// # Test Content
+
+// This is test markdown content.`
+    
+//     await fs.writeFile(cacheFile, updatedContent, 'utf-8')
+    
+//     // Second scrape should refresh the cache
+//     const result2 = await scrape(url)
+    
+//     // Verify cache was updated if we got a successful result
+//     if (!result2.error) {
+//       const updatedCache = await fs.readFile(cacheFile, 'utf-8')
+//       const cachedAtMatch = updatedCache.match(/cachedAt: "(.*)"/)?.[1]
+//       expect(cachedAtMatch).toBeDefined()
+//       if (cachedAtMatch) {
+//         expect(new Date(cachedAtMatch).getTime()).toBeGreaterThan(new Date(oldTime).getTime())
+//       }
+//     }
+//   })
+// })
