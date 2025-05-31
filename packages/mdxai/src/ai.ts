@@ -18,4 +18,11 @@ export function createAIModel(apiKey?: string, baseURL?: string) {
   })
 }
 
-export const model = createAIModel()
+let _model: ReturnType<typeof createOpenAI> | null = null
+
+export function getModel() {
+  if (!_model) {
+    _model = createAIModel()
+  }
+  return _model
+}

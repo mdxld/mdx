@@ -1,6 +1,6 @@
 import { generateObject } from 'ai'
 import { z } from 'zod'
-import { model } from '../ai'
+import { getModel } from '../ai'
 import { createUnifiedFunction, parseTemplate, TemplateFunction } from '../utils/template'
 import { title } from 'process'
 
@@ -35,7 +35,7 @@ export const scope = createUnifiedFunction(async (project, options) => {
     // model: model(options.model || 'anthropic/claude-opus-4'),
     // model: model(options.model || 'openai/o3', { structuredOutputs: true }),
     // model: model(options.model || 'openai/o4-mini-high', { structuredOutputs: true }),
-    model: model(options.model || 'google/gemini-2.5-pro-preview', { structuredOutputs: true }),
+    model: getModel()(options.model || 'google/gemini-2.5-pro-preview', { structuredOutputs: true }),
     system: `You are an expert at scoping software development projects, and breaking down epics into discrete coding tasks. `,
     prompt: `Scope ${project}`,
     schema,
