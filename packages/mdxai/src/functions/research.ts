@@ -1,5 +1,5 @@
 import { generateText } from 'ai'
-import { createAIModel } from '../ai'
+import { getModel } from '../ai'
 import dedent from 'dedent'
 import { QueueManager } from '../ui/index.js'
 import { scrape, ScrapedContent } from './scrape.js'
@@ -26,7 +26,7 @@ const queue = new QueueManager(25) // Process 25 citations at a time
  * Core research function that takes a query string and returns research results
  */
 async function researchCore(query: string, apiKey?: string, baseURL?: string): Promise<ResearchResult> {
-  const aiModel = createAIModel(apiKey, baseURL)
+  const aiModel = getModel()
   const result = await generateText({
     model: aiModel('perplexity/sonar-deep-research'),
     prompt: `Research ${query}`,
