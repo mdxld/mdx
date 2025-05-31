@@ -20,7 +20,6 @@ vi.mock('ai', () => ({
 import { research } from './aiHandler'
 
 describe('research template literal', () => {
-  const originalEnv = { ...process.env }
   const testId = randomUUID()
   const testDir = path.join(process.cwd(), '.ai', 'test', testId)
   const promptsDir = path.join(process.cwd(), '.ai', 'prompts')
@@ -38,13 +37,10 @@ describe('research template literal', () => {
   }
 
   beforeEach(() => {
-    vi.stubEnv('NODE_ENV', 'test')
     createTestPrompt('Respond briefly to: ${prompt}')
   })
 
   afterEach(() => {
-    vi.unstubAllEnvs()
-    
     try {
       if (fs.existsSync(testDir)) {
         fs.rmSync(testDir, { recursive: true, force: true })

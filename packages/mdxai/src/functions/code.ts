@@ -1,6 +1,6 @@
 import { generateObject } from 'ai'
 import { z } from 'zod'
-import { model } from '../ai'
+import { getModel } from '../ai'
 import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 import { validateCode, type ValidationResult } from '@mdxe/test'
 
@@ -20,7 +20,7 @@ async function codeCore(content: string, options: Record<string, any> = {}): Pro
   const result = await generateObject({
     // model: model('anthropic/claude-opus-4'),
     // model: model('openai/o4-mini-high', { structuredOutputs: true}),
-    model: model('google/gemini-2.5-pro-preview', { structuredOutputs: true}),
+    model: getModel()('google/gemini-2.5-pro-preview', { structuredOutputs: true}),
     system: `You are an expert TypeScript developer. You develop clean, readable, and clearly documented code with single quotes, no semicolons, 2 spaces indentation.`,
     prompt: `Generate a TypeScript function and tests for ${content}`,
     schema,

@@ -1,14 +1,14 @@
 import { generateText } from 'ai'
 import { z } from 'zod'
-import { model } from '../ai'
+import { getModel } from '../ai'
 import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 import dedent from 'dedent'
 
 async function mdxCore(prompt: string, options: Record<string, any> = {}): Promise<string> {
   const result = await generateText({
-    // model: model('anthropic/claude-opus-4'),
-    // model: model('openai/o4-mini-high'),
-    model: model('google/gemini-2.5-pro-preview'),
+    // model: getModel()('anthropic/claude-opus-4'),
+    // model: getModel()('openai/o4-mini-high'),
+    model: getModel()('google/gemini-2.5-pro-preview'),
     system: dedent`
 
       You are an expert developer. You write clean, readable, and well-documented code.  You only respond in MDX format, so you can blend the

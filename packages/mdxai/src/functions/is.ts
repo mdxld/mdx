@@ -1,5 +1,5 @@
 import { generateObject } from 'ai'
-import { createAIModel } from '../ai'
+import { getModel } from '../ai'
 import { z } from 'zod'
 import { parseTemplate, createUnifiedFunction } from '../utils/template'
 
@@ -20,7 +20,7 @@ interface IsResult {
 // Core implementation function
 async function isCore(question: string, options: IsOptions = {}): Promise<IsResult> {
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
-  const aiModel = createAIModel(options.apiKey, options.baseURL)
+  const aiModel = getModel()
 
   const result = await generateObject({
     model: aiModel(selectedModel, { structuredOutputs: true }),

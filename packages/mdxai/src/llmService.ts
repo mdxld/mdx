@@ -1,7 +1,7 @@
 import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel, experimental_generateImage as generateImage } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
 import { createCacheMiddleware } from './cacheMiddleware'
-import { createAIModel } from './ai'
+import { getModel } from './ai'
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -32,7 +32,7 @@ export async function generateContentStream(params: LLMServiceParams): Promise<S
     // The modelId is used to specify which model to use with that provider.
     // const model = modelProvider(modelId as any) // The 'as any' cast is to satisfy the generic signature of OpenAI
 
-    const aiModel = createAIModel(params.apiKey, params.baseURL)
+    const aiModel = getModel()
     const wrappedModel = wrapLanguageModel({
       model: aiModel(params.modelId || 'google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
       middleware: cacheMiddleware,

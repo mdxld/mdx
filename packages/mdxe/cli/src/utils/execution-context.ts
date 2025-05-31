@@ -8,6 +8,7 @@ import { renderInputPrompt } from './input-prompt'
 import fs from 'fs/promises'
 import path from 'path'
 import { AIRequest } from '../components/AIRequestTracker'
+import { getAiTemplatePath } from './template-paths.js'
 
 let aiRequests: AIRequest[] = []
 let requestUpdateCallback: ((requests: AIRequest[]) => void) | null = null
@@ -122,7 +123,7 @@ const AI_FOLDER_STRUCTURE = {
  */
 const createAiFolderStructure = async () => {
   try {
-    const rootDir = path.join(process.cwd(), AI_FOLDER_STRUCTURE.ROOT)
+    const rootDir = getAiTemplatePath()
     await fs.mkdir(rootDir, { recursive: true })
 
     await fs.mkdir(path.join(rootDir, AI_FOLDER_STRUCTURE.FUNCTIONS), { recursive: true })
@@ -144,7 +145,7 @@ const createAiFolderStructure = async () => {
  */
 const ensureAiFunctionExists = async (functionName: string) => {
   try {
-    const functionDir = path.join(process.cwd(), AI_FOLDER_STRUCTURE.ROOT, AI_FOLDER_STRUCTURE.FUNCTIONS)
+    const functionDir = path.join(getAiTemplatePath(), AI_FOLDER_STRUCTURE.FUNCTIONS)
     const functionPath = path.join(functionDir, `${functionName}.mdx`)
 
     try {
@@ -182,7 +183,7 @@ const result = await ai.${functionName}("your prompt here");
  * Stores responses in .ai/cache directory
  */
 const createCacheMiddleware = () => {
-  const cacheDir = path.join(process.cwd(), AI_FOLDER_STRUCTURE.ROOT, AI_FOLDER_STRUCTURE.CACHE)
+  const cacheDir = path.join(getAiTemplatePath(), AI_FOLDER_STRUCTURE.CACHE)
 
   return {
     async beforeRequest(params: any) {

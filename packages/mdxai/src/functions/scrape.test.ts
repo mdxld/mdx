@@ -49,8 +49,6 @@ describe('scrape', () => {
   // Tests should be able to handle existing cache files
   
   beforeEach(() => {
-    // Ensure we're in test mode for mocked tests
-    vi.stubEnv('NODE_ENV', 'test')
     vi.clearAllMocks()
   })
 
@@ -193,7 +191,6 @@ This is test markdown content.`
 describe('scrape e2e', () => {
   beforeEach(() => {
     vi.resetModules()
-    vi.stubEnv('NODE_ENV', 'development')
   })
 
   it('should scrape a real URL and cache the result', async () => {

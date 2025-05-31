@@ -1,6 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
+import { getNextjsTemplatesDir } from '../utils/template-paths.js'
 
 /**
  * Build the MDXE project for production
@@ -60,10 +61,11 @@ async function isNextJsProject(dir: string): Promise<boolean> {
 function buildNextApp(cwd: string) {
   return new Promise<void>((resolve, reject) => {
     const nextBin = path.join(cwd, 'node_modules', '.bin', 'next')
+    const templatesDir = getNextjsTemplatesDir()
 
     fs.access(nextBin)
       .then(() => {
-        const nextProcess = spawn(nextBin, ['build'], {
+        const nextProcess = spawn(nextBin, ['build', templatesDir], {
           cwd,
           stdio: 'inherit',
           shell: true,
