@@ -1,6 +1,6 @@
 import { parseTemplate, stringifyValue, createUnifiedFunction } from '../utils/template.js'
 import { streamText } from 'ai'
-import { createAIModel } from '../ai.js'
+import { model } from '../ai.js'
 
 /**
  * Return type that supports both Promise and AsyncIterable
@@ -23,15 +23,13 @@ export type ListFunction = {
 async function generateCompleteList(prompt: string, options: Record<string, any> = {}): Promise<string[]> {
   try {
     const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
-    const modelName = options.model || 'google/gemini-2.5-flash-preview-05-20'
     
     let completeContent = ''
     let items: string[] = []
     
     try {
-      const aiModel = createAIModel(options.apiKey, options.baseURL)
       const result = await streamText({
-        model: aiModel(modelName, { structuredOutputs: true }),
+        model: model(options.model || 'google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
         prompt: `${prompt}\n\nRespond with a numbered markdown ordered list.`,
       })
 

@@ -1,5 +1,5 @@
 import { generateObject } from 'ai'
-import { createAIModel } from '../ai'
+import { model } from '../ai'
 import { z } from 'zod'
 import { parseTemplate, createUnifiedFunction } from '../utils/template'
 
@@ -19,14 +19,12 @@ interface IsResult {
 
 // Core implementation function
 async function isCore(question: string, options: IsOptions = {}): Promise<IsResult> {
-  const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
-  const aiModel = createAIModel(options.apiKey, options.baseURL)
 
   // Append question mark if not present
   const formattedQuestion = question.includes('?') ? question : `${question}?`
 
   const result = await generateObject({
-    model: aiModel(selectedModel, { structuredOutputs: true }),
+    model: model(options.model || 'google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
     prompt: `Is ${formattedQuestion}`,
     schema: z.object({
       thoughts: z.array(z.string()),
