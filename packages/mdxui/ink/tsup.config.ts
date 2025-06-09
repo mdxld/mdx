@@ -1,24 +1,9 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: [
-    'src/index.ts',
-    'src/cli-workflow.ts',
-    'src/frontmatter.ts',
-    'src/workflow.ts',
-    'src/types.ts',
-    'src/render.ts',
-    'src/markdown.tsx',
-    'src/ascii.tsx',
-    'src/slides.tsx',
-    'src/slide.tsx',
-    'src/components.tsx',
-    'src/LandingPage.tsx',
-    'src/icons.ts',
-    'src/cli-bundler.ts',
-  ],
+  entry: ['src/index.ts'],
   format: ['esm'], // Only use ESM format since ink is ESM-only
-  dts: false, // Temporarily disable declaration file generation to fix CI
+  dts: false, // Use tsc for declaration files due to composite mode issues
   splitting: false,
   sourcemap: true,
   clean: true, // Clean output directory before build
