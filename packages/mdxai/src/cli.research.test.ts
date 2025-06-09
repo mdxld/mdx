@@ -58,6 +58,9 @@ describe('CLI research command', () => {
     process.exit = originalProcessExit
     process.stdout.write = originalStdoutWrite
     
+    // Restore original environment variables
+    process.env = originalEnv
+    
     try {
       fs.rmSync(TEST_DIR, { recursive: true, force: true })
     } catch (error) {
