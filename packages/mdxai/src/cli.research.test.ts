@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { describe, expect, it, beforeEach, afterEach } from 'vitest'
 import path from 'path'
 import { fileURLToPath } from 'url'
