@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { is } from './is'
 
 describe('is', () => {
@@ -15,7 +15,7 @@ describe('is', () => {
     if (result) {
       expect(true).toBe(true) // This should execute
     }
-  }, 60000)
+  })
 
   it('should return primitive boolean for false cases', async () => {
     const result = await is`TypeScript from Google?`
@@ -29,7 +29,7 @@ describe('is', () => {
     if (!result) {
       expect(true).toBe(true) // This should execute
     }
-  }, 60000)
+  })
 
   it('should return enhanced object when called with empty options', async () => {
     const result = await is`JavaScript is a programming language?`()
@@ -46,7 +46,7 @@ describe('is', () => {
     expect(typeof result.confidence).toBe('number')
     expect(result.confidence).toBeGreaterThanOrEqual(0)
     expect(result.confidence).toBeLessThanOrEqual(100)
-  }, 60000)
+  })
 
   it('should support custom model options', async () => {
     const result = await is`Python is a programming language?`({ model: 'openai/gpt-4.1-nano' })
@@ -57,7 +57,7 @@ describe('is', () => {
     expect(result).toHaveProperty('thoughts')
     expect(result).toHaveProperty('confidence')
     expect(result.answer).toBe(true)
-  }, 60000)
+  })
 
   it('should work as normal function returning boolean by default', async () => {
     const result = await is('Java is a programming language?')
@@ -65,7 +65,7 @@ describe('is', () => {
     // Should be a primitive boolean
     expect(typeof result).toBe('boolean')
     expect(result).toBe(true)
-  }, 60000)
+  })
 
   it('should return enhanced object when normal function called with options', async () => {
     const result = await is('C++ is a programming language?', { model: 'openai/gpt-4.1-nano' }) as any
@@ -76,7 +76,7 @@ describe('is', () => {
     expect(result).toHaveProperty('thoughts')
     expect(result).toHaveProperty('confidence')
     expect(result.answer).toBe(true)
-  }, 60000)
+  })
 
   it('should handle template interpolation correctly', async () => {
     const language = 'Rust'
@@ -85,7 +85,7 @@ describe('is', () => {
     // Should work the same as direct usage
     expect(typeof result).toBe('boolean')
     expect(result).toBe(true)
-  }, 60000)
+  })
 
   it('should handle template interpolation with options', async () => {
     const language = 'Go'
@@ -95,6 +95,6 @@ describe('is', () => {
     expect(typeof result).toBe('object')
     expect(result.answer).toBe(true)
     expect(Array.isArray(result.thoughts)).toBe(true)
-  }, 60000)
+  })
 
 })
