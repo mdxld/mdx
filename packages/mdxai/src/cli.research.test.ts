@@ -164,11 +164,7 @@ describe('CLI research command', () => {
           })
         }
       } catch (error) {
-        if (!process.env.CI) {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1/i)
-        } else {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
-        }
+        expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
       }
     }, 60000) // Increase timeout for real API calls
 
