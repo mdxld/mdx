@@ -15,7 +15,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly --declaration --outDir dist --composite false",
     "dev": "tsup --watch",
     "lint": "echo 'Skipping lint for now'",
     "test": "vitest run",

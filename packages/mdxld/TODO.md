@@ -119,4 +119,4 @@ This phase focuses on ensuring `mdxld` works seamlessly within the broader `mdx*
 
 ---
 
-_This TODO list is based on the vision for MDXLD to integrate linked data with MDX, primarily drawing from `research/mdx-linkd-data.md`._
+_This TODO list is based on the vision for MDXLD to integrate linked data with MDX, primarily drawing from `research/mdx-linked-data.md`._
