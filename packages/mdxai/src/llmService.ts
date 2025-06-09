@@ -108,7 +108,8 @@ export async function generateDeepwikiStream(query: string, apiKey?: string): Pr
 
   const tools = await client.tools()
 
-  const model = openai('o4-mini')
+  const aiModel = createAIModel(apiKey)
+  const model = aiModel('o4-mini')
   const wrappedModel = wrapLanguageModel({
     model: model,
     middleware: cacheMiddleware,
