@@ -14,9 +14,23 @@ export interface GenerateOptions {
 
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, generateImageStream }
 export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
-export { ai, research, generateAiText, executeAiFunction, inferAndValidateOutput, TemplateFn, ResearchTemplateFn, list, ListFunction, say, SayTemplateFn, image, ImageTemplateFn } from './aiHandler.js'
+
+// Export AI functions directly from their individual modules
+export { ai, generateAiText, type AiFunction, type TemplateFn } from './functions/ai.js'
+export { list, type ListFunction } from './functions/list.js'
+export { research, type ResearchTemplateFn } from './functions/research.js'
 export { extract } from './functions/extract.js'
+export { is } from './functions/is.js'
+export { say, type SayTemplateFn } from './functions/say.js'
+export { image, type ImageTemplateFn } from './functions/image.js'
+export { markdown, type MarkdownTemplateFn, type MarkdownResult } from './functions/markdown.js'
 export { video, VideoConfig, VideoResult } from './functions/video.js'
+
+// Export utilities directly from their modules
+export { parseTemplate, stringifyValue, type TemplateFunction, createUnifiedFunction } from './utils/template.js'
+export { executeAiFunction, createZodSchemaFromObject, inferAndValidateOutput } from './utils/ai-execution.js'
+export { handleStringOutput, handleArrayOutput, handleObjectOutput } from './utils/output-handlers.js'
+
 export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
 export { 
   plan, 
