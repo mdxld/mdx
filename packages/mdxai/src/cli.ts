@@ -512,7 +512,7 @@ program
         process.exit(1)
       }
 
-      const { say } = await import('./aiHandler.js')
+      const { say } = await import('./functions/say.js')
       
       const audioFilePath = await say`${text}`
       
