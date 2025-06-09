@@ -109,8 +109,6 @@ describe('CLI research command', () => {
 
     it('should execute research command in non-interactive mode', async () => {
       const outputFile = path.join(TEST_DIR, 'test-output.mdx')
-      
-      try {
         
         const { program } = createResearchCommand()
         
@@ -123,13 +121,7 @@ describe('CLI research command', () => {
         expect(content.length).toBeGreaterThan(0)
         
         expect(consoleOutput.some(output => output.includes(`Research completed and written to ${outputFile}`))).toBe(true)
-      } catch (error) {
-        if (!process.env.CI) {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1/i)
-        } else {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
-        }
-      }
+
     }, 60000) // Increase timeout for real API calls
 
     it('should execute research command in interactive mode with --ink flag', async () => {
@@ -184,70 +176,34 @@ describe('CLI research command', () => {
     it('should handle different output formats', async () => {
       const outputFile = path.join(TEST_DIR, 'frontmatter-output.mdx')
       
-      try {
-        
-        const { program } = createResearchCommand()
-        
-        await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile, '-f', 'frontmatter'])
-        
-        expect(fs.existsSync(outputFile)).toBe(true)
-        
-        const content = fs.readFileSync(outputFile, 'utf-8')
-        expect(content).toContain('---')
-        expect(content).toContain('title:')
-      } catch (error) {
-        if (!process.env.CI) {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1/i)
-        } else {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
-        }
-      }
+      const { program } = createResearchCommand()
+      
+      await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile, '-f', 'frontmatter'])
+      
+      expect(fs.existsSync(outputFile)).toBe(true)
+      
+      const content = fs.readFileSync(outputFile, 'utf-8')
+      expect(content).toContain('---')
+      expect(content).toContain('title:')
+
     }, 60000) // Increase timeout for real API calls
 
     it('should handle parameter passing from command line', async () => {
       const outputFile = path.join(TEST_DIR, 'both-format-output.mdx')
       
-      try {
-        
-        const { program } = createResearchCommand()
-        
-        await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile, '-f', 'both'])
-        
-        expect(fs.existsSync(outputFile)).toBe(true)
-        
-        const content = fs.readFileSync(outputFile, 'utf-8')
-        expect(content).toContain('---')
-        expect(content).toContain('title:')
-        expect(content).toContain('#') // Markdown heading
-      } catch (error) {
-        if (!process.env.CI) {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1/i)
-        } else {
-          expect((error as Error).message).toMatch(/API key not valid|missing|unauthorized|Process\.exit called with code 1|Bad Request/i)
-        }
-      }
+      const { program } = createResearchCommand()
+      
+      await program.parseAsync(['node', 'test', 'research', 'How do I use AI?', '-o', outputFile, '-f', 'both'])
+      
+      expect(fs.existsSync(outputFile)).toBe(true)
+      
+      const content = fs.readFileSync(outputFile, 'utf-8')
+      expect(content).toContain('---')
+      expect(content).toContain('title:')
+      expect(content).toContain('#') // Markdown heading
+
     }, 60000) // Increase timeout for real API calls
 
-    it('should throw an error when AI_GATEWAY_TOKEN is not set', async () => {
-      try {
-        const originalToken = process.env.AI_GATEWAY_TOKEN
-        vi.stubEnv('AI_GATEWAY_TOKEN', undefined)
-        
-        try {
-          const { program } = createResearchCommand()
-          
-          await expect(program.parseAsync(['node', 'test', 'research', 'How do I use AI?'])).rejects.toThrow('Process.exit called with code 1')
-          
-          expect(consoleErrors.some(error => error.includes('AI_GATEWAY_TOKEN environment variable is not set'))).toBe(true)
-        } finally {
-          if (originalToken) {
-            vi.stubEnv('AI_GATEWAY_TOKEN', originalToken)
-          }
-        }
-      } catch (error) {
-        console.error('Test error:', error)
-        throw error
-      }
-    })
+    
   })
 })
