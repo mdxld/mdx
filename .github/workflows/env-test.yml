@@ -1,0 +1,141 @@
+name: Environment Variable Test
+
+on:
+  push:
+    branches: [ main, 'devin/**' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  env-test-hardcoded:
+    runs-on: ubuntu-latest
+    name: Test Environment Variables (Hardcoded)
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Test with hardcoded environment variables
+        env:
+          OPENAI_API_KEY: sk-test-hardcoded-key-1234567890abcdef
+          AI_GATEWAY_TOKEN: sk-test-hardcoded-gateway-token-abcdef1234567890
+          CI: true
+          GITHUB_ACTIONS: true
+        run: |
+          echo "=== Environment Debug ==="
+          echo "CI: $CI"
+          echo "GITHUB_ACTIONS: $GITHUB_ACTIONS"
+          echo "OPENAI_API_KEY present: $([ -n "$OPENAI_API_KEY" ] && echo "true" || echo "false")"
+          echo "AI_GATEWAY_TOKEN present: $([ -n "$AI_GATEWAY_TOKEN" ] && echo "true" || echo "false")"
+          echo "OPENAI_API_KEY starts with: ${OPENAI_API_KEY:0:7}..."
+          echo "AI_GATEWAY_TOKEN starts with: ${AI_GATEWAY_TOKEN:0:7}..."
+          echo "=== Running Tests ==="
+          cd packages/mdxai && pnpm test --reporter=verbose
+
+  env-test-secrets:
+    runs-on: ubuntu-latest
+    name: Test Environment Variables (Secrets)
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Test with GitHub Actions secrets
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN }}
+          CI: true
+          GITHUB_ACTIONS: true
+        run: |
+          echo "=== Environment Debug ==="
+          echo "CI: $CI"
+          echo "GITHUB_ACTIONS: $GITHUB_ACTIONS"
+          echo "OPENAI_API_KEY present: $([ -n "$OPENAI_API_KEY" ] && echo "true" || echo "false")"
+          echo "AI_GATEWAY_TOKEN present: $([ -n "$AI_GATEWAY_TOKEN" ] && echo "true" || echo "false")"
+          if [ -n "$OPENAI_API_KEY" ]; then
+            echo "OPENAI_API_KEY starts with: ${OPENAI_API_KEY:0:7}..."
+          fi
+          if [ -n "$AI_GATEWAY_TOKEN" ]; then
+            echo "AI_GATEWAY_TOKEN starts with: ${AI_GATEWAY_TOKEN:0:7}..."
+          fi
+          echo "=== Running Tests ==="
+          cd packages/mdxai && pnpm test --reporter=verbose
+
+  env-test-comparison:
+    runs-on: ubuntu-latest
+    name: Environment Variable Comparison Test
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Test environment variable detection without dotenv
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN }}
+          CI: true
+          GITHUB_ACTIONS: true
+        run: |
+          echo "=== Node.js Environment Check ==="
+          node -e "
+            console.log('process.env.CI:', process.env.CI);
+            console.log('process.env.GITHUB_ACTIONS:', process.env.GITHUB_ACTIONS);
+            console.log('process.env.OPENAI_API_KEY present:', !!process.env.OPENAI_API_KEY);
+            console.log('process.env.AI_GATEWAY_TOKEN present:', !!process.env.AI_GATEWAY_TOKEN);
+            if (process.env.OPENAI_API_KEY) {
+              console.log('OPENAI_API_KEY starts with:', process.env.OPENAI_API_KEY.substring(0, 7) + '...');
+            }
+            if (process.env.AI_GATEWAY_TOKEN) {
+              console.log('AI_GATEWAY_TOKEN starts with:', process.env.AI_GATEWAY_TOKEN.substring(0, 7) + '...');
+            }
+          "
+          echo "=== Running Single Test ==="
+          cd packages/mdxai && npx vitest run src/functions/code.test.ts --reporter=verbose
