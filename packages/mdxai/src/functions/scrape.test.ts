@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { scrape, scrapeMultiple, ScrapedContent } from './scrape'
 import { promises as fs } from 'fs'

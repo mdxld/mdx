@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { describe, it, expect, vi } from 'vitest'
 import { stringifyValue, parseTemplate, createUnifiedFunction } from './template'
 
@@ -105,4 +106,4 @@ describe('template utilities', () => {
       expect(() => (testFunction as any)(123)).toThrow('Function must be called as a template literal or with string and options')
     })
   })
-})      
+})            
