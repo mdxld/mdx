@@ -22,9 +22,12 @@ async function isCore(question: string, options: IsOptions = {}): Promise<IsResu
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
+  // Append question mark if not present
+  const formattedQuestion = question.includes('?') ? question : `${question}?`
+
   const result = await generateObject({
     model: aiModel(selectedModel, { structuredOutputs: true }),
-    prompt: `Is ${question}`,
+    prompt: `Is ${formattedQuestion}`,
     schema: z.object({
       thoughts: z.array(z.string()),
       answer: z.boolean(),
