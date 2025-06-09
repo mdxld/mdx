@@ -222,7 +222,9 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
 function generateMdxContent(thing: any, properties: any[], isProperty: boolean = false): string {
   const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
   const comment = thing['rdfs:comment'] || thing.comment || thing.description || ''
-  const trimmedComment = typeof comment === 'string' ? comment.trim() : comment
+  
+  // Convert literal \n escape sequences to actual newlines
+  const trimmedComment = typeof comment === 'string' ? comment.trim().replace(/\\n/g, '\n') : comment
 
   let frontmatter = '---\n'
   frontmatter += `$id: ${expandUriPrefix(thing['$id'] as string)}\n`
@@ -280,13 +282,17 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
         }
       } else {
         if (typeof value === 'string' && value.includes('\n')) {
-          frontmatter += `${key}: |\n${(value as string)
+          // Convert escape sequences to actual newlines for multiline strings
+          const processedValue = value.replace(/\\n/g, '\n')
+          frontmatter += `${key}: |\n${processedValue
             .trim()
             .split('\n')
             .map((line: string) => `  ${line.trim()}`)
             .join('\n')}\n`
         } else {
-          frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(typeof value === 'string' ? value.trim() : value))}\n`
+          // Convert escape sequences for single line strings too
+          const processedValue = typeof value === 'string' ? value.trim().replace(/\\n/g, '\n') : value
+          frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(processedValue))}\n`
         }
       }
     }
@@ -336,7 +342,7 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
             .join(' or ')
         }
 
-        const description = property.comment || property.description || ''
+        const description = (property.comment || property.description || '').replace(/\\n/g, '\n')
 
         markdown += `| ${propLink} | ${expectedType} | ${description} |\n`
       }
@@ -365,7 +371,7 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
             .join(' or ')
         }
 
-        const description = property.comment || property.description || ''
+        const description = (property.comment || property.description || '').replace(/\\n/g, '\n')
 
         markdown += `| ${propLink} | ${expectedType} | ${description} |\n`
       }
