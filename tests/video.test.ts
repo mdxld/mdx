@@ -111,45 +111,7 @@ describe('video e2e', () => {
 //     expect(cacheContent.metadata.model).toBe('veo-2.0-generate-001')
 //   }, 180000)
 
-//   it('should handle API errors gracefully', async () => {
-//     // Test with invalid API key
-//     const originalKey = process.env.GOOGLE_API_KEY
-//     process.env.GOOGLE_API_KEY = 'invalid-key'
 
-//     const config: VideoConfig = {
-//       prompt: 'Test prompt',
-//       maxWaitTimeSeconds: 30,
-//     }
-
-//     try {
-//       await expect(video(config)).rejects.toThrow()
-//     } finally {
-//       // Restore original API key
-//       if (originalKey) {
-//         process.env.GOOGLE_API_KEY = originalKey
-//       } else {
-//         delete process.env.GOOGLE_API_KEY
-//       }
-//     }
-//   }, 60000)
-
-//   it('should handle missing API key', async () => {
-//     const originalKey = process.env.GOOGLE_API_KEY
-//     delete process.env.GOOGLE_API_KEY
-
-//     const config: VideoConfig = {
-//       prompt: 'Test prompt',
-//     }
-
-//     try {
-//       await expect(video(config)).rejects.toThrow('GOOGLE_API_KEY environment variable is not set.')
-//     } finally {
-//       // Restore original API key
-//       if (originalKey) {
-//         process.env.GOOGLE_API_KEY = originalKey
-//       }
-//     }
-//   })
 
 //   it('should handle timeout scenarios', async () => {
 //     // Skip test if no API key is available
@@ -236,4 +198,4 @@ describe('video e2e', () => {
 //     }
 //   }, 300000)
 
-}, 600000) // 10 minute timeout for the entire suite    
+}, 600000) // 10 minute timeout for the entire suite        
