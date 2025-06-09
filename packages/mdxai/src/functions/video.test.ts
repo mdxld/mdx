@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { describe, expect, it } from 'vitest'
 import { video } from './video'
 
