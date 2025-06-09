@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { promises as fs } from 'fs'
 import { join } from 'path'
