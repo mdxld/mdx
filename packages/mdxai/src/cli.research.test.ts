@@ -15,7 +15,6 @@ const __dirname = path.dirname(__filename)
 const TEST_DIR = path.join(process.cwd(), '.ai', 'test', randomUUID())
 
 describe('CLI research command', () => {
-  const originalEnv = { ...process.env }
   const originalConsoleLog = console.log
   const originalConsoleError = console.error
   const originalProcessExit = process.exit
@@ -57,9 +56,6 @@ describe('CLI research command', () => {
     console.error = originalConsoleError
     process.exit = originalProcessExit
     process.stdout.write = originalStdoutWrite
-    
-    // Restore original environment variables
-    process.env = originalEnv
     
     try {
       fs.rmSync(TEST_DIR, { recursive: true, force: true })
