@@ -1,6 +1,6 @@
 import { generateObject } from 'ai'
 import { z } from 'zod'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 
 const schema = z.object({
@@ -13,9 +13,9 @@ const schema = z.object({
 export const ui = createUnifiedFunction<Promise<z.infer<typeof schema>>>(
   async (description: string, options: Record<string, any>) => {
     const result = await generateObject({
-      // model: model('anthropic/claude-opus-4'),
-      // model: model('openai/o4-mini-high', { structuredOutputs: true}),
-      model: model('google/gemini-2.5-pro-preview', { structuredOutputs: true}),
+      // model: createAIModel(options.apiKey, options.baseURL)('anthropic/claude-opus-4'),
+      // model: createAIModel(options.apiKey, options.baseURL)('openai/o4-mini-high', { structuredOutputs: true}),
+      model: createAIModel(options.apiKey, options.baseURL)('google/gemini-2.5-pro-preview', { structuredOutputs: true}),
       system: `You are an expert TypeScript & React developer. You develop clean, readable, and clearly documented code with Tailwind CSS, Shadcn UI, single quotes (including in JSX), no semicolons, 2 spaces indentation.`,
       prompt: `Generate a TypeScript React component:  ${description}`,
       schema,

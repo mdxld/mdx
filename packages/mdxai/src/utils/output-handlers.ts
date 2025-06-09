@@ -1,5 +1,5 @@
 import { streamText, streamObject } from 'ai'
-import { model } from '../ai.js'
+import { createAIModel } from '../ai.js'
 import { createZodSchemaFromObject } from './ai-execution.js'
 
 /**
@@ -10,7 +10,7 @@ import { createZodSchemaFromObject } from './ai-execution.js'
 export async function handleStringOutput(systemPrompt: string): Promise<string> {
   try {
     const result = await streamText({
-      model: model('gpt-4o'),
+      model: createAIModel()('gpt-4o'),
       prompt: systemPrompt,
     })
 
@@ -37,7 +37,7 @@ export async function handleArrayOutput(systemPrompt: string): Promise<string[]>
 
   try {
     const result = await streamText({
-      model: model('gpt-4o'),
+      model: createAIModel()('gpt-4o'),
       prompt: listSystemPrompt,
     })
 
@@ -86,7 +86,7 @@ export async function handleObjectOutput(systemPrompt: string, outputSchema: Rec
     const zodSchema = createZodSchemaFromObject(outputSchema)
 
     const result = await streamObject({
-      model: model('gpt-4o'),
+      model: createAIModel()('gpt-4o'),
       prompt: systemPrompt,
       schema: zodSchema,
     })
@@ -117,4 +117,4 @@ export async function handleObjectOutput(systemPrompt: string, outputSchema: Rec
 
     return fallbackObject
   }
-}  
+}    

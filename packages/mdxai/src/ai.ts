@@ -11,5 +11,3 @@ export function createAIModel(apiKey?: string, baseURL?: string) {
     },
   })
 }
-
-export const model = createAIModel()

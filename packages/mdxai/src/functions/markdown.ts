@@ -1,5 +1,5 @@
 import { generateText } from 'ai'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import { parseTemplate, createUnifiedFunction } from '../utils/template.js'
@@ -26,7 +26,7 @@ export interface MarkdownResult {
  */
 async function markdownCore(prompt: string): Promise<MarkdownResult> {
   const result = await generateText({
-    model: model('gpt-4o'),
+    model: createAIModel()('gpt-4o'),
     system: 'You are a helpful assistant that responds in well-formatted markdown. Use proper markdown syntax including headers, lists, code blocks, links, and other formatting as appropriate for the content.',
     prompt,
   })
@@ -47,4 +47,4 @@ export const markdown = createUnifiedFunction<Promise<MarkdownResult>>(
   (prompt: string, options: Record<string, any>) => {
     return markdownCore(prompt);
   }
-); 
+);  

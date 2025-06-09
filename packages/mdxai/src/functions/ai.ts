@@ -1,5 +1,5 @@
 import { streamText } from 'ai'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 import { parseTemplate, stringifyValue, TemplateFunction, createUnifiedFunction } from '../utils/template'
 import { executeAiFunction } from '../utils/ai-execution'
 
@@ -23,7 +23,7 @@ export interface AiFunction extends TemplateFn {
 export async function generateAiText(prompt: string): Promise<string> {
   try {
     const result = await streamText({
-      model: model('google/gemini-2.5-pro-preview'),
+      model: createAIModel()('google/gemini-2.5-pro-preview'),
       prompt: prompt,
     })
 
@@ -111,4 +111,4 @@ export const ai = new Proxy(aiFunction, {
 
     throw new Error('AI object must be called as a template literal, with a string, or with a property access')
   },
-})            
+})                        

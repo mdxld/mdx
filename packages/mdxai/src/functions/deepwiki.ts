@@ -1,5 +1,5 @@
 import { experimental_createMCPClient as createMCPClient, generateText } from 'ai'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 
 export const deepwikiMcpClient = await createMCPClient({
   transport: {

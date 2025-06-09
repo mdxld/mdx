@@ -2,7 +2,7 @@ import { generateText } from 'ai'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
-import { model } from '../ai'
+import { createAIModel } from '../ai'
 import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
 
 /**
@@ -126,7 +126,7 @@ export const parseTaskLists = (markdown: string): TaskList[] => {
 
 async function planCore(requirements: string, options: Record<string, any> = {}): Promise<PlanResult> {
   const result = await generateText({
-    model: model('google/gemini-2.5-pro-preview'),
+    model: createAIModel()('google/gemini-2.5-pro-preview'),
     system: `You are a CTO. Respond only in GitHub Flavored Markdown with task lists. Use headings to organize different sections of the plan. If needed, tasks can have subtasks.`,
     prompt: `Create a detailed plan for: ${requirements}`,
   })
