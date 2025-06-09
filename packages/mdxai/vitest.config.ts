@@ -1,5 +1,8 @@
-import 'dotenv/config'
 import { defineConfig } from 'vitest/config'
+
+if (!process.env.CI) {
+  await import('dotenv/config')
+}
 
 export default defineConfig({
   test: {
