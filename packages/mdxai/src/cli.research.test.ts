@@ -53,7 +53,6 @@ describe('CLI research command', () => {
   })
 
   afterEach(() => {
-    vi.unstubAllEnvs()
     console.log = originalConsoleLog
     console.error = originalConsoleError
     process.exit = originalProcessExit
