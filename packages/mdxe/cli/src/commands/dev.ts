@@ -16,9 +16,8 @@ export async function runDevCommand(cwd: string = process.cwd()) {
       console.log('📦 Detected Next.js project, starting Next.js development server...')
       return startNextDevServer(cwd)
     } else {
-      console.log('⚠️ No Next.js project detected. Creating a basic Next.js setup...')
-      await createBasicNextSetup(cwd)
-      return startNextDevServer(cwd)
+      console.log('📦 Using embedded MDXE Next.js app...')
+      return startEmbeddedNextDevServer(cwd)
     }
   } catch (error) {
     console.error('Error starting development server:', error)
@@ -216,23 +215,62 @@ function startNextDevServer(cwd: string) {
 
         nextProcess.on('error', (error) => {
           console.error('Failed to start Next.js development server:', error)
-          console.log('⚠️ Falling back to MDXE file browser...')
-          listMdxFiles(cwd).then(resolve).catch(reject)
+          console.log('⚠️ Falling back to embedded MDXE app...')
+          startEmbeddedNextDevServer(cwd).then(resolve).catch(reject)
         })
 
         nextProcess.on('close', (code) => {
           if (code !== 0) {
             console.error(`Next.js development server exited with code ${code}`)
-            console.log('⚠️ Falling back to MDXE file browser...')
-            listMdxFiles(cwd).then(resolve).catch(reject)
+            console.log('⚠️ Falling back to embedded MDXE app...')
+            startEmbeddedNextDevServer(cwd).then(resolve).catch(reject)
           } else {
             resolve()
           }
         })
       })
       .catch(() => {
-        console.log('⚠️ Next.js not found. Using MDXE file browser instead.')
-        listMdxFiles(cwd).then(resolve).catch(reject)
+        console.log('⚠️ Next.js not found. Using embedded MDXE app instead.')
+        startEmbeddedNextDevServer(cwd).then(resolve).catch(reject)
       })
+  })
+}
+
+/**
+ * Start the embedded Next.js development server
+ */
+function startEmbeddedNextDevServer(cwd: string) {
+  return new Promise<void>((resolve, reject) => {
+    const currentFileUrl = new URL(import.meta.url)
+    const currentDir = path.dirname(currentFileUrl.pathname)
+    const embeddedAppPath = path.resolve(currentDir, '../../embedded-app')
+    
+    console.log('📦 Starting embedded MDXE Next.js development server...')
+    const nextBin = path.join(embeddedAppPath, 'node_modules', '.bin', 'next')
+    const nextProcess = spawn(nextBin, ['dev'], {
+      cwd: embeddedAppPath,
+      stdio: 'inherit',
+      shell: true,
+      env: {
+        ...process.env,
+        MDXE_PROJECT_ROOT: cwd,
+      },
+    })
+
+    nextProcess.on('error', (error) => {
+      console.error('Failed to start embedded Next.js development server:', error)
+      console.log('⚠️ Falling back to MDXE file browser...')
+      listMdxFiles(cwd).then(resolve).catch(reject)
+    })
+
+    nextProcess.on('close', (code) => {
+      if (code !== 0) {
+        console.error(`Embedded Next.js development server exited with code ${code}`)
+        console.log('⚠️ Falling back to MDXE file browser...')
+        listMdxFiles(cwd).then(resolve).catch(reject)
+      } else {
+        resolve()
+      }
+    })
   })
 }

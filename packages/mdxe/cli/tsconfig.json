@@ -2,27 +2,55 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "composite": true,
     "baseUrl": ".",
-    "jsx": "react",
+    "jsx": "preserve",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"],
-    "types": ["node", "vitest"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "types": [
+      "node",
+      "vitest"
+    ],
     "paths": {
-      "mdxui": ["../mdxui"],
-      "mdxui/*": ["../mdxui/*"]
-    }
+      "mdxui": [
+        "../mdxui"
+      ],
+      "mdxui/*": [
+        "../mdxui/*"
+      ]
+    },
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "package.json",
+    ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "references": [
-    { "path": "../../mdxui/core" },
-    { "path": "../../mdxui/ink" }
+    {
+      "path": "../../mdxui/core"
+    },
+    {
+      "path": "../../mdxui/ink"
+    }
   ]
 }

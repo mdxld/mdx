@@ -13,10 +13,8 @@ export async function runBuildCommand(cwd: string = process.cwd()) {
       console.log('📦 Detected Next.js project, building Next.js application...')
       return buildNextApp(cwd)
     } else {
-      console.log('⚠️ No Next.js project detected. Creating a basic Next.js setup...')
-      const { createBasicNextSetup } = await import('./dev')
-      await createBasicNextSetup(cwd)
-      return buildNextApp(cwd)
+      console.log('📦 Building embedded MDXE Next.js app...')
+      return buildEmbeddedNextApp(cwd)
     }
   } catch (error) {
     console.error('Error building project:', error)
@@ -172,6 +170,44 @@ function buildNextApp(cwd: string) {
           }
         })
       })
+  })
+}
+
+/**
+ * Build the embedded Next.js application
+ */
+function buildEmbeddedNextApp(cwd: string) {
+  return new Promise<void>((resolve, reject) => {
+    const currentFileUrl = new URL(import.meta.url)
+    const currentDir = path.dirname(currentFileUrl.pathname)
+    const embeddedAppPath = path.resolve(currentDir, '../../embedded-app')
+    
+    console.log('📦 Building embedded MDXE Next.js application...')
+    const nextBin = path.join(embeddedAppPath, 'node_modules', '.bin', 'next')
+    const nextProcess = spawn(nextBin, ['build'], {
+      cwd: embeddedAppPath,
+      stdio: 'inherit',
+      shell: true,
+      env: {
+        ...process.env,
+        MDXE_PROJECT_ROOT: cwd,
+      },
+    })
+
+    nextProcess.on('error', (error) => {
+      console.error('Failed to build embedded Next.js application:', error)
+      reject(error)
+    })
+
+    nextProcess.on('close', (code) => {
+      if (code !== 0) {
+        console.error(`Embedded Next.js build exited with code ${code}`)
+        reject(new Error(`Embedded Next.js build exited with code ${code}`))
+      } else {
+        console.log('✅ Embedded Next.js build completed successfully')
+        resolve()
+      }
+    })
   })
 }
 
