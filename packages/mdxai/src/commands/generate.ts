@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { generateContentStream } from '../llmService.js'
 import { renderApp } from '../ui/app.js'
+import { extractH1Title, slugifyString, extractFirstWords } from '../utils.js'
 
 export interface GenerateOptions {
   output?: string
@@ -12,7 +13,7 @@ export interface GenerateOptions {
 
 export async function runGenerateCommand(prompt: string, options: GenerateOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     if (!process.env.OPENAI_API_KEY) {
       const msg = 'OPENAI_API_KEY environment variable is not set.'
@@ -78,18 +79,27 @@ export async function runGenerateCommand(prompt: string, options: GenerateOption
         console.log(`Content successfully written to ${outputPath}`)
       }
     } else {
-      let buffer = ''
+      let completeContent = ''
       for await (const delta of result.textStream) {
         if (json) {
-          buffer += delta
+          completeContent += delta
         } else {
           process.stdout.write(delta)
+          completeContent += delta
         }
       }
+
+      const title = extractH1Title(completeContent) || extractFirstWords(completeContent) || 'generated'
+      const slugifiedTitle = slugifyString(title)
+      const outputPath = path.resolve(`${slugifiedTitle}.md`)
+
+      fs.writeFileSync(outputPath, completeContent)
+
       if (json) {
-        console.log(JSON.stringify({ status: 'success', content: buffer }))
+        console.log(JSON.stringify({ status: 'success', outputFile: outputPath, content: completeContent }))
       } else {
         process.stdout.write('\n')
+        console.log(`Content successfully written to ${outputPath}`)
       }
     }
   } catch (error) {
