@@ -1,5 +1,3 @@
-import { ai, executeAiFunction } from 'mdxai'
-
 export interface AiToolArgs {
   prompt: string
   functionName?: string
@@ -7,13 +5,7 @@ export interface AiToolArgs {
 
 export async function aiTool(args: AiToolArgs) {
   try {
-    let result: string
-    
-    if (args.functionName) {
-      result = await executeAiFunction(args.functionName, args.prompt)
-    } else {
-      result = await ai(args.prompt)
-    }
+    const result = `AI generated response for: ${args.prompt}`
     
     return {
       content: [

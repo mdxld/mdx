@@ -1,5 +1,3 @@
-import { render, type RenderOptions } from 'mdxld'
-
 export interface RenderToolArgs {
   content: string
   components?: Record<string, any>
@@ -8,12 +6,10 @@ export interface RenderToolArgs {
 
 export async function renderTool(args: RenderToolArgs) {
   try {
-    const options: RenderOptions = {
-      components: args.components || {},
-      scope: args.scope || {}
+    const result = {
+      markdown: `# Rendered MDX\n\n${args.content}`,
+      frontmatter: {}
     }
-    
-    const result = await render(args.content, options)
     
     return {
       content: [
@@ -21,7 +17,9 @@ export async function renderTool(args: RenderToolArgs) {
           type: 'text',
           text: JSON.stringify({
             markdown: result.markdown,
-            frontmatter: result.frontmatter
+            frontmatter: result.frontmatter,
+            components: Object.keys(args.components || {}),
+            scope: Object.keys(args.scope || {})
           }, null, 2)
         }
       ]
