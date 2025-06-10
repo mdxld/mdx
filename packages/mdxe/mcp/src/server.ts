@@ -110,13 +110,13 @@ export class MDXMCPServer {
       try {
         switch (name) {
           case 'render_mdx':
-            return await renderTool(args)
+            return await renderTool(args as any)
             
           case 'execute_mdx_code':
-            return await executeTool(args)
+            return await executeTool(args as any)
             
           case 'ai_generate':
-            return await aiTool(args)
+            return await aiTool(args as any)
             
           default:
             throw new Error(`Unknown tool: ${name}`)
@@ -147,6 +147,23 @@ export class MDXMCPServer {
   
   getServer(): Server {
     return this.server
+  }
+  
+  listTools() {
+    return [
+      {
+        name: 'render_mdx',
+        description: 'Render MDX content to markdown format'
+      },
+      {
+        name: 'execute_mdx_code', 
+        description: 'Extract and process code blocks from MDX content'
+      },
+      {
+        name: 'ai_generate',
+        description: 'Generate content using AI functions'
+      }
+    ]
   }
 }
 
