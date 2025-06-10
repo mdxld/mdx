@@ -32,7 +32,7 @@ export {
   renderInputPrompt
 } from './input-prompt'
 
-import { MutableEventContext, EnhancedEventContext, on, send } from './event-system'
+import { MutableEventContext, EnhancedEventContext, EventRegistry, on, send } from './event-system'
 import { 
   aiTemplateFunction, 
   listTemplateFunction, 
@@ -45,7 +45,7 @@ import {
  * Create an enhanced context with AI functions
  * This is a helper function to create contexts that include all AI functions
  */
-export function createEnhancedContext(initialData: object = {}) {
+export function createEnhancedContext(initialData: object = {}): EnhancedEventContext {
   const context = new MutableEventContext(initialData)
   
   Object.assign(context, {
@@ -56,7 +56,7 @@ export function createEnhancedContext(initialData: object = {}) {
     db: dbProxy
   })
   
-  return context
+  return context as EnhancedEventContext
 }
 
 /**
@@ -69,7 +69,7 @@ export function onWithAI(
   event: string, 
   callback: (data: any, context?: EnhancedEventContext) => Promise<any> | any, 
   timeout?: number
-) {
+): EventRegistry {
   return on(event, callback, timeout)
 }
 
@@ -85,7 +85,7 @@ export async function sendWithAI(
   data?: any, 
   context: object = {}, 
   options: any = {}
-) {
+): Promise<{ results: any[], context: MutableEventContext }> {
   const enhancedContext = createEnhancedContext(context)
   return await send(event, data, enhancedContext, options)
 }
