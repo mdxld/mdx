@@ -39,9 +39,7 @@
   },
   "include": [
     "src/**/*",
-    "app/**/*",
-    "mdx-components.js",
-    "next.config.js",
+    "package.json",
     ".next/types/**/*.ts"
   ],
   "exclude": [
