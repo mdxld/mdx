@@ -12,8 +12,7 @@ describe('ai module', () => {
   })
 
   it('should handle configuration options', () => {
-    const config = { provider: 'openai' }
-    const model = createAIModel(config)
+    const model = createAIModel('test-api-key', 'https://api.example.com')
     expect(model).toBeDefined()
   })
 })
