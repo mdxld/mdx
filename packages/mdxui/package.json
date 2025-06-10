@@ -19,6 +19,7 @@
     "dev": "tsup --watch",
     "lint": "echo 'Skipping lint for now'",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
