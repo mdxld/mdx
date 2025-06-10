@@ -40,7 +40,7 @@ describe('scrape e2e', () => {
     // expect(result2.html).toBe(result1.html)
     expect(result2.markdown).toBe(result1.markdown)
     expect(result2.error).toBe(result1.error)
-  }, 30000)
+  }, 15000)
 
   it('should handle multiple URLs with caching', async () => {
     const urls = [
