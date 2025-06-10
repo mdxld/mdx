@@ -49,7 +49,7 @@ describe('markdown function', () => {
   })
 
   it('should parse markdown into proper MDAST structure', async () => {
-    const result = await markdown('Generate a code example with JavaScript')
+    const result = await markdown('Write a tutorial with a heading "# JavaScript Tutorial" and include a code example')
 
     expect(result.mdast.type).toBe('root')
     expect(result.mdast.children.length).toBeGreaterThan(0)

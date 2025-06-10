@@ -4,7 +4,8 @@ import { Readable } from 'stream'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 import hash from 'object-hash'
-import { createCacheMiddleware } from '../cacheMiddleware.js'
+
+import { createCacheMiddleware } from '../middleware/cache.js'
 import { createUnifiedFunction } from '../utils/template.js'
 import { AI_FOLDER_STRUCTURE, ensureDirectoryExists } from '../utils.js'
 
