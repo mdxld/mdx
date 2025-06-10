@@ -13,7 +13,8 @@ export interface GenerateOptions {
 }
 
 export { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream, generateImageStream }
-export { createCacheMiddleware, CacheConfig } from './cacheMiddleware.js'
+export { createCacheMiddleware, CacheConfig } from './middleware/cache.js'
+export { createLoggingMiddleware, LoggingConfig } from './middleware/logging.js'
 
 // Export AI functions directly from their individual modules
 export { ai, generateAiText, type AiFunction, type TemplateFn } from './functions/ai.js'
