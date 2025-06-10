@@ -10,6 +10,7 @@
     "@mdx-js/mdx": "^2.3.0",
     "@mdxui/ink": "workspace:*",
     "ai": "^3.4.32",
+    "autoprefixer": "^10.4.16",
     "chokidar": "^4.0.3",
     "commander": "^12.0.0",
     "esbuild": "^0.20.1",
@@ -18,10 +19,15 @@
     "ink-big-text": "^2.0.0",
     "mdxui": "workspace:*",
     "next": "^15.3.0",
+    "next-mdx-remote": "^5.0.0",
     "pastel": "^2.0.2",
-    "react-dom": "^18.2.0",
+    "postcss": "^8.4.32",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "remark-mdx": "^3.0.1",
     "remark-parse": "^11.0.0",
+    "@tailwindcss/typography": "^0.5.10",
+    "tailwindcss": "^3.4.0",
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.1"
@@ -37,13 +43,18 @@
     "@types/chokidar": "^2.1.7",
     "@types/ink": "^2.0.3",
     "@types/node": "^20.14.10",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.1",
     "ink": "^4.4.1",
     "ink-markdown": "^1.0.4",
-    "react": "^18.3.1",
     "tsup": "^8.0.2",
     "typescript": "^5.5.3",
     "vitest": "^3.1.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "18.3.1",
+      "react-dom": "18.3.1"
+    }
   }
 }

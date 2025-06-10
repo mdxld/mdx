@@ -13,8 +13,8 @@ export async function runStartCommand(cwd: string = process.cwd()) {
       console.log('📦 Detected Next.js project, starting Next.js production server...')
       return startNextServer(cwd)
     } else {
-      console.log('⚠️ No Next.js project detected. Please run `mdxe build` first to build the project.')
-      process.exit(1)
+      console.log('📦 Starting embedded MDXE Next.js production server...')
+      return startEmbeddedNextServer(cwd)
     }
   } catch (error) {
     console.error('Error starting production server:', error)
@@ -108,6 +108,51 @@ function startNextServer(cwd: string) {
       })
       .catch(() => {
         console.error('❌ No .next directory found. Please run `mdxe build` first.')
+        process.exit(1)
+      })
+  })
+}
+
+/**
+ * Start the embedded Next.js production server
+ */
+function startEmbeddedNextServer(cwd: string) {
+  return new Promise<void>((resolve, reject) => {
+    const currentFileUrl = new URL(import.meta.url)
+    const currentDir = path.dirname(currentFileUrl.pathname)
+    const embeddedAppPath = path.resolve(currentDir, '../../embedded-app')
+    const nextDir = path.join(embeddedAppPath, '.next')
+    
+    fs.access(nextDir)
+      .then(() => {
+        console.log('📦 Starting embedded MDXE Next.js production server...')
+        const nextBin = path.join(embeddedAppPath, 'node_modules', '.bin', 'next')
+        const nextProcess = spawn(nextBin, ['start'], {
+          cwd: embeddedAppPath,
+          stdio: 'inherit',
+          shell: true,
+          env: {
+            ...process.env,
+            MDXE_PROJECT_ROOT: cwd,
+          },
+        })
+
+        nextProcess.on('error', (error) => {
+          console.error('Failed to start embedded Next.js production server:', error)
+          reject(error)
+        })
+
+        nextProcess.on('close', (code) => {
+          if (code !== 0) {
+            console.error(`Embedded Next.js production server exited with code ${code}`)
+            reject(new Error(`Embedded Next.js production server exited with code ${code}`))
+          } else {
+            resolve()
+          }
+        })
+      })
+      .catch(() => {
+        console.error('❌ No .next directory found in embedded app. Please run `mdxe build` first.')
         process.exit(1)
       })
   })
