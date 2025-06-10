@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@types/yaml": "^1.9.7",
+    "@vitest/coverage-v8": "3.1.4",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2"
   }

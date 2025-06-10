@@ -28,12 +28,15 @@
     "@types/web": "0.0.166",
     "eslint": "9.19.0",
     "prettier": "3.3.3",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vitest": "^3.1.4"
   },
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "echo 'Skipping lint for now'"
+    "lint": "echo 'Skipping lint for now'",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   }
 }

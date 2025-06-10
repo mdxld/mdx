@@ -22,7 +22,8 @@
     "check-types": "tsc --noEmit",
     "dev": "tsc --watch",
     "lint": "echo 'Skipping lint for now'",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@mdxui/core": "workspace:*",

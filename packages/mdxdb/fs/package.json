@@ -33,7 +33,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@repo/tsup-config": "workspace:*",

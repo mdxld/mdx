@@ -29,7 +29,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit"
   },

@@ -4,6 +4,18 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['src/**/*.test.ts'], // Explicitly include test files
+    include: ['src/**/*.test.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      include: ['src/**/*.ts'],
+      exclude: ['**/*.test.ts', '**/node_modules/**'],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 80,
+        statements: 80
+      }
+    }
   },
 })
