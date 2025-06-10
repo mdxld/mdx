@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  output: 'standalone', // Use standalone mode for server execution capability
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   experimental: {
     mdxRs: true,
