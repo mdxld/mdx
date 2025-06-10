@@ -31,7 +31,7 @@ export {
   renderInputPrompt
 } from './input-prompt'
 
-import { MutableEventContext } from './event-system'
+import { MutableEventContext, on, send } from './event-system'
 import { 
   aiTemplateFunction, 
   listTemplateFunction, 
@@ -75,7 +75,6 @@ export function onWithAI(
   }) => Promise<any> | any, 
   timeout?: number
 ) {
-  const { on } = require('./event-system')
   return on(event, callback, timeout)
 }
 
@@ -92,7 +91,6 @@ export async function sendWithAI(
   context: object = {}, 
   options: any = {}
 ) {
-  const { send } = require('./event-system')
   const enhancedContext = createEnhancedContext(context)
   return await send(event, data, enhancedContext, options)
 }
