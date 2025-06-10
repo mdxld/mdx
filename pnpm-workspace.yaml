@@ -3,6 +3,7 @@ packages:
   - "config/*"
   - "examples/*"
   - "packages/**"
+  - "!packages/**/.next/**"
   - "schema"
   - "schema.org"
   - "tests"
