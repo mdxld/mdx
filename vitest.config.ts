@@ -20,11 +20,11 @@ export default defineConfig({
       '**/examples/minimal/node_modules/**',
     ],
     testTimeout: 90000, // 90 seconds
-    // Run tests sequentially to avoid race conditions
     pool: 'forks',
     poolOptions: {
       forks: {
-        singleFork: true,
+        maxForks: 4,
+        minForks: 1,
       },
     },
   },
