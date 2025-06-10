@@ -1,6 +1,6 @@
 import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel, experimental_generateImage as generateImage } from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai' // Added createOpenAI
-import { createCacheMiddleware } from './cacheMiddleware'
+import { createCacheMiddleware } from './middleware/cache'
 import { createAIModel } from './ai'
 
 const cacheMiddleware = createCacheMiddleware({
