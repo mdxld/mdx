@@ -168,13 +168,13 @@ function categorizeProperties(properties: any[], thingId: string): { direct: any
 }
 
 /**
- * Resolves the inheritance chain to get all properties for a Thing
+ * Resolves the inheritance chain to get all properties for a Thing, grouped by inheritance level
  */
-function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
-  const properties: any[] = []
+function resolveInheritedProperties(thing: any, allThings: any[]): { propertiesByLevel: Map<number, any[]>; maxLevel: number } {
+  const propertiesByLevel = new Map<number, any[]>()
   const visited = new Set<string>()
 
-  function collectProperties(thingId: string) {
+  function collectProperties(thingId: string, level: number = 0) {
     if (visited.has(thingId)) return
     visited.add(thingId)
 
@@ -191,7 +191,12 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
       )
     })
 
-    properties.push(...directProperties)
+    if (directProperties.length > 0) {
+      if (!propertiesByLevel.has(level)) {
+        propertiesByLevel.set(level, [])
+      }
+      propertiesByLevel.get(level)!.push(...directProperties)
+    }
 
     const currentThing = allThings.find((t) => expandUriPrefix(t['$id'] as string) === expandUriPrefix(thingId))
     if (currentThing?.subClassOf) {
@@ -200,26 +205,31 @@ function resolveInheritedProperties(thing: any, allThings: any[]): any[] {
         : [expandUriPrefix(flattenUriObject(currentThing.subClassOf))]
 
       for (const parentId of parentIds) {
-        collectProperties(parentId)
+        collectProperties(parentId, level + 1)
       }
     }
   }
 
   collectProperties(thing['$id'])
 
-  const uniqueProperties = Array.from(new Map(properties.map((p) => [p['$id'], p])).values())
+  for (const [level, properties] of propertiesByLevel.entries()) {
+    const uniqueProperties = Array.from(new Map(properties.map((p) => [p['$id'], p])).values())
+    propertiesByLevel.set(level, uniqueProperties.sort((a, b) => {
+      const nameA = a.label || a.name || a['$id']?.split('/').pop() || ''
+      const nameB = b.label || b.name || b['$id']?.split('/').pop() || ''
+      return nameA.localeCompare(nameB)
+    }))
+  }
 
-  return uniqueProperties.sort((a, b) => {
-    const nameA = a.label || a.name || a['$id']?.split('/').pop() || ''
-    const nameB = b.label || b.name || b['$id']?.split('/').pop() || ''
-    return nameA.localeCompare(nameB)
-  })
+  const maxLevel = propertiesByLevel.size > 0 ? Math.max(...propertiesByLevel.keys()) : -1
+
+  return { propertiesByLevel, maxLevel }
 }
 
 /**
  * Generates MDX content with enhanced frontmatter and markdown tables
  */
-function generateMdxContent(thing: any, properties: any[], isProperty: boolean = false): string {
+function generateMdxContent(thing: any, inheritanceData: { propertiesByLevel: Map<number, any[]>; maxLevel: number }, isProperty: boolean = false): string {
   const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
   const comment = thing['rdfs:comment'] || thing.comment || thing.description || ''
   
@@ -238,7 +248,7 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
         .map((line: string) => `  ${line.trim()}`)
         .join('\n')}\n`
     } else {
-      frontmatter += `comment: ${JSON.stringify(trimmedComment)}\n`
+      frontmatter += `comment: ${trimmedComment}\n`
     }
   }
 
@@ -274,17 +284,21 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
   for (const key of metadataKeys) {
     const value = thing[key]
     if (value !== undefined && value !== null) {
+      const cleanKey = key.replace(/^(rdfs:|schema:)/, '')
+      
       if (typeof value === 'object' && value !== null) {
         if (Array.isArray(value)) {
-          frontmatter += `${key}: ${JSON.stringify(value.map((item) => (typeof item === 'object' ? flattenUriObject(item) : expandUriPrefix(item as string))))}\n`
+          const processedArray = value.map((item) => (typeof item === 'object' ? flattenUriObject(item) : expandUriPrefix(item as string)))
+          frontmatter += `${cleanKey}: [${processedArray.map(item => `"${item}"`).join(',')}]\n`
         } else {
-          frontmatter += `${key}: ${JSON.stringify(flattenUriObject(value))}\n`
+          const processedValue = flattenUriObject(value)
+          frontmatter += `${cleanKey}: ${processedValue}\n`
         }
       } else {
         if (typeof value === 'string' && value.includes('\n')) {
           // Convert escape sequences to actual newlines for multiline strings
           const processedValue = value.replace(/\\n/g, '\n')
-          frontmatter += `${key}: |\n${processedValue
+          frontmatter += `${cleanKey}: |\n${processedValue
             .trim()
             .split('\n')
             .map((line: string) => `  ${line.trim()}`)
@@ -292,7 +306,8 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
         } else {
           // Convert escape sequences for single line strings too
           const processedValue = typeof value === 'string' ? value.trim().replace(/\\n/g, '\n') : value
-          frontmatter += `${key}: ${JSON.stringify(expandUriPrefix(processedValue))}\n`
+          const expandedValue = expandUriPrefix(processedValue)
+          frontmatter += `${cleanKey}: ${expandedValue}\n`
         }
       }
     }
@@ -306,20 +321,12 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
     if (typeof trimmedComment === 'string') {
       markdown += `${trimmedComment}\n\n`
     } else {
-      markdown += `${JSON.stringify(trimmedComment)}\n\n`
+      markdown += `${trimmedComment}\n\n`
     }
   }
 
-  if (!isProperty && properties.length > 0) {
-    const directProperties = properties.filter((prop) => {
-      if (!prop.domainIncludes) return false
-
-      const domains = Array.isArray(prop.domainIncludes) ? prop.domainIncludes : [prop.domainIncludes]
-
-      return domains.some((domain: any) => expandUriPrefix(flattenUriObject(domain)) === expandUriPrefix(thing['$id'] as string))
-    })
-
-    const inheritedProperties = properties.filter((prop) => !directProperties.includes(prop))
+  if (!isProperty && inheritanceData.propertiesByLevel.size > 0) {
+    const directProperties = inheritanceData.propertiesByLevel.get(0) || []
 
     if (directProperties.length > 0) {
       markdown += '## Properties\n\n'
@@ -350,30 +357,34 @@ function generateMdxContent(thing: any, properties: any[], isProperty: boolean =
       markdown += '\n'
     }
 
-    if (inheritedProperties.length > 0) {
+    if (inheritanceData.maxLevel > 0) {
       markdown += '## Inherited Properties\n\n'
       markdown += '| Property | Expected Type | Description |\n'
       markdown += '| --- | --- | --- |\n'
 
-      for (const property of inheritedProperties) {
-        const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown'
-        const propLink = formatReference(property['$id'] as string)
+      for (let level = 1; level <= inheritanceData.maxLevel; level++) {
+        const levelProperties = inheritanceData.propertiesByLevel.get(level) || []
+        
+        for (const property of levelProperties) {
+          const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown'
+          const propLink = formatReference(property['$id'] as string)
 
-        let expectedType = 'Text'
-        if (property.rangeIncludes) {
-          const ranges = Array.isArray(property.rangeIncludes) ? property.rangeIncludes : [property.rangeIncludes]
+          let expectedType = 'Text'
+          if (property.rangeIncludes) {
+            const ranges = Array.isArray(property.rangeIncludes) ? property.rangeIncludes : [property.rangeIncludes]
 
-          expectedType = ranges
-            .map((range: any) => {
-              const type = flattenUriObject(range)
-              return formatReference(type)
-            })
-            .join(' or ')
+            expectedType = ranges
+              .map((range: any) => {
+                const type = flattenUriObject(range)
+                return formatReference(type)
+              })
+              .join(' or ')
+          }
+
+          const description = (property.comment || property.description || '').replace(/\\n/g, '\n')
+
+          markdown += `| ${propLink} | ${expectedType} | ${description} |\n`
         }
-
-        const description = (property.comment || property.description || '').replace(/\\n/g, '\n')
-
-        markdown += `| ${propLink} | ${expectedType} | ${description} |\n`
       }
     }
   }
@@ -410,12 +421,15 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
 
       let properties: any[] = []
 
+      let inheritanceData = { propertiesByLevel: new Map<number, any[]>(), maxLevel: -1 }
+      
       if (!isProperty) {
-        properties = resolveInheritedProperties(thing, allThings)
+        inheritanceData = resolveInheritedProperties(thing, allThings)
         // Add debugging for properties
         if (name === 'FinancialIncentive') {
-          console.log(`Found ${properties.length} properties for ${name}`)
-          if (properties.length === 0) {
+          const totalProperties = Array.from(inheritanceData.propertiesByLevel.values()).reduce((sum, props) => sum + props.length, 0)
+          console.log(`Found ${totalProperties} properties for ${name} across ${inheritanceData.propertiesByLevel.size} inheritance levels`)
+          if (totalProperties === 0) {
             console.log(`No properties found for ${name} with ID ${thing['$id']}`)
             const propertiesWithDomain = allThings.filter(
               (item: any) =>
@@ -430,7 +444,7 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
         }
       }
 
-      const content = generateMdxContent(thing, properties, isProperty)
+      const content = generateMdxContent(thing, inheritanceData, isProperty)
 
       await fs.writeFile(filePath, content, 'utf-8')
 
