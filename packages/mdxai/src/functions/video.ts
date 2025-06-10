@@ -4,7 +4,7 @@ import { Readable } from 'stream'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 import hash from 'object-hash'
-import { createCacheMiddleware } from '../cacheMiddleware.js'
+import { createCacheMiddleware } from '../middleware/cache.js'
 
 const CACHE_DIR = join(process.cwd(), '.ai/cache')
 
