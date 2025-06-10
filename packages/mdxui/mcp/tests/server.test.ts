@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-describe('@mdxe/mcp package', () => {
+describe('@mdxui/mcp package', () => {
   it('should have basic package structure', () => {
     expect(true).toBe(true)
   })

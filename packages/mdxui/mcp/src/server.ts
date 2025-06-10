@@ -17,7 +17,7 @@ export class MDXMCPServer {
   constructor(options: MCPServerOptions = {}) {
     this.server = new Server(
       {
-        name: options.name || '@mdxe/mcp',
+        name: options.name || '@mdxui/mcp',
         version: options.version || '0.1.0',
       },
       {

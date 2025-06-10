@@ -13,7 +13,7 @@ program
 program
   .command('stdio')
   .description('Start MCP server with stdio transport')
-  .option('-n, --name <name>', 'Server name', '@mdxe/mcp')
+  .option('-n, --name <name>', 'Server name', '@mdxui/mcp')
   .option('-v, --version <version>', 'Server version', '0.1.0')
   .action(async (options) => {
     try {
@@ -47,7 +47,7 @@ program
   .description('Start MCP server with HTTP transport')
   .option('-p, --port <port>', 'HTTP port', '3000')
   .option('-h, --host <host>', 'HTTP host', 'localhost')
-  .option('-n, --name <name>', 'Server name', '@mdxe/mcp')
+  .option('-n, --name <name>', 'Server name', '@mdxui/mcp')
   .option('-v, --version <version>', 'Server version', '0.1.0')
   .action(async (options) => {
     try {
@@ -83,7 +83,7 @@ program
   .option('-t, --transport <transport>', 'Transport type (stdio|http)', 'stdio')
   .option('-p, --port <port>', 'HTTP port (for http transport)', '3000')
   .option('-h, --host <host>', 'HTTP host (for http transport)', 'localhost')
-  .option('-n, --name <name>', 'Server name', '@mdxe/mcp')
+  .option('-n, --name <name>', 'Server name', '@mdxui/mcp')
   .option('-v, --version <version>', 'Server version', '0.1.0')
   .action(async (options) => {
     try {

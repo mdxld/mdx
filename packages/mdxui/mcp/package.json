@@ -1,11 +1,11 @@
 {
-  "name": "@mdxe/mcp",
+  "name": "@mdxui/mcp",
   "version": "0.1.0",
   "description": "Model Context Protocol server for MDX files",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "mdxe-mcp": "./bin/mdxe-mcp.js"
+    "mdxui-mcp": "./bin/mdxui-mcp.js"
   },
   "exports": {
     ".": {
@@ -63,6 +63,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mdxld/mdx.git",
-    "directory": "packages/mdxe/mcp"
+    "directory": "packages/mdxui/mcp"
   }
 }

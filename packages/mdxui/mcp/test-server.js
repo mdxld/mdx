@@ -7,7 +7,7 @@ async function testMCPServer() {
   
   try {
     const server = new MDXMCPServer({
-      name: '@mdxe/mcp-test',
+      name: '@mdxui/mcp-test',
       version: '0.1.0'
     })
     
