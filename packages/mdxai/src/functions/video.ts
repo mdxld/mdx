@@ -6,8 +6,9 @@ import { join } from 'path'
 import hash from 'object-hash'
 import { createCacheMiddleware } from '../cacheMiddleware.js'
 import { createUnifiedFunction } from '../utils/template.js'
+import { AI_FOLDER_STRUCTURE, ensureDirectoryExists } from '../utils.js'
 
-const CACHE_DIR = join(process.cwd(), '.ai/cache')
+const CACHE_DIR = join(process.cwd(), AI_FOLDER_STRUCTURE.ROOT, AI_FOLDER_STRUCTURE.CACHE)
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -113,6 +114,8 @@ async function videoCore(prompt: string, options: Record<string, any> = {}): Pro
     
     const baseUrl = baseURL || process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
     const resolvedApiKey = apiKey || process.env.GOOGLE_API_KEY || ''
+    
+    ensureDirectoryExists(CACHE_DIR)
     
     const ai = new GoogleGenAI({ 
       apiKey: resolvedApiKey,
