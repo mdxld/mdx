@@ -15,7 +15,7 @@
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
     "version": "changeset version",
     "release": "turbo run build && changeset publish",
-    "postinstall": "npm run build:packages"
+    "postinstall": "pnpm run build:packages"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
