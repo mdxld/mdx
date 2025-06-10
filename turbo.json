@@ -25,6 +25,9 @@
     "test": {
       "dependsOn": ["^build", "build"],
       "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
+    },
+    "@mdxld/ai#build": {
+      "dependsOn": ["mdxld#build"]
     }
   }
 }
