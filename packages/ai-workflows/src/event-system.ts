@@ -6,7 +6,7 @@
 /**
  * Event handler interface with enhanced context
  */
-interface EventHandler {
+export interface EventHandler {
   event: string
   callback: (data: any, context?: EnhancedEventContext) => Promise<any> | any
   timeout?: number // Optional timeout in milliseconds
@@ -88,8 +88,8 @@ export interface EmitOptions {
  * Event registry class
  * Stores event handlers and provides methods to register and send events
  */
-class EventRegistry {
-  private handlers: Map<string, EventHandler[]> = new Map()
+export class EventRegistry {
+  public handlers: Map<string, EventHandler[]> = new Map()
 
   /**
    * Wrap a handler execution with timeout
@@ -98,7 +98,7 @@ class EventRegistry {
    * @param context Context to pass to the handler
    * @param timeout Timeout in milliseconds
    */
-  private async executeHandlerWithTimeout(handler: EventHandler, data: any, context: EnhancedEventContext, timeout?: number): Promise<any> {
+  public async executeHandlerWithTimeout(handler: EventHandler, data: any, context: EnhancedEventContext, timeout?: number): Promise<any> {
     if (!timeout) {
       return await handler.callback(data, context)
     }
@@ -222,7 +222,7 @@ class EventRegistry {
   /**
    * Create standardized error info object
    */
-  private createErrorInfo(error: any, event: string, handlerIndex: number, data?: any) {
+  public createErrorInfo(error: any, event: string, handlerIndex: number, data?: any) {
     return {
       event,
       handlerIndex,

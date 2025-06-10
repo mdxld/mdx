@@ -31,7 +31,7 @@ export {
   renderInputPrompt
 } from './input-prompt'
 
-import { MutableEventContext, on, send } from './event-system'
+import { MutableEventContext, EnhancedEventContext, on, send } from './event-system'
 import { 
   aiTemplateFunction, 
   listTemplateFunction, 
@@ -66,13 +66,7 @@ export function createEnhancedContext(initialData: object = {}) {
  */
 export function onWithAI(
   event: string, 
-  callback: (data: any, context?: MutableEventContext & { 
-    ai: typeof aiTemplateFunction,
-    list: typeof listTemplateFunction, 
-    research: typeof researchTemplateFunction,
-    extract: typeof extractTemplateFunction,
-    db: typeof dbProxy
-  }) => Promise<any> | any, 
+  callback: (data: any, context?: EnhancedEventContext) => Promise<any> | any, 
   timeout?: number
 ) {
   return on(event, callback, timeout)
