@@ -24,6 +24,7 @@ export function slugifyString(str: string): string {
 
 /**
  * Extracts the first several words from content for use as a title
+ * Used as fallback when no H1 header is found in generated content
  * @param content The content to extract words from
  * @param wordCount Maximum number of words to extract (default: 6)
  * @returns The first words or null if content is empty
