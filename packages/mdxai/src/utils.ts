@@ -23,6 +23,18 @@ export function slugifyString(str: string): string {
 }
 
 /**
+ * Extracts the first several words from content for use as a title
+ * @param content The content to extract words from
+ * @param wordCount Maximum number of words to extract (default: 6)
+ * @returns The first words or null if content is empty
+ */
+export function extractFirstWords(content: string, wordCount: number = 6): string | null {
+  const cleanContent = content.replace(/^#+\s+/gm, '').trim()
+  const words = cleanContent.split(/\s+/).filter(word => word.length > 0)
+  return words.length > 0 ? words.slice(0, wordCount).join(' ') : null
+}
+
+/**
  * Ensures a directory exists, creating it if necessary
  * @param dirPath The directory path to ensure exists
  */

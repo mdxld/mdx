@@ -5,7 +5,7 @@ import packageJson from '../package.json' with { type: 'json' }
 import * as fs from 'fs'
 import * as path from 'path'
 import { generateContentStream, generateListStream, generateResearchStream, generateDeepwikiStream } from './llmService.js'
-import { extractH1Title, slugifyString, ensureDirectoryExists } from './utils.js'
+import { extractH1Title, slugifyString, ensureDirectoryExists, extractFirstWords } from './utils.js'
 import { CoreMessage } from 'ai' // CoreMessage might be needed for type safety
 import { renderApp } from './ui/app.js'
 
@@ -94,18 +94,27 @@ program
           console.log(`Content successfully written to ${outputPath}`)
         }
       } else {
-        let buffer = ''
+        let completeContent = ''
         for await (const delta of result.textStream) {
           if (json) {
-            buffer += delta
+            completeContent += delta
           } else {
             process.stdout.write(delta)
+            completeContent += delta
           }
         }
+        
+        const title = extractH1Title(completeContent) || extractFirstWords(completeContent) || 'generated'
+        const slugifiedTitle = slugifyString(title)
+        const outputPath = path.resolve(`${slugifiedTitle}.md`)
+        
+        fs.writeFileSync(outputPath, completeContent)
+        
         if (json) {
-          console.log(JSON.stringify({ status: 'success', content: buffer }))
+          console.log(JSON.stringify({ status: 'success', outputFile: outputPath, content: completeContent }))
         } else {
-          process.stdout.write('\n') // Add a newline at the end for stdout
+          process.stdout.write('\n')
+          console.log(`Content successfully written to ${outputPath}`)
         }
       }
     } catch (error) {
