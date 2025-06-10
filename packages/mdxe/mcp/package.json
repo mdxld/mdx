@@ -1,0 +1,68 @@
+{
+  "name": "@mdxe/mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for MDX files",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "mdxe-mcp": "./bin/mdxe-mcp.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "mdxld": "workspace:*",
+    "mdxui": "workspace:*",
+    "mdxai": "workspace:*",
+    "commander": "^12.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@repo/tsup-config": "workspace:*",
+    "@types/node": "^22.5.4",
+    "eslint": "^9.9.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "keywords": [
+    "mdx",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "markdown"
+  ],
+  "author": "MDX Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdxld/mdx.git",
+    "directory": "packages/mdxe/mcp"
+  }
+}
