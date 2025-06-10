@@ -14,6 +14,16 @@ export interface CodeBlock {
 }
 
 /**
+ * Enhanced code block with AST analysis and section tracking
+ */
+export interface EnhancedCodeBlock extends CodeBlock {
+  type: 'statement' | 'declaration' | 'mixed'
+  parentSection?: string
+  declarations?: string[]
+  isExported: boolean
+}
+
+/**
  * Represents an MDX content item with frontmatter, raw markdown, compiled component, and executable code blocks
  */
 export interface MdxContentItem {
