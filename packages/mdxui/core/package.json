@@ -26,7 +26,8 @@
     "dev:styles": "tailwindcss -i ./components/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
     "lint": "eslint components --max-warnings 0",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@tremor/react": "4.0.0-beta-tremor-v4.4",
