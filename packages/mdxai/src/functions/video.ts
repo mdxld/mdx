@@ -4,9 +4,12 @@ import { Readable } from 'stream'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 import hash from 'object-hash'
-import { createCacheMiddleware } from '../middleware/cache.js'
 
-const CACHE_DIR = join(process.cwd(), '.ai/cache')
+import { createCacheMiddleware } from '../middleware/cache.js'
+import { createUnifiedFunction } from '../utils/template.js'
+import { AI_FOLDER_STRUCTURE, ensureDirectoryExists } from '../utils.js'
+
+const CACHE_DIR = join(process.cwd(), AI_FOLDER_STRUCTURE.ROOT, AI_FOLDER_STRUCTURE.CACHE)
 
 const cacheMiddleware = createCacheMiddleware({
   ttl: 24 * 60 * 60 * 1000, // 24 hours
@@ -55,20 +58,22 @@ export interface VideoResult {
 }
 
 /**
- * Generates videos based on a text prompt using Google's Veo model
+ * Core video generation function that takes a string prompt and options
  * 
- * @param config - Configuration options for video generation
+ * @param prompt - The text prompt to generate video from
+ * @param options - Configuration options for video generation
  * @returns Promise with the generated video file paths and metadata
  */
-export async function video(config: VideoConfig): Promise<VideoResult> {
+async function videoCore(prompt: string, options: Record<string, any> = {}): Promise<VideoResult> {
   const {
-    prompt,
     model = 'veo-2.0-generate-001',
     personGeneration, // Deprecated parameter, no longer used
     aspectRatio = '16:9',
     maxWaitTimeSeconds = 300, // 5 minutes max wait time
     pollingIntervalSeconds = 10,
-  } = config
+    apiKey,
+    baseURL,
+  } = options
 
   const cacheKey = hash({
     prompt,
@@ -108,15 +113,17 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
     
     const startTime = Date.now()
     
-    const baseUrl = config.baseURL || process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
-    const apiKey = config.apiKey || process.env.GOOGLE_API_KEY || ''
+    const baseUrl = baseURL || process.env.AI_GATEWAY_URL?.replace('openrouter','google-ai-studio')
+    const resolvedApiKey = apiKey || process.env.GOOGLE_API_KEY || ''
+    
+    ensureDirectoryExists(CACHE_DIR)
     
     const ai = new GoogleGenAI({ 
-      apiKey,
+      apiKey: resolvedApiKey,
       httpOptions: { baseUrl }
     })
     
-    if (!apiKey) {
+    if (!resolvedApiKey) {
       throw new Error('GOOGLE_API_KEY must be provided via apiKey parameter or GOOGLE_API_KEY environment variable.')
     }
 
@@ -151,7 +158,7 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
             const videoFileName = `${cacheKey}_${index}.mp4`
             const videoFilePath = join(CACHE_DIR, videoFileName)
             
-            const resp = await fetch(`${generatedVideo.video.uri}&key=${apiKey}`)
+            const resp = await fetch(`${generatedVideo.video.uri}&key=${resolvedApiKey}`)
             
             if (!resp.ok) {
               throw new Error(`Failed to download video: ${resp.status} ${resp.statusText}`)
@@ -198,3 +205,53 @@ export async function video(config: VideoConfig): Promise<VideoResult> {
     throw error
   }
 }
+
+/**
+ * Create a video result that supports both Promise and curried function call patterns
+ */
+function createVideoResult(prompt: string, options: Record<string, any> = {}): any {
+  const videoFn = async () => {
+    return await videoCore(prompt, options)
+  }
+  
+  const result: any = videoFn
+  
+  result.then = (resolve: any, reject: any) => {
+    return videoFn().then(resolve, reject)
+  }
+  
+  result.catch = (reject: any) => {
+    return videoFn().catch(reject)
+  }
+  
+  result.finally = (callback: any) => {
+    return videoFn().finally(callback)
+  }
+  
+  return new Proxy(result, {
+    apply(target, thisArg, args) {
+      const newOptions = args[0] || {};
+      return createVideoResult(prompt, newOptions);
+    }
+  })
+}
+
+/**
+ * Generates videos based on a text prompt using Google's Veo model
+ * Supports both template literal and regular function call syntax
+ * 
+ * Usage:
+ * - Template literal: video`of a pelican riding a bicycle`
+ * - Template literal with options: video`of a cat playing`({ aspectRatio: '9:16' })
+ * - Regular function: video('of a dog dancing')
+ * - Regular function with options: video('of a bird singing', { aspectRatio: '1:1' })
+ * 
+ * @param prompt - The text prompt to generate video from (when used as regular function)
+ * @param options - Configuration options for video generation
+ * @returns Promise with the generated video file paths and metadata
+ */
+export const video = createUnifiedFunction<Promise<VideoResult>>(
+  (prompt: string, options: Record<string, any>) => {
+    return createVideoResult(prompt, options);
+  }
+);
