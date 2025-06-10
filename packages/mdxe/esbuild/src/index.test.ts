@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { toTitleCase, extractCodeBlocks, categorizeCodeBlocks } from './index'
+import { toTitleCase, extractCodeBlocks, categorizeCodeBlocks, extractCodeBlocksWithSections, categorizeEnhancedCodeBlocks } from './index'
+import { toCamelCase } from './ast-utils'
 
 describe('@mdxe/esbuild', () => {
   describe('toTitleCase', () => {
@@ -95,6 +96,129 @@ Just regular content, no code blocks.
       
       expect(executableBlocks).toHaveLength(0)
       expect(testBlocks).toHaveLength(0)
+    })
+  })
+
+  describe('extractCodeBlocksWithSections', () => {
+    it('tracks parent sections for code blocks', () => {
+      const mdxContent = `
+# Introduction
+
+Some intro text.
+
+\`\`\`typescript
+const greeting = 'Hello World'
+\`\`\`
+
+## Setup Instructions
+
+Setup details here.
+
+\`\`\`javascript
+function setup() {
+  console.log('Setting up...')
+}
+\`\`\`
+
+\`\`\`typescript
+const config = { debug: true }
+\`\`\`
+      `
+
+      const blocks = extractCodeBlocksWithSections(mdxContent)
+      expect(blocks).toHaveLength(3)
+      
+      expect(blocks[0].parentSection).toBe('Introduction')
+      expect(blocks[0].lang).toBe('typescript')
+      expect(blocks[0].value).toContain('greeting')
+      
+      expect(blocks[1].parentSection).toBe('Setup Instructions')
+      expect(blocks[1].lang).toBe('javascript')
+      expect(blocks[1].value).toContain('setup')
+      
+      expect(blocks[2].parentSection).toBe('Setup Instructions')
+      expect(blocks[2].lang).toBe('typescript')
+      expect(blocks[2].value).toContain('config')
+    })
+
+    it('handles code blocks without parent sections', () => {
+      const mdxContent = `
+\`\`\`javascript
+console.log('No parent section')
+\`\`\`
+
+# First Section
+
+\`\`\`typescript
+const withSection = true
+\`\`\`
+      `
+
+      const blocks = extractCodeBlocksWithSections(mdxContent)
+      expect(blocks).toHaveLength(2)
+      
+      expect(blocks[0].parentSection).toBeUndefined()
+      expect(blocks[1].parentSection).toBe('First Section')
+    })
+  })
+
+  describe('categorizeEnhancedCodeBlocks', () => {
+    it('analyzes code blocks and classifies them correctly', () => {
+      const enhancedBlocks = [
+        {
+          lang: 'typescript',
+          meta: 'exec',
+          value: 'const message = "Hello"; console.log(message);',
+          type: 'mixed' as const,
+          parentSection: 'Test Section',
+          declarations: ['message'],
+          isExported: false
+        },
+        {
+          lang: 'javascript',
+          meta: 'test',
+          value: 'function testFunc() { return true; }',
+          type: 'declaration' as const,
+          parentSection: 'Tests',
+          declarations: ['testFunc'],
+          isExported: false
+        },
+        {
+          lang: 'typescript',
+          meta: null,
+          value: 'console.log("Just a statement");',
+          type: 'statement' as const,
+          parentSection: 'Examples',
+          declarations: [],
+          isExported: false
+        }
+      ]
+
+      const { executableBlocks, testBlocks } = categorizeEnhancedCodeBlocks(enhancedBlocks)
+      
+      expect(executableBlocks).toHaveLength(2)
+      expect(testBlocks).toHaveLength(1)
+      
+      expect(executableBlocks[0].type).toBe('mixed')
+      expect(executableBlocks[1].type).toBe('statement')
+      expect(testBlocks[0].type).toBe('declaration')
+    })
+  })
+
+  describe('toCamelCase', () => {
+    it('converts section headings to camelCase function names', () => {
+      expect(toCamelCase('Setup Instructions')).toBe('setupInstructions')
+      expect(toCamelCase('API Reference')).toBe('apiReference')
+      expect(toCamelCase('getting-started')).toBe('gettingStarted')
+      expect(toCamelCase('Simple')).toBe('simple')
+      expect(toCamelCase('Multiple   Spaces')).toBe('multipleSpaces')
+      expect(toCamelCase('Special!@#Characters')).toBe('specialCharacters')
+    })
+
+    it('handles edge cases', () => {
+      expect(toCamelCase('')).toBe('')
+      expect(toCamelCase('123Numbers')).toBe('123Numbers')
+      expect(toCamelCase('UPPERCASE')).toBe('uppercase')
     })
   })
 })
