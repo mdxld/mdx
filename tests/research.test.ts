@@ -10,7 +10,7 @@ describe('research', () => {
     const result = await research`the origin story of ${company}`
     expect(result.text).toBeDefined()
     expect(typeof result.text).toBe('string')
-  }, 300_000)
+  }, 60_000)
   
   it('should return citations', async () => {
 
@@ -18,5 +18,5 @@ describe('research', () => {
     const result = await research`the origin story of ${company}`
     expect(result.citations).toBeDefined()
     expect(Array.isArray(result.citations)).toBe(true)
-  }, 300_000)
+  }, 60_000)
 })
