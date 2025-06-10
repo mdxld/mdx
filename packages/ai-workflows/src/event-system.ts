@@ -62,7 +62,7 @@ export class MutableEventContext implements EventContext {
     return key in this
   }
 
-  private deepMerge(target: any, source: any): void {
+  public deepMerge(target: any, source: any): void {
     for (const key in source) {
       if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
         if (!target[key] || typeof target[key] !== 'object') {

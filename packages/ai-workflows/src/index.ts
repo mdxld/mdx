@@ -4,6 +4,7 @@
  */
 
 export {
+  EventHandler,
   EventContext,
   EnhancedEventContext,
   MutableEventContext,
