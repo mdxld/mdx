@@ -11,11 +11,9 @@ const schema = z.object({
 })
 
 export const ui = createUnifiedFunction<Promise<z.infer<typeof schema>>>(
-  async (description: string, options: Record<string, any>) => {
+  async (description: string, options: Record<string, any> = {}) => {
     const result = await generateObject({
-      // model: model('anthropic/claude-opus-4'),
-      // model: model('openai/o4-mini-high', { structuredOutputs: true}),
-      model: model('google/gemini-2.5-pro-preview', { structuredOutputs: true}),
+      model: model(options.model || 'google/gemini-2.5-pro-preview', { structuredOutputs: true }),
       system: `You are an expert TypeScript & React developer. You develop clean, readable, and clearly documented code with Tailwind CSS, Shadcn UI, single quotes (including in JSX), no semicolons, 2 spaces indentation.`,
       prompt: `Generate a TypeScript React component:  ${description}`,
       schema,
