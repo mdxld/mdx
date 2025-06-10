@@ -3,7 +3,7 @@ import { render, Box, Text, useInput } from 'ink'
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import pkg from '../package.json' with { type: 'json' }
-import { findMdxFiles } from './utils/mdx-parser'
+import { findMdxFiles, extractAllFunctions, extractFunctionsFromMdxFile, ExtractedFunction } from './utils/mdx-parser'
 import { findIndexFile, fileExists } from './utils/file-utils'
 
 import { runDevCommand } from './commands/dev'
@@ -24,6 +24,10 @@ export async function run() {
   const args = process.argv.slice(2)
   const command = args[0]
   const cwd = process.cwd()
+
+  if (command && /^([a-zA-Z_$][a-zA-Z0-9_$]*)\((.*)\)$/.test(command)) {
+    return await executeFunctionFromCommandLine(command, cwd)
+  }
 
   if (command === 'dev') {
     return runDevCommand(cwd)
@@ -78,10 +82,13 @@ export async function run() {
   try {
     const SimpleApp = ({ cwd = process.cwd() }) => {
       const [files, setFiles] = React.useState<string[]>([])
+      const [functions, setFunctions] = React.useState<ExtractedFunction[]>([])
       const [indexFile, setIndexFile] = React.useState<string | null>(null)
       const [loading, setLoading] = React.useState(true)
       const [error, setError] = React.useState<string | null>(null)
       const [exit, setExit] = React.useState(false)
+      const [mode, setMode] = React.useState<'files' | 'functions'>('files')
+      const [selectedFile, setSelectedFile] = React.useState<string | null>(null)
 
       React.useEffect(() => {
         const loadFiles = async () => {
@@ -92,6 +99,9 @@ export async function run() {
 
             const index = await findIndexFile(cwd)
             setIndexFile(index)
+
+            const allFunctions = await extractAllFunctions(cwd)
+            setFunctions(allFunctions)
           } catch (err) {
             setError(`Error loading files: ${err instanceof Error ? err.message : String(err)}`)
           } finally {
@@ -118,17 +128,44 @@ export async function run() {
 
       useInput((input, key) => {
         if (input === 'q' || key.escape) {
-          setExit(true)
-        } else if (key.upArrow && selectedIndex > 0) {
-          setSelectedIndex((prev) => prev - 1)
-        } else if (key.downArrow && selectedIndex < files.length - 1) {
-          setSelectedIndex((prev) => prev + 1)
-        } else if (key.return && files.length > 0) {
-          const selectedFile = files[selectedIndex]
-          setExit(true)
-          setTimeout(() => {
-            runExecCommand(selectedFile)
-          }, 100)
+          if (mode === 'functions') {
+            setMode('files')
+            setSelectedFile(null)
+            setSelectedIndex(0)
+          } else {
+            setExit(true)
+          }
+        } else if (mode === 'files') {
+          if (key.upArrow && selectedIndex > 0) {
+            setSelectedIndex((prev) => prev - 1)
+          } else if (key.downArrow && selectedIndex < files.length - 1) {
+            setSelectedIndex((prev) => prev + 1)
+          } else if (key.return && files.length > 0) {
+            const file = files[selectedIndex]
+            setSelectedFile(file)
+            setMode('functions')
+            setSelectedIndex(0)
+          } else if (input === 'f' && functions.length > 0) {
+            setSelectedFile(null)
+            setMode('functions')
+            setSelectedIndex(0)
+          }
+        } else if (mode === 'functions') {
+          const currentFunctions = selectedFile 
+            ? functions.filter(f => f.sourceFile === selectedFile)
+            : functions
+          
+          if (key.upArrow && selectedIndex > 0) {
+            setSelectedIndex((prev) => prev - 1)
+          } else if (key.downArrow && selectedIndex < currentFunctions.length - 1) {
+            setSelectedIndex((prev) => prev + 1)
+          } else if (key.return && currentFunctions.length > 0) {
+            const selectedFunction = currentFunctions[selectedIndex]
+            setExit(true)
+            setTimeout(() => {
+              executeFunctionInteractively(selectedFunction)
+            }, 100)
+          }
         }
       })
 
@@ -144,58 +181,137 @@ export async function run() {
         return React.createElement(Box, { flexDirection: 'column' }, React.createElement(Text, { color: 'red' }, `Error: ${error}`))
       }
 
-      return React.createElement(
-        Box,
-        { flexDirection: 'column', padding: 1 },
-        React.createElement(
+      if (mode === 'files') {
+        return React.createElement(
           Box,
-          { marginBottom: 1 },
-          React.createElement(Text, { bold: true, color: 'green' }, 'MDXE - Markdown/MDX-First Application Framework'),
-        ),
-
-        React.createElement(
-          Box,
-          { marginBottom: 1 },
-          React.createElement(Text, null, 'Current directory: ', React.createElement(Text, { color: 'blue' }, cwd)),
-        ),
-
-        indexFile &&
+          { flexDirection: 'column', padding: 1 },
           React.createElement(
             Box,
             { marginBottom: 1 },
-            React.createElement(Text, null, 'Found index file: ', React.createElement(Text, { color: 'green' }, path.basename(indexFile))),
+            React.createElement(Text, { bold: true, color: 'green' }, 'MDXE - Markdown/MDX-First Application Framework'),
           ),
 
-        React.createElement(Box, { marginY: 1 }, React.createElement(Text, { bold: true }, 'Available MDX Files:')),
-
-        files.length > 0
-          ? React.createElement(
-              Box,
-              { flexDirection: 'column', marginY: 1 },
-              ...files.map((file, index) =>
-                React.createElement(
-                  Text,
-                  { key: file },
-                  React.createElement(Text, { color: index === selectedIndex ? 'green' : 'yellow' }, index === selectedIndex ? '→ ' : '  '),
-                  React.createElement(Text, null, path.relative(cwd, file)),
-                ),
-              ),
-            )
-          : React.createElement(Box, null, React.createElement(Text, { color: 'yellow' }, 'No MDX files found in this directory.')),
-
-        React.createElement(
-          Box,
-          { marginTop: 1 },
           React.createElement(
-            Text,
-            { dimColor: true },
-            files.length > 1 ? 'Use arrow keys to navigate, ' : '',
-            files.length > 0 ? React.createElement(React.Fragment, null, React.createElement(Text, { color: 'yellow' }, 'Enter'), ' to select, or ') : 'Press ',
-            React.createElement(Text, { color: 'yellow' }, 'q'),
-            ' to quit',
+            Box,
+            { marginBottom: 1 },
+            React.createElement(Text, null, 'Current directory: ', React.createElement(Text, { color: 'blue' }, cwd)),
           ),
-        ),
-      )
+
+          indexFile &&
+            React.createElement(
+              Box,
+              { marginBottom: 1 },
+              React.createElement(Text, null, 'Found index file: ', React.createElement(Text, { color: 'green' }, path.basename(indexFile))),
+            ),
+
+          React.createElement(Box, { marginY: 1 }, React.createElement(Text, { bold: true }, 'Available MDX Files:')),
+
+          files.length > 0
+            ? React.createElement(
+                Box,
+                { flexDirection: 'column', marginY: 1 },
+                ...files.map((file, index) =>
+                  React.createElement(
+                    Text,
+                    { key: file },
+                    React.createElement(Text, { color: index === selectedIndex ? 'green' : 'yellow' }, index === selectedIndex ? '→ ' : '  '),
+                    React.createElement(Text, null, path.relative(cwd, file)),
+                  ),
+                ),
+              )
+            : React.createElement(Box, null, React.createElement(Text, { color: 'yellow' }, 'No MDX files found in this directory.')),
+
+          functions.length > 0 && React.createElement(
+            Box,
+            { marginTop: 1 },
+            React.createElement(Text, { color: 'cyan' }, `Found ${functions.length} functions across all files`),
+          ),
+
+          React.createElement(
+            Box,
+            { marginTop: 1 },
+            React.createElement(
+              Text,
+              { dimColor: true },
+              files.length > 1 ? 'Use arrow keys to navigate, ' : '',
+              files.length > 0 ? React.createElement(React.Fragment, null, React.createElement(Text, { color: 'yellow' }, 'Enter'), ' to view functions in file, ') : '',
+              functions.length > 0 ? React.createElement(React.Fragment, null, React.createElement(Text, { color: 'yellow' }, 'f'), ' for all functions, ') : '',
+              React.createElement(Text, { color: 'yellow' }, 'q'),
+              ' to quit',
+            ),
+          ),
+        )
+      } else if (mode === 'functions') {
+        const currentFunctions = selectedFile 
+          ? functions.filter(f => f.sourceFile === selectedFile)
+          : functions
+
+        return React.createElement(
+          Box,
+          { flexDirection: 'column', padding: 1 },
+          React.createElement(
+            Box,
+            { marginBottom: 1 },
+            React.createElement(Text, { bold: true, color: 'green' }, 'MDXE - Function Browser'),
+          ),
+
+          selectedFile && React.createElement(
+            Box,
+            { marginBottom: 1 },
+            React.createElement(Text, null, 'File: ', React.createElement(Text, { color: 'blue' }, path.relative(cwd, selectedFile))),
+          ),
+
+          !selectedFile && React.createElement(
+            Box,
+            { marginBottom: 1 },
+            React.createElement(Text, null, 'Showing functions from all files'),
+          ),
+
+          React.createElement(Box, { marginY: 1 }, React.createElement(Text, { bold: true }, 'Available Functions:')),
+
+          currentFunctions.length > 0
+            ? React.createElement(
+                Box,
+                { flexDirection: 'column', marginY: 1 },
+                ...currentFunctions.map((func, index) =>
+                  React.createElement(
+                    Box,
+                    { key: `${func.sourceFile}-${func.name}`, flexDirection: 'column' },
+                    React.createElement(
+                      Text,
+                      null,
+                      React.createElement(Text, { color: index === selectedIndex ? 'green' : 'yellow' }, index === selectedIndex ? '→ ' : '  '),
+                      React.createElement(Text, { bold: true }, func.name),
+                      React.createElement(Text, { color: 'gray' }, `(${func.params.join(', ')})`),
+                      func.isAsync && React.createElement(Text, { color: 'blue' }, ' async'),
+                      func.isExported && React.createElement(Text, { color: 'green' }, ' exported'),
+                    ),
+                    index === selectedIndex && React.createElement(
+                      Box,
+                      { marginLeft: 4 },
+                      React.createElement(Text, { color: 'gray', dimColor: true }, `Type: ${func.type} | File: ${path.basename(func.sourceFile)}`),
+                    ),
+                  ),
+                ),
+              )
+            : React.createElement(Box, null, React.createElement(Text, { color: 'yellow' }, selectedFile ? 'No functions found in this file.' : 'No functions found.')),
+
+          React.createElement(
+            Box,
+            { marginTop: 1 },
+            React.createElement(
+              Text,
+              { dimColor: true },
+              currentFunctions.length > 1 ? 'Use arrow keys to navigate, ' : '',
+              currentFunctions.length > 0 ? React.createElement(React.Fragment, null, React.createElement(Text, { color: 'yellow' }, 'Enter'), ' to execute, ') : '',
+              React.createElement(Text, { color: 'yellow' }, 'q'),
+              ' to go back',
+            ),
+          ),
+        )
+      }
+
+      return null
     }
 
     const { waitUntilExit } = render(React.createElement(SimpleApp, { cwd: targetDir }))
@@ -204,6 +320,98 @@ export async function run() {
   } catch (error) {
     console.error('Error running CLI:', error)
     process.exit(1)
+  }
+}
+
+/**
+ * Execute a function from command line (e.g., mdxe fizzBuzz(20))
+ */
+async function executeFunctionFromCommandLine(functionCall: string, cwd: string): Promise<void> {
+  const match = functionCall.match(/^([a-zA-Z_$][a-zA-Z0-9_$]*)\((.*)\)$/)
+  if (!match) {
+    console.error('Invalid function call format')
+    return
+  }
+
+  const [, functionName, argsString] = match
+  console.log(`Searching for function: ${functionName}`)
+
+  try {
+    const allFunctions = await extractAllFunctions(cwd)
+    const targetFunction = allFunctions.find(f => f.name === functionName)
+
+    if (!targetFunction) {
+      console.error(`Function '${functionName}' not found in any MDX files`)
+      console.log('Available functions:')
+      allFunctions.forEach(f => {
+        console.log(`  - ${f.name}(${f.params.join(', ')}) in ${path.relative(cwd, f.sourceFile)}`)
+      })
+      return
+    }
+
+    console.log(`Found function '${functionName}' in ${path.relative(cwd, targetFunction.sourceFile)}`)
+
+    let args: any[] = []
+    if (argsString.trim()) {
+      try {
+        args = JSON.parse(`[${argsString}]`)
+      } catch (error) {
+        console.error('Error parsing function arguments. Use JSON format (e.g., "hello", 42, true)')
+        return
+      }
+    }
+
+    await executeFunctionWithArgs(targetFunction, args)
+  } catch (error) {
+    console.error('Error executing function:', error)
+  }
+}
+
+/**
+ * Execute a function interactively (from the UI)
+ */
+async function executeFunctionInteractively(func: ExtractedFunction): Promise<void> {
+  console.log(`\nExecuting function: ${func.name}(${func.params.join(', ')})`)
+  console.log(`From file: ${path.relative(process.cwd(), func.sourceFile)}`)
+  
+  await executeFunctionWithArgs(func, [])
+}
+
+/**
+ * Execute a function with given arguments
+ */
+async function executeFunctionWithArgs(func: ExtractedFunction, args: any[]): Promise<void> {
+  try {
+    const { executeCodeBlock } = await import('./utils/execution-engine')
+    
+    const functionCall = `${func.name}(${args.map(arg => JSON.stringify(arg)).join(', ')})`
+    const codeToExecute = `${func.codeBlock.value}\n\nconst result = ${functionCall}\nconsole.log('Result:', result)\nresult`
+
+    const codeBlock = {
+      lang: func.codeBlock.lang,
+      meta: func.codeBlock.meta,
+      value: codeToExecute
+    }
+
+    console.log(`\nExecuting: ${functionCall}`)
+    console.log('---')
+
+    const result = await executeCodeBlock(codeBlock, {
+      fileId: func.sourceFile,
+      executionContext: 'default'
+    })
+
+    if (result.success) {
+      console.log('---')
+      console.log(`Execution completed in ${result.duration}ms`)
+      if (result.result !== undefined) {
+        console.log('Return value:', result.result)
+      }
+    } else {
+      console.error('Execution failed:', result.error)
+    }
+  } catch (error) {
+    console.error('Error executing function:', error)
   }
 }
 
