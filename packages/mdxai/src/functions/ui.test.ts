@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { ui } from './ui'
 
 describe('ui', () => {

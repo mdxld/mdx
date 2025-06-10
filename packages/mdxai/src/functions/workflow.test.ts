@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { workflow } from './workflow'
 
 describe('workflow', () => {

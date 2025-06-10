@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { describe, expect, it } from 'vitest'
 import { list } from './list'
 import { is } from './is'
