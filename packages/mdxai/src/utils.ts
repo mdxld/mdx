@@ -31,7 +31,7 @@ export function slugifyString(str: string): string {
  */
 export function extractFirstWords(content: string, wordCount: number = 6): string | null {
   const cleanContent = content.replace(/^#+\s+/gm, '').trim()
-  const words = cleanContent.split(/\s+/).filter(word => word.length > 0)
+  const words = cleanContent.split(/\s+/).filter((word) => word.length > 0)
   return words.length > 0 ? words.slice(0, wordCount).join(' ') : null
 }
 
