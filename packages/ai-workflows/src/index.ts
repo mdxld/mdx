@@ -25,7 +25,7 @@ export {
   researchTemplateFunction,
   extractTemplateFunction,
   dbProxy
-} from './ai-functions'
+} from './ai-template-functions'
 
 export {
   renderInputPrompt
@@ -38,7 +38,7 @@ import {
   researchTemplateFunction, 
   extractTemplateFunction, 
   dbProxy 
-} from './ai-functions'
+} from './ai-template-functions'
 
 /**
  * Create an enhanced context with AI functions
