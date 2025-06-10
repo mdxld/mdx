@@ -23,7 +23,15 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["^build", "build"],
+      "dependsOn": ["^test", "build:packages"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
+    },
+    "test:packages": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
+    },
+    "test:integration": {
+      "dependsOn": ["build", "^test:packages"],
       "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
     },
     "@mdxld/ai#build": {

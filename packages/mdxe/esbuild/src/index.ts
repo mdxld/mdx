@@ -17,7 +17,8 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkMdx from 'remark-mdx'
 import { visit } from 'unist-util-visit'
-import { MdxeBuildOptions, CodeBlock } from './types'
+import { MdxeBuildOptions, CodeBlock, EnhancedCodeBlock } from './types'
+import { analyzeCodeBlock, toCamelCase } from './ast-utils'
 
 /**
  * Converts a file path to a TitleCase key
@@ -35,7 +36,34 @@ function toTitleCase(filePath: string): string {
 }
 
 /**
- * Extract code blocks from MDX content
+ * Extract code blocks from MDX content with section tracking
+ */
+function extractCodeBlocksWithSections(mdxContent: string): EnhancedCodeBlock[] {
+  const codeBlocks: EnhancedCodeBlock[] = []
+  let currentSection: string | undefined
+
+  const tree = unified().use(remarkParse).use(remarkMdx).parse(mdxContent)
+
+  visit(tree, ['heading', 'code'], (node: any) => {
+    if (node.type === 'heading') {
+      currentSection = node.children?.map((child: any) => child.value || '').join('') || ''
+    } else if (node.type === 'code') {
+      codeBlocks.push({
+        lang: node.lang || '',
+        meta: node.meta || null,
+        value: node.value || '',
+        type: 'statement',
+        parentSection: currentSection,
+        isExported: false
+      })
+    }
+  })
+
+  return codeBlocks
+}
+
+/**
+ * Extract code blocks from MDX content (legacy function for backward compatibility)
  */
 function extractCodeBlocks(mdxContent: string): CodeBlock[] {
   const codeBlocks: CodeBlock[] = []
@@ -54,7 +82,7 @@ function extractCodeBlocks(mdxContent: string): CodeBlock[] {
 }
 
 /**
- * Filter code blocks by type (executable vs test)
+ * Filter code blocks by type (executable vs test) with enhanced analysis
  */
 function categorizeCodeBlocks(codeBlocks: CodeBlock[]): {
   executableBlocks: CodeBlock[]
@@ -82,6 +110,36 @@ function categorizeCodeBlocks(codeBlocks: CodeBlock[]): {
 }
 
 /**
+ * Enhanced categorization with AST analysis
+ */
+function categorizeEnhancedCodeBlocks(codeBlocks: EnhancedCodeBlock[]): {
+  executableBlocks: EnhancedCodeBlock[]
+  testBlocks: EnhancedCodeBlock[]
+} {
+  const executableBlocks: EnhancedCodeBlock[] = []
+  const testBlocks: EnhancedCodeBlock[] = []
+
+  codeBlocks.forEach((block) => {
+    // Only process TypeScript/JavaScript blocks
+    if (!['typescript', 'ts', 'javascript', 'js', 'tsx', 'jsx'].includes(block.lang)) {
+      return
+    }
+
+    const analyzedBlock = analyzeCodeBlock(block)
+
+    // Check if it's a test block
+    if (analyzedBlock.meta?.includes('test')) {
+      testBlocks.push(analyzedBlock)
+    } else if (analyzedBlock.meta?.includes('exec') || analyzedBlock.meta?.includes('execute') || !analyzedBlock.meta) {
+      // Include blocks marked as exec/execute or blocks without meta (default to executable)
+      executableBlocks.push(analyzedBlock)
+    }
+  })
+
+  return { executableBlocks, testBlocks }
+}
+
+/**
  * Generates the source code for the temporary index file
  */
 function generateIndexSource(contentDir: string, entries: string[], shouldExtractCodeBlocks: boolean = false): string {
@@ -95,6 +153,44 @@ function generateIndexSource(contentDir: string, entries: string[], shouldExtrac
     indexSource += `import * as ${id} from '${abs.replace(/\\/g, '/')}';\n`
   })
 
+  if (shouldExtractCodeBlocks) {
+    entries.forEach((rel, i) => {
+      const content = fs.readFileSync(path.join(contentDir, rel), 'utf8')
+      const allCodeBlocks = extractCodeBlocksWithSections(content)
+      const { executableBlocks } = categorizeEnhancedCodeBlocks(allCodeBlocks)
+      
+      executableBlocks.forEach(block => {
+        if (block.type === 'declaration' || block.type === 'mixed') {
+          if (!block.isExported && block.declarations && block.declarations.length > 0) {
+            indexSource += `\n// Exported from ${rel}\n`
+            indexSource += `${block.value}\n`
+            block.declarations.forEach(name => {
+              indexSource += `export { ${name} };\n`
+            })
+          }
+        }
+      })
+      
+      executableBlocks.forEach((block, blockIndex) => {
+        if (block.type === 'statement' || block.type === 'mixed') {
+          if (block.parentSection) {
+            const functionName = toCamelCase(block.parentSection)
+            indexSource += `\n// Statement from "${block.parentSection}" in ${rel}\n`
+            indexSource += `export function ${functionName}() {\n`
+            indexSource += `  ${block.value.replace(/\n/g, '\n  ')}\n`
+            indexSource += `}\n`
+          } else {
+            const functionName = `executeBlock${blockIndex}`
+            indexSource += `\n// Statement block in ${rel}\n`
+            indexSource += `export function ${functionName}() {\n`
+            indexSource += `  ${block.value.replace(/\n/g, '\n  ')}\n`
+            indexSource += `}\n`
+          }
+        }
+      })
+    })
+  }
+
   // Export a default object with all MDX content
   indexSource += `\nexport default {\n`
   entries.forEach((rel, i) => {
@@ -104,10 +200,10 @@ function generateIndexSource(contentDir: string, entries: string[], shouldExtrac
     const raw = JSON.stringify(fs.readFileSync(path.join(contentDir, rel), 'utf8'))
     
     if (shouldExtractCodeBlocks) {
-      // Extract and categorize code blocks
+      // Extract and categorize code blocks with enhanced analysis
       const content = fs.readFileSync(path.join(contentDir, rel), 'utf8')
-      const allCodeBlocks = extractCodeBlocks(content)
-      const { executableBlocks, testBlocks } = categorizeCodeBlocks(allCodeBlocks)
+      const allCodeBlocks = extractCodeBlocksWithSections(content)
+      const { executableBlocks, testBlocks } = categorizeEnhancedCodeBlocks(allCodeBlocks)
       
       indexSource += `  ${key}: { 
         ...${id}, 
@@ -240,7 +336,7 @@ function mdxePlugin(options: MdxeBuildOptions = {}): esbuild.Plugin {
 }
 
 // Export the public API
-export { toTitleCase, generateIndexSource, findMdxFiles, buildMdxContent, mdxePlugin, extractCodeBlocks, categorizeCodeBlocks }
+export { toTitleCase, generateIndexSource, findMdxFiles, buildMdxContent, mdxePlugin, extractCodeBlocks, categorizeCodeBlocks, extractCodeBlocksWithSections, categorizeEnhancedCodeBlocks }
 
 // Export types
-export type { MdxContentItem, MdxContentMap, CodeBlock, MdxeBuildOptions } from './types'
+export type { MdxContentItem, MdxContentMap, CodeBlock, EnhancedCodeBlock, MdxeBuildOptions } from './types'

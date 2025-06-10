@@ -27,14 +27,14 @@ describe('ai', () => {
       const result = await ai`Write ${count} key points about ${topic}`
       expect(typeof result).toBe('string')
       expect(result.length).toBeGreaterThan(0)
-    }, 15000)
+    }, 10000)
 
     it('should handle object interpolation in template literals', async () => {
       const config = { name: 'Test API', version: '1.0' }
       const result = await ai`Describe this API configuration: ${config}`
       expect(typeof result).toBe('string')
       expect(result.length).toBeGreaterThan(0)
-    }, 15000)
+    }, 10000)
   })
 
   describe('dynamic property access', () => {
@@ -50,7 +50,7 @@ describe('ai', () => {
         expect(result.length).toBeGreaterThan(0)
         expect(result.toLowerCase()).toContain('vercel')
       }
-    }, 15000)
+    }, 10000)
 
     it('should work with leanCanvas function using string parameter', async () => {
       const result = await ai.leanCanvas('Create a lean canvas for a SaaS productivity tool')
@@ -63,7 +63,7 @@ describe('ai', () => {
         expect(typeof result).toBe('string')
         expect(result.length).toBeGreaterThan(0)
       }
-    }, 15000)
+    }, 10000)
 
     it('should work with leanCanvas function using template literal', async () => {
       const brand = 'vercel.com'
@@ -77,7 +77,7 @@ describe('ai', () => {
         expect(typeof result).toBe('string')
         expect(result.length).toBeGreaterThan(0)
       }
-    }, 15000)
+    }, 10000)
 
     it('should handle dynamic function names', async () => {
       const functionName = 'leanCanvas'
@@ -91,7 +91,7 @@ describe('ai', () => {
         expect(typeof result).toBe('string')
         expect(result.length).toBeGreaterThan(0)
       }
-    }, 15000)
+    }, 10000)
   })
 
   describe('error handling', () => {
@@ -125,6 +125,6 @@ describe('ai', () => {
         expect(typeof result).toBe('string')
         expect(result.length).toBeGreaterThan(0)
       }
-    }, 15000)
+    }, 10000)
   })
 })
