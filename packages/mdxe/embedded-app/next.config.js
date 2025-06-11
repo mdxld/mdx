@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  trailingSlash: false,
   experimental: {
     mdxRs: true,
   },
