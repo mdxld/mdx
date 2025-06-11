@@ -1,8 +1,8 @@
 {
-  "name": "mdxui",
+  "name": "@mdxui/rest",
   "type": "module",
-  "version": "0.1.0",
-  "description": "MDX UI components library",
+  "version": "0.0.0",
+  "description": "REST API implementation with HATEOAS and JSON-LD for MDXUI",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -14,31 +14,16 @@
       "import": "./dist/index.js"
     }
   },
+  "license": "MIT",
   "scripts": {
     "build": "tsup",
+    "check-types": "tsc --noEmit",
     "dev": "tsup --watch",
     "lint": "echo 'Skipping lint for now'",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "test:coverage": "vitest run --coverage"
   },
-  "keywords": [
-    "mdx",
-    "ui",
-    "components",
-    "react"
-  ],
-  "author": "MDX Team",
-  "license": "MIT",
-  "dependencies": {
-    "@mdxui/core": "workspace:*",
-    "@mdxui/ink": "workspace:*",
-    "@mdxui/tailwind": "workspace:*",
-    "@mdxui/shadcn": "workspace:*",
-    "@mdxui/magicui": "workspace:*",
-    "@mdxui/reveal": "workspace:*",
-    "@mdxui/rest": "workspace:*"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^19"
   },
