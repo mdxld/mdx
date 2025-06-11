@@ -1,4 +1,4 @@
-occupation_code	occupation_name	occupation_description	display_level	selectable	sort_sequence
+code	name	description	displayLevel	selectable	sortSequence
 000000	All Occupations		0	T	0
 110000	Management Occupations		0	T	1
 111000	Top Executives		1	T	2
