@@ -252,6 +252,10 @@ export function parseFrontmatter(mdxContent: string): ParseFrontmatterResult {
 
   const yamlContent = match[1]
 
+  if (!yamlContent) {
+    return { frontmatter: {} }
+  }
+
   try {
     const frontmatter = parse(yamlContent)
     if (frontmatter === null || frontmatter === undefined) {
