@@ -17,7 +17,9 @@
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
     "version": "changeset version",
     "release": "turbo run build && changeset publish",
-    "postinstall": "pnpm run build:packages"
+    "postinstall": "pnpm run build:packages",
+    "analyze-occupations": "cd packages/mdxe/cli && node -e \"import('./dist/utils/occupation-processor.js').then(m => m.processOccupations())\"",
+    "generate-services": "pnpm run analyze-occupations"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",

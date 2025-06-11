@@ -1,0 +1,17 @@
+# Remote Occupations for Services-as-Software Analysis
+# Format: Occupation Name	Category	Automation Score (1-10)	Key Tasks	Required Tools
+Content Writer	Content Creation	8	Research topics,Write articles,Edit content,SEO optimization	Word processors,Research tools,SEO tools,Grammar checkers
+Virtual Assistant	Administrative	9	Email management,Calendar scheduling,Data entry,Customer support	Email clients,Calendar apps,CRM systems,Communication tools
+Graphic Designer	Design	7	Create visual designs,Brand development,Image editing,Layout design	Design software,Image editors,Typography tools,Color tools
+Social Media Manager	Marketing	8	Content creation,Post scheduling,Analytics tracking,Community management	Social platforms,Scheduling tools,Analytics tools,Design software
+Data Analyst	Analysis	9	Data collection,Statistical analysis,Report generation,Visualization	Spreadsheets,Statistical software,Database tools,Visualization tools
+Customer Support Representative	Support	9	Answer inquiries,Troubleshoot issues,Process requests,Maintain records	Help desk software,Knowledge bases,Communication tools,CRM systems
+Online Tutor	Education	6	Lesson planning,Content delivery,Student assessment,Progress tracking	Video conferencing,Learning platforms,Assessment tools,Content creation tools
+Bookkeeper	Administrative	9	Transaction recording,Financial reporting,Tax preparation,Reconciliation	Accounting software,Spreadsheets,Banking tools,Tax software
+Market Research Analyst	Analysis	8	Survey design,Data collection,Trend analysis,Report writing	Survey tools,Analytics software,Research databases,Presentation tools
+Technical Writer	Content Creation	7	Documentation writing,Process documentation,User guides,API documentation	Documentation tools,Technical writing software,Version control,Collaboration tools
+SEO Specialist	Marketing	8	Keyword research,Content optimization,Link building,Performance tracking	SEO tools,Analytics platforms,Content management systems,Reporting tools
+Email Marketing Specialist	Marketing	9	Campaign creation,List management,A/B testing,Performance analysis	Email platforms,Automation tools,Analytics software,Design tools
+Project Coordinator	Administrative	7	Task management,Timeline tracking,Communication coordination,Resource allocation	Project management tools,Communication platforms,Scheduling software,Reporting tools
+Online Sales Representative	Sales	8	Lead qualification,Product demonstrations,Proposal creation,Follow-up management	CRM systems,Communication tools,Presentation software,Sales analytics
+Transcriptionist	Administrative	9	Audio transcription,Document formatting,Quality checking,File management	Transcription software,Audio players,Word processors,File management tools

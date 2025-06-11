@@ -86,10 +86,48 @@ const generateText = async ({ prompt, model, middleware, functionName }: any) =>
       }
     }
 
-    result = { text: `AI response for: ${prompt}` }
+    const openaiApiKey = process.env.OPENAI_API_KEY
+    if (!openaiApiKey) {
+      throw new Error('OPENAI_API_KEY environment variable is required for AI requests')
+    }
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openaiApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: model || 'gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 2000
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error(`OpenAI API request failed: ${response.status} ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    result = { text: data.choices[0]?.message?.content || 'No response generated' }
 
     if (functionName === 'list') {
-      result = { text: JSON.stringify(['Item 1', 'Item 2', 'Item 3']) }
+      try {
+        const parsed = JSON.parse(result.text)
+        if (Array.isArray(parsed)) {
+          result = { text: JSON.stringify(parsed) }
+        } else {
+          result = { text: JSON.stringify(['Item 1', 'Item 2', 'Item 3']) }
+        }
+      } catch {
+        result = { text: JSON.stringify(['Item 1', 'Item 2', 'Item 3']) }
+      }
     }
 
     if (middleware && Array.isArray(middleware)) {
@@ -186,10 +224,11 @@ const createCacheMiddleware = () => {
 
   return {
     async beforeRequest(params: any) {
-      const cacheKey = JSON.stringify(params)
-      const cacheFile = path.join(cacheDir, `${Buffer.from(cacheKey).toString('base64')}.json`)
-
       try {
+        const crypto = await import('crypto')
+        const cacheKey = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex')
+        const cacheFile = path.join(cacheDir, `${cacheKey}.json`)
+
         await fs.mkdir(cacheDir, { recursive: true })
         const cachedData = await fs.readFile(cacheFile, 'utf-8')
         return JSON.parse(cachedData)
@@ -199,10 +238,11 @@ const createCacheMiddleware = () => {
     },
 
     async afterRequest(params: any, response: any) {
-      const cacheKey = JSON.stringify(params)
-      const cacheFile = path.join(cacheDir, `${Buffer.from(cacheKey).toString('base64')}.json`)
-
       try {
+        const crypto = await import('crypto')
+        const cacheKey = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex')
+        const cacheFile = path.join(cacheDir, `${cacheKey}.json`)
+
         await fs.mkdir(cacheDir, { recursive: true })
         await fs.writeFile(cacheFile, JSON.stringify(response))
       } catch (error) {
@@ -337,7 +377,7 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
     }
   }
 
-  Object.assign(aiTemplateFunction, {
+  const extendedAiTemplateFunction = Object.assign(aiTemplateFunction, {
     async generate(prompt: string) {
       await createAiFolderStructure()
       const functionName = 'generate'
@@ -404,6 +444,81 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
         return JSON.parse(result.text)
       } catch (error) {
         console.error('Error parsing landingPage response:', error)
+        return { error: 'Failed to parse response', text: result.text }
+      }
+    },
+
+    occupationAnalysis: async (params: any) => {
+      const functionName = 'occupationAnalysis'
+      await createAiFolderStructure()
+      await ensureAiFunctionExists(functionName)
+      const prompt = `Analyze this occupation for automation potential and Services-as-Software opportunities: ${JSON.stringify(params)}. Return ONLY valid JSON with: automationPotential (1-10), keyTasks, automationOpportunities, servicesPotential, reasoning. Do not include any markdown formatting or code blocks.`
+      const result = await generateText({
+        model: 'gpt-4o',
+        prompt,
+        middleware: [createCacheMiddleware()],
+        functionName,
+      })
+      try {
+        let jsonText = result.text.trim()
+        if (jsonText.startsWith('```json')) {
+          jsonText = jsonText.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+        } else if (jsonText.startsWith('```')) {
+          jsonText = jsonText.replace(/^```\s*/, '').replace(/\s*```$/, '')
+        }
+        return JSON.parse(jsonText)
+      } catch (error) {
+        console.error('Error parsing occupationAnalysis response:', error)
+        return { error: 'Failed to parse response', text: result.text }
+      }
+    },
+
+    serviceBlueprint: async (params: any) => {
+      const functionName = 'serviceBlueprint'
+      await createAiFolderStructure()
+      await ensureAiFunctionExists(functionName)
+      const prompt = `Generate a detailed service blueprint for automating this occupation: ${JSON.stringify(params)}. Return ONLY valid JSON with: serviceName, summary, coreFeatures, targetMarket, valueProposition, technicalApproach, pricingModel. Do not include any markdown formatting or code blocks.`
+      const result = await generateText({
+        model: 'gpt-4o',
+        prompt,
+        middleware: [createCacheMiddleware()],
+        functionName,
+      })
+      try {
+        let jsonText = result.text.trim()
+        if (jsonText.startsWith('```json')) {
+          jsonText = jsonText.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+        } else if (jsonText.startsWith('```')) {
+          jsonText = jsonText.replace(/^```\s*/, '').replace(/\s*```$/, '')
+        }
+        return JSON.parse(jsonText)
+      } catch (error) {
+        console.error('Error parsing serviceBlueprint response:', error)
+        return { error: 'Failed to parse response', text: result.text }
+      }
+    },
+
+    businessModelCanvas: async (params: any) => {
+      const functionName = 'businessModelCanvas'
+      await createAiFolderStructure()
+      await ensureAiFunctionExists(functionName)
+      const prompt = `Generate a comprehensive business model canvas for this service: ${JSON.stringify(params)}. Return ONLY valid JSON with: keyPartners, keyActivities, keyResources, valuePropositions, customerRelationships, channels, customerSegments, costStructure, revenueStreams. Do not include any markdown formatting or code blocks.`
+      const result = await generateText({
+        model: 'gpt-4o',
+        prompt,
+        middleware: [createCacheMiddleware()],
+        functionName,
+      })
+      try {
+        let jsonText = result.text.trim()
+        if (jsonText.startsWith('```json')) {
+          jsonText = jsonText.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+        } else if (jsonText.startsWith('```')) {
+          jsonText = jsonText.replace(/^```\s*/, '').replace(/\s*```$/, '')
+        }
+        return JSON.parse(jsonText)
+      } catch (error) {
+        console.error('Error parsing businessModelCanvas response:', error)
         return { error: 'Failed to parse response', text: result.text }
       }
     },
@@ -598,7 +713,7 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
           const idea = await renderInputPrompt('Enter your startup idea:')
           console.log(`Received idea: "${idea}"`)
 
-          ;(global as any).ai = aiTemplateFunction
+          ;(global as any).ai = extendedAiTemplateFunction
           ;(global as any).list = listTemplateFunction
           ;(global as any).research = researchTemplateFunction
           ;(global as any).extract = extractTemplateFunction
@@ -614,6 +729,111 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
           )
         } catch (error) {
           console.error('Error in idea.captured handler:', error)
+          throw error
+        }
+      }
+
+      if (event === 'occupation.analyzed') {
+        on(event, callback)
+        
+        try {
+          console.log('Processing occupation data...')
+          await createAiFolderStructure()
+          
+          const occupationsPath = path.resolve(process.cwd(), '../../../data/occupations/remote-occupations.tsv')
+          
+          if (!await fs.access(occupationsPath).then(() => true).catch(() => false)) {
+            console.error('Occupations data file not found at:', occupationsPath)
+            return callback([], new MutableEventContext({
+              eventType: 'occupation.analyzed',
+              timestamp: new Date().toISOString(),
+              error: 'Occupations data file not found'
+            }))
+          }
+          
+          const occupationsData = await fs.readFile(occupationsPath, 'utf8')
+          const lines = occupationsData.split('\n').filter(line => line.trim() && !line.startsWith('#'))
+          
+          if (lines.length === 0) {
+            console.error('No occupation data found in TSV file')
+            return callback([], new MutableEventContext({
+              eventType: 'occupation.analyzed',
+              timestamp: new Date().toISOString(),
+              error: 'No occupation data found'
+            }))
+          }
+          
+          const occupations = lines.slice(lines[0].includes('\t') && lines[0].toLowerCase().includes('occupation') ? 1 : 0)
+            .map(line => {
+              const [name, category, automationScore, tasks, tools] = line.split('\t')
+              return { 
+                name: name?.trim(), 
+                category: category?.trim(), 
+                automationScore: parseInt(automationScore?.trim()) || 0, 
+                tasks: tasks?.split(',').map(t => t.trim()).filter(Boolean) || [], 
+                tools: tools?.split(',').map(t => t.trim()).filter(Boolean) || []
+              }
+            })
+            .filter(occ => occ.name)
+          
+          console.log(`Processing ${occupations.length} occupations...`)
+          
+          for (const occupation of occupations) {
+            console.log(`Analyzing occupation: ${occupation.name}`)
+            
+            const analysis = await extendedAiTemplateFunction.occupationAnalysis(occupation)
+            
+            if (analysis.automationPotential && analysis.automationPotential > 6) {
+              console.log(`Creating service blueprint for ${occupation.name}`)
+              const blueprint = await extendedAiTemplateFunction.serviceBlueprint({
+                occupation,
+                analysis
+              })
+              
+              console.log(`Creating business model for ${occupation.name}`)
+              const businessModel = await extendedAiTemplateFunction.businessModelCanvas({
+                occupation,
+                blueprint
+              })
+              
+              const idea = {
+                name: `${occupation.name}-as-a-Service`,
+                description: blueprint.summary || `Automated service for ${occupation.name}`,
+                occupation: occupation.name,
+                category: occupation.category,
+                automationScore: analysis.automationPotential,
+                blueprint,
+                businessModel,
+                generatedAt: new Date().toISOString()
+              }
+              
+              const outputDir = path.resolve(process.cwd(), '../../../output/services-as-software')
+              await fs.mkdir(outputDir, { recursive: true })
+              const fileName = `${idea.name.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase()}.json`
+              const filePath = path.join(outputDir, fileName)
+              await fs.writeFile(filePath, JSON.stringify(idea, null, 2))
+              console.log(`Saved idea to ${filePath}`)
+              
+              console.log(`Triggering idea.captured event for: ${idea.name}`)
+              emit('idea.captured', idea, new MutableEventContext({
+                eventType: 'idea.captured',
+                timestamp: new Date().toISOString(),
+                source: 'occupation.analyzed',
+                automationScore: analysis.automationPotential
+              }))
+            }
+          }
+          
+          return callback(
+            occupations,
+            new MutableEventContext({
+              eventType: 'occupation.analyzed',
+              timestamp: new Date().toISOString(),
+              processedCount: occupations.length
+            }),
+          )
+        } catch (error) {
+          console.error('Error in occupation.analyzed handler:', error)
           throw error
         }
       }
@@ -633,7 +853,7 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
     /**
      * AI functions with real implementations
      */
-    ai: aiTemplateFunction,
+    ai: extendedAiTemplateFunction,
 
     /**
      * Database integration with mdxdb

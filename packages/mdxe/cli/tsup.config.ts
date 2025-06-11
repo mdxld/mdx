@@ -1,6 +1,6 @@
 import { createCliConfig } from '@repo/tsup-config'
 
-export default createCliConfig(['src/cli.ts', 'src/cli-simple.ts', 'src/utils/test-runner.ts', 'src/utils/globals.ts'], {
+export default createCliConfig(['src/cli.ts', 'src/cli-simple.ts', 'src/utils/test-runner.ts', 'src/utils/globals.ts', 'src/utils/occupation-processor.ts'], {
   external: [
     'react',
     'react-dom',
