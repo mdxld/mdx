@@ -6,4 +6,5 @@ export default defineConfig({
   dts: true,
   clean: true,
   target: 'es2022',
+  external: ['react-devtools-core'],
 })

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { cartesian } from '../src/cartesian.js'
-import { experiment } from '../src/experiment.js'
+import { experiment, experimentWithRatings } from '../src/experiment.js'
 
 describe('cartesian', () => {
   it('should generate cartesian product of simple arrays', () => {
@@ -66,5 +66,53 @@ describe('experiment', () => {
     
     expect(result.results[1].result).toBeNull()
     expect(result.results[1].error).toBe('Test error')
+  })
+})
+
+describe('experiment with ratings', () => {
+  it('should track ratings when evaluation criteria provided', async () => {
+    const mockAiFunction = async (options: any) => {
+      if (options.model === 'gpt-4') {
+        return 'High quality detailed response with comprehensive analysis'
+      }
+      return 'Basic response'
+    }
+
+    const evaluationCriteria = {
+      type: 'numeric' as const,
+      metric: 'length'
+    }
+
+    const result = await experimentWithRatings('rating test', {
+      model: ['gpt-4', 'gpt-3.5'],
+      prompt: ['detailed', 'brief']
+    }, mockAiFunction, evaluationCriteria)
+
+    expect(result.ratings).toBeDefined()
+    expect(result.evaluations).toBeDefined()
+    expect(result.ratings!.parameters.length).toBeGreaterThan(0)
+    expect(result.ratings!.combinations.length).toBeGreaterThan(0)
+  })
+
+  it('should handle custom evaluation criteria', async () => {
+    const mockAiFunction = async (options: any) => {
+      return { score: options.model === 'gpt-4' ? 95 : 75 }
+    }
+
+    const evaluationCriteria = {
+      type: 'custom' as const,
+      compareFn: (resultA: any, resultB: any) => {
+        if (resultA.score > resultB.score) return 'win'
+        if (resultA.score < resultB.score) return 'loss'
+        return 'draw'
+      }
+    }
+
+    const result = await experimentWithRatings('custom eval test', {
+      model: ['gpt-4', 'gpt-3.5']
+    }, mockAiFunction, evaluationCriteria)
+
+    expect(result.evaluations).toBeDefined()
+    expect(result.evaluations!.length).toBeGreaterThan(0)
   })
 })

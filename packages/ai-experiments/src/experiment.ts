@@ -1,5 +1,8 @@
 import { createUnifiedFunction } from '../../mdxai/src/utils/template.js'
 import { cartesian } from './cartesian.js'
+import { type EvaluationCriteria, type EvaluationResult, evaluateResults } from './evaluation.js'
+import { type ParameterRating, type CombinationRating } from './elo.js'
+import { updateRatings } from './storage.js'
 
 export interface ExperimentConfig {
   models?: string[]
@@ -14,7 +17,13 @@ export interface ExperimentResult {
     combination: Record<string, any>
     result: any
     error?: string
+    performance?: any
   }>
+  ratings?: {
+    parameters: ParameterRating[]
+    combinations: CombinationRating[]
+  }
+  evaluations?: EvaluationResult[]
 }
 
 /**
@@ -87,7 +96,28 @@ async function experimentCore(
 export async function experiment(
   description: string,
   config: ExperimentConfig,
-  aiFunction: any
+  aiFunction: any,
+  evaluationCriteria?: EvaluationCriteria
 ): Promise<ExperimentResult> {
-  return experimentCore(description, config, aiFunction)
+  const result = await experimentCore(description, config, aiFunction)
+  
+  if (evaluationCriteria) {
+    const evaluations = await evaluateResults(result.results, evaluationCriteria)
+    
+    const updatedRatings = await updateRatings(result.results, evaluations, description)
+    
+    result.ratings = updatedRatings
+    result.evaluations = evaluations
+  }
+  
+  return result
+}
+
+export async function experimentWithRatings(
+  description: string,
+  config: ExperimentConfig,
+  aiFunction: any,
+  evaluationCriteria: EvaluationCriteria
+): Promise<ExperimentResult> {
+  return experiment(description, config, aiFunction, evaluationCriteria)
 }
