@@ -1,33 +1,56 @@
 import { describe, it, expect } from 'vitest'
 import { z } from 'zod'
-import type { Step, Workflow } from '../workflow'
+import type { Step, Workflow, WorkflowExecution } from '../workflow'
 
-describe('Workflow interfaces', () => {
-  it('should define Step interface correctly', () => {
-    const step: Step = {
-      id: 'test-step',
-      name: 'Test Step',
-      description: 'A test step',
+async function executeStep<TInput, TOutput>(step: Step<TInput, TOutput>, input: TInput): Promise<TOutput> {
+  if (step.inputSchema) step.inputSchema.parse(input)
+  const result = await step.execute?.(input)
+  return step.outputSchema.parse(result)
+}
+
+describe('workflow utilities', () => {
+  it('executes a step with schema validation', async () => {
+    const step: Step<{ input: string }, { output: string }> = {
+      id: 'step',
+      name: 'Example',
       inputSchema: z.object({ input: z.string() }),
       outputSchema: z.object({ output: z.string() }),
+      execute: async (value) => ({ output: value.input.toUpperCase() }),
     }
 
-    expect(step.id).toBe('test-step')
-    expect(step.name).toBe('Test Step')
-    expect(step.inputSchema).toBeDefined()
-    expect(step.outputSchema).toBeDefined()
+    const result = await executeStep(step, { input: 'test' })
+    expect(result.output).toBe('TEST')
   })
 
-  it('should define Workflow interface correctly', () => {
-    const workflow: Workflow = {
-      id: 'test-workflow',
-      name: 'Test Workflow',
-      inputSchema: z.object({ start: z.string() }),
-      outputSchema: z.object({ end: z.string() }),
-      steps: [],
+  it('tracks workflow execution state', async () => {
+    const step: Step<undefined, string> = {
+      id: 's1',
+      name: 'first',
+      outputSchema: z.string(),
+      execute: async () => 'done',
     }
 
-    expect(workflow.id).toBe('test-workflow')
-    expect(workflow.steps).toEqual([])
+    const workflow: Workflow<undefined, string> = {
+      id: 'wf',
+      name: 'wf',
+      inputSchema: z.undefined(),
+      outputSchema: z.string(),
+      steps: [step],
+    }
+
+    const execution: WorkflowExecution<undefined, string> = {
+      workflow,
+      currentStepIndex: 0,
+      stepResults: {},
+      status: 'pending',
+    }
+
+    const output = await executeStep(workflow.steps[0], undefined)
+    execution.stepResults[step.id] = output
+    execution.currentStepIndex = 1
+    execution.status = 'completed'
+
+    expect(execution.stepResults[step.id]).toBe('done')
+    expect(execution.status).toBe('completed')
   })
 })
