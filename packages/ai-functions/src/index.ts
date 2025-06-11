@@ -38,6 +38,7 @@ export {
 export { scope } from './functions/scope.js'
 export { ui } from './functions/ui.js'
 export { workflow } from './functions/workflow.js'
+export { prompt, type PromptTemplateFn, type PromptResult, type PromptOptions } from './functions/prompt.js'
 
 export { parseTemplate, stringifyValue, type TemplateFunction, createUnifiedFunction } from './utils/template.js'
 export { createZodSchemaFromObject, inferAndValidateOutput } from './utils/ai-execution.js'
