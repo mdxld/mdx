@@ -11,13 +11,14 @@ describe('Storage System', () => {
   beforeEach(async () => {
     process.chdir('/tmp')
     try {
-      await fs.rm(TEST_DIR, { recursive: true })
+      await fs.rm(TEST_DIR, { recursive: true, force: true })
     } catch {}
+    await new Promise(resolve => setTimeout(resolve, 10))
   })
 
   afterEach(async () => {
     try {
-      await fs.rm(TEST_DIR, { recursive: true })
+      await fs.rm(TEST_DIR, { recursive: true, force: true })
     } catch {}
   })
 
@@ -42,6 +43,9 @@ describe('Storage System', () => {
     }
 
     await saveExperimentHistory(testHistory)
+    
+    await new Promise(resolve => setTimeout(resolve, 10))
+    
     const loaded = await loadExperimentHistory()
     
     expect(loaded.experiments).toHaveLength(1)
