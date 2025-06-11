@@ -15,6 +15,7 @@
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
+    "generate-services": "mdxe run examples/roles-as-software.ts",
     "version": "changeset version",
     "release": "turbo run build && changeset publish",
     "postinstall": "pnpm run build:packages"
