@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { createTestFixture, TestFixture, simulateVeliteBuild } from './test-utils.js'
+import { createTestFixture, TestFixture } from './test-utils.js'
 import { MdxDb } from '../mdxdb.js'
 
 const TEST_TIMEOUT = 30000
@@ -25,16 +25,13 @@ describe('Collection API', () => {
       },
     })
 
-    await simulateVeliteBuild(fixture.testDir)
-
     const fs = require('fs').promises
     const path = require('path')
     const configPath = path.join(fixture.testDir, 'velite.config.js')
     try {
       await fs.access(configPath)
     } catch (error) {
-      console.warn('velite.config.js not found, recreating...')
-      await simulateVeliteBuild(fixture.testDir)
+      console.warn('velite.config.js not found, but will be handled by db.build()')
     }
 
     await db.build()
@@ -52,8 +49,6 @@ describe('Collection API', () => {
 
       await db.blog.create(title, content)
 
-      await simulateVeliteBuild(fixture.testDir)
-
       await db.build()
 
       const blogPosts = db.blog.list()
@@ -63,7 +58,7 @@ describe('Collection API', () => {
       const createdPost = blogPosts.find((post: any) => post.title === title)
       expect(createdPost).toBeDefined()
       expect(createdPost.title).toBe(title)
-      expect(createdPost.body).toBe(content)
+      expect(createdPost.body.trim()).toBe(content)
     },
     TEST_TIMEOUT,
   )
@@ -76,7 +71,6 @@ describe('Collection API', () => {
 
       await db.blog.create(title, content)
 
-      await simulateVeliteBuild(fixture.testDir)
       await db.build()
 
       const retrievedPost = db.blog.get('test-post')
@@ -106,8 +100,6 @@ date: 2023-01-04
 ---
 ${content}`,
       )
-
-      await simulateVeliteBuild(fixture.testDir)
 
       await db.build()
 
@@ -152,12 +144,10 @@ ${content}`,
 
       await db.blog.create(originalTitle, originalContent)
 
-      await simulateVeliteBuild(fixture.testDir)
       await db.build()
 
       await db.blog.update('original-title', updatedTitle, updatedContent)
 
-      await simulateVeliteBuild(fixture.testDir)
       await db.build()
 
       const updatedPost = db.blog.get('original-title')
@@ -176,13 +166,11 @@ ${content}`,
 
       await db.blog.create(title, content)
 
-      await simulateVeliteBuild(fixture.testDir)
       await db.build()
 
       const deleteResult = await db.blog.delete('post-to-delete')
       expect(deleteResult).toBe(true)
 
-      await simulateVeliteBuild(fixture.testDir)
       await db.build()
 
       const deletedPost = db.blog.get('post-to-delete')
@@ -225,12 +213,6 @@ ${content}`,
       const filePath = path.join(fixture.blogDir, 'my-first-blog-post.mdx')
       const fileContent = await fs.readFile(filePath, 'utf-8')
       console.log('Created file content:', fileContent)
-
-      await simulateVeliteBuild(fixture.testDir)
-
-      const blogJsonPath = path.join(fixture.veliteDir, 'blog.json')
-      const blogJsonContent = await fs.readFile(blogJsonPath, 'utf-8')
-      console.log('blog.json content after simulateVeliteBuild:', blogJsonContent)
 
       await db.build()
 

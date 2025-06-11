@@ -162,10 +162,11 @@ export class MdxDbFs extends MdxDbBase {
         if (contentDirs.length === 0) {
           contentDirs = [
             { dir: 'content/posts', collection: 'posts' },
+            { dir: 'content/blog', collection: 'blog' },
             { dir: 'posts', collection: 'posts' },
+            { dir: 'blog', collection: 'blog' },
             { dir: 'articles', collection: 'articles' },
             { dir: 'content/articles', collection: 'articles' },
-            { dir: 'content', collection: 'content' },
           ]
         }
 
@@ -176,37 +177,59 @@ export class MdxDbFs extends MdxDbBase {
             await fs.access(contentDir)
             console.log(`Found content directory: ${contentDir}`)
 
-            const files = await fs.readdir(contentDir)
-            const entries = []
+            const processDirectory = async (dirPath: string, targetCollection: string): Promise<any[]> => {
+              const entries = []
+              const files = await fs.readdir(dirPath, { withFileTypes: true })
 
-            for (const file of files) {
-              if (file.endsWith('.mdx')) {
-                const filePath = path.join(contentDir, file)
-                const content = await fs.readFile(filePath, 'utf-8')
+              for (const file of files) {
+                const fullPath = path.join(dirPath, file.name)
+                
+                if (file.isDirectory()) {
+                  const dirName = file.name
+                  if (targetCollection === 'blog' && dirName === 'blog') {
+                    const subEntries = await processDirectory(fullPath, targetCollection)
+                    entries.push(...subEntries)
+                  } else if (targetCollection === 'posts' && dirName === 'posts') {
+                    const subEntries = await processDirectory(fullPath, targetCollection)
+                    entries.push(...subEntries)
+                  } else if (targetCollection === 'articles' && dirName === 'articles') {
+                    const subEntries = await processDirectory(fullPath, targetCollection)
+                    entries.push(...subEntries)
+                  } else if (!['blog', 'posts', 'articles'].includes(dirName)) {
+                    const subEntries = await processDirectory(fullPath, targetCollection)
+                    entries.push(...subEntries)
+                  }
+                } else if (file.name.endsWith('.mdx')) {
+                  const content = await fs.readFile(fullPath, 'utf-8')
 
-                const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-                if (match) {
-                  const frontmatterText = match[1]
-                  const body = match[2]
+                  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
+                  if (match) {
+                    const frontmatterText = match[1]
+                    const body = match[2]
 
-                  const frontmatter: Record<string, any> = {}
-                  frontmatterText.split('\n').forEach((line) => {
-                    const [key, ...valueParts] = line.split(':')
-                    if (key && valueParts.length) {
-                      frontmatter[key.trim()] = valueParts.join(':').trim()
-                    }
-                  })
+                    const frontmatter: Record<string, any> = {}
+                    frontmatterText.split('\n').forEach((line) => {
+                      const [key, ...valueParts] = line.split(':')
+                      if (key && valueParts.length) {
+                        frontmatter[key.trim()] = valueParts.join(':').trim()
+                      }
+                    })
 
-                  entries.push({
-                    slug: path.basename(file, '.mdx'),
-                    ...frontmatter,
-                    body,
-                  })
+                    entries.push({
+                      slug: path.basename(file.name, '.mdx'),
+                      ...frontmatter,
+                      body,
+                    })
+                  }
                 }
               }
+              return entries
             }
 
+            const entries = await processDirectory(contentDir, collection)
+
             if (entries.length > 0) {
+              console.log(`DEBUG: Building ${collection} collection from ${contentDir} with entries:`, entries.map(e => ({ slug: e.slug, title: e.title })))
               await fs.writeFile(path.join(outputDir, `${collection}.json`), JSON.stringify(entries))
               console.log(`Successfully built ${collection} collection with ${entries.length} entries`)
             }
