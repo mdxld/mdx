@@ -31,7 +31,7 @@ async function saveWaveFile(
     })
 
     writer.on('finish', () => resolve())
-    writer.on('error', (error) => reject(error))
+    writer.on('error', (error: Error) => reject(error))
 
     writer.write(pcmData)
     writer.end()
@@ -83,4 +83,4 @@ async function generateSpeechAudio(text: string, options: { voiceName?: string; 
 export const say = createUnifiedFunction<Promise<string>>(async (text, options: { voiceName?: string; apiKey?: string; baseURL?: string } = {}) => {
   console.log('say', text, options)
   return generateSpeechAudio(text, options)
-})                                                                                    
+})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
