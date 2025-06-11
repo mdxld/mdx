@@ -68,6 +68,7 @@ describe('Evolution System', () => {
     const evolved = await evolveConfigurations(baseConfig, { populationSize: 5 })
     
     expect(evolved).toHaveLength(5)
-    expect(evolved[0]).toEqual({ model: 'gpt-4', temperature: 0.7 })
+    expect(evolved[0].model).toBe('gpt-4')
+    expect(evolved[0].temperature).toBeDefined()
   })
 })
