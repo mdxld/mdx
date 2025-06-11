@@ -243,7 +243,7 @@ function startEmbeddedNextDevServer(cwd: string) {
   return new Promise<void>((resolve, reject) => {
     const currentFileUrl = new URL(import.meta.url)
     const currentDir = path.dirname(currentFileUrl.pathname)
-    const embeddedAppPath = path.resolve(currentDir, '../../embedded-app')
+    const embeddedAppPath = path.resolve(currentDir, '../..')
     
     console.log('📦 Starting embedded MDXE Next.js development server...')
     const nextBin = path.join(embeddedAppPath, 'node_modules', '.bin', 'next')

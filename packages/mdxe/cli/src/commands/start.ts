@@ -120,7 +120,7 @@ function startEmbeddedNextServer(cwd: string) {
   return new Promise<void>((resolve, reject) => {
     const currentFileUrl = new URL(import.meta.url)
     const currentDir = path.dirname(currentFileUrl.pathname)
-    const embeddedAppPath = path.resolve(currentDir, '../../embedded-app')
+    const embeddedAppPath = path.resolve(currentDir, '../..')
     const nextDir = path.join(embeddedAppPath, '.next')
     
     fs.access(nextDir)

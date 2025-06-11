@@ -183,7 +183,7 @@ function buildEmbeddedNextApp(cwd: string) {
   return new Promise<void>((resolve, reject) => {
     const currentFileUrl = new URL(import.meta.url)
     const currentDir = path.dirname(currentFileUrl.pathname)
-    const embeddedAppPath = path.resolve(currentDir, '../../embedded-app')
+    const embeddedAppPath = path.resolve(currentDir, '../..')
     
     console.log('📦 Building embedded MDXE Next.js application...')
     const nextBin = path.join(embeddedAppPath, 'node_modules', '.bin', 'next')
