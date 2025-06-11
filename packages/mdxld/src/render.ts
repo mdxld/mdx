@@ -1,7 +1,8 @@
 import React from 'react'
-import { compile, evaluate } from '@mdx-js/mdx'
+import { evaluate } from '@mdx-js/mdx'
 import { VFile } from 'vfile'
 import * as runtime from 'react/jsx-runtime'
+import * as runtimeDev from 'react/jsx-dev-runtime'
 import * as ReactDOMServer from 'react-dom/server'
 import TurndownService from 'turndown'
 import { parseFrontmatter } from './parser.js'
@@ -44,20 +45,17 @@ export async function render(mdxContent: string, options: RenderOptions = {}): P
     const frontmatterRegex = /^\s*---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*[\r\n]+/
     const contentWithoutFrontmatter = mdxContent.replace(frontmatterRegex, '')
 
-    const compiled = await compile(new VFile(contentWithoutFrontmatter), {
-      jsx: true,
-      jsxImportSource: 'react',
+    const dev = process.env.NODE_ENV !== 'production'
+    const runtimeLib = dev ? runtimeDev : runtime
+    const { default: Component } = await evaluate(new VFile(contentWithoutFrontmatter), {
+      ...runtimeLib,
       remarkPlugins: [remarkGfm],
       rehypePlugins: [],
-      development: process.env.NODE_ENV !== 'production',
+      development: dev,
       format: 'mdx',
       recmaPlugins: [],
       mdExtensions: ['.md', '.mdx'],
-      elementAttributeNameCase: 'html'
-    })
-
-    const { default: Component } = await evaluate(compiled, {
-      ...runtime,
+      elementAttributeNameCase: 'html',
       ...options.scope,
     })
 
