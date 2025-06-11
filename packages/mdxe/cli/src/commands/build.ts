@@ -35,6 +35,9 @@ async function isNextJsProject(dir: string): Promise<boolean> {
       if (packageJson.dependencies?.next || packageJson.devDependencies?.next) {
         return true
       }
+      
+      // If Next.js is not in dependencies, this is not a Next.js project
+      return false
     }
 
     const nextConfigPath = path.join(dir, 'next.config.js')
