@@ -67,7 +67,7 @@ export const getAIRequests = (): AIRequest[] => {
  * Generate text using AI
  * Tracks requests for UI indicators
  */
-const generateText = async ({ prompt, model, middleware, functionName }: any) => {
+export const generateText = async ({ prompt, model, middleware, functionName }: any) => {
   const requestId = trackAIRequest(functionName || 'generate')
   console.log(`[AI Request] Model: ${model}, Prompt: ${prompt}`)
 
@@ -86,11 +86,7 @@ const generateText = async ({ prompt, model, middleware, functionName }: any) =>
       }
     }
 
-    result = { text: `AI response for: ${prompt}` }
-
-    if (functionName === 'list') {
-      result = { text: JSON.stringify(['Item 1', 'Item 2', 'Item 3']) }
-    }
+    result = { text: getMockResponse(prompt, functionName) }
 
     if (middleware && Array.isArray(middleware)) {
       for (const mw of middleware) {
@@ -106,6 +102,42 @@ const generateText = async ({ prompt, model, middleware, functionName }: any) =>
     completeAIRequest(requestId, false)
     throw error
   }
+}
+
+function getMockResponse(prompt: string, functionName: string): string {
+  if (functionName === 'list' || prompt.includes('JSON array')) {
+    return JSON.stringify(['Data Analyst', 'Market Research Analyst', 'Customer Service Representative'])
+  }
+  
+  if (prompt.includes('feasibility') && prompt.includes('JSON')) {
+    return JSON.stringify({
+      feasibility: 75,
+      timeline: '1-2 years',
+      reasoning: 'High potential for AI automation with current technology'
+    })
+  }
+  
+  if (prompt.includes('SaaS') && prompt.includes('JSON')) {
+    return JSON.stringify({
+      aiReplacement: 'AI-powered data analysis platform',
+      businessModel: 'SaaS subscription starting at $99/month',
+      reasoning: 'Strong market demand for automated data analysis'
+    })
+  }
+  
+  if (prompt.includes('CTC') && prompt.includes('JSON array')) {
+    return JSON.stringify([
+      {
+        aiReplacement: 'Enhanced AI analytics with predictive modeling',
+        businessModel: 'Tiered SaaS with enterprise features',
+        reasoning: 'CTC applied - copied successful analytics platforms, transformed with AI, combined with industry expertise',
+        industry: 'Technology Services',
+        job: 'Advanced Data Analyst'
+      }
+    ])
+  }
+  
+  return `Mock AI response for: ${prompt.substring(0, 100)}...`
 }
 
 const AI_FOLDER_STRUCTURE = {

@@ -12,6 +12,7 @@ import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
 import { runSendCommand } from './commands/send'
 import { runTestCommand } from './commands/test'
+import { runAnalyzeIndustriesCommand } from './commands/analyze-industries'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
@@ -65,6 +66,30 @@ export async function run() {
     const verboseFlag = args.includes('--verbose') || args.includes('-v')
     
     return runSendCommand(eventName, eventData, { verbose: verboseFlag })
+  } else if (command === 'analyze-industries') {
+    const fileFlag = args.includes('--file') ? args[args.indexOf('--file') + 1] : undefined
+    const depthFlag = args.includes('--depth') ? parseInt(args[args.indexOf('--depth') + 1], 10) : undefined
+    const limitFlag = args.includes('--limit') ? parseInt(args[args.indexOf('--limit') + 1], 10) : undefined
+    const verboseFlag = args.includes('--verbose') || args.includes('-v')
+    
+    return runAnalyzeIndustriesCommand({
+      file: fileFlag,
+      depth: depthFlag,
+      limit: limitFlag,
+      verbose: verboseFlag
+    })
+  } else if (command === 'analyze-industries') {
+    const fileFlag = args.includes('--file') ? args[args.indexOf('--file') + 1] : undefined
+    const depthFlag = args.includes('--depth') ? parseInt(args[args.indexOf('--depth') + 1], 10) : undefined
+    const limitFlag = args.includes('--limit') ? parseInt(args[args.indexOf('--limit') + 1], 10) : undefined
+    const verboseFlag = args.includes('--verbose') || args.includes('-v')
+    
+    return runAnalyzeIndustriesCommand({
+      file: fileFlag,
+      depth: depthFlag,
+      limit: limitFlag,
+      verbose: verboseFlag
+    })
   }
 
   let targetDir = cwd
