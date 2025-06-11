@@ -5,26 +5,25 @@ import { defineConfig, s } from 'velite'
 
 export default defineConfig({
   collections: {
-    posts: {
-      name: 'Post', // collection type name
-      pattern: 'posts/**/*.md', // content files glob pattern
+    naics: {
+      name: 'NAICS',
+      pattern: 'naics.md',
       schema: s
         .object({
-          title: s.string().max(99), // Zod primitive type
-          slug: s.slug('posts'), // validate format, unique in posts collection
-          // slug: s.path(), // auto generate slug from file path
-          date: s.isodate(), // input Date-like string, output ISO Date string.
-          cover: s.image(), // input image relative path, output image object with blurImage.
-          video: s.file().optional(), // input file relative path, output file public path.
-          metadata: s.metadata(), // extract markdown reading-time, word-count, etc.
-          excerpt: s.excerpt(), // excerpt of markdown content
-          content: s.markdown() // transform markdown to html
+          title: s.string(),
+          type: s.string(),
+          content: s.markdown()
         })
-        // more additional fields (computed fields)
-        .transform(data => ({ ...data, permalink: `/blog/${data.slug}` }))
     },
-    // others: {
-    //   // other collection schema options
-    // }
+    occupations: {
+      name: 'Occupation', 
+      pattern: 'occupations.md',
+      schema: s
+        .object({
+          title: s.string(),
+          type: s.string(),
+          content: s.markdown()
+        })
+    }
   }
 })
