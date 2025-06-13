@@ -18,6 +18,7 @@ on('idea.captured', async (idea) => {
       const competitors = await research`competitors of ${idea} for ${icp} in ${market}`
       for await (const competitor of extract`competitor names from ${competitors}`) {
         const comparison = await research`compare ${idea} to ${competitor}`
+        db.comparison.create(competitor, comparison)
       }
     }
   }
