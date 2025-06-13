@@ -1,0 +1,18 @@
+{
+  "name": "mdxtra",
+  "type": "module",
+  "version": "0.1.0",
+  "bin": {
+    "mdxtra": "./bin/mdxtra.js"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "^15.3.0",
+    "nextra": "^4.2.17",
+    "nextra-theme-docs": "^4.2.17",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}
