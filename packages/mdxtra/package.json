@@ -5,6 +5,9 @@
   "bin": {
     "mdxtra": "./bin/mdxtra.js"
   },
+  "scripts": {
+    "test": "vitest run"
+  },
   "dependencies": {
     "next": "^15.3.0",
     "nextra": "^4.2.17",
