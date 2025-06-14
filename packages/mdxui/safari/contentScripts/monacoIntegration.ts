@@ -9,11 +9,13 @@ declare global {
     }
   }
   
-  namespace chrome {
-    namespace runtime {
-      function getURL(path: string): string
+  interface Chrome {
+    runtime: {
+      getURL: (path: string) => string
     }
   }
+  
+  const chrome: Chrome
 }
 
 export interface MonacoConfig {
