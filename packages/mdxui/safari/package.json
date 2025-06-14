@@ -1,12 +1,15 @@
 {
-  "name": "mdxui",
+  "name": "@mdxui/safari",
   "type": "module",
-  "version": "0.1.0",
-  "description": "MDX UI components library",
+  "version": "0.0.0",
+  "description": "Safari extension for rendering text, markdown, mdx, and mdxld files with Monaco Editor",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "manifest.json",
+    "*.js",
+    "*.d.ts"
   ],
   "exports": {
     ".": {
@@ -14,31 +17,28 @@
       "import": "./dist/index.js"
     }
   },
+  "license": "MIT",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && npm run build:extension",
+    "build:extension": "cp manifest.json dist/ && cp -r contentScripts dist/",
     "dev": "tsup --watch",
-    "lint": "echo 'Skipping lint for now'",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src contentScripts utils --max-warnings 0",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
+    "safari",
+    "extension",
+    "monaco",
+    "editor",
+    "markdown",
     "mdx",
-    "ui",
-    "components",
-    "react"
+    "mdxld"
   ],
   "author": "MDX Team",
-  "license": "MIT",
   "dependencies": {
-    "@mdxui/core": "workspace:*",
-    "@mdxui/ink": "workspace:*",
-    "@mdxui/tailwind": "workspace:*",
-    "@mdxui/shadcn": "workspace:*",
-    "@mdxui/magicui": "workspace:*",
-    "@mdxui/reveal": "workspace:*",
-    "@mdxui/chrome": "workspace:*",
-    "@mdxui/safari": "workspace:*"
+    "monaco-editor": "^0.52.2"
   },
   "peerDependencies": {
     "react": "^19"
@@ -47,6 +47,7 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/chrome": "^0.0.268",
     "@types/react": "^19.1.0",
     "eslint": "^9.27.0",
     "tsup": "^8.0.2",

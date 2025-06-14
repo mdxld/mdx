@@ -1,0 +1,17 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "types": ["chrome", "node"]
+  },
+  "include": [
+    "src/**/*",
+    "contentScripts/**/*",
+    "utils/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
