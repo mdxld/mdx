@@ -37,6 +37,7 @@
     "@mdxui/shadcn": "workspace:*",
     "@mdxui/magicui": "workspace:*",
     "@mdxui/reveal": "workspace:*",
+    "@mdxui/chrome": "workspace:*",
     "@mdxui/safari": "workspace:*"
   },
   "peerDependencies": {

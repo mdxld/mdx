@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "@mdxui/chrome - MDX File Viewer",
+  "version": "0.1.0",
+  "description": "Render text, markdown, mdx, and mdxld files in Monaco editor",
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["file://*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["monaco-editor/*"],
+      "matches": ["file://*"]
+    }
+  ],
+  "action": {
+    "default_title": "View MDX file"
+  }
+}
