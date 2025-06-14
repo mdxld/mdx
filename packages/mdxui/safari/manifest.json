@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "MDX Safari Extension",
+  "version": "0.0.0",
+  "description": "Render text, markdown, mdx, and mdxld files with Monaco Editor",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "file://*/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "file://*/*",
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "dist/contentScripts/fileRenderer.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "dist/contentScripts/monacoIntegration.js",
+        "dist/utils/fileTypeDetection.js"
+      ],
+      "matches": [
+        "file://*/*",
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "MDX Safari Extension",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "dist/background.js"
+  }
+}
