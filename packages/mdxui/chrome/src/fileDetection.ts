@@ -15,5 +15,5 @@ export function isSupportedFile(url: string, mimeType?: string): boolean {
 
 export function getFileExtension(url: string): string {
   const match = url.match(/\.([^.]+)$/);
-  return match ? match[1].toLowerCase() : 'txt';
+  return match?.[1]?.toLowerCase() ?? 'txt';
 }

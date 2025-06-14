@@ -1,5 +1,5 @@
-import { isSupportedFile, getFileExtension } from './fileDetection';
-import { createMonacoEditor, getLanguageFromExtension, setupMonacoEnvironment } from './monacoRenderer';
+import { isSupportedFile, getFileExtension } from './fileDetection.js';
+import { createMonacoEditor, getLanguageFromExtension, setupMonacoEnvironment } from './monacoRenderer.js';
 
 async function initializeMonacoViewer(): Promise<void> {
   const currentUrl = window.location.href;
