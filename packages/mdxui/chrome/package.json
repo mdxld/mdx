@@ -1,0 +1,38 @@
+{
+  "name": "@mdxui/chrome",
+  "version": "0.1.0",
+  "description": "Chrome extension for rendering MDX files with Monaco editor",
+  "type": "module",
+  "main": "dist/background.js",
+  "files": [
+    "dist",
+    "manifest.json"
+  ],
+  "scripts": {
+    "build": "tsup && cp manifest.json dist/",
+    "dev": "tsup --watch",
+    "lint": "eslint src --max-warnings 0",
+    "test": "echo 'No tests yet'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.45.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/chrome": "^0.0.254",
+    "eslint": "^9.27.0",
+    "tsup": "^8.0.2",
+    "typescript": "5.8.2"
+  },
+  "keywords": [
+    "chrome-extension",
+    "mdx",
+    "monaco",
+    "editor"
+  ],
+  "author": "MDX Team",
+  "license": "MIT"
+}
