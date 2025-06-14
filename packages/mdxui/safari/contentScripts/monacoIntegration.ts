@@ -8,15 +8,15 @@ declare global {
       (modules: string[], callback: () => void): void
     }
   }
-  
-  interface Chrome {
-    runtime: {
-      getURL: (path: string) => string
-    }
-  }
-  
-  const chrome: Chrome
 }
+
+interface Chrome {
+  runtime: {
+    getURL: (path: string) => string
+  }
+}
+
+declare const chrome: Chrome
 
 export interface MonacoConfig {
   theme: string
