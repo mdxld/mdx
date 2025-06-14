@@ -36,7 +36,8 @@
     "@mdxui/tailwind": "workspace:*",
     "@mdxui/shadcn": "workspace:*",
     "@mdxui/magicui": "workspace:*",
-    "@mdxui/reveal": "workspace:*"
+    "@mdxui/reveal": "workspace:*",
+    "@mdxui/chrome": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19"
