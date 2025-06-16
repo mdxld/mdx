@@ -3,8 +3,8 @@ import {
   InlineAnnotation,
   AnnotationHandler,
   InnerLine,
-  Pre,
 } from "codehike/code";
+import { PreWrapper } from "../components/PreWrapper";
 import { interpolate, useCurrentFrame } from "remotion";
 import { useThemeColors } from "../calculate-metadata/theme";
 import { mix, readableColor } from "polished";
@@ -65,7 +65,7 @@ export const callout: AnnotationHandler = {
             }}
           />
           {codeblock ? (
-            <Pre
+            <PreWrapper
               code={codeblock}
               style={{ margin: 0, fontFamily: "inherit" }}
             />
