@@ -1,7 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserComponent } from './BrowserComponent'
-import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions } from './types'
+import { BrowserComponent } from './BrowserComponent.js'
+import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions } from './types.js'
 
 export { BrowserComponent }
 export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions }

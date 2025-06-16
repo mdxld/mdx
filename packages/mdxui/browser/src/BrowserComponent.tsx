@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { BrowserComponentProps } from './types'
-import { BrowseMode } from './modes/BrowseMode'
-import { EditMode } from './modes/EditMode'
-import { PreviewMode } from './modes/PreviewMode'
+import { BrowserComponentProps } from './types.js'
+import { BrowseMode } from './modes/BrowseMode.js'
+import { EditMode } from './modes/EditMode.js'
+import { PreviewMode } from './modes/PreviewMode.js'
 
 export const BrowserComponent: React.FC<BrowserComponentProps> = ({
   mode,

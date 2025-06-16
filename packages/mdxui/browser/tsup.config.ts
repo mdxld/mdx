@@ -4,7 +4,7 @@ export default defineConfig([
   {
     entry: ['src/index.ts'],
     format: ['esm'],
-    dts: true,
+    dts: false,
     clean: true,
     external: ['react', 'react-dom', 'monaco-editor'],
     outDir: 'dist',

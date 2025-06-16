@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { BrowserComponent } from './BrowserComponent'
+import { BrowserComponent } from './BrowserComponent.js'
 
 describe('BrowserComponent', () => {
   it('should export BrowserComponent', () => {
