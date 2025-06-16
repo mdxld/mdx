@@ -1280,6 +1280,9 @@ importers:
 
   packages/mdxui:
     dependencies:
+      '@mdxui/browser':
+        specifier: workspace:*
+        version: link:browser
       '@mdxui/chrome':
         specifier: workspace:*
         version: link:chrome
@@ -1320,6 +1323,52 @@ importers:
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
+      eslint:
+        specifier: ^9.27.0
+        version: 9.28.0(jiti@2.4.2)
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.2)(yaml@2.8.0)
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@24.0.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(terser@5.40.0)(tsx@4.19.4)(yaml@2.8.0)
+
+  packages/mdxui/browser:
+    dependencies:
+      '@mdx-js/mdx':
+        specifier: ^3.0.0
+        version: 3.1.0(acorn@8.14.1)
+      codehike:
+        specifier: ^1.0.0
+        version: 1.0.4
+      monaco-editor:
+        specifier: ^0.45.0
+        version: 0.45.0
+      react:
+        specifier: ^19.0.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.1.0(react@19.1.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../config/eslint-config
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../../config/tsup-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../config/typescript-config
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.7(@types/react@18.3.23)
       eslint:
         specifier: ^9.27.0
         version: 9.28.0(jiti@2.4.2)
@@ -14736,14 +14785,14 @@ snapshots:
     dependencies:
       '@remotion/studio': 4.0.306(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@remotion/studio-shared': 4.0.306(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      css-loader: 5.2.7(webpack@5.96.1(esbuild@0.25.0))
+      css-loader: 5.2.7(webpack@5.96.1)
       esbuild: 0.25.0
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       react-refresh: 0.9.0
       remotion: 4.0.306(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       source-map: 0.7.3
-      style-loader: 4.0.0(webpack@5.96.1(esbuild@0.25.0))
+      style-loader: 4.0.0(webpack@5.96.1)
       webpack: 5.96.1(esbuild@0.25.0)
     transitivePeerDependencies:
       - '@swc/core'
@@ -17343,7 +17392,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@5.2.7(webpack@5.96.1(esbuild@0.25.0)):
+  css-loader@5.2.7(webpack@5.96.1):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.4)
       loader-utils: 2.0.4
@@ -23468,7 +23517,7 @@ snapshots:
       '@tokenizer/token': 0.3.0
       peek-readable: 5.4.2
 
-  style-loader@4.0.0(webpack@5.96.1(esbuild@0.25.0)):
+  style-loader@4.0.0(webpack@5.96.1):
     dependencies:
       webpack: 5.96.1(esbuild@0.25.0)
 

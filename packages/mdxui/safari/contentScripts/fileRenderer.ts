@@ -1,5 +1,5 @@
 import { detectFileTypeFromUrl, shouldRenderWithMonaco, FileTypeInfo } from '../utils/fileTypeDetection.js'
-import { renderFileWithMonaco } from './monacoIntegration.js'
+import { renderFileWithBrowserViewer } from './monacoIntegration.js'
 
 interface PageInfo {
   url: string
@@ -80,7 +80,7 @@ function shouldProcessPage(pageInfo: PageInfo): boolean {
     return false
   }
   
-  if (document.getElementById('mdx-monaco-editor')) {
+  if (document.getElementById('mdx-browser-viewer')) {
     return false
   }
   
@@ -121,7 +121,7 @@ function addLoadingIndicator(): HTMLElement {
     z-index: 9999;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   `
-  loading.textContent = 'Loading Monaco Editor...'
+  loading.textContent = 'Loading Browser Viewer...'
   
   document.body.appendChild(loading)
   return loading
@@ -144,7 +144,7 @@ async function processPage(): Promise<void> {
     return
   }
   
-  console.log('MDX Safari Extension: Processing page with Monaco Editor')
+  console.log('MDX Safari Extension: Processing page with Browser Viewer')
   
   try {
     addLoadingIndicator()
@@ -159,9 +159,9 @@ async function processPage(): Promise<void> {
     
     removeLoadingIndicator()
     
-    const editor = await renderFileWithMonaco(content, pageInfo.fileInfo)
+    const editor = await renderFileWithBrowserViewer(content, pageInfo.fileInfo)
     
-    console.log('MDX Safari Extension: Monaco Editor initialized successfully')
+    console.log('MDX Safari Extension: Browser viewer initialized successfully')
     
     const { KeyMod, KeyCode } = await import('monaco-editor')
     editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => {
@@ -187,7 +187,7 @@ async function processPage(): Promise<void> {
       max-width: 300px;
     `
     const errorMessage = error instanceof Error ? error.message : String(error)
-    errorDiv.textContent = `Failed to load Monaco Editor: ${errorMessage}`
+    errorDiv.textContent = `Failed to load Browser Viewer: ${errorMessage}`
     document.body.appendChild(errorDiv)
     
     setTimeout(() => {

@@ -5,7 +5,8 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**", "build/**", "*.js", "*.d.ts"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**", "build/**", "*.js", "*.d.ts"],
+      "env": ["NODE_ENV"]
     },
     "build:packages": {
       "dependsOn": ["^build"],

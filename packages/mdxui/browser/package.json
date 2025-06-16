@@ -1,0 +1,52 @@
+{
+  "name": "@mdxui/browser",
+  "version": "0.1.0",
+  "description": "Browser component for viewing, editing, and previewing MDX content",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./umd": "./dist/index.umd.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --max-warnings 0",
+    "test": "vitest",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.45.0",
+    "@mdx-js/mdx": "^3.0.0",
+    "codehike": "^1.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@repo/tsup-config": "workspace:*",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^9.27.0",
+    "tsup": "^8.0.2",
+    "typescript": "5.8.2",
+    "vitest": "^3.1.4"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

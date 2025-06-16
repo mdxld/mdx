@@ -38,7 +38,8 @@
     "@mdxui/magicui": "workspace:*",
     "@mdxui/reveal": "workspace:*",
     "@mdxui/chrome": "workspace:*",
-    "@mdxui/safari": "workspace:*"
+    "@mdxui/safari": "workspace:*",
+    "@mdxui/browser": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19"
