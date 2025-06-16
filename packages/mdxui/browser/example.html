@@ -43,11 +43,17 @@
             border: 1px solid #30363d;
             border-radius: 6px;
         }
-        #browser-container {
-            height: 600px;
+        #browser-container-new, #browser-container-old {
+            height: 400px;
             border: 1px solid #30363d;
             border-radius: 6px;
             overflow: hidden;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #e1e4e8;
+            margin-top: 30px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -74,7 +80,11 @@
             </select>
         </div>
         
-        <div id="browser-container"></div>
+        <h2>New Simplified API</h2>
+        <div id="browser-container-new"></div>
+        
+        <h2>Original API (for comparison)</h2>
+        <div id="browser-container-old"></div>
     </div>
 
     <!-- React and ReactDOM from CDN -->
@@ -87,8 +97,7 @@
     <!-- CodeHike from CDN -->
     <script src="https://unpkg.com/codehike@1.0.4/dist/index.umd.js"></script>
     
-    <!-- MDX from CDN -->
-    <script src="https://unpkg.com/@mdx-js/mdx@3.0.0/lib/index.js" type="module"></script>
+    <!-- MDX from CDN - removed due to CORS issues in local file:// protocol -->
     
     <!-- @mdxui/browser UMD build -->
     <script src="./dist/index.umd.js"></script>
@@ -135,20 +144,17 @@ When in MDX mode, you can use JSX components:
         let browserComponent = null;
 
         function initializeBrowser() {
-            const container = document.getElementById('browser-container');
-            
-            // Create React element using the UMD global
-            const element = React.createElement(MdxuiBrowser.BrowserComponent, {
+            // New simplified API - one line render function
+            MdxuiBrowser.render('browser-container-new', {
                 mode: currentMode,
                 content: sampleContent,
                 language: currentLanguage,
                 theme: currentTheme,
                 onContentChange: (content) => {
-                    console.log('Content changed:', content.length, 'characters');
+                    console.log('New API - Content changed:', content.length, 'characters');
                 },
                 onNavigate: (url) => {
-                    console.log('Navigate to:', url);
-                    // Custom navigation logic here
+                    console.log('New API - Navigate to:', url);
                     if (url.startsWith('http')) {
                         window.open(url, '_blank');
                     } else {
@@ -156,8 +162,7 @@ When in MDX mode, you can use JSX components:
                     }
                 },
                 onSave: async (content) => {
-                    console.log('Save content:', content);
-                    // Simulate save operation
+                    console.log('New API - Save content:', content);
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     alert('Content saved successfully!');
                 },
@@ -165,8 +170,36 @@ When in MDX mode, you can use JSX components:
                 style: { height: '100%' }
             });
 
-            // Render the component
-            ReactDOM.render(element, container);
+            // Original API (for comparison)
+            const container = document.getElementById('browser-container-old');
+            const element = React.createElement(MdxuiBrowser.BrowserComponent, {
+                mode: currentMode,
+                content: sampleContent,
+                language: currentLanguage,
+                theme: currentTheme,
+                onContentChange: (content) => {
+                    console.log('Original API - Content changed:', content.length, 'characters');
+                },
+                onNavigate: (url) => {
+                    console.log('Original API - Navigate to:', url);
+                    if (url.startsWith('http')) {
+                        window.open(url, '_blank');
+                    } else {
+                        alert(`Navigate to: ${url}`);
+                    }
+                },
+                onSave: async (content) => {
+                    console.log('Original API - Save content:', content);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    alert('Content saved successfully!');
+                },
+                className: 'browser-component',
+                style: { height: '100%' }
+            });
+
+            // Render the component using original API (updated to React 18+ createRoot)
+            const root = ReactDOM.createRoot(container);
+            root.render(element);
         }
 
         function setMode(mode) {

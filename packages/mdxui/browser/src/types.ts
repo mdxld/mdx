@@ -30,3 +30,16 @@ export interface BrowserComponentProps {
   navigationMode?: 'client' | 'external' | 'auto'
   baseUrl?: string
 }
+
+export interface SimplifiedBrowserOptions {
+  mode?: BrowserMode
+  content: string
+  language?: string
+  theme?: string
+  onContentChange?: (content: string) => void
+  onNavigate?: (url: string) => void
+  onSave?: (content: string) => Promise<void>
+  readOnly?: boolean
+  className?: string
+  style?: React.CSSProperties
+}
