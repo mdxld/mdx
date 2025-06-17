@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@mdxui/browser": "workspace:*",
     "monaco-editor": "^0.45.0"
   },
   "devDependencies": {
