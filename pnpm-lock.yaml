@@ -1387,6 +1387,9 @@ importers:
 
   packages/mdxui/chrome:
     dependencies:
+      '@mdxui/browser':
+        specifier: workspace:*
+        version: link:../browser
       monaco-editor:
         specifier: ^0.45.0
         version: 0.45.0

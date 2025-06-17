@@ -6,10 +6,40 @@ import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions } fro
 export { BrowserComponent }
 export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions }
 
-export * from './fileTypeDetection.js'
-export * from './monacoIntegration.js'
-export * from './utils.js'
+export {
+  detectFileType,
+  detectFileTypeFromUrl,
+  detectFileTypeFromMimeType,
+  detectFileTypeFromExtension,
+  isSupportedFile,
+  getFileExtension,
+  isTextFile,
+  SUPPORTED_EXTENSIONS,
+  SUPPORTED_MIME_TYPES,
+  shouldRenderWithMonaco,
+  type FileTypeInfo
+} from './fileDetection.js'
 
+export {
+  createMonacoEditor,
+  createMonacoContainer,
+  replacePageWithMonaco,
+  renderFileWithMonaco,
+  getLanguageFromFileType,
+  getLanguageFromExtension,
+  setupMonacoThemes,
+  setupMonacoEnvironment,
+  initializeMonaco,
+  DEFAULT_MONACO_CONFIG,
+  type MonacoConfig
+} from './monacoUtils.js'
+
+export {
+  extractPageContent,
+  fetchFileContent,
+  addLoadingIndicator,
+  removeLoadingIndicator
+} from './utils.js'
 export function render(elementId: string, options: SimplifiedBrowserOptions): void {
   const element = document.getElementById(elementId)
   if (!element) {
