@@ -1,5 +1,5 @@
+export type { FileTypeInfo } from '@mdxui/browser'
 export { 
-  FileTypeInfo,
   detectFileType, 
   detectFileTypeFromUrl,
   detectFileTypeFromMimeType,

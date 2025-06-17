@@ -6,7 +6,7 @@ import {
   detectFileTypeFromExtension,
   shouldRenderWithMonaco,
   getFileExtension
-} from '../utils/fileTypeDetection.js'
+} from '@mdxui/browser'
 
 describe('fileTypeDetection', () => {
   describe('getFileExtension', () => {

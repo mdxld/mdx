@@ -28,7 +28,8 @@ interface Chrome {
 
 declare const chrome: Chrome
 
-export { MonacoConfig, DEFAULT_MONACO_CONFIG, getLanguageFromFileType }
+export type { MonacoConfig } from '@mdxui/browser'
+export { DEFAULT_MONACO_CONFIG, getLanguageFromFileType }
 
 export async function initializeMonaco(): Promise<void> {
   return new Promise((resolve) => {
