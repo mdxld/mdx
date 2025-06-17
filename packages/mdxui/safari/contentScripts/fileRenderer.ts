@@ -2,7 +2,6 @@ import {
   detectFileTypeFromUrl, 
   shouldRenderWithMonaco, 
   FileTypeInfo,
-  extractPageContent, 
   fetchFileContent,
   addLoadingIndicator, 
   removeLoadingIndicator 
