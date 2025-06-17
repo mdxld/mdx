@@ -1,7 +1,7 @@
 import { isSupportedFile, getFileExtension } from './fileDetection.js';
-import { createMonacoEditor, getLanguageFromExtension, setupMonacoEnvironment } from './monacoRenderer.js';
+import { createBrowserViewer, getLanguageFromExtension, setupBrowserEnvironment } from './monacoRenderer.js';
 
-async function initializeMonacoViewer(): Promise<void> {
+async function initializeBrowserViewer(): Promise<void> {
   const currentUrl = window.location.href;
   const mimeType = document.contentType;
   
@@ -15,7 +15,7 @@ async function initializeMonacoViewer(): Promise<void> {
     return;
   }
 
-  setupMonacoEnvironment();
+  setupBrowserEnvironment();
   
   document.body.innerHTML = '';
   document.body.style.margin = '0';
@@ -24,7 +24,7 @@ async function initializeMonacoViewer(): Promise<void> {
   document.body.style.overflow = 'hidden';
   
   const container = document.createElement('div');
-  container.id = 'monaco-container';
+  container.id = 'browser-container';
   container.style.width = '100%';
   container.style.height = '100vh';
   document.body.appendChild(container);
@@ -33,25 +33,26 @@ async function initializeMonacoViewer(): Promise<void> {
   const language = getLanguageFromExtension(extension);
   
   try {
-    const editor = createMonacoEditor(container, {
+    const editor = createBrowserViewer(container, {
       content,
       language,
-      theme: 'github-dark'
+      theme: 'github-dark',
+      mode: 'browse'
     });
     
     window.addEventListener('resize', () => {
       editor.layout();
     });
     
-    console.log('Monaco editor initialized for file:', currentUrl);
+    console.log('Browser viewer initialized for file:', currentUrl);
   } catch (error) {
-    console.error('Failed to initialize Monaco editor:', error);
+    console.error('Failed to initialize browser viewer:', error);
     document.body.innerHTML = `<pre style="padding: 20px; font-family: monospace; white-space: pre-wrap;">${content}</pre>`;
   }
 }
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeMonacoViewer);
+  document.addEventListener('DOMContentLoaded', initializeBrowserViewer);
 } else {
-  initializeMonacoViewer();
+  initializeBrowserViewer();
 }

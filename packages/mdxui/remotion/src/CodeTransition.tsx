@@ -1,7 +1,8 @@
 import { Easing, interpolate } from "remotion";
 import { continueRender, delayRender, useCurrentFrame } from "remotion";
-import { Pre, HighlightedCode, AnnotationHandler } from "codehike/code";
+import { HighlightedCode, AnnotationHandler } from "codehike/code";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { PreWrapper } from "./components/PreWrapper";
 
 import {
   calculateTransitions,
@@ -92,5 +93,5 @@ export function CodeTransition({
     };
   }, []);
 
-  return <Pre ref={ref} code={code} handlers={handlers} style={style} />;
+  return <PreWrapper ref={ref} code={code} handlers={handlers} style={style} />;
 }

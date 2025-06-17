@@ -56,9 +56,8 @@ export const errorMessage: AnnotationHandler = {
     const calloutColor = mix(0.08, color, themeColors.background);
 
     return (
-      <>
-        {/* @ts-ignore - React 19 compatibility */}
-        {children}
+      <div>
+        {children as any}
         <div
           style={{
             opacity,
@@ -71,10 +70,9 @@ export const errorMessage: AnnotationHandler = {
             color: themeColors.editor.foreground,
           }}
         >
-          {/* @ts-ignore - React 19 compatibility */}
           {annotation.data.children || annotation.query}
         </div>
-      </>
+      </div>
     );
   },
 };

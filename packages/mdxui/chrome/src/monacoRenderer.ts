@@ -1,14 +1,17 @@
 import * as monaco from 'monaco-editor';
 
-export interface MonacoConfig {
+export interface BrowserConfig {
   content: string;
   language: string;
   theme: string;
+  mode?: 'browse' | 'edit' | 'preview';
 }
 
-export function createMonacoEditor(container: HTMLElement, config: MonacoConfig): monaco.editor.IStandaloneCodeEditor {
-  return monaco.editor.create(container, {
-    value: config.content,
+export function createBrowserViewer(container: HTMLElement, config: BrowserConfig): monaco.editor.IStandaloneCodeEditor {
+  const processedContent = processContentWithLinks(config.content);
+  
+  const editor = monaco.editor.create(container, {
+    value: processedContent,
     language: config.language,
     theme: 'github-dark',
     lineNumbers: 'off',
@@ -20,13 +23,47 @@ export function createMonacoEditor(container: HTMLElement, config: MonacoConfig)
     fontSize: 14,
     fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace'
   });
+
+  setupLinkNavigation(container);
+  
+  return editor;
+}
+
+function processContentWithLinks(content: string): string {
+  const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g;
+  const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  
+  let processedContent = content.replace(markdownLinkRegex, (match, text, url) => {
+    return `${text} (${url})`;
+  });
+  
+  processedContent = processedContent.replace(urlRegex, (url) => {
+    return `${url} [Click to open]`;
+  });
+  
+  return processedContent;
+}
+
+function setupLinkNavigation(container: HTMLElement): void {
+  container.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const text = target.textContent || '';
+    
+    const urlMatch = text.match(/(https?:\/\/[^\s]+)/);
+    if (urlMatch && urlMatch[1]) {
+      const url = urlMatch[1];
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+  });
 }
 
 export function getLanguageFromExtension(extension: string): string {
   const languageMap: Record<string, string> = {
     'md': 'markdown',
-    'mdx': 'markdown',
-    'mdxld': 'markdown',
+    'mdx': 'mdx',
+    'mdxld': 'mdx',
     'txt': 'plaintext',
     'js': 'javascript',
     'ts': 'typescript',
@@ -36,7 +73,7 @@ export function getLanguageFromExtension(extension: string): string {
   return languageMap[extension] || 'plaintext';
 }
 
-export function setupMonacoEnvironment(): void {
+export function setupBrowserEnvironment(): void {
   (window as typeof window & { MonacoEnvironment?: { getWorkerUrl: (moduleId: string, label: string) => string } }).MonacoEnvironment = {
     getWorkerUrl: function (moduleId: string, label: string) {
       if (label === 'json') {

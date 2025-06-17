@@ -86,7 +86,7 @@ export async function initializeMonaco(): Promise<void> {
   })
 }
 
-export function createMonacoEditor(
+export function createBrowserViewer(
   container: HTMLElement,
   content: string,
   fileType: FileTypeInfo['fileType'],
@@ -94,9 +94,10 @@ export function createMonacoEditor(
 ): monaco.editor.IStandaloneCodeEditor {
   const finalConfig = { ...DEFAULT_MONACO_CONFIG, ...config }
   const language = getLanguageFromFileType(fileType)
+  const processedContent = processContentWithLinks(content)
 
   const editor = monaco.editor.create(container, {
-    value: content,
+    value: processedContent,
     language: language,
     theme: finalConfig.theme,
     wordWrap: finalConfig.wordWrap,
@@ -116,12 +117,43 @@ export function createMonacoEditor(
     }
   })
 
+  setupLinkNavigation(container)
   return editor
 }
 
-export function createMonacoContainer(): HTMLElement {
+function processContentWithLinks(content: string): string {
+  const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g;
+  const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  
+  let processedContent = content.replace(markdownLinkRegex, (match, text, url) => {
+    return `${text} (${url})`;
+  });
+  
+  processedContent = processedContent.replace(urlRegex, (url) => {
+    return `${url} [Click to open]`;
+  });
+  
+  return processedContent;
+}
+
+function setupLinkNavigation(container: HTMLElement): void {
+  container.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const text = target.textContent || '';
+    
+    const urlMatch = text.match(/(https?:\/\/[^\s]+)/);
+    if (urlMatch && urlMatch[1]) {
+      const url = urlMatch[1];
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+  });
+}
+
+export function createBrowserContainer(): HTMLElement {
   const container = document.createElement('div')
-  container.id = 'mdx-monaco-editor'
+  container.id = 'mdx-browser-viewer'
   container.style.cssText = `
     position: fixed;
     top: 0;
@@ -135,7 +167,7 @@ export function createMonacoContainer(): HTMLElement {
   return container
 }
 
-export function replacePageWithMonaco(
+export function replacePageWithBrowserViewer(
   content: string,
   fileType: FileTypeInfo['fileType'],
   config?: Partial<MonacoConfig>
@@ -148,10 +180,10 @@ export function replacePageWithMonaco(
     background: #1e1e1e;
   `
 
-  const container = createMonacoContainer()
+  const container = createBrowserContainer()
   document.body.appendChild(container)
 
-  const editor = createMonacoEditor(container, content, fileType, config)
+  const editor = createBrowserViewer(container, content, fileType, config)
 
   window.addEventListener('resize', () => {
     editor.layout()
@@ -195,7 +227,7 @@ export function setupMonacoThemes(): void {
   })
 }
 
-export async function renderFileWithMonaco(
+export async function renderFileWithBrowserViewer(
   content: string,
   fileInfo: FileTypeInfo
 ): Promise<monaco.editor.IStandaloneCodeEditor> {
@@ -208,5 +240,5 @@ export async function renderFileWithMonaco(
     lineNumbers: 'off'
   }
   
-  return replacePageWithMonaco(content, fileInfo.fileType, config)
+  return replacePageWithBrowserViewer(content, fileInfo.fileType, config)
 }

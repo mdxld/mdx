@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@mdxui/browser CDN Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #0d1117;
+            color: #e1e4e8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2ea043;
+        }
+        button.active {
+            background-color: #1f6feb;
+        }
+        select {
+            padding: 8px;
+            background-color: #21262d;
+            color: #e1e4e8;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+        #browser-container-new, #browser-container-old {
+            height: 400px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #e1e4e8;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>@mdxui/browser CDN Example</h1>
+        <p>This example demonstrates how to use the @mdxui/browser component via CDN in a standalone HTML page.</p>
+        
+        <div class="controls">
+            <button id="browse-btn" class="active" onclick="setMode('browse')">Browse</button>
+            <button id="edit-btn" onclick="setMode('edit')">Edit</button>
+            <button id="preview-btn" onclick="setMode('preview')">Preview</button>
+            
+            <select id="language-select" onchange="setLanguage(this.value)">
+                <option value="markdown">Markdown</option>
+                <option value="mdx">MDX</option>
+                <option value="javascript">JavaScript</option>
+                <option value="typescript">TypeScript</option>
+            </select>
+            
+            <select id="theme-select" onchange="setTheme(this.value)">
+                <option value="github-dark">GitHub Dark</option>
+                <option value="github-light">GitHub Light</option>
+            </select>
+        </div>
+        
+        <h2>New Simplified API</h2>
+        <div id="browser-container-new"></div>
+        
+        <h2>Original API (for comparison)</h2>
+        <div id="browser-container-old"></div>
+    </div>
+
+    <!-- React and ReactDOM from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Monaco Editor from CDN -->
+    <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
+    
+    <!-- CodeHike from CDN -->
+    <script src="https://unpkg.com/codehike@1.0.4/dist/index.umd.js"></script>
+    
+    <!-- MDX from CDN - removed due to CORS issues in local file:// protocol -->
+    
+    <!-- @mdxui/browser UMD build -->
+    <script src="./dist/index.umd.js"></script>
+
+    <script>
+        // Sample markdown content
+        const sampleContent = `# Welcome to @mdxui/browser
+
+This is a sample markdown document that demonstrates the capabilities of the @mdxui/browser component.
+
+## Features
+
+- **Browse Mode**: View raw markdown with syntax highlighting
+- **Edit Mode**: Edit markdown using Monaco editor
+- **Preview Mode**: See rendered markdown/MDX output
+
+## Links
+
+Here are some example links:
+- [GitHub](https://github.com)
+- [MDX Documentation](https://mdxjs.com)
+- https://example.com
+
+## Code Example
+
+\`\`\`javascript
+function hello() {
+    console.log("Hello from @mdxui/browser!");
+}
+\`\`\`
+
+## MDX Example
+
+When in MDX mode, you can use JSX components:
+
+<div style={{padding: '20px', backgroundColor: '#f6f8fa', borderRadius: '6px'}}>
+    <strong>This is a JSX component in MDX!</strong>
+</div>
+`;
+
+        let currentMode = 'browse';
+        let currentLanguage = 'markdown';
+        let currentTheme = 'github-dark';
+        let browserComponent = null;
+
+        function initializeBrowser() {
+            // New simplified API - one line render function
+            MdxuiBrowser.render('browser-container-new', {
+                mode: currentMode,
+                content: sampleContent,
+                language: currentLanguage,
+                theme: currentTheme,
+                onContentChange: (content) => {
+                    console.log('New API - Content changed:', content.length, 'characters');
+                },
+                onNavigate: (url) => {
+                    console.log('New API - Navigate to:', url);
+                    if (url.startsWith('http')) {
+                        window.open(url, '_blank');
+                    } else {
+                        alert(`Navigate to: ${url}`);
+                    }
+                },
+                onSave: async (content) => {
+                    console.log('New API - Save content:', content);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    alert('Content saved successfully!');
+                },
+                className: 'browser-component',
+                style: { height: '100%' }
+            });
+
+            // Original API (for comparison)
+            const container = document.getElementById('browser-container-old');
+            const element = React.createElement(MdxuiBrowser.BrowserComponent, {
+                mode: currentMode,
+                content: sampleContent,
+                language: currentLanguage,
+                theme: currentTheme,
+                onContentChange: (content) => {
+                    console.log('Original API - Content changed:', content.length, 'characters');
+                },
+                onNavigate: (url) => {
+                    console.log('Original API - Navigate to:', url);
+                    if (url.startsWith('http')) {
+                        window.open(url, '_blank');
+                    } else {
+                        alert(`Navigate to: ${url}`);
+                    }
+                },
+                onSave: async (content) => {
+                    console.log('Original API - Save content:', content);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    alert('Content saved successfully!');
+                },
+                className: 'browser-component',
+                style: { height: '100%' }
+            });
+
+            // Render the component using original API (updated to React 18+ createRoot)
+            const root = ReactDOM.createRoot(container);
+            root.render(element);
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Update button states
+            document.querySelectorAll('.controls button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(mode + '-btn').classList.add('active');
+            
+            // Re-render component
+            initializeBrowser();
+        }
+
+        function setLanguage(language) {
+            currentLanguage = language;
+            initializeBrowser();
+        }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            initializeBrowser();
+        }
+
+        // Initialize Monaco Editor loader
+        require.config({ paths: { vs: 'https://unpkg.com/monaco-editor@0.44.0/min/vs' } });
+        
+        // Initialize the browser component when page loads
+        window.addEventListener('load', () => {
+            initializeBrowser();
+        });
+    </script>
+</body>
+</html>
