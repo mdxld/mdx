@@ -6,6 +6,28 @@ import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions } fro
 export { BrowserComponent }
 export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions }
 
+export {
+  detectFileType,
+  detectFileTypeFromUrl,
+  isSupportedFile,
+  getFileExtension,
+  SUPPORTED_EXTENSIONS,
+  SUPPORTED_MIME_TYPES,
+  shouldRenderWithMonaco,
+  type FileTypeInfo
+} from './fileDetection.js'
+
+export {
+  createMonacoEditor,
+  getLanguageFromFileType,
+  getLanguageFromExtension,
+  setupMonacoThemes,
+  setupMonacoEnvironment,
+  initializeMonaco,
+  DEFAULT_MONACO_CONFIG,
+  type MonacoConfig
+} from './monacoUtils.js'
+
 export function render(elementId: string, options: SimplifiedBrowserOptions): void {
   const element = document.getElementById(elementId)
   if (!element) {
