@@ -6,6 +6,10 @@ import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions } fro
 export { BrowserComponent }
 export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions }
 
+export * from './fileTypeDetection.js'
+export * from './monacoIntegration.js'
+export * from './utils.js'
+
 export function render(elementId: string, options: SimplifiedBrowserOptions): void {
   const element = document.getElementById(elementId)
   if (!element) {
