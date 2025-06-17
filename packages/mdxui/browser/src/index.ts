@@ -9,8 +9,11 @@ export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions }
 export {
   detectFileType,
   detectFileTypeFromUrl,
+  detectFileTypeFromMimeType,
+  detectFileTypeFromExtension,
   isSupportedFile,
   getFileExtension,
+  isTextFile,
   SUPPORTED_EXTENSIONS,
   SUPPORTED_MIME_TYPES,
   shouldRenderWithMonaco,
@@ -19,6 +22,9 @@ export {
 
 export {
   createMonacoEditor,
+  createMonacoContainer,
+  replacePageWithMonaco,
+  renderFileWithMonaco,
   getLanguageFromFileType,
   getLanguageFromExtension,
   setupMonacoThemes,
@@ -28,6 +34,12 @@ export {
   type MonacoConfig
 } from './monacoUtils.js'
 
+export {
+  extractPageContent,
+  fetchFileContent,
+  addLoadingIndicator,
+  removeLoadingIndicator
+} from './utils.js'
 export function render(elementId: string, options: SimplifiedBrowserOptions): void {
   const element = document.getElementById(elementId)
   if (!element) {

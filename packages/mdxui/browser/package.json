@@ -27,7 +27,7 @@
   "dependencies": {
     "@mdx-js/mdx": "^3.0.0",
     "codehike": "^1.0.0",
-    "monaco-editor": "^0.45.0",
+    "monaco-editor": "^0.52.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

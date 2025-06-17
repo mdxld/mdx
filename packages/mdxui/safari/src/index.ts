@@ -1,3 +1,2 @@
-export * from '../utils/fileTypeDetection.js'
-export * from '../contentScripts/monacoIntegration.js'
+export * from '@mdxui/browser'
 export * from '../contentScripts/fileRenderer.js'

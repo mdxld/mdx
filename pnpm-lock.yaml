@@ -1345,8 +1345,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.4
       monaco-editor:
-        specifier: ^0.45.0
-        version: 0.45.0
+        specifier: ^0.52.2
+        version: 0.52.2
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -1814,6 +1814,9 @@ importers:
 
   packages/mdxui/safari:
     dependencies:
+      '@mdxui/browser':
+        specifier: workspace:*
+        version: link:../browser
       monaco-editor:
         specifier: ^0.52.2
         version: 0.52.2

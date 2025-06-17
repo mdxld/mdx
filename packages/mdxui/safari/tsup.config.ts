@@ -8,11 +8,7 @@ export default defineConfig({
     'utils/fileTypeDetection': 'utils/fileTypeDetection.ts'
   },
   format: ['esm'],
-  dts: {
-    entry: {
-      index: 'src/index.ts'
-    }
-  },
+  dts: false,
   clean: true,
   external: ['chrome'],
   esbuildOptions: (options) => {

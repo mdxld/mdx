@@ -38,6 +38,7 @@
   ],
   "author": "MDX Team",
   "dependencies": {
+    "@mdxui/browser": "workspace:*",
     "monaco-editor": "^0.52.2"
   },
   "peerDependencies": {
