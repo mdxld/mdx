@@ -1,3 +1,4 @@
+import type * as MonacoType from 'monaco-editor'
 import { 
   detectFileTypeFromUrl, 
   shouldRenderWithMonaco, 
@@ -9,6 +10,8 @@ import {
 import { 
   renderFileWithBrowserViewer 
 } from './monacoIntegration.js'
+
+declare const monaco: typeof MonacoType
 
 interface PageInfo {
   url: string
@@ -112,7 +115,7 @@ async function processPage(): Promise<void> {
     
     console.log('MDX Safari Extension: Browser viewer initialized successfully')
     
-    const { KeyMod, KeyCode } = (window as any).monaco as typeof import('monaco-editor')
+    const { KeyMod, KeyCode } = monaco
     editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => {
       console.log('Save shortcut pressed')
     })

@@ -69,7 +69,7 @@ export function createBrowserViewer(
   content: string,
   fileType: FileTypeInfo['fileType'],
   config: Partial<MonacoConfig> = {}
-): monaco.editor.IStandaloneCodeEditor {
+): MonacoType.editor.IStandaloneCodeEditor {
   return createMonacoEditor(container, content, fileType, config)
 }
 
@@ -83,7 +83,7 @@ export function replacePageWithBrowserViewer(
   content: string,
   fileType: FileTypeInfo['fileType'],
   config?: Partial<MonacoConfig>
-): monaco.editor.IStandaloneCodeEditor {
+): MonacoType.editor.IStandaloneCodeEditor {
   return replacePageWithMonaco(content, fileType, config)
 }
 
@@ -92,7 +92,7 @@ export { setupMonacoThemes }
 export async function renderFileWithBrowserViewer(
   content: string,
   fileInfo: FileTypeInfo
-): Promise<monaco.editor.IStandaloneCodeEditor> {
+): Promise<MonacoType.editor.IStandaloneCodeEditor> {
   await initializeMonaco()
   return renderFileWithMonaco(content, fileInfo)
 }
