@@ -10,6 +10,7 @@ export default defineConfig({
   format: ['esm'],
   dts: false,
   clean: true,
+  noExternal: ['@mdxui/browser'],
   external: ['chrome'],
   esbuildOptions: (options) => {
     options.resolveExtensions = ['.tsx', '.ts', '.jsx', '.js', '.json']

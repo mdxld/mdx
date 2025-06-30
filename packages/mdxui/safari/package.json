@@ -20,7 +20,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsup && npm run build:extension",
-    "build:extension": "cp manifest.json dist/ && cp -r contentScripts dist/",
+    "build:extension": "cp manifest.json dist/ && cp -r contentScripts dist/ && cp -r utils dist/ && mkdir -p dist/node_modules/monaco-editor && cp -r $(npm root)/monaco-editor/min dist/node_modules/monaco-editor/",
     "dev": "tsup --watch",
     "check-types": "tsc --noEmit",
     "lint": "eslint src contentScripts utils --max-warnings 0",

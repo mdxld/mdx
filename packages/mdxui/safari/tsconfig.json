@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": ".",
-    "types": ["chrome", "node"]
+    "types": ["chrome", "node", "monaco-editor"]
   },
   "include": [
     "src/**/*",

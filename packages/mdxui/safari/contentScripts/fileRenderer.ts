@@ -83,8 +83,6 @@ function isDirectFileUrl(url: string): boolean {
   }
 }
 
-
-
 async function processPage(): Promise<void> {
   const pageInfo = getPageInfo()
   
@@ -114,7 +112,7 @@ async function processPage(): Promise<void> {
     
     console.log('MDX Safari Extension: Browser viewer initialized successfully')
     
-    const { KeyMod, KeyCode } = await import('monaco-editor')
+    const { KeyMod, KeyCode } = (window as any).monaco as typeof import('monaco-editor')
     editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => {
       console.log('Save shortcut pressed')
     })

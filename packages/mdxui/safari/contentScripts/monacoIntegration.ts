@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor'
+import type * as MonacoType from 'monaco-editor'
 import { 
   MonacoConfig,
   DEFAULT_MONACO_CONFIG,
@@ -27,6 +27,8 @@ interface Chrome {
 }
 
 declare const chrome: Chrome
+
+declare const monaco: typeof MonacoType
 
 export type { MonacoConfig } from '@mdxui/browser'
 export { DEFAULT_MONACO_CONFIG, getLanguageFromFileType }
