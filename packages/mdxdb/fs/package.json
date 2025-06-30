@@ -1,7 +1,7 @@
 {
   "name": "@mdxdb/fs",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
     "@mdxdb/core": "workspace:*",
