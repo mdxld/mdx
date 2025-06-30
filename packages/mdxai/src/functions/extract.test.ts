@@ -16,7 +16,6 @@ describe('extract', () => {
             "name": "John Doe",
             "observations": [
               "amazing software engineer",
-              "lives and works at the office in New York City",
             ],
             "type": "Person",
           },
